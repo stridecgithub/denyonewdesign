@@ -1,0 +1,830 @@
+page-calendar {
+  ///<<<<<<< HEAD
+  .ion-md-settings {
+    background: url(../img/oc.png) no-repeat center top;
+  }
+
+  .eventsClass {
+    border: 3px solid lightcoral;
+  }
+
+  .eventsService {
+    border: 3px solid lemonchiffon;
+  }
+
+  .eventsService {
+    border: 3px solid yellow;
+  }
+
+  /* Badge Count for Notification and Message */
+  .notificationcount {
+    color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    /* border: 1px solid; */
+    background-color: gray;
+  }
+  .quick-list li button ion-icon {
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-size: 11px !important;
+    width: inherit;
+    height: 58px;
+    margin-top: 10px;
+  }
+
+  .messagecount {
+    color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: 1px;
+    top: 3px;
+    /* border: 1px solid; */
+    background-color: gray;
+  }
+  .notificationcount {
+    color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    /* border: 1px solid; */
+    background-color: gray;
+  }
+
+  .messagecount {
+    color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: 1px;
+    top: 3px;
+    /* border: 1px solid; */
+    background-color: gray;
+  }
+  /* Badge Count for Notification and Message */
+  .monthview-eventdetail-timecolumn[_ngcontent-c0] {
+    display: none;
+  }
+
+  .monthview-eventdetail-timecolumn[_ngcontent-c0] {
+    display: none;
+  }
+
+  .event-detail[_ngcontent-c0] {
+    display: none;
+  }
+  .item-md[_ngcontent-c0] {
+    display: none;
+  }
+
+  .ion-content {
+    background-color: white;
+  }
+
+  .add-calendar-button-inner {
+    height: 50px;
+    margin-top: 38px;
+  }
+
+  #sortbar {
+    width: 100%;
+    min-height: 3.3rem;
+    margin: 0px 7px 1px 41px;
+    ion-label {
+      margin: 0;
+    }
+    .item-inner {
+      padding: 0px;
+      position: relative;
+      top: 3px;
+    }
+    .input-wrapper {
+      flex-direction: column;
+      margin: auto;
+      width: 285px;
+    }
+    .sort-line {
+      border-left: 1.5px solid #cccccc;
+      height: 100%;
+      position: relative;
+      top: 0.3rem;
+    }
+
+  }
+
+  .backtoprevious-navbar {
+    background: #f0f0f0
+  }
+  .bar-buttons-md {
+    order: inherit;
+  }
+  .bar-button-default-md, .bar-button-clear-md-default, .bar-button-md-default, .bar-button-default-md:hover:not(.disable-hover), .bar-button-clear-md-default:hover:not(.disable-hover), .bar-button-md-default:hover:not(.disable-hover), .backtoprevious-icon {
+    color: #333;
+    text-transform: capitalize;
+  }
+  #sortbar {
+    padding: 0;
+    margin: 0;
+    background: #f0f0f0
+  }
+  #sortbar ion-label {
+    margin: 0;
+    width: 100%;
+    padding: 10px 15px;
+  }
+  #sortbar ion-label ion-icon {
+    line-height: 12px;
+    vertical-align: top;
+  }
+  #sortbar ion-label button {
+    width: 100%;
+    background: none;
+    padding: 0;
+  }
+  .company-name {
+    float: left;
+  }
+  .ion-md-arrow-dropup {
+    float: right;
+  }
+  .scroll-content {
+    background-color: #fff;
+  }
+  ion-item-sliding {
+    border-bottom: 1px solid #ccc;
+  }
+  .item-md {
+    color: #333;
+    padding: 0;
+    border-bottom: 2px solid #ccc;
+  }
+  .item-md h2 {
+    margin: 10px 0;
+  }
+  .label-md b { /*width:40%;*/
+    display: inline-block;
+  }
+  ion-navbar ion-buttons {
+    margin-right: 15px;
+  }
+  .add-new-btn {
+    padding: 10px;
+    text-align: center;
+  }
+  .algn-cent {
+    margin: 0 auto;
+    display: table;
+  }
+  .algn-cent .ios-add-circle-outline {
+    float: left;
+  }
+  .algn-cent span {
+    float: right;
+    font-size: 15px;
+    margin: 6px 10px;
+  }
+  .toolbar-title-md {
+    padding: 0;
+  }
+  .no-events-label[_ngcontent-c0] {
+    display: none;
+  }
+  .item-md.item-block .item-inner {
+    padding-right: 0;
+  }
+  .label-md {
+    margin: 13px 0px 13px 0;
+  }
+  ion-select {
+    background: #f0f0f0;
+    max-width: 98%;
+    margin: 15px auto 0;
+    border-radius: 5px;
+    padding: 10px 15px !important;
+    position: relative;
+    margin-top: 16px;
+  }
+
+}
+
+.msg-item {
+  background: #fff !important;
+}
+
+.cal-top {
+  background: #38b6ab;
+  padding: 5px 0 20px 0;
+  text-align: center;
+}
+
+.cal-top button, .cal-top button:hover:not(.disable-hover) {
+  background-color: transparent;
+  background: none;
+  height: inherit !important;
+  border: none;
+  box-shadow: none;
+}
+
+.cal-top button span {
+  height: inherit;
+}
+
+.item-calendar table th, .item-calendar table td {
+  border: none !important;
+  text-transform: uppercase;
+  font-size: 17px;
+}
+
+.item-calendar thead tr th:first-child, .item-calendar thead tr th:last-child, .item-calendar tbody tr td:first-child, .item-calendar tbody tr td:last-child {
+  color: #38b6ab;
+}
+
+.monthview-selected[_ngcontent-c1] {
+  background-color: #38b6ab !important;
+  border-radius: 20px;
+  color: #fff !important;
+}
+
+.table-bordered[_ngcontent-c1] {
+  border: 0px solid #ddd;
+}
+
+.table[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1], .table[_ngcontent-c1] > tbody[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1], .table[_ngcontent-c1] > tfoot[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1], .table[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] > td[_ngcontent-c1], .table[_ngcontent-c1] > tbody[_ngcontent-c1] > tr[_ngcontent-c1] > td[_ngcontent-c1], .table[_ngcontent-c1] > tfoot[_ngcontent-c1] > tr[_ngcontent-c1] > td[_ngcontent-c1] {
+  padding: 10px;
+}
+
+.event-detail-container[_ngcontent-c0] {
+  border-top: 0px darkgrey solid !important;
+}
+
+.div-action button {
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.table-bordered[_ngcontent-c1] {
+  border: 0px solid #ddd !important;
+}
+
+.calendar_pre {
+  float: left;
+}
+
+.calendar_nex {
+  float: right;
+}
+
+.calendar_pre span.button-inner {
+  background: url(../assets/imgs/left_arrow.png) no-repeat;
+  width: 32px;
+  height: 32px !important;
+  font-size: 0;
+}
+
+.calendar_nex span.button-inner {
+  background: url(../assets/imgs/right_arrow.png) no-repeat;
+  width: 32px;
+  height: 32px !important;
+  font-size: 0;
+}
+
+.calendar_ttl {
+  margin-top: 10px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.calendar_ttl span {
+  font-size: 18px;
+}
+
+.list-title {
+  margin: 10px 0;
+}
+
+.spacing {
+  padding: 10px 15px;
+}
+
+ion-navbar.toolbar-md-bluedark .toolbar-background-md {
+  background: #00569F;
+}
+
+.toolbar-md-bluedark .button-inner {
+  height: inherit !important;
+}
+
+.button-clear-md:hover:not(.disable-hover) {
+  background-color: transparent !important;
+}
+
+.bar-button-menutoggle-md .button-inner, .bar-button .button-inner {
+  height: inherit !important;
+}
+
+.footer-md-bluedark .toolbar-md-bluedark .button[icon-only] {
+  height: 75px;
+}
+
+.monthview-primary-with-event[_ngcontent-c1] {
+  color: white !important;
+  border-radius: 20px;
+}
+
+.ionic2-calendar {
+  * {
+    margin: 0;
+  }
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  flex-wrap: nowrap;
+
+  .switch-month-button.md-button {
+    font-size: .75em;
+  }
+  md-select {
+    padding: 2px 2px 8px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ionic2-cal-topnav {
+    display: flex;
+
+  }
+
+  .main-view {
+    width: 100%;
+    .ionic2-cal-month-view {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      // Maybe add only to empty calendar cells...
+      span.button-inner {
+        flex-grow: 1;
+        align-items: stretch;
+      }
+      .md-button {
+        min-width: 1em;
+        padding: 0;
+        margin: 0;
+        line-height: 1em;
+        min-height: 1em;
+      }
+      .ionic2-cal-item {
+        flex-basis: 1 / 7 * 100%;
+        min-height: 3em;
+        padding: 0;
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        height: auto;
+        flex-direction: column;
+        .event-list {
+          width: 100%;
+          .event-list-item {
+            //padding: 3px;
+            text-align: left;
+            height: auto;
+            padding: 0;
+            &.active-group-drag {
+              background: red;
+            }
+            &.does-continue {
+              box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              -3px 1px 2px 0 rgba(0, 0, 0, 0.12);
+            }
+            &.is-continued {
+              box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              3px 1px 2px 0 rgba(0, 0, 0, 0.12);
+            }
+            .ionic2-event-time {
+              font-weight: 100;
+              margin-bottom: auto;
+              margin-top: auto;
+            }
+            span.button-inner {
+              justify-content: flex-start;
+              align-items: flex-end;
+              ion-icon {
+                margin-bottom: .2em;
+              }
+            }
+            .event-continued-ellipsis {
+              margin-left: auto;
+            }
+            .event-name {
+              padding: .2em;
+            }
+          }
+
+        }
+      }
+      .ionic2-cal-header {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .ionic2-cal-header.ionic2-cal-item {
+        padding: 5px;
+      }
+      .out-of-current-month {
+        opacity: 0.75;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      .ionic2-cal-day-of-month {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: none;
+        width: 1.75em;
+        border-radius: 0;
+        border-bottom-left-radius: 1em;
+        border-top-left-radius: -2px;
+        text-align: right;
+        color: black;
+        padding-right: 2px;
+      }
+    }
+  }
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .event-list-item {
+    text-overflow: ellipsis;
+  }
+}
+
+.ionic2-calendar.small, .ionic2-calendar.extra-small {
+  .ionic2-cal-month-view {
+    .ionic2-cal-item {
+      //flex-direction: row;
+      .event-list {
+        //padding-top: 1em;
+        flex-direction: row;
+        justify-content: space-around;
+        .event-list-item {
+          font-size: .7em;
+          span.event-name, span.ionic2-event-time {
+            display: none;
+          }
+        }
+        .event-list-item:first-child {
+          padding-right: 3.5px;
+        }
+      }
+    }
+  }
+}
+
+//}
+// Calendar classes:
+.event-list-item.haq-calendar-entry {
+  color: purple;
+  background: yellow;
+  i {
+    color: pink;
+    background: cyan;
+  }
+}
+
+.event-list-item.symptoms-calendar-entry {
+  color: white;
+  background: black;
+  i {
+    color: black;
+    background: white;
+  }
+}
+
+.event-list-item.physio-calendar-entry {
+  color: red;
+  background: green;
+  i {
+    color: grey;
+    background: white;
+  }
+}
+
+
+
+.date-grid-block {
+  background-color: #fff;
+  color: #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+
+.date-grid-background-equal {
+  position: absolute;
+  top: 4px;
+  left: 11px;
+  background-color: gray;
+  color: white;
+}
+
+.date-grid-background-non-equal {
+  position: absolute;
+  top: 4px;
+  left: 11px;
+}
+
+.month-selection {
+  width: 100%;
+  text-align: center;
+  button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    &.prev-month {
+      float: left;
+    }
+    &.next-month {
+      float: right;
+    }
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+  .calendar-title {
+    line-height: 30px;
+    font-size: 20px;
+  }
+}
+
+.ionic2-cal-header {
+  background: none !important;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 46px;
+}
+
+.ionic2-cal-item {
+  color: color($app-brand-colors, tundora) !important;
+  height: 46px !important;
+  text-align: center;
+  .ionic2-cal-day-of-month {
+    background: color($app-brand-colors, white) !important;
+    border-radius: 50% !important;
+    width: 46px !important;
+    height: 46px !important;
+    display: block;
+    line-height: 46px;
+    text-align: center !important;
+  }
+}
+
+.date-grid-block {
+  border: 0;
+}
+
+button.currentDataHighlights {
+  background: none;
+  span.currentDataHighlights {
+    background: color($app-brand-colors, gallery) !important;
+  }
+}
+
+.main-view {
+  border-bottom: color($app-brand-colors, gallery) 1px solid;
+}
+
+.div-action {
+  padding: 10px;
+  .add-new-btn {
+    background: none;
+    padding: 0 !important;
+    &:before {
+      content: '●';
+      font-size:12px;
+    }
+  }
+}
+
+.list-title {
+  display: none;
+}
+
+.ionic2-calendar {
+  background: color($app-brand-colors, white);
+}
+
+.date-view {
+  background: color($app-brand-colors, gallery);
+  padding: 10px;
+}
+
+.add-new-event {
+  background: none;
+  color: color($app-brand-colors, tundora);
+  padding: 10px;
+  font-size: 50px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 9999;
+}
+
+.alarm_warning_service_event{
+  background: url(../assets/imgs/alarm_warning_service_event1.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+
+.alarm_warning{
+  background: url(../assets/imgs/alarm_warning1.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.alarm_service_event {
+  background: url(../assets/imgs/alarm_service_event.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.alarm_warning_service {
+  background: url(../assets/imgs/alarm_warning_service1.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.alarm_warning_event{
+  background: url(../assets/imgs/alarm_warning_event1.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.alarm_event {
+  background: url(../assets/imgs/alarm_event.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.alarm_service {
+  background: url(../assets/imgs/alarm_service.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.service_event {
+  background: url(../assets/imgs/service_event.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.service {
+  background: url(../assets/imgs/service.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+.alarm {
+  background: url(../assets/imgs/alarm.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.event {
+  background: url(../assets/imgs/event.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
+.day-session {
+  padding: 10px;
+}
+
+#event-list {
+  ion-item {
+    padding: 0
+  }
+  .item-inner {
+    padding: 10px;
+  }
+  .event-time {
+    font-size: 12px;
+    float: left;
+    width: 20%;
+    padding: 1px 0 0;
+  }
+  .event-detail {
+    padding-left: 4px;
+    float: right;
+    width: 80%;
+    position: relative;
+    font-size: 12px;
+    &:before {      
+      content: '●';
+      position: absolute;
+      left: -13px;
+      top: 1px;
+      font-size: 12px;
+    }
+    h1 {
+      font-size: 14px;
+    }
+  }
+}
+
+
+
+.trippedcolor {
+  &:before {
+    color: color($app-brand-colors, thunderbird);
+  }
+}
+.eventcolor {
+  &:before {
+    color: color($app-brand-colors, electric-violet);
+  }
+}
+.servicecolor {
+  &:before {
+    color: color($app-brand-colors, blue-ribbon);
+  }
+}
+.warningcolor {
+  &:before {
+    color: color($app-brand-colors, sun);
+  }
+}

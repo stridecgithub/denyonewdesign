@@ -1,0 +1,314 @@
+page-messagedetail {
+
+	.border-low{
+		border:0px solid #009ACD!important;
+		color: #D8D8D8;
+		 }  
+		 .border-high{
+		border:0px solid #009ACD!important;
+		color: #c71717;
+		 }
+
+		 .subject h1 {
+			margin-top: 15px;
+			font-size: 17px;
+			font-weight:bold;
+		 }
+
+}
+
+
+.info{
+	border-bottom: 1px solid #d6d6d6;
+	overflow: hidden;
+	padding-bottom: 10px;
+	.grl{
+		width: 50px;
+		float: left;
+		margin-right: 16px;
+		border-radius: 22px;
+		height: 46px;
+	}
+	.msg-info{
+		float: left;
+		line-height: 24px;
+		.user-name{
+			font-size: 18px;
+		}
+	}
+	.list-icon{
+		float: right;
+		button{
+			background: none;
+		}
+		.frwd-rply{
+			box-shadow: -2px 4px 10px 2px lightgray;
+			position: absolute;
+			top: 80px;
+			right: 20px;
+			border: 0px solid lightgray;
+			background-color: white;
+			button{
+				display: block;
+				padding: 10px;
+				width: 100px;
+				font-size: 16px;
+			}
+		}
+	}
+	
+}
+.subject{
+		border-bottom: 1px solid #d6d6d6;
+		padding: 10px 0;
+		h1{
+			margin-top: 15px;
+			font-size: 20px;
+			color: #4a4a4a;
+		}
+		p{
+			line-height: 24px;
+		}
+}
+.attachment{
+	border-bottom: 1px solid #d6d6d6;
+	color: #6f6f6f;
+	.attach{
+		overflow: hidden;
+		padding-top: 15px;
+		position: relative;
+		h1{
+			font-size: 14px;
+			float: left;
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+	}
+	.file{
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+			width:90%
+			
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+		
+		
+	}		
+}
+.APK{
+		
+		color: #6f6f6f;
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 0px;
+				right: 6px;
+			}
+		}
+	}
+
+/*
+.info{
+	border-bottom: 1px solid #d6d6d6;
+	overflow: hidden;
+	padding-bottom: 10px;
+	.grl{
+		width: 10%;
+		float: left;
+    	margin-right: 16px;
+    	border-radius: 22px;
+	}
+	.msg-info{
+		float: left;
+		line-height: 24px;
+		.user-name{
+			font-size: 18px;
+		}
+	}
+	.list-icon{
+		float: right;
+		button{
+			background: none;
+			img{
+				padding: 5px 20px 0 0;
+			}
+		}
+	}
+	
+}
+.subject{
+		border-bottom: 1px solid #d6d6d6;
+		padding: 10px 0;
+		h1{
+			margin-top: 15px;
+			font-size: 20px;
+			color: #4a4a4a;
+		}
+		p{
+			line-height: 24px;
+		}
+}
+.attachment{
+	border-bottom: 1px solid #d6d6d6;
+	color: #6f6f6f;
+	.attach{
+		overflow: hidden;
+		padding-top: 15px;
+		position: relative;
+		h1{
+			font-size: 14px;
+			float: left;
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+	}
+	.file{
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+			
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+		
+		
+	}		
+}
+.APK{
+		
+		color: #6f6f6f;
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 0px;
+				right: 6px;
+			}
+		}
+	}
+
+	 .attachment-row {
+    background: #F8F8F8;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    padding-left: 5px;
+    div {
+      position: relative;
+      img {
+        width: 100%;
+        border: 1px solid #848484;
+      }
+      span {
+        display: inline-block;
+        background-color: red;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        ion-icon {
+          color: white;
+          font-size: 20px;
+        }
+      }
+    }
+    button {
+      width: 50px;
+      height: 45px;
+      border: 1px solid #848484;
+      background-color: transparent;
+      ion-icon {
+        font-size: 30px;
+      }
+    }
+
+  }
+ 
+ .popover-md .popover-content{
+	  top:225px;
+	  width:25%;
+	  left:62%;
+  }*/

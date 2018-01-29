@@ -1,0 +1,68 @@
+page-login {
+  ion-content {
+    background: url(../assets/imgs/rainbow-bg@2x.png) no-repeat 0 -30px;
+    background-size: 100% auto;
+  }
+  #logo {
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 30px;
+  }
+  #login-form {
+    .list-ios > .item-block:first-child,
+    .list-ios > .item-block:last-child,
+    .list-ios .item-block .item-inner,
+    .item-ios,
+    .item-md {
+      border: none;
+      padding: 0;
+    }
+    ion-item {
+      background-color: transparent !important;
+      .item-inner {
+        border: 0 !important;
+      }
+    }
+    ion-label {
+      color: color($app-brand-colors, dove-gray);
+      font-size: 14px;
+    }
+    .text-input {
+      border-bottom: color($app-brand-colors, alto) 1px solid;
+      padding-bottom: 10px;
+      margin-bottom: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+    .login-btn {
+      padding: 20px 18px 0 !important;
+      button {
+        background-color: color($app-brand-colors, azure-radiance);
+        border-radius: 0;
+        color: color($app-brand-colors, white);
+        height: 40px;
+        border: color($app-brand-colors, blue-ribbon) 1px solid;
+        width: 100%;
+        font-size: 14px;
+      }
+    }
+    .forgot-password {
+      line-height: 10px;
+      text-align: center;
+      ion-label {
+        margin: 0;
+      }
+      button {
+        margin: 0 !important;
+        color: color($app-brand-colors, tundora);
+        background: transparent;
+        font-size: 12px;
+      }
+    }
+  }
+  #app-version {
+    font-size: 12px;
+    color: color($app-brand-colors, dove-gray);
+    padding-top: 165px;
+  }
+}

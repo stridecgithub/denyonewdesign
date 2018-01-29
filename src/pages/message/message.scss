@@ -1,0 +1,129 @@
+page-message {
+	/*.sort-btn {
+    float: right;
+    font-size: 14px;
+    background: none;
+    padding: 10px;
+    margin-top: 10px;
+    ion-icon {
+      margin-left: 10px;
+    }
+  }*/
+}
+.info{
+	border-bottom: 1px solid #d6d6d6;
+	overflow: hidden;
+	padding-bottom: 10px;
+	.grl{
+		width: 10%;
+		float: left;
+    	margin-right: 16px;
+    	border-radius: 22px;
+	}
+	.msg-info{
+		float: left;
+		line-height: 24px;
+		.user-name{
+			font-size: 18px;
+		}
+	}
+	.list-icon{
+		float: right;
+		button{
+			background: none;
+			img{
+				padding: 5px 20px 0 0;
+			}
+		}
+	}
+	
+}
+.subject{
+		border-bottom: 1px solid #d6d6d6;
+		padding: 10px 0;
+		h1{
+			margin-top: 15px;
+			font-size: 20px;
+			color: #4a4a4a;
+		}
+		p{
+			line-height: 24px;
+		}
+}
+.attachment{
+	border-bottom: 1px solid #d6d6d6;
+	color: #6f6f6f;
+	.attach{
+		overflow: hidden;
+		padding-top: 15px;
+		position: relative;
+		h1{
+			font-size: 14px;
+			float: left;
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+	}
+	.file{
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+			
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 8px;
+				right: 6px;
+			}
+		}
+		
+		
+	}		
+}
+.APK{
+		
+		color: #6f6f6f;
+		overflow: hidden;
+		margin-top: 20px;
+		position: relative;
+		h1{
+			font-size: 16px;
+			margin-top: 0;
+		}
+		h2{
+			font-size: 16px;
+			float: left;	
+		}
+		button{
+			float: right;
+			background: none;
+			ion-icon{
+				font-size: 36px;
+				color: #6f6f6f;
+				position: absolute;
+				top: 0px;
+				right: 6px;
+			}
+		}
+	}

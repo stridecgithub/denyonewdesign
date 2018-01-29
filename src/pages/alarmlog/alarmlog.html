@@ -1,0 +1,86 @@
+<!--
+  Generated template for the AlarmlogPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Alarm Log</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="alarm-list" style="border-color: #9013FE;" padding>
+    <div class="alarm-title">
+      <div class="list-favorite">
+        <button>
+                <ion-icon name="star-outline"
+                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+                <ion-icon name="star" class="favorite"
+                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+              </button>
+      </div>
+      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span> <b>{{this.unitDetailData.unitname}}</b>
+    </div>
+    <div class="alarm-info">
+      {{unitDetailData.projectname }}<br>
+      <strong>Deployed Location:</strong> {{unitDetailData.location }}
+      <button class="map-btn">
+            <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+          </button>
+
+    </div>
+  </div>
+
+  <div class="filter" *ngIf="totalCount>0" (click)="doSortAlarmLog()">{{sortLblTxt}}
+    <ion-icon name="arrow-down" *ngIf="reportData.sortascdesc === 'desc'"></ion-icon>
+    <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'"></ion-icon>
+  </div>
+
+
+
+  <div class="error" *ngIf="totalCount==0">No entries found</div>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item-sliding *ngFor="let alarmitem of reportAllLists">
+      <ion-item>
+        <div ngClass="load{{alarmitem.alarm_priority}}" (click)="doAlarmLogDetail(alarmitem)">
+          <ion-icon name="information-circle"></ion-icon>
+          <ion-row>
+            <ion-col col-12>
+              <h1>{{alarmitem.alarm_name}}</h1>
+              <p>Assigned by:{{alarmitem.alarm_assginedby_name}} <br> Assigned to: {{alarmitem.alarm_assginedto_name}}</p>
+              <div class="date">
+                {{alarmitem.alarm_received_date_mobileview}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-item>
+      <ion-item-options side="right" class="list-item-options">
+        <button ion-button class="edit-btn" (click)="doEdit(alarmitem,'edit')">
+              <img width="25" src="assets/imgs/edit@2x.png"><br>Edit
+            </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
+      <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </ion-list>
+  
+</ion-content>

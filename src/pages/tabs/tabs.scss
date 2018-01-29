@@ -1,0 +1,103 @@
+ion-tabs {
+  .tab-button-text {
+    font-size: 10px !important;
+  }
+  .tabbar {
+    background: color($app-brand-colors, gallery) !important;
+    border-top: color($app-brand-colors, blue-ribbon) 1px solid !important;
+  }
+  .tab-button {
+    ion-icon {
+      &:before {
+        content: '';
+        width: 100%;
+        height: 24px;
+        display: block;
+        background-size: auto 20px !important;
+        margin: 0 auto;
+      }
+    }
+    &:nth-child(1) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-dashboard-icon@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(2) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-units-icon@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(3) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-calendar-icon@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(4) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-message-icon@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(5) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-orgchart-icon@2x.png) no-repeat center;
+        }
+      }
+    }
+  }
+
+  .tab-button[aria-selected=true] {
+    &:nth-child(1) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-dashboard-icon-active@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(2) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-units-icon-active@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(3) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-calendar-icon-active@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(4) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-message-icon-active@2x.png) no-repeat center;
+        }
+      }
+    }
+    &:nth-child(5) {
+      ion-icon {
+        &:before {
+          background: url(../assets/imgs/tab-orgchart-icon-active@2x.png) no-repeat center;
+        }
+      }
+    }
+  }
+
+}
+
+.tabs-ios .tab-button-icon {
+  height: 24px !important;
+}
+
+.tabs-md .tab-button-icon {
+  min-width: 3rem;
+}

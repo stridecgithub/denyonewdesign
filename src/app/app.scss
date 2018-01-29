@@ -1,0 +1,313 @@
+// http://ionicframework.com/docs/theming/
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+// Header
+ion-header {
+  background-color: color($app-brand-colors, azure-radiance) !important;
+  .left-header-btn {
+    float: left;
+    color: color($app-brand-colors, white);
+    ion-icon {
+      font-size: 25px;
+    }
+  }
+  ion-title {
+    line-height: 44px;
+    text-align: left !important;
+    float: left;
+  }
+  .toolbar-title {
+    width: auto;
+  }
+  .toolbar-title-md,
+  .toolbar-title-ios {
+    color: color($app-brand-colors, white);
+    text-align: left;
+  }
+  .toolbar-background-ios,
+  .toolbar-background-md {
+    background: transparent;
+  }
+
+  .toolbar-ios {
+    ion-title {
+      padding: 0 70px;
+    }
+  }
+
+  .right-header-btns {
+    float: right;
+    button {
+      background: none;
+      padding: 0 12px;
+      margin: 0;
+      line-height: 44px;
+      ion-icon {
+        color: color($app-brand-colors, white);
+        font-size: 25px;
+        vertical-align: middle;
+      }
+      &.notification-bell {
+        position: relative;
+        .counter {
+          position: absolute;
+          top: 10px;
+          right: 7px;
+          width: 14px;
+          height: 14px;
+          background: color($app-brand-colors, radical-red);
+          border-radius: 50%;
+          color: color($app-brand-colors, white);
+          display: block;
+          line-height: 14px;
+          text-align: center;
+          font-size: 9px;
+        }
+      }
+      &.profile {
+        img {
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .back-button {
+    color: color($app-brand-colors, white);
+    .back-button-text {
+      display: none;
+    }
+  }
+  .send {
+    img {
+      margin-top: 11px;
+    }
+    height: 44px;
+  }
+}
+
+// List
+.list-item {
+  .list-item-options {
+    button {
+      width: 100px;
+      &.edit-btn {
+        background: color($app-brand-colors, malachite);
+      }
+      &.remove-btn {
+        background: color($app-brand-colors, tundora);
+      }
+      &.read-btn {
+        background: color($app-brand-colors, tundora);
+      }
+      &.del-btn {
+        background: color($app-brand-colors, thunderbird);
+      }
+      img {
+        margin-bottom: 5px;
+      }
+      ion-icon {
+        font-size: 25px;
+      }
+    }
+  }
+  .item-md,
+  .item-ios {
+    padding-left: 0;
+  }
+  .item-inner {
+    padding-left: 20px;
+    .label-md,
+    .label-ios {
+      margin: 20px 0;
+    }
+  }
+}
+
+.initial {
+  width: 40px;
+  height: 40px;
+  display: block;
+  background: color($app-brand-colors, electric-violet);
+  color: color($app-brand-colors, white);
+  text-align: center;
+  line-height: 40px;
+  margin-right: 16px;
+  margin-bottom: 5px;
+  float: left;
+}
+
+.status {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  &.Ready,
+  &.Starting,
+  &.Running,
+  &.Prestart {
+    background: color($app-brand-colors, malachite);
+  }
+  &.Offline {
+    background: color($app-brand-colors, dove-gray);
+  }
+  &.Stop,
+  &.Warning {
+    background: color($app-brand-colors, sun);
+  }
+  &.NotReady,
+  &.Not_Ready,
+  &.Shutdown,
+  &.Tripped {
+    background: color($app-brand-colors, thunderbird);
+  }
+  &.Cranking,
+  &.Cooling {
+    background: color($app-brand-colors, madison);
+  }
+}
+
+.list-desc {
+  font-size: 14px;
+  padding: 3px 0;
+}
+
+.running-hrs {
+  color: color($app-brand-colors, verdun-green);
+  font-size: 14px;
+}
+
+.list-favorite {
+  float: right;
+  padding-right: 10px;
+  margin-top: -10px;
+  button {
+    background: transparent;
+    ion-icon {
+      font-size: 25px;
+      &.favorite {
+        color: color($app-brand-colors, sun);
+      }
+    }
+  }
+}
+
+// Segment
+ion-segment {
+  background: color($app-brand-colors, gallery);
+  height: 35px;
+  position: relative;
+  z-index: 10;
+  &.segment-md,
+  &.segment-ios {
+    .segment-button {
+      color: color($app-brand-colors, tundora);
+      border: 0;
+      text-transform: uppercase;
+      font-size: 14px;
+      padding: 0;
+      margin: 0;
+      height: 33px;
+      line-height: 35px;
+      &.segment-activated {
+        background: none;
+        color: color($app-brand-colors, blue-ribbon);
+        border-bottom: color($app-brand-colors, blue-ribbon) 3px solid;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Side Menu
+.menu-inner {
+  .item-md-gray, .item-divider-md-gray{   
+    background-color: #424242;
+  }
+  .item-md-light, .item-divider-md-light
+  {
+    color: #000;
+    background-color: #424242;
+  }
+  .menuactive-dashboard{
+    background-color: gray;
+  }
+  .menuactive-calendar{
+    background-color: gray;
+  }
+   .menuactive-messages{
+    background-color: gray;
+  }
+   .menuactive-reports{
+    background-color: gray;
+  }
+   .menuactive-settings{
+    background-color: gray;
+  }
+   .menuactive-logout{
+    background-color: gray;
+  }
+   .menuactive-units{
+    background-color: gray;
+  }
+  ion-header {
+    background-color: color($app-brand-colors, blue-ribbon) !important;
+    text-align: center;
+    padding: 21px 0;
+  }
+  .content {
+    background-color: color($app-brand-colors, tundora);
+  }
+  .user-img {
+    margin: 0 0 7px;
+    img {
+      border-radius: 50%;
+      border: color($app-brand-colors, white) 3px solid;
+    }
+  }
+  .user-name {
+    font-size: 18px;
+    color: color($app-brand-colors, white);
+    margin-bottom: 4px;
+  }
+  .user-company {
+    font-size: 14px;
+    color: #80B5F9;
+  }
+  .list {
+    padding: 10px 0 0;
+  }
+  .item-block {
+    /*background: transparent;*/
+    .item-inner,
+    &:first-child,
+    &:last-child {
+      border: 0;
+    }
+    img {
+      float: left;
+      margin-right: 13px;
+    }
+    ion-label {
+      color: color($app-brand-colors, white);
+      line-height: 24px !important;
+      font-size: 14px;
+    }
+    .item-inner {
+      background: none !important;
+    }
+  }
+}

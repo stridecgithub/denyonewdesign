@@ -1,0 +1,94 @@
+page-messages {
+  .sort-btn {
+    float: right;
+    font-size: 14px;
+    background: none;
+    padding: 10px;
+    margin-top: 10px;
+    ion-icon {
+      margin-left: 10px;
+    }
+  }
+  .msg {
+    border-top: color($app-brand-colors, gallery) 1px solid;
+    &:first-child {
+      border-top: color($app-brand-colors, dove-gray) 1 px solid;
+    }
+    .item-inner {
+      border: 0 !important;
+    }
+    .user-img {
+      width: 40px;
+      height: 40px;
+      float: left;
+      margin-right: 16px;
+      img {
+        border-radius: 50%;
+      }
+    }
+    .msg-info {
+      float: left;
+      width: 200px;
+    }
+    .user-name {
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    .msg-subject {
+      font-size: 14px;
+      margin-bottom: 4px;
+      white-space: normal;
+    }
+    .msg-excerpt {
+      font-size: 12px;
+      color: gray;
+      white-space: normal;
+    }
+    .date-time {
+      float: right;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+    .list-favorite {
+      padding: 0;
+      margin: 20px 0 0;
+      position: absolute;
+      right: 10px;
+      bottom: 6px;
+    }
+  }
+  .list-item-options {
+    button {
+      width: 85px;
+      &.read-btn {
+        background: color($app-brand-colors, blue-ribbon);
+      }&.unread-btn {
+        background: color($app-brand-colors, white-ribbon);
+      }
+      &.delete-btn {
+        background: color($app-brand-colors, thunderbird);
+      }
+      ion-icon {
+        font-size: 35px;
+        line-height: 30px;
+      }
+    }
+  }
+  .create-msg {
+    width: 56px;
+    height: 56px;
+    line-height: 56px;
+    border-radius: 50%;
+    background: color($app-brand-colors, blue-ribbon);
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    ion-icon {
+      font-size: 30px;
+      color: color($app-brand-colors, white);
+      line-height: 56px;
+    }
+    position:fixed;
+  }
+  
+}

@@ -1,0 +1,182 @@
+<!--
+  Generated template for the UnitdetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Servicing Info</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<!-- USMAN -->
+<ion-content>
+  <div>
+    <div class="unit-detail" style="border-color: #9013FE;" padding>
+      <div class="unit-title">
+        <div class="list-favorite">
+          <button>
+            <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+            <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+          </button>
+        </div>
+        <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+        <b>{{this.unitDetailData.unitname}}</b>
+      </div>
+      <div class="unit-info">
+        {{unitDetailData.projectname }}
+        <br>
+        <strong>Deployed Location:</strong> {{unitDetailData.location }}
+        <button class="map-btn">
+          <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+        </button>
+
+      </div>
+    </div>
+
+
+
+
+    <!-- service p1 -->
+    <div class="new-service">
+      <h1 (click)="doAdd()">Schedule New Service</h1>
+      <h2>Upcoming</h2>
+      <div class="error" *ngIf="totalCountUpcoming==0">No entries found</div>
+      <ion-list class="lst" *ngFor="let upcomintitem of upcomingAllLists;">
+        <ion-item-sliding class="brd">
+          <ion-item class="slide">
+            <div  [ngStyle]="{'color':  upcomintitem.duedatecolor}" class="p1" (click)="servicedetailsView(upcomintitem,'view','upcoming')">
+              <img *ngIf="upcomintitem.user_photo!=''" src="{{upcomintitem.user_photo}}">
+              <div class="check">
+                <!--h3><b>{{upcomintitem.service_subject}}</b></h3>
+                <div class="D&T"  style="font-size:14px">
+                  {{upcomintitem.serviced_scheduled_display}}
+                </div>
+                <span>created by:{{upcomintitem.serviced_created_name}}({{upcomintitem.serviced_created_name_hastag}})</span>
+-->
+
+                <h3>
+                  <b>{{upcomintitem.service_subject}}</b>
+                </h3>
+                <div class="D&T" style="font-size:14px">
+                  {{upcomintitem.serviced_scheduled_display}}
+                </div>
+                <span *ngIf="upcomintitem.service_created_name!='null'">Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                <br>
+                <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
+                <br>
+                <!-- <span  *ngIf="upcomintitem.service_status==1">Completed Date:{{upcomintitem.currentdate_mobileview}}</span> -->
+
+                <div style="position: absolute;
+                margin-top: -60px;
+                margin-left: 57%;
+                text-align: center;">
+                  <span style="color:green;font-size:11px" *ngIf="upcomintitem.is_request>0">
+                    <ion-icon ios="ios-checkmark" md="md-checkmark" style="color:green;font-size:16px"></ion-icon>
+                    <br>Denyo Support
+                    <br>Request</span>
+                </div>
+
+              </div>
+
+            </div>
+          </ion-item>
+          <ion-item-options side="right" class="list-item-options">
+            <button  *ngIf="upcomintitem.serviced_by==0" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.service_id)">
+              <img width="25" src="assets/imgs/edit@2x.png">
+              <br>Edit
+            </button>
+            <button ion-button class="delete-btn" (click)="doConfirmUpcoming(upcomintitem.service_id,item,'upcoming')">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+
+
+          </ion-item-options>
+        </ion-item-sliding>
+
+      </ion-list>
+      <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCountUpcoming!=0">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+      </ion-refresher>
+      <!-- service p1 -->
+
+
+    </div>
+    <!-- buttons -->
+    <ion-row>
+      <ion-col class="col" col-12>
+        <div class="bottom-row bot-row2-srvce">
+          <button (click)="doAddHoc()">New Ad-hoc Service</button>
+          <button (click)="doRequest()">Request Denyo Support</button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- buttons -->
+
+    <!-- history p1 -->
+    <div class="history">
+      <h2>History</h2>
+      <div class="error" *ngIf="historyAllLists.length==0">No entries found</div>
+
+      <ion-list class="lst" *ngFor="let historytitem of historyAllLists;">
+        <ion-item-sliding class="brd">
+          <ion-item class="slide" (click)="servicedetailsView(historytitem,'view','history')">
+            <div class="p1">
+              <img *ngIf="historytitem.user_photo!=''"  src="{{historytitem.user_photo}}">
+              <div class="check">
+                <h3>
+                  <b>{{historytitem.service_subject}}</b>
+                </h3>
+                <div class="D&T" style="font-size:14px">
+                  {{historytitem.serviced_datetime_display}}
+                </div>
+                <span *ngIf="historytitem.service_created_name!='null'">Created by:{{historytitem.service_created_name}} {{historytitem.service_created_name_hastag}} </span>
+                <br>
+                <span>Serviced by:{{historytitem.serviced_by_name}} {{historytitem.serviced_by_name_hastag}} </span>
+                <br>
+                <!-- <span  *ngIf="historytitem.service_status==1">Completed Date:{{historytitem.currentdate_mobileview}}</span> -->
+                <div style="position: absolute;
+    margin-top: -60px;
+    margin-left: 57%;
+    text-align: center;">
+                  <span style="color:green;font-size:11px" *ngIf="historytitem.is_request>0" (click)="servicedetailsView(historytitem,'view','history')">
+                    <ion-icon ios="ios-checkmark" md="md-checkmark" style="color:green;font-size:16px"></ion-icon>
+                    <br>Denyo Support
+                    <br>Request</span>
+                </div>
+
+              </div>
+            </div>
+          </ion-item>
+          <ion-item-options side="right" class="list-item-options">
+            <!--button (click)="doEdit(historytitem,'edit',historytitem.service_id)" ion-button class="edit-btn">
+              		<ion-icon name="create"></ion-icon>
+              			Edit
+            		</button-->
+            <button (click)="doConfirmUpcoming(historytitem.service_id,historytitem,'history')" ion-button class="delete-btn">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="doInfiniteHistory($event)" *ngIf="totalCountHistory!=0">
+        <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <!-- history p1 -->
+
+
+    </div>
+  </div>
+</ion-content>

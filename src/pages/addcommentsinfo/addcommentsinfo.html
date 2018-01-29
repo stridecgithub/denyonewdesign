@@ -1,0 +1,101 @@
+<!--
+  Generated template for the Addcomment_remarkinfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+  Generated template for the AddcalendarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons  left>
+        <button   ion-button icon-only  (click)="previous()">
+          <ion-icon ios="ios-close" md="md-close"></ion-icon>
+        </button>
+      </ion-buttons>
+  
+      <ion-title>{{pageTitle}} Comment</ion-title>
+  
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()" enctype='application/x-www-form-urlencoded' method="post">
+   
+    <ion-row class="servicing-details-heading">
+      <ion-col class="col" col-12>
+        <h4>Comment Info</h4>
+      </ion-col>
+    </ion-row>
+  
+    <div class="servicing-details-form">
+      <ion-list style="margin-bottom: 0">
+  
+        <ion-item style="border: none">
+          <ion-label stacked>Subject</ion-label>
+          <ion-input type="text" formControlName="comment_subject" [(ngModel)]="comment_subject"></ion-input>   </ion-item>
+      </ion-list>
+    </div>
+  
+    <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+      <ion-list style="margin-bottom: 0">
+  
+  
+        <ion-item style="border: none">
+          <ion-label stacked>Remark</ion-label>
+          <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
+         
+        </ion-item>
+         <textarea  style="width: 91%;
+         margin-left: 4%;
+         background-color: #f8f8f8;
+         border: 1px solid #cccccc;
+         height: 71px;" row="10"  class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                    onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="comment_remark"
+                    [(ngModel)]="comment_remark"></textarea>
+  
+  
+      </ion-list>
+    </div>
+  
+    <ion-row class="attachment-row" style="border-bottom: none; padding-left: 5px; border-top: none">
+      <ion-col class="col" col-12>
+        <h6 style="margin-bottom: 0; margin-top: 0">Attachments</h6>
+      </ion-col>
+    </ion-row>
+  
+    <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
+          <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+  
+    <ion-row class="attachment-row" style="border-top: none"  *ngIf="addedServiceImgLists.length==0">
+      <ion-col class="col" col-12 style="padding: 10px 5px">
+        <button  (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+  
+  
+      <ion-row class="attachment-row" style="border-top: none">
+      <ion-col class="col" col-3  *ngFor="let attachitem of addedServiceImgLists; let i = index" [attr.data-index]="i">
+        <div>
+          <img src="{{addedServiceImgLists[i].imgSrc}}" width="50" height="50" alt="">
+          <span><ion-icon name="close" (click)="doRemoveResouce(addedServiceImgLists[i].resouce_id,attachitem)"></ion-icon></span>
+        </div>
+      </ion-col>
+  
+      <ion-col class="col" col-9 style="padding: 25px 10px"  *ngIf="addedServiceImgLists.length>0">
+        <button (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+  
+  
+   
+  
+     <div class="save-btn">
+      <button [disabled]="!form.valid  || isSubmitted">Save</button>
+    </div>
+    </form>
+  </ion-content>

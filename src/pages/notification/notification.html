@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Notifications</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <div class="error" *ngIf="notificationAllLists.length==0">No entries found</div>
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <ion-item-sliding *ngFor="let notify of notificationAllLists">
+      <ion-item *ngIf="notify.notify_type=='M'" (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="{{notify.photo}}" alt="" width="60" height="60">
+          </div>
+          <div class="msg-info">
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item *ngIf="notify.notify_type=='OA'"  (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.warn_tripped_status=='Tripped'">
+          </div>
+          <div class="msg-info">
+
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <div class="date-time">
+              <img src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
+              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.date_time}}
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item *ngIf="notify.notify_type=='A'"  (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.warn_tripped_status=='Tripped'">
+          </div>
+          <div class="msg-info">
+
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <div class="date-time">
+              <img src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
+              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.date_time}}
+            </div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item class="msg" *ngIf="notify.notify_type=='C'"  (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="{{notify.photo}}" alt="" width="60" height="60">
+          </div>
+          <div class="msg-info">
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item class="msg" *ngIf="notify.notify_type=='S'"  (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="{{notify.photo}}" alt="" width="60" height="60">
+          </div>
+          <div class="msg-info">
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item class="msg" *ngIf="notify.notify_type=='E'"  (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="{{notify.photo}}" alt="" width="60" height="60">
+          </div>
+          <div class="msg-info">
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+           <span class="msg-subject">Created By:{{notify.notify_by_name}}</span>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+          </div>
+        </div>
+      </ion-item>
+
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+
+</ion-content>

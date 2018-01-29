@@ -1,0 +1,68 @@
+Received a new notification {sound: "1", title: "Service Push", message: "Servicing InfoMentioned by: Alva?new unit created for serial | Project for serial no?@Arun", additionalData: {…}}
+
+Service Id 164
+http://denyoappv2.stridecdev.com/servicebyid
+
+{"msg":{"result":"success"},"servicedetail":[{"service_id":"164","service_unitid":"20","serviced_by":"4","service_dot_color":"#0066ff","service_dot_label":"service","service_formatted_date":"Monday, 30 Nov -0001","serviced_datetime":"0000-00-00","service_subject":"Service Push","service_remark":"@Arun","is_denyo_support":"0","service_priority":"0","description":null,"service_scheduled_date":"-0001-11-30","service_scheduled_time":"","next_service_date":"29 Dec 2017","is_request":"0","time_ago":"1 minute ago","current_datetime":"29 Dec 2017","serviced_by_name":"Alva","user_photo":"http://denyoappv2.stridecdev.com/staffphotos/20170914174035_123_27d82be.jpg","service_resources":"","unitname":"new unit created for serial","projectname":"Project for serial no","location":"Hennet Road, Singapore","colorcode":"5584EE"}]}
+main.js:68781 {"service_id":"164","service_unitid":"20","serviced_by":"4","service_dot_color":"#0066ff","service_dot_label":"service","service_formatted_date":"Monday, 30 Nov -0001","serviced_datetime":"0000-00-00","service_subject":"Service Push","service_remark":"@Arun","is_denyo_support":"0","service_priority":"0","description":null,"service_scheduled_date":"-0001-11-30","service_scheduled_time":"","next_service_date":"29 Dec 2017","is_request":"0","time_ago":"1 minute ago","current_datetime":"29 Dec 2017","serviced_by_name":"Alva","user_photo":"http://denyoappv2.stridecdev.com/staffphotos/20170914174035_123_27d82be.jpg","service_resources":"","unitname":"new unit created for serial","projectname":"Project for serial no","location":"Hennet Road, Singapore","colorcode":"5584EE"}
+
+Date Wrong, Monday ,30 Nov-001- Description no adde
+
+
+Received a new notification 
+{sound: "1", title: "Event Title", message: "@Arun", additionalData: {…}}
+additionalData
+:
+{smallIcon: "small_icon", arrayval: {…}, vibrate: "1", largeIcon: "large_icon", coldstart: false, …}
+message
+:
+"@Arun"
+sound
+:
+"1"
+title
+:
+"Event Title"
+
+
+Event 
+http://denyoappv2.stridecdev.com/eventdetailbyid
+main.js:68581 eventdetailbyid Response Success:{"msg":{"result":"success"},"eventslist":[{"event_id":"15","event_title":"Event Title","event_date":"29 Dec 2017","event_date_y_m_d":"2017-12-29","formatted_event_date":"Friday, 29 Dec 2017","event_time":"10:15 AM","event_location":"Madurai","event_remark":"@Arun","event_alldayevent":"0","event_end_date":null,"event_end_time":null,"event_dot_color":"#0066ff","event_dot_label":"event","event_addedby_name":"Alva"}]}
+main.js:68582 Event Details:[object Object]
+
+
+No Issue:-
+
+Message:-
+
+1[object Object]
+main.js:111019 2background
+main.js:111020 3{"title":"test for push","text":"New Message by: Alvatest for push","at":1514552282,"autoClear":true,"badge":0,"id":0,"icon":"res://ic_popup_reminder","ongoing":false}
+main.js:111021 4"background"
+main.js:111024 102
+main.js:111025 M
+main.js:55622 ionViewDidLoad MessagedetailPage
+main.js:55625 Fromundefined
+main.js:55672 undefined
+main.js:1705 ERROR TypeError: Cannot read property 'message_date' of undefined
+
+
+Alarm:-
+Received a new notification {sound: "1", title: "Assign Alarm", message: "Alarm Task Assignby: Guest 1?Tripped  | Emergency Stop?Generator 2 | For Demo?29 Dec 2017 09:01PM", additionalData: {…}}
+
+
+Local notification clicked...
+main.js:111018 1[object Object]
+main.js:111019 2background
+main.js:111020 3{"title":"Assign Alarm","text":"Alarm Task Assignby: Guest 1\nTripped  | Emergency Stop\nGenerator 2 | For Demo\n29 Dec 2017 09:01PM","at":1514552701,"autoClear":true,"badge":0,"id":0,"icon":"res://ic_popup_reminder","ongoing":false}
+main.js:111021 4"background"
+main.js:111024 36
+main.js:111025 A
+main.js:111017 Local notification clicked...
+main.js:111018 1[object Object]
+main.js:111019 2background
+main.js:111020 3{"title":"Assign Alarm","text":"Alarm Task Assignby: Guest 1\nTripped  | Emergency Stop\nGenerator 2 | For Demo\n29 Dec 2017 09:01PM","at":1514552701,"autoClear":true,"badge":0,"id":0,"icon":"res://ic_popup_reminder","ongoing":false}
+main.js:111021 4"background"
+main.js:111024 36
+main.js:111025 A
+main.js:68943 Event Type:undefined

@@ -1,0 +1,127 @@
+<!--
+  Generated template for the AddcalendarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>{{pageTitle}}</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()">
+    <div class="form-group">
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Type</ion-label>
+          <ion-select [disabled]="readOnly" [(ngModel)]="event_type" formControlName="event_type" (ionChange)="getType(event_type)">
+            <ion-option *ngFor="let typeData of responseResultType" value="{{typeData.type_name}}">{{typeData.type_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+
+
+        <ion-item *ngIf="unitfield">
+          <ion-label stacked>Unit Name </ion-label>
+          <ion-select [disabled]="readOnly" [(ngModel)]="event_unitid" formControlName="event_unitid" (ionChange)="getProjectLocation(event_unitid)">
+            <ion-option *ngFor="let unitData of responseResultCompany" value="{{unitData.unit_id}}">{{unitData.unitname}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+
+
+
+        <ion-item *ngIf="unitfield">
+          <ion-label stacked>Project </ion-label>
+          <ion-input [disabled]="disunit" type="text" formControlName="event_project" [(ngModel)]="event_project"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>{{locationstr}} Location</ion-label>
+          <ion-input [disabled]="disunit" type="text" formControlName="event_location" [(ngModel)]="event_location"></ion-input>
+        </ion-item>
+
+      </ion-list>
+    </div>
+
+    <div class="form-group">
+      <ion-list>
+
+
+   <ion-item>
+          <ion-label stacked>Title</ion-label>
+          <ion-input [disabled]="readOnly" type="text" formControlName="event_subject" [(ngModel)]="event_subject"></ion-input>
+        </ion-item>
+
+
+        <ion-item  *ngIf="alldayeventhide">
+          <ion-label stacked style="color: #999">All-day Event</ion-label>
+          <ion-toggle (ionChange)="alldayeenttoggle($event,alldayevent)" [(ngModel)]="alldayevent" formControlName="alldayevent"></ion-toggle>
+        </ion-item>
+
+
+
+     
+
+
+        <ion-item>
+          <ion-label stacked>{{startdatelabel}} Date</ion-label>
+          <ion-datetime pickerFormat="MMM DD YYYY" min="{{mindate}}"  max="3000" class="cal-icon" displayFormat="MM/DD/YYYY" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)"></ion-datetime>
+        </ion-item>
+
+        <ion-item *ngIf="starttimefield">
+          <ion-label stacked>{{starttimelabel}} Time</ion-label>
+          <ion-datetime pickerFormat="h:mm A" displayFormat="h:mm A" formControlName="event_time" [(ngModel)]="event_time"></ion-datetime>
+        </ion-item>
+
+        <ion-item *ngIf="endtimefield">
+          <ion-label stacked>End Time</ion-label>
+          <ion-datetime pickerFormat="h:mm A" displayFormat="h:mm A" formControlName="event_end_time" [(ngModel)]="event_end_time"></ion-datetime>
+        </ion-item>
+
+        <ion-item *ngIf="enddatefield">
+          <ion-label stacked>End Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}"  max="3000" class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date"  (ionChange)="filToDate(event_date)"></ion-datetime>
+        </ion-item>
+
+
+
+
+
+
+        <ion-item>
+          <ion-label stacked>Description</ion-label>
+          <!--ion-textarea type="text" name="to" id="to" class="suggest form-control" class="form-control" rows="8" [disabled]="readOnly"
+            formControlName="event_notes" [(ngModel)]="event_notes" style="height: 100px;
+    width: 281px;"></ion-textarea-->
+        </ion-item>
+        <textarea style="width: 91%;
+        margin-left: 4%;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
+                   [(ngModel)]="event_notes"></textarea>
+
+      </ion-list>
+    </div>
+
+    <div class="save-btn">
+      <button ion-button color="primary" text-center block [disabled]="!form.valid  || isSubmitted">Save</button>
+
+    </div>
+
+  </form>
+</ion-content>

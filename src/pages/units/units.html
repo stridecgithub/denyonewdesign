@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Units</ion-title>
+    <div class="right-header-btns">
+      <button class="search">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="notification-bell" (click)="notification()">
+        <ion-icon name="notifications"></ion-icon>
+        <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
+      </button>
+      <button class="profile"><img src="{{profilePhoto}}" width="28"  height="28"></button>
+    </div>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+ <button class="add-unit-btn" (click)="doAdd()"><ion-icon name="add"></ion-icon> Add New Unit</button>
+ <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
+ 
+  <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}  <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
+        <ion-icon name="arrow-down" *ngIf="reportData.sortascdesc === 'desc' && sortLblTxt !== Favourites"></ion-icon>
+        <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Favourites"></ion-icon>
+</div>
+
+  <ion-list>
+    <ion-item-sliding #item class="list-item"  *ngFor="let unit of unitAllLists">
+      <ion-item (click)="doAction(unit,'detail',unit.unit_id)">
+        <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
+        <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
+         <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.unitname}}
+        <div class="list-desc">{{unit.projectname}}</div>
+        <div class="list-favorite">
+           <button (click)="favorite(unit.unit_id)">
+                <ion-icon name="star-outline"
+                          *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
+                <ion-icon name="star" class="favorite"
+                          *ngIf="unit.favoriteindication === 1 || unit.favoriteindication === 'favorite'"></ion-icon>
+              </button>
+        </div>
+        <div class="running-hrs">Running Hours: {{unit.runninghr}}</div>
+      </ion-item>
+      <ion-item-options side="right" class="list-item-options">
+
+         <button ion-button class="read-btn" (click)="viewondash(unit.unit_id)">
+             <ion-icon name="add" style="font-size:26px"></ion-icon>Pin
+            </button>
+
+        <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)">
+          <img width="25" src="assets/imgs/edit@2x.png">Edit
+        </button>
+        <button ion-button class="del-btn"   (click)="doConfirm(unit.unit_id,item)">
+          <ion-icon name="trash"></ion-icon>Remove
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitAllLists.length!=0">
+    <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
+</ion-infinite-scroll>
+</ion-content>

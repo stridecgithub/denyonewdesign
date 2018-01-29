@@ -1,0 +1,49 @@
+page-addalarm {
+  .edit-alarm-top {
+    p {
+      margin-bottom: 0;
+    }
+    .time {
+      margin-top: 0;
+    }
+  }
+  .edit-alarm-form {
+    background: #F8F8F8;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 1px;
+    ion-item {
+      background-color: transparent;
+      padding: 0 15px;
+      .cal-icon {
+        background: url(../assets/imgs/cal@2x.png) no-repeat right;
+        background-size: 20px auto;
+      }
+    }
+    ion-datetime {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .inner-div {
+      border-bottom: 0px solid lightgrey;
+      margin: 0 15px 5px 15px;
+      ion-item {
+        padding: 0 !important;
+      }
+    }
+  }
+
+  .save-btn {
+    padding: 20px;
+    button {
+      background-color: color($app-brand-colors, azure-radiance);
+      border-radius: 0;
+      color: color($app-brand-colors, white);
+      height: 40px;
+      border: color($app-brand-colors, blue-ribbon) 1px solid;
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+}

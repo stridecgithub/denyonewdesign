@@ -1,0 +1,158 @@
+<!--
+  Generated template for the NotificationSettingsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Notification Settings</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-row>
+      <ion-col class="col" col-12>
+        <div class="notification-btn-row">
+          <h4>Contact Personnel</h4>
+
+          <button (click)="addmore()" ion-button icon-left clear *ngIf="addmorebtn>0">
+            <ion-icon name="add"></ion-icon>
+            Add More
+          </button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="unit-form-group">
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Name</ion-label>
+          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_1" [(ngModel)]="contact_name_1"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" (keyup)="getPrimaryContact($event)" type="text" formControlName="primary"
+            [(ngModel)]="primary" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_1" [(ngModel)]="contact_number_1" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+        </ion-item>
+
+        <!-- <div class="remove" *ngIf="cont2">
+            <button (click)="doRemoveContact(2)">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </div> -->
+        <ion-item *ngIf="cont2">
+          <ion-label stacked>Name</ion-label>
+          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_2" [(ngModel)]="contact_name_2"
+            (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="cont2">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input class="{{borderbottomredvalidation2}}" [disabled]="readOnly" (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"
+            type="text" formControlName="primary_2" [(ngModel)]="primary_2" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_2" (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"
+            [(ngModel)]="contact_number_2" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+
+        </ion-item>
+
+        <!-- <div class="remove" *ngIf="cont3">
+            <button (click)="doRemoveContact(3)">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </div> -->
+        <ion-item *ngIf="cont3">
+          <ion-label stacked>Name</ion-label>
+          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_3" [(ngModel)]="contact_name_3"
+            (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="cont3">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input class="{{borderbottomredvalidation3}}" [disabled]="readOnly" (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"
+            type="text" formControlName="primary_3" [(ngModel)]="primary_3" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_3" (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"
+            [(ngModel)]="contact_number_3" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+
+        </ion-item>
+
+        <!-- <div class="remove" *ngIf="cont4">
+            <button (click)="doRemoveContact(4)">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </div> -->
+
+        <ion-item *ngIf="cont4">
+          <ion-label stacked>Name</ion-label>
+          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_4" [(ngModel)]="contact_name_4"
+            (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="cont4">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input class="{{borderbottomredvalidation4}}" [disabled]="readOnly" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
+            type="text" formControlName="primary_4" [(ngModel)]="primary_4" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_4" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
+            [(ngModel)]="contact_number_4" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+
+        </ion-item>
+        <!-- <div class="remove" *ngIf="cont5">
+          <button (click)="doRemoveContact(5,item)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </div> -->
+
+        <ion-item *ngIf="cont5">
+          <ion-label stacked>Name</ion-label>
+          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_5" [(ngModel)]="contact_name_5"
+            (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="cont5">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input class="{{borderbottomredvalidation5}}" [disabled]="readOnly" (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"
+            type="text" formControlName="primary_5" [(ngModel)]="primary_5" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_5" (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"
+            [(ngModel)]="contact_number_5" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+
+        </ion-item>
+
+
+      </ion-list>
+    </div>
+
+    <ion-row>
+      <ion-col class="col" col-12>
+        <h4>Notification List</h4>
+      </ion-col>
+    </ion-row>
+    <div class="unit-form-group">
+      <div class="inner-div">
+        <ion-list>
+          <ion-item>
+            <textarea style="border: 0px;
+    background-color: #efefef;
+    width: 400px;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control" onkeyup="unit(event);address1get(this.value)"
+              onblur="sptionshide();address1get(this.value)" rows="8" [disabled]="readOnly" formControlName="alarmhashtags"
+              rows="6" [(ngModel)]="alarmhashtags"></textarea>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+
+
+    <div class="save-btn" *ngIf="hideActionButton">
+      <button [disabled]="!form.valid || isSubmitted" (click)="saveEntry()">Save</button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,50 @@
+page-editprofilestepone {
+
+  ion-app.md [padding] .scroll-content {
+    padding: 0px;
+}
+    .user-img {
+      border-bottom: 1px solid #ccc;
+        margin: 0 0 7px;
+       
+        img {
+          border-radius: 50%;
+          border: 5px solid #006BF4;
+        }
+        text-align: center;
+       
+        padding-bottom: 15px;
+      }
+
+      .user-camera-block{
+        margin: 0 0 7px;
+       
+        img {
+          border-radius: 50%;
+          border: 5px solid #006BF4;
+        }
+        text-align: center;
+       
+        padding-bottom: 15px;
+      }
+      .user-name {
+        font-size: 23px;
+        color: #424242;
+        margin-bottom: 4px;
+      }
+      .user-company {
+        font-size: 20px;
+        color: #888888;
+      }
+      .user-hashtag{
+        color: #6C6C6C;
+        font-size: 18px;
+      }
+
+      .info {
+        border-bottom: 0px solid #d6d6d6;
+      }
+      .profile-title{
+        padding:15px
+      }
+}

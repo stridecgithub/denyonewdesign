@@ -1,0 +1,164 @@
+<!--
+  Generated template for the AddalarmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--ion-header>
+
+  <ion-navbar>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Edit Alarm</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <span>{{unitDetailData.companygroup_name}}</span>
+      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span> {{this.unitDetailData.unitname}}
+      <div class="list-desc">{{unitDetailData.projectname }}</div>
+      {{unitDetailData.location }}
+      <div class="list-favorite">
+        <button>
+                <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+              </button>
+        <button (click)="favorite(unitDetailData.unit_id)">
+                <ion-icon name="star-outline"
+                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+                <ion-icon name="star" class="favorite"
+                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+              </button>
+      </div>
+      <div class="running-hrs">Running Hours: {{unitDetailData.runninghr}}</div>
+    </ion-item>
+  </ion-list>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()">  
+
+    <ion-item>
+        <ion-label stacked>Date</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
+      </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Assigned To</ion-label>
+      <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
+        <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <br>
+    <b>Remark</b> <span class="mandatory" *ngIf="hideActionButton">*</span>
+    <textarea style="height:70px" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
+      onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" formControlName="remark"
+      [(ngModel)]="remark"></textarea>
+    <ion-item>
+      <button ion-button color="primary" text-center [disabled]="!form.valid || isSubmitted">Complete and Save</button>
+    </ion-item>
+  </form>
+</ion-content-->
+
+
+
+<!--
+  Generated template for the EditAlarmPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-close" md="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Edit Alam</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content (tap)="tapEvent($event,remark)">
+  <form [formGroup]="form" (ngSubmit)="saveEntry()">
+    <div class="switch edit-alarm-top">
+      <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarm_priority=='1'">
+      <img alt="" src="assets/imgs/warning-pic@2x.png" *ngIf="alarm_priority=='2'">
+      <ion-icon class="angel" name="analytics" (click)="trendlineInfo(recordID, item)"></ion-icon>
+      <ion-row>
+        <ion-col col-12>
+          <h1>{{subject}}</h1>
+          <p>{{unitDetailData.unitname}}<br> {{unitDetailData.projectname}}
+          </p>
+          <div class="time">
+            {{alarm_received_time}}
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-row style="border-bottom: 1px solid #848484; padding: 0px 10px;">
+      <ion-col>
+        <h4 style="font-size: 16px">Alarm Assignment</h4>
+      </ion-col>
+    </ion-row>
+
+    <div class="edit-alarm-form">
+
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
+        </ion-item>
+
+
+
+
+        <!--div class="inner-div">
+         
+          <input type="text" style="margin-left: 2px;width:100%" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
+            onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
+         
+        </div-->
+
+        <div class="inner-div">
+          <!--ion-item style="border: none">
+            <ion-label stacked>Remarks</ion-label>
+            <ion-textarea></ion-textarea-->
+          <div style="
+    color: gray;
+    font-size: 12px;
+    margin-top: 15px;
+">Remarks</div>
+          <textarea (tap)="address1get($event.target.value);tapEvent($event,remark)" style="height: 70px;
+    width: 100%;
+    margin-left: 2px;
+    margin-top: 2px;border: 0px;
+    background-color: #f8f8f8;" type="text" (keyup)="address1get($event.target.value)" name="to" id="to" class="sugges"
+            onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" class="form-control"
+            rows="8" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></textarea>
+          <!--/ion-item-->
+        </div>
+
+
+        <ion-item>
+          <ion-label stacked>Assigned to</ion-label>
+          <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
+            <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+    </div>
+
+    <div class="save-btn">
+      <button [disabled]="!form.valid || isSubmitted">Save</button>
+    </div>
+  </form>
+
+</ion-content>

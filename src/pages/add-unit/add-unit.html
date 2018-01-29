@@ -1,0 +1,130 @@
+<!--
+  Generated template for the AddUnitPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>{{pageTitle}} Unit Details</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="NotificationSettings()">
+    <ion-row>
+      <ion-col class="col" col-12>
+        <h4>Basic Information</h4>
+      </ion-col>
+    </ion-row>
+    <div class="unit-form-group">
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Unit Name</ion-label>
+          <ion-input type="text" formControlName="unitname" [(ngModel)]="unitname"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Project</ion-label>
+          <ion-input type="text" formControlName="projectname" [(ngModel)]="projectname"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Controller ID</ion-label>
+          <ion-input type="text" formControlName="controllerid" [(ngModel)]="controllerid"></ion-input>
+        </ion-item>
+        <p>Please note that the connection with Generator will be affected if you change the controller ID.</p>
+
+        <ion-item>
+          <ion-label stacked>Generator Model</ion-label>
+          <ion-select placeholder="Please Select" [(ngModel)]="models_id" formControlName="models_id">
+            <ion-option *ngFor="let modelData of responseResultModel" value="{{modelData.model_id}}">{{modelData.model}}</ion-option>
+
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Serial Number</ion-label>
+          <ion-input type="text" [(ngModel)]="serial_number" formControlName="serial_number"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>NEA Plate Number</ion-label>
+          <ion-input type="text" formControlName="neaplateno" [(ngModel)]="neaplateno"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+
+
+    <ion-row>
+      <ion-col class="col" col-12>
+        <h4>Group Assignment</h4>
+      </ion-col>
+    </ion-row>
+    <div class="unit-form-group">
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Unit Group</ion-label>
+          <ion-select placeholder="Please Select" [(ngModel)]="unitgroups_id" formControlName="unitgroups_id">
+            <ion-option *ngFor="let unitData of responseResultUnitGroup" value="{{unitData.unitgroup_id}}">{{unitData.unitgroup_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Company Group</ion-label>
+          <ion-select placeholder="Please Select" [(ngModel)]="companys_id" formControlName="companys_id">
+            <ion-option *ngFor="let companyData of responseResultCompany" value="{{companyData.companygroup_id}}">{{companyData.companygroup_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+    </div>
+
+
+    <ion-row>
+      <ion-col class="col" col-12>
+        <h4>Deployed Location</h4>
+      </ion-col>
+    </ion-row>
+
+    <!--div class="hard-coded-row">
+      <ion-list>
+        <ion-item>
+
+        </ion-item>
+      </ion-list>
+    </div-->
+    <div class="hard-coded-row">
+      <div>
+        <h2>
+          <ion-input type="text" [disabled]="locationedit" formControlName="location" [(ngModel)]="location"></ion-input>
+        </h2>
+        <ion-icon name="close" (click)="editDeployedLocation()" *ngIf="isEdited"></ion-icon>
+      </div>
+
+      <p *ngIf="isEdited">
+        <a href="#" (click)="getGps()">Use GPS Location</a>
+        <br><span *ngIf="lat!=''">GPS Location: {{location}}</span>
+        <br><span *ngIf="lat!=''">(Latitude: {{lat}}, Longitude: {{lang}})</span>
+      </p>
+    </div>
+
+
+
+
+
+    <div class="save-btn">
+      <button [disabled]="!form.valid">Next</button>
+    </div>
+  </form>
+</ion-content>

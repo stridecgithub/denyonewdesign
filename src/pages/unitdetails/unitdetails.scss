@@ -1,0 +1,270 @@
+
+page-unitdetails {
+a{
+  text-decoration: none;
+  color:#000000;
+}
+  .demo2 {
+    position:relative;
+    width:150px;
+    height:150px;
+    box-sizing:border-box;
+  }
+  .row { width: 100%; }
+  .col-md-6 {
+    width: 50%;
+  } 
+  
+      /* Base blocks */
+
+    .b-gauge               {position: relative; width: 100%; height: 100%; box-sizing: border-box; font-family: Arial, sans-serif;}
+
+    .b-gauge__block        {position: absolute; overflow: visible; top: 0; left: 0; bottom: 0; right: 0;}
+
+
+
+    /* Color circles */
+
+    .b-gauge__paths        {width: 100%; height: 100%;}
+
+    .b-gauge__path         {}
+
+
+
+    /* Arrow */
+
+    .b-gauge__arrow        {}
+
+    .b-gauge__arrow-circle {}
+
+
+
+    /* Labels */
+
+    .b-gauge__labels       {}
+
+    .b-gauge__label        {position: absolute}
+
+
+
+    /* Marks */
+
+    .b-gauge__marks        {}
+
+    .b-gauge__mark         {position: absolute; background: #ccc; width: 1px; height:8px;}
+
+
+  // .toolbar-md-primary .bar-button-clear-md, .toolbar-md-primary .bar-button-default-md, .toolbar-md-primary .bar-button-outline-md, .toolbar-md-primary .toolbar-title-md{
+  //      font-size: inherit !important;
+  // }
+.scroll-content{
+    padding: 0px !important;
+  }
+  .unit-detail {
+    border-bottom: #000 5px solid;
+   /* .status {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      border-radius: 50%;
+      background: red;
+    }*/
+    .unit-title {
+      font-size: 16px;
+    }
+    .list-favorite {
+      padding: 0;
+      float: right;
+      margin-top: -5px;
+    }
+    .unit-info {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .map-btn {
+      float: right;
+      background: none;
+      padding: 0 5px 0 0;
+      ion-icon {
+        font-size: 22px;
+      }
+    }
+  }
+  .alert {
+    background: color($app-brand-colors, thunderbird);
+    color: #fff;
+    text-align: center;
+    padding: 4px 0 0;
+
+     
+
+    ion-icon {
+      font-size: 80px;
+    }
+    
+    button {
+      background: #F8A70F;
+      font-size: 12px;
+      border-radius: 0;
+      width: 100%;
+      height: 35px;
+      border-top:1px solid #fff;
+    }
+    span {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+  }
+  .status-row {
+    display: flex;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 10px;
+    div {
+      font-size: 9px;
+      flex: 1;
+      padding: 10px 0;
+      &:first-child {
+        /*background: #00BA28;*/
+        margin-right: 5px;
+      }
+      &:last-child {
+        background: #006BF4;
+        margin-left: 5px;
+      }
+    }
+    span {
+      display: block;
+      font-size: 13px;
+    }
+  }
+  .engine-state {
+    text-align: center;
+    /*background: #00BA28;*/
+    padding: 10px 0;
+    font-size: 9px;
+    color: #fff;
+    margin-bottom: 10px;
+    span {
+      display: block;
+      font-size: 13px;
+    }
+  }
+  .running-hours {
+    text-align: center;
+    background: #424242;
+    padding: 10px 0;
+    font-size: 9px;
+    color: #fff;
+    span {
+      display: block;
+      font-size: 13px;
+    }
+  }
+  .controller-mode {
+    text-align: center;
+    padding: 5px 0 0;
+    .modes {
+      display: flex;
+      span {
+        margin-top: 5px;
+        flex: 1;
+        background: #D8D8D8;
+        display: block;
+        line-height: 30px;
+        &:nth-child(2) {
+          margin: 5px 10px 0;
+        }
+        &.active {
+          background: #424242;
+          color: #FFF;
+        }
+      }
+    }
+  }
+  .breaker-state {
+    padding: 10px;
+    border: #848484 1px solid;
+    .io-btn {
+      border-radius: 0;
+      background: #424242;
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 5px 10px;
+    }
+    ion-col {
+      text-align: center;
+    }
+    .breaker-btn {
+      width: 100%;
+      display: block;
+      border-radius: 0;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #FFF;
+      &.start {
+        background: #00BA28;
+      }
+      &.stop {
+        background: #C71717;
+      }
+    }
+  }
+}
+.info{
+  margin-top: 20px;
+    h1{
+      font-size: 15px;
+      margin-left: 20px;
+      color: #555555;
+      margin-top: 0; 
+    }
+    h2{
+      font-size: 15px;
+      color: #A4A4A4;
+      margin-right: 10px;
+      margin-top: 0;
+    }
+}
+.buttons{
+  display: inline-block;
+  text-align: center;
+    .edit{
+      background: #00BA28;
+      padding: 5px 42px;
+      font-size: 15px;
+      float: left;
+      color: #ffffff;
+  }
+  .delete{
+    background: #C71717;
+    padding: 5px 35px;
+    font-size: 15px;
+    float: left;
+    color: #ffffff;
+  }
+  .pin{
+    background: #F8A70F;
+    padding: 11px 4px;
+    font-size: 15px;
+    float: right;
+    color: #ffffff;
+    img{
+      display: block;
+      width: 30px;
+      height: 29px;
+      margin-left: 40px;
+    }
+  }
+  span{
+    display: block;
+  }
+  ion-icon {
+    font-size: 40px;  
+  }
+}
+
+

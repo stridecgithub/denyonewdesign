@@ -1,0 +1,32 @@
+page-myaccount {
+    .user-img {
+        margin: 0 0 7px;
+        background-color: #EDEDED;
+        img {
+          border-radius: 50%;
+          border: 5px solid #006BF4;
+        }
+        text-align: center;
+        border-bottom: 2px solid #D6D6D6;
+        padding-top: 20px;
+        padding-bottom: 15px;
+      }
+      .user-name {
+        font-size: 23px;
+        color: #424242;
+        margin-bottom: 4px;
+      }
+      .user-company {
+        font-size: 20px;
+        color: #888888;
+      }
+      .user-hashtag{
+        color: #6C6C6C;
+        font-size: 18px;
+      }
+
+      .info {
+        border-bottom: 0px solid #d6d6d6;
+      }
+      
+}

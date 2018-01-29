@@ -1,0 +1,179 @@
+<!--
+  Generated template for the MessagedetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--
+  Generated template for the MessagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon style="color:#fff" ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Message</ion-title>
+    <div *ngIf="delete_icon_only==1" class="right-header-btns">
+      <button class="search" (click)="doConfirm(messageid)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button class="notification-bell">
+        <ion-icon name="mail" *ngIf="message_readstatus==0" (click)="readAction(messageid,'read')"></ion-icon>
+        <ion-icon name="mail-open" *ngIf="message_readstatus==1" (click)="readAction(messageid,'unread')"></ion-icon>
+      </button>
+      <button class="profile" (click)="favoriteact(messageid)">
+        <ion-icon name="star" *ngIf="favstatus==1"></ion-icon>
+        <ion-icon name="star-outline" *ngIf="favstatus==0"></ion-icon>
+      </button>
+    </div>
+
+
+    <div *ngIf="delete_icon_only==0" class="right-header-btns">
+      <button class="search" (click)="doConfirm(messageid)">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button class="profile" (click)="favoriteact(messageid)">
+        <ion-icon name="star" *ngIf="favstatus==1"></ion-icon>
+        <ion-icon name="star-outline" *ngIf="favstatus==0"></ion-icon>
+      </button>
+
+
+
+    </div>
+
+  </ion-navbar>
+
+</ion-header>
+
+<!--ion-content padding>
+  <div class="info">
+    <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
+    <img class="grl" *ngIf="senderphoto==''" src="../assets/imgs/nouser.jpg" width="28" height="28" alt="No Photo">
+    <div class="msg-info">
+      <div class="user-name">{{sendername}}</div>
+      <div class="p">to {{receiver_id}}</div>
+      <div class="time-date">{{message_date_mobileview}}</div>
+    </div>
+    <div class="list-icon">
+      <button (click)="presentPopover($event,detailItem,from)">
+        <img src="assets/imgs/return.png" width="45">
+      </button>
+
+
+      <button (click)="doDetail(detailItem,addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
+        <img src="assets/imgs/dots.png" width="25">
+      </button>
+      <ion-icon  *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
+      font-size: 37px;
+      left:90%;
+      top: 20%;
+      position: absolute;"></ion-icon>
+      <ion-icon  *ngIf="priority_highclass!=''"  ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
+      font-size: 37px;
+      left: 90%;
+      top: 20%;
+      position: absolute;"></ion-icon>
+    </div>
+
+  </div>
+  <div class="subject">
+    <h1>{{messages_subject}}</h1>
+    {{messages_body_html}}
+  </div>
+
+  <div class="attachment" *ngIf="addedImgLists.length>0">
+    <div class="attach" (click)="toggle(isopenorclose)">
+      <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
+      <button>
+        <ion-icon name="md-arrow-dropup" *ngIf="open>0"></ion-icon>
+        <ion-icon name="md-arrow-dropdown" *ngIf="close>0"></ion-icon>
+      </button>
+    </div>
+    <div *ngIf="open>0">
+      <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
+        <h1 style="width:90%">{{imageitem.fileName}}</h1>
+        <h2>{{imageitem.fileSize}}</h2>
+        <button (click)="preview(addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
+          <ion-icon name="download"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content-->
+
+<ion-content padding>
+  <div class="info">
+    <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
+    <img class="grl" *ngIf="senderphoto==''" src="../assets/imgs/nouser.jpg" width="28" height="28" alt="No Photo">
+   
+    <div class="msg-info">
+      <div class="user-name">{{sendername}}</div>
+      <div class="p"  *ngIf="receiver_id!=''">to {{receiver_id}}</div>
+      <div class="time-date">{{message_date_mobileview}}</div>
+    </div>
+    <div class="list-icon">
+      <!-- <button>
+        <img src="assets/imgs/return.png" width="36" height="31">
+      </button>
+      <button>
+        <img src="assets/imgs/dots.png" width="8" height="32">
+      </button> -->
+
+      <button (click)="togglereplyforwardopen(isopenorclose)">
+        <img src="assets/imgs/return.png" width="45">
+      </button>
+
+
+      <button (click)="doDetail(detailItem,addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
+        <img src="assets/imgs/dots.png" width="25">
+      </button>
+      <ion-icon  *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
+      font-size: 37px;
+      left:90%;
+      top: 20%;
+      position: absolute;"></ion-icon>
+      <ion-icon  *ngIf="priority_highclass!=''"  ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
+      font-size: 37px;
+      left: 90%;
+      top: 20%;
+      position: absolute;"></ion-icon>
+      <div class="frwd-rply"  *ngIf="openpop>0">
+        <button (click)="action(detailItem,'reply',from)">Reply All</button>
+        <button (click)="action(detailItem,'forward',from)">Forward</button>
+      </div>
+    </div>
+  </div>
+  <div class="subject">
+    <h1>{{messages_subject}}</h1>
+    {{messages_body_html}}
+  </div>
+
+  <div class="attachment"  *ngIf="addedImgLists.length>0">
+    <div class="attach" (click)="toggle(isopenorclose)">
+      <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
+      <button>
+        <ion-icon name="md-arrow-dropup" *ngIf="open>0"></ion-icon>
+        <ion-icon name="md-arrow-dropdown" *ngIf="close>0"></ion-icon>
+      </button>
+    </div>
+
+    <div *ngIf="open>0">
+      <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
+        <h1>{{imageitem.fileName}}</h1>
+        <h2>{{imageitem.fileSize}}</h2>
+        <button (click)="preview(addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
+          <ion-icon name="download"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+
+</ion-content>

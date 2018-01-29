@@ -1,0 +1,107 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title style="font-size:18px">Organisation Chart</ion-title>
+   <div class="right-header-btns">
+      <button class="search">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="notification-bell" (click)="notification()">
+        <ion-icon name="notifications"></ion-icon>
+        <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
+      </button>
+      <button class="profile"><img src="{{profilePhoto}}" width="28"  height="28"></button>
+    </div>
+  </ion-navbar>
+ <ion-item style="width: 100%; margin: 0; padding-left: 10px; background-color:#ffffff">
+    <ion-label>Company</ion-label>
+    <ion-select style="padding: 1px 1px 6px 1px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
+      <ion-option *ngFor="let companyData of responseResultCompanyGroup" value="{{companyData.companygroup_id}}">{{companyData.companygroup_name}}</ion-option>
+    </ion-select>
+  </ion-item>
+</ion-header>
+
+
+
+<ion-content padding>
+<!--button class="add-unit-btn" (click)="doAdd()"><ion-icon name="add"></ion-icon> Add New User</button-->
+
+
+  <ion-scroll (pinch)="pinchEvent($event)" scrollX="true" scrollY="true" zoom="true" style="width:100%;height:100%;text-align:center;">
+
+    <div style="width:9000px;overflow:auto">
+
+      <!--div [ngStyle]="{'width' : width + 'px', 'height' : height + 'px'}"  style="margin-top:50px;margin-bottom:50px;"-->
+
+      <div class="tree-overflow">
+        <div id="treehtml">
+          <div class="tree">
+            <div class="error" *ngIf="parents.length==0">No entries found</div>
+            <ul>
+
+              <li *ngFor="let parent of parents; let i=index">
+                <div class="img-out" [ngStyle]="{'width' : imgwidth + 'px', 'height' : imgheight + 'px', 'border-radius' : imgradius + 'px'}">
+                  <img src="{{apiServiceURL}}/staffphotos/{{parent.photo}}" (click)="presentPopover($event,parent)" *ngIf="parent.photo!=''">
+                  <img src="{{apiServiceURL}}/images/default.png" (click)="presentPopover($event,parent)" *ngIf="parent.photo=='' ">
+                </div>
+                <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{parent.firstname}}</h3>
+                <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{parent.lastname}}</h3>
+                <h4 [ngStyle]="{'font-size' : fontsize + 'px'}">{{parent.job_position}}</h4>
+                <ul>
+                  <li *ngFor="let child of parent.childs; let i=index">
+                    <div class="img-out" [ngStyle]="{'width' : imgwidth + 'px', 'height' : imgheight + 'px', 'border-radius' : imgradius + 'px'}">
+                      <img src="{{apiServiceURL}}/staffphotos/{{child.photo}}" (click)="presentPopover($event,child)" *ngIf="child.photo!=''">
+                      <img src="{{apiServiceURL}}/images/default.png" (click)="presentPopover($event,child)" *ngIf="child.photo==''">
+                    </div>
+                    <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{child.firstname}}</h3>
+                    <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{child.lastname}}</h3>
+                    <h4 [ngStyle]="{'font-size' : fontsize + 'px'}">{{child.job_position}}</h4>
+                    <ul>
+                      <li *ngFor="let gchild of child.grandchilds; let i=index">
+                        <div class="img-out" [ngStyle]="{'width' : imgwidth + 'px', 'height' : imgheight + 'px', 'border-radius' : imgradius + 'px'}"><img src="{{apiServiceURL}}/staffphotos/{{gchild.photo}}" (click)="presentPopover($event,gchild)"
+                            *ngIf="gchild.photo!=''">
+                          <img src="{{apiServiceURL}}/images/default.png" (click)="presentPopover($event,gchild)" *ngIf="gchild.photo==''">
+                        </div>
+                        <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gchild.firstname}}</h3>
+                        <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gchild.lastname}}</h3>
+                        <h4 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gchild.job_position}}</h4>
+                        <ul>
+                          <li *ngFor="let ggchild of gchild.grantgrandchilds; let i=index">
+                            <div class="img-out" [ngStyle]="{'width' : imgwidth + 'px', 'height' : imgheight + 'px', 'border-radius' : imgradius + 'px'}">
+                            <img src="{{apiServiceURL}}/staffphotos/{{ggchild.photo}}" (click)="presentPopover($event,ggchild)"
+                                *ngIf="ggchild.photo!=''">
+                              <img src="{{apiServiceURL}}/images/default.png" (click)="presentPopover($event,ggchild)" *ngIf="ggchild.photo==''">
+                            </div>
+                            <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{ggchild.firstname}}</h3>
+                            <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{ggchild.lastname}}</h3>
+                            <h4 [ngStyle]="{'font-size' : fontsize + 'px'}">{{ggchild.job_position}}</h4>
+                            <ul>
+                              <li *ngFor="let gggchild of ggchild.lastgrandchilds; let i=index">
+                                <div class="img-out" [ngStyle]="{'width' : imgwidth + 'px', 'height' : imgheight + 'px', 'border-radius' : imgradius + 'px'}">
+                                <img src="{{apiServiceURL}}/staffphotos/{{gggchild.photo}}" (click)="presentPopover($event,gggchild)"
+                                    *ngIf="gggchild.photo!=''">
+                                  <img src="{{apiServiceURL}}/images/default.png" (click)="presentPopover($event,gggchild)" *ngIf="gggchild.photo==''">
+                                </div>
+                                <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gggchild.firstname}}</h3>
+                                <h3 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gggchild.lastname}}</h3>
+                                <h4 [ngStyle]="{'font-size' : fontsize + 'px'}">{{gggchild.job_position}}</h4>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-scroll>
+</ion-content>

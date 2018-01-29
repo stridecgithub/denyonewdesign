@@ -1,0 +1,560 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{unitDetailData.unitnameellipse}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding no-bounce>
+  <div>
+    <ion-segment [(ngModel)]="tabs" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="overView">
+        Overview
+      </ion-segment-button>
+      <ion-segment-button value="dataView">
+        Data
+      </ion-segment-button>
+      <ion-segment-button value="gensetView">
+        Genset Info
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div id="overView">
+    <div class="unit-detail" style="border-color: #9013FE;" padding>
+      <div class="unit-title">
+        <div class="list-favorite">
+          <button>
+            <ion-icon name="star-outline" *ngIf="unitfavorite==0"></ion-icon>
+            <ion-icon name="star" class="favorite" *ngIf="unitfavorite==1"></ion-icon>
+          </button>
+        </div>
+        <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+        <b>{{this.unitDetailData.unitname}}</b>
+      </div>
+      <div class="unit-info">
+        {{unitDetailData.projectname }}
+        <br>
+        <strong>Deployed Location:</strong> {{unitDetailData.location }}
+        <button class="map-btn">
+          <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+        </button>
+
+      </div>
+    </div>
+    <!-- <iframe width="100%" height="500" [src]="url" frameborder="0"></iframe>
+    <button style="background-color:#C71717;width:100%" ion-button (click)="alamInfo(unitDetailData)">
+      ALARM
+    </button> -->
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <div class="alert">
+            <img style="margin-top: 10px;" *ngIf="alarmstatus>0" (click)="alamInfo(unitDetailData)" src="assets/imgs/alarm_flash.gif"
+            />
+            <img style="margin-top: 10px;" *ngIf="alarmstatus==0" (click)="alamInfo(unitDetailData)" src="assets/imgs/alarm.gif" />
+            <span (click)="alamInfo(unitDetailData)">ALARM</span>
+            <button *ngIf="alarmstatus>0" (click)="overviewAction(genkey,unitDetailData.controllerid,'fault-reset')">FAULT RESET</button>
+            <button *ngIf="alarmstatus==0">FAULT RESET</button>
+
+          </div>
+        </ion-col>
+        <ion-col col-6>
+
+          <div class="status-row">
+            <div [ngStyle]="{'background-color':commstatuscolor}">
+              <span>{{commstatus}}</span>COMM STATUS</div>
+            <div>
+              <span>{{unitDetailData.nextservicedate}}</span>SERVICING</div>
+          </div>
+
+          <div class="engine-state" [ngStyle]="{'background-color':enginestatuscolor}">
+            <span>{{enginestatus}}</span>
+            ENGINE STATE
+          </div>
+
+          <div class="running-hours">
+            <span>{{runninghrs}}</span>
+            RUNNING HOURS
+          </div>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <div class="controller-mode">
+            CONTROLLER MODE
+            <div class="modes">
+              <span *ngIf="controlleroffmode==''" ngClass="{{controlleroffmode}}" (click)="overviewAction(genkey,unitDetailData.controllerid,'off-mode')">OFF</span>
+              <span *ngIf="controlleroffmode!=''" ngClass="{{controlleroffmode}}">OFF</span>
+              <span *ngIf="controllermanmode==''" ngClass="{{controllermanmode}}" (click)="overviewAction(genkey,unitDetailData.controllerid,'man-mode')">MAN</span>
+              <span *ngIf="controllermanmode!=''" ngClass="{{controllermanmode}}">MAN</span>
+              <span *ngIf="controllerautomode==''" ngClass="{{controllerautomode}}" (click)="overviewAction(genkey,unitDetailData.controllerid,'auto-mode')">AUTO</span>
+              <span *ngIf="controllerautomode!=''" ngClass="{{controllerautomode}}">AUTO</span>
+
+
+
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <div class="breaker-state">
+            BREAKER STATE
+            <ion-row>
+              <ion-col col-8>
+                <img src="assets/imgs/breaker-indicator@2x.png" alt="">
+                <button class="io-btn">I / O</button>
+              </ion-col>
+              <ion-col col-4>
+                <button class="breaker-btn start" [disabled]="startbtnenable" (click)="overviewAction(genkey,unitDetailData.controllerid,'on')">START</button>
+                <button class="breaker-btn stop" [disabled]="stopbtnenable" (click)="overviewAction(genkey,unitDetailData.controllerid,'off')">STOP</button>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+  <div id="gensetView" style="display: none;" (click)="geninfo(unitDetailData.unit_id)">
+    <div class="unit-detail" style="border-color: #9013FE;" padding>
+      <div class="unit-title">
+        <div class="list-favorite">
+          <button>
+            <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+            <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+          </button>
+        </div>
+        <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+        <b>{{this.unitDetailData.unitname}}</b>
+      </div>
+      <div class="unit-info">
+        {{unitDetailData.projectname }}
+        <br>
+        <strong>Deployed Location:</strong> {{unitDetailData.location }}
+        <button class="map-btn">
+          <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+        </button>
+
+      </div>
+    </div>
+    <div class="info">
+      <ion-row>
+        <ion-col col-6>
+          <h1>Controller ID</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.controllerid}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>NEA PLate No.</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.neaplateno}}</h2>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Unit Group</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.unitgroup_name}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Generator Model</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.generatormodel}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Serial Number</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.serial_number}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Contact Personnel</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.contactpersonal}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Contact Number</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.contactnumber}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Company Group</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.companygroup_name}}</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-6>
+          <h1>Notification List</h1>
+        </ion-col>
+        <ion-col col-6>
+          <h2>{{unitDetailData.alarmnotificationto}}</h2>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div class="buttons">
+      <ion-row>
+        <ion-col col-12>
+          <div class="edit" (click)="doAction(unitDetailData,'edit',unitDetailData.unit_id,'unitdetail')">
+            <ion-icon name="create"></ion-icon>
+            <span>Edit</span>
+          </div>
+          <div class="delete" (click)="doConfirm(unitDetailData.unit_id)">
+            <ion-icon name="trash"></ion-icon>
+            <span>Delete</span>
+          </div>
+          <div class="pin" (click)="viewondash(unitDetailData.unit_id)">
+            <img src="assets/imgs/pin.png">
+            <span>Pin to Dashboard</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+
+
+  <div id="dataView" style="display: none;">
+
+    <ion-grid class="grid">
+
+      <!--Top Row-->
+      <ion-row>
+        <ion-col class="col" col-12>
+          <div class="data-selector">
+            <div>
+              <span>{{commstatus}}</span>COMM STATUS</div>
+            <div>
+              <span>{{enginestatus}}</span>ENGINE STATE</div>
+            <div class="active-data-selector">
+              <span>Off</span>BREAKER STATE</div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <!--Top Row-->
+
+      <!--Mid Columns-->
+      <ion-row class="mid-col">
+
+         <!-- Voltage Set Points Label: {{voltguagelabel}}
+         Voltage Set Points Colors: {{voltguagecolors}} -->
+        <ion-col class="col" col-6>
+          <h2>VOLTAGE
+            <br> {{selectedvoltage}} V</h2>
+          <div class="meter-box">
+            <span style="top: 95px;
+            position: absolute;
+            left: 59px;
+            font-weight: bold;
+            font-size: 15px;">{{l1l2l3voltagelablel}}
+            </span>
+            <div class="svg-draw">
+              <div class="voltagegauge demo2"></div>
+              <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" style="
+              position: relative;
+              top: -51px;
+              left: 80px;">
+                <ion-option value="1" selected="true">L1-L2</ion-option>
+                <ion-option value="2">L2-L3</ion-option>
+                <ion-option value="3">L1-L3</ion-option>
+              </ion-select>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <h2>CURRENT
+            <br> {{selectedcurrent}} A</h2>
+          <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
+          <div class="meter-box">
+            <span style="top: 95px;
+                position: absolute;            
+                left: 59px;font-weight: bold;
+                font-size: 15px;">{{l1l2l3currentlablel}}</span>
+            <div class="svg-draw">
+              <div class="currentgauge demo2"></div>
+              <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" style="
+                  position: relative;
+                  top: -51px;
+                  left: 80px;">
+                <ion-option value="1" selected="true">L1-L2</ion-option>
+                <ion-option value="2">L2-L3</ion-option>
+                <ion-option value="3">L1-L3</ion-option>
+              </ion-select>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col">
+        <ion-col class="col" col-6>
+          <h2>FREQUENCY
+            <br> {{selectedfrequency}} Hz </h2>
+          <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
+          <div class="meter-box">
+            <span style="top: 79px;
+            position: absolute;
+            left: 72px;font-weight: bold;
+            font-size: 15px;"></span>
+            <div class="svg-draw">
+              <div class="frequencygauge demo2"></div>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <h2>ENGINE SPEED
+            <br> {{selectedenginespeed}} RPM</h2>
+          <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
+          <div class="meter-box">
+            <span style="top: 79px;
+            position: absolute;
+            left: 72px;font-weight: bold;
+            font-size: 15px;"></span>
+            <div class="svg-draw">
+              <div class="enginespeedgauge demo2"></div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col">
+        <ion-col class="col" col-6>
+          <h2>FUEL
+            <br> {{selectedfuel}}%</h2>
+          <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
+          <div class="meter-box">
+            <span style="top: 79px;
+            position: absolute;
+            left: 72px;font-weight: bold;
+            font-size: 15px;"></span>
+            <div class="svg-draw">
+              <div class="fuelgauge demo2"></div>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <h2>LOAD POWER
+            <br> {{selectedloadpower}} kW</h2>
+          <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
+          <div class="meter-box">
+            <span style="top: 79px;
+            position: absolute;
+            left: 72px;font-weight: bold;
+            font-size: 15px;"></span>
+            <div class="svg-draw">
+              <div class="loadpowergauge demo2"></div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col2">
+        <ion-col class="col" col-4>
+          <h2>Coolant temperature (&deg;C)</h2>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
+          <div>
+            <div id="coolanttemp">
+            </div>
+          </div>
+        </ion-col>
+        <ion-col class="col" col-2>
+          <h1>{{coolanttemp}}</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col2">
+        <ion-col class="col" col-4>
+          <h2>Oil pressure (bar)</h2>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
+
+          <!-- <div id="oilpressure" style="width: 400px; height: 100px;">
+          </div> -->
+          <div>
+                  <div id="oilpressure">
+                  </div>
+              </div>
+
+
+        </ion-col>
+        <ion-col class="col" col-2>
+          <h1>{{oilpressure}}</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col2">
+        <ion-col class="col" col-4>
+          <h2>power factor</h2>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
+          <div>
+                  <div id="loadpowerfactor">
+                  </div>
+              </div>
+        </ion-col>
+        <ion-col class="col" col-2>
+          <h1>{{loadpowerfactor}}</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="mid-col2">
+        <ion-col class="col" col-4>
+          <h2>battery voltage (v)</h2>
+        </ion-col>
+        <ion-col class="col" col-6>
+          <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
+          <div>
+                  <div id="batteryvoltage">
+                  </div>
+              </div>
+        </ion-col>
+        <ion-col class="col" col-2>
+          <h1>{{batteryvoltage}}</h1>
+        </ion-col>
+      </ion-row>
+      <!--Mid Columns-->
+
+
+      <!-- Bottom Row-->
+      <ion-row>
+        <ion-col class="col" col-12>
+          <div class="bottom-row bot-row1">
+            <button (click)="servicingInfo(unitDetailData)">SERVICING INFO
+              <span *ngIf="serviceCount>0" style="position: absolute;
+              position: absolute;
+    top: 7px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    background: #C71717;
+    border-radius: 50%;
+    color: white;
+    display: block;
+    line-height: 21px;
+    /* text-align: center; */
+    font-size: 10px;
+    left: 44%;
+    font-weight: bold;">{{serviceCount}}</span>
+            </button>
+            <button (click)="alarm()">ALARM LOG</button>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="col" col-12>
+          <div class="bottom-row bot-row2">
+            <button (click)="commentsInfo(unitDetailData.unit_id)">EVENTS/COMMENTS
+              <span *ngIf="commentCount>0" style="position: absolute;
+                top: 7px;
+                right: 2px;
+                width: 20px;
+                height: 20px;
+                background: #C71717;
+                border-radius: 50%;
+                color: white;
+                display: block;
+                line-height: 21px;
+                /* text-align: center; */
+                font-size: 10px;
+                left: 44%;
+                font-weight: bold;">{{commentCount}}</span>
+            </button>
+            <button (click)="enginedetail()">ENGINE DETAIL</button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <!-- Bottom Row-->
+
+      <!--Bottom Row FLEX-->
+      <!--<ion-row>-->
+      <!--<ion-col class="col" col-12>-->
+      <!--<div class="data-selector-bottom">-->
+      <!--<div>SERVICING INFO</div>-->
+      <!--<div>ALARM LOG</div>-->
+      <!--<div>EVENTS/COMMENTS</div>-->
+      <!--<div>ENGINE DETAIL</div>-->
+      <!--</div>-->
+      <!--</ion-col>-->
+      <!--</ion-row>-->
+      <!--Bottom Row FLEX-->
+    </ion-grid>
+    <!-- <iframe width="100%"  height="1000" [src]="url1" frameborder="0"></iframe>
+    <div   style="text-align: center">
+      <button    style="background-color:#006BF4;width:45%" ion-button (click)="servicingInfo(unitDetailData)">
+        SERVICE INFO
+        <span   *ngIf="serviceCount>0" style="position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 14px;
+        height: 14px;
+        background: #C71717;
+        border-radius: 50%;
+        color: yellow;
+        display: block;
+        line-height: 14px;
+        text-align: center;
+        font-size: 9px;">{{serviceCount}}</span>
+      </button>
+      <button style="background-color:#C71717;width:45%" ion-button (click)="alarm()">
+        ALARM LOG
+      </button>
+      <br>
+      <button  style="background-color:#F8A70F;width:45%" ion-button (click)="commentsInfo(unitDetailData.unit_id)">
+        EVENTS/COMMENTS
+        <span  *ngIf="commentCount>0" style="position: absolute;
+        top: 2px;
+        right: 0px;
+        width: 14px;
+        height: 14px;
+        background: greenyellow;
+        border-radius: 50%;
+        color: red;
+        display: block;
+        line-height: 14px;
+        text-align: center;
+        font-size: 9px;">{{commentCount}}</span>
+      </button>
+      <button style="background-color:#848484;width:45%" ion-button (click)="enginedetail()">
+        ENGINE DETAIL
+      </button>
+    </div> -->
+  </div>
+</ion-content>

@@ -1,0 +1,463 @@
+page-orgchart {
+   .toolbar-title-md{
+     font-size:18px;
+   }
+ .add-unit-btn {
+    background: #424242;
+    border-radius: 0;
+    display: block;
+    width: 100%;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+  .margin-scroll-content-top-zero{
+    margin-top:0px
+  }
+  .popover-md .popover-content {
+    position: inherit;
+  }
+  .tree {
+    margin: 0 auto;
+    display: table;
+    text-align: center;
+    color: #5b5b5b;
+  }
+  .tree img {
+   /* border: 3px solid #025e8d;
+    border-radius: 45px;
+   width: 50px;
+    height: 50px;
+  */
+  }
+
+
+  .img-out {
+   /* width: 80px;
+    height: 80px;*/
+    border: 3px solid #025e8d;
+    overflow: hidden;
+    /*border-radius: 40px;*/
+    margin: 0 auto;
+}
+.img-out img {
+    max-width: 100%;
+}
+
+  .cycle1 {
+    margin: 0 auto 30px;
+    width: 57%;
+    display: inline-block;
+  }
+  .parent {
+    padding-bottom: 26px;
+    position: relative;
+    border-bottom: 1px solid #e4e4e4;
+    width: 65%;
+    margin: 0 auto;
+  }
+  .child1, .child2 {
+    position: relative;
+    padding-top: 55px;
+  }
+  .child1:before, .child2:before {
+    background: #d6d7d9;
+    content: "";
+    height: 45px;
+    left: 50%;
+    position: absolute;
+    top: 0;
+    width: 1px;
+  }
+  .child1 {
+    float: left;
+  }
+  .child2 {
+    float: right;
+  }
+  .tree h3 {
+    font-size: 16px;
+    color: #5b5b5b;
+    font-weight: 400;
+    margin: 7px 0 5px 0;
+  }
+  .tree h4 {
+    font-size: 16px;
+    color: #5b5b5b;
+    font-weight: 300;
+    margin: 0;
+  }
+  .parent-text, .child-text {
+    margin-bottom: 30px;
+  }
+  .parent-text:after {
+    background: #d6d7d9;
+    content: "";
+    height: 45px;
+    left: 50%;
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+  }
+  .tree ul {
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+  }
+  .tree li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0 10px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+  }
+  .tree li ul {
+    padding-left: 0px;
+  }
+  /*We will use ::before and ::after to draw the connectors*/
+  .tree li:before, .tree li:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    height: 20px;
+  }
+  .tree li:after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid #ccc;
+  }
+  /*We need to remove left-right connectors from elements without
+  any siblings*/
+  .tree li:only-child:after, .tree li:only-child:before {
+    display: none;
+  }
+  /*Remove space from the top of single children*/
+  .tree li:only-child {
+    padding-top: 0;
+  }
+  /*Remove left connector from first child and
+  right connector from last child*/
+  .tree li:first-child::before, .tree li:last-child::after {
+    border: 0 none;
+  }
+  /*Adding back the vertical connector to the last nodes*/
+  .tree li:last-child:before {
+    border-right: 1px solid #ccc;
+    border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    -moz-border-radius: 0 0 0 0;
+  }
+  .tree li:first-child:after {
+    border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    -moz-border-radius: 0 0 0 0;
+  }
+  /*Time to add downward connectors from parents*/
+  .tree ul ul:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0;
+    height: 20px;
+  }
+  .tree li a {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #666;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 11px;
+    display: inline-block;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+  }
+  /*Time for some hover effects*/
+  /*We will apply the hover effect the the lineage of the element also*/
+  .tree li a:hover, .tree li a:hover + ul li a {
+    background: #c8e4f8;
+    color: #000;
+    border: 1px solid #94a0b4;
+  }
+  /*Connector styles on hover*/
+  .tree li a:hover + ul li:after,
+  .tree li a:hover + ul li:before,
+  .tree li a:hover + ul:before,
+  .tree li a:hover + ul ul:before {
+    border-color: #94a0b4;
+  }
+  .tree > ul > li:nth-child(3) {
+   &:after {
+     display: none;
+   }
+  }
+
+
+
+     .ion-md-settings{background:url(../img/oc.png) no-repeat center top;}
+    
+.scroll-content{overflow-x: auto;}
+.tree-outer{width:9000px;overflow:auto;}    
+.sheader1{
+ color : #000000;
+ }
+ .quick-list li button ion-icon{font-family: "Roboto", "Helvetica Neue", sans-serif;font-style:normal;font-size:11px!important;width:inherit;height:58px;margin-top:10px;}
+ .notificationcount{
+  color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+   
+    background-color: gray;
+} 
+
+
+
+    .messagecount{
+   color: white;
+    border-radius: 50px;
+    position: absolute;
+    right: 1px;
+    top: 3px;
+    background-color: gray;
+}
+  .sheader2{
+ color : #000000;
+ float: right;
+ }
+ .scroll-content{background:#fff;}
+
+.spinner
+{
+    width:100%;
+    height:50%;
+}
+ion-content div.scroll{
+  height: 90%; }
+body {
+    margin: 0;
+}
+iframe {
+    display: block;       
+    background: #fff;
+    border: none;         
+    height: 100vh;       
+    width: 100vw;
+}
+.webPage{
+  width: 100%;
+  height: 100%;
+  border: 2px solid #EAAB00;
+  padding: 1rem;}
+
+	.bar-buttons-md {order: inherit;}
+	.bar-button-default-md, .bar-button-clear-md-default, .bar-button-md-default, .bar-button-default-md:hover:not(.disable-hover), .bar-button-clear-md-default:hover:not(.disable-hover), .bar-button-md-default:hover:not(.disable-hover), .backtoprevious-icon{color:#333;text-transform: capitalize;}
+	#sortbar{padding:0;margin:0;background:#f0f0f0}
+	#sortbar ion-label{margin: 0;width: 100%;padding: 10px 15px;}
+	#sortbar ion-label ion-icon{line-height: 12px;vertical-align: top;}
+#sortbar ion-label button{width: 100%;background:none;padding: 0;}
+.company-name {float: left;}
+.ion-md-arrow-dropup{float: right;}
+.scroll-content{background-color:#fff;}	
+ion-item-sliding{border-bottom: 1px solid #ccc;}
+.item-md{color:#333;padding:0;}
+.item-md h2{margin:10px 0;}
+.label-md b{width:40%;display:inline-block;}
+ion-navbar ion-buttons{margin-right:15px;}
+.algn-cent{margin:0 auto;display:table;}
+.algn-cent .ios-add-circle-outline{float:left;}
+.algn-cent span{float:right;font-size: 15px;margin: 6px 10px;}
+.toolbar-title-md{padding:0;}
+.button1{
+background-color: #FBE983;
+ width: 40px;
+ height: 40px;
+ }
+ .button2{
+ background-color: #5584EE;
+ width: 40px;
+ height: 40px;
+ }
+  .button3{
+ background-color: #A4BDFD;
+ width: 40px;
+ height: 40px;
+ }
+  .button4{
+ background-color: #47D6DC;
+ width: 40px;
+ height: 40px;
+ }
+  .button5{
+ background-color: #7AE7BE;
+ width: 40px;
+ height: 40px;
+ }
+  .button6{
+ background-color: #51B749;
+ width: 40px;
+ height: 40px;
+ }
+  .button7{
+ background-color: #FBD75C;
+ width: 40px;
+ height: 40px;
+ }
+  .button8{
+ background-color: #FFB878;
+ width: 40px;
+ height: 40px;
+ }
+ .button9{
+ background-color: #FF877C;
+ width: 40px;
+ height: 40px;
+ }
+  .button10{
+ background-color: #DC2128;
+ width: 40px;
+ height: 40px;
+ }
+  .button11{
+ background-color: #DAADFE;
+ width: 40px;
+ height: 40px;
+ }
+  .button12{
+ background-color: #E1E1E1;
+ width: 40px;
+ height: 40px;
+ }
+ .button0{
+     background-color: #FFFFFF;
+ width: 40px;
+ height: 40px;
+ }
+ .c1{background:url(../img/maps_72.png) no-repeat center center;margin: 0 auto;}
+ .unfavorite
+ {
+     background-image:url('../img/unfav.png');background-size:cover;
+ }
+ .favorite
+ {
+     background-image:url('../img/fr.png');background-size:cover;
+ }
+
+
+ .tree{margin:0 auto;display:table;text-align:center;color:#5b5b5b;width:100%;}
+/*.tree img{border:3px solid #025e8d;border-radius:45px;width:90px;height:90px;}*/
+.cycle1{margin:0 auto 30px;width:57%;display:inline-block;}
+.parent{padding-bottom:26px;position:relative;border-bottom:1px solid #e4e4e4;width:65%;margin:0 auto;}
+.child1, .child2{position:relative;padding-top:55px;}
+.child1:before, .child2:before{background:#d6d7d9;content:"";height:45px;left:50%;position:absolute;top:0;width:1px;}
+.child1{float:left;}
+.child2{float:right;}
+.tree h3{font-size:12px;color:#5b5b5b;font-weight:400;margin:7px 0 5px 0;}
+.tree h4{font-size:12px;color:#5b5b5b;font-weight:300;margin:0;}
+.parent-text, .child-text{margin-bottom:30px;}
+.parent-text:after{background:#d6d7d9;content:"";height:45px;left:50%;position:absolute;bottom:0;width:1px;}
+.tree ul {
+	padding-top: 20px; position: relative;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+.tree li {
+	float: left; text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 10px  0 10px;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+.tree li ul {
+    padding-left:0px;
+}
+.tree li:before, .tree li:after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+.tree li:after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
+}
+
+.tree li:only-child:after, .tree li:only-child:before {
+	display: none;
+}
+
+.tree li:only-child{ padding-top: 0;}
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+
+.tree li:last-child:before{
+	border-right: 1px solid #ccc;
+	border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	-moz-border-radius: 0 0 0 0;
+}
+.tree li:first-child:after{
+	border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	-moz-border-radius: 0 0 0 0;
+}
+
+.tree ul ul:before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
+}
+.tree li a{
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #666;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 11px;
+	display: inline-block;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.tree li a:hover, .tree li a:hover+ul li a {
+	background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+}
+.tree li a:hover+ul li:after, 
+.tree li a:hover+ul li:before, 
+.tree li a:hover+ul:before, 
+.tree li a:hover+ul ul:before{
+	border-color:  #94a0b4;
+}
+ //Web View
+}
+.popover-md .popover-content{
+	  top:225px;
+	  width:38%;
+	  left:62%;
+  }

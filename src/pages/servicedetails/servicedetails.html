@@ -1,0 +1,185 @@
+<!--
+  Generated template for the ServicedetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons  left>
+      <button   ion-button icon-only  (click)="previous()">
+        <ion-icon ios="ios-close" md="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Servicing Details</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
+
+    <ion-row class="servicing-details-top-row">
+      <ion-col class="col" col-2>
+        <img src="{{created_by_photo}}" alt="">
+      </ion-col>
+
+      <ion-col class="col" col-10>
+        <h4>{{service_subject}}</h4>
+        <h5>{{serviced_scheduled_display}}</h5>
+        <p>Created by: <span>{{serviced_created_name}} ({{serviced_created_name_hastag}})</span></p>
+           </ion-col>
+    </ion-row>
+
+    <ion-row class="servicing-details-heading">
+      <ion-col class="col" col-12>
+        <h4>Service Assignment</h4>
+      </ion-col>
+    </ion-row>
+
+    <div class="servicing-details-form">
+      <ion-list>
+
+        <ion-item>
+          <ion-label stacked>Date & Time</ion-label>
+          <ion-datetime min="{{currentyear}}" max="3000" formControlName="service_scheduled_date"  (ionChange)="futureDateValidation(service_scheduled_date)" [(ngModel)]="service_scheduled_date"  pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
+            class="cal-icon"></ion-datetime>
+        </ion-item>
+
+        <div class="inner-div">
+          <ion-item style="border: none">
+            <ion-label stacked>Description</ion-label>
+            <ion-textarea formControlName="description" [(ngModel)]="description"></ion-textarea>
+          </ion-item>
+        </div>
+
+      </ion-list>
+    </div>
+
+    <ion-row class="servicing-details-heading">
+      <ion-col class="col" col-12>
+        <h4>Service Info</h4>
+      </ion-col>
+    </ion-row>
+
+    <div class="servicing-details-form" style="border-bottom: none">
+      <ion-list style="margin-bottom: 0">
+
+
+        <ion-item style="border: none">
+          <ion-label stacked>Remarks</ion-label>
+          <!--ion-textarea formControlName="service_remark" [(ngModel)]="service_remark" style="border-bottom: 1px solid #dedede"></ion-textarea-->
+        </ion-item>
+
+
+        <textarea style="width: 91%;
+        margin-left: 4%;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="service_remark"
+                   [(ngModel)]="service_remark"></textarea>
+
+
+
+      </ion-list>
+    </div>
+
+    <!--<div style="border-bottom: 1px solid #dedede; margin:0 10px 0 10px;"></div>-->
+
+    <ion-row class="attachment-row" style="border-bottom: none; padding-left: 5px; border-top: none">
+      <ion-col class="col" col-12>
+        <h6 style="font-size: 1.2rem; font-weight: normal; margin-bottom: 0">Attachments</h6>
+      </ion-col>
+    </ion-row>
+    
+    <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
+    <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+    <ion-row class="attachment-row" style="border-top: none" *ngIf="addedServiceImgLists.length==0">
+      <ion-col class="col" col-12 style="padding: 10px 5px">
+        <button (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row class="attachment-row" style="border-top: none">
+      <ion-col class="col" col-3 *ngFor="let attachitem of addedServiceImgLists; let i = index" [attr.data-index]="i">
+        <div>
+          <img src="{{addedServiceImgLists[i].imgSrc}}" width="50" height="50" alt="">
+          <span><ion-icon name="close" (click)="doRemoveResouce(addedServiceImgLists[i].resouce_id,attachitem,service_id)"></ion-icon></span>
+        </div>
+      </ion-col>
+
+      <ion-col class="col" col-9 style="padding: 25px 10px"  *ngIf="addedServiceImgLists.length>0">
+        <button (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col class="col" col-12 style="padding-left: 0; padding-right: 0">
+        <ion-list style="margin-bottom: 0px">
+
+          <ion-item style="border-top: none">
+            <ion-label style="font-size: 16px; font-weight: 700">Request for Denyo Support</ion-label>
+            <ion-checkbox (click)="showConfirm()" formControlName="is_request" [(ngModel)]="is_request"></ion-checkbox>
+          </ion-item>
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="servicing-details-heading" style="text-align: center; padding-top: 0; font-size: 14px">
+      <ion-col class="col" col-12>
+        <h4>Schedule Next Servicing</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="col" col-12>
+        <div class="cal-box-row">
+          <div class="cal-box" (click)="getNextDate(14)"  ngClass="{{weekselection}}">
+            <h3>2</h3>
+            <span>weeks</span>
+          </div>
+
+          <div class="cal-box" (click)="getNextDate(30)"   ngClass="{{onemonthselection}}">
+            <h3>1</h3>
+            <span>month</span>
+          </div>
+
+          <div class="cal-box" (click)="getNextDate(90)"   ngClass="{{threemonthselection}}">
+            <h3>3</h3>
+            <span>months</span>
+          </div>
+
+          <div class="cal-box" style="margin-right: 0"   ngClass="{{calendarmonthselection}}">
+            <ion-icon name="calendar" (click)="getNextDate(0)"></ion-icon>
+            <span>Select</span>
+          </div>
+        </div>
+      </ion-col>
+      </ion-row>
+ <div style="color: red;   
+   text-align:center;" *ngIf="isFuture>0 && unitDetailData.nextServiceDate==''">Next service date should be future date only</div>
+     
+       <div  style="color: #000;   
+   text-align:center;padding-bottom: 6px;"  *ngIf="unitDetailData.nextServiceDate!=''"><b>Next Service Date:</b>{{unitDetailData.nextServiceDate}}</div>
+ 
+   <div *ngIf="next_service_date!='' && unitDetailData.nextServiceDate==''" style="color: #000;   
+   text-align:center;padding-bottom: 6px;"><b>Next Service Date:</b>{{next_service_date_mobileview}}</div>
+ 
+
+   
+
+   <ion-row>
+      <ion-col class="col" col-12 style="padding: 0">
+        <div class="bottom-row-servicing-details bottom-row-servicing-details1">
+          <button [disabled]="!form.valid  || isSubmitted" (click)="saveEntry('0')">Save & Close</button>
+          <button [disabled]="!form.valid  || isSubmitted" (click)="saveEntry('1')">Complete Servicing</button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

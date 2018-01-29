@@ -1,0 +1,75 @@
+<!--
+  Generated template for the EventDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+
+
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-close" md="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Alarm Log Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <div class="switch edit-alarm-top" style="border-bottom: 1px solid #cccccc;">
+    <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarm_priority=='1'">
+    <img alt="" src="assets/imgs/warning-pic@2x.png" *ngIf="alarm_priority=='2'">
+    <ion-row>
+      <ion-col col-12>
+        <h1>{{alarm_name}}</h1>
+        <p>{{unitDetailData.unitname}}<br> {{unitDetailData.projectname}}
+        </p>
+        <div class="time">
+          {{alarm_received_date_mobileview}}
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-row style="border-bottom: 1px solid #848484; padding: 0px 10px;">
+    <ion-col>
+      <h4 style="font-size: 16px">Alarm Assignment</h4>
+    </ion-col>
+  </ion-row>
+
+  <div class="edit-alarm-form">
+
+
+
+
+
+    <div class="alarm-log-row">
+      <div class="label-title"><b>Date:</b></div><br> {{alarm_assigned_date_mobileview}}
+    </div>
+
+
+    <div class="alarm-log-row">
+      <div class="label-title"><b>Assigned to:</b></div><br> {{alarm_assginedto_name}}
+    </div>
+
+
+
+    <div class="alarm-log-row">
+      <div class="label-title"><b> Remarks:</b></div><br> {{alarm_remark}}
+    </div>
+
+
+
+
+  </div>
+
+
+
+</ion-content>

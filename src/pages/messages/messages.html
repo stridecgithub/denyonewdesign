@@ -1,0 +1,161 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Messages</ion-title>
+    <div class="right-header-btns">
+      <button class="search">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button class="notification-bell" (click)="notification()">
+        <ion-icon name="notifications"></ion-icon>
+        <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
+      </button>
+      <button class="profile">
+        <img src="{{profilePhoto}}" width="28"  height="28">
+      </button>
+    </div>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div>
+    <ion-segment [(ngModel)]="tabs">
+      <ion-segment-button value="inboxView" (click)="inb()">
+        Inbox
+      </ion-segment-button>
+      <ion-segment-button value="sentView" (click)="snd()">
+        Sent
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="tabs">
+
+    <div *ngSwitchCase="'inboxView'">
+      <button class="sort-btn" *ngIf="totalCount>0" (click)="doSort()">
+        {{sortLblTxt}}
+        <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
+        <ion-icon name="arrow-down" *ngIf="inboxData.sortascdesc === 'desc' && sortLblTxt !== Favourites"></ion-icon>
+        <ion-icon name="arrow-up" *ngIf="inboxData.sortascdesc === 'asc'  && sortLblTxt !== Favourites"></ion-icon>
+      </button>
+
+
+      <div class="error" *ngIf="totalCount==0">No message entries found</div>
+      <ion-list *ngIf="totalCount!=0">
+        <ion-item-sliding *ngFor="let inboxitem of inboxLists">
+          <ion-item class="msg">
+            <div class="date-time" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.message_date_mobileview_list}}</div>
+            <div class="user-img">
+              <!--img src="assets/imgs/user-pic.jpg" alt=""-->
+              <img *ngIf="inboxitem.senderphoto!=''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
+              <img  *ngIf="inboxitem.senderphoto==''" alt="" src="assets/imgs/nouser.jpg">
+            </div>
+            <div class="msg-info">
+              <div class="user-name" *ngIf="inboxitem.message_readstatus==0" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">
+                <strong>{{inboxitem.sendername}}</strong>
+              </div>
+              <div class="msg-subject" *ngIf="inboxitem.message_readstatus==0">
+                <strong (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.messages_subject}}</strong>
+              </div>
+              <div class="msg-excerpt" *ngIf="inboxitem.message_readstatus==0" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">
+                <strong>{{inboxitem.message_body}}</strong>
+              </div>
+
+              <div class="user-name" *ngIf="inboxitem.message_readstatus==1" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.sendername}}</div>
+              <div class="msg-subject" *ngIf="inboxitem.message_readstatus==1" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.messages_subject}}</div>
+              <div class="msg-excerpt" *ngIf="inboxitem.message_readstatus==1" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.message_body}}</div>
+
+            </div>
+            <div class="list-favorite">
+              <button>
+                <ion-icon name="star-outline" (click)="favorite(inboxitem.message_id)" *ngIf="inboxitem.is_favorite==0"></ion-icon>
+                <ion-icon name="star" class="favorite" (click)="favorite(inboxitem.message_id)" *ngIf="inboxitem.is_favorite==1"></ion-icon>
+              </button>
+            </div>
+          </ion-item>
+          <ion-item-options side="right" class="list-item-options">
+            <button *ngIf="inboxitem.message_readstatus==1" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'unread')">
+              <ion-icon name="mail-open"></ion-icon>
+              Unread
+            </button>
+
+            <button *ngIf="inboxitem.message_readstatus==0" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'read')">
+              <ion-icon name="mail"></ion-icon>
+              Read
+            </button>
+
+
+            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
+          <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+      </ion-list>
+      <button class="create-msg" (click)="compose()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </div>
+    <div *ngSwitchCase="'sentView'">
+      <button class="sort-btn" *ngIf="totalCountSend>0" (click)="doSortSendItem()">
+        {{sortLblSendTxt}}
+        <ion-icon name="arrow-down" *ngIf="sendData.sortascdesc === 'desc'"></ion-icon>
+        <ion-icon name="arrow-up" *ngIf="sendData.sortascdesc === 'asc'"></ion-icon>
+      </button>
+      <div class="error" *ngIf="totalCountSend==0">No message entries found</div>
+      <ion-list *ngIf="totalCountSend!=0">
+        <ion-item-sliding *ngFor="let senditem of sendLists">
+          <ion-item class="msg">
+
+            <div (click)="readAction(senditem.message_id,senditem,'readsend','send')">
+              <div class="date-time">{{senditem.message_date_mobileview_list}}</div>
+              <div class="user-img">
+                <img *ngIf="senditem.recipient_photo!=''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
+                <img  *ngIf="senditem.recipient_photo==''" alt="" src="assets/imgs/nouser.jpg">
+              </div>
+              <div class="msg-info">
+                <div class="user-name">{{senditem.sendername}}</div>
+                <div class="msg-subject">{{senditem.messages_subject}}</div>
+                <div class="msg-excerpt">{{senditem.message_body}}</div>
+              </div>
+
+            </div>
+            <div class="list-favorite">
+              <button>
+                <ion-icon name="star-outline" (click)="senditemfavorite(senditem.message_id)" *ngIf="senditem.messages_isfavaurite==0"></ion-icon>
+                <ion-icon name="star" class="favorite" (click)="senditemfavorite(senditem.message_id)" *ngIf="senditem.messages_isfavaurite==1"></ion-icon>
+              </button>
+            </div>
+          </ion-item>
+          <ion-item-options side="right" class="list-item-options">
+            <!--button ion-button class="read-btn">
+              <ion-icon name="mail"></ion-icon>
+              Read
+            </button-->
+            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+        <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" *ngIf="totalCountSend!=0">
+          <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-list>
+    </div>
+
+  </div>
+
+
+</ion-content>

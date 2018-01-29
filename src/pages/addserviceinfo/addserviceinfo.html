@@ -1,0 +1,80 @@
+<!--
+  Generated template for the AddcalendarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!--<ion-header>
+
+  <ion-navbar>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Schedule New Service</ion-title>
+
+  </ion-navbar>
+
+</ion-header>-->
+
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-close" md="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Schedule New Service</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()" enctype='application/x-www-form-urlencoded' method="post">
+
+    <h5 style="padding-left:17px">Service Assignment</h5>
+
+
+    <div class="form-group">
+      <ion-list>
+
+
+        <ion-item>
+          <ion-label stacked>Subject</ion-label>
+          <ion-textarea formControlName="service_subject" [(ngModel)]="service_subject"></ion-textarea>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label stacked>Date & Time</ion-label>
+          <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
+            class="cal-icon"  min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
+          <!-- min="{{mindate}}" -->
+
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Description</ion-label>
+          <ion-textarea formControlName="description" [(ngModel)]="description"></ion-textarea>
+        </ion-item>
+
+        <!--textarea style="width: 91%;
+        margin-left: 4%;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="description"
+                   [(ngModel)]="description"></textarea-->
+
+
+      </ion-list>
+    </div>
+
+    <div class="save-btn">
+      <button style="background-color:#009AFF;width:90%" [disabled]="!form.valid  || isSubmitted">Save</button>
+    </div>
+
+  </form>
+</ion-content>

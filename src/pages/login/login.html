@@ -1,0 +1,39 @@
+<ion-content padding>
+
+  <!-- logo -->
+  <div id="logo">
+    <img src="assets/imgs/logo@2x.png" width="199">
+  </div>
+  <!-- logo -->
+
+  <!-- login form -->
+  <div id="login-form">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>User ID</ion-label>
+        <ion-input type="text" [(ngModel)]="username"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+
+      <ion-item class="login-btn">
+        <button (click)="gotoDashboard(username,password)">Sign In</button>
+      </ion-item>
+
+      <ion-item class="forgot-password">
+        <button>Forgot your password?</button>
+      </ion-item>
+
+    </ion-list>
+  </div>
+  <!-- login form -->
+
+  <!-- app version -->
+  <div id="app-version">Version 1.7.5</div>
+  <!-- app version -->
+
+</ion-content>

@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Compose</ion-title>
+    <div class="right-header-btns">
+      <button class="send" (click)="saveEntry()" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
+        <img width="21px" src="assets/imgs/plane@2x.png" alt="">
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
+    <ion-row style="background-color: #f8f8f8;">
+      <ion-col class="col" col-12 style="background-color: #f8f8f8;">
+        <div style="color: darkgray;
+    margin-left: 9px;
+    margin-top: 13px;
+    font-size: 12px;">To</div>
+      </ion-col>
+    </ion-row>
+    <div class="unit-form-group" style="background-color: #f8f8f8;">
+      <div class="inner-div" style="background-color: #f8f8f8;">
+        <ion-list>
+          <ion-item style="background-color: #f8f8f8;">
+            <textarea style="width: 388px;
+    position: absolute;
+    top: 0px;
+    border: 0px;
+    background-color: #f8f8f8;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control"
+              onkeyup="message(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="to"
+              [(ngModel)]="to" row="10"></textarea>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    <ion-list class="msg-compose">
+      <ion-item class="email-copy"  style="width: 59%;">
+        <ion-label>Email copy to myself</ion-label>
+        <ion-checkbox formControlName="copytome" [(ngModel)]="copytome"></ion-checkbox>
+      </ion-item>
+
+      <ion-icon ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
+      font-size: 27px;
+      left: 73%;
+      top: 20%;position:absolute"></ion-icon>
+
+
+
+      <ion-icon ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
+      font-size: 27px;
+      left: 85%;
+      top: 20%;position:absolute"></ion-icon>
+
+      <ion-item>
+        <ion-label stacked>Subject</ion-label>
+        <ion-input type="text" formControlName="subject" [(ngModel)]="subject"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Message</ion-label>
+        <ion-textarea formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
+      </ion-item>
+
+
+      <div style="position: absolute;
+    right: 2%;
+    top: 43%;"><button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="attach"></ion-icon> Attach</button>
+      </div>
+
+      <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
+      <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+    </ion-list>
+  </form>
+
+
+  <div style="padding-left: 8px;" class="attachment" *ngIf="addedImgLists.length>0">
+    <div class="attach" (click)="toggle(isopenorclose)">
+      <!--<h1 *ngIf="messageid==0">{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>-->
+       <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
+      <button>
+    			 <ion-icon name="md-arrow-dropup"  *ngIf="open>0"></ion-icon>
+           <ion-icon name="md-arrow-dropdown"  *ngIf="close>0"></ion-icon>
+    		</button>
+    </div>
+    <div *ngIf="open>0">
+      <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
+        <h1 style="width:90%">{{imageitem.fileName}}</h1>
+        <h2>{{imageitem.fileSize}}</h2>
+        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward'" >   
+          <!-- *ngIf="act!='reply' && act!='forward'" -->
+    		<ion-icon name="md-close-circle" style="color:red;"></ion-icon>
+    		</button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

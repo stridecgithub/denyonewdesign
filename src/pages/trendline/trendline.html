@@ -1,0 +1,46 @@
+<!--
+  Generated template for the TrendlinePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-close" md="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Trendline</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="alarm-list" style="border-color: #9013FE;" padding>
+    <div class="alarm-title">
+      <div class="list-favorite">
+        <button>
+          <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+          <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+        </button>
+      </div>
+      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+      <b>{{this.unitDetailData.unitname}}</b>
+    </div>
+    <div class="alarm-info">
+      {{unitDetailData.projectname }}
+      <br>
+      <strong>Deployed Location:</strong> {{unitDetailData.location }}
+      <button class="map-btn">
+        <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
+      </button>
+
+    </div>
+  </div>
+  <iframe width="100%"  height="500" [src]="iframeContent" frameborder="0"></iframe>
+  <!-- <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(iframeContent)"></div> -->
+</ion-content>
