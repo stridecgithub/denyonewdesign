@@ -499,14 +499,14 @@ export class UnitdetailsPage {
 						headers: any = new Headers({ 'Content-Type': type }),
 						options: any = new RequestOptions({ headers: headers }),
 						//url: any = "http://denyoapi.stridecdev.com/api2/" + controllerid + "/" + action + "/" + genkey;
-						url: any = this.apiServiceURL + "/remoteaction/" + controllerid + "/" + action;
+						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&action=" + action +"&ismobile=1";
 					console.log(url);
 					console.log(body);
 
 
 					console.log("Enter API Calls");
-					this.http.get(url, options)
-						// this.http.post(url, body, options)
+					//this.http.get(url, options)
+						 this.http.post(url, body, options)
 						.subscribe((data) => {
 							if (data.status === 200) {
 								if (action == 'START') {
@@ -641,8 +641,10 @@ export class UnitdetailsPage {
 			// }
 
 
-			if (actual_voltage <= 260)
+			if (actual_voltage < 260)
 				voltage = 0;
+			else if (actual_voltage > 460)
+				voltage = 100;
 			else
 				voltage = ((actual_voltage - 260) / 200) * 100;
 
@@ -754,9 +756,9 @@ export class UnitdetailsPage {
 			}*/
 
 
-			if (actual_frequency <= 40)
+			if (actual_frequency < 40)
 				frequency = 0;
-			else if (actual_frequency >= 60)
+			else if (actual_frequency > 60)
 				frequency = 100;
 			else
 				frequency = (((actual_frequency - 40) / 20) * 100);
@@ -792,19 +794,15 @@ export class UnitdetailsPage {
 			let enginespeed = 0;
 
 			let actual_enginespeed = this.enginespeed;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-			if (actual_enginespeed > 0) {
-				enginespeed = (((actual_enginespeed - 1200) / 600) * 100);
-			} else {
+			if(actual_enginespeed < 1200) {
 				enginespeed = 0;
+			} else if(actual_enginespeed > 1800) {			
+				enginespeed = 100;
+			} else {
+				enginespeed = (((actual_enginespeed - 1200) / 600) * 100);
 			}
 
-			if (actual_enginespeed <= 0) {
-				enginespeed = 0;
-			} else if (actual_enginespeed >= 100) {
-				enginespeed = 100;
-			}else{
-				enginespeed=actual_enginespeed;
-			}
+			
 
 
 			console.log(enginespeed);
@@ -886,7 +884,7 @@ export class UnitdetailsPage {
 
 			if (actual_loadfactor <= 0) {
 				loadfactor = 0;
-			} else if (actual_loadfactor >= 100) {
+			} else if (actual_loadfactor >= 60) {
 				loadfactor = 100;
 			}else{
 				loadfactor=actual_loadfactor;
