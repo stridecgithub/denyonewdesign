@@ -13,7 +13,7 @@ import { EventDetailsServicePage } from '../event-details-service/event-details-
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 declare let google;
-
+import { AddUnitPage } from "../add-unit/add-unit";
 /**
  * Generated class for the DashboardPage page.
  *
@@ -943,10 +943,12 @@ export class DashboardPage {
   }
   doAction(item, act, unitId) {
     if (act == 'edit') {
-      /*this.navCtrl.setRoot(AddunitsonePage, {
+      this.navCtrl.setRoot(AddUnitPage, {
         record: item,
-        act: act
-      });*/
+        act: act,
+        unitId: unitId,
+        from:'dashboard'
+      });
       return false;
     } else if (act == 'detail') {
 
@@ -993,12 +995,17 @@ export class DashboardPage {
       console.log("RHR" + item.runninghr);
       localStorage.setItem("nsd", item.nextservicedate);
 
-
+      localStorage.setItem("microtime", "");
       this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
     } else {
+      /* this.navCtrl.setRoot(ViewcompanygroupPage, {
+         record: item,
+         act: act
+       });
+       return false;*/
     }
   }
  pushTesting(){

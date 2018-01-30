@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UnitsPage } from '../units/units';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from '../add-unit/add-unit';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-
+declare var jQuery: any;
+//declare var tagEditor: any;
 /**
  * Generated class for the NotificationSettingsPage page.
  *
@@ -61,6 +62,7 @@ export class NotificationSettingsPage {
   public primary_5: any;
   public contactnameArray = [];
   public contactnumberArray = [];
+  public atmentioneddata = [];
   item;
   public borderbottomredvalidation: any = 'border-bottom-valid';
   public borderbottomredvalidation2: any = 'border-bottom-valid';
@@ -81,7 +83,7 @@ export class NotificationSettingsPage {
   contactpersonal;
   contactnumber;
   constructor(
-    public platform:Platform,public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, private conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+    public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, private conf: Config, public navCtrl: NavController, public navParams: NavParams) {
     this.isSubmitted = false;
     this.form = fb.group({
       "alarmhashtags": ["", Validators.required],
@@ -123,9 +125,9 @@ export class NotificationSettingsPage {
       this.contactnumber = this.previousFormData[0]['contactnumber'];
       let previousData = localStorage.getItem("addUnitFormOneValue");
       console.log(previousData);
- this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+      this.platform.registerBackButtonAction(() => {
+        this.previous();
+      });
     }
     this.userId = localStorage.getItem("userInfoId");
     console.log("Record param" + this.navParams.get("record"))
@@ -233,6 +235,30 @@ export class NotificationSettingsPage {
     this.tabBarElement.style.display = 'none';
 
     console.log('ionViewDidLoad NotificationSettingsPage');
+
+    //http://denyoappv2.stridecdev.com/api/atmentioned.php?method=atmention&id=" + id + "&tem=" + strkeys + "&act=unit&companyId=" + companyId + "&userId=" + userId
+
+
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
+    let res;
+    console.log("URL" + url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        res = data.json();
+        console.log(JSON.stringify(res));
+        this.atmentioneddata = res.companies;
+      }, error => {
+
+      });
+
+    jQuery('#atmentionedfirst').tagEditor({
+      autocomplete: { delay: 0, position: { collision: 'flip' }, source: ['@Apple', '@Ball', '@Cat', '@Doll', '@Elephant', '@Fox', '@Goat', '@History', '@Ice Cream', '@Junk', '@Kettle', '@Lion', '@Money', '@Nope', '@Optimise', '@Parrpt', '@Queen', 'Lisp', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala', 'Scheme'] },
+      forceLowercase: false
+    });
+
   }
   getPrimaryContact(ev) {
     console.log(ev.target.value);

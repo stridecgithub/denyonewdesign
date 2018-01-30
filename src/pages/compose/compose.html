@@ -8,7 +8,7 @@
 
     <ion-title>Compose</ion-title>
     <div class="right-header-btns">
-      <button class="send" (click)="saveEntry()" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
+      <button class="send"  (click)="saveEntry()"  ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
         <img width="21px" src="assets/imgs/plane@2x.png" alt="">
       </button>
     </div>
@@ -26,7 +26,7 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;">
-        <ion-list>
+        <!-- <ion-list>
           <ion-item style="background-color: #f8f8f8;">
             <textarea style="width: 388px;
     position: absolute;
@@ -36,7 +36,24 @@
               onkeyup="message(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="to"
               [(ngModel)]="to" row="10"></textarea>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
+
+        <!-- <div class="txt-area">
+          <ion-textarea class="to" (keyup)="address1get($event.target.value);"  [(ngModel)]="to" formControlName="to"></ion-textarea>
+          </div> -->
+
+          <ion-list>
+            <ion-item style="background-color: #f8f8f8;">
+              <textarea style="width: 388px;
+      position: absolute;
+      top: 0px;
+      border: 0px;
+      background-color: #f8f8f8;" (keyup)=address1get($event.target.value); name="to" id="to" class="to" 
+                onkeyup="address1get(this.value)" formControlName="to"
+                [(ngModel)]="to" row="10"></textarea>
+            </ion-item>
+          </ion-list>
+
       </div>
     </div>
     <ion-list class="msg-compose">

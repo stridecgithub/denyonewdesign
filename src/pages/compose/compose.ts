@@ -9,6 +9,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
+declare var jQuery: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -72,19 +73,19 @@ export class ComposePage {
   isopenorclose = 1;
   close = 0;
   open = 1;
-
+  public companyId: any;
+  public atmentioneddata = [];
   constructor(private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
     private transfer: FileTransfer,
     private ngZone: NgZone) {
-    //     this.totalFileSize = 0;
-    // this.overAllFileSize=0;  
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.totalFileSizeExisting = 0;
     this.form = formBuilder.group({
       subject: ['', Validators.required],
       composemessagecontent: ['', Validators.required],
-      to: ['', Validators.required],
-      copytome: ['']
+      copytome: [''],
+      to: ['']
 
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -205,6 +206,43 @@ export class ComposePage {
     }
 
 
+    jQuery(".tag-editor-tag").click(function () {
+      // alert("Handler for .click() called.");
+      let val = $('.tag-editor-tag').val();
+      console.log(val);
+    });
+
+    //http://denyoappv2.stridecdev.com/api/atmentioned.php?method=atmention&id=" + id + "&tem=" + strkeys + "&act=message&companyId=" + companyId + "&userId=" + userId
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=" + this.companyId + "&userId=" + this.userId;
+    console.log(url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#to').tagEditor({
+            autocomplete: {
+              delay: 0, position: { collision: 'flip' }, source: this.atmentioneddata
+            },
+            forceLowercase: false
+          });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    //['@Ikedha', '@Ler', '@Alva', '@Talia', '@Arun', '@arunk', '@Vignesh', '@bala', '@kannan', '@hari', '@sofia', '@Sebastian', '@Sinyee', '@Weichien', '@Joseph', '@Kent', '@JasonTan', '@Kuboyama', '@dinesh', '@Sofi', '@jaya', '@kannann', '@Testadmin', '@Test2']
+
+
   }
 
 
@@ -212,7 +250,7 @@ export class ComposePage {
 
   doAttachmentResources(micro_timestamp) {
     this.addedImgLists = [];
-  let bodymessage: string = "messageid=0&micro_timestamp=" + micro_timestamp,
+    let bodymessage: string = "messageid=0&micro_timestamp=" + micro_timestamp,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
@@ -220,42 +258,42 @@ export class ComposePage {
     console.log(url1 + '?' + bodymessage);
     this.http.post(url1, bodymessage, options1)
       //this.http.get(url1, options1)
-      .subscribe((data) => {  
+      .subscribe((data) => {
 
 
         console.log("Message Response Success:" + JSON.stringify(data.json()));
         console.log("Message Details:" + data.json().messages[0]);
         this.selectEntry(data.json().messages[0]);
 
-/*
-        console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
-        this.totalCount = 0;
-        console.log(data.json().length - 1);
-        for (let i = 0; i < data.json().length; i++) {
-
-          console.log("Attachmnt:" + data.json()[i].attachment_id);
-          this.totalFileSize = data.json()[i];
-          let imgSrc;
-          //imgSrc = this.apiServiceURL + "/attachments" + '/' + data.json()[i].attachment;
-          if (data.json()[i].attachment_id > 0) {
-            this.addedImgLists.push({
-              fileName: data.json()[i].attachment,
-              fileSize: data.json()[i].filesize_kb,
-              resouce_id: data.json()[i].attachment_id
-            });
-          }
-          if (data.json().length == this.totalCount) {
-
-            break;
-          }
-          this.totalCount++;
-        }
-
-        console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
-        if (this.messageid != 0) {
-          this.totalFileSize = this.addedImgLists[0].fileSize;
-        }
-*/
+        /*
+                console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
+                this.totalCount = 0;
+                console.log(data.json().length - 1);
+                for (let i = 0; i < data.json().length; i++) {
+        
+                  console.log("Attachmnt:" + data.json()[i].attachment_id);
+                  this.totalFileSize = data.json()[i];
+                  let imgSrc;
+                  //imgSrc = this.apiServiceURL + "/attachments" + '/' + data.json()[i].attachment;
+                  if (data.json()[i].attachment_id > 0) {
+                    this.addedImgLists.push({
+                      fileName: data.json()[i].attachment,
+                      fileSize: data.json()[i].filesize_kb,
+                      resouce_id: data.json()[i].attachment_id
+                    });
+                  }
+                  if (data.json().length == this.totalCount) {
+        
+                    break;
+                  }
+                  this.totalCount++;
+                }
+        
+                console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
+                if (this.messageid != 0) {
+                  this.totalFileSize = this.addedImgLists[0].fileSize;
+                }
+        */
 
       });
   }
@@ -323,7 +361,7 @@ export class ComposePage {
   selectEntry(item) {
     console.log(JSON.stringify(item));
     //if (this.nowuploading == 0) {
-      this.totalFileSize = item.totalfilesize;
+    this.totalFileSize = item.totalfilesize;
     //}
     this.totalFileSizeExisting = this.totalFileSize;
     console.log("this.totalFileSizeExisting:" + this.totalFileSizeExisting);
@@ -346,9 +384,14 @@ export class ComposePage {
   }
   // When form submitting the below function calling
   saveEntry() {
-    console.log(this.form.controls);
+    let to = jQuery('#to').tagEditor('getTags')[0].tags;
+    console.log(to.length);
+    if (to.length == 0) {
+      this.conf.sendNotification(`To address required`);
+      return false;
+    }
     if (this.isUploadedProcessing == false) {
-      let to: string = this.form.controls["to"].value,
+      let
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
@@ -633,13 +676,13 @@ export class ComposePage {
   }
   address1get(hashtag) {
     console.log(hashtag);
-    this.hashtag = hashtag;
+    // this.hashtag = hashtag;
 
 
-    var str = " i am from Tamil nadu.";
-    var res = str.split(" ");  //split by space
-    res.pop();  //remove last element
-    console.log(res.join(" ") + ".");  //join back together
+    // var str = " i am from Tamil nadu.";
+    // var res = str.split(" ");  //split by space
+    // res.pop();  //remove last element
+    // console.log(res.join(" ") + ".");  //join back together
 
 
   }
