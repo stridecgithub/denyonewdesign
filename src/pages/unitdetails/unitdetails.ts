@@ -610,6 +610,18 @@ export class UnitdetailsPage {
 
 					this.commstatus = data.json().commstatus;
 					this.enginestatus = data.json().enginestatus;
+					console.log("Unit Data Engine Status Color:"+this.enginestatus)
+					// if(this.enginestatus=='Warning'){
+					// 	this.enginestatuscolor='#F8A70F';
+					// }else if(this.enginestatus=='Alarm'){
+					// 	this.enginestatuscolor='#C71717';
+					// }
+
+					this.enginestatuscolor = data.json().enginestatuscolor;
+					console.log("Engine Status Color in Overview:-"+this.enginestatuscolor);
+					if (this.enginestatuscolor == '') {
+						this.enginestatuscolor = '#EDEDED';
+					}
 					this.coolanttemp = data.json().coolanttemp;
 					this.oilpressure = data.json().oilpressure;
 					this.loadpowerfactor = data.json().loadpowerfactor;
@@ -785,6 +797,16 @@ export class UnitdetailsPage {
 			} else {
 				enginespeed = 0;
 			}
+
+			if (actual_enginespeed <= 0) {
+				enginespeed = 0;
+			} else if (actual_enginespeed >= 100) {
+				enginespeed = 100;
+			}else{
+				enginespeed=actual_enginespeed;
+			}
+
+
 			console.log(enginespeed);
 
 			let enginespeedlabel_0 = localStorage.getItem("enginespeedlabel_0");
@@ -1516,6 +1538,7 @@ export class UnitdetailsPage {
 					}
 					this.runninghrs = data.json().runninghrs;
 					this.enginestatuscolor = data.json().enginestatuscolor;
+					console.log("Engine Status Color in Overview:-"+this.enginestatuscolor);
 					if (this.enginestatuscolor == '') {
 						this.enginestatuscolor = '#EDEDED';
 					}

@@ -31,7 +31,7 @@
             <ion-icon name="star" class="favorite" *ngIf="unitfavorite==1"></ion-icon>
           </button>
         </div>
-        <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+        <span class="status" [ngStyle]="{'background-color':enginestatuscolor}"></span>
         <b>{{this.unitDetailData.unitname}}</b>
       </div>
       <div class="unit-info">
@@ -256,9 +256,9 @@
       <ion-row>
         <ion-col class="col" col-12>
           <div class="data-selector">
-            <div>
+            <div [ngStyle]="{'background-color':commstatuscolor}">
               <span>{{commstatus}}</span>COMM STATUS</div>
-            <div>
+            <div  [ngStyle]="{'background-color':enginestatuscolor}">
               <span>{{enginestatus}}</span>ENGINE STATE</div>
             <div class="active-data-selector">
               <span>Off</span>BREAKER STATE</div>
