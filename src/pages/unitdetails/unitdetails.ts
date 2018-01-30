@@ -158,6 +158,11 @@ export class UnitdetailsPage {
 		this.oilpressure = 0;
 		this.loadpowerfactor = 0;
 		this.batteryvoltage = 0;
+		this.selectedvoltage = 0;
+		this.selectedcurrent = 0;
+		this.freq = 0;
+		this.enginespeed = 0;
+		this.fuellevel = 0;
 		this.voltguagelabel = localStorage.getItem("voltguagelabel");
 		this.voltguagecolors = localStorage.getItem("voltguagecolors");
 		this.conf.presentLoading(1);
@@ -494,7 +499,7 @@ export class UnitdetailsPage {
 					console.log(url);
 					console.log(body);
 
-				
+
 					console.log("Enter API Calls");
 					this.http.get(url, options)
 						// this.http.post(url, body, options)
@@ -549,11 +554,7 @@ export class UnitdetailsPage {
 				options: any = new RequestOptions({ headers: headers }),
 				url: any = this.apiServiceURL + urlstr;
 			console.log("Unit Timer Value:" + url);
-			this.selectedvoltage = 0;
-			this.selectedcurrent = 0;
-			this.freq = 0;
-			this.enginespeed = 0;
-			this.fuellevel = 0;
+
 
 			this.http.get(url, options)
 				.subscribe((data) => {
