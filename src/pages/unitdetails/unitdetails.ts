@@ -153,7 +153,11 @@ export class UnitdetailsPage {
 	}
 
 	ionViewDidLoad() {
-
+		this.selectedvoltage = 0;
+		this.selectedcurrent = 0;
+		this.freq = 0;
+		this.enginespeed = 0;
+		this.fuellevel = 0;
 		this.coolanttemp = 0;
 		this.oilpressure = 0;
 		this.loadpowerfactor = 0;
@@ -678,13 +682,23 @@ export class UnitdetailsPage {
 			let current = 0;
 			console.log("Current SB" + this.selectedcurrent);
 			let actual_current = this.selectedcurrent;
-			if (actual_current > 0) {
-				current = actual_current;
-			} else if (actual_current == 0) {
+			// if (actual_current > 0) {
+			// 	current = actual_current;
+			// } else if (actual_current == 0) {
+			// 	current = 0;
+			// } else {
+			// 	current = 0;
+			// }
+
+
+			if (actual_current <= 0) {
 				current = 0;
-			} else {
-				current = 0;
+			} else if (actual_current >= 100) {
+				current = 100;
+			}else{
+				current=actual_current;
 			}
+
 
 
 			// if (actual_current == 0)
@@ -806,10 +820,12 @@ export class UnitdetailsPage {
 			let fuel = 0;
 
 			let actual_fuel = this.fuellevel;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-			if (actual_fuel > 0) {
-				fuel = actual_fuel;
-			} else {
+			if (actual_fuel <= 0) {
 				fuel = 0;
+			} else if (actual_fuel >= 100) {
+				fuel = 100;
+			}else{
+				fuel=actual_fuel;
 			}
 			let fuellevellabel_0 = localStorage.getItem("fuellevellabel_0");
 
@@ -843,6 +859,18 @@ export class UnitdetailsPage {
 			} else {
 				loadfactor = 0;
 			}
+
+
+
+			if (actual_loadfactor <= 0) {
+				loadfactor = 0;
+			} else if (actual_loadfactor >= 100) {
+				loadfactor = 100;
+			}else{
+				loadfactor=actual_loadfactor;
+			}
+
+
 			let loadfactorlabel_0 = localStorage.getItem("loadfactorlabel_0");
 			let loadfactorlabel_1 = localStorage.getItem("loadfactorlabel_1");
 
