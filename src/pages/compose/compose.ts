@@ -204,15 +204,7 @@ export class ComposePage {
         this.replyforward = 1;
       }
     }
-
-
-    jQuery(".tag-editor-tag").click(function () {
-      // alert("Handler for .click() called.");
-      let val = $('.tag-editor-tag').val();
-      console.log(val);
-    });
-
-    //http://denyoappv2.stridecdev.com/api/atmentioned.php?method=atmention&id=" + id + "&tem=" + strkeys + "&act=message&companyId=" + companyId + "&userId=" + userId
+    // Atmentioned API Calls
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -240,8 +232,7 @@ export class ComposePage {
       }, error => {
 
       })
-    //['@Ikedha', '@Ler', '@Alva', '@Talia', '@Arun', '@arunk', '@Vignesh', '@bala', '@kannan', '@hari', '@sofia', '@Sebastian', '@Sinyee', '@Weichien', '@Joseph', '@Kent', '@JasonTan', '@Kuboyama', '@dinesh', '@Sofi', '@jaya', '@kannann', '@Testadmin', '@Test2']
-
+      // Atmentioned API Calls
 
   }
 

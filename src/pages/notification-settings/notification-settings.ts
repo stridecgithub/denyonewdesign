@@ -82,11 +82,12 @@ export class NotificationSettingsPage {
   serial_number: any;
   contactpersonal;
   contactnumber;
+  companyId;
   constructor(
     public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, private conf: Config, public navCtrl: NavController, public navParams: NavParams) {
     this.isSubmitted = false;
     this.form = fb.group({
-      "alarmhashtags": ["", Validators.required],
+      "alarmhashtags": [""],
       "contact_name_1": ["", Validators.required],
       'contact_number_1': ["", Validators.required],
       "contact_name_2": [""],
@@ -130,6 +131,7 @@ export class NotificationSettingsPage {
       });
     }
     this.userId = localStorage.getItem("userInfoId");
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     console.log("Record param" + this.navParams.get("record"))
 
     console.log("Is Edited?" + this.navParams.get("isEdited"));
@@ -235,30 +237,35 @@ export class NotificationSettingsPage {
     this.tabBarElement.style.display = 'none';
 
     console.log('ionViewDidLoad NotificationSettingsPage');
-
-    //http://denyoappv2.stridecdev.com/api/atmentioned.php?method=atmention&id=" + id + "&tem=" + strkeys + "&act=unit&companyId=" + companyId + "&userId=" + userId
-
-
-    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
-    let res;
-    console.log("URL" + url);
+      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=unit&companyId=" + this.companyId + "&userId=" + this.userId;
+    console.log(url);
     this.http.get(url, options)
       .subscribe(data => {
-        res = data.json();
-        console.log(JSON.stringify(res));
-        this.atmentioneddata = res.companies;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#atmentionedfirst').tagEditor({
+            autocomplete: {
+              delay: 0, position: { collision: 'flip' }, source: this.atmentioneddata
+            },
+            forceLowercase: false
+          });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
       }, error => {
 
-      });
-
-    jQuery('#atmentionedfirst').tagEditor({
-      autocomplete: { delay: 0, position: { collision: 'flip' }, source: ['@Apple', '@Ball', '@Cat', '@Doll', '@Elephant', '@Fox', '@Goat', '@History', '@Ice Cream', '@Junk', '@Kettle', '@Lion', '@Money', '@Nope', '@Optimise', '@Parrpt', '@Queen', 'Lisp', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala', 'Scheme'] },
-      forceLowercase: false
-    });
-
+      })
+    // Atmentioned API Calls
   }
   getPrimaryContact(ev) {
     console.log(ev.target.value);
@@ -503,6 +510,15 @@ export class NotificationSettingsPage {
     confirm.present();
   }
   saveEntry() {
+
+    this.alarmhashtags = jQuery('#atmentionedfirst').tagEditor('getTags')[0].tags;
+    
+    console.log(this.alarmhashtags.length);
+    if (this.alarmhashtags.length == 0) {
+      this.conf.sendNotification(`Notification required`);
+      return false;
+    }
+    //this.alarmhashtags = this.alarmhashtags.replace(",", " ");
     this.timezone = '2017-12-14 12:28:AM';
     let
       primary: string = this.form.controls["primary"].value;
@@ -633,30 +649,30 @@ export class NotificationSettingsPage {
       this.latitude = '';
       this.longitude = '';
     }
-    let atmentvalue;
-    console.log(localStorage.getItem("atMentionResult"));
-    if (localStorage.getItem("atMentionResult") == null) {
-      console.log('A');
-      atmentvalue = '';
-    }
+    // let atmentvalue;
+    // console.log(localStorage.getItem("atMentionResult"));
+    // if (localStorage.getItem("atMentionResult") == null) {
+    //   console.log('A');
+    //   atmentvalue = '';
+    // }
 
-    if (localStorage.getItem("atMentionResult") == 'null') {
-      console.log('B');
-      atmentvalue = '';
-    }
+    // if (localStorage.getItem("atMentionResult") == 'null') {
+    //   console.log('B');
+    //   atmentvalue = '';
+    // }
 
-    if (localStorage.getItem("atMentionResult") == '') {
-      console.log('BA');
-      atmentvalue = '';
-    }
+    // if (localStorage.getItem("atMentionResult") == '') {
+    //   console.log('BA');
+    //   atmentvalue = '';
+    // }
 
-    if (atmentvalue != '') {
-      console.log('C');
-      this.alarmhashtags = localStorage.getItem("atMentionResult");
-    } else {
-      console.log('D');
-      this.alarmhashtags = this.form.controls["alarmhashtags"].value;
-    }
+    // if (atmentvalue != '') {
+    //   console.log('C');
+    //   this.alarmhashtags = localStorage.getItem("atMentionResult");
+    // } else {
+    //   console.log('D');
+    //   this.alarmhashtags = this.form.controls["alarmhashtags"].value;
+    // }
     console.log(this.isEdited);
     if (this.isEdited > 0) {
       let body: string = "is_mobile=1&unit_id=" + this.isEdited +
