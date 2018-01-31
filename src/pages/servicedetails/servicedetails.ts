@@ -12,10 +12,9 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
-
 import { Config } from '../../config/config';
 import * as moment from 'moment';
-
+declare var jQuery: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -29,7 +28,7 @@ import * as moment from 'moment';
 })
 export class ServicedetailsPage {
   @ViewChild('fileInput') fileInput;
-
+  atmentioneddata=[];
   isReadyToSave: boolean;
   public photoInfo = [];
   public addedImgListsArray = [];
@@ -105,8 +104,10 @@ export class ServicedetailsPage {
   threemonthselection;
   calendarmonthselection;
   currentyear;
+  companyId;
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
+      this.companyId = localStorage.getItem("userInfoCompanyId");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.next_service_date_selected = 0;
     this.isFuture = 0;
@@ -345,6 +346,41 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
+    console.log(url);
+    this.http.get(url1, options1)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#service_remark').tagEditor({
+            autocomplete: {
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
+            },
+            forceLowercase: false
+          });
+
+          jQuery('#service_remark').tagEditor('addTag', this.NP.get("record").service_remark,true);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    // Atmentioned API Calls
   }
 
 
@@ -468,14 +504,21 @@ export class ServicedetailsPage {
 
 
       let
-        service_remark: string = this.form.controls["service_remark"].value,
+       
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
         description: string = this.form.controls["description"].value,
         service_subject: string = this.service_subject;
-      console.log("service_scheduled_date and time:" + service_scheduled_date);
+     
+
+      let service_remark = jQuery('#service_remark').tagEditor('getTags')[0].tags;
+      console.log(service_remark);
+      if (service_remark.length == 0) {
+        this.conf.sendNotification(`Remark required`);
+        return false;
+      }
 
       //2015-12-10T17:03:00Z
       console.log(service_scheduled_date)
@@ -518,9 +561,7 @@ export class ServicedetailsPage {
 
 
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+   
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -621,8 +662,7 @@ export class ServicedetailsPage {
           /* if (res.msg[0]['Error'] > 0) {
              this.conf.sendNotification(res.msg[0]['result']);
            }*/
-          this.conf.sendNotification(`Servicing info was successfully updated`);
-          localStorage.setItem("atMentionResult", '');
+          this.conf.sendNotification(`Servicing info was successfully updated`);        
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -746,10 +786,6 @@ export class ServicedetailsPage {
       },
       err => console.log('Error occurred while getting date: ', err)
       );
-  }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
   }
 
 

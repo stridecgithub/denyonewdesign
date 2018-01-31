@@ -12,7 +12,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
-
+declare var jQuery: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -86,10 +86,12 @@ export class AddcommentsinfoPage {
   }
   public hideActionButton = true;
   tabBarElement: any;
+  atmentioneddata = [];
+  companyId
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
-
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.isFuture = 0;
     this.uploadcount = 10;
 
@@ -112,7 +114,7 @@ export class AddcommentsinfoPage {
     this.form = formBuilder.group({
       profilePic: [''],
       comment_subject: [''],
-      comment_remark: ['', Validators.required],//
+      comment_remark: [''],//
       comment_by: ['']
     });
     this.service_priority = 0;
@@ -136,7 +138,7 @@ export class AddcommentsinfoPage {
     this.apiServiceURL = conf.apiBaseURL();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-     this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
@@ -269,6 +271,40 @@ export class AddcommentsinfoPage {
         });
       // Unit Details API Call
     }
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
+    console.log(url);
+    this.http.get(url1, options1)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#comment_remark').tagEditor({
+            autocomplete: {
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
+            },
+            forceLowercase: false
+          });
+          jQuery('#comment_remark').tagEditor('addTag', this.navParams.get("record").comment_remark, true);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    // Atmentioned API Calls
   }
   maxDateStr() {
 
@@ -423,17 +459,15 @@ export class AddcommentsinfoPage {
         /* let name: string = this.form.controls["lat"].value,
            description: string = this.form.controls["long"].value,
            photos: object = this.addedImgLists;*/
+        let comments = jQuery('#comment_remark').tagEditor('getTags')[0].tags;
+        console.log(comments);
+        if (comments == 0) {
+          this.conf.sendNotification(`Comments Remark required`);
+          return false;
+        }
 
-
-        let comments: string = this.form.controls["comment_remark"].value,
+        let
           comment_subject: string = this.form.controls["comment_subject"].value;
-        console.log("comments:" + comments);
-
-        console.log("comment_subject:" + comment_subject);
-        console.log("nextServiceDate:" + this.unitDetailData.nextServiceDate);
-        console.log("Image Data" + JSON.stringify(this.addedImgLists));
-        //let d = new Date();
-        //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
         if (this.isEdited) {
           this.updateEntry(comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
         }
@@ -451,7 +485,6 @@ export class AddcommentsinfoPage {
   // for the record data
   createEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-    comments = localStorage.getItem("atMentionResult");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -483,7 +516,14 @@ export class AddcommentsinfoPage {
         //console.log("Response Success:" + JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-
+          this.comment_subject = '';
+          this.comments = '';
+          this.addedImgLists = [];
+          localStorage.setItem("microtime", "");
+          this.conf.sendNotification(`Comments was successfully added`);
+          this.navCtrl.push(CommentsinfoPage, {
+            record: this.NP.get("record")
+          });
         }
         // Otherwise let 'em know anyway
         else {
@@ -493,15 +533,7 @@ export class AddcommentsinfoPage {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
 
-    this.comment_subject = '';
-    this.comments = '';
-    this.addedImgLists = [];
-    localStorage.setItem("microtime", "");
-    this.conf.sendNotification(`Comments was successfully added`);
-    localStorage.setItem("atMentionResult", '');
-    this.navCtrl.push(CommentsinfoPage, {
-      record: this.NP.get("record")
-    });
+
   }
 
 
@@ -513,9 +545,7 @@ export class AddcommentsinfoPage {
   // for the record data
   updateEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-    if (localStorage.getItem("atMentionResult") != '') {
-      comments = localStorage.getItem("atMentionResult");
-    }
+
     if (this.service_priority == undefined) {
       this.service_priority = 0;
     }
@@ -548,7 +578,7 @@ export class AddcommentsinfoPage {
           this.addedImgLists = [];
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Comments was successfully updated`);
-          localStorage.setItem("atMentionResult", '');
+
           this.navCtrl.push(CommentsinfoPage, {
             record: this.NP.get("record")
           });
@@ -679,10 +709,6 @@ export class AddcommentsinfoPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
 
 
 
@@ -706,7 +732,7 @@ export class AddcommentsinfoPage {
       this.serviced_date = '';
     }
     this.comment_subject = item.comment_subject;
-    this.comment_remark = item.comment_remark;
+    // this.comment_remark = item.comment_remark;
     //this.next_service_date = item.next_service_date;
     this.service_priority = item.service_priority;
     console.log("X" + this.service_priority);

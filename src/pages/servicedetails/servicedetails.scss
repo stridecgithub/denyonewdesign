@@ -1,4 +1,22 @@
 page-servicedetails {
+  .input-area{
+    margin-top:30px;
+    clear:both;
+    display:block;
+    }
+    .txt-area{
+    margin-top:30px;
+    clear:both;
+    display:block;
+    }
+    .tag-editor{
+      height:100px!important;
+      }
+    .taassigned_to
+    textarea {
+    min-height:200px;
+    margin-top:30px;
+    }
   .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
     border-bottom-color: #F8F8F8;
       -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;

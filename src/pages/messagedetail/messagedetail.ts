@@ -667,10 +667,7 @@ export class MessagedetailPage {
     if (copytome == true) {
       copytome = '1';
     }
-    if (localStorage.getItem("atMentionResult") != '') {
-      to = localStorage.getItem("atMentionResult");
-    }
-    console.log("atMentionResult" + to);
+  
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -722,7 +719,7 @@ export class MessagedetailPage {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Message sending successfully`);
-          localStorage.setItem("atMentionResult", '');
+        
 
           this.addedImgLists = [];
           this.to = '';

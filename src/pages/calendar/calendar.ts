@@ -882,8 +882,7 @@ export class CalendarPage {
       });
   }
 
-  doAdd() {
-    localStorage.setItem("atMentionResult", "");
+  doAdd() {   
     this.navCtrl.setRoot(AddcalendarPage);
   }
 
@@ -910,7 +909,6 @@ export class CalendarPage {
     confirm.present();
   }
   doCalendarEdit(item, type) {
-    localStorage.setItem("atMentionResult", "");
     this.navCtrl.setRoot(AddcalendarPage, {
       item: item,
       type: type

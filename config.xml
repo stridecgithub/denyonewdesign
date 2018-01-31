@@ -99,7 +99,6 @@
     <plugin name="cordova-plugin-local-notification" spec="~0.9.0-beta.1" />
     <plugin name="cordova-plugin-camera" spec="~3.0.0" />
     <plugin name="cordova-plugin-filechooser" spec="~1.0.1" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
     <plugin name="cordova-plugin-nativegeocoder" spec="^2.0.4" />
     <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
     <plugin name="cordova-plugin-photo-library" spec="^2.1.0">
@@ -112,4 +111,5 @@
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.1" />
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
 </widget>

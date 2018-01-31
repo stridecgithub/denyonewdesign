@@ -1,71 +1,4 @@
 <!--
-  Generated template for the AddalarmPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<!--ion-header>
-
-  <ion-navbar>
-    <button ion-button clear class="left-header-btn" menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Edit Alarm</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-  <ion-list>
-    <ion-item>
-      <span>{{unitDetailData.companygroup_name}}</span>
-      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span> {{this.unitDetailData.unitname}}
-      <div class="list-desc">{{unitDetailData.projectname }}</div>
-      {{unitDetailData.location }}
-      <div class="list-favorite">
-        <button>
-                <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
-              </button>
-        <button (click)="favorite(unitDetailData.unit_id)">
-                <ion-icon name="star-outline"
-                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
-                <ion-icon name="star" class="favorite"
-                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
-              </button>
-      </div>
-      <div class="running-hrs">Running Hours: {{unitDetailData.runninghr}}</div>
-    </ion-item>
-  </ion-list>
-  <form [formGroup]="form" (ngSubmit)="saveEntry()">  
-
-    <ion-item>
-        <ion-label stacked>Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
-      </ion-item>
-
-    <ion-item>
-      <ion-label stacked>Assigned To</ion-label>
-      <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
-        <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
-      </ion-select>
-    </ion-item>
-
-
-    <br>
-    <b>Remark</b> <span class="mandatory" *ngIf="hideActionButton">*</span>
-    <textarea style="height:70px" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
-      onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" formControlName="remark"
-      [(ngModel)]="remark"></textarea>
-    <ion-item>
-      <button ion-button color="primary" text-center [disabled]="!form.valid || isSubmitted">Complete and Save</button>
-    </ion-item>
-  </form>
-</ion-content-->
-
-
-
-<!--
   Generated template for the EditAlarmPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
@@ -92,7 +25,8 @@
       <ion-row>
         <ion-col col-12>
           <h1>{{subject}}</h1>
-          <p>{{unitDetailData.unitname}}<br> {{unitDetailData.projectname}}
+          <p>{{unitDetailData.unitname}}
+            <br> {{unitDetailData.projectname}}
           </p>
           <div class="time">
             {{alarm_received_time}}
@@ -118,34 +52,6 @@
 
 
 
-
-        <!--div class="inner-div">
-         
-          <input type="text" style="margin-left: 2px;width:100%" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
-            onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
-         
-        </div-->
-
-        <div class="inner-div">
-          <!--ion-item style="border: none">
-            <ion-label stacked>Remarks</ion-label>
-            <ion-textarea></ion-textarea-->
-          <div style="
-    color: gray;
-    font-size: 12px;
-    margin-top: 15px;
-">Remarks</div>
-          <textarea (tap)="address1get($event.target.value);tapEvent($event,remark)" style="height: 70px;
-    width: 100%;
-    margin-left: 2px;
-    margin-top: 2px;border: 0px;
-    background-color: #f8f8f8;" type="text" (keyup)="address1get($event.target.value)" name="to" id="to" class="sugges"
-            onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" class="form-control"
-            rows="8" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></textarea>
-          <!--/ion-item-->
-        </div>
-
-
         <ion-item>
           <ion-label stacked>Assigned to</ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
@@ -153,6 +59,41 @@
           </ion-select>
         </ion-item>
 
+
+        <div class="inner-div">
+          <div  class="txt-area" style="
+    color: gray;
+    font-size: 12px;
+    margin-top: 15px;
+">Remark</div>
+          <textarea style="height: 70px;
+    width: 100%;
+    margin-left: 2px;
+    margin-top: 2px;border: 0px;
+    background-color: #f8f8f8;" type="text" name="remark" id="remark" rows="8" [disabled]="readOnly" formControlName="assigned_to"
+            [(ngModel)]="remark"></textarea>
+
+        </div>
+
+
+
+        <!-- <div class="inner-div">
+          <div style="
+    color: gray;
+    font-size: 12px;
+    margin-top: 15px;
+"  class="txt-area">Remarks</div>
+          <textarea  style="height: 70px;
+    width: 100%;
+    margin-left: 2px;
+    margin-top: 2px;border: 0px;
+    background-color: #f8f8f8;" type="text"name="remark" id="remark" 
+            rows="8" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></textarea>
+
+        </div> -->
+
+
+      
       </ion-list>
     </div>
 

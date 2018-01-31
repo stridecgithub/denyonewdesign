@@ -42,6 +42,7 @@ export class EditprofilesteponePage {
   public job_position: any;
   public company_group: any;
   progress: number;
+  company_id;
   public responseResultCompanyGroup: any;
   public responseResultReportTo: any;
   public isProgress = false;
@@ -50,7 +51,7 @@ export class EditprofilesteponePage {
   public isEdited: boolean = false;
   public readOnly: boolean = false;
   public hidePasswordField: boolean = false;
-
+  
   public addedImgLists: any;
   len;
   public userInfo = [];
@@ -82,12 +83,13 @@ export class EditprofilesteponePage {
       "password": [""],
       "contact": ["", Validators.required],
       "job_position": ["", Validators.required],
-      "company_group": ["", Validators.required],
+      "company_id": ["", Validators.required],
       "report_to": [""],
       "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
     });
     this.userId = localStorage.getItem("userInfoId");
+    console.log(this.userId);
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
@@ -155,6 +157,14 @@ export class EditprofilesteponePage {
         this.re_password = res.settings[0].password;
         this.hashtag = "@" + this.username;
         this.country = res.settings[0].country_id;
+        this.company_id = res.settings[0].company_id;
+        this.report_to = res.settings[0].report_to;        
+        if (this.company_id > 0) {
+          this.getUserListData(this.company_id);
+        }
+
+        this.job_position = res.settings[0].job_position;
+
         console.log(res.settings[0].country_name);
         if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'undefined' && res.settings[0].photo_filename != undefined) {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
@@ -184,20 +194,8 @@ export class EditprofilesteponePage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   //first_name, last_name, email, username,password, contact, this.userId
-  updateEntry(first_name, last_name, email, username, password, contact, createdby, country, hashtag, job_position, company_group, report_to) {
-    this.userInfo.push({
-      photo: this.photo,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      username: username,
-      password: password,
-      contact: contact,
-      createdby: createdby,
-      hashtag: this.hashtag,
-      country: this.country
-    });
-    //this.isSubmitted = true;
+  updateEntry(first_name, last_name, email, username, password, contact, createdby,  hashtag, job_position, company_group, report_to) {
+
 
 
     let userPhotoFile = localStorage.getItem("userPhotoFile");
@@ -210,8 +208,7 @@ export class EditprofilesteponePage {
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
-      "&email=" + this.email +
-      "&country_id=" + country +
+      "&email=" + this.email +      
       "&contact_number=" + this.contact +
       "&createdby=" + this.userId +
       "&updatedby=" + this.userId +
@@ -228,6 +225,7 @@ export class EditprofilesteponePage {
       url: any = this.apiServiceURL + "/settings/profileupdate";
     console.log(url);
     console.log(body);
+  
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(data);
@@ -236,8 +234,8 @@ export class EditprofilesteponePage {
           this.hideForm = true;
           if (!userPhotoFile) {
             localStorage.setItem("userPhotoFile", "");
-            this.conf.sendNotification(`User profile successfully updated`);
-            this.nav.setRoot(MyaccountPage);
+            this.conf.sendNotification(`User profile photo successfully updated`);
+            //this.nav.setRoot(MyaccountPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -298,16 +296,17 @@ export class EditprofilesteponePage {
         email: string = this.form.controls["email"].value,
         contact: string = this.form.controls["contact"].value,
         primary: string = this.form.controls["primary"].value,
-        country: string = this.form.controls["country"].value,
+        //country: string = this.form.controls["country"].value,
         hashtag: string = this.form.controls["hashtag"].value,
         job_position: string = this.form.controls["job_position"].value,
-        company_group: string = this.form.controls["company_group"].value,
+        company_id: string = this.form.controls["company_id"].value,
         report_to: string = this.form.controls["report_to"].value;
       contact = primary + " " + contact;
       console.log("Contact Concatenate" + contact);
       console.log(this.form.controls);
+      console.log("this.isUploadedProcessing" + this.isUploadedProcessing);
       if (this.isUploadedProcessing == false) {
-        this.updateEntry(first_name, last_name, email, username, password, contact, this.userId, country, hashtag, job_position, company_group, report_to);
+        this.updateEntry(first_name, last_name, email, username, password, contact, this.userId, hashtag, job_position, company_id, report_to);
       }
     }
   }
@@ -352,7 +351,8 @@ export class EditprofilesteponePage {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let currentName = path.replace(/^.*[\\\/]/, '');
     this.photo = currentName;
-    console.log("File Name is:" + currentName);
+    console.log("currentName File Name is:" + currentName);
+    console.log("fileName File Name is:" + fileName);
 
 
     /*var d = new Date(),
@@ -383,15 +383,15 @@ export class EditprofilesteponePage {
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
-        // this.isUploadedProcessing = false;
-        // return false;
+        this.isUploadedProcessing = false;
+        return false;
 
 
         // Save in Backend and MysQL
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
-        this.conf.sendNotification(`User profile successfully updated`);
-        this.nav.push(MyaccountPage);
+        //  this.conf.sendNotification(`User profile successfully updated`);
+        //this.nav.push(MyaccountPage);
 
       }, (err) => {
         //loading.dismiss();
@@ -453,7 +453,7 @@ export class EditprofilesteponePage {
               // this.addedAttachList = imageURI;
 
               this.photo = imageURI;
-              this.isUploadedProcessing = false;
+              this.isUploadedProcessing = true;
               return false;
             }, (err) => {
 
@@ -479,7 +479,7 @@ export class EditprofilesteponePage {
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               this.photo = uri;
-              this.isUploadedProcessing = false;
+              this.isUploadedProcessing = true;
               return false;
             }, (err) => {
               // Handle error
@@ -517,18 +517,19 @@ export class EditprofilesteponePage {
 
   }
 
-  getUserListData() {
+  getUserListData(companyid) {
     if (this.isEdited == true) {
       this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
+          console.log(JSON.stringify(res));
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
@@ -547,7 +548,7 @@ export class EditprofilesteponePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -565,9 +566,6 @@ export class EditprofilesteponePage {
 
   }
 
-  onSegmentChanged() {
-    console.log("ID" + this.company_group);
-    this.getUserListData();
-}
+
 }
 

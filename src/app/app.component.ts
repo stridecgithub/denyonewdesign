@@ -439,8 +439,8 @@ export class MyApp {
       this.menuActive = 'menuactive-settings';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'settings', Date.now());
-      //this.navCtrl.setRoot(MyaccountPage);
-      this.navCtrl.setRoot(AttentionPage);
+      this.navCtrl.setRoot(MyaccountPage);
+      //this.navCtrl.setRoot(AttentionPage);
     } else if (page.title == 'Reports') {
       this.menuActive = 'menuactive-reports';
       this.menuCtrl.close();

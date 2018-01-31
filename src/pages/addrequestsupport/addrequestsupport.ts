@@ -378,7 +378,7 @@ export class AddrequestsupportPage {
         if (data.status === 200) {
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Servicing info was successfully added`);
-          localStorage.setItem("atMentionResult", '');
+         
           this.nav.push(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -448,10 +448,7 @@ export class AddrequestsupportPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+ 
 
 
 

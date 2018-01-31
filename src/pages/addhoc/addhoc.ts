@@ -13,6 +13,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import * as moment from 'moment';
+declare var jQuery: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -86,6 +87,8 @@ export class AddhocPage {
   public hideActionButton = true;
   tabBarElement: any;
   next_service_date_selected;
+  atmentioneddata=[];
+  companyId
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
@@ -93,6 +96,7 @@ export class AddhocPage {
       this.previous();
     });
     this.next_service_date_selected = 0;
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.isFuture = 0;
     this.uploadcount = 10;
     let cdate = new Date();
@@ -117,7 +121,7 @@ export class AddhocPage {
       profilePic: [''],
       serviced_date: [''],//, Validators.required
       service_subject: [''],
-      service_remark: ['', Validators.required],//
+      service_remark: [''],//
       serviced_by: [''],
       next_service_date: [''],
       is_request: ['']
@@ -271,6 +275,42 @@ export class AddhocPage {
         });
       // Unit Details API Call
     }
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
+    console.log(url);
+    this.http.get(url1, options1)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#service_remark').tagEditor({
+            autocomplete: {
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
+            },
+            forceLowercase: false
+          });
+
+          jQuery('#service_remark').tagEditor('addTag',  this.NP.get("record").service_remark,true);
+
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    // Atmentioned API Calls
   }
   maxDateStr() {
 
@@ -412,14 +452,15 @@ export class AddhocPage {
   saveEntry() {
 
     console.log(this.form.controls);
-    if (this.isUploadedProcessing == false) {
-      /* let name: string = this.form.controls["lat"].value,
-         description: string = this.form.controls["long"].value,
-         photos: object = this.addedImgLists;*/
-
+    if (this.isUploadedProcessing == false) {      
+         let service_remark = jQuery('#service_remark').tagEditor('getTags')[0].tags;
+         console.log(service_remark.length);
+         if (service_remark.length == 0) {
+           this.conf.sendNotification(`Remark required`);
+           return false;
+         }
 
       let serviced_date: string = this.form.controls["serviced_date"].value,
-        service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
@@ -462,8 +503,6 @@ export class AddhocPage {
   // for the record data
   createEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    service_remark = localStorage.getItem("atMentionResult");
-
 
     if (this.service_priority == undefined) {
       this.service_priority = '0';
@@ -557,7 +596,7 @@ export class AddhocPage {
             this.conf.sendNotification(res.msg[0]['result']);
           }*/
           this.conf.sendNotification(`Servicing info was successfully added`); //return false;
-          localStorage.setItem("atMentionResult", '');
+        
 
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
@@ -706,10 +745,7 @@ export class AddhocPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+  
 
 
 
@@ -743,7 +779,7 @@ export class AddhocPage {
       this.serviced_date = '';
     }
     this.service_subject = item.service_subject;
-    this.service_remark = item.service_remark;
+    //this.service_remark = item.service_remark;
     //this.next_service_date = item.next_service_date;
     this.service_priority = item.service_priority;
     console.log("X" + this.service_priority);

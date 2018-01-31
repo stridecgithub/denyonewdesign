@@ -9,6 +9,7 @@ import { Config } from '../../config/config';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { TrendlinePage } from '../trendline/trendline';
 import * as moment from 'moment';
+declare var jQuery: any;
 /**
  * Generated class for the AddalarmPage page.
  *
@@ -61,6 +62,7 @@ export class AddalarmPage {
   tabBarElement: any;
   alarm_assigned_date: any;
   mindate;
+  public atmentioneddata = [];
   constructor(private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
@@ -75,7 +77,7 @@ export class AddalarmPage {
     // Create form builder validation rules
     this.form = fb.group({
       "assigned_to": ["", Validators.required],
-      "remark": ["", Validators.required],
+      "remark": [""],
       "subject": [""],
       "assignedby": [""],
       "alarm_assigned_date": ["", Validators.required]
@@ -200,8 +202,51 @@ export class AddalarmPage {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
 
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyid + "&userId=" + this.userId;
+    console.log(url);
+    this.http.get(url1, options1)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#remark').tagEditor({
+            autocomplete: {
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
+            },
+            forceLowercase: false
+          });
+
+          // jQuery('#assigned_to').tagEditor({
+          //   autocomplete: {
+          //     delay: 0,
+          //     position: { collision: 'flip' },
+          //     source: this.atmentioneddata,
+          //     delimiter: ',;'
+          //   },
+          //   forceLowercase: false
+          // });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    // Atmentioned API Calls
   }
-  
+
   ionViewWillEnter() {
     // this.unitDetailData.unitname = localStorage.getItem("unitunitname");
     // this.unitDetailData.location = localStorage.getItem("unitlocation");
@@ -243,14 +288,10 @@ export class AddalarmPage {
 
   }
   saveEntry() {
-    /*let dateStr = new Date();
-    let yearstr = dateStr.getFullYear();
-    let monthstr = dateStr.getMonth() + 1;
-    let datestr = dateStr.getDate();
-    let alarm_assigned_date = yearstr + "-" + monthstr + "-" + datestr;*/
-    this.remark = localStorage.getItem("atMentionResult");
+   
     let isNet = localStorage.getItem("isNet");
-    let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value;
+    let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
+    assigned_to: string = this.form.controls["assigned_to"].value;
     //this.remark = this.form.controls["remark"].value;
 
     alarm_assigned_date = alarm_assigned_date.split("T")[0]
@@ -258,11 +299,28 @@ export class AddalarmPage {
       this.networkType = this.conf.networkErrMsg();
     } else {
       this.networkType = '';
+    
+
+
+      // let assigned_to = jQuery('#assigned_to').tagEditor('getTags')[0].tags;
+      // console.log(assigned_to.length);
+      // if (assigned_to.length == 0) {
+      //   this.conf.sendNotification(`Assigned to required`);
+      //   return false;
+      // }
+
+
+      let remark = jQuery('#remark').tagEditor('getTags')[0].tags;
+      console.log(remark.length);
+      if (remark.length == 0) {
+        this.conf.sendNotification(`To address required`);
+        return false;
+      }
       this.isSubmitted = true;
       let body: string = "is_mobile=1&alarmid=" + this.recordID +
         "&alarm_assigned_by=" + this.userId +
-        "&alarm_assigned_to=" + this.assigned_to +
-        "&alarm_remark=" + this.remark +
+        "&alarm_assigned_to=" + assigned_to +
+        "&alarm_remark=" + remark +
         "&alarm_assigned_date=" + alarm_assigned_date,
 
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -278,7 +336,7 @@ export class AddalarmPage {
             this.hideForm = true;
             this.conf.sendNotification(`successfully Assigned`);
             localStorage.setItem("userPhotoFile", "");
-            localStorage.setItem("atMentionResult", '');
+           
             if (this.NP.get("from") == 'alarm') {
               this.navCtrl.setRoot(AlarmPage);
             } else {
@@ -295,10 +353,7 @@ export class AddalarmPage {
     }
   }
 
-  address1get(hashtag) {
-    console.log("Tab Event Added this function:" + hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+
   tapEvent(hashtag) {
     console.log("tapEvent function calling also:" + hashtag.target.value);
     this.unitDetailData.hashtag = hashtag.target.value;

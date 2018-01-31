@@ -414,10 +414,7 @@ export class ComposePage {
     if (copytome == true) {
       copytome = '1';
     }
-    if (localStorage.getItem("atMentionResult") != '') {
-      to = localStorage.getItem("atMentionResult");
-    } //Need to be removed later when atmentioned functionality done this comment line
-    console.log("atMentionResult" + to);
+   
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -469,7 +466,7 @@ export class ComposePage {
 
           localStorage.setItem("microtime", "");
           // this.conf.sendNotification(`Message sending successfully`);
-          localStorage.setItem("atMentionResult", '');
+         
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
         }
@@ -480,7 +477,7 @@ export class ComposePage {
       });
     localStorage.setItem("microtime", "");
     this.conf.sendNotification(`Message sending successfully`);
-    localStorage.setItem("atMentionResult", '');
+   
     this.navCtrl.setRoot(MessagesPage);
   }
   fileChooser(micro_timestamp) {

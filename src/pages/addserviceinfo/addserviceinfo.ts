@@ -491,7 +491,7 @@ export class AddserviceinfoPage {
   // for the record data
   createEntry(serviced_time, description, serviced_date, serviced_by, service_subject) {
     this.isSubmitted = true;
-    //service_remark = localStorage.getItem("atMentionResult");
+    
 
 
     if (this.service_priority == undefined) {
@@ -556,7 +556,7 @@ export class AddserviceinfoPage {
           // this.conf.sendNotification(res.msg[0]['result']);
           //}
           this.conf.sendNotification(`New Service Scheduled Added successfully`);
-          localStorage.setItem("atMentionResult", '');
+        
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -604,10 +604,7 @@ export class AddserviceinfoPage {
     return result;
   }
 
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+ 
 
 
 

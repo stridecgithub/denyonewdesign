@@ -91,12 +91,13 @@
 
 
 
-        <div>
+        <div style="margin-left: 19px;
+          color: gray;">
           <ion-label stacked>Contact Number
             <span class="mandatory" *ngIf="hideActionButton">*</span>
           </ion-label>
-          <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
-            [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
+          <ion-input style="border:1px solid #cccccc" class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary"
+            (keyup)="getPrimaryContact($event)" [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
         </div>
 
@@ -107,13 +108,13 @@
           <ion-label stacked>Company
             <span class="mandatory" *ngIf="hideActionButton">*</span>
           </ion-label>
-          <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged()">
+          <ion-select [disabled]="readOnly" [(ngModel)]="company_id" formControlName="company_id" (ionChange)="onSegmentChanged()">
             <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
           </ion-select>
         </ion-item>
 
 
-        
+
         <ion-item>
           <ion-label stacked>Position
             <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -135,14 +136,14 @@
           <ion-label stacked>User Name
             <span class="mandatory" *ngIf="hideActionButton">*</span>
           </ion-label>
-          <ion-input type="text" [disabled]=true formControlName="username" [(ngModel)]="username"></ion-input>
+          <ion-input type="text"  formControlName="username" [(ngModel)]="username"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label stacked>Hashtag
             <span class="mandatory" *ngIf="hideActionButton"> *</span>
           </ion-label>
-          <ion-input type="text" [disabled]=true formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+          <ion-input type="text"  formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
         </ion-item>
 
         <!-- <ion-item>

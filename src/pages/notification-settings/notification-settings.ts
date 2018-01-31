@@ -658,30 +658,7 @@ export class NotificationSettingsPage {
       this.latitude = '';
       this.longitude = '';
     }
-    // let atmentvalue;
-    // console.log(localStorage.getItem("atMentionResult"));
-    // if (localStorage.getItem("atMentionResult") == null) {
-    //   console.log('A');
-    //   atmentvalue = '';
-    // }
-
-    // if (localStorage.getItem("atMentionResult") == 'null') {
-    //   console.log('B');
-    //   atmentvalue = '';
-    // }
-
-    // if (localStorage.getItem("atMentionResult") == '') {
-    //   console.log('BA');
-    //   atmentvalue = '';
-    // }
-
-    // if (atmentvalue != '') {
-    //   console.log('C');
-    //   this.alarmhashtags = localStorage.getItem("atMentionResult");
-    // } else {
-    //   console.log('D');
-    //   this.alarmhashtags = this.form.controls["alarmhashtags"].value;
-    // }
+    
     console.log(this.isEdited);
     if (this.isEdited > 0) {
       let body: string = "is_mobile=1&unit_id=" + this.isEdited +
@@ -778,10 +755,6 @@ export class NotificationSettingsPage {
 
 
 
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.gethashtag = hashtag;
-  }
 
   addmore() {
     if (this.isEdited == 0) {

@@ -224,10 +224,7 @@ export class AddalarmlistPage {
       });
 
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+ 
   saveEntry() {
     /*let dateStr = new Date();
     let yearstr = dateStr.getFullYear();
@@ -235,7 +232,7 @@ export class AddalarmlistPage {
     let datestr = dateStr.getDate();
     let alarm_assigned_date = yearstr + "-" + monthstr + "-" + datestr;
     */
-    this.remark = localStorage.getItem("atMentionResult");
+    
     let isNet = localStorage.getItem("isNet");
     let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value;
     this.remark = this.form.controls["remark"].value;
@@ -265,7 +262,7 @@ export class AddalarmlistPage {
             this.hideForm = true;
             this.conf.sendNotification(`successfully Assigned`);
             localStorage.setItem("userPhotoFile", "");
-            localStorage.setItem("atMentionResult", '');
+            
             if (this.NP.get("record") == 'alarm') {
              this.navCtrl.setRoot(AlarmPage,
                 {

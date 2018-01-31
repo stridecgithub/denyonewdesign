@@ -279,6 +279,10 @@ export class UnitsPage {
     console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
+        this.reportData.startindex = 0;
+        this.unitAllLists = [];
+        this.doUnit();
+        /*
         console.log(data);
         let res = data.json();
 
@@ -340,10 +344,11 @@ export class UnitsPage {
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
-        }
+        } */
       }, error => {
         console.log(error);// + "\n" + error;
       });
+     
     //this.doUnit();
   }
 
@@ -492,7 +497,6 @@ export class UnitsPage {
   }
   doAdd() {
     localStorage.setItem("location", '');
-    localStorage.setItem("atMentionResult", '');
     localStorage.setItem("location", "");
     localStorage.setItem("unitgroups_id", '');
     localStorage.setItem("companys_id", '');
