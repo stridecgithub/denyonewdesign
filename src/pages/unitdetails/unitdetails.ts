@@ -513,16 +513,16 @@ export class UnitdetailsPage {
 									this.startbtnenable = true;
 								}
 								//console.log("Fault successfully reset!");
-								if (action == 'off-mode') {
+								if (action == 'OFF-MODE') {
 									//this.showAlert('OFF-Mode', 'OFF-Mode')
 									this.conf.sendNotification(`OFF-Mode`);
-								} else if (action == 'fault-reset') {
+								} else if (action == 'FAULT-RESET') {
 									//this.showAlert('Fault Rest', 'Fault successfully reset!');
 									this.conf.sendNotification(`Fault successfully reset`);
-								} else if (action == 'man-mode') {
+								} else if (action == 'MAN-Mode') {
 									//this.showAlert('MAN-Mode', 'MAN-Mode');
 									this.conf.sendNotification(`MAN-Mode`);
-								} else if (action == 'auto-mode') {
+								} else if (action == 'AUTO-MODE') {
 									//this.showAlert('AUTO-Mode', 'AUTO-Mode');
 									this.conf.sendNotification(`AUTO-Mode`);
 								}
