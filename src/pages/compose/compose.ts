@@ -665,18 +665,7 @@ export class ComposePage {
 
     this.message_priority = val
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    // this.hashtag = hashtag;
-
-
-    // var str = " i am from Tamil nadu.";
-    // var res = str.split(" ");  //split by space
-    // res.pop();  //remove last element
-    // console.log(res.join(" ") + ".");  //join back together
-
-
-  }
+ 
 
   doRemoveResouce(item) {
     console.log("Deleted Id" + item.resource_id);
