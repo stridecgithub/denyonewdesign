@@ -135,12 +135,7 @@ export class NotificationSettingsPage {
     console.log("Record param" + this.navParams.get("record"))
 
     console.log("Is Edited?" + this.navParams.get("isEdited"));
-    if (this.navParams.get("isEdited") == true) {
-      this.geninfo(this.navParams.get("record"), this.navParams.get("accountInfo"));
-      this.isEdited = this.navParams.get("record").unit_id;
-    } else {
-      this.isEdited = 0;
-    }
+
     console.log(this.isEdited);
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
@@ -233,6 +228,13 @@ export class NotificationSettingsPage {
     //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
+
+    if (this.navParams.get("isEdited") == true) {
+      this.geninfo(this.navParams.get("record"), this.navParams.get("accountInfo"));
+      this.isEdited = this.navParams.get("record").unit_id;
+    } else {
+      this.isEdited = 0;
+    }
     this.addmorebtn = 1;
     this.tabBarElement.style.display = 'none';
 
@@ -251,13 +253,17 @@ export class NotificationSettingsPage {
         if (data.status === 200) {
           this.atmentioneddata = data.json();
           console.log(this.atmentioneddata);
-          jQuery('#atmentionedfirst').tagEditor({
+          jQuery('#alarmhashtags').tagEditor({
             autocomplete: {
               delay: 0, position: { collision: 'flip' }, source: this.atmentioneddata
             },
             forceLowercase: false
           });
+          jQuery('#alarmhashtags').tagEditor('addTag', this.navParams.get("record").alarmnotificationto);
+
         }
+
+
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
@@ -511,8 +517,8 @@ export class NotificationSettingsPage {
   }
   saveEntry() {
 
-    this.alarmhashtags = jQuery('#atmentionedfirst').tagEditor('getTags')[0].tags;
-    
+    this.alarmhashtags = jQuery('#alarmhashtags').tagEditor('getTags')[0].tags;
+
     console.log(this.alarmhashtags.length);
     if (this.alarmhashtags.length == 0) {
       this.conf.sendNotification(`Notification required`);
@@ -834,8 +840,17 @@ export class NotificationSettingsPage {
 
 
   previous() {
+    if (this.isEdited > 0) {
+      this.isEdited = true;
+    } else {
+      this.isEdited = false;
+    }
     this.navCtrl.setRoot(AddUnitPage, {
-      accountsInfo: this.navParams.get("accountInfo")
+      accountInfo: this.navParams.get("accountInfo"),
+      record: this.navParams.get("record"),
+      from: this.navParams.get("from"),
+      isEdited: this.isEdited,
+      unitId:this.navParams.get("record").unit_id
     });
   }
 }
