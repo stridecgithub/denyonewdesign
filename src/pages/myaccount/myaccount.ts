@@ -65,6 +65,7 @@ export class MyaccountPage {
   constructor(private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
     this.pageTitle = 'My Account';
     this.loginas = localStorage.getItem("userInfoName");
+    this.photo = 'assets/imgs/nouser.jpg';
     this.userId = localStorage.getItem("userInfoId");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
     console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
@@ -80,14 +81,17 @@ export class MyaccountPage {
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.ready().then(() => {
-       this.platform.registerBackButtonAction(() => {
-          this.previous();
-        });      
+      this.platform.registerBackButtonAction(() => {
+        this.previous();
+      });
     });
   }
 
   //[{"userid":"1","userdetailsid":"1","username":"webkannan","password":"webkannan","role":"1","hashtag":"@welcome","first_name":"Kannan","last_name":"Nagarathinam","email":"kannan@gmail.com","contact":"123456789","country":"2","photo":"1496647262537.jpg","job_position":"At prog","report_to":"0","company_group":"1","companygroup_name":"Denyo"}]
-  ionViewWillEnter() {
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad My Account Page');
+    localStorage.setItem("fromModule", "MyaccountPage");
     localStorage.setItem("userPhotoFile", '');
     // body: string = "key=myaccount&userId=" + this.userId,
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -106,24 +110,23 @@ export class MyaccountPage {
           this.userid = res.settings[0].username;
           this.username = res.settings[0].username;
           this.password = res.settings[0].password;
-          this.contactnumber=res.settings[0].contact_number;
+          this.contactnumber = res.settings[0].contact_number;
           this.hashtag = "@" + this.userid;
           this.role = res.settings[0].role_name;
           this.email = res.settings[0].email;
           this.country = res.settings[0].country_name;
           this.job_position = res.settings[0].job_position;
           this.accountcreatedby = res.settings[0].report_to;
-          this.company_group=res.settings[0].company_group;
-          this.firstname=res.settings[0].firstname;
-          this.lastname=res.settings[0].lastname;
-          
+          this.company_group = res.settings[0].company_group;
+          this.firstname = res.settings[0].firstname;
+          this.lastname = res.settings[0].lastname;
+
           console.log("A" + res.settings[0].photo_filename);
-          if (res.settings[0].photo_filename != 'undefined' && res.settings[0].photo_filename != undefined) {
-            console.log("B");
+          if (res.settings[0].photo_filename != '') {           
             this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-          } else {
-            console.log('No photo available');
-            this.photo = 'img/undefined.png';
+             console.log('My Acccount One Photo Available....');
+          }else{
+             console.log('My Acccount  One Photo Not Available....');
           }
         }
         // [{ "userid": "1", "userdetailsid": "1", "username": "denyov2", "password": "e3b81d385ca4c26109dfbda28c563e2b", "firstname": "Super Admin", "lastname": "Denyo", "email": "balamurugan@webneo.in", "contact_number": "9597645985", "country_id": "99", "photo": "1496647262537.jpg", "job_position": "Country Manager", "report_to": "0", "company_id": "1", "companygroup_name": "Denyo" }]
@@ -148,14 +151,10 @@ export class MyaccountPage {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad My Account Page');
-     localStorage.setItem("fromModule", "MyaccountPage");
-  }
-  doEdit(userid,act) {
+  doEdit(userid, act) {
     this.nav.setRoot(EditprofilesteponePage, {
       userId: userid,
-      act:act
+      act: act
     });
   }
 

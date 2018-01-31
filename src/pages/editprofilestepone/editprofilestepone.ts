@@ -51,7 +51,7 @@ export class EditprofilesteponePage {
   public isEdited: boolean = false;
   public readOnly: boolean = false;
   public hidePasswordField: boolean = false;
-  
+
   public addedImgLists: any;
   len;
   public userInfo = [];
@@ -73,6 +73,7 @@ export class EditprofilesteponePage {
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
     this.loginas = localStorage.getItem("userInfoName");
+    this.photo = 'assets/imgs/nouser.jpg';
     // Create form builder validation rules
     this.form = fb.group({
       "hashtag": ["", Validators.required],
@@ -112,6 +113,7 @@ export class EditprofilesteponePage {
     this.pageLoad();
   }
   pageLoad() {
+
     this.getJsonCountryListData();
     this.getCompanyGroupListData();
     //this.getUserListData();
@@ -158,7 +160,7 @@ export class EditprofilesteponePage {
         this.hashtag = "@" + this.username;
         this.country = res.settings[0].country_id;
         this.company_id = res.settings[0].company_id;
-        this.report_to = res.settings[0].report_to;        
+        this.report_to = res.settings[0].report_to;
         if (this.company_id > 0) {
           this.getUserListData(this.company_id);
         }
@@ -166,9 +168,12 @@ export class EditprofilesteponePage {
         this.job_position = res.settings[0].job_position;
 
         console.log(res.settings[0].country_name);
-        if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'undefined' && res.settings[0].photo_filename != undefined) {
+        if (res.settings[0].photo_filename != '') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
           this.photo = res.settings[0].photo_filename;
+          console.log('Edit Profile One Photo Available....');
+        } else {
+          console.log('Edit Profile One Photo Not Available....')
         }
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -194,7 +199,7 @@ export class EditprofilesteponePage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   //first_name, last_name, email, username,password, contact, this.userId
-  updateEntry(first_name, last_name, email, username, password, contact, createdby,  hashtag, job_position, company_group, report_to) {
+  updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_group, report_to) {
 
 
 
@@ -208,7 +213,7 @@ export class EditprofilesteponePage {
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
-      "&email=" + this.email +      
+      "&email=" + this.email +
       "&contact_number=" + this.contact +
       "&createdby=" + this.userId +
       "&updatedby=" + this.userId +
@@ -225,7 +230,7 @@ export class EditprofilesteponePage {
       url: any = this.apiServiceURL + "/settings/profileupdate";
     console.log(url);
     console.log(body);
-  
+
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(data);
@@ -234,7 +239,7 @@ export class EditprofilesteponePage {
           this.hideForm = true;
           if (!userPhotoFile) {
             localStorage.setItem("userPhotoFile", "");
-            this.conf.sendNotification(`User profile photo successfully updated`);
+            this.conf.sendNotification(`User profile successfully updated`);
             //this.nav.setRoot(MyaccountPage);
           }
         }
@@ -350,10 +355,10 @@ export class EditprofilesteponePage {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
     let currentName = path.replace(/^.*[\\\/]/, '');
-    this.photo = currentName;
+    this.photo = fileName;
     console.log("currentName File Name is:" + currentName);
     console.log("fileName File Name is:" + fileName);
-
+    this.photo = fileName;
 
     /*var d = new Date(),
         n = d.getTime(),
@@ -452,7 +457,7 @@ export class EditprofilesteponePage {
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
-              this.photo = imageURI;
+              //this.photo = imageURI;
               this.isUploadedProcessing = true;
               return false;
             }, (err) => {
@@ -478,7 +483,7 @@ export class EditprofilesteponePage {
               console.log(uri);
               this.fileTrans(uri);
               //this.addedAttachList = uri;
-              this.photo = uri;
+              //this.photo = uri;
               this.isUploadedProcessing = true;
               return false;
             }, (err) => {
