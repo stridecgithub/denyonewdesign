@@ -220,7 +220,10 @@ export class ComposePage {
           console.log(this.atmentioneddata);
           jQuery('#to').tagEditor({
             autocomplete: {
-              delay: 0, position: { collision: 'flip' }, source: this.atmentioneddata
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
             },
             forceLowercase: false
           });
@@ -232,7 +235,7 @@ export class ComposePage {
       }, error => {
 
       })
-      // Atmentioned API Calls
+    // Atmentioned API Calls
 
   }
 
@@ -665,7 +668,7 @@ export class ComposePage {
 
     this.message_priority = val
   }
- 
+
 
   doRemoveResouce(item) {
     console.log("Deleted Id" + item.resource_id);

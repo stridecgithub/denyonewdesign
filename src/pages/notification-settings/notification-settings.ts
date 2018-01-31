@@ -255,11 +255,14 @@ export class NotificationSettingsPage {
           console.log(this.atmentioneddata);
           jQuery('#alarmhashtags').tagEditor({
             autocomplete: {
-              delay: 0, position: { collision: 'flip' }, source: this.atmentioneddata
+              delay: 0,
+               position: { collision: 'flip' },
+                source: this.atmentioneddata,
+                delimiter:',;'
             },
             forceLowercase: false
           });
-          jQuery('#alarmhashtags').tagEditor('addTag', this.navParams.get("record").alarmnotificationto);
+          jQuery('#alarmhashtags').tagEditor('addTag', this.navParams.get("record").alarmnotificationto,true);
 
         }
 

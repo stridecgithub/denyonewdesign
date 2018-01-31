@@ -52,6 +52,7 @@ export class AddhocPage {
   public minmn;
   public mindt;
   public mn;
+  currentyear;
   public service_remark: any;
   public msgcount: any;
   public notcount: any;
@@ -94,7 +95,8 @@ export class AddhocPage {
     this.next_service_date_selected = 0;
     this.isFuture = 0;
     this.uploadcount = 10;
-
+    let cdate = new Date();
+    this.currentyear = cdate.getFullYear();
     if (this.unitDetailData.nextServiceDate == '') {
       // this.isSubmitted = true;
     }
@@ -963,6 +965,7 @@ export class AddhocPage {
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
     } else {
+      this.serviced_date = moment().format();
       this.isSubmitted = true;
     }
   }

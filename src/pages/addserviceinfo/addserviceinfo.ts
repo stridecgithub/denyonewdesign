@@ -890,7 +890,9 @@ export class AddserviceinfoPage {
     let current_date = date.getFullYear() + "-" + this.mn + "-" + date.getDate();
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
+      
     } else {
+       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
   }
