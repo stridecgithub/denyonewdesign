@@ -426,7 +426,7 @@ export class DashboardPage {
         if(this.readycount=="0"){
           this.readycount=this.runningcount;
         }else{
-          this.readycount=this.readycount;
+          this.readycount=this.runningcount;
         }
         this.offlinecount = res.offlinecount;
         console.log("res units:" + res.units);
