@@ -55,10 +55,33 @@
 
         </ion-item>
 
-        <ion-item>
+        <!-- <ion-item>
           <ion-label stacked>Description</ion-label>
           <ion-textarea formControlName="description" [(ngModel)]="description"></ion-textarea>
-        </ion-item>
+        </ion-item> -->
+
+
+        <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+            <ion-list style="margin-bottom: 0">
+        
+        
+              <ion-item style="border: none">
+                <ion-label stacked>Description</ion-label>
+                <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
+               
+              </ion-item>
+               <textarea style="width: 91%;
+               margin-left: 4%;
+               background-color: #f8f8f8;
+               border: 1px solid #cccccc;
+               height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                          onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="description"
+                          [(ngModel)]="description"></textarea>
+        
+        
+            </ion-list>
+          </div>
+
 
        
 
