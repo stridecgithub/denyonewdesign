@@ -610,7 +610,7 @@ export class UnitdetailsPage {
 					// Load Power Factor
 
 					this.commstatus = data.json().commstatus;
-					this.nextservicedate= data.json().nextservicedate;
+					
 					this.enginestatus = data.json().enginestatus;
 					console.log("Unit Data Engine Status Color:"+this.enginestatus)
 					// if(this.enginestatus=='Warning'){
@@ -1526,6 +1526,7 @@ export class UnitdetailsPage {
 
 					this.enginestatus = data.json().enginestatus;
 					this.controllermode = data.json().controllermode;
+					this.nextservicedate= data.json().nextservicedate;
 					this.unitfavorite = data.json().unitfavorite;
 					this.controlleroffmode = '';
 					this.controllermanmode = '';

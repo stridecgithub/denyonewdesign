@@ -275,6 +275,7 @@ export class NotificationPage {
                 notify_type: res.notification[notifications].notify_type,
                 content: res.notification[notifications].content,
                 date_time: res.notification[notifications].date_time,
+                timesince: res.notification[notifications].timesince,
                 warn_tripped_status: warn_tripped_status,
                 notify_by_name: res.notification[notifications].notify_by_name
               });

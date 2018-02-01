@@ -28,7 +28,7 @@
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>
@@ -44,7 +44,7 @@
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
             <div class="date-time">
               <img src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
-              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.date_time}}
+              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.timesince}}
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
             <div class="date-time">
               <img src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Warning'">
-              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.date_time}}
+              <img src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="notify.warn_tripped_status=='Tripped'"> {{notify.timesince}}
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>
@@ -89,7 +89,7 @@
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>
@@ -103,7 +103,7 @@
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
            <span class="msg-subject">Created By:{{notify.notify_by_name}}</span>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.date_time}}</div>
+            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="20" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>

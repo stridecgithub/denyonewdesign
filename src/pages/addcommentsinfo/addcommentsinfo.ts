@@ -717,7 +717,7 @@ export class AddcommentsinfoPage {
       this.serviced_date = '';
     }
     this.comment_subject = item.comment_subject;
-    // this.comment_remark = item.comment_remark;
+    this.comment_remark = item.comment_remark;
     //this.next_service_date = item.next_service_date;
     this.service_priority = item.service_priority;
     console.log("X" + this.service_priority);
