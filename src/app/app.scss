@@ -314,11 +314,17 @@ ion-segment {
 }
 
 .select-md .select-icon .select-icon-inner {
-	background: url(../assets/imgs/select_arrow.png) no-repeat;
-    border: none;
-    width: 11px;
-    height: 9px;
-    margin-top: -5px;
+	border: solid #6f6f6f;
+	border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: rotate(45deg);
+    -webkit-transform-origin-x: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    margin-top: -8px;
 }
 .mid-col2 h2 {
     font-size: 14px!important;
