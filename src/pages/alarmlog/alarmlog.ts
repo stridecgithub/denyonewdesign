@@ -196,16 +196,16 @@ export class AlarmlogPage {
           for (let alarm in res.alarms) {
             let hashtagbyname;
             if (res.alarms[alarm].alarm_assginedby_hashtag != '') {
-              let hashtagbyname = "(" + res.alarms[alarm].alarm_assginedby_hashtag + ")";
+              hashtagbyname = "(" + res.alarms[alarm].alarm_assginedby_hashtag + ")";
             } else {
-              let hashtagbyname = '';
+              hashtagbyname = '';
             }
 
             let hashtagtoname;
             if (res.alarms[alarm].alarm_assginedto_hashtag != '') {
-              let hashtagbyname = "(" + res.alarms[alarm].alarm_assginedto_hashtag + ")";
+              hashtagtoname = "(" + res.alarms[alarm].alarm_assginedto_hashtag + ")";
             } else {
-              let hashtagbyname = '';
+              hashtagtoname = '';
             }
 
             this.reportAllLists.push({
@@ -222,7 +222,7 @@ export class AlarmlogPage {
               alarm_remark: res.alarms[alarm].alarm_remark,
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
               alarm_assginedby_hashtag: hashtagbyname,
-              alarm_assginedto_hashtag:hashtagtoname
+              alarm_assginedto_hashtag: hashtagtoname
 
 
             });

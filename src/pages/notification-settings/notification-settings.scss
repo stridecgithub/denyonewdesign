@@ -1,5 +1,8 @@
 page-notification-settings {
- 
+  .button-inner{
+    text-transform:capitalize
+  }
+
   .remove {
     display: inline-block;
     background-color: red;

@@ -1181,14 +1181,14 @@ export class UnitdetailsPage {
 							},
 							{
 								startValue: 1,
-								endValue: 1.3,
+								endValue: 1.5,
 								innerOffset: 0.46,
 								outerStartOffset: 0.70,
 								outerEndOffset: 0.70,
 								fillStyle: gradient2
 							},
 							{
-								startValue: 1.3,
+								startValue: 1.5,
 								endValue: 10,
 								innerOffset: 0.46,
 								outerStartOffset: 0.70,
