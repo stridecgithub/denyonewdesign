@@ -1908,5 +1908,9 @@ export class UnitdetailsPage {
 	getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
+	showgraph(unit_id){
+		console.log("Show Graph function calling:-"+unit_id);
+
+	}
 
 }
