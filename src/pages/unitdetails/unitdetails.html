@@ -310,9 +310,9 @@
                   position: relative;
                   top: -51px;
                   left: 80px;">
-                <ion-option value="1" selected="true">L1-L2</ion-option>
-                <ion-option value="2">L2-L3</ion-option>
-                <ion-option value="3">L1-L3</ion-option>
+                <ion-option value="1" selected="true">L1</ion-option>
+                <ion-option value="2">L2</ion-option>
+                <ion-option value="3">L3</ion-option>
               </ion-select>
             </div>
           </div>
@@ -462,7 +462,7 @@
 
       <!-- Bottom Row-->
       <ion-row>
-        <ion-col class="col" col-12>
+        <ion-col class="col pad-left" col-12>
           <div class="bottom-row bot-row1">
             <button (click)="servicingInfo(unitDetailData)">SERVICING INFO
               <span *ngIf="serviceCount>0" style="position: absolute;
@@ -487,7 +487,7 @@
       </ion-row>
 
       <ion-row>
-        <ion-col class="col" col-12>
+        <ion-col class="col pad-left" col-12>
           <div class="bottom-row bot-row2">
             <button (click)="commentsInfo(unitDetailData.unit_id)">EVENTS/COMMENTS
               <span *ngIf="commentCount>0" style="position: absolute;
