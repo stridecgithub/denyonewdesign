@@ -36,6 +36,10 @@ export class ComposePage {
   public replyforward: any;
   public message_priority: any;
   private apiServiceURL: string = "";
+  private activelow: string = "1";
+  private activehigh: string = "0";
+  private normallow: string = "1";
+  private activenormal: string = "0";
   public userId: any;
   public isUploaded: boolean = true;
   public addedAttachList;
@@ -414,7 +418,7 @@ export class ComposePage {
     if (copytome == true) {
       copytome = '1';
     }
-   
+
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -466,7 +470,7 @@ export class ComposePage {
 
           localStorage.setItem("microtime", "");
           // this.conf.sendNotification(`Message sending successfully`);
-         
+
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
         }
@@ -477,7 +481,7 @@ export class ComposePage {
       });
     localStorage.setItem("microtime", "");
     this.conf.sendNotification(`Message sending successfully`);
-   
+
     this.navCtrl.setRoot(MessagesPage);
   }
   fileChooser(micro_timestamp) {
@@ -653,13 +657,23 @@ export class ComposePage {
   getPrority(val) {
     console.log("getPrority function calling:-" + val);
 
-    this.priority_highclass = '';
-    this.priority_lowclass = '';
+    this.priority_highclass = '0';
+    this.priority_lowclass = '0';
     if (val == "2") {
-      this.priority_highclass = "border-high";
+      // this.priority_highclass = "1";
+      this.activelow = "0";
+      this.activehigh = "1";
+      this.normallow = "0";
+      this.activenormal = "1";
     }
     if (val == "1") {
-      this.priority_lowclass = "border-low";
+      this.priority_lowclass = "1";
+
+      this.activelow = "1";
+      this.activehigh = "0";
+      this.normallow = "1";
+      this.activenormal = "0";
+
     }
 
 

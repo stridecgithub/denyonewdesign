@@ -5,7 +5,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { NativeGeocoder, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
-
+import { PiclocationPage } from "../piclocation/piclocation";
 import { UnitsPage } from "../units/units";
 /**
  * Generated class for the AddUnitPage page.
@@ -43,14 +43,14 @@ export class AddUnitPage {
   public serial_number;
   contacts;
   pageTitle;
-  public locationedit:boolean=false;
+  public locationedit: boolean = false;
   tabBarElement: any;
   constructor(private nativeGeocoder: NativeGeocoder, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder) {
     this.form = fb.group({
       "location": ["", Validators.required],
-      "unitname": ["", Validators.compose([ Validators.required])],
-      "projectname": ["", Validators.compose([ Validators.required])],
+      "unitname": ["", Validators.compose([Validators.required])],
+      "projectname": ["", Validators.compose([Validators.required])],
       "models_id": ["", Validators.required],
       "neaplateno": ["", Validators.required],
       'controllerid': ['', Validators.required],
@@ -67,13 +67,13 @@ export class AddUnitPage {
     this.getUnitGroupListData();
     this.getJsonModelListData();
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-     this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
 
   ionViewWillLeave() {
-   // this.tabBarElement.style.display = 'flex';
+    // this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
     this.tabBarElement.style.display = 'none';
@@ -95,22 +95,22 @@ export class AddUnitPage {
       this.location = this.navParams.get("accountsInfo")[0].location;
       this.unitgroups_id = this.navParams.get("accountsInfo")[0].unitgroups_id;
       this.companys_id = this.navParams.get("accountsInfo")[0].companys_id;
-      this.serial_number= this.navParams.get("accountsInfo")[0].serial_number;
-      this.contacts=this.navParams.get("accountsInfo")[0].contacts;
+      this.serial_number = this.navParams.get("accountsInfo")[0].serial_number;
+      this.contacts = this.navParams.get("accountsInfo")[0].contacts;
     }
     let previousData = localStorage.getItem("addUnitFormOneValue");
     if (this.navParams.get("unitId")) {
       this.isEdited = true;
       this.geninfo(this.navParams.get("record"));
-      this.pageTitle='Update';
+      this.pageTitle = 'Update';
     } else {
       this.isEdited = false
-      this.pageTitle='Add';
+      this.pageTitle = 'Add';
     }
   }
-  editDeployedLocation(){
+  editDeployedLocation() {
     console.log('1');
-    this.locationedit=false;
+    this.locationedit = false;
     console.log('2');
   }
   geninfo(item) {
@@ -122,15 +122,15 @@ export class AddUnitPage {
     this.location = item.location;
     this.lat = item.lat;
     this.lang = item.lng;
-    if( this.lat!=''){
-      this.locationedit=true;
+    if (this.lat != '') {
+      this.locationedit = true;
     }
     this.unitname = item.unitname;
     this.companys_id = item.companys_id;
     this.serial_number = item.serial_number;
     //this.contactpersonal= item.contactpersonal;
     //this.contactnumber= item.contactnumber;
-    this.contacts= item.contacts;
+    this.contacts = item.contacts;
   }
   // Goto Notification Settings
   NotificationSettings() {
@@ -155,8 +155,8 @@ export class AddUnitPage {
       companys_id: companys_id,
       lang: this.lang,
       lat: this.lat,
-      serial_number:serial_number,
-      contacts:this.contacts
+      serial_number: serial_number,
+      contacts: this.contacts
     });
     localStorage.setItem("addUnitFormOneValue", JSON.stringify(this.userInfo));
     this.navCtrl.setRoot(NotificationSettingsPage, {
@@ -241,5 +241,10 @@ export class AddUnitPage {
           .catch((error: any) => console.log(error));
       }
     }
+  }
+
+  getmaplocation() {
+    this.navCtrl.setRoot(PiclocationPage, {
+    });
   }
 }

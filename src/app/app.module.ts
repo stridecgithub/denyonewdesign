@@ -34,6 +34,7 @@ import { AddhocPage } from "../pages/addhoc/addhoc";
 import { ServicedetailsPage } from "../pages/servicedetails/servicedetails";
 import { PopoverPage } from '../pages/popover/popover';
 import { AddUnitPage } from "../pages/add-unit/add-unit";
+import { PiclocationPage } from "../pages/piclocation/piclocation";
 //import { AlarmLogPage } from "../pages/alarm-log/alarm-log";
 import { UnitDetailsPage } from '../pages/unit-details/unit-details';
 //import { EventDetailsPage } from '../pages/calendardetail/calendardetail';
@@ -71,6 +72,7 @@ import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofile
     ComposePage,
     CalendarPage,
     AddcalendarPage,
+    PiclocationPage,
     //AlarmdetailsPage,
     EventDetailsServicePage,
     MessagesPage,
@@ -134,6 +136,7 @@ import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofile
     DashboardPage,
     NotificationPage,
     MessagesPage,
+    PiclocationPage,
     ComposePage,
     CalendarPage,
     AddcalendarPage,

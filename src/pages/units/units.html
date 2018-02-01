@@ -20,7 +20,7 @@
 
 
 <ion-content>
- <button class="add-unit-btn" (click)="doAdd()"><ion-icon name="add"></ion-icon> Add New Unit</button>
+ <button class="add-unit-btn" (click)="doAdd()"><ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit</button>
  <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
  
   <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}  <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
