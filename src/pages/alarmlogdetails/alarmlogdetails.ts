@@ -41,6 +41,8 @@ export class AlarmlogdetailsPage {
   }
   public userId: any;
   tabBarElement: any;
+  alarm_assginedby_hashtag;
+  alarm_assginedto_hashtag
   constructor(private platform:Platform,private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
@@ -74,7 +76,8 @@ export class AlarmlogdetailsPage {
     this.alarm_remark = this.navParams.get("record").alarm_remark;
     this.alarm_assigned_date = this.navParams.get("record").alarm_assigned_date;
     this.alarm_assigned_date_mobileview = this.navParams.get("record").alarm_assigned_date_mobileview;
-
+    this.alarm_assginedby_hashtag= this.navParams.get("record").alarm_assginedby_hashtag;
+    this.alarm_assginedto_hashtag= this.navParams.get("record").alarm_assginedto_hashtag;
     // UnitDetails Api Call		
     let unit_id = this.navParams.get("record").alarm_unit_id;
     let

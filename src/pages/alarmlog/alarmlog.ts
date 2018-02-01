@@ -210,6 +210,9 @@ export class AlarmlogPage {
               alarm_assigned_date_mobileview: res.alarms[alarm].alarm_assigned_date_mobileview,
               alarm_remark: res.alarms[alarm].alarm_remark,
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
+              alarm_assginedby_hashtag: res.alarms[alarm].alarm_assginedby_hashtag,
+              alarm_assginedto_hashtag: res.alarms[alarm].alarm_assginedto_hashtag
+              
 
             });
           }

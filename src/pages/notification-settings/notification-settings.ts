@@ -6,6 +6,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from '../add-unit/add-unit';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { TabsPage } from '../tabs/tabs';
 
 //declare var tagEditor: any;
 /**
@@ -682,6 +683,13 @@ export class NotificationSettingsPage {
                 record: this.navParams.get("record"),
                 tabs: 'gensetView'
               });
+            }else if (this.navParams.get("from") == 'dashboard') {
+
+              this.navCtrl.setRoot(TabsPage, { tabIndex: 0, tabs: 'listView'} );
+              // this.navCtrl.setRoot(DashboardPage, {
+              //   record: this.navParams.get("record"),
+              //   tabs: 'listView'
+              // });
             } else {
               this.navCtrl.setRoot(UnitsPage);
             }

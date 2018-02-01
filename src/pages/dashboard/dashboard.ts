@@ -35,7 +35,7 @@ export class DashboardPage {
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";
-  public readycount: string = "0";  
+  public readycount: string = "0";
   public offlinecount: string = "0";
   public tabs: string = 'mapView';
   public unitsPopups: any;
@@ -61,7 +61,7 @@ export class DashboardPage {
   public msgcount: any;
   public notcount: any;
   public profilePhoto;
-  
+
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
@@ -85,6 +85,16 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
+    let mapView = document.getElementById('mapView');
+    let listView = document.getElementById('listView');
+
+    if (this.navParams.get("tabs") == 'mapView') {
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+    } else {
+      mapView.style.display = 'none';
+      listView.style.display = 'block';
+    }
 
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
@@ -161,7 +171,7 @@ export class DashboardPage {
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
 
     let res;
-    console.log(url);
+    console.log("Dashboard List URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -195,6 +205,7 @@ export class DashboardPage {
               neaplateno: res.units[unit].neaplateno,
               companys_id: res.units[unit].companys_id,
               unitgroups_id: res.units[unit].unitgroups_id,
+              serial_number: res.units[unit].serialnumber,
               models_id: res.units[unit].models_id,
               alarmnotificationto: res.units[unit].alarmnotificationto,
               genstatus: res.units[unit].genstatus,
@@ -334,6 +345,7 @@ export class DashboardPage {
               companys_id: res.units[unit].companys_id,
               unitgroups_id: res.units[unit].unitgroups_id,
               models_id: res.units[unit].models_id,
+              serial_number: res.units[unit].serialnumber,
               alarmnotificationto: res.units[unit].alarmnotificationto,
               favoriteindication: res.units[unit].favorite,
               genstatus: res.units[unit].genstatus,
@@ -378,8 +390,8 @@ export class DashboardPage {
    */
   segmentChanged(e) {
     this.doUnit();
-    this.initMap(); 
-    console.log("Segment changed:"+e.target);
+    this.initMap();
+    console.log("Segment changed:" + e.target);
     //console.log("Tabs value:"+tabsvalue)
     //console.log("Segment changed json stringify:"+JSON.stringify(e));
 
@@ -423,10 +435,10 @@ export class DashboardPage {
         this.warningcount = res.warningcount;
         this.runningcount = res.runningcount;
         this.readycount = res.readycount;
-        if(this.readycount=="0"){
-          this.readycount=this.runningcount;
-        }else{
-          this.readycount=this.runningcount;
+        if (this.readycount == "0") {
+          this.readycount = this.runningcount;
+        } else {
+          this.readycount = this.runningcount;
         }
         this.offlinecount = res.offlinecount;
         console.log("res units:" + res.units);
@@ -947,7 +959,7 @@ export class DashboardPage {
         record: item,
         act: act,
         unitId: unitId,
-        from:'dashboard'
+        from: 'dashboard'
       });
       return false;
     } else if (act == 'detail') {
@@ -1008,13 +1020,13 @@ export class DashboardPage {
        return false;*/
     }
   }
- pushTesting(){
-  this.navCtrl.setRoot(MessageDetailViewPage, {  
-    event_id: 10,
-    from:'push'
-  });
- }
- /**********************/
+  pushTesting() {
+    this.navCtrl.setRoot(MessageDetailViewPage, {
+      event_id: 10,
+      from: 'push'
+    });
+  }
+  /**********************/
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
@@ -1031,6 +1043,6 @@ export class DashboardPage {
       infiniteScroll.complete();
     }, 500);
     console.log('E');
-}
+  }
 }
 
