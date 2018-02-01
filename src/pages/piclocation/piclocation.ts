@@ -14,7 +14,7 @@ import { MessageDetailViewPage } from '../message-detail-view/message-detail-vie
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
-import { Geolocation } from '@ionic-native/geolocation';
+//import { Geolocation } from '@ionic-native/geolocation';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -26,7 +26,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Component({
   selector: 'page-piclocation',
   templateUrl: 'piclocation.html',
-  providers: [Config, Geolocation]
+  providers: [Config]
 })
 
 export class PiclocationPage {
@@ -64,7 +64,7 @@ export class PiclocationPage {
   public profilePhoto;
 
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(private geolocation: Geolocation, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor( public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == undefined) {
@@ -85,7 +85,7 @@ export class PiclocationPage {
 
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad() {/*
 
     this.initMap();
     this.geolocation.getCurrentPosition().then(position => {
@@ -145,7 +145,7 @@ export class PiclocationPage {
         // Initiate G Map
         this.initMap();
       });
-    }
+    }*/
   }
 
   doNotifiyCount() {

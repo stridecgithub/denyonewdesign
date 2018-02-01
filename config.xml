@@ -15,7 +15,7 @@
     <preference name="loadUrlTimeoutValue" value="700000" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
+    <preference name="DisallowOverscroll" value="false" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
@@ -112,12 +112,4 @@
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
-    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
-    </plugin>
-    <plugin name="cordova-plugin-googlemaps" spec="^2.2.2">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDJkfkelF4cA9Umz1ISCz2OL4SqW0OSXrQ" />
-        <variable name="API_KEY_FOR_IOS" value="YOUR_IOS_API_KEY_IS_HERE" />
-        <variable name="PLAY_SERVICES_VERSION" value="11.8.+" />
-    </plugin>
 </widget>
