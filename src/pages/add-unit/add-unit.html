@@ -42,7 +42,7 @@
           <ion-label stacked>Controller ID</ion-label>
           <ion-input type="text" formControlName="controllerid" [(ngModel)]="controllerid"></ion-input>
         </ion-item>
-        <p>Please note that the connection with Generator will be affected if you change the controller ID.</p>
+        <p style="color:#cc504e;font-style:normal">Please note that the connection with Generator will be affected if you change the controller ID.</p>
 
         <ion-item>
           <ion-label stacked>Generator Model</ion-label>
@@ -106,8 +106,9 @@
     </div-->
     <div class="hard-coded-row">
       <div>
+          <!-- <a href="#" (click)="getmaplocation()">Pick Location from Map</a> -->
         <h2>
-          <ion-input type="text" [disabled]="locationedit" formControlName="location" [(ngModel)]="location"></ion-input>
+          <ion-input type="text"  [disabled]="locationedit" formControlName="location" [(ngModel)]="location"></ion-input>
         </h2>
         <ion-icon name="close" (click)="editDeployedLocation()" *ngIf="isEdited"></ion-icon>
       </div>

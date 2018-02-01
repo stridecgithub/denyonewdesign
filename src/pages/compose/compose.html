@@ -2,13 +2,13 @@
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
-         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
       </button>
     </ion-buttons>
 
     <ion-title>Compose</ion-title>
     <div class="right-header-btns">
-      <button class="send"  (click)="saveEntry()"  ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
+      <button class="send" (click)="saveEntry()" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
         <img width="21px" src="assets/imgs/plane@2x.png" alt="">
       </button>
     </div>
@@ -26,38 +26,70 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;">
-   
-          <ion-list>
-            <ion-item style="background-color: #f8f8f8;">
-              <textarea style="width: 388px;
+
+        <ion-list>
+          <ion-item style="background-color: #f8f8f8;">
+            <textarea style="width: 388px;
       position: absolute;
       top: 0px;
       border: 0px;
-      background-color: #f8f8f8;"  name="to" id="to" class="to" 
-                formControlName="to"
-                [(ngModel)]="to" row="10"></textarea>
-            </ion-item>
-          </ion-list>
+      background-color: #f8f8f8;" name="to" id="to" class="to" formControlName="to" [(ngModel)]="to" row="10"></textarea>
+          </ion-item>
+        </ion-list>
 
       </div>
     </div>
     <ion-list class="msg-compose" style="position:relative">
-      <ion-item class="email-copy"  style="width: 59%;">
+      <ion-item class="email-copy" style="width: 59%;">
         <ion-label>Email copy to myself</ion-label>
         <ion-checkbox formControlName="copytome" [(ngModel)]="copytome"></ion-checkbox>
       </ion-item>
 
-      <ion-icon ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
+      <!-- <ion-icon ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
       font-size: 27px;
       left: 73%;
-      top: 2%;position:absolute"></ion-icon>
+      top: 2%;position:absolute"></ion-icon> -->
+      <div style="
+      font-size: 27px;
+      left: 83%;
+      top: 2%;position:absolute" *ngIf="activelow==1"  (click)="getPrority(1)">
+        <img src="assets/imgs/arrow_active_low.png">
+      </div>
+
+      <div style="
+      font-size: 27px;
+      left: 83%;
+      top: 2%;position:absolute"  *ngIf="normallow==0"  (click)="getPrority(1)">
+        <img src="assets/imgs/arrow_normal_low.png">
+      </div>
 
 
 
-      <ion-icon ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
+      
+      <div style="
+      font-size: 27px;
+      left: 93%;
+      top: 2%;position:absolute"  *ngIf="activehigh==1"  (click)="getPrority(2)">
+        <img src="assets/imgs/flag_active_high.png">
+      </div>
+
+     
+      <div style="
+      font-size: 27px;
+      left: 93%;
+      top: 2%;position:absolute"  *ngIf="activenormal==0"  (click)="getPrority(2)">
+        <img src="assets/imgs/flag_normal_high.png">
+      </div>
+
+
+
+      
+
+
+      <!-- <ion-icon ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
       font-size: 27px;
       left: 85%;
-      top: 2%;position:absolute"></ion-icon>
+      top: 2%;position:absolute"></ion-icon> -->
 
       <ion-item>
         <ion-label stacked>Subject</ion-label>
@@ -72,7 +104,10 @@
 
       <div style="position: absolute;
     right: 2%;
-    top: 43%;"><button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="attach"></ion-icon> Attach</button>
+    top: 43%;">
+        <button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded">
+          <!-- <ion-icon name="attach"></ion-icon> Attach -->
+          <img src="assets/imgs/attach_icon.png">   Attach</button>
       </div>
 
       <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
@@ -84,20 +119,20 @@
   <div style="padding-left: 8px;" class="attachment" *ngIf="addedImgLists.length>0">
     <div class="attach" (click)="toggle(isopenorclose)">
       <!--<h1 *ngIf="messageid==0">{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>-->
-       <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
+      <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
       <button>
-    			 <ion-icon name="md-arrow-dropup"  *ngIf="open>0"></ion-icon>
-           <ion-icon name="md-arrow-dropdown"  *ngIf="close>0"></ion-icon>
-    		</button>
+        <ion-icon name="md-arrow-dropup" *ngIf="open>0"></ion-icon>
+        <ion-icon name="md-arrow-dropdown" *ngIf="close>0"></ion-icon>
+      </button>
     </div>
     <div *ngIf="open>0">
       <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
         <h1 style="width:90%">{{imageitem.fileName}}</h1>
         <h2>{{imageitem.fileSize}}</h2>
-        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward'" >   
+        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward'">
           <!-- *ngIf="act!='reply' && act!='forward'" -->
-    		<ion-icon name="md-close-circle" style="color:red;"></ion-icon>
-    		</button>
+          <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
+        </button>
       </div>
     </div>
   </div>

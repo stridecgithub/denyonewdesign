@@ -1,0 +1,93 @@
+page-piclocation {
+
+    .sort-btn {
+        float: right;
+        font-size: 14px;
+        background: none;
+        padding: 10px;
+        margin-top: 10px;
+        ion-icon {
+          margin-left: 10px;
+        }
+      }
+      .scroll {
+        height: 100%
+      }
+    
+      #mapView {
+        #map {
+          width: 100%;
+          height: 100vh;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        .popup {
+          position: absolute;
+          top: 50px;
+          left: 5%;
+          width: 90%;
+          z-index: 10;
+          padding: 10px 5px 10px 10px;
+          background: color($app-brand-colors, alabaster);
+          border-top: color($app-brand-colors, electric-violet) 2px solid;
+          font-size: 18px;
+          display: none;
+          .list-favorite {
+            padding-right: 0;
+          }
+          &.showPopup {
+            display: block;
+          }
+        }
+        .gen-overview {
+          display: flex;
+          flex-direction: row;
+          position: absolute;
+          bottom: 0;
+          z-index: 999;
+          width: 100%;
+          padding: 0 10px 20px;
+          .overview {
+            flex: 1;
+            div {
+              width: 70px;
+              height: 70px;
+              margin: 0 auto;
+              text-align: center;
+              border-radius: 50%;
+              color: color($app-brand-colors, white);
+              font-size: 10px;
+              padding-top: 15px;
+              span {
+                display: block;
+                font-size: 24px;
+                line-height: 24px;
+              }
+              &.overview-1 {
+                background-color: color($app-brand-colors, thunderbird);
+              }
+              &.overview-2 {
+                background-color: color($app-brand-colors, sun);
+              }
+              &.overview-3 {
+                background-color: color($app-brand-colors, malachite);
+              }
+              &.overview-4 {
+                background-color: color($app-brand-colors, tundora);
+              }
+            }
+          }
+        }
+      }
+    .error{
+        color:red;
+        text-align: center;
+        padding-top: 5px;
+      }
+      .filter {
+        text-align: right;
+        padding: 20px 20px 10px;
+        border-bottom: #979797 2px solid;
+      }
+}
