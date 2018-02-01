@@ -924,4 +924,8 @@ export class AddcommentsinfoPage {
     actionSheet.present();
     return false;
   }
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.unitDetailData.hashtag = hashtag;
+  }
 }

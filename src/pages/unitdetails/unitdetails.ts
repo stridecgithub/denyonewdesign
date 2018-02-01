@@ -117,6 +117,7 @@ export class UnitdetailsPage {
 		contacts: ''
 	}
 	public profilePhoto;
+	nextservicedate;
 	url1;
 	url;
 	l1l2l3voltagelablel;
@@ -609,6 +610,7 @@ export class UnitdetailsPage {
 					// Load Power Factor
 
 					this.commstatus = data.json().commstatus;
+					this.nextservicedate= data.json().nextservicedate;
 					this.enginestatus = data.json().enginestatus;
 					console.log("Unit Data Engine Status Color:"+this.enginestatus)
 					// if(this.enginestatus=='Warning'){

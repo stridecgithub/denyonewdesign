@@ -589,9 +589,7 @@ export class AddhocPage {
           if (res.msg[0]['Error'] > 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }*/
-          this.conf.sendNotification(`Servicing info was successfully added`); //return false;
-
-
+          this.conf.sendNotification(`Servicing info was successfully added`);
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
             unitid: this.service_unitid
@@ -604,11 +602,7 @@ export class AddhocPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    this.conf.sendNotification(`Servicing info was successfully added`);
-    this.navCtrl.setRoot(ServicinginfoPage, {
-      record: this.NP.get("record"),
-      unitid: this.service_unitid
-    });
+   
   }
 
 
