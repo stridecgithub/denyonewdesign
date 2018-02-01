@@ -114,7 +114,7 @@ export class AddcommentsinfoPage {
     this.form = formBuilder.group({
       profilePic: [''],
       comment_subject: [''],
-      comment_remark: [''],//
+      comment_remark: ['', Validators.required],//
       comment_by: ['']
     });
     this.service_priority = 0;
@@ -285,17 +285,6 @@ export class AddcommentsinfoPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          jQuery('#comment_remark').tagEditor({
-            autocomplete: {
-              delay: 0,
-              position: { collision: 'flip' },
-              source: this.atmentioneddata,
-              delimiter: ',;'
-            },
-            forceLowercase: false
-          });
-          jQuery('#comment_remark').tagEditor('addTag', this.navParams.get("record").comment_remark, true);
         }
         // Otherwise let 'em know anyway
         else {
@@ -456,17 +445,9 @@ export class AddcommentsinfoPage {
     } else {
       console.log(this.form.controls);
       if (this.isUploadedProcessing == false) {
-        /* let name: string = this.form.controls["lat"].value,
-           description: string = this.form.controls["long"].value,
-           photos: object = this.addedImgLists;*/
-        let comments = jQuery('#comment_remark').tagEditor('getTags')[0].tags;
-        console.log(comments);
-        if (comments == 0) {
-          this.conf.sendNotification(`Comments Remark required`);
-          return false;
-        }
+       
 
-        let
+        let comments: string = this.form.controls["comment_remark"].value,
           comment_subject: string = this.form.controls["comment_subject"].value;
         if (this.isEdited) {
           this.updateEntry(comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
@@ -485,6 +466,7 @@ export class AddcommentsinfoPage {
   // for the record data
   createEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
+    comments = localStorage.getItem("atMentionResult");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -521,6 +503,7 @@ export class AddcommentsinfoPage {
           this.addedImgLists = [];
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Comments was successfully added`);
+          localStorage.setItem("atMentionResult", '');
           this.navCtrl.push(CommentsinfoPage, {
             record: this.NP.get("record")
           });
@@ -545,7 +528,9 @@ export class AddcommentsinfoPage {
   // for the record data
   updateEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-
+    if (localStorage.getItem("atMentionResult") != '') {
+      comments = localStorage.getItem("atMentionResult");
+    }
     if (this.service_priority == undefined) {
       this.service_priority = 0;
     }
@@ -578,7 +563,7 @@ export class AddcommentsinfoPage {
           this.addedImgLists = [];
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Comments was successfully updated`);
-
+          localStorage.setItem("atMentionResult", '');
           this.navCtrl.push(CommentsinfoPage, {
             record: this.NP.get("record")
           });
