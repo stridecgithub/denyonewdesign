@@ -311,3 +311,20 @@ ion-segment {
     }
   }
 }
+
+.select-md .select-icon .select-icon-inner {
+	background: url(../assets/imgs/select_arrow.png) no-repeat;
+    border: none;
+    width: 11px;
+    height: 9px;
+    margin-top: -5px;
+}
+.mid-col2 h2 {
+    font-size: 14px!important;
+	margin-bottom:0;
+}
+.mid-col2 h1 {
+    font-size: 21px!important;
+    text-align: right;
+	margin-bottom:0;
+}

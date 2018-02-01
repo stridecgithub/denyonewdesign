@@ -387,7 +387,7 @@ export class UnitdetailsPage {
 							minimum: 0,
 							maximum: 10,
 							labels: {
-								offset: 0.15
+								offset: 0.15,
 							},
 							majorTickMarks: {
 								length: 3,
@@ -1083,7 +1083,7 @@ export class UnitdetailsPage {
 			// 1 Linear Graph For Coolant Temp
 
 			let oilpressurelabel_0 = localStorage.getItem("oilpressurelabel_0");
-			let oilpressurelabel_1 = localStorage.getItem("oilpressurelabel_1");
+			let oilpressurelabel_1 = 1; //localStorage.getItem("oilpressurelabel_1");
 			let oilpressurelabel_2 = localStorage.getItem("oilpressurelabel_2");
 			let oilpressurelabel_3 = localStorage.getItem("oilpressurelabel_3");
 			let oilpressurelabel_4 = localStorage.getItem("oilpressurelabel_4");
@@ -1152,7 +1152,8 @@ export class UnitdetailsPage {
 						minimum: 0,
 						maximum: 10,
 						labels: {
-							offset: 0.15
+							offset: -2.15,
+							font: '2px'
 						},
 						majorTickMarks: {
 							length: 0,
@@ -1170,14 +1171,14 @@ export class UnitdetailsPage {
 						ranges: [
 							{
 								startValue: 0,
-								endValue: 1.0,
+								endValue: 1,
 								innerOffset: 0.46,
 								outerStartOffset: 0.70,
 								outerEndOffset: 0.70,
 								fillStyle: gradient1
 							},
 							{
-								startValue: 1.0,
+								startValue: 1,
 								endValue: 1.3,
 								innerOffset: 0.46,
 								outerStartOffset: 0.70,
