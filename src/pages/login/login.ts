@@ -5,6 +5,7 @@ import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
+import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 /**
  * Generated class for the LoginPage page.
  *
@@ -123,5 +124,9 @@ export class LoginPage {
   createUser(user) {
     console.log('User created!' + console.log(user))
     this.events.publish('user:created', user, Date.now());
+  }
+
+  doMove() {
+    this.navCtrl.push(ForgotpasswordPage);
   }
 }

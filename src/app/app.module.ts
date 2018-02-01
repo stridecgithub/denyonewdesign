@@ -57,7 +57,7 @@ import { MsgPopoverPage } from '../pages/msgpopover/msgpopover';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { MyaccountPage } from  '../pages/myaccount/myaccount';
 import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofilestepone';
-
+import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
 //import {Storage} from "@ionic/storage";
 @NgModule({
   declarations: [
@@ -73,7 +73,7 @@ import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofile
     CalendarPage,
     AddcalendarPage,
     PiclocationPage,
-    //AlarmdetailsPage,
+    ForgotpasswordPage,
     EventDetailsServicePage,
     MessagesPage,
     TabsPage,
@@ -158,6 +158,7 @@ import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofile
     AddalarmlistPage,
     AddunitsonePage,
     AttentionPage,
+    ForgotpasswordPage,
     CommentsinfoPage,
     AddhocPage,
     ServicedetailsPage,

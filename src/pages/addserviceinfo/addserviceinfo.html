@@ -50,24 +50,23 @@
         <ion-item>
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
-            class="cal-icon"  min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
+            class="next-service-cal-icon"  min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
           <!-- min="{{mindate}}" -->
 
         </ion-item>
 
-        <!-- <ion-item>
+        <ion-item>
           <ion-label stacked>Description</ion-label>
           <ion-textarea formControlName="description" [(ngModel)]="description"></ion-textarea>
-        </ion-item> -->
+        </ion-item>
 
 
-        <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+        <!-- <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
             <ion-list style="margin-bottom: 0">
         
         
               <ion-item style="border: none">
                 <ion-label stacked>Description</ion-label>
-                <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
                
               </ion-item>
                <textarea style="width: 91%;
@@ -80,7 +79,7 @@
         
         
             </ion-list>
-          </div>
+          </div> -->
 
 
        

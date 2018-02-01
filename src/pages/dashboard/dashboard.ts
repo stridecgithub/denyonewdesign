@@ -87,15 +87,16 @@ export class DashboardPage {
   ionViewDidLoad() {
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
-
-    if (this.navParams.get("tabs") == 'mapView') {
-      mapView.style.display = 'block';
-      listView.style.display = 'none';
-    } else {
-      mapView.style.display = 'none';
-      listView.style.display = 'block';
+    console.log(this.navParams.get("tabs"));
+    if (this.navParams.get("tabs") != undefined) {
+      if (this.navParams.get("tabs") == 'mapView') {
+        mapView.style.display = 'block';
+        listView.style.display = 'none';
+      } else {
+        mapView.style.display = 'none';
+        listView.style.display = 'block';
+      }
     }
-
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
     if (this.userId == 'undefined') {

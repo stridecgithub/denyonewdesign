@@ -145,7 +145,8 @@
   <ion-row class="event-detail-btn">
     <ion-col class="col" col-12>
       <div>
-        <button  *ngIf="serviced_by==0" (click)="addCalendar(eventitem)"><img src="assets/imgs/edit@2x.png" width="12">Edit</button>
+          <!--*ngIf="serviced_by==0"-->
+        <button   (click)="addCalendar(eventitem)"><img src="assets/imgs/edit@2x.png" width="12">Edit</button>
         <button style="background-color: red; border: red"  (click)="doEventDelete(eventitem)"><ion-icon name="trash"></ion-icon>Delete</button>
       </div>
     </ion-col>
