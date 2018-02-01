@@ -570,7 +570,10 @@ export class AddserviceinfoPage {
       });
   }
 
-
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.unitDetailData.hashtag = hashtag;
+  }
 
   // Update an existing record that has been edited in the page's HTML form
   // Use angular's http post method to submit the record data

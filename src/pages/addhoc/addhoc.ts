@@ -606,7 +606,10 @@ export class AddhocPage {
   }
 
 
-
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.unitDetailData.hashtag = hashtag;
+  }
 
 
   getNextDate(val, field) {
