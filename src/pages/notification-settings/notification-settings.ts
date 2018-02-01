@@ -6,7 +6,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from '../add-unit/add-unit';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-declare var jQuery: any;
+
 //declare var tagEditor: any;
 /**
  * Generated class for the NotificationSettingsPage page.
@@ -253,17 +253,7 @@ export class NotificationSettingsPage {
         if (data.status === 200) {
           this.atmentioneddata = data.json();
           console.log(this.atmentioneddata);
-          jQuery('#alarmhashtags').tagEditor({
-            autocomplete: {
-              delay: 0,
-               position: { collision: 'flip' },
-                source: this.atmentioneddata,
-                delimiter:',;'
-            },
-            forceLowercase: false
-          });
-          jQuery('#alarmhashtags').tagEditor('addTag', this.navParams.get("record").alarmnotificationto,true);
-
+        
         }
 
 
@@ -520,13 +510,6 @@ export class NotificationSettingsPage {
   }
   saveEntry() {
 
-    this.alarmhashtags = jQuery('#alarmhashtags').tagEditor('getTags')[0].tags;
-
-    console.log(this.alarmhashtags.length);
-    if (this.alarmhashtags.length == 0) {
-      this.conf.sendNotification(`Notification required`);
-      return false;
-    }
     //this.alarmhashtags = this.alarmhashtags.replace(",", " ");
     this.timezone = '2017-12-14 12:28:AM';
     let
@@ -658,7 +641,9 @@ export class NotificationSettingsPage {
       this.latitude = '';
       this.longitude = '';
     }
-    
+    if (localStorage.getItem("atMentionResult") != '') {
+      this.alarmhashtags = localStorage.getItem("atMentionResult");
+    }
     console.log(this.isEdited);
     if (this.isEdited > 0) {
       let body: string = "is_mobile=1&unit_id=" + this.isEdited +
@@ -755,6 +740,10 @@ export class NotificationSettingsPage {
 
 
 
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.gethashtag = hashtag;
+  }
 
   addmore() {
     if (this.isEdited == 0) {

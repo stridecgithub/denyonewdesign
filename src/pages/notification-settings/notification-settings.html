@@ -138,12 +138,15 @@
     </ion-row>
     <div class="unit-form-group">
       <div class="inner-div">
-    
-
-        <div class="txt-area">
-          <ion-textarea  id="alarmhashtags"  [(ngModel)]="alarmhashtags"  formControlName="alarmhashtags"></ion-textarea>
-          </div>
-
+        <ion-list>
+          <ion-item>
+            <textarea style="border: 0px;
+    background-color: #efefef;
+    width: 400px;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control" onkeyup="unit(event);address1get(this.value)"
+              onblur="sptionshide();address1get(this.value)" rows="8" [disabled]="readOnly" formControlName="alarmhashtags"
+              rows="6" [(ngModel)]="alarmhashtags"></textarea>
+          </ion-item>
+        </ion-list>
       </div>
     </div>
 
