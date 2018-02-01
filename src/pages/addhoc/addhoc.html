@@ -38,7 +38,7 @@
     </ion-list>
   </div>
 
-  <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+  <!-- <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
     <ion-list style="margin-bottom: 0">
 
 
@@ -58,7 +58,29 @@
       </div>
 
     </ion-list>
+  </div> -->
+
+  <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+    <ion-list style="margin-bottom: 0">
+
+
+      <ion-item style="border: none">
+        <ion-label stacked>Remarks</ion-label>
+        <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
+       
+      </ion-item>
+       <textarea style="width: 91%;
+       margin-left: 4%;
+       background-color: #f8f8f8;
+       border: 1px solid #cccccc;
+       height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                  onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="service_remark"
+                  [(ngModel)]="service_remark"></textarea>
+
+
+    </ion-list>
   </div>
+  
 
   <ion-row class="attachment-row" style="border-bottom: none; padding-left: 5px; border-top: none">
     <ion-col class="col" col-12>
