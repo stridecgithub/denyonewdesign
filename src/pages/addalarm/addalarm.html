@@ -50,7 +50,24 @@
           <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
         </ion-item>
 
-
+        <div class="inner-div">
+          <!--ion-item style="border: none">
+            <ion-label stacked>Remarks</ion-label>
+            <ion-textarea></ion-textarea-->
+          <div style="
+    color: gray;
+    font-size: 12px;
+    margin-top: 15px;
+">Remarks</div>
+          <textarea style="height: 70px;
+    width: 100%;
+    margin-left: 2px;
+    margin-top: 2px;border: 0px;
+    background-color: #f8f8f8;" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
+            onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" formControlName="remark"
+            [(ngModel)]="remark"></textarea>
+          <!--/ion-item-->
+        </div>
 
         <ion-item>
           <ion-label stacked>Assigned to</ion-label>
@@ -60,7 +77,7 @@
         </ion-item>
 
 
-        <div class="inner-div">
+        <!-- <div class="inner-div">
           <div  class="txt-area" style="
     color: gray;
     font-size: 12px;
@@ -73,27 +90,14 @@
     background-color: #f8f8f8;" type="text" name="remark" id="remark" rows="8" [disabled]="readOnly" formControlName="assigned_to"
             [(ngModel)]="remark"></textarea>
 
-        </div>
-
-
-
-        <!-- <div class="inner-div">
-          <div style="
-    color: gray;
-    font-size: 12px;
-    margin-top: 15px;
-"  class="txt-area">Remarks</div>
-          <textarea  style="height: 70px;
-    width: 100%;
-    margin-left: 2px;
-    margin-top: 2px;border: 0px;
-    background-color: #f8f8f8;" type="text"name="remark" id="remark" 
-            rows="8" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></textarea>
-
         </div> -->
 
 
-      
+
+
+
+
+
       </ion-list>
     </div>
 
