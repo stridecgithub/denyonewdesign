@@ -44,7 +44,7 @@
         <ion-item>
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime min="{{currentyear}}" max="3000" formControlName="service_scheduled_date"  (ionChange)="futureDateValidation(service_scheduled_date)" [(ngModel)]="service_scheduled_date"  pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
-            class="cal-icon"></ion-datetime>
+          class="cal-icon"></ion-datetime>
         </ion-item>
 
         <div class="inner-div">
@@ -67,20 +67,19 @@
       <ion-list style="margin-bottom: 0">
 
 
-        <div class="inner-div">
-          <div  class="txt-area" style="
-    color: gray;
-    font-size: 12px;
-    margin-top: 15px;
-">Remark</div>
-          <textarea style="height: 70px;
-    width: 100%;
-    margin-left: 2px;
-    margin-top: 2px;border: 0px;
-    background-color: #f8f8f8;" type="text" name="service_remark" id="service_remark" rows="8" [disabled]="readOnly" formControlName="service_remark"
-            [(ngModel)]="service_remark"></textarea>
+        <ion-item style="border: none">
+          <ion-label stacked>Remarks</ion-label>
+          <!--ion-textarea formControlName="service_remark" [(ngModel)]="service_remark" style="border-bottom: 1px solid #dedede"></ion-textarea-->
+        </ion-item>
 
-        </div>
+
+        <textarea style="width: 91%;
+        margin-left: 4%;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="service_remark"
+                   [(ngModel)]="service_remark"></textarea>
 
 
 

@@ -12,9 +12,9 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
+
 import { Config } from '../../config/config';
 import * as moment from 'moment';
-declare var jQuery: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -28,7 +28,7 @@ declare var jQuery: any;
 })
 export class ServicedetailsPage {
   @ViewChild('fileInput') fileInput;
-  atmentioneddata=[];
+
   isReadyToSave: boolean;
   public photoInfo = [];
   public addedImgListsArray = [];
@@ -46,12 +46,12 @@ export class ServicedetailsPage {
   public mn: any;
   public serviced_by: any;
   //public serviced_date: any;
-  serviced_date: String = '';
+  serviced_date: String = new Date().toISOString();
   public serviced_time: any;
   public servicemindate: any;
   public servicemaxdate: any;
   public service_subject: any;
-  service_scheduled_date: String = '';
+  service_scheduled_date: String = new Date().toISOString();
   public service_scheduled_time: any
   serviced_scheduled_display;
   serviced_created_name;
@@ -67,7 +67,7 @@ export class ServicedetailsPage {
   public msgcount: any;
   public notcount: any;
   public next_service_date: any;
-  public next_service_date_mobileview: any;
+  public next_service_date_mobileview:any;
   public service_priority: any;
   is_request: any;
   public serviced_by_name: any;
@@ -104,10 +104,8 @@ export class ServicedetailsPage {
   threemonthselection;
   calendarmonthselection;
   currentyear;
-  companyId;
-  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+      constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-      this.companyId = localStorage.getItem("userInfoCompanyId");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.next_service_date_selected = 0;
     this.isFuture = 0;
@@ -130,7 +128,7 @@ export class ServicedetailsPage {
 
     this.form = formBuilder.group({
       profilePic: [''],
-      service_remark: [''],
+      service_remark: ['', Validators.required],
       serviced_by: [''],
       next_service_date: [''],
       is_request: [''],
@@ -179,10 +177,11 @@ export class ServicedetailsPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
+
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
-  }
+    }
 
   maxDateStr() {
 
@@ -346,43 +345,31 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
-
-    // Atmentioned API Calls
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
-      options1: any = new RequestOptions({ headers: headers }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
-    console.log(url);
-    this.http.get(url1, options1)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          jQuery('#service_remark').tagEditor({
-            autocomplete: {
-              delay: 0,
-              position: { collision: 'flip' },
-              source: this.atmentioneddata,
-              delimiter: ',;'
-            },
-            forceLowercase: false
-          });
-
-          jQuery('#service_remark').tagEditor('addTag', this.NP.get("record").service_remark,true);
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-
-      })
-    // Atmentioned API Calls
   }
+  favoriteaction(unit_id) {
+    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.unitDetailData.userId,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/setunitfavorite";
+    console.log(url);
+    console.log(body);
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        let favorite;
+        if (data.json().favorite == '1') {
+          favorite = "favorite";
+        }
+        else {
+          favorite = "unfavorite";
 
+        }
+        this.unitDetailData.favoriteindication = favorite;
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+
+  }
 
 
 
@@ -504,21 +491,14 @@ export class ServicedetailsPage {
 
 
       let
-       
+        service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
         description: string = this.form.controls["description"].value,
         service_subject: string = this.service_subject;
-     
-
-      let service_remark = jQuery('#service_remark').tagEditor('getTags')[0].tags;
-      console.log(service_remark);
-      if (service_remark.length == 0) {
-        this.conf.sendNotification(`Remark required`);
-        return false;
-      }
+      console.log("service_scheduled_date and time:" + service_scheduled_date);
 
       //2015-12-10T17:03:00Z
       console.log(service_scheduled_date)
@@ -531,15 +511,12 @@ export class ServicedetailsPage {
         ampmstr = 'PM';
       }
       this.serviced_date = service_scheduled_date.split("T")[0];
-
       if (this.serviced_date != '') {
         let yearsplithyphen = this.serviced_date.split("-");
         this.currentyear = yearsplithyphen[0];
         console.log("Edit Current Year:-" + this.currentyear);
       }
-
-
-      let timevalue = this.hrvalue + ":" + minvalue + ":" + ampmstr;
+            let timevalue = this.hrvalue + ":" + minvalue + ":" + ampmstr;
 
 
       //let d = new Date();
@@ -561,14 +538,16 @@ export class ServicedetailsPage {
 
 
 
-   
+    if (localStorage.getItem("atMentionResult") != '') {
+      service_remark = localStorage.getItem("atMentionResult");
+    }
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
     if (this.service_priority == 'undefined') {
       this.service_priority = '0';
     }
-    console.log(nextServiceDate);
+
     if (nextServiceDate == 'undefined') {
       nextServiceDate = '';
     } else if (nextServiceDate == undefined) {
@@ -604,7 +583,6 @@ export class ServicedetailsPage {
     } else {
       is_denyo_support = 0;
     }
-
     if (status == 1) {
       serviced_by = this.unitDetailData.userId;
     } else if (status == 0) {
@@ -612,7 +590,6 @@ export class ServicedetailsPage {
     } else {
       serviced_by = '0';
     }
-
     // service_subject = 'my service';
     let body: string = "is_mobile=1" +
 
@@ -662,7 +639,8 @@ export class ServicedetailsPage {
           /* if (res.msg[0]['Error'] > 0) {
              this.conf.sendNotification(res.msg[0]['result']);
            }*/
-          this.conf.sendNotification(`Servicing info was successfully updated`);        
+          this.conf.sendNotification(`Servicing info was successfully updated`);
+          localStorage.setItem("atMentionResult", '');
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -678,7 +656,72 @@ export class ServicedetailsPage {
 
 
 
+  // Update an existing record that has been edited in the page's HTML form
+  // Use angular's http post method to submit the record data
+  // to our remote PHP script (note the body variable we have created which
+  // supplies a variable of key with a value of update followed by the key/value pairs
+  // for the record data
+  updateEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
+    this.isSubmitted = true;
+    if (localStorage.getItem("atMentionResult") != '') {
+      service_remark = localStorage.getItem("atMentionResult");
+    }
+    if (this.service_priority == undefined) {
+      this.service_priority = 0;
+    }
+    if (this.service_priority == 'undefined') {
+      this.service_priority = 0;
+    }
+    if (nextServiceDate == 'undefined') {
+      nextServiceDate = '';
+    }
+    if (nextServiceDate == undefined) {
+      nextServiceDate = '';
+    }
+    let body: string = "is_mobile=1&service_id=" + this.service_id +
+      "&serviced_datetime=" + serviced_date +
+      "&service_priority=" + this.service_priority +
+      "&service_unitid=" + this.service_unitid +
+      "&service_remark=" + service_remark +
+      "&next_service_date=" + nextServiceDate +
+      "&next_service_date_selected=" + this.next_service_date_selected +
+      "&is_denyo_support=" + is_request +
+      "&serviced_by=" + this.unitDetailData.userId +
+      "&is_request=" + is_request +
+      "&service_subject=" + service_subject +
+      "&micro_timestamp=" + micro_timestamp +
+      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
 
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/services/update";
+    console.log(url);
+    console.log(body);
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        console.log(data);
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          localStorage.setItem("microtime", "");
+          this.addedServiceImgLists = [];
+          this.service_subject = '';
+          this.service_remark = '';
+          this.addedServiceImgLists = [];
+          this.conf.sendNotification(`Servicing info  was successfully updated`);
+          localStorage.setItem("atMentionResult", '');
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+  }
 
   getNextDate(val, field) {
     this.isFuture = 0;
@@ -787,6 +830,10 @@ export class ServicedetailsPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.unitDetailData.hashtag = hashtag;
+  }
 
 
 
@@ -873,9 +920,7 @@ export class ServicedetailsPage {
         this.description = item.service_description;
       } else {
         this.description = item.description;
-      }
-
-      this.service_remark = item.service_remark;
+      }      this.service_remark = item.service_remark;
       this.service_scheduled_time = item.service_scheduled_time;
       this.created_by_hashtag = item.serviced_created_name;
       this.created_by_photo = item.user_photo;
@@ -1017,7 +1062,13 @@ export class ServicedetailsPage {
     this.navCtrl.setRoot(UnitsPage);
   }
 
+  redirectCalendar() {
+    this.navCtrl.setRoot(CalendarPage);
+  }
 
+  redirectToSettings() {
+    this.navCtrl.setRoot(OrgchartPage);
+  }
 
 
   showConfirm() {
