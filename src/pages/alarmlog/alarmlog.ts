@@ -32,13 +32,13 @@ export class AlarmlogPage {
   public totalCount;
   pet: string = "ALL";
   public reportData: any =
-  {
-    status: '',
-    sort: 'alarm_id',
-    sortascdesc: 'desc',
-    startindex: 0,
-    results: 50
-  }
+    {
+      status: '',
+      sort: 'alarm_id',
+      sortascdesc: 'desc',
+      startindex: 0,
+      results: 50
+    }
   public unitDetailData: any = {
     userId: '',
     loginas: '',
@@ -76,7 +76,7 @@ export class AlarmlogPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
-     this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
@@ -194,8 +194,19 @@ export class AlarmlogPage {
         if (res.alarms.length > 0) {
 
           for (let alarm in res.alarms) {
+            let hashtagbyname;
+            if (res.alarms[alarm].alarm_assginedby_hashtag != '') {
+              let hashtagbyname = "(" + res.alarms[alarm].alarm_assginedby_hashtag + ")";
+            } else {
+              let hashtagbyname = '';
+            }
 
-
+            let hashtagtoname;
+            if (res.alarms[alarm].alarm_assginedto_hashtag != '') {
+              let hashtagbyname = "(" + res.alarms[alarm].alarm_assginedto_hashtag + ")";
+            } else {
+              let hashtagbyname = '';
+            }
 
             this.reportAllLists.push({
               alarm_id: res.alarms[alarm].alarm_id,
@@ -204,15 +215,15 @@ export class AlarmlogPage {
               alarm_assginedto_name: res.alarms[alarm].alarm_assginedto_name,
               alarm_priority: res.alarms[alarm].alarm_priority,
               alarm_received_date: res.alarms[alarm].alarm_received_date,
-               alarm_received_date_mobileview: res.alarms[alarm].alarm_received_date_mobileview,
+              alarm_received_date_mobileview: res.alarms[alarm].alarm_received_date_mobileview,
               alarm_received_time: res.alarms[alarm].alarm_received_time,
               alarm_assigned_date: res.alarms[alarm].alarm_assigned_date,
               alarm_assigned_date_mobileview: res.alarms[alarm].alarm_assigned_date_mobileview,
               alarm_remark: res.alarms[alarm].alarm_remark,
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
-              alarm_assginedby_hashtag: res.alarms[alarm].alarm_assginedby_hashtag,
-              alarm_assginedto_hashtag: res.alarms[alarm].alarm_assginedto_hashtag
-              
+              alarm_assginedby_hashtag: hashtagbyname,
+              alarm_assginedto_hashtag:hashtagtoname
+
 
             });
           }
@@ -297,7 +308,7 @@ export class AlarmlogPage {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
-          from:'alarmlog',
+          from: 'alarmlog',
           unitid: localStorage.getItem("unitId")
         });
       }
