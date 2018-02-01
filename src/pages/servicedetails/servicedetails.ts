@@ -1062,13 +1062,7 @@ export class ServicedetailsPage {
     this.navCtrl.setRoot(UnitsPage);
   }
 
-  redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
-  }
 
-  redirectToSettings() {
-    this.navCtrl.setRoot(OrgchartPage);
-  }
 
 
   showConfirm() {
