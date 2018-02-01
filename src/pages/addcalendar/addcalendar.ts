@@ -8,7 +8,6 @@ import { CalendarPage } from '../calendar/calendar';
 import { Config } from '../../config/config';
 import { DatePicker } from '@ionic-native/date-picker';
 import * as moment from 'moment';
-declare var jQuery: any;
 /**
  * Generated class for the AddcompanygroupPage page.
  *
@@ -41,7 +40,7 @@ export class AddcalendarPage {
   public month1: any;
   public date1: any;
   public event_title: any;
-
+  
   public alldayeventvalue: boolean = false;
   public isSubmitted: boolean = false;
   public alldayevent: boolean = true;
@@ -81,12 +80,10 @@ export class AddcalendarPage {
   private permissionMessage: string = "";
   public networkType: string;
   tabBarElement: any;
-  atmentioneddata = [];
   constructor(private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
-    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.locationstr = "Deployed";
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
@@ -100,7 +97,7 @@ export class AddcalendarPage {
       "event_date": [""],
       "event_end_date": [""],
       "event_type": [""],
-      "event_notes": [""],
+      "event_notes": ["", Validators.required],
       "event_time": [""],
       "event_end_time": [""],
       "alldayevent": [""]
@@ -216,13 +213,11 @@ export class AddcalendarPage {
 
 
     // this.event_date = dateStr.getFullYear() + "-" + this.month1 + "-" + this.date1;
-    /*this.event_date = localStorage.getItem("eventDate");
+    this.event_date = localStorage.getItem("eventDate");
     this.event_end_date = localStorage.getItem("eventDate");
-*/
     this.event_date = moment().format();
     this.event_end_date = moment().format();
-
-    console.log("Bottom UTC Format Current Date:" + this.event_date);
+        console.log("Bottom UTC Format Current Date:" + this.event_date);
 
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
@@ -300,60 +295,20 @@ export class AddcalendarPage {
     this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-
     this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad  AddcalendarPage');
     localStorage.setItem("fromModule", "AddcalendarPage");
 
 
-    // Atmentioned API Calls
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type1 }),
-      options1: any = new RequestOptions({ headers: headers1 }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.userId;
-    console.log(url1);
-    this.http.get(url1, options1)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          jQuery('#event_notes').tagEditor({
-            autocomplete: {
-              delay: 0,
-              position: { collision: 'flip' },
-              source: this.atmentioneddata
-            },
-            sortable: true,
-            forceLowercase: false
-          });
-         /* console.log("Record is:" + console.log(this.NP.get("record")));
-          console.log("Type is:" + console.log(this.NP.get("type")));
-          if (this.NP.get("type") != undefined) {
-            if (this.NP.get("type") == "service") {
-              jQuery('#event_notes').tagEditor('addTag', this.NP.get("record").description, true);
-            } else {
-              jQuery('#event_notes').tagEditor('addTag', this.NP.get("record").event_remark, true);
-            }
-          }*/
 
-
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-
-      })
-    // Atmentioned API Calls
 
   }
 
 
-
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.gethashtag = hashtag;
+  }
 
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
@@ -374,13 +329,12 @@ export class AddcalendarPage {
       console.log("Event Date:" + item.event_date);
       this.event_unitid = item.service_unitid;
       this.recordID = item.service_id;
-      console.log(item.service_scheduled_time);
       this.event_time = item.service_scheduled_time.substr(0, 5);
       console.log("Time for Start:" + this.event_time);
 
       this.event_subject = item.service_subject;
       this.event_notes = item.description;
-      this.alldayeventhide = false;
+      this.alldayeventhide=false;
       this.enddatefield = false;
       this.endtimefield = false;
       this.starttimefield = true;
@@ -388,7 +342,7 @@ export class AddcalendarPage {
       this.startdatelabel = "";
       this.unitfield = true;
       this.disunit = true;
-    }
+        }
     if (type == 'event') {
       this.unitfield = false;
       this.disunit = false;
@@ -448,7 +402,7 @@ export class AddcalendarPage {
     if (this.event_unitid > 0) {
       this.getProjectLocation(this.event_unitid)
     }
-
+    this.address1get(this.event_notes);
   }
 
   getType(type) {
@@ -517,6 +471,7 @@ export class AddcalendarPage {
       event_end_time = '';
     }
     this.isSubmitted = true;
+    service_remark = localStorage.getItem("atMentionResult");
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -544,6 +499,7 @@ export class AddcalendarPage {
             this.conf.sendNotification(res.msg[0].result);
           } else {
             this.conf.sendNotification(res.msg[0].result);
+            localStorage.setItem("atMentionResult", '');
             this.navCtrl.setRoot(CalendarPage);
           }
         }
@@ -598,7 +554,9 @@ export class AddcalendarPage {
     } else {
       event_end_time = '';
     }
-
+    /* if (localStorage.getItem("atMentionResult") != '') {
+       service_remark = localStorage.getItem("atMentionResult");
+     }*/
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -623,6 +581,7 @@ export class AddcalendarPage {
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.conf.sendNotification(res.msg[0].result);
+            localStorage.setItem("atMentionResult", '');
           } else {
             this.conf.sendNotification(res.msg[0].result);
             this.navCtrl.setRoot(CalendarPage);
@@ -688,19 +647,11 @@ export class AddcalendarPage {
       event_end_date: string = this.form.controls["event_end_date"].value,
       event_time: string = this.form.controls["event_time"].value,
       event_end_time: string = this.form.controls["event_end_time"].value,
-      event_location: string = this.form.controls["event_location"].value;
-    this.alldayeventvalue = this.form.controls["alldayevent"].value;
+      event_location: string = this.form.controls["event_location"].value,
+      service_remark: string = this.form.controls["event_notes"].value;
+      this.alldayeventvalue= this.form.controls["alldayevent"].value;
 
-
-    let service_remark = jQuery('#event_notes').tagEditor('getTags')[0].tags;
-    console.log(service_remark.length);
-    if (service_remark.length == 0) {
-      this.conf.sendNotification(`Description required`);
-      return false;
-    }
-
-
-    console.log("alldayevent toggle value" + this.alldayeventvalue);
+      console.log("alldayevent toggle value"+this.alldayeventvalue);
     if (event_end_date == undefined) {
       event_end_date = '';
     }
@@ -716,21 +667,21 @@ export class AddcalendarPage {
       } else {
         if (type_name != 'Service') {
 
-          // this.conf.sendNotification('End date should be after start date');
-          // return false;
+          this.conf.sendNotification('End date should be after start date');
+          return false;
         }
       }
     }
     let togglevalue;
     if (this.alldayeventvalue == true) {
       togglevalue = 1;
-      // this.event_end_date='0000-00-00';
-      event_end_time = '';
+     // this.event_end_date='0000-00-00';
+      event_end_time='';
     } else {
       togglevalue = 0
     }
 
-    console.log("Final Toggle" + this.alldayeventvalue + ":" + togglevalue);
+    console.log("Final Toggle"+this.alldayeventvalue+":"+togglevalue);
 
     if (this.isEdited) {
       this.updateEntry(event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
@@ -823,8 +774,8 @@ export class AddcalendarPage {
     if (val == true) {
       this.endtimefield = false;
       this.starttimefield = false;
-      this.event_end_time = '';
-      // this.event_end_date='';
+      this.event_end_time='';
+     // this.event_end_date='';
 
     } else {
       this.endtimefield = true;

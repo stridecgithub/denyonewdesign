@@ -78,7 +78,7 @@
 
         <ion-item>
           <ion-label stacked>{{startdatelabel}} Date</ion-label>
-          <ion-datetime pickerFormat="MMM DD YYYY" min="{{mindate}}"  max="3000" class="cal-icon" displayFormat="MM/DD/YYYY" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)"></ion-datetime>
+          <ion-datetime pickerFormat="MMM DD YYYY" class="cal-icon" displayFormat="MM/DD/YYYY" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)"></ion-datetime>
         </ion-item>
 
         <ion-item *ngIf="starttimefield">
@@ -93,7 +93,7 @@
 
         <ion-item *ngIf="enddatefield">
           <ion-label stacked>End Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}"  max="3000" class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date"  (ionChange)="filToDate(event_date)"></ion-datetime>
+          <ion-datetime displayFormat="MM/DD/YYYY" class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date"></ion-datetime>
         </ion-item>
 
 
@@ -102,18 +102,18 @@
 
 
         <ion-item>
-          <ion-label stacked>Description</ion-label>        
+          <ion-label stacked>Description</ion-label>
+          <!--ion-textarea type="text" name="to" id="to" class="suggest form-control" class="form-control" rows="8" [disabled]="readOnly"
+            formControlName="event_notes" [(ngModel)]="event_notes" style="height: 100px;
+    width: 281px;"></ion-textarea-->
         </ion-item>
-                          <div class="inner-div">
-                   
-                    <textarea style="height: 70px;
-              width: 100%;
-              margin-left: 2px;
-              margin-top: 2px;border: 0px;
-              background-color: #f8f8f8;" type="text" name="event_notes" id="event_notes" rows="8" [disabled]="readOnly" formControlName="event_notes"
-                      [(ngModel)]="event_notes"></textarea>
-          
-                  </div>
+        <textarea style="width: 91%;
+        margin-left: 4%;
+        background-color: #f8f8f8;
+        border: 1px solid #cccccc;
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
+                   [(ngModel)]="event_notes"></textarea>
 
       </ion-list>
     </div>
