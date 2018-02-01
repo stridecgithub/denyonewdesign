@@ -9,7 +9,6 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
-declare var jQuery: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -89,7 +88,7 @@ export class ComposePage {
       subject: ['', Validators.required],
       composemessagecontent: ['', Validators.required],
       copytome: [''],
-      to: ['']
+      to: ['', Validators.required]
 
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -222,15 +221,7 @@ export class ComposePage {
         if (data.status === 200) {
           this.atmentioneddata = data.json();
           console.log(this.atmentioneddata);
-          jQuery('#to').tagEditor({
-            autocomplete: {
-              delay: 0,
-              position: { collision: 'flip' },
-              source: this.atmentioneddata,
-              delimiter: ',;'
-            },
-            forceLowercase: false
-          });
+
         }
         // Otherwise let 'em know anyway
         else {
@@ -382,14 +373,9 @@ export class ComposePage {
   }
   // When form submitting the below function calling
   saveEntry() {
-    let to = jQuery('#to').tagEditor('getTags')[0].tags;
-    console.log(to.length);
-    if (to.length == 0) {
-      this.conf.sendNotification(`To address required`);
-      return false;
-    }
+
     if (this.isUploadedProcessing == false) {
-      let
+      let to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
@@ -418,7 +404,9 @@ export class ComposePage {
     if (copytome == true) {
       copytome = '1';
     }
-
+    if (localStorage.getItem("atMentionResult") != '') {
+      to = localStorage.getItem("atMentionResult");
+    }
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -470,7 +458,7 @@ export class ComposePage {
 
           localStorage.setItem("microtime", "");
           // this.conf.sendNotification(`Message sending successfully`);
-
+          localStorage.setItem("atMentionResult", '');
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
         }
@@ -480,6 +468,7 @@ export class ComposePage {
         }
       });
     localStorage.setItem("microtime", "");
+    localStorage.setItem("atMentionResult", '');
     this.conf.sendNotification(`Message sending successfully`);
 
     this.navCtrl.setRoot(MessagesPage);
@@ -679,7 +668,18 @@ export class ComposePage {
 
     this.message_priority = val
   }
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.hashtag = hashtag;
 
+
+    var str = " i am from Tamil nadu.";
+    var res = str.split(" ");  //split by space
+    res.pop();  //remove last element
+    console.log(res.join(" ") + ".");  //join back together
+
+
+  }
 
   doRemoveResouce(item) {
     console.log("Deleted Id" + item.resource_id);
