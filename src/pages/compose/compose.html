@@ -30,10 +30,12 @@
         <ion-list>
           <ion-item style="background-color: #f8f8f8;">
             <textarea style="width: 388px;
-      position: absolute;
-      top: 0px;
-      border: 0px;
-      background-color: #f8f8f8;" name="to" id="to" class="to" formControlName="to" [(ngModel)]="to" row="10"></textarea>
+    position: absolute;
+    top: 0px;
+    border: 0px;
+    background-color: #f8f8f8;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control"
+              onkeyup="message(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="to"
+              [(ngModel)]="to" row="10"></textarea>
           </ion-item>
         </ion-list>
 
