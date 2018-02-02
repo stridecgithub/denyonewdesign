@@ -129,7 +129,7 @@ export class UnitdetailsPage {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
 		this.l1l2l3voltagelablel = 'L1-L2';
-		this.l1l2l3currentlablel = 'L1-L2';
+		this.l1l2l3currentlablel = 'L1';
 		this.permissionMessage = conf.rolePermissionMsg();
 		this.apiServiceURL = conf.apiBaseURL();
 
@@ -1897,13 +1897,13 @@ export class UnitdetailsPage {
 		console.log(current);
 		if (current == 3) {
 			this.selectedcurrent = this.current3;
-			this.l1l2l3currentlablel = 'L1-L3';
+			this.l1l2l3currentlablel = 'L1';
 		} else if (current == 2) {
 			this.selectedcurrent = this.current2;
-			this.l1l2l3currentlablel = 'L2-L3';
+			this.l1l2l3currentlablel = 'L2';
 		} else {
 			this.selectedcurrent = this.current1;
-			this.l1l2l3currentlablel = 'L1-L2';
+			this.l1l2l3currentlablel = 'L3';
 		}
 
 	}

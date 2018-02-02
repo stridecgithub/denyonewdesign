@@ -107,9 +107,9 @@
             <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.unitname}}
             <div class="list-desc">{{unit.projectname}}</div>
             <div class="list-favorite">
-              <!--button>
-                <ion-icon ios="ios-map-outline" md="md-map"></ion-icon>
-              </button-->
+              <button>
+                  <img src="assets/imgs/map.png">
+            </button>
               <button (click)="favorite(unit.unit_id)">
                 <ion-icon name="star-outline"
                           *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>

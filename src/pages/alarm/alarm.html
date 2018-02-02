@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons left>
@@ -45,20 +44,24 @@
         <div class="switch">
           <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarmitem.alarm_priority == '1'">
           <img alt="" src="assets/imgs/warning-pic@2x.png" *ngIf="alarmitem.alarm_priority == '2'">
-          <ion-icon class="angel" name="analytics" (click)="doEdit(alarmitem,'trendline')"></ion-icon>
+
+          <!-- <ion-icon class="angel" name="analytics" (click)="doEdit(alarmitem,'trendline')"></ion-icon>
+           -->
+          <img class="angel" src="assets/imgs/trendline_new.png" (click)="doEdit(alarmitem,'trendline')">
           <ion-row>
             <ion-col col-12 (click)="doEdit(alarmitem,'edit')">
               <h1>{{alarmitem.alarm_name}}</h1>
               <p>Assigned by:{{alarmitem.alarm_assginedby_name}}
                 <br> Assigned to:{{alarmitem.alarm_assginedto_name}}</p>
-              <div class="time">
+              <div class="time" style="right: -20px;
+              position: absolute;">
                 {{alarmitem.alarm_received_time}}
               </div>
             </ion-col>
           </ion-row>
         </div>
       </ion-item>
-    
+
     </ion-item-sliding>
 
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
@@ -67,7 +70,7 @@
 
   </ion-list>
 
-  
+
 
 </ion-content>
 <!-- USMAN -->
