@@ -338,7 +338,67 @@ ion-segment {
 .buttons .pin {
 	padding: 10.5px 4px!important;
 }
+
 .icon-size{
   max-width:50%;
 }
 
+
+.alert-md .alert-title {
+    font-size: 16px;
+}
+.alert-md .alert-head {
+    padding: 10px 18px 0;
+}
+.alert-md .alert-radio-group {
+	border: none;
+}
+.alert-md .alert-tappable {
+	display: table;
+    border-bottom: 1px solid #ededed;
+    width: 86%;
+    margin: 0 auto;
+}
+.alert-md .alert-radio-label {
+	padding: 13px 0;
+}
+.button-inner {
+	justify-content: left;
+}
+.alert-md .alert-radio-icon {
+	right: 0;
+	left: inherit;
+    top: 10px;
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a1a1a1;
+}
+.alert-md .alert-radio-inner {
+	left: 3px;
+    top: 3px;
+    width: 11px;
+    height: 11px;
+}
+.alert-md .alert-wrapper {
+	background-color: #fff;
+}
+.alert-md [aria-checked=true] .alert-radio-label {
+    color: initial;
+}
+.alert-md .alert-button-group {
+ 	padding: 4px 8px 4px 10px;
+ 	margin: 0 auto;
+}
+.alert-md .alert-button {
+	margin: 0 39px;
+	padding: 7px 10px;
+}
+.alert-md .alert-button .button-inner {
+	font-weight: normal;
+}
+.alert-button {
+	font-size: 15px;
+}
