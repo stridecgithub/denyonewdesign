@@ -69,7 +69,8 @@
             <div [ngStyle]="{'background-color':commstatuscolor}">
               <span>{{commstatus}}</span>COMM. STATUS</div>
             <div>
-              <span>{{nextservicedate}}</span>SERVICING</div><!--07/02/2017-->
+              <span>{{nextservicedate}}</span>SERVICING</div>
+            <!--07/02/2017-->
           </div>
 
           <div class="engine-state" [ngStyle]="{'background-color':enginestatuscolor}">
@@ -260,7 +261,7 @@
           <div class="data-selector">
             <div [ngStyle]="{'background-color':commstatuscolor}">
               <span>{{commstatus}}</span>COMM. STATUS</div>
-            <div  [ngStyle]="{'background-color':enginestatuscolor}">
+            <div [ngStyle]="{'background-color':enginestatuscolor}">
               <span>{{enginestatus}}</span>ENGINE STATE</div>
             <div class="active-data-selector">
               <span>Off</span>BREAKER STATE</div>
@@ -277,47 +278,54 @@
         <ion-col class="col" col-6>
           <h2>VOLTAGE
             <br> {{selectedvoltage}} V</h2>
-          <div class="meter-box">
-            <span style="top: 95px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/VOLT1/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 95px;
             position: absolute;
             left: 59px;
             font-weight: bold;
             font-size: 15px;">{{l1l2l3voltagelablel}}
-            </span>
-            <div class="svg-draw">
-              <div class="voltagegauge demo2"></div>
-              <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" style="
+              </span>
+              <div class="svg-draw">
+                <div class="voltagegauge demo2"></div>
+                <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" style="
               position: relative;
               top: -51px;
               left: 80px;">
-                <ion-option value="1" selected="true">L1-L2</ion-option>
-                <ion-option value="2">L2-L3</ion-option>
-                <ion-option value="3">L1-L3</ion-option>
-              </ion-select>
+                  <ion-option value="1" selected="true">L1-L2</ion-option>
+                  <ion-option value="2">L2-L3</ion-option>
+                  <ion-option value="3">L1-L3</ion-option>
+                </ion-select>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
         <ion-col class="col" col-6>
           <h2>CURRENT
             <br> {{selectedcurrent}} A</h2>
+
+
+
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <div class="meter-box">
-            <span style="top: 95px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/CURRENT1/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 95px;
                 position: absolute;            
                 left: 73px;font-weight: bold;
                 font-size: 15px;">{{l1l2l3currentlablel}}</span>
-            <div class="svg-draw">
-              <div class="currentgauge demo2"></div>
-              <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" style="
+              <div class="svg-draw">
+                <div class="currentgauge demo2"></div>
+                <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" style="
                   position: relative;
                   top: -51px;
                   left: 80px;">
-                <ion-option value="1" selected="true">L1</ion-option>
-                <ion-option value="2">L2</ion-option>
-                <ion-option value="3">L3</ion-option>
-              </ion-select>
+                  <ion-option value="1" selected="true">L1</ion-option>
+                  <ion-option value="2">L2</ion-option>
+                  <ion-option value="3">L3</ion-option>
+                </ion-select>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -329,29 +337,33 @@
           <h2>FREQUENCY
             <br> {{selectedfrequency}} Hz </h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <div class="meter-box">
-            <span style="top: 79px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/FREQ/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
             font-size: 15px;"></span>
-            <div class="svg-draw">
-              <div class="frequencygauge demo2"></div>
+              <div class="svg-draw">
+                <div class="frequencygauge demo2"></div>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
         <ion-col class="col" col-6>
           <h2>ENGINE SPEED
             <br> {{selectedenginespeed}} RPM</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <div class="meter-box">
-            <span style="top: 79px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/ENGINESPEED/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
             font-size: 15px;"></span>
-            <div class="svg-draw">
-              <div class="enginespeedgauge demo2"></div>
+              <div class="svg-draw">
+                <div class="enginespeedgauge demo2"></div>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -363,29 +375,33 @@
           <h2>FUEL
             <br> {{selectedfuel}}%</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <div class="meter-box">
-            <span style="top: 79px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/FUELLVEL/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
             font-size: 15px;"></span>
-            <div class="svg-draw">
-              <div class="fuelgauge demo2"></div>
+              <div class="svg-draw">
+                <div class="fuelgauge demo2"></div>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
         <ion-col class="col" col-6>
           <h2>LOAD POWER
             <br> {{selectedloadpower}} kW</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <div class="meter-box">
-            <span style="top: 79px;
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWER/0/showgraph">
+            <div class="meter-box">
+              <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
             font-size: 15px;"></span>
-            <div class="svg-draw">
-              <div class="loadpowergauge demo2"></div>
+              <div class="svg-draw">
+                <div class="loadpowergauge demo2"></div>
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -401,10 +417,13 @@
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
-          <div><!-- (click)="showgraph(unitDetailData.unit_id)" -->
-            <div id="coolanttemp">
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/COLLANTTEMP/0/showgraph">
+            <div>
+              <!-- (click)="showgraph(unitDetailData.unit_id)" -->
+              <div id="coolanttemp">
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
       </ion-row>
 
@@ -417,10 +436,12 @@
           <h1>{{oilpressure}}</h1>
         </ion-col>
         <ion-col class="col" col-12>
-          <div>
-            <div id="oilpressure">
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/OILPRESSURE/0/showgraph">
+            <div>
+              <div id="oilpressure">
+              </div>
             </div>
-          </div>
+          </a>
 
 
         </ion-col>
@@ -436,10 +457,12 @@
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
-          <div>
-            <div id="loadpowerfactor">
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph">
+            <div>
+              <div id="loadpowerfactor">
+              </div>
             </div>
-          </div>
+          </a>
         </ion-col>
       </ion-row>
 
@@ -453,10 +476,12 @@
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
+          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/BATTERYVOLTAGE/0/showgraph">
           <div>
             <div id="batteryvoltage">
             </div>
           </div>
+          </a>
         </ion-col>
       </ion-row>
       <!--Mid Columns-->

@@ -20,7 +20,7 @@
 <ion-content>
 
   <ion-content>
-    <ion-row class="event-head">
+    <!-- <ion-row class="event-head">
       <ion-col class="col" col-12>
         <div>
           <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarm_priority == '1'">
@@ -32,7 +32,24 @@
             <span class="span-warning" [ngStyle]="{'background-color':  + alarm_color_code}"></span>{{labels}}</span>
         </div>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
+
+
+    <div class="switch edit-alarm-top" style="border-bottom: 1px solid #cccccc;">
+      <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarm_priority=='0'">
+      <img alt="" src="assets/imgs/error-pic@2x.png" *ngIf="alarm_priority=='1'">
+      <img alt="" src="assets/imgs/warning-pic@2x.png" *ngIf="alarm_priority=='2'">
+      <ion-row>
+        <ion-col col-12>
+          <h1>{{eventTitle}}</h1>
+          <p>{{evenDate}}</p>
+          <span class="span-text">
+            <span class="span-warning" [ngStyle]="{'background-color':  + alarm_color_code}"></span>{{labels}}</span>
+
+        </ion-col>
+      </ion-row>
+    </div>
+
 
     <ion-row class="event-body">
       <ion-col class="col" col-5>

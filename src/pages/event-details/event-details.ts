@@ -64,7 +64,7 @@ export class EventDetailsPage {
       console.log(url1);
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log(JSON.stringify(data.json()))
+          console.log("Alarm event  details:-"+JSON.stringify(data.json()))
           this.eventTitle = data.json().alarms[0].alarm_name;
           this.evenDate = data.json().alarms[0].alarm_received_formatted_date;
           this.labels = data.json().alarms[0].labels;
