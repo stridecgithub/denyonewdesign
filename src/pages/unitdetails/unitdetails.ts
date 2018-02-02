@@ -1921,13 +1921,13 @@ export class UnitdetailsPage {
 		console.log(current);
 		if (current == 3) {
 			this.selectedcurrent = this.current3;
-			this.l1l2l3currentlablel = 'L1';
+			this.l1l2l3currentlablel = 'L3';
 		} else if (current == 2) {
 			this.selectedcurrent = this.current2;
 			this.l1l2l3currentlablel = 'L2';
 		} else {
 			this.selectedcurrent = this.current1;
-			this.l1l2l3currentlablel = 'L3';
+			this.l1l2l3currentlablel = 'L1';
 		}
 
 	}

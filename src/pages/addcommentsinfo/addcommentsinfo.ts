@@ -113,7 +113,7 @@ export class AddcommentsinfoPage {
 
     this.form = formBuilder.group({
       profilePic: [''],
-      comment_subject: [''],
+      comment_subject: ['', Validators.required],
       comment_remark: ['', Validators.required],//
       comment_by: ['']
     });
