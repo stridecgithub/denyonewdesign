@@ -278,8 +278,8 @@
         <ion-col class="col" col-6>
           <h2>VOLTAGE
             <br> {{selectedvoltage}} V</h2>
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/VOLT1/0/showgraph">
-            <div class="meter-box">
+        
+            <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'VOLT1')">
               <span style="top: 95px;
             position: absolute;
             left: 59px;
@@ -298,7 +298,7 @@
                 </ion-select>
               </div>
             </div>
-          </a>
+         
         </ion-col>
         <ion-col class="col" col-6>
           <h2>CURRENT
@@ -307,8 +307,7 @@
 
 
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/CURRENT1/0/showgraph">
-            <div class="meter-box">
+            <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'CURRENT1')">
               <span style="top: 95px;
                 position: absolute;            
                 left: 73px;font-weight: bold;
@@ -325,7 +324,7 @@
                 </ion-select>
               </div>
             </div>
-          </a>
+         
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -337,8 +336,8 @@
           <h2>FREQUENCY
             <br> {{selectedfrequency}} Hz </h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/FREQ/0/showgraph">
-            <div class="meter-box">
+         
+            <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'FREQ')">
               <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
@@ -347,14 +346,15 @@
                 <div class="frequencygauge demo2"></div>
               </div>
             </div>
-          </a>
+         
         </ion-col>
         <ion-col class="col" col-6>
           <h2>ENGINE SPEED
             <br> {{selectedenginespeed}} RPM</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/ENGINESPEED/0/showgraph">
-            <div class="meter-box">
+          <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'ENGINESPEED')">
+              
+            
               <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
@@ -363,7 +363,7 @@
                 <div class="enginespeedgauge demo2"></div>
               </div>
             </div>
-          </a>
+         
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -375,8 +375,9 @@
           <h2>FUEL
             <br> {{selectedfuel}}%</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/FUELLVEL/0/showgraph">
-            <div class="meter-box">
+          
+            <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'FUELLVEL')">
+           
               <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
@@ -385,23 +386,23 @@
                 <div class="fuelgauge demo2"></div>
               </div>
             </div>
-          </a>
+         
         </ion-col>
         <ion-col class="col" col-6>
           <h2>LOAD POWER
             <br> {{selectedloadpower}} kW</h2>
           <!-- <img src="assets/imgs/test-img.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWER/0/showgraph">
-            <div class="meter-box">
-              <span style="top: 79px;
+
+          <div class="meter-box" (click)="showgraph(this.unitDetailData.unit_id,'LOADPOWER')">
+            <span style="top: 79px;
             position: absolute;
             left: 72px;font-weight: bold;
             font-size: 15px;"></span>
-              <div class="svg-draw">
-                <div class="loadpowergauge demo2"></div>
-              </div>
+            <div class="svg-draw">
+              <div class="loadpowergauge demo2"></div>
             </div>
-          </a>
+          </div>
+
         </ion-col>
       </ion-row>
       <div style="border: 1px solid lightgray;
@@ -417,13 +418,11 @@
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/COLLANTTEMP/0/showgraph">
-            <div>
-              <!-- (click)="showgraph(unitDetailData.unit_id)" -->
-              <div id="coolanttemp">
-              </div>
+          <div (click)="showgraph(this.unitDetailData.unit_id,'COLLANTTEMP')">
+            <div id="coolanttemp">
             </div>
-          </a>
+          </div>
+
         </ion-col>
       </ion-row>
 
@@ -436,12 +435,11 @@
           <h1>{{oilpressure}}</h1>
         </ion-col>
         <ion-col class="col" col-12>
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/OILPRESSURE/0/showgraph">
-            <div>
-              <div id="oilpressure">
-              </div>
+          <div (click)="showgraph(this.unitDetailData.unit_id,'OILPRESSURE')">
+            <div id="oilpressure">
             </div>
-          </a>
+          </div>
+
 
 
         </ion-col>
@@ -456,13 +454,11 @@
           <h1>{{loadpowerfactor}}</h1>
         </ion-col>
         <ion-col class="col" col-12>
-          <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph">
-            <div>
-              <div id="loadpowerfactor">
-              </div>
+          <div (click)="showgraph(this.unitDetailData.unit_id,'LOADPOWERFACTOR')">
+            <div id="loadpowerfactor">
             </div>
-          </a>
+          </div>
+
         </ion-col>
       </ion-row>
 
@@ -476,12 +472,10 @@
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
-          <a href="http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/BATTERYVOLTAGE/0/showgraph">
-          <div>
+          <div (click)="showgraph(this.unitDetailData.unit_id,'BATTERYVOLTAGE')">
             <div id="batteryvoltage">
             </div>
-          </div>
-          </a>
+          </div>        
         </ion-col>
       </ion-row>
       <!--Mid Columns-->

@@ -11,6 +11,8 @@ import { Config } from '../../config/config';
 import { EnginedetailviewPage } from '../enginedetailview/enginedetailview';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { AddUnitPage } from "../add-unit/add-unit";
+import { UnitdetailgraphPage } from "../unitdetailgraph/unitdetailgraph";
+
 import * as $ from 'jquery';
 declare var jQuery: any;
 declare var Gauge: any;
@@ -1636,7 +1638,9 @@ export class UnitdetailsPage {
 			});
 	}
 	servicingInfo(unitId) {
-		this.subscription.unsubscribe();
+		if (this.timerswitch > 1) {
+			this.subscription.unsubscribe();
+		}
 		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
 			"&unitid=" + this.unitDetailData.unit_id,
 			type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1721,7 +1725,9 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'none';
 		} else if (e._value == 'gensetView') {
+			if (this.timerswitch > 1) {
 			this.subscription.unsubscribe();
+			}
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'none';
@@ -1741,20 +1747,26 @@ export class UnitdetailsPage {
 	}
 
 	alarm() {
+		if (this.timerswitch > 1) {
 		this.subscription.unsubscribe();
+		}
 		this.navCtrl.setRoot(AlarmlogPage, {
 			record: this.NP.get("record")
 		});
 	}
 	enginedetail() {
+		if (this.timerswitch > 1) {
 		this.subscription.unsubscribe();
+		}
 		this.navCtrl.setRoot(EnginedetailviewPage, {
 			record: this.NP.get("record")
 		});
 		//this.navCtrl.setRoot(MenuPage);
 	}
 	previous() {
+		if (this.timerswitch > 1) {
 		this.subscription.unsubscribe();
+		}
 		this.navCtrl.setRoot(UnitsPage);
 	}
 	notification() {
@@ -1920,7 +1932,12 @@ export class UnitdetailsPage {
 	getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
-	showgraph(unit_id) {
+	showgraph(unit_id, graphname) {
+
+		this.navCtrl.setRoot(UnitdetailgraphPage, {
+			unit_id: unit_id,
+			graphname: graphname
+		});
 		console.log("Show Graph function calling:-" + unit_id);
 
 	}
