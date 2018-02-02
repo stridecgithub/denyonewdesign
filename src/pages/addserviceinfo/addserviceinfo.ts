@@ -467,7 +467,7 @@ export class AddserviceinfoPage {
           ampmstr = 'PM';
         }
         serviced_datetime = this.serviced_datetime.split("T")[0];
-        let timevalue = this.hrvalue + ":" + minvalue + ":" + ampmstr;
+        let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
         console.log(timevalue);
         //let d = new Date();
         //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();

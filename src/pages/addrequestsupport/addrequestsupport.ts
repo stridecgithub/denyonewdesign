@@ -346,7 +346,7 @@ export class AddrequestsupportPage {
       ampmstr = 'PM';
     }
     serviced_datetime = serviced_datetime.split("T")[0];
-    let timevalue = this.hrvalue + ":" + minvalue + ":" + ampmstr;
+    let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
     console.log(timevalue);
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
