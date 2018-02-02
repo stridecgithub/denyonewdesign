@@ -516,7 +516,8 @@ export class ServicedetailsPage {
         this.currentyear = yearsplithyphen[0];
         console.log("Edit Current Year:-" + this.currentyear);
       }
-            let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+            //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+            let timevalue = this.hrvalue + ":" + minvalue + ":00"
 
 
       //let d = new Date();

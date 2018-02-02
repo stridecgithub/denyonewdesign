@@ -477,7 +477,8 @@ export class AddhocPage {
         ampmstr = 'PM';
       }
       serviced_date = this.serviced_date.split("T")[0];
-      let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+     // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+      let timevalue = this.hrvalue + ":" + minvalue + ":00";
       console.log(timevalue);
       console.log("service_remark:" + service_remark);
       console.log("serviced_by:" + serviced_by);
