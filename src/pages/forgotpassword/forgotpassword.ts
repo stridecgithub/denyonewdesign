@@ -102,7 +102,7 @@ export class ForgotpasswordPage {
             console.log("Msg Results:-" + res.msg[0].result);
             this.hideForm = true;
             if (res.msg[0].result > 0) {
-              this.conf.sendNotification(res.msg[0].result);
+              this.conf.sendNotification('Forgot password has been sending your registered email id.');
             } else {
               this.conf.sendNotification(res.msg[0].result);
               this.nav.push(LoginPage);
