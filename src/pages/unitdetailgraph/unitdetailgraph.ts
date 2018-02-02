@@ -53,27 +53,27 @@ export class UnitdetailgraphPage {
     let graphname = this.navParams.get("graphname");
     if (graphname == 'LOADPOWERFACTOR') {
       //http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "+/LOADPOWERFACTOR/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'OILPRESSURE') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/OILPRESSURE/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/OILPRESSURE/1/showgraph");
     } else if (graphname == 'BATTERYVOLTAGE') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/BATTERYVOLTAGE/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/BATTERYVOLTAGE/1/showgraph");
     } else if (graphname == 'LOADPOWERFACTOR') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/LOADPOWERFACTOR/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'COLLANTTEMP') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/COLLANTTEMP/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/COLLANTTEMP/1/showgraph");
     } else if (graphname == 'LOADPOWER') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "+/LOADPOWER/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWER/1/showgraph");
     } else if (graphname == 'VOLT1') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/VOLT1/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/VOLT1/1/showgraph");
     } else if (graphname == 'CURRENT1') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/CURRENT1/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/CURRENT1/1/showgraph");
     } else if (graphname == 'FREQ') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/FREQ/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/FREQ/1/showgraph");
     } else if (graphname == 'ENGINESPEED') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "+/ENGINESPEED/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/ENGINESPEED/1/showgraph");
     } else if (graphname == 'FUELLVEL') {
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "+/FUELLVEL/0/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/FUELLVEL/1/showgraph");
 
     }
 

@@ -135,7 +135,7 @@ export class UnitdetailsPage {
 		this.l1l2l3currentlablel = 'L1';
 		this.permissionMessage = conf.rolePermissionMsg();
 		this.apiServiceURL = conf.apiBaseURL();
-		this.timerswitch = 0;
+		this.timerswitch = 1;
 		this.controlleroffmode = '';
 		this.controllerautomode = '';
 		this.controllermanmode = '';
@@ -150,7 +150,7 @@ export class UnitdetailsPage {
 		this.platform.registerBackButtonAction(() => {
 			this.previous();
 		});
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
 				this.unitstimervalue();
 			});
@@ -1555,7 +1555,7 @@ export class UnitdetailsPage {
 		}
 
 
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 			setTimeout(function () {
 				this.unitstimervalue;
 			}, 2000);
@@ -1638,7 +1638,7 @@ export class UnitdetailsPage {
 			});
 	}
 	servicingInfo(unitId) {
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 			this.subscription.unsubscribe();
 		}
 		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
@@ -1715,7 +1715,7 @@ export class UnitdetailsPage {
 		let gensetView = document.getElementById('gensetView');
 
 		if (e._value == 'dataView') {
-			if (this.timerswitch > 1) {
+			if (this.timerswitch > 0) {
 				this.subscription = Observable.interval(2000).subscribe(x => {
 					this.unitstimervalue();
 				});
@@ -1725,7 +1725,7 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'none';
 		} else if (e._value == 'gensetView') {
-			if (this.timerswitch > 1) {
+			if (this.timerswitch > 0) {
 			this.subscription.unsubscribe();
 			}
 			this.conf.presentLoading(0);
@@ -1733,7 +1733,7 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'block';
 		} else {
-			if (this.timerswitch > 1) {
+			if (this.timerswitch > 0) {
 				this.subscription = Observable.interval(2000).subscribe(x => {
 					this.unitstimervalue();
 				});
@@ -1747,7 +1747,7 @@ export class UnitdetailsPage {
 	}
 
 	alarm() {
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 		this.subscription.unsubscribe();
 		}
 		this.navCtrl.setRoot(AlarmlogPage, {
@@ -1755,7 +1755,7 @@ export class UnitdetailsPage {
 		});
 	}
 	enginedetail() {
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 		this.subscription.unsubscribe();
 		}
 		this.navCtrl.setRoot(EnginedetailviewPage, {
@@ -1764,7 +1764,7 @@ export class UnitdetailsPage {
 		//this.navCtrl.setRoot(MenuPage);
 	}
 	previous() {
-		if (this.timerswitch > 1) {
+		if (this.timerswitch > 0) {
 		this.subscription.unsubscribe();
 		}
 		this.navCtrl.setRoot(UnitsPage);
