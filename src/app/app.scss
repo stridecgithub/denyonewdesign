@@ -343,14 +343,17 @@ ion-segment {
 	max-width:50%;
 }
 .icon-size-one{
-	max-width: 34%;
+	max-width: 28%;
 }
 .icon-size-two
 {
  	max-width: 37%;
     margin-top: 13px;
 }
-
+.icon-size-three
+{
+    max-width: 65%;
+}
 .alert-md .alert-title {
     font-size: 16px;
 }
@@ -452,10 +455,4 @@ ion-segment {
     font-weight: 300!important;
     font-size: 12px!important;
     color: #5c5b5b!important;
-}
-.edit-alarm-top {
-	padding:15px 0 0 15px;
-}
-.edit-alarm-top .time {
-    margin-top: -17px;
 }
