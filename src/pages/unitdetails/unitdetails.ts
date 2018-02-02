@@ -151,17 +151,17 @@ export class UnitdetailsPage {
 			this.previous();
 		});
 
-
+		this.unitstimervalue(1);
 	}
 
 	ionViewWillLeave() {
-		
+
 		//this.subscription.unsubscribe();
-	
+
 	}
 	ionViewDidLoad() {
 		if (this.timerswitch > 0) {
-			this.subscription = Observable.interval(2000).subscribe(x => {
+			this.subscription = Observable.interval(10000).subscribe(x => {
 				this.unitstimervalue(1);
 			});
 		}
@@ -559,7 +559,7 @@ export class UnitdetailsPage {
 
 	}
 	unitstimervalue(val) {
-		console.log("Enter:"+val);
+		console.log("Enter:" + val);
 		if (val > 0) {
 			let unitid = localStorage.getItem("iframeunitId");
 			console.log("After storage:" + unitid);
@@ -1654,7 +1654,7 @@ export class UnitdetailsPage {
 		// 	this.unitstimervalue(0);
 		// });
 
-		
+
 		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
 			"&unitid=" + this.unitDetailData.unit_id,
 			type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1676,7 +1676,7 @@ export class UnitdetailsPage {
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
-		
+
 
 		this.navCtrl.setRoot(ServicinginfoPage, {
 			record: this.NP.get("record")
@@ -1731,7 +1731,7 @@ export class UnitdetailsPage {
 		let gensetView = document.getElementById('gensetView');
 
 		if (e._value == 'dataView') {
-		
+
 			this.conf.presentLoading(0);
 			dataView.style.display = 'block';
 			overView.style.display = 'none';
@@ -1746,11 +1746,7 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'block';
 		} else {
-			// if (this.timerswitch > 0) {
-			// 	this.subscription = Observable.interval(2000).subscribe(x => {
-			// 		this.unitstimervalue();
-			// 	});
-			// }
+			
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'block';
