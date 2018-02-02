@@ -6,6 +6,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
+import { TimerProgress } from '../timerprogress/timerprogress';
 /**
  * Generated class for the LoginPage page.
  *
@@ -129,4 +130,8 @@ export class LoginPage {
   doMove() {
     this.navCtrl.push(ForgotpasswordPage);
   }
+  doProgress() {
+    this.navCtrl.push(TimerProgress);
+  }
+  
 }

@@ -59,10 +59,10 @@ import { MyaccountPage } from  '../pages/myaccount/myaccount';
 import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofilestepone';
 import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
 import { UnitdetailgraphPage } from '../pages/unitdetailgraph/unitdetailgraph';
-//import {Storage} from "@ionic/storage";
-
+import { TimerProgress } from '../pages/timerprogress/timerprogress';
 @NgModule({
   declarations: [
+    TimerProgress,
     MyApp,
     UnitdetailgraphPage,
     AddUnitPage,
@@ -131,6 +131,7 @@ import { UnitdetailgraphPage } from '../pages/unitdetailgraph/unitdetailgraph';
     )],
   bootstrap: [IonicApp],
   entryComponents: [
+    TimerProgress,
     MyApp,
     UnitdetailgraphPage,
     AddUnitPage,

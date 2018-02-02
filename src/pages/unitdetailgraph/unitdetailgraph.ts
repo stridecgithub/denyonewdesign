@@ -20,6 +20,7 @@ export class UnitdetailgraphPage {
   tabBarElement: any;
   iframeContent: any;
   public userId: any;
+  title;
   public unitDetailData: any = {
 
     loginas: '',
@@ -52,27 +53,38 @@ export class UnitdetailgraphPage {
     let unit_id = this.navParams.get("unit_id");
     let graphname = this.navParams.get("graphname");
     if (graphname == 'LOADPOWERFACTOR') {
+      this.title='Load Power Factore';
       //http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'OILPRESSURE') {
+      this.title='Oil Pressure';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/OILPRESSURE/1/showgraph");
     } else if (graphname == 'BATTERYVOLTAGE') {
+      this.title='Battery Voltage';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/BATTERYVOLTAGE/1/showgraph");
     } else if (graphname == 'LOADPOWERFACTOR') {
+      this.title='Load Power Factor';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'COLLANTTEMP') {
+      this.title='Collanttemp';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/COLLANTTEMP/1/showgraph");
     } else if (graphname == 'LOADPOWER') {
+      this.title='Load Power';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWER/1/showgraph");
     } else if (graphname == 'VOLT1') {
+      this.title='Voltage';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/VOLT1/1/showgraph");
     } else if (graphname == 'CURRENT1') {
+      this.title='Current';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/CURRENT1/1/showgraph");
     } else if (graphname == 'FREQ') {
+      this.title='Frequency';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/FREQ/1/showgraph");
     } else if (graphname == 'ENGINESPEED') {
+      this.title='Engine Speed';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/ENGINESPEED/1/showgraph");
     } else if (graphname == 'FUELLVEL') {
+      this.title='Fuel Level';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/FUELLVEL/1/showgraph");
 
     }
