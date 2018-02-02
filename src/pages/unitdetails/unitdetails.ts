@@ -150,15 +150,19 @@ export class UnitdetailsPage {
 		this.platform.registerBackButtonAction(() => {
 			this.previous();
 		});
+		
+
+	}
+
+	ionViewWillLeave() {
+		this.subscription.unsubscribe();
+	}
+	ionViewDidLoad() {
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
 				this.unitstimervalue();
 			});
 		}
-
-	}
-
-	ionViewDidLoad() {
 		this.selectedvoltage = 0;
 		this.selectedcurrent = 0;
 		this.freq = 0;
@@ -505,7 +509,7 @@ export class UnitdetailsPage {
 						headers: any = new Headers({ 'Content-Type': type }),
 						options: any = new RequestOptions({ headers: headers }),
 						//url: any = "http://denyoapi.stridecdev.com/api2/" + controllerid + "/" + action + "/" + genkey;
-						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&action=" + action + "&ismobile=1";
+						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&controlaction=" + action + "&ismobile=1";
 					console.log(url);
 					console.log(body);
 
@@ -1638,9 +1642,9 @@ export class UnitdetailsPage {
 			});
 	}
 	servicingInfo(unitId) {
-		if (this.timerswitch > 0) {
-			this.subscription.unsubscribe();
-		}
+		// if (this.timerswitch > 0) {
+		// 	this.subscription.unsubscribe();
+		// }
 		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
 			"&unitid=" + this.unitDetailData.unit_id,
 			type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1725,19 +1729,19 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'none';
 		} else if (e._value == 'gensetView') {
-			if (this.timerswitch > 0) {
-			this.subscription.unsubscribe();
-			}
+			// if (this.timerswitch > 0) {
+			// 	this.subscription.unsubscribe();
+			// }
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'none';
 			gensetView.style.display = 'block';
 		} else {
-			if (this.timerswitch > 0) {
-				this.subscription = Observable.interval(2000).subscribe(x => {
-					this.unitstimervalue();
-				});
-			}
+			// if (this.timerswitch > 0) {
+			// 	this.subscription = Observable.interval(2000).subscribe(x => {
+			// 		this.unitstimervalue();
+			// 	});
+			// }
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'block';
@@ -1747,26 +1751,26 @@ export class UnitdetailsPage {
 	}
 
 	alarm() {
-		if (this.timerswitch > 0) {
-		this.subscription.unsubscribe();
-		}
+		// if (this.timerswitch > 0) {
+		// 	this.subscription.unsubscribe();
+		// }
 		this.navCtrl.setRoot(AlarmlogPage, {
 			record: this.NP.get("record")
 		});
 	}
 	enginedetail() {
-		if (this.timerswitch > 0) {
-		this.subscription.unsubscribe();
-		}
+		// if (this.timerswitch > 0) {
+		// 	this.subscription.unsubscribe();
+		// }
 		this.navCtrl.setRoot(EnginedetailviewPage, {
 			record: this.NP.get("record")
 		});
 		//this.navCtrl.setRoot(MenuPage);
 	}
 	previous() {
-		if (this.timerswitch > 0) {
-		this.subscription.unsubscribe();
-		}
+		// if (this.timerswitch > 0) {
+		// 	this.subscription.unsubscribe();
+		// }
 		this.navCtrl.setRoot(UnitsPage);
 	}
 	notification() {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AlarmPage } from '../alarm/alarm';
+import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 /**
@@ -134,9 +134,9 @@ export class UnitdetailgraphPage {
     // Unit Details API Call
   }
   previous() {
-    this.navCtrl.setRoot(AlarmPage, {
+    this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.navParams.get("record"),
-      from: 'trendline',
+      tabs: 'dataView'
     });
   }
 }
