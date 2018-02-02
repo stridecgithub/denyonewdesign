@@ -892,7 +892,7 @@ export class AddserviceinfoPage {
       this.isSubmitted = false;
       
     } else {
-       this.serviced_datetime = moment().format();
+       //this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
   }

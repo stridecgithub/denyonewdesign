@@ -992,7 +992,7 @@ export class AddhocPage {
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
     } else {
-      this.serviced_date = moment().format();
+      //this.serviced_date = moment().format();
       this.isSubmitted = true;
     }
   }
