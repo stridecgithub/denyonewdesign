@@ -52,6 +52,7 @@ export class UnitdetailsPage {
 	current3;
 	freq;
 	enginespeed;
+	timerswitch;
 	fuellevel;
 	loadpower;
 	coolanttemp;
@@ -132,7 +133,7 @@ export class UnitdetailsPage {
 		this.l1l2l3currentlablel = 'L1';
 		this.permissionMessage = conf.rolePermissionMsg();
 		this.apiServiceURL = conf.apiBaseURL();
-
+		this.timerswitch = 0;
 		this.controlleroffmode = '';
 		this.controllerautomode = '';
 		this.controllermanmode = '';
@@ -147,9 +148,11 @@ export class UnitdetailsPage {
 		this.platform.registerBackButtonAction(() => {
 			this.previous();
 		});
-		this.subscription = Observable.interval(2000).subscribe(x => {
-			this.unitstimervalue();
-		});
+		if (this.timerswitch > 1) {
+			this.subscription = Observable.interval(2000).subscribe(x => {
+				this.unitstimervalue();
+			});
+		}
 
 	}
 
@@ -500,14 +503,14 @@ export class UnitdetailsPage {
 						headers: any = new Headers({ 'Content-Type': type }),
 						options: any = new RequestOptions({ headers: headers }),
 						//url: any = "http://denyoapi.stridecdev.com/api2/" + controllerid + "/" + action + "/" + genkey;
-						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&action=" + action +"&ismobile=1";
+						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&action=" + action + "&ismobile=1";
 					console.log(url);
 					console.log(body);
 
 
 					console.log("Enter API Calls");
 					//this.http.get(url, options)
-						 this.http.post(url, body, options)
+					this.http.post(url, body, options)
 						.subscribe((data) => {
 							if (data.status === 200) {
 								if (action == 'START') {
@@ -610,9 +613,9 @@ export class UnitdetailsPage {
 					// Load Power Factor
 
 					this.commstatus = data.json().commstatus;
-					
+
 					this.enginestatus = data.json().enginestatus;
-					console.log("Unit Data Engine Status Color:"+this.enginestatus)
+					console.log("Unit Data Engine Status Color:" + this.enginestatus)
 					// if(this.enginestatus=='Warning'){
 					// 	this.enginestatuscolor='#F8A70F';
 					// }else if(this.enginestatus=='Alarm'){
@@ -620,7 +623,7 @@ export class UnitdetailsPage {
 					// }
 
 					this.enginestatuscolor = data.json().enginestatuscolor;
-					console.log("Engine Status Color in Overview:-"+this.enginestatuscolor);
+					console.log("Engine Status Color in Overview:-" + this.enginestatuscolor);
 					if (this.enginestatuscolor == '') {
 						this.enginestatuscolor = '#EDEDED';
 					}
@@ -711,8 +714,8 @@ export class UnitdetailsPage {
 				current = 0;
 			} else if (actual_current >= 100) {
 				current = 100;
-			}else{
-				current=actual_current;
+			} else {
+				current = actual_current;
 			}
 
 
@@ -796,15 +799,15 @@ export class UnitdetailsPage {
 			let enginespeed = 0;
 
 			let actual_enginespeed = this.enginespeed;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-			if(actual_enginespeed < 1200) {
+			if (actual_enginespeed < 1200) {
 				enginespeed = 0;
-			} else if(actual_enginespeed > 1800) {			
+			} else if (actual_enginespeed > 1800) {
 				enginespeed = 100;
 			} else {
 				enginespeed = (((actual_enginespeed - 1200) / 600) * 100);
 			}
 
-			
+
 
 
 			console.log(enginespeed);
@@ -846,8 +849,8 @@ export class UnitdetailsPage {
 				fuel = 0;
 			} else if (actual_fuel >= 100) {
 				fuel = 100;
-			}else{
-				fuel=actual_fuel;
+			} else {
+				fuel = actual_fuel;
 			}
 			let fuellevellabel_0 = localStorage.getItem("fuellevellabel_0");
 
@@ -888,8 +891,8 @@ export class UnitdetailsPage {
 				loadfactor = 0;
 			} else if (actual_loadfactor >= 60) {
 				loadfactor = 100;
-			}else{
-				loadfactor=actual_loadfactor;
+			} else {
+				loadfactor = actual_loadfactor;
 			}
 
 
@@ -1526,7 +1529,7 @@ export class UnitdetailsPage {
 
 					this.enginestatus = data.json().enginestatus;
 					this.controllermode = data.json().controllermode;
-					this.nextservicedate= data.json().nextservicedate;
+					this.nextservicedate = data.json().nextservicedate;
 					this.unitfavorite = data.json().unitfavorite;
 					this.controlleroffmode = '';
 					this.controllermanmode = '';
@@ -1540,7 +1543,7 @@ export class UnitdetailsPage {
 					}
 					this.runninghrs = data.json().runninghrs;
 					this.enginestatuscolor = data.json().enginestatuscolor;
-					console.log("Engine Status Color in Overview:-"+this.enginestatuscolor);
+					console.log("Engine Status Color in Overview:-" + this.enginestatuscolor);
 					if (this.enginestatuscolor == '') {
 						this.enginestatuscolor = '#EDEDED';
 					}
@@ -1550,10 +1553,11 @@ export class UnitdetailsPage {
 		}
 
 
-		//setTimeout(this.unitstimervalue, 2000);
-		setTimeout(function () {
-			this.unitstimervalue;
-		}, 2000);
+		if (this.timerswitch > 1) {
+			setTimeout(function () {
+				this.unitstimervalue;
+			}, 2000);
+		}
 
 	}
 	geninfo(unitid) {
@@ -1707,9 +1711,11 @@ export class UnitdetailsPage {
 		let gensetView = document.getElementById('gensetView');
 
 		if (e._value == 'dataView') {
-			this.subscription = Observable.interval(2000).subscribe(x => {
-				this.unitstimervalue();
-			});
+			if (this.timerswitch > 1) {
+				this.subscription = Observable.interval(2000).subscribe(x => {
+					this.unitstimervalue();
+				});
+			}
 			this.conf.presentLoading(0);
 			dataView.style.display = 'block';
 			overView.style.display = 'none';
@@ -1721,9 +1727,11 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'block';
 		} else {
-			this.subscription = Observable.interval(2000).subscribe(x => {
-				this.unitstimervalue();
-			});
+			if (this.timerswitch > 1) {
+				this.subscription = Observable.interval(2000).subscribe(x => {
+					this.unitstimervalue();
+				});
+			}
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'block';
@@ -1912,8 +1920,8 @@ export class UnitdetailsPage {
 	getRandomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
-	showgraph(unit_id){
-		console.log("Show Graph function calling:-"+unit_id);
+	showgraph(unit_id) {
+		console.log("Show Graph function calling:-" + unit_id);
 
 	}
 
