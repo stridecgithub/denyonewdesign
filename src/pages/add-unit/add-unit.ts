@@ -7,6 +7,7 @@ import { Config } from '../../config/config';
 import { NativeGeocoder, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { PiclocationPage } from "../piclocation/piclocation";
 import { UnitsPage } from "../units/units";
+import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the AddUnitPage page.
  *
@@ -169,9 +170,15 @@ export class AddUnitPage {
     //this.navCtrl.setRoot(NotificationSettingsPage);
   }
   previous() {
-    this.navCtrl.setRoot(UnitsPage, {
 
-    });
+    if (this.navParams.get("from") == 'dashboard') {
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 0, tabs: 'listView' });
+    } else {
+      this.navCtrl.setRoot(UnitsPage, {
+
+      });
+    }
+
   }
   getCompanyListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",

@@ -58,10 +58,13 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { MyaccountPage } from  '../pages/myaccount/myaccount';
 import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofilestepone';
 import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
+import { UnitdetailgraphPage } from '../pages/unitdetailgraph/unitdetailgraph';
 //import {Storage} from "@ionic/storage";
+
 @NgModule({
   declarations: [
     MyApp,
+    UnitdetailgraphPage,
     AddUnitPage,
     MenuPage,
     EventDetailsPage,
@@ -129,6 +132,7 @@ import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    UnitdetailgraphPage,
     AddUnitPage,
     MenuPage,
     EventDetailsPage,

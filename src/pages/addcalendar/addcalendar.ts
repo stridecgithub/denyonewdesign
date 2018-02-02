@@ -455,7 +455,7 @@ export class AddcalendarPage {
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      event_time = this.hours + ":" + minutes + ":" + "" + am_pm;
+      event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
     let timesplit_end = event_end_time.split(":");
@@ -539,7 +539,7 @@ export class AddcalendarPage {
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      event_time = this.hours + ":" + minutes + ":" + " " + am_pm;
+      event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
     let timesplit_end = event_end_time.split(":");
