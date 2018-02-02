@@ -41,7 +41,7 @@
         <div class="list-desc">{{unit.projectname}}</div>
         <div class="list-favorite">
           <button>
-              <img src="assets/imgs/map.png">
+              <img src="assets/imgs/map.png" class="icon-size">
           </button>
           <button (click)="favorite(unit.unit_id)">
             <ion-icon name="star-outline" *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
