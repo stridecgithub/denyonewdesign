@@ -38,12 +38,10 @@
     <div class="list-icon">
       <ion-icon *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)"
         style="
-        font-size: 37px;
         left: 90%;
         top: 20%;
         position: absolute;"></ion-icon>
       <ion-icon *ngIf="priority_highclass!=''" ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
-        font-size: 37px;
         left: 90%;
         top: 20%;
         position: absolute;"></ion-icon>
@@ -60,7 +58,7 @@
   </div>
   <div class="subject">
     <h1>{{messages_subject}}</h1>
-    {{messages_body_html}}
+    <div class="subject-item">{{messages_body_html}}</div>
   </div>
 
   <div class="attachment" *ngIf="addedImgLists.length>0">
