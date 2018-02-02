@@ -465,9 +465,11 @@ export class AddserviceinfoPage {
         let ampmstr = 'AM';
         if (this.hrvalue > 12) {
           ampmstr = 'PM';
+        }else{
+
         }
         serviced_datetime = this.serviced_datetime.split("T")[0];
-        let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+        let timevalue = this.hrvalue + ":" + minvalue + " " + ampmstr;
         console.log(timevalue);
         //let d = new Date();
         //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
@@ -887,12 +889,19 @@ export class AddserviceinfoPage {
     } else {
       this.mn = mn;
     }
-    let current_date = date.getFullYear() + "-" + this.mn + "-" + date.getDate();
+    let dd =  date.getDate();
+    if (dd < 10) {
+      this.dd = "0" + dd;
+    } else {
+      this.dd = dd;
+    }
+
+    let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
       
     } else {
-       //this.serviced_datetime = moment().format();
+       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
   }

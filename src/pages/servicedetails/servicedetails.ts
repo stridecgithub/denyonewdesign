@@ -1155,6 +1155,24 @@ export class ServicedetailsPage {
     actionSheet.present();
   }
 
+  // futureDateValidation(formvalue) {
+  //   this.isSubmitted = true;
+  //   let date = new Date();
+  //   let mn = date.getMonth() + 1;
+  //   if (mn < 10) {
+  //     this.mn = "0" + mn;
+  //   } else {
+  //     this.mn = mn;
+  //   }
+  //   let current_date = date.getFullYear() + "-" + this.mn + "-" + date.getDate();
+  //   if (formvalue.split("T")[0] >= current_date) {
+  //     this.isSubmitted = false;
+  //   } else {
+  //     this.isSubmitted = true;
+  //   }
+  // }
+
+
   futureDateValidation(formvalue) {
     this.isSubmitted = true;
     let date = new Date();
@@ -1164,11 +1182,21 @@ export class ServicedetailsPage {
     } else {
       this.mn = mn;
     }
-    let current_date = date.getFullYear() + "-" + this.mn + "-" + date.getDate();
+    let dd =  date.getDate();
+    if (dd < 10) {
+      this.dd = "0" + dd;
+    } else {
+      this.dd = dd;
+    }
+
+    let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
+      
     } else {
+       this.service_scheduled_date = moment().format();
       this.isSubmitted = true;
     }
   }
+
 }

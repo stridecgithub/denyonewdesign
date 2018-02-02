@@ -33,6 +33,7 @@ export class EventDetailsPage {
   location;
   alarm_color_code;
   item;
+  alarm_priority;
   tabBarElement: any;
   private apiServiceURL: string = "";
   constructor(private platform:Platform,private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
@@ -71,6 +72,7 @@ export class EventDetailsPage {
           this.projectname = data.json().alarms[0].projectname;
           this.location = data.json().alarms[0].location;
           this.alarm_color_code = data.json().alarms[0].alarm_color_code;
+          this.alarm_priority = data.json().alarms[0].alarm_priority;
           this.item = data.json().alarms[0];
           console.log(JSON.stringify(this.item));
         }, error => {
