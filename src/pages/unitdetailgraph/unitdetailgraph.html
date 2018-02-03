@@ -19,25 +19,25 @@
 
 
 <ion-content>
-  <div class="alarm-list" style="border-color: #9013FE;" padding>
+ <div class="alarm-list" style="border-color: #9013FE;" padding>
     <div class="alarm-title">
       <div class="list-favorite">
         <button>
-          <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
-          <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
-        </button>
+                <ion-icon name="star-outline"
+                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+                <ion-icon name="star" class="favorite"
+                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+              </button>
       </div>
-      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
-      <b>{{this.unitDetailData.unitname}}</b>
+      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span> <b>{{this.unitDetailData.unitname}}</b>
     </div>
     <div class="alarm-info">
-      {{unitDetailData.projectname }}
-      <br>
+      {{unitDetailData.projectname }}<br>
       <strong>Deployed Location:</strong> {{unitDetailData.location }}
-      <button class="map-btn">
-        <!-- <ion-icon ios="ios-map-outline" md="md-map"></ion-icon> -->
-        <img src="assets/imgs/map.png">
-      </button>
+      <button class="map-btn" style="text-align:right;">
+            <!-- <ion-icon ios="ios-map-outline" md="md-map"></ion-icon> -->
+            <img class="icon-size" src="assets/imgs/map.png">
+          </button>
 
     </div>
   </div>

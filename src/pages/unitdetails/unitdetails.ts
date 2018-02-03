@@ -160,6 +160,7 @@ export class UnitdetailsPage {
 
 	}
 	ionViewDidLoad() {
+		this.unitstimervalue(1);
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(10000).subscribe(x => {
 				this.unitstimervalue(1);
@@ -1731,6 +1732,7 @@ export class UnitdetailsPage {
 		let gensetView = document.getElementById('gensetView');
 
 		if (e._value == 'dataView') {
+			this.unitstimervalue(1);
 
 			this.conf.presentLoading(0);
 			dataView.style.display = 'block';
@@ -1746,7 +1748,7 @@ export class UnitdetailsPage {
 			overView.style.display = 'none';
 			gensetView.style.display = 'block';
 		} else {
-			
+			this.unitstimervalue(1);
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
 			overView.style.display = 'block';
