@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
+import { Platform,IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
 //import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -7,6 +7,7 @@ import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { TimerProgress } from '../timerprogress/timerprogress';
+import { Keyboard } from '@ionic-native/keyboard';
 /**
  * Generated class for the LoginPage page.
  *
@@ -23,9 +24,12 @@ import { TimerProgress } from '../timerprogress/timerprogress';
 export class LoginPage {
   private apiServiceURL: string = '';
   userId;
-  constructor(private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(private keyboard: Keyboard, platform: Platform,private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
+     platform.ready().then(() => {
+       this.keyboard.disableScroll(true);
+     });
   }
 
   ionViewDidEnter() {
@@ -37,6 +41,7 @@ export class LoginPage {
     // to enable menu.
     this.menuCtrl.enable(true);
   }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
 

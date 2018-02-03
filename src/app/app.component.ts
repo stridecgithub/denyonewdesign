@@ -90,7 +90,8 @@ export class MyApp {
 
 
       this.getGuageData();
-
+      keyboard.disableScroll(true);
+      keyboard.hideKeyboardAccessoryBar(true);
     });
     this.events.publish('menu:created', 'dashboard', Date.now());
     this.pages = [

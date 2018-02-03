@@ -55,8 +55,8 @@ import { CommentdetailsPage } from '../pages/commentdetails/commentdetails';
 import { MessageDetailViewPage } from '../pages/message-detail-view/message-detail-view';
 import { MsgPopoverPage } from '../pages/msgpopover/msgpopover';
 import { NativeStorage } from '@ionic-native/native-storage';
-import { MyaccountPage } from  '../pages/myaccount/myaccount';
-import { EditprofilesteponePage } from  '../pages/editprofilestepone/editprofilestepone';
+import { MyaccountPage } from '../pages/myaccount/myaccount';
+import { EditprofilesteponePage } from '../pages/editprofilestepone/editprofilestepone';
 import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
 import { UnitdetailgraphPage } from '../pages/unitdetailgraph/unitdetailgraph';
 import { TimerProgress } from '../pages/timerprogress/timerprogress';
@@ -124,7 +124,10 @@ import { TimerProgress } from '../pages/timerprogress/timerprogress';
         android: {
           tabsPlacement: 'bottom',
           tabsHideOnSubPages: false,
-          tabsHighlight: true
+          tabsHighlight: true,
+          scrollAssist: true,
+          autoFocusAssist: false,
+          scrollPadding: false
         }
       }
     },
