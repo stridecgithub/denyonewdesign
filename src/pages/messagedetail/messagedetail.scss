@@ -40,6 +40,7 @@ page-messagedetail {
 		 }
 		 
 		 .attachment {
+		 	border-top: 1px solid #d6d6d6;
 			border-bottom: 1px solid #d6d6d6;
 			color: #6f6f6f;
 			background: #f8f8f8;
@@ -135,7 +136,6 @@ page-messagedetail {
 	
 }
 .subject{
-		border-bottom: 1px solid #d6d6d6;
 		padding: 10px 0;
 		h1{
 			margin-top: 15px;
@@ -255,7 +255,7 @@ page-messagedetail {
 	
 }
 .subject{
-		border-bottom: 1px solid #d6d6d6;
+		border-bottom: 0px solid #d6d6d6;
 		padding: 10px 0;
 		h1{
 			margin-top: 15px;

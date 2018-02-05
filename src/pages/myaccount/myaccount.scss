@@ -31,11 +31,17 @@ page-myaccount {
       .info {
         border-bottom: 0px solid #d6d6d6;
       }
-	  
+	  .info h1{
+	    margin-left:12px;
+		margin-bottom: 0;
+	  }
 	  .edit-btn span.button-inner {
 	  	text-align: right;
     	float: right;
     	display: inherit;
+	  }
+	  .button-clear-md {
+	    color: #737373;
 	  }
       
 }

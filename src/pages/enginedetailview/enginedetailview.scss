@@ -5,6 +5,9 @@
 
 page-enginedetailview {
 
+	
+	
+
 	.unit-detail {
 		border-bottom: #000 5px solid;
 	   /* .status {
@@ -36,12 +39,15 @@ page-enginedetailview {
 		}
 	  }
 iframe {
-    display: block;       /* iframes are inline by default */
+    display: table;       /* iframes are inline by default */
     background: #fff;
     border: none;         /* Reset default border */
     height: 100vh;        /* Viewport-relative units */
-    width: 100vw;
+    width: 90%;
+    margin: 0 auto;
 }
+
+
 .webPage{
   width: 100%;
   height: 100%;

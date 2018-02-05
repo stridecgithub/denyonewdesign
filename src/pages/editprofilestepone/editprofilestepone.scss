@@ -1,15 +1,24 @@
 page-editprofilestepone {
 
+.list-md .item-input:last-child {
+	border-bottom: none!important;
+}
+.item-md {
+	font-size: 1.4rem;
+}
+.last-btn .label-md{
+	margin-top: 0;
+}
   ion-app.md [padding] .scroll-content {
     padding: 0px;
 }
     .user-img {
-      border-bottom: 1px solid #ccc;
+      
         margin: 0 0 7px;
        
         img {
           border-radius: 50%;
-          border: 5px solid #006BF4;
+          border: 2px solid #006BF4;
         }
         text-align: center;
        
@@ -21,7 +30,7 @@ page-editprofilestepone {
        
         img {
           border-radius: 50%;
-          border: 5px solid #006BF4;
+          border: 2px solid #006BF4;
         }
         text-align: center;
        
@@ -47,4 +56,17 @@ page-editprofilestepone {
       .profile-title{
         padding:15px
       }
+	  .edit-profo ion-item {
+	  	background-color: #f8f8f8;
+	  }
+	  .edit-profo {
+	  	border-top: 1px solid #ccc;
+		overflow: hidden;
+	  }
+	  .edit-profo ion-input, .edit-profo ion-select{
+	  	border-bottom: 1px solid #b8b8b8;
+	  }
+	  .sep .list-md .item-input{
+	  	border-bottom: none!important;
+	  }
 }

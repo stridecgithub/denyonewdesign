@@ -457,4 +457,42 @@ ion-segment {
     color: #5c5b5b!important;
 }
 
+ion-segment.segment-md .segment-button.segment-activated, 
+ion-segment.segment-ios .segment-button.segment-activated, 
+ion-segment.segment-md .segment-button, 
+ion-segment.segment-ios .segment-button {
+	font-weight: normal;
+}
 
+.scroll-content body {
+  background-color: #fff!important;
+}
+.scroll-content table th{
+  border-left: none!important;
+}
+.scroll-content table td{
+  border-left: none!important;
+}
+.unit-detail {
+	overflow: hidden;
+}
+.unit-title b, .unit-info strong {
+    font-weight: 500;
+}
+.unit-detail .unit-info {
+    font-weight: 300;
+}
+.unit-des {
+	float:left;
+	width: 83%;
+}
+.unit-detail .map-btn {
+	margin-top: 16px;
+}
+.info h1 {
+	font-weight: 600;
+}
+.list-md .item-block .item-inner {
+    border-bottom: 0px solid #dedede;
+	padding-right:18px;	
+}
