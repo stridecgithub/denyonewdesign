@@ -27,9 +27,9 @@ export class LoginPage {
   constructor(private keyboard: Keyboard, platform: Platform,private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
-     platform.ready().then(() => {
-       this.keyboard.disableScroll(true);
-     });
+    //  platform.ready().then(() => {
+    //    this.keyboard.disableScroll(true);
+    //  });
   }
 
   ionViewDidEnter() {

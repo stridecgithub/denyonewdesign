@@ -158,13 +158,12 @@ export class UnitdetailsPage {
 
 		//this.unitstimervalue(1);
 	}
-	ngOnInit() {
-		let timer = TimerObservable.create(2000, 1000);
-		this.subscription = timer.subscribe(t => {
-			this.tick = t;
-			//this.unitstimervalue(1);
-		});
-	}
+	// ngOnInit() {
+	// 	let timer = TimerObservable.create(2000, 1000);
+	// 	this.subscription = timer.subscribe(t => {
+	// 		this.tick = t;
+	// 	});
+	// }
 
 	ngOnDestroy() {
 		// unsubscribe here

@@ -101,8 +101,14 @@ export class ForgotpasswordPage {
           if (data.status === 200) {
             console.log("Msg Results:-" + res.msg[0].result);
             this.hideForm = true;         
-              this.conf.sendNotification('Forgot password has been sending your registered email id.');           
-              this.nav.push(LoginPage);
+              //this.conf.sendNotification('Forgot password has been sending your registered email id.');           
+              //this.nav.push(LoginPage);
+              if (res.msg[0].Error > 0) {
+                this.conf.sendNotification(res.msg[0].result);
+              } else {
+                this.conf.sendNotification('Forgot password has been sending your registered email id.');
+                this.nav.setRoot(LoginPage);
+              }
           }
           // Otherwise let 'em know anyway
           else {
