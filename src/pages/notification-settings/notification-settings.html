@@ -140,12 +140,20 @@
       <div class="inner-div">
         <ion-list>
           <ion-item>
-            <textarea style="border: 0px;
+            <!--<textarea style="border: 0px;
     background-color: #efefef;
     width: 400px;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control" onkeyup="unit(event);address1get(this.value)"
               onblur="sptionshide();address1get(this.value)" rows="8" [disabled]="readOnly" formControlName="alarmhashtags"
-              rows="6" [(ngModel)]="alarmhashtags"></textarea>
+              rows="6" [(ngModel)]="alarmhashtags"></textarea>-->
+
+
+               <textarea style="border: 0px;
+    background-color: #efefef;
+    width: 400px;"   id="alarmhashtags"  formControlName="alarmhashtags" [(ngModel)]="alarmhashtags" row="6"></textarea>
+
           </ion-item>
+
+         
         </ion-list>
       </div>
     </div>

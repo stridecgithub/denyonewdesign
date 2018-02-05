@@ -9,6 +9,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
+declare var jQuery: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -88,7 +89,7 @@ export class ComposePage {
       subject: ['', Validators.required],
       composemessagecontent: ['', Validators.required],
       copytome: [''],
-      to: ['', Validators.required]
+      to: ['']
 
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -221,6 +222,15 @@ export class ComposePage {
         if (data.status === 200) {
           this.atmentioneddata = data.json();
           console.log(this.atmentioneddata);
+          jQuery('#to').tagEditor({
+            autocomplete: {
+              delay: 0,
+              position: { collision: 'flip' },
+              source: this.atmentioneddata,
+              delimiter: ',;'
+            },
+            forceLowercase: false
+          });
 
         }
         // Otherwise let 'em know anyway
@@ -321,7 +331,7 @@ export class ComposePage {
         this.totalCount = 0;
         console.log(data.json().length - 1);
         for (let i = 0; i < data.json().length; i++) {
-
+  
           console.log("Attachmnt:" + data.json()[i].messageresource_id);
           this.totalFileSize = data.json()[i];
           let imgSrc;
@@ -335,15 +345,15 @@ export class ComposePage {
             });
           }
           if (data.json().length == this.totalCount) {
-
+  
             break;
           }
           this.totalCount++;
         }
-
+  
         console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
-
-
+  
+  
       });*/
   }
 
@@ -374,9 +384,16 @@ export class ComposePage {
   // When form submitting the below function calling
   saveEntry() {
 
+    let to = jQuery('#to').tagEditor('getTags')[0].tags;
+    console.log(to.length);
+    if (to.length == 0) {
+      this.conf.sendNotification(`To address required`);
+      return false;
+    }
+
     if (this.isUploadedProcessing == false) {
-      let to: string = this.form.controls["to"].value,
-        copytome: string = this.form.controls["copytome"].value,
+      //let to: string = this.form.controls["to"].value,
+       let copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
       console.log("serviced_datetime:" + to);
@@ -404,9 +421,9 @@ export class ComposePage {
     if (copytome == true) {
       copytome = '1';
     }
-    if (localStorage.getItem("atMentionResult") != '') {
-      to = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   to = localStorage.getItem("atMentionResult");
+    // }
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -458,7 +475,7 @@ export class ComposePage {
 
           localStorage.setItem("microtime", "");
           // this.conf.sendNotification(`Message sending successfully`);
-          localStorage.setItem("atMentionResult", '');
+          //localStorage.setItem("atMentionResult", '');
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
         }
@@ -468,7 +485,7 @@ export class ComposePage {
         }
       });
     localStorage.setItem("microtime", "");
-    localStorage.setItem("atMentionResult", '');
+   // localStorage.setItem("atMentionResult", '');
     this.conf.sendNotification(`Message sending successfully`);
 
     this.navCtrl.setRoot(MessagesPage);

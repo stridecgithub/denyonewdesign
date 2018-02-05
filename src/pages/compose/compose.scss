@@ -1,4 +1,21 @@
 page-compose{
+  .input-area{
+margin-top:30px;
+clear:both;
+display:block;
+}
+.txt-area{
+margin-top:30px;
+clear:both;
+display:block;
+}
+.txt-area .tag-editor{
+height:50px!important;
+}
+textarea {
+min-height:200px;
+margin-top:30px;
+}
 .inner-div{
   border-bottom: 1px solid gray;
    margin: 0px 15px 1px 15px;

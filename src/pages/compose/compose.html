@@ -29,13 +29,20 @@
 
         <ion-list>
           <ion-item style="background-color: #f8f8f8;">
-            <textarea style="width: 388px;
+            <!--<textarea style="width: 388px;
     position: absolute;
     top: 0px;
     border: 0px;
     background-color: #f8f8f8;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control"
               onkeyup="message(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="to"
-              [(ngModel)]="to" row="10"></textarea>
+              [(ngModel)]="to" row="10"></textarea>-->
+
+            <textarea style="width: 388px;
+      position: absolute;
+     top: 0px;
+     border: 0px;
+     background-color: #f8f8f8;" name="to" id="to" class="to" formControlName="to" [(ngModel)]="to" row="10"></textarea>
+
           </ion-item>
         </ion-list>
 
@@ -54,38 +61,38 @@
       <div style="
       font-size: 27px;
       left: 83%;
-      top: 2%;position:absolute" *ngIf="activelow==1"  (click)="getPrority(1)">
+      top: 2%;position:absolute" *ngIf="activelow==1" (click)="getPrority(1)">
         <img src="assets/imgs/arrow_active_low.png" style="max-width:52%;">
       </div>
 
       <div style="
       font-size: 27px;
       left: 83%;
-      top: 2%;position:absolute"  *ngIf="normallow==0"  (click)="getPrority(1)">
+      top: 2%;position:absolute" *ngIf="normallow==0" (click)="getPrority(1)">
         <img src="assets/imgs/arrow_normal_low.png" style="max-width:52%;">
       </div>
 
 
 
-      
+
       <div style="
       font-size: 27px;
       left: 93%;
-      top: 2%;position:absolute"  *ngIf="activehigh==1"  (click)="getPrority(2)">
+      top: 2%;position:absolute" *ngIf="activehigh==1" (click)="getPrority(2)">
         <img src="assets/imgs/flag_active_high.png" class="icon-size-three">
       </div>
 
-     
+
       <div style="
       font-size: 27px;
       left: 93%;
-      top: 2%;position:absolute"  *ngIf="activenormal==0"  (click)="getPrority(2)">
+      top: 2%;position:absolute" *ngIf="activenormal==0" (click)="getPrority(2)">
         <img src="assets/imgs/flag_normal_high.png" class="icon-size-three">
       </div>
 
 
 
-      
+
 
 
       <!-- <ion-icon ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="

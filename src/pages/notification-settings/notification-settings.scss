@@ -1,4 +1,21 @@
 page-notification-settings {
+  .input-area{
+margin-top:30px;
+clear:both;
+display:block;
+}
+.txt-area{
+margin-top:30px;
+clear:both;
+display:block;
+}
+.txt-area .tag-editor{
+height:50px!important;
+}
+textarea {
+min-height:200px;
+margin-top:30px;
+}
   .button-inner{
     text-transform:capitalize
   }
