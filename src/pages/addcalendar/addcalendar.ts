@@ -332,11 +332,11 @@ export class AddcalendarPage {
       this.event_time = item.service_scheduled_time.substr(0, 5);
       let getampmpvalue = item.service_scheduled_time.substr(6, 8)
       console.log("AMPM:" + getampmpvalue);
-      if(getampmpvalue=='PM'){
-        let timesplit=this.event_time.split(":");
-        let hoursadd24hourformat=parseInt(timesplit[0])+12;
-        console.log("hoursadd24hourformat"+hoursadd24hourformat);
-        this.event_time =hoursadd24hourformat+":"+timesplit[1];
+      if (getampmpvalue == 'PM') {
+        let timesplit = this.event_time.split(":");
+        let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+        console.log("hoursadd24hourformat" + hoursadd24hourformat);
+        this.event_time = hoursadd24hourformat + ":" + timesplit[1];
       }
       //this.event_time ='17:30';
       console.log("Time for Start:" + this.event_time);
@@ -370,11 +370,11 @@ export class AddcalendarPage {
 
       let getampmpvalue = item.event_time.substr(6, 8)
       console.log("AMPM:" + getampmpvalue);
-      if(getampmpvalue=='PM'){
-        let timesplit=this.event_time.split(":");
-        let hoursadd24hourformat=parseInt(timesplit[0])+12;
-        console.log("hoursadd24hourformat"+hoursadd24hourformat);
-        this.event_time =hoursadd24hourformat+":"+timesplit[1];
+      if (getampmpvalue == 'PM') {
+        let timesplit = this.event_time.split(":");
+        let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+        console.log("hoursadd24hourformat" + hoursadd24hourformat);
+        this.event_time = hoursadd24hourformat + ":" + timesplit[1];
       }
 
 
@@ -399,13 +399,13 @@ export class AddcalendarPage {
         this.event_end_time = item.event_end_time.substr(0, 5);
 
         let getampmpvalue = item.event_end_time.substr(6, 8)
-      console.log("AMPM:" + getampmpvalue);
-      if(getampmpvalue=='PM'){
-        let timesplit=this.event_end_time.split(":");
-        let hoursadd24hourformat=parseInt(timesplit[0])+12;
-        console.log("hoursadd24hourformat"+hoursadd24hourformat);
-        this.event_end_time =hoursadd24hourformat+":"+timesplit[1];
-      }
+        console.log("AMPM:" + getampmpvalue);
+        if (getampmpvalue == 'PM') {
+          let timesplit = this.event_end_time.split(":");
+          let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+          console.log("hoursadd24hourformat" + hoursadd24hourformat);
+          this.event_end_time = hoursadd24hourformat + ":" + timesplit[1];
+        }
 
 
       } else {
@@ -810,7 +810,11 @@ export class AddcalendarPage {
     if (val == true) {
       this.endtimefield = false;
       this.starttimefield = false;
-      this.event_end_time = '';
+      this.isEdited = true;
+      this.recordID
+      if(this.recordID==0){
+        this.event_end_time = '';
+      }
       // this.event_end_date='';
 
     } else {

@@ -737,12 +737,13 @@ export class DashboardPage {
     ];
 
     let bounds = new google.maps.LatLngBounds();
-
+    let latLngmapoption = new google.maps.LatLng(1.3249773, 103.70307100000002);
     // Map options
     let mapOptions = {
       styles: mapStyle,
       disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: latLngmapoption
     }
 
 
@@ -752,46 +753,51 @@ export class DashboardPage {
     //if (units > 0) {
     // Loop to go through all generators Lat Lang
     for (let i = 0; i < markers.length; i++) {
+      if (markers[i].latitude == 0 || markers[i].longtitude == 0) {
 
-      let latLng = new google.maps.LatLng(markers[i].latitude, markers[i].longtitude);
-
-      bounds.extend(latLng);
-
-      let iconDisplay;
-      console.log('units:' + unitsavail);
-      console.log("Gen Status for marker icon:" + markers[i].genstatus);
-      if (unitsavail == 0) {
-        iconDisplay = 'assets/imgs/marker-white-default.png';
       } else {
-        iconDisplay = 'assets/imgs/marker-' + markers[i].genstatus + '.png'
-      }
-      let marker = new google.maps.Marker({
-        position: latLng,
-        map: this.map,
-        title: markers[i].unitname,
-        icon: iconDisplay
-      });
 
-      // Use unit location for info box content
-      let infowindow = new google.maps.InfoWindow({
-        content: markers[i].location
-      });
 
-      // Add click event
-      marker.addListener('click', function () {
+        let latLng = new google.maps.LatLng(markers[i].latitude, markers[i].longtitude);
 
-        infowindow.open(this.map, marker);
+        bounds.extend(latLng);
 
-        let popups = document.getElementsByClassName('popup');
-        let popup = document.getElementById(markers[i].unit_id);
-
-        for (let i = 0; i < popups.length; i++) {
-          popups[i].classList.remove('showPopup');
+        let iconDisplay;
+        console.log('units:' + unitsavail);
+        console.log("Gen Status for marker icon:" + markers[i].genstatus);
+        if (unitsavail == 0) {
+          iconDisplay = 'assets/imgs/marker-white-default.png';
+        } else {
+          iconDisplay = 'assets/imgs/marker-' + markers[i].genstatus + '.png'
         }
+        let marker = new google.maps.Marker({
+          position: latLng,
+          map: this.map,
+          title: markers[i].unitname,
+          icon: iconDisplay
+        });
 
-        popup.classList.add('showPopup');
+        // Use unit location for info box content
+        let infowindow = new google.maps.InfoWindow({
+          content: markers[i].location
+        });
 
-      });
+        // Add click event
+        marker.addListener('click', function () {
+
+          infowindow.open(this.map, marker);
+
+          let popups = document.getElementsByClassName('popup');
+          let popup = document.getElementById(markers[i].unit_id);
+
+          for (let i = 0; i < popups.length; i++) {
+            popups[i].classList.remove('showPopup');
+          }
+
+          popup.classList.add('showPopup');
+
+        });
+      }
 
     }
     //}
