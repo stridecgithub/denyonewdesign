@@ -258,6 +258,15 @@ export class UnitdetailsPage {
 								if (this.enginestatuscolor == '') {
 									this.enginestatuscolor = '#EDEDED';
 								}
+
+								this.commstatus = data.json().commstatus;
+								console.log("Com Status in Dataview"+this.commstatus);
+								if (this.commstatus == 'Offline') {
+									this.commstatuscolor = "gray";
+								} else {
+									this.commstatuscolor = "#00BA28";
+								}
+
 								this.coolanttemp = data.json().coolanttemp;
 								this.oilpressure = data.json().oilpressure;
 								this.loadpowerfactor = data.json().loadpowerfactor;

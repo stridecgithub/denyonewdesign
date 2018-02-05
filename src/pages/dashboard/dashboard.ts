@@ -826,7 +826,7 @@ export class DashboardPage {
         {
           type: 'radio',
           label: 'Unit Group',
-          value: 'companygroup_name',
+          value: 'unitgroup',
         },
         {
           type: 'radio',
@@ -871,7 +871,7 @@ export class DashboardPage {
                 this.sortLblTxt = 'Unit Name';
               } else if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'companygroup_name') {
+              } else if (data == 'unitgroup') {
                 this.sortLblTxt = 'Unit Group';
               } else if (data == 'status') {
                 this.sortLblTxt = 'Status';
@@ -894,7 +894,7 @@ export class DashboardPage {
                 this.sortLblTxt = 'Unit Name';
               } else if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'companygroup_name') {
+              } else if (data == 'unitgroup') {
                 this.sortLblTxt = 'Unit Group';
               } else if (data == 'status') {
                 this.sortLblTxt = 'Status';
