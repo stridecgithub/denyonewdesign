@@ -367,7 +367,6 @@ export class AddcalendarPage {
       this.event_date = item.event_date_y_m_d;
       this.event_end_date = item.event_end_date;
       this.event_time = item.event_time.substr(0, 5);
-
       let getampmpvalue = item.event_time.substr(6, 8)
       console.log("AMPM:" + getampmpvalue);
       if (getampmpvalue == 'PM') {
@@ -375,6 +374,7 @@ export class AddcalendarPage {
         let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
         console.log("hoursadd24hourformat" + hoursadd24hourformat);
         this.event_time = hoursadd24hourformat + ":" + timesplit[1];
+        console.log("this.event_time" + this.event_time);
       }
 
 
@@ -395,27 +395,37 @@ export class AddcalendarPage {
       console.log("this.event_end_time" + this.event_end_time);
       console.log("item.event_end_time" + item.event_end_time);
       if (this.event_end_time != '') {
-        console.log("E");
-        this.event_end_time = item.event_end_time.substr(0, 5);
+        // console.log("E");
+        // this.event_end_time = item.event_end_time.substr(0, 5);
 
+        // let getampmpvalue = item.event_end_time.substr(5, 7)
+        // console.log("AMPM:" + getampmpvalue);
+        // if (getampmpvalue == 'PM') {
+        //   console.log('Enter PM'+ item.event_end_time);
+        //   let timesplit = item.event_end_time.split(":");
+        //   let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+        //   console.log("hoursadd24hourformat" + hoursadd24hourformat);
+        //   this.event_end_time = this.event_end_time + ":" + timesplit[1];
+        //   console.log(this.event_end_time);
+        //   console.log("this.event_end_time" + this.event_end_time);
+        // }
+
+
+        this.event_end_time = item.event_end_time.substr(0, 5);
         let getampmpvalue = item.event_end_time.substr(6, 8)
-        console.log("AMPM:" + getampmpvalue);
+        console.log("END TIME AMPM:" + getampmpvalue);
         if (getampmpvalue == 'PM') {
           let timesplit = this.event_end_time.split(":");
           let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
           console.log("hoursadd24hourformat" + hoursadd24hourformat);
           this.event_end_time = hoursadd24hourformat + ":" + timesplit[1];
+          console.log("this.event_end_time" + this.event_end_time);
         }
-
 
       } else {
         this.event_end_time = '';
       }
-      console.log("Event Date:" + item.event_date);
-      console.log("Event Date Substr:" + item.event_date.substr(0, 10));
-      console.log("Time for Start:" + this.event_time);
-      console.log("Time for End:" + this.event_end_time);
-      console.log("event_alldayevent:" + item.event_alldayevent);
+     
       if (item.event_alldayevent == 0) {
         this.starttimefield = true;
         this.endtimefield = true;
@@ -491,19 +501,40 @@ export class AddcalendarPage {
       event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
+
     let timesplit_end = event_end_time.split(":");
     let hrvalue_end = timesplit_end[0];
     let minvalue_end = timesplit_end[1];
     let ampmstr_end = 'AM';
     if (hrvalue_end > 12) {
       hrvalue_end = hrvalue_end - 12;
+      hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
       ampmstr_end = 'PM';
     }
     if (hrvalue_end != '') {
       event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
     } else {
-      event_end_time = '';
+      let date = new Date();
+      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+      this.hours = hours < 10 ? "0" + hours : hours;
+      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
+    // let timesplit_end = event_end_time.split(":");
+    // let hrvalue_end = timesplit_end[0];
+    // let minvalue_end = timesplit_end[1];
+    // let ampmstr_end = 'AM';
+    // if (hrvalue_end > 12) {
+    //   hrvalue_end = hrvalue_end - 12;
+    //   ampmstr_end = 'PM';
+    // }
+    // if (hrvalue_end != '') {
+    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
+    // } else {
+    //   event_end_time = '';
+    // }
     this.isSubmitted = true;
     service_remark = localStorage.getItem("atMentionResult");
     let field;
@@ -577,19 +608,41 @@ export class AddcalendarPage {
       event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
+
     let timesplit_end = event_end_time.split(":");
     let hrvalue_end = timesplit_end[0];
     let minvalue_end = timesplit_end[1];
     let ampmstr_end = 'AM';
     if (hrvalue_end > 12) {
       hrvalue_end = hrvalue_end - 12;
+      hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
       ampmstr_end = 'PM';
     }
     if (hrvalue_end != '') {
       event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
     } else {
-      event_end_time = '';
+      let date = new Date();
+      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+      this.hours = hours < 10 ? "0" + hours : hours;
+      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
+    
+    // let timesplit_end = event_end_time.split(":");
+    // let hrvalue_end = timesplit_end[0];
+    // let minvalue_end = timesplit_end[1];
+    // let ampmstr_end = 'AM';
+    // if (hrvalue_end > 12) {
+    //   hrvalue_end = hrvalue_end - 12;
+    //   ampmstr_end = 'PM';
+    // }
+    // if (hrvalue_end != '') {
+    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
+    // } else {
+    //   event_end_time = '';
+    // }
     /* if (localStorage.getItem("atMentionResult") != '') {
        service_remark = localStorage.getItem("atMentionResult");
      }*/
@@ -812,7 +865,7 @@ export class AddcalendarPage {
       this.starttimefield = false;
       this.isEdited = true;
       this.recordID
-      if(this.recordID==0){
+      if (this.recordID == 0) {
         this.event_end_time = '';
       }
       // this.event_end_date='';

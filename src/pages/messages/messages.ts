@@ -70,7 +70,6 @@ export class MessagesPage {
   public service_resources: any;
   micro_timestamp: any;
   public isUploadedProcessing: boolean = false;
-  public isProgress = false;
   public isUploaded: boolean = true;
   public selectedAction = [];
   public message_readstatus: any;

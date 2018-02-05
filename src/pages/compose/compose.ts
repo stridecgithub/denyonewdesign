@@ -79,6 +79,7 @@ export class ComposePage {
   open = 1;
   public companyId: any;
   public atmentioneddata = [];
+  existingimagecount;
   constructor(private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
     private transfer: FileTransfer,
@@ -242,6 +243,17 @@ export class ComposePage {
       })
     // Atmentioned API Calls
 
+
+    if (this.replyforward > 0) {
+
+      let imgcount = localStorage.getItem("existingimagecount");
+      if (imgcount != undefined && imgcount != 'undefined' && imgcount != '') {
+        this.existingimagecount = imgcount;
+      } else {
+        localStorage.set("existingimagecount" + this.addedImgLists.length);
+        this.existingimagecount = this.addedImgLists.length;
+      }
+    }
   }
 
 
@@ -393,7 +405,7 @@ export class ComposePage {
 
     if (this.isUploadedProcessing == false) {
       //let to: string = this.form.controls["to"].value,
-       let copytome: string = this.form.controls["copytome"].value,
+      let copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
       console.log("serviced_datetime:" + to);
@@ -485,7 +497,7 @@ export class ComposePage {
         }
       });
     localStorage.setItem("microtime", "");
-   // localStorage.setItem("atMentionResult", '');
+    // localStorage.setItem("atMentionResult", '');
     this.conf.sendNotification(`Message sending successfully`);
 
     this.navCtrl.setRoot(MessagesPage);
@@ -574,6 +586,7 @@ export class ComposePage {
     actionSheet.present();
   }
   fileTrans(path, micro_timestamp) {
+    this.isSubmitted = true;
     console.log("Path:" + path);
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
@@ -635,10 +648,16 @@ export class ComposePage {
           this.isUploaded = false;
         }
         this.progress += 5;
+        if (this.progress == 100) {
+          this.isSubmitted = false;
+        }
         this.isProgress = false;
         this.isUploadedProcessing = false;
+
+
         return false;
       }, (err) => {
+
         this.isProgress = false;
         console.log("Upload Error:" + JSON.stringify(err));
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));

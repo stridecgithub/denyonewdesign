@@ -238,6 +238,8 @@ export class AddrequestsupportPage {
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
 
+
+
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -270,6 +272,8 @@ export class AddrequestsupportPage {
         }
         this.progress += 5;
         this.isProgress = false;
+        this.isSubmitted = false;
+
         this.isUploadedProcessing = false;
         return false;
 
@@ -331,10 +335,10 @@ export class AddrequestsupportPage {
   // for the record data
   createEntry(service_remark, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    
+
     let serviced_datetime = new Date().toJSON().split('T')[0];
     var date = new Date();
-    serviced_datetime =   moment().format();
+    serviced_datetime = moment().format();
     console.log("Default date is" + serviced_datetime);
 
     let datesplit = serviced_datetime.split("T")[1];
@@ -379,7 +383,7 @@ export class AddrequestsupportPage {
         if (data.status === 200) {
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Servicing info was successfully added`);
-         
+
           this.nav.push(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -391,9 +395,9 @@ export class AddrequestsupportPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-  } 
+  }
 
-  getNextDate(val, field) {    
+  getNextDate(val, field) {
     console.log('1' + val);
     let date;
     if (val > 0) {
@@ -449,7 +453,7 @@ export class AddrequestsupportPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
- 
+
 
 
 
@@ -601,6 +605,7 @@ export class AddrequestsupportPage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               console.log(imageURI);
+              this.isSubmitted = true;
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -624,6 +629,7 @@ export class AddrequestsupportPage {
 
             this.camera.getPicture(options).then((uri) => {
               console.log(uri);
+              this.isSubmitted = true;
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {

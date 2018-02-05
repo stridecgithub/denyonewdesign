@@ -43,6 +43,8 @@ export class ServicingDetailsPage {
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
   tabBarElement: any;
+  service_time;
+  hoursadd24hourformat;
   constructor(public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {
@@ -63,10 +65,10 @@ export class ServicingDetailsPage {
     this.serviced_datetime = this.navParams.get("record").serviced_datetime;
     this.next_service_date_selected = this.navParams.get("record").next_service_date_selected;
     this.next_service_date = this.navParams.get("record").next_service_date;
-    this.next_service_date_mobileview=this.navParams.get("record").next_service_date_mobileview;
+    this.next_service_date_mobileview = this.navParams.get("record").next_service_date_mobileview;
     if (this.next_service_date == '0000-00-00') {
       this.next_service_date_selected = 0;
-    } 
+    }
     if (this.next_service_date == '') {
       this.next_service_date_selected = 0;
     }
@@ -88,6 +90,43 @@ export class ServicingDetailsPage {
     }
 
     this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
+
+
+    // this.serviced_datetime_display = this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
+    // let getampmpvalue = this.navParams.get("record").service_scheduled_time_format.substr(6, 8)
+    // console.log("AMPM:" + getampmpvalue);
+    // if (getampmpvalue == 'PM') {
+    //   let timesplit = this.serviced_datetime_display.split(":");
+    //   let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+    //   console.log("hoursadd24hourformat" + hoursadd24hourformat);
+    //   this.serviced_datetime_display = hoursadd24hourformat + ":" + timesplit[1];
+    //   this.serviced_datetime_display =this.navParams.get("record").serviced_schduled_date + "T" + this.serviced_datetime_display+":"+this.serviced_datetime_display;
+    // }
+
+
+    this.service_time = this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
+    console.log(" this.service_time" + this.service_time);
+    let getampmpvalue = this.navParams.get("record").service_scheduled_time_format.substr(6, 8)
+    console.log("AMPM:" + getampmpvalue);
+    if (getampmpvalue == 'PM') {
+      let timesplit = this.service_time.split(":");
+      this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+      console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
+      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    } else {
+      let timesplit = this.service_time.split(":");
+      this.hoursadd24hourformat = parseInt(timesplit[0]);
+      if (this.hoursadd24hourformat == 12) {
+        this.hoursadd24hourformat = '00';
+      }
+      console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
+      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    }
+
+
+    //this.serviced_datetime_display = '2018-02-06T00:00';
+    this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+
     console.log("serviceing-details.ts" + this.serviced_datetime_display);
 
 

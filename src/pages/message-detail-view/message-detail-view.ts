@@ -268,11 +268,9 @@ export class MessageDetailViewPage {
     }
 
     this.sendername = item.sendername;
-    console.log("item.senderphoto:" + item.senderphoto);
-    if (item.senderphoto == undefined) {
+    this.senderphoto = item.senderphoto;
+    if (this.senderphoto == undefined) {
       this.senderphoto = item.recipient_photo;
-    }else{
-      this.senderphoto = item.senderphoto;
     }
 
     this.is_favorite = item.is_favorite;

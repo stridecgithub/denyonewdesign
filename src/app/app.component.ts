@@ -134,14 +134,14 @@ export class MyApp {
               let label = voltagelabelsplitcolon[0];
               let labelvlu = voltagelabelsplitcolon[1];
               outvoltagelabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("voltagelabel_" + lbl, labelvlu);
+              //localStorage.setItem("voltagelabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < voltagecolorsplitcomma.length; clr++) {
               let voltagecolorsplitcolon = voltagecolorsplitcomma[clr].split(':');
               let color = voltagecolorsplitcolon[0];
               let colorvlu = voltagecolorsplitcolon[1];
               outvoltagecolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("voltagecolor_" + clr, colorvlu);
+              //localStorage.setItem("voltagecolor_" + clr, colorvlu);
             }
           }
 
@@ -155,14 +155,14 @@ export class MyApp {
               let label = currentlabelsplitcolon[0];
               let labelvlu = currentlabelsplitcolon[1];
               outcurrentlabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("currentlabel_" + lbl, labelvlu);
+             // localStorage.setItem("currentlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < currentcolorsplitcomma.length; clr++) {
               let currentcolorsplitcolon = currentcolorsplitcomma[clr].split(':');
               let color = currentcolorsplitcolon[0];
               let colorvlu = currentcolorsplitcolon[1];
               outcurrentcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("currentcolor_" + clr, colorvlu);
+              //localStorage.setItem("currentcolor_" + clr, colorvlu);
             }
           }
 
@@ -177,14 +177,14 @@ export class MyApp {
               let label = freqlabelsplitcolon[0];
               let labelvlu = freqlabelsplitcolon[1];
               outfreqlabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("freqlabel_" + lbl, labelvlu);
+              //localStorage.setItem("freqlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < freqcolorsplitcomma.length; clr++) {
               let freqcolorsplitcolon = freqcolorsplitcomma[clr].split(':');
               let color = freqcolorsplitcolon[0];
               let colorvlu = freqcolorsplitcolon[1];
               outfreqcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("freqcolor_" + clr, colorvlu);
+             // localStorage.setItem("freqcolor_" + clr, colorvlu);
             }
           }
 
@@ -198,14 +198,14 @@ export class MyApp {
               let label = enginespeedlabelsplitcolon[0];
               let labelvlu = enginespeedlabelsplitcolon[1];
               outenginespeedlabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("enginespeedlabel_" + lbl, labelvlu);
+             // localStorage.setItem("enginespeedlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < enginespeedcolorsplitcomma.length; clr++) {
               let enginespeedcolorsplitcolon = enginespeedcolorsplitcomma[clr].split(':');
               let color = enginespeedcolorsplitcolon[0];
               let colorvlu = enginespeedcolorsplitcolon[1];
               outenginespeedcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("enginespeedcolor_" + clr, colorvlu);
+              //localStorage.setItem("enginespeedcolor_" + clr, colorvlu);
             }
           }
 
@@ -219,14 +219,14 @@ export class MyApp {
               let label = fuellevellabelsplitcolon[0];
               let labelvlu = fuellevellabelsplitcolon[1];
               outfuellevellabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("fuellevellabel_" + lbl, labelvlu);
+              //localStorage.setItem("fuellevellabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < fuellevelcolorsplitcomma.length; clr++) {
               let fuellevelcolorsplitcolon = fuellevelcolorsplitcomma[clr].split(':');
               let color = fuellevelcolorsplitcolon[0];
               let colorvlu = fuellevelcolorsplitcolon[1];
               outfuellevelcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("fuellevelcolor_" + clr, colorvlu);
+              //localStorage.setItem("fuellevelcolor_" + clr, colorvlu);
             }
           }
 
@@ -240,14 +240,14 @@ export class MyApp {
               let label = loadfactorlabelsplitcolon[0];
               let labelvlu = loadfactorlabelsplitcolon[1];
               outloadfactorlabel += label + ":'" + labelvlu + "'" + ",";
-              localStorage.setItem("loadfactorlabel_" + lbl, labelvlu);
+              //localStorage.setItem("loadfactorlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < loadfactorcolorsplitcomma.length; clr++) {
               let loadfactorcolorsplitcolon = loadfactorcolorsplitcomma[clr].split(':');
               let color = loadfactorcolorsplitcolon[0];
               let colorvlu = loadfactorcolorsplitcolon[1];
               outloadfactorcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("loadfactorcolor_" + clr, colorvlu);
+              //localStorage.setItem("loadfactorcolor_" + clr, colorvlu);
             }
           }
 
@@ -262,14 +262,14 @@ export class MyApp {
             for (let lbl = 0; lbl < coolanttemplabelsplitcomma.length; lbl++) {
               let label = coolanttemplabelsplitcomma[lbl];
               outcoolanttemplabel += label + ",";
-              localStorage.setItem("coolanttemplabel_" + lbl, label);
+              //localStorage.setItem("coolanttemplabel_" + lbl, label);
             }
             for (let clr = 0; clr < coolanttempcolorsplitcomma.length; clr++) {
               let coolanttempcolorsplitcolon = coolanttempcolorsplitcomma[clr].split(':');
               let color = coolanttempcolorsplitcolon[0];
               let colorvlu = coolanttempcolorsplitcolon[1];
               outcoolanttempcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("coolanttempcolor_" + clr, colorvlu);
+              //localStorage.setItem("coolanttempcolor_" + clr, colorvlu);
             }
           }
 
@@ -282,14 +282,14 @@ export class MyApp {
             for (let lbl = 0; lbl < oilpressurelabelsplitcomma.length; lbl++) {
               let label = oilpressurelabelsplitcomma[lbl];
               outoilpressurelabel += label + ",";
-              localStorage.setItem("oilpressurelabel_" + lbl, label);
+              //localStorage.setItem("oilpressurelabel_" + lbl, label);
             }
             for (let clr = 0; clr < oilpressurecolorsplitcomma.length; clr++) {
               let oilpressurecolorsplitcolon = oilpressurecolorsplitcomma[clr].split(':');
               let color = oilpressurecolorsplitcolon[0];
               let colorvlu = oilpressurecolorsplitcolon[1];
               outoilpressurecolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("oilpressurecolor_" + clr, colorvlu);
+              //localStorage.setItem("oilpressurecolor_" + clr, colorvlu);
             }
           }
 
@@ -302,14 +302,14 @@ export class MyApp {
             for (let lbl = 0; lbl < loadpowerfactorlabelsplitcomma.length; lbl++) {
               let label = loadpowerfactorlabelsplitcomma[lbl];
               outloadpowerfactorlabel += label + ",";
-              localStorage.setItem("loadpowerfactorlabel_" + lbl, label);
+             // localStorage.setItem("loadpowerfactorlabel_" + lbl, label);
             }
             for (let clr = 0; clr < loadpowerfactorcolorsplitcomma.length; clr++) {
               let loadpowerfactorcolorsplitcolon = loadpowerfactorcolorsplitcomma[clr].split(':');
               let color = loadpowerfactorcolorsplitcolon[0];
               let colorvlu = loadpowerfactorcolorsplitcolon[1];
               outloadpowerfactorcolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("loadpowerfactorcolor_" + clr, colorvlu);
+              //localStorage.setItem("loadpowerfactorcolor_" + clr, colorvlu);
             }
           }
 
@@ -323,66 +323,17 @@ export class MyApp {
             for (let lbl = 0; lbl < batteryvoltagelabelsplitcomma.length; lbl++) {
               let label = batteryvoltagelabelsplitcomma[lbl];
               outbatteryvoltagelabel += label + ",";
-              localStorage.setItem("batteryvoltagelabel_" + lbl, label);
+              //localStorage.setItem("batteryvoltagelabel_" + lbl, label);
             }
             for (let clr = 0; clr < batteryvoltagecolorsplitcomma.length; clr++) {
               let batteryvoltagecolorsplitcolon = batteryvoltagecolorsplitcomma[clr].split(':');
               let color = batteryvoltagecolorsplitcolon[0];
               let colorvlu = batteryvoltagecolorsplitcolon[1];
               outbatteryvoltagecolor += color + ":'" + colorvlu + "'" + ",";
-              localStorage.setItem("batteryvoltagecolor_" + clr, colorvlu);
+              //localStorage.setItem("batteryvoltagecolor_" + clr, colorvlu);
             }
           }
 
-
-
-
-
-
-          // if (data.json().setpoints[7].code == 'CURRENT') {
-          //   let oilpressurelabelsplitcomma = data.json().setpoints[0].labels.split(",");
-          //   let oilpressurecolorsplitcomma = data.json().setpoints[0].colors.split(",");
-          //   let outoilpressurelabel = '';
-          //   let outoilpressurecolor = '';
-          //   for (let lbl = 0; lbl < oilpressurelabelsplitcomma.length; lbl++) {
-          //     let label = oilpressurelabelsplitcomma[lbl];
-
-          //     outoilpressurelabel +=   label + ",";
-          //   }
-          //   for (let clr = 0; clr < oilpressurecolorsplitcomma.length; clr++) {
-          //     let oilpressurecolorsplitcolon = oilpressurecolorsplitcomma[clr].split(':');
-          //     let color = oilpressurecolorsplitcolon[0];
-          //     let colorvlu = oilpressurecolorsplitcolon[1];
-          //     outoilpressurecolor +=  color + ":'" + colorvlu + "'" + ",";
-          //   }
-          //   console.log("Final value for oilpressure label:" + outoilpressurelabel);
-          //   console.log("Final value for oilpressure color:" + outoilpressurecolor);
-          //   localStorage.setItem("oilguagelabel", outoilpressurelabel.substring(0, outoilpressurelabel.length - 1));
-          //   localStorage.setItem("iolguagecolors", outoilpressurecolor.substring(0, outoilpressurecolor.length - 1));
-          // }
-
-
-          // if (data.json().setpoints[7].code == 'OILPRESSURE') {
-          //   let oilpressurelabelsplitcomma = data.json().setpoints[0].labels.split(",");
-          //   let oilpressurecolorsplitcomma = data.json().setpoints[0].colors.split(",");
-          //   let outoilpressurelabel = '';
-          //   let outoilpressurecolor = '';
-          //   for (let lbl = 0; lbl < oilpressurelabelsplitcomma.length; lbl++) {
-          //     let label = oilpressurelabelsplitcomma[lbl];
-
-          //     outoilpressurelabel +=   label + ",";
-          //   }
-          //   for (let clr = 0; clr < oilpressurecolorsplitcomma.length; clr++) {
-          //     let oilpressurecolorsplitcolon = oilpressurecolorsplitcomma[clr].split(':');
-          //     let color = oilpressurecolorsplitcolon[0];
-          //     let colorvlu = oilpressurecolorsplitcolon[1];
-          //     outoilpressurecolor +=  color + ":'" + colorvlu + "'" + ",";
-          //   }
-          //   console.log("Final value for oilpressure label:" + outoilpressurelabel);
-          //   console.log("Final value for oilpressure color:" + outoilpressurecolor);
-          //   localStorage.setItem("oilguagelabel", outoilpressurelabel.substring(0, outoilpressurelabel.length - 1));
-          //   localStorage.setItem("iolguagecolors", outoilpressurecolor.substring(0, outoilpressurecolor.length - 1));
-          // }
 
 
         }

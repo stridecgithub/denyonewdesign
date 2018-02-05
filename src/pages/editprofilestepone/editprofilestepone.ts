@@ -388,6 +388,7 @@ export class EditprofilesteponePage {
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
+       
         this.isUploadedProcessing = false;
         return false;
 

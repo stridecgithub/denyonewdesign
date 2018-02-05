@@ -104,6 +104,8 @@ export class ServicedetailsPage {
   threemonthselection;
   calendarmonthselection;
   currentyear;
+  service_time;
+  hoursadd24hourformat;
       constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
@@ -423,7 +425,7 @@ export class ServicedetailsPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-
+        this.isProgress = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -455,6 +457,9 @@ export class ServicedetailsPage {
           this.uploadcount = remcount;
         }
         this.progress += 5;
+        if (this.progress == 100) {
+          this.isSubmitted = false;
+        }
         this.isProgress = false;
         this.isUploadedProcessing = false;
         return false;
@@ -895,6 +900,33 @@ export class ServicedetailsPage {
         //this.service_scheduled_date ='';
         console.log("service_scheduled_date-kannan 1" + this.service_scheduled_date);
       }
+
+
+      
+    this.service_time = item.service_scheduled_time_format.substr(0, 5);
+    console.log(" this.service_time" + this.service_time);
+    let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
+    console.log("AMPM:" + getampmpvalue);
+    if (getampmpvalue == 'PM') {
+      let timesplit = this.service_time.split(":");
+      this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+      console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
+      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    } else {
+      let timesplit = this.service_time.split(":");
+      this.hoursadd24hourformat = parseInt(timesplit[0]);
+      if (this.hoursadd24hourformat == 12) {
+        this.hoursadd24hourformat = '00';
+      }
+      console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
+      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    }
+    
+
+    this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+
+    console.log("serviceing-details.ts" + this.service_scheduled_date);
+
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
       this.next_service_date_selected = item.next_service_date_selected;

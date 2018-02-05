@@ -138,7 +138,10 @@
       <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
         <h1 style="width:90%">{{imageitem.fileName}}</h1>
         <h2>{{imageitem.fileSize}}</h2>
-        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward'">
+        <!-- i value {{i}}
+        index value {{index}}
+        existing image count {{existingimagecount}} -->
+        <button (click)="doRemoveResouce(imageitem)">
           <!-- *ngIf="act!='reply' && act!='forward'" -->
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>

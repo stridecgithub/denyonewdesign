@@ -380,7 +380,7 @@ export class AddcommentsinfoPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/commentupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-
+        this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -412,6 +412,9 @@ export class AddcommentsinfoPage {
           this.uploadcount = remcount;
         }
         this.progress += 5;
+        if (this.progress == 100) {
+          this.isSubmitted = false;
+        }
         this.isProgress = false;
         this.isUploadedProcessing = false;
         return false;
