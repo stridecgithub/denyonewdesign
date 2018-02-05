@@ -167,7 +167,6 @@ export class UnitdetailsPage {
 	}
 
 	ngOnDestroy() {
-		console.log("Destroy timer");
 		// unsubscribe here
 		this.subscription.unsubscribe();
 	}
@@ -2765,7 +2764,7 @@ export class UnitdetailsPage {
 		} else if (e._value == 'gensetView') {
 			if (this.timerswitch > 0) {
 				//this.unitstimervalue(0);
-				this.subscription.unsubscribe();
+				//this.subscription.unsubscribe();
 			}
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';

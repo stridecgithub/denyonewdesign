@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
 import { IonicPage, Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
-import {  DragulaService } from "ng2-dragula/ng2-dragula"
+import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
 import { Http, Headers, RequestOptions } from "@angular/http";
 //import { EventDetailsPage } from '../../pages/calendardetail/calendardetail';
@@ -197,9 +197,9 @@ export class CalendarPage {
     this.profilePhoto = this.apiServiceURL +
 
       "/staffphotos/" + this.profilePhoto;
-     
+
   }
-  ionViewDidLoad() {   
+  ionViewDidLoad() {
     this.doNotifiyCount();
     console.log('ionViewDidLoad  CalendarPage');
   }
@@ -431,44 +431,62 @@ export class CalendarPage {
     this.onLoad = false;
     this.ctrl.dateSelection.add(amount, 'month');
     this.ctrl.selectedMonth = this.monthNum2monthStr(this.ctrl.dateSelection.month());
-    console.log(" plusMonth A" + JSON.stringify(this.ctrl));
-    console.log(" plusMonth B" + this.ctrl.dateSelection);
-    console.log(" plusMonth C" + this.ctrl.dateSelection.toString());
     let toStrDte = this.ctrl.dateSelection.toString();
-    console.log(" plusMonth D" + toStrDte.split("T"));
-    console.log(" plusMonth E" + toStrDte.split(" ")[3]);
     let calendardaystr = toStrDte.split(" ")[0];
     let calendarmonthstr = toStrDte.split(" ")[1];
     let calendardatestr = toStrDte.split(" ")[2];
     let calendaryearstr = toStrDte.split(" ")[3];
-    console.log(" plusMonth G Day" + calendardaystr);
-    console.log(" plusMonth H Month" + calendarmonthstr);
-    console.log(" plusMonth I Date" + calendardatestr);
-    console.log(" plusMonth J Year" + calendaryearstr);
     this.currentDateFormatToday = calendardaystr + " " + calendardatestr + " " + calendarmonthstr + " " + calendaryearstr;
     this.calendarDate = calendardatestr;
     this.calendarYear = calendaryearstr;
     this.calendarMonth = calendarmonthstr;
     let mn = moment().month() + 1;
-    let currentDate = this.ctrl.selectedYear + "-" + mn + "-" + this.ctrl.selectedDay;
 
     this.monthTitle = this.ctrl.selectedMonth;
     this.yearTitle = this.ctrl.selectedYear;
     this.monthstr = this.monthTitle + "-" + this.calendarYear;
-
+    console.log("Month String:--" + this.monthstr);
+    if (this.monthTitle == 'May') {
+      mn = 5;
+    } else if (this.monthTitle == 'January') {
+      mn = 1;
+    } else if (this.monthTitle == 'March') {
+      mn = 3;
+    } else if (this.monthTitle == 'April') {
+      mn = 4;
+    } else if (this.monthTitle == 'February') {
+      mn = 2;
+    }
+    else if (this.monthTitle == 'June') {
+      mn = 6;
+    }
+    else if (this.monthTitle == 'July') {
+      mn = 7;
+    }
+    else if (this.monthTitle == 'August') {
+      mn = 8;
+    }
+    else if (this.monthTitle == 'September') {
+      mn = 9;
+    }
+    else if (this.monthTitle == 'October') {
+      mn = 10;
+    }
+    else if (this.monthTitle == 'November') {
+      mn = 11;
+    }
+    else if (this.monthTitle == 'December') {
+      mn = 12;
+    }
+    let currentDate = this.ctrl.selectedYear + "-" + mn + "-" + this.ctrl.selectedDay;
+    console.log("Current Date:--" + currentDate);
     this.defaultDevent(currentDate, this.monthstr);
     this.updateMainView();
-
-
   }
 
 
   setDateSelectionMonth($event) {
-    console.log('Calling setDateSelectionMonth');
-    console.log('change A:', $event);
-    console.log('change B:', JSON.stringify($event));
     this.makeDaysInMonthViewList();
-    console.log('setDateSelectionMonth function end');
   }
 
   makeDaysInMonthViewList() {
@@ -477,7 +495,7 @@ export class CalendarPage {
     this.ctrl.monthView.firstDayOfMonth = moment(this.ctrl.dateSelection).startOf('month');
     this.ctrl.monthView.lastDayOfMonth = moment(this.ctrl.dateSelection).endOf('month');
     var firstDayOfMonthAsWeekday = this.ctrl.monthView.firstDayOfMonth.isoWeekday();
-       var firstDayInViewOfPreviousMonth = moment(this.ctrl.monthView.firstDayOfMonth).subtract(firstDayOfMonthAsWeekday - 1, 'days');
+    var firstDayInViewOfPreviousMonth = moment(this.ctrl.monthView.firstDayOfMonth).subtract(firstDayOfMonthAsWeekday - 1, 'days');
 
     var currentDay = moment(firstDayInViewOfPreviousMonth);
     var days = [];
@@ -546,7 +564,7 @@ export class CalendarPage {
           }
           startDateEndOfDay.add(1, 'days');
         }
-       
+
       });
     }
   }
@@ -695,14 +713,14 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-    console.log("All Events calling API URL" + url);
+    console.log("Default Event API function All Events calling API URL" + url);
 
     // console.log(url);
     let colors: string[] = ['primary', 'warning', 'danger', 'success'];
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         let res = data.json();
         // this.eventIdentify = res.allevents;
         this.eventIdentify = res.events;
@@ -822,12 +840,12 @@ export class CalendarPage {
           startTimeAlarm = new Date(yearstrk, monthstrk, datestrk, 10, 0 + startMinuteAlam);
           endTimeAlarm = new Date(yearstrk, monthstrk, datestrk, 10, 0 + endMinuteAlarm);
           let eventcolor;
-          if(this.alarmIdentity[k]['alarm_priority']=='1')
-          eventcolor='trippedcolor';
-          if(this.alarmIdentity[k]['alarm_priority']=='2')
-          eventcolor='warningcolor';
-          if(this.alarmIdentity[k]['alarm_priority']=='3')
-          eventcolor='warningcolor';
+          if (this.alarmIdentity[k]['alarm_priority'] == '1')
+            eventcolor = 'trippedcolor';
+          if (this.alarmIdentity[k]['alarm_priority'] == '2')
+            eventcolor = 'warningcolor';
+          if (this.alarmIdentity[k]['alarm_priority'] == '3')
+            eventcolor = 'warningcolor';
           this.calEvents.push({
             data: {},
             id: this.alarmIdentity[k]['alarm_id'],
@@ -852,7 +870,7 @@ export class CalendarPage {
             alarm_time: this.alarmIdentity[k]['alarm_time'],
             event_time_new: this.alarmIdentity[k]['service_scheduled_time'],
             alarm_priority: this.alarmIdentity[k]['alarm_priority'],
-            eventcolor:eventcolor
+            eventcolor: eventcolor
 
           });
 
@@ -882,7 +900,7 @@ export class CalendarPage {
       });
   }
 
-  doAdd() {   
+  doAdd() {
     this.navCtrl.setRoot(AddcalendarPage);
   }
 
@@ -921,18 +939,18 @@ export class CalendarPage {
       event_type: event_type
     });
   }
-  doServiceView(event_id, event_type,eventdata) {
+  doServiceView(event_id, event_type, eventdata) {
     this.navCtrl.setRoot(EventDetailsServicePage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata
     });
   }
-  doEventView(event_id, event_type,eventdata) {
+  doEventView(event_id, event_type, eventdata) {
     this.navCtrl.setRoot(EventDetailsEventPage, {
       event_id: event_id,
       event_type: event_type,
-      eventdata:eventdata
+      eventdata: eventdata
     });
   }
 
@@ -1068,11 +1086,11 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr;
-    console.log(url);
+    console.log("On Time Selected Function:-" + url);
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {
-      
+
         let currentDateArr = new Date();
         let cmonth = currentDateArr.getMonth() + 1;
         let mnstr;
@@ -1227,7 +1245,7 @@ export class CalendarPage {
         icon: 'service',
         class: 'service'
       });
-      console.log("doCalendarResult this.serviceIdentify[j]"+JSON.stringify(this.calendarResultEvent));
+      console.log("doCalendarResult this.serviceIdentify[j]" + JSON.stringify(this.calendarResultEvent));
 
     }
 
@@ -1238,12 +1256,12 @@ export class CalendarPage {
       // let tmepm = tme.substr(5,4) + " " + tme.substr(10, 2);
       let tmepm = tme;
       let eventcolor;
-      if(this.alarmIdentity[k]['alarm_priority']=='1')
-      eventcolor='trippedcolor';
-      if(this.alarmIdentity[k]['alarm_priority']=='2')
-      eventcolor='warningcolor';
-      if(this.alarmIdentity[k]['alarm_priority']=='3')
-      eventcolor='warningcolor';
+      if (this.alarmIdentity[k]['alarm_priority'] == '1')
+        eventcolor = 'trippedcolor';
+      if (this.alarmIdentity[k]['alarm_priority'] == '2')
+        eventcolor = 'warningcolor';
+      if (this.alarmIdentity[k]['alarm_priority'] == '3')
+        eventcolor = 'warningcolor';
 
       this.calendarResultEvent.push({
 
@@ -1259,9 +1277,9 @@ export class CalendarPage {
         event_t: this.alarmIdentity[k]['date_time'],
         formatted_datetime: tmepm,
         event_time_new: this.alarmIdentity[k]['service_scheduled_time'],
-        alarm_time: this.alarmIdentity[k]['alarm_time'],        
+        alarm_time: this.alarmIdentity[k]['alarm_time'],
         alarm_priority: this.alarmIdentity[k]['alarm_priority'],
-        eventcolor:eventcolor,
+        eventcolor: eventcolor,
         event_type: 'A',
         icon: 'event',
         class: 'event'
@@ -1269,7 +1287,7 @@ export class CalendarPage {
 
 
     }
-    this.totalCountEventDateWise = this.calendarResultEvent.length;   
+    this.totalCountEventDateWise = this.calendarResultEvent.length;
     if (this.totalCountEventDateWise == 0) {
       this.noeventtitle = 'There is no events';
     }
@@ -1367,27 +1385,27 @@ export class CalendarPage {
     slidingItem.getOpenAmount();
     console.log("Slide 2");
   }
- // List page navigate to notification list
- notification() {
-  console.log('Will go notification list page');
-  // Navigate the notification list page
-  this.navCtrl.setRoot(NotificationPage);
-}
-doNotifiyCount() {
-  // Notification count
-  let
-    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    headers: any = new Headers({ 'Content-Type': type }),
-    options: any = new RequestOptions({ headers: headers }),
-    url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-  this.http.get(url, options)
-    .subscribe((data) => {
-      this.msgcount = data.json().msgcount;
-      this.notcount = data.json().notifycount;
-    }, error => {
-      console.log(error);
-    });
-  // Notiifcation count
-}
+  // List page navigate to notification list
+  notification() {
+    console.log('Will go notification list page');
+    // Navigate the notification list page
+    this.navCtrl.setRoot(NotificationPage);
+  }
+  doNotifiyCount() {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        this.msgcount = data.json().msgcount;
+        this.notcount = data.json().notifycount;
+      }, error => {
+        console.log(error);
+      });
+    // Notiifcation count
+  }
 }
 
