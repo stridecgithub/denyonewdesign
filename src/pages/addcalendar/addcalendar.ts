@@ -40,7 +40,7 @@ export class AddcalendarPage {
   public month1: any;
   public date1: any;
   public event_title: any;
-  
+
   public alldayeventvalue: boolean = false;
   public isSubmitted: boolean = false;
   public alldayevent: boolean = true;
@@ -217,7 +217,7 @@ export class AddcalendarPage {
     this.event_end_date = localStorage.getItem("eventDate");
     this.event_date = moment().format();
     this.event_end_date = moment().format();
-        console.log("Bottom UTC Format Current Date:" + this.event_date);
+    console.log("Bottom UTC Format Current Date:" + this.event_date);
 
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
@@ -330,11 +330,20 @@ export class AddcalendarPage {
       this.event_unitid = item.service_unitid;
       this.recordID = item.service_id;
       this.event_time = item.service_scheduled_time.substr(0, 5);
+      let getampmpvalue = item.service_scheduled_time.substr(6, 8)
+      console.log("AMPM:" + getampmpvalue);
+      if(getampmpvalue=='PM'){
+        let timesplit=this.event_time.split(":");
+        let hoursadd24hourformat=parseInt(timesplit[0])+12;
+        console.log("hoursadd24hourformat"+hoursadd24hourformat);
+        this.event_time =hoursadd24hourformat+":"+timesplit[1];
+      }
+      //this.event_time ='17:30';
       console.log("Time for Start:" + this.event_time);
 
       this.event_subject = item.service_subject;
       this.event_notes = item.description;
-      this.alldayeventhide=false;
+      this.alldayeventhide = false;
       this.enddatefield = false;
       this.endtimefield = false;
       this.starttimefield = true;
@@ -342,7 +351,7 @@ export class AddcalendarPage {
       this.startdatelabel = "";
       this.unitfield = true;
       this.disunit = true;
-        }
+    }
     if (type == 'event') {
       this.unitfield = false;
       this.disunit = false;
@@ -358,6 +367,17 @@ export class AddcalendarPage {
       this.event_date = item.event_date_y_m_d;
       this.event_end_date = item.event_end_date;
       this.event_time = item.event_time.substr(0, 5);
+
+      let getampmpvalue = item.event_time.substr(6, 8)
+      console.log("AMPM:" + getampmpvalue);
+      if(getampmpvalue=='PM'){
+        let timesplit=this.event_time.split(":");
+        let hoursadd24hourformat=parseInt(timesplit[0])+12;
+        console.log("hoursadd24hourformat"+hoursadd24hourformat);
+        this.event_time =hoursadd24hourformat+":"+timesplit[1];
+      }
+
+
       if (this.event_time != '') {
         this.starttimefield = true;
       }
@@ -376,7 +396,18 @@ export class AddcalendarPage {
       console.log("item.event_end_time" + item.event_end_time);
       if (this.event_end_time != '') {
         console.log("E");
-        this.event_end_time = this.event_end_time.substr(0, 5);
+        this.event_end_time = item.event_end_time.substr(0, 5);
+
+        let getampmpvalue = item.event_end_time.substr(6, 8)
+      console.log("AMPM:" + getampmpvalue);
+      if(getampmpvalue=='PM'){
+        let timesplit=this.event_end_time.split(":");
+        let hoursadd24hourformat=parseInt(timesplit[0])+12;
+        console.log("hoursadd24hourformat"+hoursadd24hourformat);
+        this.event_end_time =hoursadd24hourformat+":"+timesplit[1];
+      }
+
+
       } else {
         this.event_end_time = '';
       }
@@ -444,10 +475,12 @@ export class AddcalendarPage {
     let minvalue_start = timesplit_start[1];
     let ampmstr_start = 'AM';
     if (hrvalue_start > 12) {
+      hrvalue_start = hrvalue_start - 12;
+      hrvalue_start = hrvalue_start < 10 ? "0" + hrvalue_start : hrvalue_start;
       ampmstr_start = 'PM';
     }
     if (hrvalue_start != '') {
-      event_time = hrvalue_start + ":" + minvalue_start + ":" + ampmstr_start;
+      event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
     } else {
       let date = new Date();
       let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
@@ -463,10 +496,11 @@ export class AddcalendarPage {
     let minvalue_end = timesplit_end[1];
     let ampmstr_end = 'AM';
     if (hrvalue_end > 12) {
+      hrvalue_end = hrvalue_end - 12;
       ampmstr_end = 'PM';
     }
     if (hrvalue_end != '') {
-      event_end_time = hrvalue_end + ":" + minvalue_end + ":" + ampmstr_end;
+      event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
     } else {
       event_end_time = '';
     }
@@ -528,10 +562,11 @@ export class AddcalendarPage {
     let minvalue_start = timesplit_start[1];
     let ampmstr_start = 'AM';
     if (hrvalue_start > 12) {
+      hrvalue_start = hrvalue_start - 12;
       ampmstr_start = 'PM';
     }
     if (hrvalue_start != '') {
-      event_time = hrvalue_start + ":" + minvalue_start + ":" + ampmstr_start;
+      event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
     } else {
       let date = new Date();
       let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
@@ -547,10 +582,11 @@ export class AddcalendarPage {
     let minvalue_end = timesplit_end[1];
     let ampmstr_end = 'AM';
     if (hrvalue_end > 12) {
+      hrvalue_end = hrvalue_end - 12;
       ampmstr_end = 'PM';
     }
     if (hrvalue_end != '') {
-      event_end_time = hrvalue_end + ":" + minvalue_end + ":" + ampmstr_end;
+      event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
     } else {
       event_end_time = '';
     }
@@ -649,9 +685,9 @@ export class AddcalendarPage {
       event_end_time: string = this.form.controls["event_end_time"].value,
       event_location: string = this.form.controls["event_location"].value,
       service_remark: string = this.form.controls["event_notes"].value;
-      this.alldayeventvalue= this.form.controls["alldayevent"].value;
+    this.alldayeventvalue = this.form.controls["alldayevent"].value;
 
-      console.log("alldayevent toggle value"+this.alldayeventvalue);
+    console.log("alldayevent toggle value" + this.alldayeventvalue);
     if (event_end_date == undefined) {
       event_end_date = '';
     }
@@ -675,13 +711,13 @@ export class AddcalendarPage {
     let togglevalue;
     if (this.alldayeventvalue == true) {
       togglevalue = 1;
-     // this.event_end_date='0000-00-00';
-      event_end_time='';
+      // this.event_end_date='0000-00-00';
+      event_end_time = '';
     } else {
       togglevalue = 0
     }
 
-    console.log("Final Toggle"+this.alldayeventvalue+":"+togglevalue);
+    console.log("Final Toggle" + this.alldayeventvalue + ":" + togglevalue);
 
     if (this.isEdited) {
       this.updateEntry(event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
@@ -774,8 +810,8 @@ export class AddcalendarPage {
     if (val == true) {
       this.endtimefield = false;
       this.starttimefield = false;
-      this.event_end_time='';
-     // this.event_end_date='';
+      this.event_end_time = '';
+      // this.event_end_date='';
 
     } else {
       this.endtimefield = true;

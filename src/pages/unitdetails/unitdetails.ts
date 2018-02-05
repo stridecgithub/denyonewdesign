@@ -158,16 +158,14 @@ export class UnitdetailsPage {
 
 		//this.unitstimervalue(1);
 	}
-	ngOnInit() {
-		let timer = TimerObservable.create(2000, 1000);
-		this.subscription = timer.subscribe(t => {
-			this.tick = t;
-			//this.unitstimervalue(1);
-		});
-	}
+	// ngOnInit() {
+	// 	let timer = TimerObservable.create(2000, 1000);
+	// 	this.subscription = timer.subscribe(t => {
+	// 		this.tick = t;
+	// 	});
+	// }
 
 	ngOnDestroy() {
-		console.log("Destroy timer");
 		// unsubscribe here
 		this.subscription.unsubscribe();
 	}
@@ -260,6 +258,15 @@ export class UnitdetailsPage {
 								if (this.enginestatuscolor == '') {
 									this.enginestatuscolor = '#EDEDED';
 								}
+
+								this.commstatus = data.json().commstatus;
+								console.log("Com Status in Dataview"+this.commstatus);
+								if (this.commstatus == 'Offline') {
+									this.commstatuscolor = "gray";
+								} else {
+									this.commstatuscolor = "#00BA28";
+								}
+
 								this.coolanttemp = data.json().coolanttemp;
 								this.oilpressure = data.json().oilpressure;
 								this.loadpowerfactor = data.json().loadpowerfactor;
@@ -2765,7 +2772,7 @@ export class UnitdetailsPage {
 		} else if (e._value == 'gensetView') {
 			if (this.timerswitch > 0) {
 				//this.unitstimervalue(0);
-				this.subscription.unsubscribe();
+				//this.subscription.unsubscribe();
 			}
 			this.conf.presentLoading(0);
 			dataView.style.display = 'none';
