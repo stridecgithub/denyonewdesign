@@ -65,7 +65,7 @@ import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { UserPage } from '../pages/user/user';
 import { CompanygroupPage } from '../pages/companygroup/companygroup';
 import { RolePage } from '../pages/role/role';
-import { AddunitgroupPage } from '../pages/Addunitgroup/Addunitgroup';
+import { AddunitgroupPage } from '../pages/addunitgroup/addunitgroup';
 
 @NgModule({
   declarations: [

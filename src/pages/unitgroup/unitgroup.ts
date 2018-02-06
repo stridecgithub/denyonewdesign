@@ -38,13 +38,13 @@ export class UnitgroupPage {
   public DELETEACCESS: any;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   public totalCount;
-  pet: string = "ALL";  
-  public sortLblTxt: string = 'Unitgroup Group';
+  pet: string = "ALL";
+  public sortLblTxt: string = 'Favourites';
   public reportData: any =
     {
       status: '',
-      sort: 'unitgroup_id',
-      sortascdesc: 'asc',
+      sort: 'favorite',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 50
     }
@@ -389,7 +389,7 @@ export class UnitgroupPage {
           this.sendNotification('Something went wrong!');
         }
       });
-    //this.dounitGroup();
+    //this.dounitGroupGroup();
   }
 
   notification() {
@@ -399,4 +399,64 @@ export class UnitgroupPage {
     localStorage.setItem("uid", id);
     this.nav.setRoot(Unitgrouplist);
   }
+
+  doSort() {
+    let prompt = this.alertCtrl.create({
+      title: 'Sort By',
+      inputs: [
+        {
+          type: 'radio',
+          label: 'Favourites',
+          value: 'favorite'
+        },
+        {
+          type: 'radio',
+          label: 'Unit Group',
+          value: 'unitgroupgroup_id',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Asc',
+          handler: data => {
+            console.log(data);
+            console.log('Asc clicked');
+            if (data != undefined) {
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'asc';
+              if (data == 'favorite') {
+                this.sortLblTxt = 'Favourites';
+              } else if (data == 'unitgroupgroup_id') {
+                this.sortLblTxt = 'Unit Group';
+              }
+              this.reportData.startindex = 0;
+              this.reportAllLists = [];
+              this.dounitGroup();
+            }
+          }
+        },
+        {
+          text: 'Desc',
+          handler: data => {
+            console.log(data);
+            if (data != undefined) {
+              console.log('Desc clicked');
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'desc';
+              if (data == 'favorite') {
+                this.sortLblTxt = 'Favourites';
+              } else if (data == 'unitgroupgroup_id') {
+                this.sortLblTxt = 'Unit Group';
+              }
+              this.reportData.startindex = 0;
+              this.reportAllLists = [];
+              this.dounitGroup();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
 }

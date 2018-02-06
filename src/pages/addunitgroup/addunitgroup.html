@@ -22,24 +22,6 @@
    <ion-badge style="    margin-top: 5px;
     margin-right: 7px;" item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
 </button>
-
-  <!--ion-navbar color="bluedark" hideBackButton>
-    <ion-title class="page-title">{{pageTitle}}</ion-title>
-    <ion-buttons start>
-      <button ion-button menuToggle class="menu-toggle">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    </ion-buttons>
-
-
-
-    <ion-buttons end>
-      <button ion-button (click)="notification()">
-  <ion-icon ios="ios-notifications-outline" md="md-notifications-outline"></ion-icon>
-   <ion-badge item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
-</button>
-    </ion-buttons>
-  </ion-navbar-->
   <ion-navbar class="backtoprevious-navbar" hideBackButton>
     <ion-buttons start class="backtoprevious-start">
       <button ion-button icon-left class="backtoprevious-button" (click)="previous()">
