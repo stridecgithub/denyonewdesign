@@ -16,9 +16,9 @@
       <button class="profile"><img src="{{profilePhoto}}" width="28"  height="28"></button>
     </div>
   </ion-navbar>
- <ion-item style="width: 100%; margin: 0; padding-left: 10px; background-color:#ffffff">
+ <ion-item style="width:100%;margin:0;padding-left:10px;background-color:#ffffff">
     <ion-label>Company</ion-label>
-    <ion-select style="padding: 1px 1px 6px 1px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
+    <ion-select style="padding:1px 40px 0px 0px;min-width:67%;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
       <ion-option *ngFor="let companyData of responseResultCompanyGroup" value="{{companyData.companygroup_id}}">{{companyData.companygroup_name}}</ion-option>
     </ion-select>
   </ion-item>

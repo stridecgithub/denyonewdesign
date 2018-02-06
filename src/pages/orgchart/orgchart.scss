@@ -1,4 +1,19 @@
 page-orgchart {
+  .select-md .select-icon .select-icon-inner {
+     border: solid #807f7f;
+     border-width: 0 2px 2px 0 !important;
+   }
+   .select-text{
+    font-weight: 500;
+    min-width: auto;
+    width: auto;
+    padding-right: 5px;
+    flex: inherit;
+   }
+   .item-select .label-md{
+    font-weight: 400;
+    color: #565555;
+   }
    .toolbar-title-md{
      font-size:18px;
    }
