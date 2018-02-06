@@ -9,6 +9,7 @@ import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage} from '../orgchart/orgchart';
+import { Config } from '../../config/config';
 //import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the UnitgroupPage page.
@@ -19,12 +20,13 @@ import { OrgchartPage} from '../orgchart/orgchart';
 @Component({
   selector: 'page-reporttemplate',
   templateUrl: 'reporttemplate.html',
+  providers: [Config]
 })
 export class ReporttemplatePage {
   public pageTitle: string;
   public loginas: any;
   public userId: any;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public templatenamehash;
   public templatenamecomm;
   public VIEWACCESS: any;
@@ -44,8 +46,9 @@ export class ReporttemplatePage {
     startindex: 0,
     results: 8
   }
-  public reportAllLists = [];
-  constructor(public http: Http, public nav: NavController,
+  public reporttemplateAllLists = [];  
+  profilePhoto;
+  constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -58,10 +61,11 @@ export class ReporttemplatePage {
     this.DELETEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.pageTitle = 'Report Template';
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReporttemplatePage');
-  }
+  
 
 
   onSegmentChanged(val) {
@@ -70,11 +74,12 @@ export class ReporttemplatePage {
     this.reportData.sortascdesc = splitdata[1];
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.reporttemplateAllLists = [];
     this.doReport();
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ReporttemplatePage');
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -89,15 +94,15 @@ export class ReporttemplatePage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
-    if (this.VIEWACCESS > 0) {
+   
       this.doReport();
-    }
+    
   }
 
   doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.reporttemplateAllLists = [];
     this.doReport();
     setTimeout(() => {
       refresher.complete();
@@ -127,7 +132,7 @@ export class ReporttemplatePage {
         console.log("2" + res.availabletemp);
         if (res.availabletemp.length > 0) {
           for (let availabletemps in res.availabletemp) {
-            this.reportAllLists.push({
+            this.reporttemplateAllLists.push({
               id: res.availabletemp[availabletemps].id,
               templatename: res.availabletemp[availabletemps].templatename,
               availableheading: res.availabletemp[availabletemps].availableheading.split("#")
@@ -191,9 +196,9 @@ export class ReporttemplatePage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.reporttemplateAllLists.length; q++) {
+            if (this.reporttemplateAllLists[q] == item) {
+              this.reporttemplateAllLists.splice(q, 1);
             }
           }
         }
