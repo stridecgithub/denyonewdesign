@@ -52,7 +52,7 @@ export class EditprofilesteponePage {
   public readOnly: boolean = false;
   public hidePasswordField: boolean = false;
 
-  public addedImgLists: any;
+  public addedImgLists='assets/imgs/nouser.jpg';
   len;
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation

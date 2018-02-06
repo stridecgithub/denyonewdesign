@@ -71,8 +71,10 @@ import { AddcompanygroupPage } from '../pages/addcompanygroup/addcompanygroup';
 import { ReporttemplatePage } from '../pages/reporttemplate/reporttemplate';
 import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttemplate';
 import { AddrolePage } from '../pages/addrole/addrole';
+import { AdduserPage } from '../pages/adduser/adduser';
 @NgModule({
   declarations: [
+    AdduserPage,
     AddreporttemplatePage,
     ReporttemplatePage,
     AddcompanygroupPage,
@@ -156,6 +158,7 @@ import { AddrolePage } from '../pages/addrole/addrole';
   bootstrap: [IonicApp],
   entryComponents: [
     AddrolePage,
+    AdduserPage,
     AddreporttemplatePage,
     ReporttemplatePage,
     AddenginedetailPage,

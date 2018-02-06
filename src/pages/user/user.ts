@@ -48,11 +48,12 @@ export class UserPage {
   public msgcount:any;
   public notcount:any;
   profilePhoto;
+  public sortLblTxt: string = 'Name';
   public reportData: any =
   {
     status: '',
     
-    sort: 'staff_id',
+    sort: 'firstname',
     sortascdesc: 'asc',
     startindex: 0,
     results: 50
@@ -164,12 +165,11 @@ export class UserPage {
         this.notcount=data.json().notifycount;
       });
    
-    if(this.VIEWACCESS > 0)
-    {
+   
        this.reportData.startindex = 0;
     this.reportData.sort = "staff_id";
     this.doUser();
-    }
+   
   }
 
   doAdd() {
@@ -270,29 +270,29 @@ export class UserPage {
   /********************/
   /* Sorting function */
   /********************/
-  doSort(val) {
-    console.log('1');
-    this.userAllLists = [];
-    this.reportData.startindex = 0;
-    console.log('2');
-    this.sortby = 1;
-    if (this.vendorsort == "asc") {
-      this.reportData.sortascdesc = "desc";
-      this.vendorsort = "desc";
-      this.ascending = false;
-      console.log('3');
-    }
-    else {
-      console.log('4');
-      this.reportData.sortascdesc = "asc";
-      this.vendorsort = "asc";
-      this.ascending = true;
-    }
-    console.log('5');
-    this.reportData.sort = val;
-    this.doUser();
-    console.log('6');
-  }
+  // doSort(val) {
+  //   console.log('1');
+  //   this.userAllLists = [];
+  //   this.reportData.startindex = 0;
+  //   console.log('2');
+  //   this.sortby = 1;
+  //   if (this.vendorsort == "asc") {
+  //     this.reportData.sortascdesc = "desc";
+  //     this.vendorsort = "desc";
+  //     this.ascending = false;
+  //     console.log('3');
+  //   }
+  //   else {
+  //     console.log('4');
+  //     this.reportData.sortascdesc = "asc";
+  //     this.vendorsort = "asc";
+  //     this.ascending = true;
+  //   }
+  //   console.log('5');
+  //   this.reportData.sort = val;
+  //   this.doUser();
+  //   console.log('6');
+  // }
   presentLoading(parm) {
     let loader;
     loader = this.loadingCtrl.create({
@@ -312,5 +312,62 @@ export class UserPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-
+  doSort() {
+    let prompt = this.alertCtrl.create({
+      title: 'Sort By',
+      inputs: [
+        {
+          type: 'radio',
+          label: 'Name',
+          value: 'firstname',
+        },{
+          type: 'radio',
+          label: 'Group',
+          value: 'companygroup_name'
+        }
+       ,
+      ],
+      buttons: [
+        {
+          text: 'Asc',
+          handler: data => {
+            console.log(data);
+            console.log('Asc clicked');
+            if (data != undefined) {
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'asc';
+              if (data == 'companygroup_name') {
+                this.sortLblTxt = 'Group';
+              } else if (data == 'firstname') {
+                this.sortLblTxt = 'Name';
+              }
+              this.reportData.startindex = 0;
+              this.userAllLists = [];
+              this.doUser();
+            }
+          }
+        },
+        {
+          text: 'Desc',
+          handler: data => {
+            console.log(data);
+            if (data != undefined) {
+              console.log('Desc clicked');
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'desc';
+              if (data == 'companygroup_name') {
+                this.sortLblTxt = 'Group';
+              } else if (data == 'firstname') {
+                this.sortLblTxt = 'Name';
+              }
+              this.reportData.startindex = 0;
+              this.userAllLists = [];
+              this.doUser();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 import { UserPage } from '../user/user';
 import { UnitgroupPage } from '../unitgroup/unitgroup';
 import { RolePage } from '../role/role';
-import { OrgchartPage} from '../orgchart/orgchart';
+import { OrgchartPage } from '../orgchart/orgchart';
 import { MyaccountPage } from '../myaccount/myaccount';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-  public addedImgLists: any;
+  public addedImgLists = 'assets/imgs/nouser.jpg';
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -62,6 +62,21 @@ export class AdduserPage {
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  username;
+  password;
+  hashtag;
+  role;
+  job_position;
+  company_group;
+  report_to;
+  re_password;
+  len;
+  naDisplay;
+  roleId;
+  public responseResultCompanyGroup: any;
+  public responseResultReportTo: any;
+  public responseResultRole;
+  public responseResultRoleDropDown = [];
   constructor(public nav: NavController,
     public http: Http,
     public NP: NavParams,
@@ -71,6 +86,7 @@ export class AdduserPage {
     , private transfer: FileTransfer,
     private ngZone: NgZone) {
     this.loginas = localStorage.getItem("userInfoName");
+    this.userId = localStorage.getItem("userInfoId");
     // Create form builder validation rules
     this.form = fb.group({
       //"first_name": ["", Validators.required],
@@ -82,8 +98,18 @@ export class AdduserPage {
       "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
+
+      "username": ["", Validators.compose([Validators.maxLength(30), Validators.required])],
+      "password": ["", Validators.required],
+      "re_password": ["", Validators.required],
+      "hashtag": [""],
+      "role": ["", Validators.required],
+      "job_position": ["", Validators.required],
+      "company_group": ["", Validators.required],
+      "report_to": [""]
     });
     this.userId = localStorage.getItem("userInfoId");
+    this.roleId = localStorage.getItem("userInfoRoleId");
   }
 
   ionViewDidLoad() {
@@ -96,11 +122,45 @@ export class AdduserPage {
   // based on any supplied navigation parameters
   ionViewWillEnter() {
     this.pageLoad();
-  
+
   }
-  pageLoad()
-  {
-      let //body: string = "loginid=" + this.userId,
+  getRole() {
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/getroles";
+
+    let res;
+    this.http.get(url, options)
+      .subscribe(data => {
+        res = data.json();
+        this.responseResultRole = res.roles;
+        console.log(JSON.stringify(this.responseResultRole));
+        if (this.responseResultRole.length > 0) {
+          for (let role in this.responseResultRole) {
+
+            if (this.roleId == '1') {
+              this.responseResultRoleDropDown.push({
+                role_id: this.responseResultRole[role].role_id,
+                role_name: this.responseResultRole[role].role_name
+              });
+            } else {
+              if (this.responseResultRole[role].role_id != '1') {
+                this.responseResultRoleDropDown.push({
+                  role_id: this.responseResultRole[role].role_id,
+                  role_name: this.responseResultRole[role].role_name
+                });
+              }
+
+            }
+
+          }
+        }
+      });
+  }
+  pageLoad() {
+    let companyid = '';
+    let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -116,6 +176,9 @@ export class AdduserPage {
       });
     this.resetFields();
     this.getJsonCountryListData();
+    this.getRole();
+    this.getUserListData(companyid);
+    this.getCompanyGroupListData();
     console.log(JSON.stringify(this.NP.get("record")));
     if (this.NP.get("record")) {
       console.log("Add User:" + JSON.stringify(this.NP.get("record")));
@@ -136,6 +199,7 @@ export class AdduserPage {
       this.email = editItem.email;
       this.country = editItem.country_id;
       this.contact = editItem.contact_number;
+      this.username = editItem.username;
       if (this.contact != undefined) {
         let contactSplitSpace = this.contact.split(" ");
         this.primary = contactSplitSpace[0];
@@ -204,7 +268,7 @@ export class AdduserPage {
          console.log("User Information:" + JSON.stringify(this.userInfo));
          */
       }
-     
+
       if (this.NP.get("uservalue")[0].photo) {
         if (this.NP.get("uservalue")[0].photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
@@ -249,6 +313,16 @@ export class AdduserPage {
 
     this.photo = item.photo;
     this.recordID = item.userid;
+
+    this.username = item.username;
+    this.password = item.password;
+    this.re_password = item.password;
+    this.hashtag = item.personalhashtag;
+    this.role = item.role_id;
+    this.job_position = item.job_position;
+    this.company_group = item.company_id;
+    this.report_to = item.report_to;
+
   }
 
 
@@ -258,52 +332,48 @@ export class AdduserPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
-  createEntry(first_name, last_name, email, country, contact, createdby) {
-    this.userInfo.push({
-      photo: this.photo,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      country: country,
-      contact: contact,
-      createdby: createdby,
+  createEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
+    let body: string = "is_mobile=1&firstname=" + this.first_name +
+      "&lastname=" + this.last_name +
+      "&photo=" + this.photo +
+      "&email=" + this.email +
+      "&country_id=" + this.country +
+      "&contact_number=" + this.contact +
+      "&createdby=" + createdby +
+      "&updatedby=" + createdby +
+      "&username=" + username +
+      "&password=" + password +
+      "&role_id=" + role +
+      "&personalhashtag=" + hashtag +
+      "&report_to=" + report_to +
+      "&company_id=" + company_group +
+      "&job_position=" + job_position,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/staff/store";
+    console.log(url);
+    console.log(body);
 
-    });
-    // this.nav.setRoot(UseraccountPage, {
-    //   accountInfo: this.userInfo
-    // });
-    /*
-        let body: string = "key=emailexist&email=" + email,
-          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers: any = new Headers({ 'Content-Type': type }),
-          options: any = new RequestOptions({ headers: headers }),
-          url: any = this.apiServiceURL + "api/users.php";
-    
-        this.http.post(url, body, options)
-          .subscribe((data) => {
-            console.log(JSON.stringify(data.json()));
-            // If the request was successful notify the user
-            if (data.status === 200) {
-              this.hideForm = true;
-              console.log(data.json().Error);
-              if (data.json().Error > 0) {
-                this.userInfo = []; // need this one
-                this.sendNotification(data.json().message);
-              } else {
-                //this.sendNotification(data.json().message);
-                this.nav.setRoot(UseraccountPage, {
-                  accountInfo: this.userInfo
-                });
-              }
-            }
-            // Otherwise let 'em know anyway
-            else {
-              this.sendNotification('Something went wrong!');
-            }
-          });
-    */
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        //console.log("Response Success:" + JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.hideForm = true;
+          this.sendNotification(`User created was successfully added`);
+          localStorage.setItem("userPhotoFile", "");
+          this.nav.setRoot(UserPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
 
   }
+
+
 
 
 
@@ -312,21 +382,50 @@ export class AdduserPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
-  updateEntry(first_name, last_name, email, country, contact, createdby) {
-    this.userInfo.push({
-      photo: this.photo,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      country: country,
-      contact: contact,
-      createdby: createdby,
+  updateEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
+    let userPhotoFile = localStorage.getItem("userPhotoFile");
+    if (userPhotoFile) {
+      console.log("Upload Device Image File:" + userPhotoFile);
+      this.fileTrans(userPhotoFile);
+    }
+    this.contact = this.contact.replace("+", "%2B");
+    let body: string = "is_mobile=1&staff_id=" + this.recordID +
+      "&firstname=" + this.first_name +
+      "&lastname=" + this.last_name +
+      "&photo=" + this.photo +
+      "&email=" + this.email +
+      "&country_id=" + this.country +
+      "&contact_number=" + this.contact +
+      "&createdby=" + createdby +
+      "&updatedby=" + createdby +
+      "&username=" + username +
+      "&password=" + password +
+      "&role_id=" + role +
+      "&personalhashtag=" + hashtag +
+      "&report_to=" + report_to +
+      "&company_id=" + company_group +
+      "&job_position=" + job_position,
 
-    });
-    // this.nav.setRoot(UseraccountPage, {
-    //   accountInfo: this.userInfo,
-    //   record: this.NP.get("record")
-    // });
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/staff/update";
+    console.log(url);
+    console.log(body);   
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        console.log(data);
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.hideForm = true;
+          this.sendNotification(`User updated was successfully updated`);
+          this.nav.setRoot(UserPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
   }
 
 
@@ -369,7 +468,14 @@ export class AdduserPage {
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
       contact: string = this.form.controls["contact"].value,
-      primary: string = this.form.controls["primary"].value;
+      primary: string = this.form.controls["primary"].value,
+      role: string = this.form.controls["role"].value,
+      username: string = this.form.controls["username"].value,
+      password: string = this.form.controls["password"].value,
+      hashtag: string = this.form.controls["hashtag"].value,
+      report_to: string = this.form.controls["report_to"].value,
+      company_group: string = this.form.controls["company_group"].value,
+      job_position: string = this.form.controls["job_position"].value;
 
     contact = primary + " " + contact;
     console.log(contact);
@@ -378,10 +484,10 @@ export class AdduserPage {
     }*/
     if (this.isUploadedProcessing == false) {
       if (this.isEdited) {
-        this.updateEntry(first_name, last_name, email, country, contact, this.userId);
+        this.updateEntry(first_name, last_name, email, country, contact, this.userId, role, username, password, hashtag, report_to, company_group, job_position);
       }
       else {
-        this.createEntry(first_name, last_name, email, country, contact, this.userId);
+        this.createEntry(first_name, last_name, email, country, contact, this.userId, role, username, password, hashtag, report_to, company_group, job_position);
       }
     }
   }
@@ -527,6 +633,70 @@ export class AdduserPage {
     this.nav.setRoot(UserPage);
   }
 
-  
 
+  getCompanyGroupListData() {
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      // url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"comapnyid="+this.companyId;
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
+    let res;
+    this.http.get(url, options)
+      .subscribe(data => {
+        res = data.json();
+        this.responseResultCompanyGroup = res.companies;
+      }, error => {
+
+      });
+
+  }
+
+  getUserListData(companyid) {
+    if (this.isEdited == true) {
+      // this.userId = this.recordID;
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+      let res;
+      console.log("Report To API:" + url)
+      this.http.get(url, options)
+        .subscribe(data => {
+          res = data.json();
+          console.log(JSON.stringify(res));
+          // this.responseResultReportTo="N/A";
+          if (this.report_to == 0) {
+            this.len = 0;
+          }
+          else {
+            this.len = res.TotalCount;
+          }
+          console.log("length" + res.TotalCount);
+          this.naDisplay = 1;
+          this.responseResultReportTo = res.staffslist;
+        }, error => {
+
+        });
+    }
+    else {
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+      let res;
+      console.log("Report To API:" + url)
+      this.http.get(url, options)
+        .subscribe(data => {
+          res = data.json();
+          // this.responseResultReportTo="N/A";
+          this.len = res.TotalCount;
+          console.log("length" + res.TotalCount);
+          this.naDisplay = 1;
+          this.responseResultReportTo = res.staffslist;
+        }, error => {
+
+        });
+    }
+
+  }
 }
