@@ -24,7 +24,7 @@ import { ReporttemplatePage } from '../pages/reporttemplate/reporttemplate';
 import { OrgchartPage } from '../pages/orgchart/orgchart';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { DashboardPage } from '../pages/dashboard/dashboard';
-import { MessagePage } from '../pages/message/message';
+import { MessagesPage } from '../pages/messages/messages';
 import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
@@ -440,7 +440,10 @@ export class MyApp {
 
 
     if (page.component == 'UnitsPage') {
-      this.navCtrl.setRoot(UnitsPage);
+      this.menuActive = 'menuactive-units';
+      this.menuCtrl.close();
+      this.events.publish('menu:created', 'units', Date.now());
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
     } else if (page.component == 'UnitgroupPage') {
       this.navCtrl.setRoot(UnitgroupPage);
     } else if (page.component == 'MyaccountPage') {
@@ -456,18 +459,33 @@ export class MyApp {
     } else if (page.component == 'OrgchartPage') {
       this.navCtrl.setRoot(OrgchartPage);
     } else if (page.title == 'Message') {
+      this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
-      this.navCtrl.setRoot(MessagePage);
+      this.events.publish('menu:created', 'messages', Date.now());
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 3 });
     } else if (page.title == 'Logout') {
-      this.logout();
-      this.menuCtrl.close();
-      //this.navCtrl.setRoot(LogoutPage);
+      this.menuActive = 'menuactive-logout';
+      this.events.publish('menu:created', 'logout', Date.now());
+      this.logout();// Service api moblogout/1
     } else if (page.title == 'Dashboard') {
+      // this.menuCtrl.close();
+      // this.navCtrl.setRoot(DashboardPage);
+
+      this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
-      this.navCtrl.setRoot(DashboardPage);
+      this.events.publish('menu:created', 'dashboard', Date.now());
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 0 });
+
+    }else if (page.title == 'Reports') {
+      this.menuActive = 'menuactive-reports';
+      this.menuCtrl.close();
+      this.events.publish('menu:created', 'reports', Date.now());
+      this.navCtrl.setRoot(AttentionPage);
     } else if (page.title == 'Calendar') {
+      this.menuActive = 'menuactive-calendar';
       this.menuCtrl.close();
-      this.navCtrl.setRoot(CalendarPage);
+      this.events.publish('menu:created', 'calendar', Date.now());
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 2 });
     } else if (page.title == 'Reports') {
       this.menuCtrl.close();
       this.navCtrl.setRoot(ReportsPage);
@@ -480,6 +498,12 @@ export class MyApp {
       //this.navCtrl.setRoot(MapdemoPage);
     }else if (page.component == 'EnginedetailPage') {
       this.navCtrl.setRoot(EnginedetailPage);
+    } else if (page.title == 'Settings') {
+      this.menuActive = 'menuactive-settings';
+      this.menuCtrl.close();
+      this.events.publish('menu:created', 'settings', Date.now());
+      this.navCtrl.setRoot(MyaccountPage);
+      //this.navCtrlCtrl.setRoot(AttentionPage);
     }
 
   }

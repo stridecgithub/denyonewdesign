@@ -32,10 +32,6 @@ export class UnitgroupPage {
   public msgcount: any;
   public notcount: any;
   private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-  public VIEWACCESS: any;
-  public CREATEACCESS: any;
-  public EDITACCESS: any;
-  public DELETEACCESS: any;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   public totalCount;
   pet: string = "ALL";
@@ -48,7 +44,7 @@ export class UnitgroupPage {
       startindex: 0,
       results: 50
     }
-  public reportAllLists = [];
+  public unitgroupAllLists = [];
   public colorListArr: any;
   public userId: any;
   public companyId;
@@ -57,21 +53,14 @@ export class UnitgroupPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
-    this.VIEWACCESS = localStorage.getItem("UNITS_UNITGROUP_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
-    this.CREATEACCESS = localStorage.getItem("UNITS_UNITGROUP_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
-    this.EDITACCESS = localStorage.getItem("UNITS_UNITGROUP_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
-    this.DELETEACCESS = localStorage.getItem("UNITS_UNITGROUP_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
+
   }
 
 
   doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.unitgroupAllLists = [];
     this.dounitGroup();
     setTimeout(() => {
       refresher.complete();
@@ -133,6 +122,7 @@ export class UnitgroupPage {
     console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
+        this.presentLoading(0);
         res = data.json();
         console.log(JSON.stringify(res));
         console.log("1" + res.unitgroups.length);
@@ -158,8 +148,19 @@ export class UnitgroupPage {
               favorite = "unfavorite";
 
             }
+
+            let cname = res.unitgroups[unitgroup].unitgroup_name;
+
+            if (cname != 'undefined' && cname != undefined) {
+              let stringToSplit = cname;
+              let x = stringToSplit.split("");
+              cname = x[0].toUpperCase();
+            } else {
+              cname = '';
+            }
+
             console.log(favorite);
-            this.reportAllLists.push({
+            this.unitgroupAllLists.push({
               unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
               unitgroup_name: res.unitgroups[unitgroup].unitgroup_name,
               remark: res.unitgroups[unitgroup].remark,
@@ -167,14 +168,15 @@ export class UnitgroupPage {
               totalunits: res.unitgroups[unitgroup].totalunits,
               colorcode: res.unitgroups[unitgroup].colorcode,
               colorcodeindication: colorcode,
-              favoriteindication: favorite
+              favoriteindication: favorite,
+              cname:cname
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.reportAllLists = res.unitgroups;
+          /*this.unitgroupAllLists = res.unitgroups;
          
           console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.reportAllLists));*/
+          console.log(JSON.stringify(this.unitgroupAllLists));*/
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -183,7 +185,7 @@ export class UnitgroupPage {
         console.log("Total Record:2" + this.totalCount);
 
       });
-    this.presentLoading(0);
+    
   }
 
 
@@ -241,9 +243,9 @@ export class UnitgroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.unitgroupAllLists.length; q++) {
+              if (this.unitgroupAllLists[q] == item) {
+                this.unitgroupAllLists.splice(q, 1);
               }
             }
           }
@@ -263,9 +265,9 @@ export class UnitgroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.unitgroupAllLists.length; q++) {
+              if (this.unitgroupAllLists[q] == item) {
+                this.unitgroupAllLists.splice(q, 1);
               }
             }
           }
@@ -312,13 +314,13 @@ export class UnitgroupPage {
     this.reportData.sortascdesc = splitdata[1];
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.unitgroupAllLists = [];
     this.dounitGroup();
   }
 
   favorite(unit_id) {
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.unitgroupAllLists = [];
     let body: string = "unitgroupid=" + unit_id +
       "&staffs_id=" + this.userId +
       "&is_mobile=1" + "&company_id=" + this.companyId,
@@ -358,7 +360,7 @@ export class UnitgroupPage {
 
             }
             console.log(favorite);
-            this.reportAllLists.push({
+            this.unitgroupAllLists.push({
               unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
               unitgroup_name: res.unitgroups[unitgroup].unitgroup_name,
               remark: res.unitgroups[unitgroup].remark,
@@ -370,10 +372,10 @@ export class UnitgroupPage {
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.reportAllLists = res.unitgroups;
+          /*this.unitgroupAllLists = res.unitgroups;
          
           console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.reportAllLists));*/
+          console.log(JSON.stringify(this.unitgroupAllLists));*/
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -389,7 +391,7 @@ export class UnitgroupPage {
           this.sendNotification('Something went wrong!');
         }
       });
-    //this.dounitGroupGroup();
+   
   }
 
   notification() {
@@ -412,7 +414,7 @@ export class UnitgroupPage {
         {
           type: 'radio',
           label: 'Unit Group',
-          value: 'unitgroupgroup_id',
+          value: 'unitgroup_id',
         },
       ],
       buttons: [
@@ -426,11 +428,11 @@ export class UnitgroupPage {
               this.reportData.sortascdesc = 'asc';
               if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'unitgroupgroup_id') {
+              } else if (data == 'unitgroup_id') {
                 this.sortLblTxt = 'Unit Group';
               }
               this.reportData.startindex = 0;
-              this.reportAllLists = [];
+              this.unitgroupAllLists = [];
               this.dounitGroup();
             }
           }
@@ -445,11 +447,11 @@ export class UnitgroupPage {
               this.reportData.sortascdesc = 'desc';
               if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'unitgroupgroup_id') {
+              } else if (data == 'unitgroup_id') {
                 this.sortLblTxt = 'Unit Group';
               }
               this.reportData.startindex = 0;
-              this.reportAllLists = [];
+              this.unitgroupAllLists = [];
               this.dounitGroup();
             }
           }

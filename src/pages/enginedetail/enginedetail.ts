@@ -39,7 +39,7 @@ export class EnginedetailPage {
     results: 8
   }
 
-  public reportAllLists = [];
+  public enginedetailAllLists = [];
   public colorListArr: any;
   public userId: any;
   public companyId;
@@ -93,15 +93,13 @@ export class EnginedetailPage {
       .subscribe((data) => {
         res = data.json();
         console.log(JSON.stringify(res));
-        console.log("1" + res.modeldata.length);
-        console.log("2" + res.modeldata);
       
         if (res.modeldata.length > 0) {
 
           for (let modeldatas in res.modeldata) {
         
             
-            this.reportAllLists.push({
+            this.enginedetailAllLists.push({
               model: res.modeldata[modeldatas].model,
               rawhtml: res.modeldata[modeldatas].rawhtml,
               model_id: res.modeldata[modeldatas].model_id
@@ -110,11 +108,6 @@ export class EnginedetailPage {
              
             });
           }
-          //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.reportAllLists = res.unitgroups;
-         
-          console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.reportAllLists));*/
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -167,9 +160,9 @@ export class EnginedetailPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.enginedetailAllLists.length; q++) {
+            if (this.enginedetailAllLists[q] == item) {
+              this.enginedetailAllLists.splice(q, 1);
             }
           }
         }

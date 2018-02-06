@@ -31,7 +31,7 @@
 
     <button class="add-unit-btn" (click)="doAdd()">
         <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit Group</button>
-      <div class="error" *ngIf="reportAllLists.length==0">No unit group entries found</div>
+      <div class="error" *ngIf="unitgroupAllLists.length==0">No unit group entries found</div>
     
       <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}
         <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
@@ -41,39 +41,45 @@
 
 
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of reportAllLists">
+    <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of unitgroupAllLists">
       <ion-item (click)="doAction(unitgroup,'detail',unitgroup.unitgroup_id)">
-        <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
+        <!-- <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
 
-        </button>
-        <button (click)="favorite(unitgroup.unitgroupgroup_id)" class="{{unitgroup.favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
+        </button> -->
+
+        <span class="initial"  [ngStyle]="{'background-color': '#' + unitgroup.colorcode}">{{unitgroup.cname}}</span>
+    
+
+        <button (click)="favorite(unitgroup.unitgroup_id)" class="{{unitgroup.favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
         <div style="overflow: hidden; padding-left: .5em;">
           <h2>
-            <b>{{unitgroup.unitgroupgroup_name}}</b>
+            <b>{{unitgroup.unitgroup_name}}</b>
           </h2>
           <h2>
-            <b>Total unitgroups:{{unitgroup.totalunitgroups}}</b>
+            <b>Total unitgroups:{{unitgroup.totalunits}}</b>
           </h2>
 
         </div>
+
+        <div class="list-favorite">
+            <button (click)="favorite(unitgroup.unitgroup_id)" style="text-align:right;">
+              <ion-icon name="star-outline" *ngIf="unitgroup.favoriteindication === 0 || unitgroup.favoriteindication === 'unfavorite'"></ion-icon>
+              <ion-icon name="star" class="favorite" *ngIf="unitgroup.favoriteindication === 1 || unitgroup.favoriteindication === 'favorite'"></ion-icon>
+            </button>
+          </div>
+
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
-
-
-
-
-        <button class="editcolor" (click)="doEdit(item,'edit')">
-          <img width="25" src="assets/imgs/edit@2x.png">Edit
-        </button>
-        <button class="trashcolor" (click)="doConfirm(item.unitgroupgroup_id,item)">
-          <ion-icon name="trash"></ion-icon>Remove
-        </button>
-
-
+        <button ion-button class="edit-btn"  (click)="doEdit(unitgroup,'edit')">
+            <img width="25" src="assets/imgs/edit@2x.png">Edit
+          </button>
+          <button ion-button class="del-btn" (click)="doConfirm(unitgroup.unitgroup_id,unitgroup)">
+            <ion-icon name="trash"></ion-icon>Remove
+          </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="reportAllLists.length!=0">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitgroupAllLists.length!=0">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
@@ -116,8 +122,8 @@
   <ion-item style="width: 100%; margin: 0; padding-left: 10px; background-color:#ffffff">
     <ion-label>Sort By</ion-label>
     <ion-select style="padding: 1px 1px 6px 1px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
-      <ion-option value="unitgroupgroup_id,desc" selected="true">unitgroup Group Ascending</ion-option>
-      <ion-option value="unitgroupgroup_id,asc">unitgroup Group Descending</ion-option>
+      <ion-option value="unitgroup_id,desc" selected="true">unitgroup Group Ascending</ion-option>
+      <ion-option value="unitgroup_id,asc">unitgroup Group Descending</ion-option>
       <ion-option value="favorite,desc">Favorite</ion-option>
     </ion-select>
   </ion-item>
@@ -137,15 +143,15 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-list *ngIf="totalCount!=0">
-    <ion-item-sliding *ngFor="let item of reportAllLists;">
+    <ion-item-sliding *ngFor="let item of unitgroupAllLists;">
 
-      <ion-item style="margin-bottom: -9px;"(click)="view(item.unitgroupgroup_id)">
+      <ion-item style="margin-bottom: -9px;"(click)="view(item.unitgroup_id)">
         <button class="{{item.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
          
         </button>
-        <button (click)="favorite(item.unitgroupgroup_id)" class="{{item.favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
+        <button (click)="favorite(item.unitgroup_id)" class="{{item.favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
         <div style="overflow: hidden; padding-left: .5em;">
-          <h2><b>{{item.unitgroupgroup_name}}</b>
+          <h2><b>{{item.unitgroup_name}}</b>
           </h2>
           <h2><b>Total unitgroups:{{item.totalunitgroups}}</b></h2>
 
@@ -158,7 +164,7 @@
         <button class="editcolor" (click)="doEdit(item,'edit')">                      
                         <ion-icon name="create" class="icon-size"></ion-icon>
                     </button>
-        <button class="trashcolor" (click)="doConfirm(item.unitgroupgroup_id,item)">                        
+        <button class="trashcolor" (click)="doConfirm(item.unitgroup_id,item)">                        
                          <ion-icon name="trash" class="icon-size"></ion-icon>
                     </button>
       </ion-item-options>

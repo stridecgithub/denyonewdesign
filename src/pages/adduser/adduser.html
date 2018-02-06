@@ -23,23 +23,6 @@
     margin-right: 7px;" item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
 </button>
 
-  <!--ion-navbar color="bluedark" hideBackButton>
-    <ion-title class="page-title">{{pageTitle}}</ion-title>
-    <ion-buttons start>
-      <button ion-button menuToggle class="menu-toggle">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    </ion-buttons>
-
-
-
-    <ion-buttons end>
-      <button ion-button (click)="notification()">
-  <ion-icon ios="ios-notifications-outline" md="md-notifications-outline"></ion-icon>
-   <ion-badge item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
-</button>
-    </ion-buttons>
-  </ion-navbar-->
   <ion-navbar class="backtoprevious-navbar" hideBackButton>
     <ion-buttons start class="backtoprevious-start">
       <button ion-button icon-left class="backtoprevious-button" (click)="previous()">
@@ -91,16 +74,6 @@
           <ion-label stacked>Email<span class="mandatory" *ngIf="hideActionButton"> *</span></ion-label>
           <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email"></ion-input>
         </ion-item>
-
-        <!---ion-item>
-          <ion-label stacked>Contact Number <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-
-           <ion-input [disabled]="readOnly" type="text" formControlName="primary" [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
-          <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact"  style="width:79%;float:right;"></ion-input>
-      
-      
-        </ion-item-->
-
  
         <div>
           <ion-label stacked>Contact Number  <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>

@@ -1300,15 +1300,4 @@ export class AddcompanygroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  redirectToUser() {
-    this.nav.setRoot(UnitsPage);
-  }
- 
-  redirectCalendar() {
-    this.nav.setRoot(CalendarPage);
-  }
-  redirectToSettings() {
-    this.nav.setRoot(OrgchartPage);
-  }
-
 }
