@@ -86,8 +86,15 @@
           <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email"></ion-input>
         </ion-item>
 
-
-		<ion-item>
+        <div class="contactinfo">
+          <ion-label stacked>Contact Number
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
+            [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
+        </div>
+        <!-- <ion-item>
         <div style="margin-left:19px;
           color: gray;">
           <ion-label stacked>Contact Number
@@ -97,7 +104,7 @@
             (keyup)="getPrimaryContact($event)" [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
         </div>
-		</ion-item>
+		</ion-item> -->
 
 
 
@@ -116,33 +123,34 @@
           <ion-label stacked>Position
             <span class="mandatory" *ngIf="hideActionButton">*</span>
           </ion-label>
-          <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
+          <ion-input type="text" [disabled]=true [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
         </ion-item>
 
 
         <ion-item style="padding-bottom:15px;">
           <ion-label stacked>Report To</ion-label>
-          <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
+          <ion-select  [disabled]=true [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
             <ion-option value="0" *ngIf="this.len==0">N/A</ion-option>
             <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
           </ion-select>
         </ion-item>
-		<div style="background:#fff;padding-top:20px;"></div>
-		<div style="border-top:1px solid #d6d6d6;border-bottom:1px solid #d6d6d6;padding-bottom:15px;background:#f8f8f8;overflow:hidden;" class="sep">
-        <ion-item style="float:left;width:50%;">
-          <ion-label stacked>User Name
-            <span class="mandatory" *ngIf="hideActionButton">*</span>
-          </ion-label>
-          <ion-input type="text"  formControlName="username" [(ngModel)]="username"></ion-input>
-        </ion-item>
+        <div style="background:#fff;padding-top:20px;"></div>
+        <div style="border-top:1px solid #d6d6d6;border-bottom:1px solid #d6d6d6;padding-bottom:15px;background:#f8f8f8;overflow:hidden;"
+          class="sep">
+          <ion-item style="float:left;width:50%;">
+            <ion-label stacked>User Name
+              <span class="mandatory" *ngIf="hideActionButton">*</span>
+            </ion-label>
+            <ion-input type="text"  [disabled]=true  formControlName="username" [(ngModel)]="username"></ion-input>
+          </ion-item>
 
-        <ion-item style="float:right;width:50%;">
-          <ion-label stacked>Hashtag
-            <span class="mandatory" *ngIf="hideActionButton"> *</span>
-          </ion-label>
-          <ion-input type="text"  formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
-        </ion-item>
-		</div>
+          <ion-item style="float:right;width:50%;">
+            <ion-label stacked>Hashtag
+              <span class="mandatory" *ngIf="hideActionButton"> *</span>
+            </ion-label>
+            <ion-input type="text"  [disabled]=true  formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+          </ion-item>
+        </div>
         <!-- <ion-item>
           <ion-label stacked>Country
             <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -151,11 +159,11 @@
             <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
           </ion-select>
         </ion-item> -->
-</ion-list>
-        <ion-item *ngIf="hideActionButton" style="background-color:#fff;" class="last-btn">
-          <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
-        </ion-item>
-      
+      </ion-list>
+      <ion-item *ngIf="hideActionButton" style="background-color:#fff;" class="last-btn">
+        <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
+      </ion-item>
+
     </form>
   </div>
 </ion-content>

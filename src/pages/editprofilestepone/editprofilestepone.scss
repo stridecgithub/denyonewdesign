@@ -1,7 +1,13 @@
 page-editprofilestepone {
-
+  .border-bottom-validtion{
+    border-bottom-color: red;
+    border-bottom-width: 2px;
+    }
 .list-md .item-input:last-child {
 	border-bottom: none!important;
+}
+.contactinfo{
+margin-left :18px;
 }
 .item-md {
 	font-size: 1.4rem;

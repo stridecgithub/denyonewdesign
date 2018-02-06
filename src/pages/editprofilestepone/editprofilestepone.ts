@@ -76,11 +76,11 @@ export class EditprofilesteponePage {
     this.photo = 'assets/imgs/nouser.jpg';
     // Create form builder validation rules
     this.form = fb.group({
-      "hashtag": ["", Validators.required],
+      "hashtag": [""],
       //"country": ["", Validators.required],
       "first_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      "username": ["", Validators.required],
+      "username": [""],
       "password": [""],
       "contact": ["", Validators.required],
       "job_position": ["", Validators.required],
@@ -208,21 +208,19 @@ export class EditprofilesteponePage {
       console.log("Upload Device Image File:" + userPhotoFile);
       this.fileTrans(userPhotoFile);
     }
-    this.contact = this.contact.replace("+", "%2B");
+    contact = contact.replace("+", "%2B");
     let body: string = "is_mobile=1&loggedin_id=" + this.userId +
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
       "&email=" + this.email +
-      "&contact_number=" + this.contact +
+      "&contact_number=" + contact +
       "&createdby=" + this.userId +
       "&updatedby=" + this.userId +
       "&username=" + this.username +
       "&password=" + this.password +
-      "&personalhashtag=" + hashtag +
-      "&job_position=" + job_position +
-      "&company_group=" + company_group +
-      "&report_to=" + report_to,
+      "&personalhashtag=" + this.hashtag +
+      "&company_group=" + company_group,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -290,6 +288,10 @@ export class EditprofilesteponePage {
   // Determine whether we are adding a new record or amending an
   // existing record
   saveEntry() {
+
+
+
+
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
@@ -310,6 +312,33 @@ export class EditprofilesteponePage {
       console.log("Contact Concatenate" + contact);
       console.log(this.form.controls);
       console.log("this.isUploadedProcessing" + this.isUploadedProcessing);
+
+
+      // let body: string = "key=emailexist&email=" + email,
+      //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      //   headers: any = new Headers({ 'Content-Type': type }),
+      //   options: any = new RequestOptions({ headers: headers }),
+      //   url: any = this.apiServiceURL + "/api/users.php";
+
+      // this.http.post(url, body, options)
+      //   .subscribe((data) => {
+      //     console.log(JSON.stringify(data.json()));
+      //     // If the request was successful notify the user
+      //     if (data.status === 200) {
+      //       this.hideForm = true;
+      //       console.log(data.json().Error);
+      //       if (data.json().Error > 0) {
+      //         this.userInfo = []; // need this one
+      //         this.conf.sendNotification(data.json().message);
+      //         return false;
+      //       }
+      //     }
+      //     // Otherwise let 'em know anyway
+      //     else {
+      //       this.conf.sendNotification('Something went wrong!');
+      //     }
+      //   });
+
       if (this.isUploadedProcessing == false) {
         this.updateEntry(first_name, last_name, email, username, password, contact, this.userId, hashtag, job_position, company_id, report_to);
       }
@@ -388,7 +417,7 @@ export class EditprofilesteponePage {
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
-       
+
         this.isUploadedProcessing = false;
         return false;
 

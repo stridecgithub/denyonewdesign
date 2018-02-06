@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -36,25 +36,25 @@ export class EventDetailsPage {
   alarm_priority;
   tabBarElement: any;
   private apiServiceURL: string = "";
-  constructor(private platform:Platform,private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+  constructor(private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
-    if (this.NP.get("from") != 'Push') {
-      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    }
-     this.platform.registerBackButtonAction(() => {
+
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
 
   ionViewWillLeave() {
-    if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'flex';
-    }
+
+    this.tabBarElement.style.display = 'flex';
+
   }
   ionViewDidLoad() {
-    if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'none';
-    }
+
+    this.tabBarElement.style.display = 'none';
+
     if (this.NP.get("event_id")) {
       let body: string = "alarmid=" + this.NP.get("event_id"),
         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -64,7 +64,7 @@ export class EventDetailsPage {
       console.log(url1);
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log("Alarm event  details:-"+JSON.stringify(data.json()))
+          console.log("Alarm event  details:-" + JSON.stringify(data.json()))
           this.eventTitle = data.json().alarms[0].alarm_name;
           this.evenDate = data.json().alarms[0].alarm_received_formatted_date;
           this.labels = data.json().alarms[0].labels;

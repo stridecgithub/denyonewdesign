@@ -61,6 +61,7 @@ export class AddenginedetailPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.pageTitle='Add Engine Detail';
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddenginedetailPage');
@@ -82,6 +83,7 @@ export class AddenginedetailPage {
         this.notcount=data.json().notifycount;
       });
     if (this.NP.get("record")) {
+      this.pageTitle='Edit Engine Detail';
        console.log(this.NP.get("act"));
       this.isEdited = true;
             this.selectEntry(this.NP.get("record"));

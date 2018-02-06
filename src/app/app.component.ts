@@ -122,7 +122,7 @@ export class MyApp {
       { title: 'Users', component: UserPage, icon: 'dashboard', color: 'gray', background: 'gray' },
       { title: 'Units', component: '', icon: 'units', color: 'gray', background: 'gray' },
       { title: 'Unit Group', component: UnitgroupPage, icon: 'dashboard', color: 'gray', background: 'gray' },
-      { title: 'Engine Details', component: EnginedetailPage , icon: 'dashboard', color: 'gray', background: 'gray'},
+      { title: 'Engine Details', component: EnginedetailPage, icon: 'dashboard', color: 'gray', background: 'gray' },
       { title: 'Role', component: RolePage, icon: 'units', color: 'gray', background: 'gray' },
       { title: 'My Account', component: MyaccountPage, icon: 'units', color: 'gray', background: 'gray' },
       { title: 'Report Template', component: ReporttemplatePage, icon: 'units', color: 'gray', background: 'gray' },
@@ -445,13 +445,13 @@ export class MyApp {
       this.events.publish('menu:created', 'units', Date.now());
       this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
     } else if (page.component == 'UnitgroupPage') {
-      this.navCtrl.setRoot(UnitgroupPage);
+      this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });    
     } else if (page.component == 'MyaccountPage') {
       this.navCtrl.setRoot(MyaccountPage);
     } else if (page.component == 'UserPage') {
       this.navCtrl.setRoot(UserPage);
     } else if (page.component == 'CompanygroupPage') {
-      this.navCtrl.setRoot(CompanygroupPage);
+      this.navCtrl.setRoot(CompanygroupPage, { tabIndex: 1 });
     } else if (page.component == 'RolePage') {
       this.navCtrl.setRoot(RolePage);
     } else if (page.component == 'ReporttemplatePage') {
@@ -476,7 +476,7 @@ export class MyApp {
       this.events.publish('menu:created', 'dashboard', Date.now());
       this.navCtrl.setRoot(TabsPage, { tabIndex: 0 });
 
-    }else if (page.title == 'Reports') {
+    } else if (page.title == 'Reports') {
       this.menuActive = 'menuactive-reports';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'reports', Date.now());
@@ -496,13 +496,13 @@ export class MyApp {
     }
     else if (page.component == 'MapdemoPage') {
       //this.navCtrl.setRoot(MapdemoPage);
-    }else if (page.component == 'EnginedetailPage') {
+    } else if (page.component == 'EnginedetailPage') {
       this.navCtrl.setRoot(EnginedetailPage);
     } else if (page.title == 'Settings') {
-      this.menuActive = 'menuactive-settings';
+     /* this.menuActive = 'menuactive-settings';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'settings', Date.now());
-      this.navCtrl.setRoot(MyaccountPage);
+      this.navCtrl.setRoot(MyaccountPage);*/
       //this.navCtrlCtrl.setRoot(AttentionPage);
     }
 

@@ -15,6 +15,7 @@ import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import { Unitgrouplist } from '../unitgrouplist/unitgrouplist';
 import { OrgchartPage } from '../orgchart/orgchart';
+import { Config } from '../../config/config';
 /**
  * Generated class for the UnitgroupPage page.
  *
@@ -24,6 +25,7 @@ import { OrgchartPage } from '../orgchart/orgchart';
 @Component({
   selector: 'page-unitgroup',
   templateUrl: 'unitgroup.html',
+  providers: [Config]
 })
 export class UnitgroupPage {
 
@@ -32,7 +34,7 @@ export class UnitgroupPage {
   public msgcount: any;
   public notcount: any;
   private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
   public sortLblTxt: string = 'Favourites';
@@ -48,12 +50,18 @@ export class UnitgroupPage {
   public colorListArr: any;
   public userId: any;
   public companyId;
-  constructor(public http: Http, public nav: NavController,
+  public profilePhoto;
+  tabBarElement: any;
+  constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
+    this.apiServiceURL = conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
-
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
 
@@ -68,7 +76,11 @@ export class UnitgroupPage {
   }
 
 
+  ionViewWillLeave() {
+    this.tabBarElement.style.display = 'flex';
+  }
   ionViewDidLoad() {
+    this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad UnitgroupPage');
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -84,7 +96,7 @@ export class UnitgroupPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
-    this.pageTitle = "Unit Groups";
+    this.pageTitle = "Unit Group";
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
 
@@ -169,7 +181,7 @@ export class UnitgroupPage {
               colorcode: res.unitgroups[unitgroup].colorcode,
               colorcodeindication: colorcode,
               favoriteindication: favorite,
-              cname:cname
+              cname: cname
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
@@ -185,7 +197,7 @@ export class UnitgroupPage {
         console.log("Total Record:2" + this.totalCount);
 
       });
-    
+
   }
 
 
@@ -391,7 +403,7 @@ export class UnitgroupPage {
           this.sendNotification('Something went wrong!');
         }
       });
-   
+
   }
 
   notification() {
@@ -414,7 +426,7 @@ export class UnitgroupPage {
         {
           type: 'radio',
           label: 'Unit Group',
-          value: 'unitgroup_id',
+          value: 'unitgroup_name',
         },
       ],
       buttons: [
@@ -428,7 +440,7 @@ export class UnitgroupPage {
               this.reportData.sortascdesc = 'asc';
               if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'unitgroup_id') {
+              } else if (data == 'unitgroup_name') {
                 this.sortLblTxt = 'Unit Group';
               }
               this.reportData.startindex = 0;
@@ -447,7 +459,7 @@ export class UnitgroupPage {
               this.reportData.sortascdesc = 'desc';
               if (data == 'favorite') {
                 this.sortLblTxt = 'Favourites';
-              } else if (data == 'unitgroup_id') {
+              } else if (data == 'unitgroup_name') {
                 this.sortLblTxt = 'Unit Group';
               }
               this.reportData.startindex = 0;

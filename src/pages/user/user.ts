@@ -30,7 +30,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 export class UserPage {
   public loginas: any;
   public pageTitle: string;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
    private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
@@ -53,7 +53,7 @@ export class UserPage {
     startindex: 0,
     results: 50
   }
-  public reportAllLists = [];
+  public userAllLists = [];
   constructor(public http: Http, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Users';
@@ -79,7 +79,7 @@ export class UserPage {
   doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.userAllLists = [];
     this.doUser();
     setTimeout(() => {
       refresher.complete();
@@ -111,7 +111,7 @@ export class UserPage {
         console.log("1" + res.staff.length);
         console.log("2" + res.staff);
         if (res.staff.length > 0) {
-          this.reportAllLists = res.staff;
+          this.userAllLists = res.staff;
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -196,9 +196,9 @@ export class UserPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.userAllLists.length; q++) {
+            if (this.userAllLists[q] == item) {
+              this.userAllLists.splice(q, 1);
             }
           }
         }
@@ -256,7 +256,7 @@ export class UserPage {
     this.reportData.sortascdesc = splitdata[1];
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.userAllLists = [];
     this.doUser();
   }
 
@@ -265,7 +265,7 @@ export class UserPage {
   /********************/
   doSort(val) {
     console.log('1');
-    this.reportAllLists = [];
+    this.userAllLists = [];
     this.reportData.startindex = 0;
     console.log('2');
     this.sortby = 1;
