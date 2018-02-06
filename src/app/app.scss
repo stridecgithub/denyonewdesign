@@ -492,7 +492,53 @@ ion-segment.segment-ios .segment-button {
 .info h1 {
 	font-weight: 600;
 }
+.menu-inner .item-block {
+	padding-left:0;	
+}
+.menu-inner .item-block img {
+	margin-left:15px;
+}
 .list-md .item-block .item-inner {
-    border-bottom: 0px solid #dedede;
 	padding-right:18px;	
+}
+.menu-inner .list {
+	margin: 0;
+}
+.list-md .item-block .item-inner {
+    padding-right: 0;
+}
+.menu-inner .item-block ion-label {
+	margin-right: 0;
+}
+.active .input-wrapper .list {
+    background: #3f3f3f!important;
+    padding-left: 50px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+	margin: 10px 0 0 0;
+}
+.menu-inner .item-md-gray {
+	background: transparent;
+}
+.menu-inner .active .item-block ion-label {
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.left-drawer > ion-item:nth-child(2), .left-drawer > ion-item:nth-child(6){
+  	background-image: url(../assets/imgs/expand-more-icn-white@2x.png);
+    background-size: 5%;
+    background-repeat: no-repeat;
+    background-position: 95% 42%;
+}
+.left-drawer > ion-item .item-inner ion-list ion-item {
+	background-image: none!important;
+}
+.left-drawer > ion-item.active:nth-child(2){
+  	background-image: url(../assets/imgs/expand-less-icn-white@2x.png);
+	background-position: 95% 7%;
+}
+.left-drawer > ion-item.active:nth-child(6){
+  	background-image: url(../assets/imgs/expand-less-icn-white@2x.png);
+	background-position: 95% 4%;
 }
