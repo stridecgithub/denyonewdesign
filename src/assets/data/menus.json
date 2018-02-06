@@ -1,0 +1,80 @@
+[
+    {
+        "title": "Dashboard",
+        "icon": "dashboard",
+        "color":"gray"
+    },
+    {
+        "title": "Units",
+        "icon": "units",
+        "color":"gray",
+        "subs": [
+            {
+                "title": "Unit Listing",
+                "component": "UnitsPage"
+            },
+            {
+                "title": "Unit Group",
+                "component": "UnitgroupPage"
+            },
+            {
+                "title": "Engine Model",
+                "component": "EnginedetailPage"
+            }
+        ]
+    },
+    {
+        "title": "Calendar",
+        "icon": "calendar",
+        "color":"gray"
+    },
+    {
+        "title": "Message",
+        "icon": "messages",
+        "color":"gray"
+    },
+    {
+        "title": "Reports",
+        "icon": "reports",
+        "color":"gray"
+    },
+    {
+        "title": "Settings",
+        "icon": "settings",
+        "color":"gray",
+        
+        "subs": [
+            {
+                "title": "My Account",
+                "component": "MyaccountPage"
+            },
+            {
+                "title": "User List",
+                "component": "UserPage"
+            },
+            {
+                "title": "Company Group",
+                "component": "CompanygroupPage"
+            },
+            {
+                "title": "User Role",
+                "component": "RolePage"
+            },
+            {
+                "title": "Report Template",
+                "component": "ReporttemplatePage"
+            },
+            {
+                "title": "Org Chart",
+                "component": "OrgchartPage"
+            }
+        ]
+    },
+    
+   
+    {
+        "title": "Logout",
+        "icon": "logout",
+        "color":"gray"
+    }
+]

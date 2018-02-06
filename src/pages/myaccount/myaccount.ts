@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { EditprofilesteponePage } from '../editprofilestepone/editprofilestepone';
-//import { HomePage } from '../home/home';
 import { DashboardPage } from '../dashboard/dashboard';
 import { UserPage } from '../user/user';
 import { UnitsPage } from '../units/units';

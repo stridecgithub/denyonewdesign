@@ -112,4 +112,5 @@
     </plugin>
     <plugin name="cordova-plugin-badge" spec="^0.8.7" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <plugin name="cordova-plugin-file-opener2" spec="^2.0.19" />
 </widget>

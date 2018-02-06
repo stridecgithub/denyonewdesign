@@ -13,11 +13,30 @@
   </ion-header>
 
   <ion-content>
-    <ion-list>
+    <!-- <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)"  color="{{p.color}}" >
         <img src="assets/imgs/menu-{{p.icon}}-icon@2x.png" width="24">{{p.title}}
       </button>
+    </ion-list> -->
+
+    <ion-list>
+      <ion-item color="{{p.color}}" *ngFor="let p of pages; let i=index" text-wrap (click)="toggleLevel1('idx'+i);openPage(p)"
+        [ngClass]="{active: isLevel1Shown('idx'+i)}">
+        <img src="assets/imgs/menu-{{p.icon}}-icon@2x.png" width="24">{{p.title}}
+        <ion-list *ngIf="isLevel1Shown('idx'+i)" style="background: none">
+          <ion-item color="{{p.color}}" menuClose *ngFor="let s of p.subs; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2);openPage(s)"
+            [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+            <img src="assets/imgs/menu-{{p.icon}}-icon@2x.png" width="24"> {{s.title}}     
+          </ion-item>
+        </ion-list>
+      </ion-item>
+
+      <!-- <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)"  color="{{p.color}}" >
+        <img src="assets/imgs/menu-{{p.icon}}-icon@2x.png" width="24">{{p.title}}
+      </button> -->
+
     </ion-list>
+
   </ion-content>
 
 </ion-menu>

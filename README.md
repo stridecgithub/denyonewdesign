@@ -91,3 +91,9 @@ For Image Upload for when Compose Form the following plugin need to be installed
 
 >ionic cordova plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="AIzaSyDJkfkelF4cA9Umz1ISCz2OL4SqW0OSXrQ" --variable API_KEY_FOR_IOS="YOUR_IOS_API_KEY_IS_HERE"
 >npm install --save @ionic-native/google-maps
+
+>ionic cordova plugin add cordova-plugin-document-viewer
+>npm install --save @ionic-native/document-viewer
+
+>ionic cordova plugin add cordova-plugin-file-opener2
+>npm install --save @ionic-native/file-opener

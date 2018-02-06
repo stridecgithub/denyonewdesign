@@ -15,9 +15,22 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import {Storage} from '@ionic/storage';
 import { MyaccountPage } from "../pages/myaccount/myaccount";
 import { Keyboard } from '@ionic-native/keyboard';
+import { DataServiceProvider } from '../providers/data-service/data-service';
+import { CompanygroupPage } from '../pages/companygroup/companygroup';
+import { UnitgroupPage } from '../pages/unitgroup/unitgroup';
+import { UserPage } from '../pages/user/user';
+import { RolePage } from '../pages/role/role';
+import { ReporttemplatePage } from '../pages/reporttemplate/reporttemplate';
+import { OrgchartPage } from '../pages/orgchart/orgchart';
+import { CalendarPage } from '../pages/calendar/calendar';
+import { DashboardPage } from '../pages/dashboard/dashboard';
+import { MessagePage } from '../pages/message/message';
+import { ReportsPage } from '../pages/reports/reports';
+import { UnitsPage } from '../pages/units/units';
+import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 @Component({
   templateUrl: 'app.html',
-  providers: [Config, Keyboard]//,Storage
+  providers: [Config, Keyboard, DataServiceProvider]//,Storage
 })
 export class MyApp {
   @Output() input: EventEmitter<string> = new EventEmitter<string>();
@@ -33,11 +46,20 @@ export class MyApp {
   private apiServiceURL: string = "";
   menuSelection;
   @ViewChild('content') navCtrl: NavController;
+  showLevel1 = null;
+  showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(private keyboard: Keyboard, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
+
+    this.dataService.getMenus()
+      .subscribe((response) => {
+
+        this.pages = response;
+      });
+
     /*
         this.nativeStorage.getItem('menuItem')
           .then(
@@ -96,8 +118,16 @@ export class MyApp {
     this.events.publish('menu:created', 'dashboard', Date.now());
     this.pages = [
       { title: 'Dashboard', component: '', icon: 'dashboard', color: 'gray', background: 'gray' },
+      { title: 'Company Group', component: CompanygroupPage, icon: 'dashboard', color: 'gray', background: 'gray' },
+      { title: 'Users', component: UserPage, icon: 'dashboard', color: 'gray', background: 'gray' },
       { title: 'Units', component: '', icon: 'units', color: 'gray', background: 'gray' },
-      { title: 'Calendar', component: '', icon: 'calendar', color: 'gray', background: 'gray' },
+      { title: 'Unit Group', component: UnitgroupPage, icon: 'dashboard', color: 'gray', background: 'gray' },
+      { title: 'Engine Details', component: EnginedetailPage , icon: 'dashboard', color: 'gray', background: 'gray'},
+      { title: 'Role', component: RolePage, icon: 'units', color: 'gray', background: 'gray' },
+      { title: 'My Account', component: MyaccountPage, icon: 'units', color: 'gray', background: 'gray' },
+      { title: 'Report Template', component: ReporttemplatePage, icon: 'units', color: 'gray', background: 'gray' },
+      { title: 'Org Chart', component: OrgchartPage, icon: 'units', color: 'gray', background: 'gray' },
+      { title: 'Calendar', component: CalendarPage, icon: 'calendar', color: 'gray', background: 'gray' },
       { title: 'Message', component: '', icon: 'messages', color: 'gray', background: 'gray' },
       { title: 'Reports', component: '', icon: 'reports', color: 'gray', background: 'gray' },
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
@@ -155,7 +185,7 @@ export class MyApp {
               let label = currentlabelsplitcolon[0];
               let labelvlu = currentlabelsplitcolon[1];
               outcurrentlabel += label + ":'" + labelvlu + "'" + ",";
-             // localStorage.setItem("currentlabel_" + lbl, labelvlu);
+              // localStorage.setItem("currentlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < currentcolorsplitcomma.length; clr++) {
               let currentcolorsplitcolon = currentcolorsplitcomma[clr].split(':');
@@ -184,7 +214,7 @@ export class MyApp {
               let color = freqcolorsplitcolon[0];
               let colorvlu = freqcolorsplitcolon[1];
               outfreqcolor += color + ":'" + colorvlu + "'" + ",";
-             // localStorage.setItem("freqcolor_" + clr, colorvlu);
+              // localStorage.setItem("freqcolor_" + clr, colorvlu);
             }
           }
 
@@ -198,7 +228,7 @@ export class MyApp {
               let label = enginespeedlabelsplitcolon[0];
               let labelvlu = enginespeedlabelsplitcolon[1];
               outenginespeedlabel += label + ":'" + labelvlu + "'" + ",";
-             // localStorage.setItem("enginespeedlabel_" + lbl, labelvlu);
+              // localStorage.setItem("enginespeedlabel_" + lbl, labelvlu);
             }
             for (let clr = 0; clr < enginespeedcolorsplitcomma.length; clr++) {
               let enginespeedcolorsplitcolon = enginespeedcolorsplitcomma[clr].split(':');
@@ -302,7 +332,7 @@ export class MyApp {
             for (let lbl = 0; lbl < loadpowerfactorlabelsplitcomma.length; lbl++) {
               let label = loadpowerfactorlabelsplitcomma[lbl];
               outloadpowerfactorlabel += label + ",";
-             // localStorage.setItem("loadpowerfactorlabel_" + lbl, label);
+              // localStorage.setItem("loadpowerfactorlabel_" + lbl, label);
             }
             for (let clr = 0; clr < loadpowerfactorcolorsplitcomma.length; clr++) {
               let loadpowerfactorcolorsplitcolon = loadpowerfactorcolorsplitcomma[clr].split(':');
@@ -347,6 +377,7 @@ export class MyApp {
 
   }
   openPage(page) {
+    /*
     // page.color = 'danger';
 
     for (let p of this.pages) {
@@ -370,39 +401,89 @@ export class MyApp {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'messages', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 3 });
+      this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 3 });
     }
     else if (page.title == 'Calendar') {
       this.menuActive = 'menuactive-calendar';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'calendar', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 2 });
+      this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 2 });
     } else if (page.title == 'Dashboard') {
       this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'dashboard', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 0 });
+      this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 0 });
     } else if (page.title == 'Units') {
       this.menuActive = 'menuactive-units';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'units', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
+      this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 1 });
     } else if (page.title == 'Settings') {
       this.menuActive = 'menuactive-settings';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'settings', Date.now());
-      this.navCtrl.setRoot(MyaccountPage);
-      //this.navCtrl.setRoot(AttentionPage);
+      this.navCtrlCtrl.setRoot(MyaccountPage);
+      //this.navCtrlCtrl.setRoot(AttentionPage);
     } else if (page.title == 'Reports') {
       this.menuActive = 'menuactive-reports';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'reports', Date.now());
-      this.navCtrl.setRoot(AttentionPage);
+      this.navCtrlCtrl.setRoot(AttentionPage);
+    } else if (page.component == 'UnitgroupPage') {
+      this.navCtrlCtrl.setRoot(UnitgroupPage);
     }
     this.events.subscribe('menu:created', (menu, time) => {
       this.menuSelection = menu;
     });
+    */
+
+
+
+    if (page.component == 'UnitsPage') {
+      this.navCtrl.setRoot(UnitsPage);
+    } else if (page.component == 'UnitgroupPage') {
+      this.navCtrl.setRoot(UnitgroupPage);
+    } else if (page.component == 'MyaccountPage') {
+      this.navCtrl.setRoot(MyaccountPage);
+    } else if (page.component == 'UserPage') {
+      this.navCtrl.setRoot(UserPage);
+    } else if (page.component == 'CompanygroupPage') {
+      this.navCtrl.setRoot(CompanygroupPage);
+    } else if (page.component == 'RolePage') {
+      this.navCtrl.setRoot(RolePage);
+    } else if (page.component == 'ReporttemplatePage') {
+      this.navCtrl.setRoot(ReporttemplatePage);
+    } else if (page.component == 'OrgchartPage') {
+      this.navCtrl.setRoot(OrgchartPage);
+    } else if (page.title == 'Message') {
+      this.menuCtrl.close();
+      this.navCtrl.setRoot(MessagePage);
+    } else if (page.title == 'Logout') {
+      this.logout();
+      this.menuCtrl.close();
+      //this.navCtrl.setRoot(LogoutPage);
+    } else if (page.title == 'Dashboard') {
+      this.menuCtrl.close();
+      this.navCtrl.setRoot(DashboardPage);
+    } else if (page.title == 'Calendar') {
+      this.menuCtrl.close();
+      this.navCtrl.setRoot(CalendarPage);
+    } else if (page.title == 'Reports') {
+      this.menuCtrl.close();
+      this.navCtrl.setRoot(ReportsPage);
+    }
+    else if (page.title == 'Alarm') {
+      this.menuCtrl.close();
+      //this.navCtrl.setRoot(AlarmPage);
+    }
+    else if (page.component == 'MapdemoPage') {
+      //this.navCtrl.setRoot(MapdemoPage);
+    }else if (page.component == 'EnginedetailPage') {
+      this.navCtrl.setRoot(EnginedetailPage);
+    }
+
   }
+
   logout() {
     localStorage.setItem("personalhashtag", "");
     localStorage.setItem("fromModule", "");
@@ -482,7 +563,31 @@ export class MyApp {
       }
     }*/
   }
+  toggleLevel1(idx) {
+    if (this.isLevel1Shown(idx)) {
+      this.showLevel1 = null;
+    } else {
+      this.showLevel1 = idx;
+    }
+  };
 
+  toggleLevel2(idx) {
+    if (this.isLevel2Shown(idx)) {
+      this.showLevel1 = null;
+      this.showLevel2 = null;
+    } else {
+      this.showLevel1 = idx;
+      this.showLevel2 = idx;
+    }
+  };
+
+  isLevel1Shown(idx) {
+    return this.showLevel1 === idx;
+  };
+
+  isLevel2Shown(idx) {
+    return this.showLevel2 === idx;
+  };
 }
 const TAB_KEY_CODE = 9;
 const ENTER_KEY_CODE = 13;

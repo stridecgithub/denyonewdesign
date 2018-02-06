@@ -59,10 +59,22 @@ import { MyaccountPage } from '../pages/myaccount/myaccount';
 import { EditprofilesteponePage } from '../pages/editprofilestepone/editprofilestepone';
 import { ForgotpasswordPage } from '../pages/forgotpassword/forgotpassword';
 import { UnitdetailgraphPage } from '../pages/unitdetailgraph/unitdetailgraph';
-import { TimerProgress } from '../pages/timerprogress/timerprogress';
+import { DataServiceProvider } from '../providers/data-service/data-service';
+import { UnitgroupPage } from '../pages/unitgroup/unitgroup';
+import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
+import { UserPage } from '../pages/user/user';
+import { CompanygroupPage } from '../pages/companygroup/companygroup';
+import { RolePage } from '../pages/role/role';
+import { AddunitgroupPage } from '../pages/Addunitgroup/Addunitgroup';
+
 @NgModule({
   declarations: [
-    TimerProgress,
+    RolePage,
+    AddunitgroupPage,
+    CompanygroupPage,
+    UserPage,
+    UnitgroupPage,  
+    EnginedetailPage, 
     MyApp,
     UnitdetailgraphPage,
     AddUnitPage,
@@ -134,8 +146,13 @@ import { TimerProgress } from '../pages/timerprogress/timerprogress';
     )],
   bootstrap: [IonicApp],
   entryComponents: [
-    TimerProgress,
+    RolePage,
+    AddunitgroupPage,
+    CompanygroupPage,
+    UserPage,
+    EnginedetailPage,
     MyApp,
+    UnitgroupPage,
     UnitdetailgraphPage,
     AddUnitPage,
     MenuPage,
@@ -190,7 +207,8 @@ import { TimerProgress } from '../pages/timerprogress/timerprogress';
     StatusBar,
     SplashScreen,
     NativeStorage,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    DataServiceProvider
   ]
 })
 export class AppModule {
