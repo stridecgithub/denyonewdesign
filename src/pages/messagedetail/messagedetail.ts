@@ -303,8 +303,13 @@ export class MessagedetailPage {
     }
 
     this.sendername = item.sendername;
-    this.senderphoto = item.senderphoto;
-    if (this.senderphoto == undefined) {
+
+
+   
+
+    if(this.from=='inbox'){
+      this.senderphoto = item.senderphoto;
+    }else {
       this.senderphoto = item.recipient_photo;
     }
 

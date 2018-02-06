@@ -268,8 +268,16 @@ export class MessageDetailViewPage {
     }
 
     this.sendername = item.sendername;
-    this.senderphoto = item.senderphoto;
-    if (this.senderphoto == undefined) {
+    // this.senderphoto = item.senderphoto;
+    // if (this.senderphoto == undefined) {
+    //   this.senderphoto = item.recipient_photo;
+    // }
+
+
+
+    if (this.from == 'inbox') {
+      this.senderphoto = item.senderphoto;
+    } else {
       this.senderphoto = item.recipient_photo;
     }
 
@@ -635,7 +643,7 @@ export class MessageDetailViewPage {
     if (copytome == true) {
       copytome = '1';
     }
-   
+
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -687,7 +695,7 @@ export class MessageDetailViewPage {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Message sending successfully`);
-       
+
           this.addedImgLists = [];
           this.to = '';
           this.copytome = 0;
