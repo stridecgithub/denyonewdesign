@@ -16,6 +16,8 @@ import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 //import { CompanydetailPage } from '../companydetail/companydetail';
 import { OrgchartPage} from '../orgchart/orgchart';
+
+import { Config } from '../../config/config';
 /**
  * Generated class for the CompanygroupPage page.
  *
@@ -25,6 +27,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 @Component({
   selector: 'page-companygroup',
   templateUrl: 'companygroup.html',
+  providers: [Config]
 })
 export class CompanygroupPage {
   public pageTitle: string;
@@ -36,15 +39,16 @@ export class CompanygroupPage {
   public EDITACCESS: any;
   public DELETEACCESS: any;
   public loadingMoreDataContent:string;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public totalCount;
    public companyId:any;
-  pet: string = "ALL";
+  pet: string = "ALL";  
   public sortby = 2;
   public vendorsort = "asc";
   public ascending = true;
    public msgcount:any;
   public notcount:any;
+  public sortLblTxt: string = 'Group Name';
   public reportData: any =
   {
     status: '',
@@ -53,8 +57,9 @@ export class CompanygroupPage {
     startindex: 0,
     results: 8
   }
-  public reportAllLists = [];
-  constructor(public http: Http, public nav: NavController,
+  public companygroupAllLists = [];
+  profilePhoto;
+  constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Company Group';
     this.loadingMoreDataContent='Loading More Data';
@@ -69,6 +74,9 @@ export class CompanygroupPage {
     console.log("Role Authority for Unit Listing Edit:"+this.EDITACCESS )
     this.DELETEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_DELETE");
     console.log("Role Authority for Unit Listing Delete:"+this.DELETEACCESS )
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
   }
 
   ionViewDidLoad() {
@@ -81,7 +89,7 @@ export class CompanygroupPage {
   doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.companygroupAllLists = [];
     this.doCompanyGroup();
     setTimeout(() => {
       refresher.complete();
@@ -98,7 +106,7 @@ export class CompanygroupPage {
       this.reportData.status = "DRAFT";
     }
     if (this.reportData.sort == '') {
-      this.reportData.sort = "comapny";
+      this.reportData.sort = "companygroup_name";
     }
     //http://denyoappv2.stridecdev.com/companygroup?is_mobile=1
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -114,7 +122,7 @@ export class CompanygroupPage {
         console.log("1" + res.companygroups.length);
         console.log("2" + res.companygroups);
         if (res.companygroups.length > 0) {
-          this.reportAllLists = res.companygroups;
+          this.companygroupAllLists = res.companygroups;
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
           this.loadingMoreDataContent='Loading More Data';
@@ -135,7 +143,7 @@ export class CompanygroupPage {
     this.reportData.sortascdesc = splitdata[1];
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.companygroupAllLists = [];
     this.doCompanyGroup();
   }
   /**********************/
@@ -172,7 +180,7 @@ export class CompanygroupPage {
         this.notcount=data.json().notifycount;
       });
     this.reportData.startindex = 0;
-    this.reportData.sort = "companygroup_id";
+    this.reportData.sort = "companygroup_name";
     this.doCompanyGroup();
   }
 
@@ -216,9 +224,9 @@ export class CompanygroupPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
+            if (this.companygroupAllLists[q] == item) {
+              this.companygroupAllLists.splice(q, 1);
             }
           }
         }
@@ -241,9 +249,9 @@ export class CompanygroupPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
+            if (this.companygroupAllLists[q] == item) {
+              this.companygroupAllLists.splice(q, 1);
             }
           }
         }
@@ -300,29 +308,29 @@ export class CompanygroupPage {
   /********************/
   /* Sorting function */
   /********************/
-  doSort(val) {
-    console.log('1');
-    this.reportAllLists = [];
-    this.reportData.startindex = 0;
-    console.log('2');
-    this.sortby = 1;
-    if (this.vendorsort == "asc") {
-      this.reportData.sortascdesc = "desc";
-      this.vendorsort = "desc";
-      this.ascending = false;
-      console.log('3');
-    }
-    else {
-      console.log('4');
-      this.reportData.sortascdesc = "asc";
-      this.vendorsort = "asc";
-      this.ascending = true;
-    }
-    console.log('5');
-    this.reportData.sort = val;
-    this.doCompanyGroup();
-    console.log('6');
-  }
+  // doSort(val) {
+  //   console.log('1');
+  //   this.companygroupAllLists = [];
+  //   this.reportData.startindex = 0;
+  //   console.log('2');
+  //   this.sortby = 1;
+  //   if (this.vendorsort == "asc") {
+  //     this.reportData.sortascdesc = "desc";
+  //     this.vendorsort = "desc";
+  //     this.ascending = false;
+  //     console.log('3');
+  //   }
+  //   else {
+  //     console.log('4');
+  //     this.reportData.sortascdesc = "asc";
+  //     this.vendorsort = "asc";
+  //     this.ascending = true;
+  //   }
+  //   console.log('5');
+  //   this.reportData.sort = val;
+  //   this.doCompanyGroup();
+  //   console.log('6');
+  // }
 
   presentLoading(parm) {
     let loader;
@@ -344,5 +352,54 @@ export class CompanygroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
- 
+  doSort() {
+    let prompt = this.alertCtrl.create({
+      title: 'Sort By',
+      inputs: [
+        
+        {
+          type: 'radio',
+          label: 'Group Name',
+          value: 'companygroup_name',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Asc',
+          handler: data => {
+            console.log(data);
+            console.log('Asc clicked');
+            if (data != undefined) {
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'asc';
+             if (data == 'companygroup_name') {
+                this.sortLblTxt = 'Group Name';
+              }
+              this.reportData.startindex = 0;
+              this.companygroupAllLists = [];
+              this.doCompanyGroup();
+            }
+          }
+        },
+        {
+          text: 'Desc',
+          handler: data => {
+            console.log(data);
+            if (data != undefined) {
+              console.log('Desc clicked');
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'desc';
+             if (data == 'companygroup_name') {
+                this.sortLblTxt = 'Group Name';
+              }
+              this.reportData.startindex = 0;
+              this.companygroupAllLists = [];
+              this.doCompanyGroup();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }

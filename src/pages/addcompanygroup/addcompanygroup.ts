@@ -1142,6 +1142,7 @@ export class AddcompanygroupPage {
           console.log("Msg Results:-" + res.msg[0].Error);
           this.hideForm = true;
           if (res.msg[0].Error == '1') {
+            this.isSubmitted=false;
             this.sendNotification(res.msg[0].result);
           }
           else {

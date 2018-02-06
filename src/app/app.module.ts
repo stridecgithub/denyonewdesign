@@ -67,9 +67,10 @@ import { CompanygroupPage } from '../pages/companygroup/companygroup';
 import { RolePage } from '../pages/role/role';
 import { AddunitgroupPage } from '../pages/addunitgroup/addunitgroup';
 import { AddenginedetailPage } from '../pages/addenginedetail/addenginedetail';
-
+import { AddcompanygroupPage } from '../pages/addcompanygroup/addcompanygroup';
 @NgModule({
   declarations: [
+    AddcompanygroupPage,
     RolePage,
     AddenginedetailPage,
     AddunitgroupPage,
@@ -149,6 +150,7 @@ import { AddenginedetailPage } from '../pages/addenginedetail/addenginedetail';
   bootstrap: [IonicApp],
   entryComponents: [
     AddenginedetailPage,
+    AddcompanygroupPage,
     RolePage,
     AddunitgroupPage,
     CompanygroupPage,

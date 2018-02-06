@@ -4,7 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header style="
+<!-- <ion-header style="
     background-color: #00569F;" color="bluedark">
 
 
@@ -23,23 +23,7 @@
     margin-right: 7px;" item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
 </button>
 
-  <!--ion-navbar color="bluedark" hideBackButton>
-    <ion-title class="page-title">{{pageTitle}}</ion-title>
-    <ion-buttons start>
-      <button ion-button menuToggle class="menu-toggle">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    </ion-buttons>
-
-
-
-    <ion-buttons end>
-      <button ion-button (click)="notification()">
-  <ion-icon ios="ios-notifications-outline" md="md-notifications-outline"></ion-icon>
-   <ion-badge item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
-</button>
-    </ion-buttons>
-  </ion-navbar-->
+ 
   <ion-navbar class="backtoprevious-navbar" hideBackButton>
     <ion-buttons start class="backtoprevious-start">
       <button ion-button icon-left class="backtoprevious-button" (click)="previous()">
@@ -79,27 +63,7 @@
           </div>
        
 
-        <!--div class="list">
-
-          <div class="item item-input item-select">
-            <div class="input-label">
-              Select Country
-            </div>
-            <select ng-model="country" ng-init="country=countries[0]" ng-options="country.name for country in countries"></select></div>
-          <div class="item item-input item-input">
-            <span class="input-label">Number</span>
-            <input type="text" ng-model="country.dial_code">
-          </div>
-
-          <p> {{ country | json}} </p>
-        </div-->
-        <!--ion-item>
-          <ion-select>
-            <ion-option *ngFor="let cc of currencyList" value="{{ cc }}">
-              <span class='flag-icon flag-icon-{{ cc.slice(0, -1) }}'></span> {{ cc }}
-            </ion-option>
-          </ion-select>
-        </ion-item-->
+       
         <ion-item *ngIf="hideActionButton">
           <button ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">Complete and Save</button>
         </ion-item>
@@ -141,4 +105,67 @@
     </ul>
 
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>{{pageTitle}}</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>Company Name
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input type="text" [disabled]="readOnly" formControlName="companygroup_name" [(ngModel)]="companygroup_name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Country
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
+          <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Address</ion-label>
+        <ion-textarea [disabled]="readOnly" formControlName="address" rows="6" [(ngModel)]="address"></ion-textarea>
+      </ion-item>
+
+      <!-- <div>
+        <ion-label stacked>Company Contact
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" (keyup)="getPrimaryContact($event)" type="text" formControlName="primary"
+          [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
+        <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
+      </div> -->
+
+
+      <div class="contactinfo">
+          <ion-label stacked>Company Contact
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input  class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
+            [(ngModel)]="primary" style="width:19%;float:left;border: 1px solid #ededed;"></ion-input>
+          <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
+        </div>
+
+
+
+      <ion-item *ngIf="hideActionButton">
+        <button ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">Complete and Save</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

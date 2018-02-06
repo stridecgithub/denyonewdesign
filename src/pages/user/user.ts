@@ -15,6 +15,8 @@ import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage} from '../orgchart/orgchart';
+import { Config } from '../../config/config';
+
 /**
  * Generated class for the UserPage page.
  *
@@ -25,6 +27,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 @Component({
   selector: 'page-user',
   templateUrl: 'user.html',
+  providers: [Config]
 })
 
 export class UserPage {
@@ -44,6 +47,7 @@ export class UserPage {
   public companyId:any;
   public msgcount:any;
   public notcount:any;
+  profilePhoto;
   public reportData: any =
   {
     status: '',
@@ -54,7 +58,7 @@ export class UserPage {
     results: 50
   }
   public userAllLists = [];
-  constructor(public http: Http, public nav: NavController,
+  constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Users';
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -67,10 +71,10 @@ export class UserPage {
     console.log("Role Authority for Unit Listing Edit:"+this.EDITACCESS )
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERLIST_DELETE");
     console.log("Role Authority for Unit Listing Delete:"+this.DELETEACCESS )
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UserPage');
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
   }
 
   /*******************/
@@ -141,7 +145,10 @@ export class UserPage {
     }, 500);
     console.log('E');
   }
-  ionViewWillEnter() {
+
+  
+
+  ionViewDidLoad() {
      let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
