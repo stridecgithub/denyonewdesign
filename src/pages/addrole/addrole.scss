@@ -1,0 +1,172 @@
+
+ page-addrole {  
+    .border-bottom-validtion{
+        border-bottom-color: red;
+        border-bottom-width: 2px;
+        }
+
+        .contactinfo{
+            margin-left :18px;
+            color:gray
+            }
+            
+    .border-need{border:2px solid #000000;}
+  
+  .input{
+      border: 1px solid #ededed;
+  }
+
+
+    .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
+      border-bottom-color: #F8F8F8;
+        -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;
+        box-shadow: inset 0 -1px 0 0 #f8f8f8;
+    
+    }
+    .list-md .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child, .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child{
+      border-bottom-color: #F8F8F8;
+      -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;
+      box-shadow: inset 0 -1px 0 0 #f8f8f8;
+    }
+    .unit-form-group {
+      padding-left: 15px;
+      background: #F8F8F8;
+      border-top: 1px solid #dedede;
+      border-bottom: 1px solid #dedede;
+      .item {
+        background: none;
+        padding-right: 20px;
+      }
+      .item-input {
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+      ion-list {
+        margin-bottom: 0;
+        p {
+          padding: 0 15px;
+          margin: 5px 0;
+          color: red;
+          font-style: italic;
+          font-size: 12px;
+        }
+      }
+    }
+    .save-btn {
+      padding: 20px;
+      button {
+        background-color: color($app-brand-colors, azure-radiance);
+        border-radius: 0;
+        color: color($app-brand-colors, white);
+        height: 40px;
+        border: color($app-brand-colors, blue-ribbon) 1px solid;
+        width: 100%;
+        font-size: 14px;
+      }
+    }
+  
+    ion-row {
+      height: 45px;
+      background-color: #ffffff;
+      padding-left: 8px;
+      h4 {
+        margin: 0;
+        line-height: 45px;
+      }
+    }
+  
+    .hard-coded-row {
+      background: #F8F8F8;
+      border-top: 1px solid #dedede;
+      border-bottom: 1px solid #dedede;
+      div {
+        margin: 0 15px;
+        border-bottom: 1px solid #dedede;
+        position: relative;
+        h2 {
+          font-size: 16px;
+          color: gray;
+        }
+        ion-icon {
+          position: absolute;
+          top: 15%;
+          right: 20px;
+        }
+      }
+      p {
+        padding: 0 15px;
+        margin: 5px 0;
+        color: #848484;
+        font-style: italic;
+      }
+    }
+  
+    .button1{
+      background-color: #FBE983;
+       width: 40px;
+       height: 40px;
+       }
+       .button2{
+       background-color: #5584EE;
+       width: 40px;
+       height: 40px;
+       }
+        .button3{
+       background-color: #A4BDFD;
+       width: 40px;
+       height: 40px;
+       }
+        .button4{
+       background-color: #47D6DC;
+       width: 40px;
+       height: 40px;
+       }
+        .button5{
+       background-color: #7AE7BE;
+       width: 40px;
+       height: 40px;
+       }
+        .button6{
+       background-color: #51B749;
+       width: 40px;
+       height: 40px;
+       }
+        .button7{
+       background-color: #FBD75C;
+       width: 40px;
+       height: 40px;
+       }
+        .button8{
+       background-color: #FFB878;
+       width: 40px;
+       height: 40px;
+       }
+       .buttoncolorgroup button:focus {
+      border: 1px solid #000;
+      }
+       .buttoncolorgroup button.active {
+      border: 1px solid #000;
+      }
+       /*.buttoncolorgroup button:active,.buttoncolorgroup button:focus,.buttoncolorgroup button:hover{border: 2px solid #000;}
+       */.button9{
+       background-color: #FF877C;
+       width: 40px;
+       height: 40px;
+       }
+        .button10{
+       background-color: #DC2128;
+       width: 40px;
+       height: 40px;
+       }
+        .button11{
+       background-color: #DAADFE;
+       width: 40px;
+       height: 40px;
+       }
+        .button12{
+       background-color: #E1E1E1;
+       width: 40px;
+       height: 40px;
+       }
+  }

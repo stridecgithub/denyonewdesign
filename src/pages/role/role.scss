@@ -1,0 +1,35 @@
+page-role {
+
+    ion-header .toolbar-title-md, ion-header .toolbar-title-ios {
+        font-size: 17px;
+  }
+  
+  ion-input, ion-textarea { 
+    width: 99%;
+  }
+  
+      .add-unit-btn {
+        background: #424242;
+        border-radius: 0;
+        display: block;
+        width: 100%;
+        height: 40px;
+        color: #fff;
+        font-size: 16px;
+        ion-icon {
+          font-size: 18px;
+        }
+      }
+      .filter {
+        text-align: right;
+        padding: 10px 20px 5px;
+        border-bottom: #979797 2px solid;
+      }
+      .date-time {
+        float: right;
+        font-size: 10px;
+        margin-top: 3px;
+        margin-right: 10px;
+      }
+    }
+    

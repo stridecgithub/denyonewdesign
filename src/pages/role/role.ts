@@ -14,6 +14,7 @@ import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage} from '../orgchart/orgchart';
+import { Config } from '../../config/config';
 /**
  * Generated class for the AddrolePage page.
  *
@@ -23,6 +24,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 @Component({
   selector: 'page-role',
   templateUrl: 'role.html',
+  providers: [Config]
 })
 export class RolePage {
   public pageTitle: string;
@@ -32,7 +34,7 @@ export class RolePage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com/";
+  private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
   public sortby = 2;
@@ -46,8 +48,10 @@ export class RolePage {
     startindex: 0,
     results: 8
   }
-  public reportAllLists = [];
-  constructor(public http: Http, public nav: NavController,
+  public roleAllLists = [];
+  profilePhoto;
+  constructor(public http: Http, private conf: Config,
+   public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Roles';
     this.loginas = localStorage.getItem("userInfoName");
@@ -59,10 +63,19 @@ export class RolePage {
     console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERROLE_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RolePage');
+
+    this.reportData.startindex = 0;
+    this.reportData.sort = "createdon";
+   
+      this.doRole();
+
   }
 
   /*******************/
@@ -71,7 +84,7 @@ export class RolePage {
   doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.roleAllLists = [];
     this.doRole();
     setTimeout(() => {
       refresher.complete();
@@ -95,14 +108,14 @@ export class RolePage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "role?is_mobile=1&role_name=" + this.reportData.sort;
+      url: any = this.apiServiceURL + "/role?is_mobile=1&role_name=" + this.reportData.sort;
     console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
         if (res.roles.length > 0) {
-          this.reportAllLists = res.roles;
+          this.roleAllLists = res.roles;
           // this.totalCount = res[0].totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -132,13 +145,7 @@ export class RolePage {
     }, 500);
     console.log('E');
   }
-  ionViewWillEnter() {
-    this.reportData.startindex = 0;
-    this.reportData.sort = "createdon";
-    if (this.VIEWACCESS > 0) {
-      this.doRole();
-    }
-  }
+ 
 
   doAdd() {
     this.nav.setRoot(AddrolePage);
@@ -158,7 +165,7 @@ export class RolePage {
     this.reportData.sortascdesc = splitdata[1];
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
-    this.reportAllLists = [];
+    this.roleAllLists = [];
     this.doRole();
   }
 
@@ -174,9 +181,9 @@ export class RolePage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reportAllLists.length; q++) {
-            if (this.reportAllLists[q] == item) {
-              this.reportAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.roleAllLists.length; q++) {
+            if (this.roleAllLists[q] == item) {
+              this.roleAllLists.splice(q, 1);
             }
           }
         }
@@ -200,7 +207,7 @@ export class RolePage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "role/" + recordID + "/1/delete";
+      url: any = this.apiServiceURL + "/role/" + recordID + "/1/delete";
     console.log(url);
 
     this.http.get(url, options)
@@ -233,7 +240,7 @@ export class RolePage {
   /********************/
   doSort(val) {
     console.log('1');
-    this.reportAllLists = [];
+    this.roleAllLists = [];
     this.reportData.startindex = 0;
     console.log('2');
     this.sortby = 1;

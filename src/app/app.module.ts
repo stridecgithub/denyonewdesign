@@ -70,7 +70,7 @@ import { AddenginedetailPage } from '../pages/addenginedetail/addenginedetail';
 import { AddcompanygroupPage } from '../pages/addcompanygroup/addcompanygroup';
 import { ReporttemplatePage } from '../pages/reporttemplate/reporttemplate';
 import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttemplate';
-
+import { AddrolePage } from '../pages/addrole/addrole';
 @NgModule({
   declarations: [
     AddreporttemplatePage,
@@ -133,7 +133,8 @@ import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttempl
     MessageDetailViewPage,
     MsgPopoverPage,
     MyaccountPage,
-    EditprofilesteponePage
+    EditprofilesteponePage,
+    AddrolePage
   ],
   imports: [
     BrowserModule,
@@ -154,6 +155,7 @@ import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttempl
     )],
   bootstrap: [IonicApp],
   entryComponents: [
+    AddrolePage,
     AddreporttemplatePage,
     ReporttemplatePage,
     AddenginedetailPage,

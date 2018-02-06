@@ -61,7 +61,7 @@ export class UnitgroupPage {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
 
@@ -77,10 +77,10 @@ export class UnitgroupPage {
 
 
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad UnitgroupPage');
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
