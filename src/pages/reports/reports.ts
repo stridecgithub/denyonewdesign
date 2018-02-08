@@ -44,7 +44,7 @@ export class ReportsPage {
   public datevalidaton: any;
   public start_date = 'Start Date';
   public end_date = 'End Date';
-
+  profilePhoto;
   /* public start_date = '2017-08-02';
   public end_date = '2017-08-02';
 */
@@ -63,6 +63,10 @@ export class ReportsPage {
       "seltimeframe": ["", Validators.required]
     });
     this.responseResultTimeFrame = [];
+
+    this.apiServiceURL = this.apiServiceURL;
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
   }
   ionViewWillEnter() {
     this.responseResultTimeFrame = [];
@@ -249,7 +253,7 @@ export class ReportsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReportsPage');
   }
-  
+
   previous() {
     this.navCtrl.setRoot(DashboardPage);
   }

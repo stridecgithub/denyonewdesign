@@ -396,7 +396,7 @@ export class AdduserPage {
       "&photo=" + this.photo +
       "&email=" + this.email +
       "&country_id=" + this.country +
-      "&contact_number=" + this.contact +
+      "&contact_number=" + contact +
       "&createdby=" + createdby +
       "&updatedby=" + createdby +
       "&username=" + username +

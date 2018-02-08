@@ -348,7 +348,7 @@ export class UnitsPage {
       }, error => {
         console.log(error);// + "\n" + error;
       });
-     
+
     //this.doUnit();
   }
 
@@ -430,6 +430,7 @@ export class UnitsPage {
   }
 
   doAction(item, act, unitId) {
+    
     if (act == 'edit') {
       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
@@ -488,12 +489,9 @@ export class UnitsPage {
       });
       return false;
     } else {
-      /* this.navCtrl.setRoot(ViewcompanygroupPage, {
-         record: item,
-         act: act
-       });
-       return false;*/
+     
     }
+   
   }
   doAdd() {
     localStorage.setItem("location", '');

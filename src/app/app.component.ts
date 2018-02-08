@@ -480,7 +480,7 @@ export class MyApp {
       this.menuActive = 'menuactive-reports';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'reports', Date.now());
-      this.navCtrl.setRoot(AttentionPage);
+      this.navCtrl.setRoot(ReportsPage);
     } else if (page.title == 'Calendar') {
       this.menuActive = 'menuactive-calendar';
       this.menuCtrl.close();

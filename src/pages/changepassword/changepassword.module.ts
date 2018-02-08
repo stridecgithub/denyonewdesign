@@ -3,10 +3,10 @@ import { IonicPageModule } from 'ionic-angular';
 
 @NgModule({
   declarations: [
-    ChangepasswordPage,
+    //ChangepasswordPage,
   ],
   imports: [
-    IonicPageModule.forChild(ChangepasswordPage),
+   // IonicPageModule.forChild(ChangepasswordPage),
   ],
 })
 export class ChangepasswordPageModule {}
