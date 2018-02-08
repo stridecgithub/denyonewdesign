@@ -18,6 +18,7 @@ import { OrgchartPage } from '../orgchart/orgchart';
 import { CompanygroupPage } from '../companygroup/companygroup';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 import { Config } from '../../config/config';
+import { ChangepasswordPage } from '../changepassword/changepassword';
 
 /**
  * Generated class for the MyaccountPage page.
@@ -89,6 +90,9 @@ export class MyaccountPage {
   //[{"userid":"1","userdetailsid":"1","username":"webkannan","password":"webkannan","role":"1","hashtag":"@welcome","first_name":"Kannan","last_name":"Nagarathinam","email":"kannan@gmail.com","contact":"123456789","country":"2","photo":"1496647262537.jpg","job_position":"At prog","report_to":"0","company_group":"1","companygroup_name":"Denyo"}]
 
   ionViewDidLoad() {
+  
+  	
+  
     console.log('ionViewDidLoad My Account Page');
     localStorage.setItem("fromModule", "MyaccountPage");
     localStorage.setItem("userPhotoFile", '');
@@ -156,6 +160,10 @@ export class MyaccountPage {
       act: act
     });
   }
+  
+  changepassword(){
+		this.nav.setRoot(ChangepasswordPage);
+	}
 
 
   viewOrgChart() {
