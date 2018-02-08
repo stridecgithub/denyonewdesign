@@ -125,7 +125,7 @@ export class AddenginedetailPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`Successfully Updated`);
+          this.sendNotification(`Engine Model successfully updated`);
           localStorage.setItem("userPhotoFile", "");
           this.navCtrl.setRoot(EnginedetailPage);
         }
@@ -154,7 +154,7 @@ export class AddenginedetailPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`Successfully Added`);
+          this.sendNotification(`Engine Model successfully added`);
           localStorage.setItem("userPhotoFile", "");
           this.navCtrl.setRoot(EnginedetailPage);
         }

@@ -157,13 +157,13 @@ export class MessagesPage {
       });
     // Notiifcation count
   }
+  // ionViewDidLoad() {
+
+  //   console.log('ionViewDidLoad MessagesPage');
+  // }
+
+
   ionViewDidLoad() {
-
-    console.log('ionViewDidLoad MessagesPage');
-  }
-
-
-  ionViewDidEnter() {
     console.log("Tab" + this.navParams.get("fromtab"));
     if (this.navParams.get("fromtab") != undefined) {
       this.tabs = this.navParams.get("fromtab");

@@ -536,7 +536,12 @@ export class AddcalendarPage {
     //   event_end_time = '';
     // }
     this.isSubmitted = true;
-    service_remark = localStorage.getItem("atMentionResult");
+   
+
+    if (localStorage.getItem("atMentionResult") != '') {
+      service_remark = localStorage.getItem("atMentionResult");
+    }
+
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -587,6 +592,10 @@ export class AddcalendarPage {
 
 
   updateEntry(event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
+    
+    if (localStorage.getItem("atMentionResult") != '') {
+      service_remark = localStorage.getItem("atMentionResult");
+    }
     this.isSubmitted = true;
     let timesplit_start = event_time.split(":");
     let hrvalue_start = timesplit_start[0];

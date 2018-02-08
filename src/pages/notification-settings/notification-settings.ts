@@ -826,16 +826,23 @@ export class NotificationSettingsPage {
 
   previous() {
     if (this.isEdited > 0) {
+      this.navCtrl.setRoot(AddUnitPage, {
+        accountInfo: this.navParams.get("accountInfo"),
+        record: this.navParams.get("record"),
+        from: this.navParams.get("from"),
+        isEdited: this.isEdited,
+        unitId: this.navParams.get("record").unit_id
+      });
       this.isEdited = true;
     } else {
+      this.navCtrl.setRoot(AddUnitPage, {
+        accountInfo: this.navParams.get("accountInfo"),
+        record: this.navParams.get("record"),
+        from: this.navParams.get("from"),
+        isEdited: this.isEdited
+      });
       this.isEdited = false;
     }
-    this.navCtrl.setRoot(AddUnitPage, {
-      accountInfo: this.navParams.get("accountInfo"),
-      record: this.navParams.get("record"),
-      from: this.navParams.get("from"),
-      isEdited: this.isEdited,
-      unitId: this.navParams.get("record").unit_id
-    });
+
   }
 }

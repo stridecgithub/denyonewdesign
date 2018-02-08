@@ -142,7 +142,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-      console.log("Notifycount URL:"+url);
+    console.log("Notifycount URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -431,7 +431,7 @@ export class DashboardPage {
         let res = data.json();
         console.log("Total Count:" + res.totalCount);
         console.log(res, res.trippedcount);
-        
+
         if (res.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
           this.warningcount = res.warningcount;
@@ -443,10 +443,10 @@ export class DashboardPage {
             this.readycount = this.runningcount;
           }
           this.offlinecount = res.offlinecount;
-        }else{
+        } else {
           this.alarms = '0';
           this.warningcount = '0';
-          this.runningcount ='0';
+          this.runningcount = '0';
           this.readycount = '0';
           if (this.readycount == "0") {
             this.readycount = this.runningcount;
@@ -795,7 +795,9 @@ export class DashboardPage {
         let infowindow = new google.maps.InfoWindow({
           content: markers[i].location
         });
-
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+          jQuery('.popup').css('display', 'none');
+        });
         // Add click event
         marker.addListener('click', function () {
 
@@ -806,14 +808,19 @@ export class DashboardPage {
 
           for (let i = 0; i < popups.length; i++) {
             popups[i].classList.remove('showPopup');
+
           }
 
           popup.classList.add('showPopup');
 
         });
+
+
       }
 
     }
+
+
     //}
     // Automatically center the map fitting all markers on the screen
     this.map.fitBounds(bounds);

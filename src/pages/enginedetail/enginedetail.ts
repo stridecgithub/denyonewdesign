@@ -191,7 +191,7 @@ export class EnginedetailPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.sendNotification(`Engine Model Deleted Successfully`);
+          this.sendNotification(`Engine Model deleted successfully`);
         }
         // Otherwise let 'em know anyway
         else {

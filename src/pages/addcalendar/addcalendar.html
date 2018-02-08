@@ -78,7 +78,7 @@
 
         <ion-item>
           <ion-label stacked>{{startdatelabel}} Date</ion-label>
-          <ion-datetime pickerFormat="MMM DD YYYY"  min="{{mindate}}"  max="3000" class="cal-icon" displayFormat="MM/DD/YYYY" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)"></ion-datetime>
+          <ion-datetime  displayFormat="MM/DD/YYYY"   min="{{mindate}}"  max="3000" class="cal-icon" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)" pickerFormat="MMM DD YYYY"></ion-datetime>
         </ion-item>
 
         <ion-item *ngIf="starttimefield">
@@ -93,7 +93,7 @@
 
         <ion-item *ngIf="enddatefield">
           <ion-label stacked>End Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY"  min="{{mindate}}"  max="3000"  class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date"></ion-datetime>
+          <ion-datetime displayFormat="MM/DD/YYYY"  min="{{mindate}}"  max="3000"  class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date" pickerFormat="MMM DD YYYY"></ion-datetime>
         </ion-item>
 
 

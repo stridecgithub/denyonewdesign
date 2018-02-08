@@ -59,6 +59,7 @@ export class UnitsPage {
     this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
+    //console.log("Page Name"+this.navCtrl.getActive().name);
 
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
@@ -282,6 +283,16 @@ export class UnitsPage {
         this.reportData.startindex = 0;
         this.unitAllLists = [];
         this.doUnit();
+        let res = data.json();
+        if (data.status === 200) {
+          console.log("Kannan:" + res.favorite);
+          if (res.favorite == 0) {
+            this.conf.sendNotification("Unfavorited successfully");
+          } else {
+            this.conf.sendNotification("Favorited successfully");
+          }
+        }
+
         /*
         console.log(data);
         let res = data.json();
@@ -430,7 +441,7 @@ export class UnitsPage {
   }
 
   doAction(item, act, unitId) {
-    
+
     if (act == 'edit') {
       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
@@ -489,9 +500,9 @@ export class UnitsPage {
       });
       return false;
     } else {
-     
+
     }
-   
+
   }
   doAdd() {
     localStorage.setItem("location", '');

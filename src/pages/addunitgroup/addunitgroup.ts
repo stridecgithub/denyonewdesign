@@ -65,10 +65,10 @@ export class AddunitgroupPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
   }
 
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad AddunitgroupPage');
+  // }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddunitgroupPage');
-  }
-  ionViewWillEnter() {
     this.resetFields();
 
     if (this.NP.get("record")) {
@@ -80,9 +80,9 @@ export class AddunitgroupPage {
       this.hideActionButton = true;
     }
     else {
-      document.getElementById("FBE983").classList.add("border-need");
+     // document.getElementById("FBE983").classList.add("border-need");
       // console.log("Hi");
-      this.ccode = "FBE983";
+     //this.ccode = "FBE983";
       this.isEdited = false;
       this.pageTitle = 'Add Unit Group';
     }

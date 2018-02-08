@@ -8,6 +8,8 @@ import { CalendarPage } from '../calendar/calendar';
 import { PopoverPage } from '../popover/popover';
 import { Config } from '../../config/config';
 import { DashboardPage } from "../dashboard/dashboard";
+import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
+
 /**
  * Generated class for the UnitgroupPage page.
  *
@@ -369,12 +371,12 @@ export class OrgchartPage {
     this.navCtrl.setRoot(DashboardPage);
   }
   doEdit(item, act) {
-    /*if (act == 'edit') {
+    if (act == 'edit') {
       this.navCtrl.setRoot(AddorgchartonePage, {
         record: item,
         act: act
       });
-    }*/
+    }
   }
   notification() {
     this.navCtrl.setRoot(NotificationPage);

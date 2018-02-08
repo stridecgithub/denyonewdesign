@@ -54,6 +54,7 @@ export class TabsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabsPage');
+    console.log("Page Name"+this.navCtrl.getActive().name);
     this.events.subscribe('menu:created', (menu, time) => {
       console.log(menu);
     });

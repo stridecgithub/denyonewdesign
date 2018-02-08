@@ -64,6 +64,7 @@ export class AddorgchartonePage {
   job_position;
   company_group;
   report_to;
+  company_id;
   public addedImgLists = 'assets/imgs/nouser.jpg';
   constructor(public nav: NavController,
     public http: Http,
@@ -90,6 +91,11 @@ export class AddorgchartonePage {
       "report_to": [""]
     });
     this.userId = localStorage.getItem("userInfoId");
+    this.company_id = localStorage.getItem("userInfoCompanyId");
+
+    this.getUserListData();
+  
+
   }
 
 
@@ -130,7 +136,9 @@ export class AddorgchartonePage {
       });
     this.resetFields();
     this.getJsonCountryListData();
+ 
     console.log(JSON.stringify(this.NP.get("record")));
+    this.getCompanyGroupListData();
     if (this.NP.get("record")!=undefined) {    
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
@@ -147,11 +155,13 @@ export class AddorgchartonePage {
       this.email = editItem.email;
       this.country = editItem.country_id;
       this.contact = editItem.contact_number;
+      console.log(this.contact);
       if (this.contact != undefined) {
         let contactSplitSpace = this.contact.split(" ");
         this.primary = contactSplitSpace[0];
         this.contact = contactSplitSpace[1];
       }
+      this.getUserListData();
     }
     else {
       this.isEdited = false;
@@ -442,6 +452,7 @@ export class AddorgchartonePage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
     let res;
+    console.log("getcompanies API:" + url)
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -456,9 +467,9 @@ export class AddorgchartonePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
-      console.log("Report To API:" + url)
+      console.log("getstaffs API:" + url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
