@@ -428,20 +428,33 @@ export class DashboardPage {
 
         // JSON data
         let res = data.json();
-
+        console.log("Total Count:" + res.totalCount);
         console.log(res, res.trippedcount);
-
-        // Map overlay circles
-        this.alarms = res.trippedcount;
-        this.warningcount = res.warningcount;
-        this.runningcount = res.runningcount;
-        this.readycount = res.readycount;
-        if (this.readycount == "0") {
-          this.readycount = this.runningcount;
-        } else {
-          this.readycount = this.runningcount;
+        
+        if (res.totalCount > 0) {        // Map overlay circles
+          this.alarms = res.trippedcount;
+          this.warningcount = res.warningcount;
+          this.runningcount = res.runningcount;
+          this.readycount = res.readycount;
+          if (this.readycount == "0") {
+            this.readycount = this.runningcount;
+          } else {
+            this.readycount = this.runningcount;
+          }
+          this.offlinecount = res.offlinecount;
+        }else{
+          this.alarms = '0';
+          this.warningcount = '0';
+          this.runningcount ='0';
+          this.readycount = '0';
+          if (this.readycount == "0") {
+            this.readycount = this.runningcount;
+          } else {
+            this.readycount = this.runningcount;
+          }
+          this.offlinecount = '0';
         }
-        this.offlinecount = res.offlinecount;
+
         console.log("res units:" + res.units);
         if (res.units == undefined) {
           console.log("A");
