@@ -23,7 +23,7 @@ export class ReporttemplatedetailPage {
     console.log('ionViewDidLoad ReporttemplatedetailPage');
   }
 	previous() {
-     this.nav.setRoot(ReporttemplatePage);
+     this.navCtrl.setRoot(ReporttemplatePage);
   }
 
 }
