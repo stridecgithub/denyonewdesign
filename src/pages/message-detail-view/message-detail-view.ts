@@ -281,6 +281,11 @@ export class MessageDetailViewPage {
       this.senderphoto = item.recipient_photo;
     }
 
+    if (this.senderphoto == '' || this.senderphoto == 'null') {
+      this.senderphoto = this.apiServiceURL + "/images/default.png";
+    }
+
+
     this.is_favorite = item.is_favorite;
 
 

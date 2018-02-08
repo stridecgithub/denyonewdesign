@@ -46,7 +46,11 @@ export class EngineviewPage {
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    } else {
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+    }
   }
 
 

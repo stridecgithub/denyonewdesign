@@ -60,8 +60,11 @@ export class UnitgroupPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    } else {
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+    }
   }
 
 

@@ -51,7 +51,11 @@ export class UnitsPage {
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    } else {
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+    }
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 

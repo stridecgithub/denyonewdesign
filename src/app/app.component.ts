@@ -91,7 +91,11 @@ export class MyApp {
         this.lastname = localStorage.getItem("userInfoLastName");
         this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
         this.profilePhoto = localStorage.getItem("userInfoPhoto");
-        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+        if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+          this.profilePhoto = this.apiServiceURL +"/images/default.png";
+        } else {
+         this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+        }
       } else {
         this.events.subscribe('user:created', (user, time) => {
           // user and time are the same arguments passed in `events.publish(user, time)`
@@ -102,7 +106,11 @@ export class MyApp {
           console.log("User info from event created" + JSON.stringify(user));
           this.companyGroupName = user.companygroup_name;
           this.profilePhoto = user.photo;
-          this.profilePhoto = this.apiServiceURL + "/staffphotos/" + user.photo;
+          if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+            this.profilePhoto = this.apiServiceURL +"/images/default.png";
+          } else {
+           this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+          }
         });
       }
 

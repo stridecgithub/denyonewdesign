@@ -33,13 +33,13 @@ export class NotificationPage {
   previousPage;
   public atMentionedInfo = [];
   public reportData: any =
-  {
-    status: '',
-    sort: 'companygroup_id',
-    sortascdesc: 'asc',
-    startindex: 0,
-    results: 8
-  }
+    {
+      status: '',
+      sort: 'companygroup_id',
+      sortascdesc: 'asc',
+      startindex: 0,
+      results: 8
+    }
   public userId: any;
   public notificationAllLists = [];
   public loginas: any;
@@ -57,8 +57,11 @@ export class NotificationPage {
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL +
-      "/staffphotos/" + this.profilePhoto;
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
     this.previousPage = this.navCtrl.getActive().name;
 
 
@@ -372,7 +375,7 @@ export class NotificationPage {
 
 
   previous() {
-    if (this.previousPage == 'UnitsPage') {    
+    if (this.previousPage == 'UnitsPage') {
       this.navCtrl.setRoot(UnitsPage);
     } else if (this.previousPage == 'CalendarPage') {
       this.navCtrl.setRoot(CalendarPage);
@@ -380,9 +383,9 @@ export class NotificationPage {
       this.navCtrl.setRoot(MessagesPage);
     } else if (this.previousPage == 'OrgchartPage') {
       this.navCtrl.setRoot(OrgchartPage);
-    }  else if (this.previousPage == 'DashboardPage') {
+    } else if (this.previousPage == 'DashboardPage') {
       this.navCtrl.setRoot(DashboardPage);
-    } 
+    }
   }
 
 

@@ -52,7 +52,7 @@ export class EditprofilesteponePage {
   public readOnly: boolean = false;
   public hidePasswordField: boolean = false;
 
-  public addedImgLists='assets/imgs/nouser.jpg';
+  public addedImgLists='';
   len;
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
@@ -73,7 +73,7 @@ export class EditprofilesteponePage {
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
     this.loginas = localStorage.getItem("userInfoName");
-    this.photo = 'assets/imgs/nouser.jpg';
+    this.addedImgLists = this.apiServiceURL + "/images/default.png";
     // Create form builder validation rules
     this.form = fb.group({
       "hashtag": [""],
@@ -168,13 +168,21 @@ export class EditprofilesteponePage {
         this.job_position = res.settings[0].job_position;
 
         console.log(res.settings[0].country_name);
-        if (res.settings[0].photo_filename != '') {
+        // if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
+        //   this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
+        //    console.log('My Acccount One Photo Available....');
+        // }else {
+        //   console.log('Edit Profile One Photo Not Available....')
+        // }
+
+        if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-          this.photo = res.settings[0].photo_filename;
-          console.log('Edit Profile One Photo Available....');
-        } else {
-          console.log('Edit Profile One Photo Not Available....')
+           console.log('My Acccount One Photo Available....');
+        }else{
+          this.addedImgLists = this.apiServiceURL + "/images/default.png";
+           console.log('My Acccount  One Photo Not Available....');
         }
+
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
@@ -445,24 +453,6 @@ export class EditprofilesteponePage {
   }
 
 
-  /*doUploadPhoto() {
-    this.isUploadedProcessing = true;
-    const options: CameraOptions = {
-      quality: 25,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      saveToPhotoAlbum: true
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      localStorage.setItem("userPhotoFile", imageData);
-      this.uploadResultBase64Data = imageData;
-      this.addedImgLists = imageData;
-      this.isUploadedProcessing = false;
-      return false;
-    }, (err) => {
-      // Handle error
-      this.conf.sendNotification(err);
-    });
-  }*/
   fileChooser() {
 
     let actionSheet = this.actionSheetCtrl.create({

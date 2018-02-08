@@ -27,7 +27,7 @@
 <ion-content padding>
   <div class="info">
     <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
-    <img class="grl" *ngIf="senderphoto==''" src="../assets/imgs/nouser.jpg" width="28" height="28" alt="No Photo">
+    <img class="grl" *ngIf="senderphoto==''" src="{{apiServiceURL}}/images/default.png" width="28" height="28" alt="No Photo">
     <div class="msg-info">
       <div class="user-name">{{sendername}}</div>
       <div class="p"  *ngIf="receiver_id!=''">to {{receiver_id}}</div>

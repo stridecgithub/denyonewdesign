@@ -51,66 +51,12 @@
 
 </ion-header>
 
-<!--ion-content padding>
-  <div class="info">
-    <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
-    <img class="grl" *ngIf="senderphoto==''" src="../assets/imgs/nouser.jpg" width="28" height="28" alt="No Photo">
-    <div class="msg-info">
-      <div class="user-name">{{sendername}}</div>
-      <div class="p">to {{receiver_id}}</div>
-      <div class="time-date">{{message_date_mobileview}}</div>
-    </div>
-    <div class="list-icon">
-      <button (click)="presentPopover($event,detailItem,from)">
-        <img src="assets/imgs/return.png" width="45">
-      </button>
 
-
-      <button (click)="doDetail(detailItem,addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
-        <img src="assets/imgs/dots.png" width="25">
-      </button>
-      <ion-icon  *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
-      font-size: 37px;
-      left:90%;
-      top: 20%;
-      position: absolute;"></ion-icon>
-      <ion-icon  *ngIf="priority_highclass!=''"  ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
-      font-size: 37px;
-      left: 90%;
-      top: 20%;
-      position: absolute;"></ion-icon>
-    </div>
-
-  </div>
-  <div class="subject">
-    <h1>{{messages_subject}}</h1>
-    {{messages_body_html}}
-  </div>
-
-  <div class="attachment" *ngIf="addedImgLists.length>0">
-    <div class="attach" (click)="toggle(isopenorclose)">
-      <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
-      <button>
-        <ion-icon name="md-arrow-dropup" *ngIf="open>0"></ion-icon>
-        <ion-icon name="md-arrow-dropdown" *ngIf="close>0"></ion-icon>
-      </button>
-    </div>
-    <div *ngIf="open>0">
-      <div class="file" *ngFor="let imageitem of addedImgLists; let i = index">
-        <h1 style="width:90%">{{imageitem.fileName}}</h1>
-        <h2>{{imageitem.fileSize}}</h2>
-        <button (click)="preview(addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
-          <ion-icon name="download"></ion-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-</ion-content-->
 
 <ion-content padding>
   <div class="info">
     <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
-    <img class="grl" *ngIf="senderphoto==''" src="../assets/imgs/nouser.jpg" width="28" height="28" alt="No Photo">
+    <img class="grl" *ngIf="senderphoto==''" src="{{apiServiceURL}}/images/default.png" width="28" height="28" alt="No Photo">
    
     <div class="msg-info">
       <div class="user-name">{{sendername}}</div>

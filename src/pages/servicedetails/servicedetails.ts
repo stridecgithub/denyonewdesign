@@ -923,7 +923,7 @@ export class ServicedetailsPage {
     }
     
 
-    this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+   // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
 
     console.log("serviceing-details.ts" + this.service_scheduled_date);
 

@@ -56,7 +56,7 @@
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'"   (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="/assets/imgs/nouser.jpg">
+              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.comment_subject}}</b>
@@ -84,7 +84,7 @@
            
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="/assets/imgs/nouser.jpg">
+              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.service_subject}}</b>
@@ -114,7 +114,7 @@
            
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="/assets/imgs/nouser.jpg">
+              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.service_subject}}</b>
@@ -142,10 +142,10 @@
 
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-              
+              this.photo =   this.apiServiceURL + "/images/default.png"     
               <div class="p1">
                 <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="/assets/imgs/nouser.jpg">
+              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
                 <div class="check">
                   <h3>
                     <b>{{upcomintitem.alarm_name}}</b>

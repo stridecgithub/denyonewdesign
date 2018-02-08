@@ -11,7 +11,7 @@ import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+import { OrgchartPage } from '../orgchart/orgchart';
 
 /**
  * Generated class for the AddunitgroupPage page.
@@ -28,7 +28,7 @@ export class AddunitgroupPage {
   public companyid: any;
   public form: FormGroup;
   public cname: any;
-   public isSubmitted: boolean = false;
+  public isSubmitted: boolean = false;
   public remark: any;
   public ccode: any;
   public nccode: any;
@@ -69,10 +69,9 @@ export class AddunitgroupPage {
   //   console.log('ionViewDidLoad AddunitgroupPage');
   // }
   ionViewDidLoad() {
-    this.resetFields();
+
 
     if (this.NP.get("record")) {
-      console.log(this.NP.get("act"));
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Unit Group';
@@ -80,9 +79,10 @@ export class AddunitgroupPage {
       this.hideActionButton = true;
     }
     else {
-     // document.getElementById("FBE983").classList.add("border-need");
+      this.resetFields();
+      // document.getElementById("FBE983").classList.add("border-need");
       // console.log("Hi");
-     //this.ccode = "FBE983";
+      //this.ccode = "FBE983";
       this.isEdited = false;
       this.pageTitle = 'Add Unit Group';
     }
@@ -92,6 +92,7 @@ export class AddunitgroupPage {
     this.remark = item.remark;
     this.ccode = item.colorcode;
     this.nccode = this.ccode;
+    console.log(JSON.stringify(this.NP.get("record")));
     if (this.ccode == "DAADFE") {
       document.getElementById("DAADFE").classList.add("border-need");
       // console.log("Hi");
@@ -175,7 +176,7 @@ export class AddunitgroupPage {
   }
   updateEntry(cname, ccode, remark, userid, companyid) {
     console.log(cname, ccode, remark, userid, companyid);
-      this.isSubmitted=true;
+    this.isSubmitted = true;
     let body: string = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -204,7 +205,7 @@ export class AddunitgroupPage {
       });
   }
   createEntry(cname, ccode, remark, createdby, companyid) {
-    this.isSubmitted=true;
+    this.isSubmitted = true;
     // this.isUploadedProcessing = true;
     let updatedby = createdby;
     console.log(cname, ccode, remark, companyid);
@@ -254,14 +255,29 @@ export class AddunitgroupPage {
 
 
   getColor(colorCodeValue) {
-     document.getElementById(colorCodeValue).classList.add("border-need");
-     if(this.ccode !=colorCodeValue)
-     {
-        document.getElementById(this.ccode).classList.remove("border-need");
-     }
-     
-   
- 
+    document.getElementById('FBE983').classList.remove("border-need");
+    document.getElementById('5584EE').classList.remove("border-need");
+    document.getElementById('A4BDFD').classList.remove("border-need");
+    document.getElementById('47D6DC').classList.remove("border-need");
+    document.getElementById('7AE7BE').classList.remove("border-need");
+    document.getElementById('51B749').classList.remove("border-need");
+    document.getElementById('FBD75C').classList.remove("border-need");
+    document.getElementById('FFB878').classList.remove("border-need");
+    document.getElementById('FF877C').classList.remove("border-need");
+    document.getElementById('DC2128').classList.remove("border-need");
+    document.getElementById('DAADFE').classList.remove("border-need");
+    document.getElementById('E1E1E1').classList.remove("border-need");
+    document.getElementById(colorCodeValue).classList.add("border-need");
+
+    //if (this.isEdited == true) {
+      // if (this.ccode != colorCodeValue) {
+      //   console.log(this.ccode);
+      //   document.getElementById(this.ccode).classList.remove("border-need");
+      // }
+   // }
+
+
+
     console.log(colorCodeValue);
     this.ccode = colorCodeValue;
   }

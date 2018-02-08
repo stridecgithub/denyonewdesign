@@ -88,7 +88,7 @@ export class ServicingDetailsPage {
       this.serviced_created_name_hastag = this.navParams.get("record").service_created_name_hastag;
 
     }
-
+//let tme=this.navParams.get("record").service_scheduled_time_format.replace(" ",":00");
     this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
 
 
@@ -125,7 +125,7 @@ export class ServicingDetailsPage {
 
 
     //this.serviced_datetime_display = '2018-02-06T00:00';
-    this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+    //this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
 
     console.log("serviceing-details.ts" + this.serviced_datetime_display);
 

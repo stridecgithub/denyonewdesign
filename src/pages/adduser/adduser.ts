@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-  public addedImgLists = 'assets/imgs/nouser.jpg';
+ 
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -62,6 +62,7 @@ export class AdduserPage {
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  public addedImgLists = this.apiServiceURL + "/images/default.png";
   username;
   password;
   hashtag;
@@ -121,7 +122,7 @@ export class AdduserPage {
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
   ionViewWillEnter() {
-   // this.pageLoad();
+    // this.pageLoad();
 
   }
   getRole() {
@@ -177,7 +178,7 @@ export class AdduserPage {
     this.resetFields();
     this.getJsonCountryListData();
     this.getRole();
-    this.getUserListData(companyid);
+    this.getUserListData();
     this.getCompanyGroupListData();
     console.log(JSON.stringify(this.NP.get("record")));
     if (this.NP.get("record")) {
@@ -323,6 +324,7 @@ export class AdduserPage {
     this.job_position = item.job_position;
     this.company_group = item.company_id;
     this.report_to = item.report_to;
+    this.getUserListData();
 
   }
 
@@ -334,6 +336,17 @@ export class AdduserPage {
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
   createEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
+
+    if (this.photo == undefined) {
+      this.photo = '';
+    }
+    if (this.photo == 'undefined') {
+      this.photo = '';
+    }
+    if (this.photo == '') {
+      this.photo = '';
+    }
+    contact = contact.replace("+", "%2B");
     let body: string = "is_mobile=1&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
@@ -390,6 +403,18 @@ export class AdduserPage {
       this.fileTrans(userPhotoFile);
     }
     contact = contact.replace("+", "%2B");
+
+    
+    if (this.photo == undefined) {
+      this.photo = '';
+    }
+    if (this.photo == 'undefined') {
+      this.photo = '';
+    }
+    if (this.photo == '') {
+      this.photo = '';
+    }
+
     let body: string = "is_mobile=1&staff_id=" + this.recordID +
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
@@ -412,7 +437,7 @@ export class AdduserPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/staff/update";
     console.log(url);
-    console.log(body);   
+    console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(data);
@@ -652,13 +677,13 @@ export class AdduserPage {
 
   }
 
-  getUserListData(companyid) {
+  getUserListData() {
     if (this.isEdited == true) {
       // this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -683,7 +708,7 @@ export class AdduserPage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -704,5 +729,10 @@ export class AdduserPage {
   addhashtag(val) {
     this.hashtag = "@" + val;
   }
-  
+
+  onSegmentChanged() {
+    console.log("ID" + this.company_group);
+    this.getUserListData();
+  }
+
 }

@@ -54,7 +54,7 @@
             <div class="user-img">
               <!--img src="assets/imgs/user-pic.jpg" alt=""-->
               <img *ngIf="inboxitem.senderphoto!=''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
-              <img  *ngIf="inboxitem.senderphoto==''" alt="" src="assets/imgs/nouser.jpg">
+              <img  *ngIf="inboxitem.senderphoto==''" alt="" src="{{apiServiceURL}}/images/default.png">
             </div>
             <div class="msg-info">
               <div class="user-name" *ngIf="inboxitem.message_readstatus==0" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">
@@ -122,7 +122,7 @@
               <div class="date-time">{{senditem.message_date_mobileview_list}}</div>
               <div class="user-img">
                 <img *ngIf="senditem.recipient_photo!=''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
-                <img  *ngIf="senditem.recipient_photo==''" alt="" src="assets/imgs/nouser.jpg">
+                <img  *ngIf="senditem.recipient_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               </div>
               <div class="msg-info">
                 <div class="user-name">{{senditem.sendername}}</div>

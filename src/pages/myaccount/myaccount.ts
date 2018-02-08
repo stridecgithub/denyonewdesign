@@ -65,7 +65,7 @@ export class MyaccountPage {
   constructor(private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
     this.pageTitle = 'My Account';
     this.loginas = localStorage.getItem("userInfoName");
-    this.photo = 'assets/imgs/nouser.jpg';
+    
     this.userId = localStorage.getItem("userInfoId");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
     console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
@@ -80,6 +80,7 @@ export class MyaccountPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
+    this.photo =   this.apiServiceURL + "/images/default.png"
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         this.previous();
@@ -125,10 +126,11 @@ export class MyaccountPage {
           this.lastname = res.settings[0].lastname;
 
           console.log("A" + res.settings[0].photo_filename);
-          if (res.settings[0].photo_filename != '') {           
+          if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
             this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
              console.log('My Acccount One Photo Available....');
           }else{
+            this.photo = this.apiServiceURL + "/images/default.png";
              console.log('My Acccount  One Photo Not Available....');
           }
         }

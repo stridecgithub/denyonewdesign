@@ -66,10 +66,10 @@ export class DashboardPage {
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if (this.profilePhoto == undefined) {
-      this.profilePhoto = '../assets/imgs/nouser.jpg';
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
     } else {
-      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
     }
 
     this.pages = [

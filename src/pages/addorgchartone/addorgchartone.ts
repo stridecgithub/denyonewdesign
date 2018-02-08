@@ -65,7 +65,7 @@ export class AddorgchartonePage {
   company_group;
   report_to;
   company_id;
-  public addedImgLists = 'assets/imgs/nouser.jpg';
+  public addedImgLists = this.apiServiceURL + "/images/default.png";
   constructor(public nav: NavController,
     public http: Http,
     public NP: NavParams,
@@ -467,7 +467,7 @@ export class AddorgchartonePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
       console.log("getstaffs API:" + url);
       this.http.get(url, options)
@@ -504,5 +504,10 @@ export class AddorgchartonePage {
         });
     }
 
+  }
+
+  onSegmentChanged() {
+    console.log("ID" + this.company_group);
+    this.getUserListData();
   }
 }

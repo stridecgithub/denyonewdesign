@@ -83,7 +83,11 @@ export class OrgchartPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    } else {
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+    }
     //Authorization Get Value
 
 
@@ -112,10 +116,12 @@ export class OrgchartPage {
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
-    this.profilePhoto = this.apiServiceURL +
-
-      "/staffphotos/" + this.profilePhoto;
-  }
+      if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+        this.profilePhoto = this.apiServiceURL +"/images/default.png";
+      } else {
+       this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      }
+    }
 
 
 

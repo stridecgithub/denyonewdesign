@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -71,7 +71,7 @@ export class MessagedetailPage {
   message_readstatus;
   favstatus: any; // 0 is unfavorite 1 is favorite
   // For Messages
-  constructor(private platform:Platform,private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -88,7 +88,7 @@ export class MessagedetailPage {
     this.open = 0;
     this.platform.registerBackButtonAction(() => {
       this.previous();
-    }); 
+    });
   }
   action(item, action, from) {
     localStorage.setItem("microtime", '');
@@ -305,12 +305,16 @@ export class MessagedetailPage {
     this.sendername = item.sendername;
 
 
-   
 
-    if(this.from=='inbox'){
+
+    if (this.from == 'inbox') {
       this.senderphoto = item.senderphoto;
-    }else {
+    } else {
       this.senderphoto = item.recipient_photo;
+    }
+
+    if (this.senderphoto == '' || this.senderphoto == 'null') {
+      this.senderphoto = this.apiServiceURL + "/images/default.png";
     }
 
 
@@ -672,7 +676,7 @@ export class MessagedetailPage {
     if (copytome == true) {
       copytome = '1';
     }
-  
+
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -724,7 +728,7 @@ export class MessagedetailPage {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
           this.conf.sendNotification(`Message sending successfully`);
-        
+
 
           this.addedImgLists = [];
           this.to = '';
