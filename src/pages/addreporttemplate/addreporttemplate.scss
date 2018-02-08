@@ -1,5 +1,47 @@
 
  page-addreporttemplate {  
+ 
+ 	.item-md {
+		padding-left:0;
+		background: transparent;
+	}
+	.edit-report ion-item {
+		border-top:1px solid #ededed;
+	}
+	.edit-report ion-item:last-child{
+		border-bottom:1px solid #ededed;
+	}
+	.edit-report .item-md.item-block .item-inner {
+		border-bottom:none;
+	}
+ 	.item.item-md .checkbox-md {
+		margin-right:17px;
+	}
+	.avail.item-md.item-block .item-inner{
+		border:none;
+	}
+	.avail .label-md[stacked] {
+		margin-top:0;
+	}
+	ion-item.avail{
+		min-height: 25px;
+	}
+	.checkbox-md .checkbox-icon {
+		border-width: 1px;
+		border-color: #bbbbbb;
+		background-color: transparent;
+		border-radius: 0;
+	}
+	.checkbox-md .checkbox-checked {
+		border-color: #009aff !important;
+		background-color: #009aff !important;
+	}
+	.label-md {
+		margin-right:0;
+	}
+	.item-md.item-block .item-inner {
+    	padding-right: 0;
+	}
     .border-bottom-validtion{
         border-bottom-color: red;
         border-bottom-width: 2px;
@@ -13,10 +55,20 @@
     .border-need{border:2px solid #000000;}
   
   .input{
-      border: 1px solid #ededed;
+      border: 0px solid #ededed;
   }
 
+	.item-input .label-md {
+		color: #848484;
+	}
 
+	.edit-report {
+		background:#f8f8f8;
+		padding-left:16px;
+		padding-right:16px;
+		padding-top:16px;
+		padding-bottom:16px;
+	}
     .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
       border-bottom-color: #F8F8F8;
         -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;

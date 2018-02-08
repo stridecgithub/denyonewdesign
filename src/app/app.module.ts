@@ -73,6 +73,7 @@ import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttempl
 import { AddrolePage } from '../pages/addrole/addrole';
 import { AdduserPage } from '../pages/adduser/adduser';
 import { ChangepasswordPage } from '../pages/changepassword/changepassword';
+import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 @NgModule({
   declarations: [
     AdduserPage,
@@ -138,7 +139,8 @@ import { ChangepasswordPage } from '../pages/changepassword/changepassword';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
-	ChangepasswordPage
+	ChangepasswordPage,
+	ReporttemplatedetailPage
   ],
   imports: [
     BrowserModule,
@@ -221,7 +223,8 @@ import { ChangepasswordPage } from '../pages/changepassword/changepassword';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
-	ChangepasswordPage
+	ChangepasswordPage,
+	ReporttemplatedetailPage
   ],
   providers: [
     StatusBar,

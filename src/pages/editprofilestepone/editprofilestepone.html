@@ -85,7 +85,7 @@
           </ion-label>
           <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email"></ion-input>
         </ion-item>
-
+		<ion-item>
         <div class="contactinfo">
           <ion-label stacked>Contact Number
             <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -94,6 +94,7 @@
             [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
         </div>
+        </ion-item>
         <!-- <ion-item>
         <div style="margin-left:19px;
           color: gray;">

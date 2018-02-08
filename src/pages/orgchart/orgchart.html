@@ -1,28 +1,27 @@
 <ion-header>
-
-  <ion-navbar hideBackButton>
-    <button ion-button clear class="left-header-btn" menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+  <ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-buttons left>
+          <button ion-button icon-only (click)="previous()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+          </button>
+        </ion-buttons>
     <ion-title style="font-size:18px">Organisation Chart</ion-title>
    <div class="right-header-btns">
-      <button class="search">
-        <ion-icon name="search"></ion-icon>
+      <button class="more">
+        <ion-icon name="more"></ion-icon>
       </button>
-      <button class="notification-bell" (click)="notification()">
-        <ion-icon name="notifications"></ion-icon>
-        <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
-      </button>
-      <button class="profile"><img src="{{profilePhoto}}" width="28"  height="28"></button>
     </div>
   </ion-navbar>
+</ion-toolbar>  
  <ion-item style="width:100%;margin:0;padding-left:10px;background-color:#ffffff">
     <ion-label>Company</ion-label>
     <ion-select style="padding:1px 40px 0px 0px;min-width:67%;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
       <ion-option *ngFor="let companyData of responseResultCompanyGroup" value="{{companyData.companygroup_id}}">{{companyData.companygroup_name}}</ion-option>
     </ion-select>
   </ion-item>
-</ion-header>
+  
+  </ion-header>
 
 
 

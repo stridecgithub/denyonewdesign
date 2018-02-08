@@ -7,6 +7,7 @@ import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
 import { PopoverPage } from '../popover/popover';
 import { Config } from '../../config/config';
+import { DashboardPage } from "../dashboard/dashboard";
 /**
  * Generated class for the UnitgroupPage page.
  *
@@ -339,6 +340,10 @@ export class OrgchartPage {
       });
 
   }
+  
+  previous() {
+    this.nav.setRoot(MyaccountPage);
+  }
 
   getCompanyGroupListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -361,7 +366,7 @@ export class OrgchartPage {
     //this.navCtrl.setRoot(AddorgchartonePage);
   }
   previous() {
-    //this.navCtrl.setRoot(MyaccountPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
   doEdit(item, act) {
     /*if (act == 'edit') {

@@ -1,5 +1,20 @@
 page-reporttemplate {
 
+	page-reporttemplate .add-unit-btn ion-icon {
+    	font-size: 21px;
+	}
+	.list-item .item-inner .label-md {
+		margin: 15px 0 20px 0;
+	}
+	.edit-btn, .del-btn {
+		text-transform: capitalize;
+	}
+	.list-item .list-item-options button img{
+		margin-bottom: 13px;
+	}
+	.list-item .list-item-options button ion-icon {
+		font-size: 31px;
+	}
     ion-header .toolbar-title-md, ion-header .toolbar-title-ios {
         font-size: 17px;
   }
