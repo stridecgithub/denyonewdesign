@@ -323,6 +323,8 @@ export class AdduserPage {
     this.role = item.role_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
+    console.log(this.company_group);
+    console.log(item.report_to);
     this.report_to = item.report_to;
     this.getUserListData();
 
