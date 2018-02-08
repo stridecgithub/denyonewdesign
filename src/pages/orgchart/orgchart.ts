@@ -341,9 +341,9 @@ export class OrgchartPage {
 
   }
   
-  previous() {
+  /*previous() {
     this.nav.setRoot(MyaccountPage);
-  }
+  }*/
 
   getCompanyGroupListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
