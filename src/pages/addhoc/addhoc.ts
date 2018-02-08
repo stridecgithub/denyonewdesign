@@ -875,7 +875,7 @@ export class AddhocPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Congratulations file was successfully deleted`);
+          this.conf.sendNotification(`File was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

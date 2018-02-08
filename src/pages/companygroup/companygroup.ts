@@ -285,7 +285,7 @@ export class CompanygroupPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.sendNotification(`Congratulations the company group name was successfully deleted`);
+          this.sendNotification(`Company group name was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

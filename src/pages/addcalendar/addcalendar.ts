@@ -707,7 +707,7 @@ export class AddcalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Congratulations the company group: ${type_name} was successfully deleted`);
+          this.conf.sendNotification(`Company group: ${type_name} was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

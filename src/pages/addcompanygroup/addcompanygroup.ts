@@ -1223,7 +1223,7 @@ export class AddcompanygroupPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`Congratulations the company group: ${companygroup_name} was successfully deleted`);
+          this.sendNotification(`Company group: ${companygroup_name} was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

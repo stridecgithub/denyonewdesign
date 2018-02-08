@@ -1123,7 +1123,7 @@ export class AddrolePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`Congratulations the role: ${role_name} was successfully deleted`);
+          this.sendNotification(`Role: ${role_name} was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

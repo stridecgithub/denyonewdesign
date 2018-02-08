@@ -271,7 +271,7 @@ export class EditprofilesteponePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Congratulations the company group: ${first_name} was successfully deleted`);
+          this.conf.sendNotification(`Company group: ${first_name} was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

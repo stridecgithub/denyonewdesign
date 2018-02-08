@@ -236,7 +236,7 @@ export class UserPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.sendNotification(`Congratulations the user was successfully deleted`);
+          this.sendNotification(`User was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

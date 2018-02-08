@@ -1866,7 +1866,7 @@ export class UnitdetailsPage {
 				// If the request was successful notify the user
 				if (data.status === 200) {
 
-					this.conf.sendNotification(`Congratulations the units was successfully deleted`);
+					this.conf.sendNotification(`Units was successfully deleted`);
 
 					this.navCtrl.setRoot(UnitsPage);
 				}

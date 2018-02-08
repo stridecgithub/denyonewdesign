@@ -398,7 +398,7 @@ console.log(JSON.stringify(this.selectedAction));*/
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.sendNotification(`Congratulations the units was successfully deleted`);
+          this.sendNotification(`Units was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {
