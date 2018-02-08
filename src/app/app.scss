@@ -487,7 +487,8 @@ ion-segment.segment-ios .segment-button {
 	width: 83%;
 }
 .unit-detail .map-btn {
-	margin-top: 16px;
+  margin-top: 16px;
+  display:none
 }
 .info h1 {
 	font-weight: 600;
@@ -549,4 +550,7 @@ ion-segment.segment-ios .segment-button {
 	border-radius: 0px;
 	height:35px;
 	text-transform: capitalize;
+}
+.search{
+  display:none;
 }

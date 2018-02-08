@@ -24,10 +24,10 @@
       <div class="list-desc">{{unitDetailData.projectname }}</div>
       {{unitDetailData.location }}
       <div class="list-favorite">
-        <button>
-                <!-- <ion-icon ios="ios-map-outline" md="md-map"></ion-icon> -->
+        <!-- <button>
+                
                 <img class="icon-size" src="assets/imgs/map.png">
-              </button>
+              </button> -->
         <button (click)="favorite(unitDetailData.unit_id)">
                 <ion-icon name="star-outline"
                           *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
