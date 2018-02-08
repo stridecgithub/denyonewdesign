@@ -64,6 +64,7 @@ margin-left :18px;
       }
 	  .edit-profo ion-item {
 	  	background-color: #f8f8f8;
+		padding-right: 16px;
 	  }
 	  .edit-profo {
 	  	border-top: 1px solid #ccc;
@@ -74,5 +75,11 @@ margin-left :18px;
 	  }
 	  .sep .list-md .item-input{
 	  	border-bottom: none!important;
+	  }
+	  .action-sheet-md .action-sheet-group {
+	  	    margin-top: -1px;
+	  }
+	  .item-md.item-block .item-inner {
+	  	padding-right: 0px;
 	  }
 }

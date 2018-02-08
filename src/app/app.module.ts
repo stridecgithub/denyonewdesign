@@ -72,6 +72,9 @@ import { ReporttemplatePage } from '../pages/reporttemplate/reporttemplate';
 import { AddreporttemplatePage } from '../pages/addreporttemplate/addreporttemplate';
 import { AddrolePage } from '../pages/addrole/addrole';
 import { AdduserPage } from '../pages/adduser/adduser';
+import { ChangepasswordPage } from '../pages/changepassword/changepassword';
+import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
+
 //import { ChangepasswordPage } from '../pages/changepassword/changepassword';
 import { ReportviewtablePage } from '../pages/reportviewtable/reportviewtable';
 import { Config } from '../config/config';
@@ -148,7 +151,9 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
-    //ChangepasswordPage
+	ChangepasswordPage,
+	ReporttemplatedetailPage,
+  //  ChangepasswordPage,
   
     EngineviewPage
   ],
@@ -236,6 +241,9 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
+
+	ChangepasswordPage,
+	ReporttemplatedetailPage,
     //ChangepasswordPage
     
     EngineviewPage

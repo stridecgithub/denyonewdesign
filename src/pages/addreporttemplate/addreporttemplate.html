@@ -96,26 +96,36 @@
       </button>
     </ion-buttons>
 
-    <ion-title>{{pageTitle}}</ion-title>
+    <ion-title>Edit Report Template</ion-title>
+    <div class="right-header-btns">
+        <button class="more">
+          <ion-icon name="more"></ion-icon>
+        </button>
+    </div>
 
   </ion-toolbar>
 </ion-header>
 
-<ion-content   padding>
+<ion-content>
   <form [formGroup]="form">
-    <ion-item>
+    <ion-item style="padding-left:16px;padding-right:16px;margin-bottom:20px;">
       <ion-label stacked>Template Name
         <span class="mandatory" *ngIf="hideActionButton">*</span>
       </ion-label>
       <ion-input type="text" [disabled]="readOnly" formControlName="templatename" [(ngModel)]="templatename"></ion-input>
     </ion-item>
+    <ion-item class="avail" style="padding-left:16px;padding-right:16px;">
+    	<ion-label stacked>Available</ion-label>
+    </ion-item>
+<div class="edit-report">    
     <ion-item ion-item *ngFor="let item of availableheadingitem">
       <ion-label>{{item.availabledata}}</ion-label>
       <ion-checkbox color="bluedark" (ionChange)="insertUserToArray(item.id,$event,item.availabledata)" (click)="getCheckBoxValue(item.id,$event,item.availabledata)"
         checked={{item.check}}></ion-checkbox>
     </ion-item>
-    <ion-item>
-      <button ion-button color="bluedark" text-center block (click)="saveEntry()">Continue</button>
+</div>    
+    <ion-item style="padding:0 30px;">
+      <button ion-button color="bluedark" text-center block (click)="saveEntry()">Save</button>
     </ion-item>
   </form>
 </ion-content>

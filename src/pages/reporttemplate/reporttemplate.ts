@@ -10,6 +10,7 @@ import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage} from '../orgchart/orgchart';
 import { Config } from '../../config/config';
+import { ReporttemplatedetailPage } from '../reporttemplatedetail/reporttemplatedetail';
 //import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the UnitgroupPage page.
@@ -246,6 +247,10 @@ export class ReporttemplatePage {
   }
   notification() {
     this.nav.setRoot(NotificationPage);
+  }
+  
+  reportdetail() {
+    this.nav.setRoot(ReporttemplatedetailPage);
   }
  
 

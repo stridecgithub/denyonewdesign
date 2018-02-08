@@ -131,23 +131,17 @@
       </button>
       <ion-title>{{pageTitle}}</ion-title>
       <div class="right-header-btns">
-        <button class="search">
-          <ion-icon name="search"></ion-icon>
+        <button class="more">
+          <ion-icon name="more"></ion-icon>
         </button>
-        <button class="notification-bell" (click)="notification()">
-          <ion-icon name="notifications"></ion-icon>
-          <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
-        </button>
-        <button class="profile">
-          <img src="{{profilePhoto}}" width="28" height="28">
-        </button>
+
       </div>
     </ion-navbar>
   </ion-header>
 <ion-content>
 
   <button class="add-unit-btn" (click)="doAdd()">
-    <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add Report Template</button>
+    <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Template</button>
   <div class="error" *ngIf="totalCount==0">No report template entries found</div>
 
  
@@ -155,12 +149,12 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let reporttemplate of reporttemplateAllLists">
-      <ion-item>
+      <ion-item (click)="reportdetail()">
           <div style="overflow: hidden; padding-left: .5em;">
               <h2><b>{{reporttemplate.templatename}}</b>
               </h2>
               <h2>
-                <p *ngFor="let itemava of reporttemplate.availableheading;">-{{itemava}}</p>
+                <p *ngFor="let itemava of reporttemplate.availableheading;">{{itemava}}</p>
               </h2>
     
             </div>
@@ -170,7 +164,7 @@
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
         <button ion-button class="del-btn" (click)="doConfirm(reporttemplate.id,reporttemplate)">
-          <ion-icon name="trash"></ion-icon>Remove
+          <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>
     </ion-item-sliding>

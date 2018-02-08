@@ -1,0 +1,32 @@
+page-reporttemplatedetail {
+	.unit-title{
+		font-size: 19px;
+	}
+	.edit-report {
+		border-top:1px solid #dedede;
+		background: #f8f8f8;
+		padding-left: 16px;
+		padding-right: 16px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.item-md.item-block .item-inner {
+		padding-right: 0;
+		border-bottom: 0px solid #dedede;
+	}
+	.buttons .edit, .buttons .delete{
+		line-height: 40px;
+    	height: 50px;
+		width:50%; 
+	}
+	.buttons ion-icon {
+		font-size: 25px;
+		float: left;
+		margin-top: 6px;
+	}
+	.buttons span {
+		display: block;
+		float: left;
+		padding-left: 10px;
+	}
+}
