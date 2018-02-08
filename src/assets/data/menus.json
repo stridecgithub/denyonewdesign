@@ -67,6 +67,10 @@
             {
                 "title": "Org Chart",
                 "component": "OrgchartPage"
+            },
+            {
+                "title": "Add Organisation Chart",
+                "component": "AddorgchartonePage"
             }
         ]
     },

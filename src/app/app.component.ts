@@ -28,6 +28,7 @@ import { MessagesPage } from '../pages/messages/messages';
 import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
+import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 @Component({
   templateUrl: 'app.html',
   providers: [Config, Keyboard, DataServiceProvider]//,Storage
@@ -504,7 +505,15 @@ export class MyApp {
       this.events.publish('menu:created', 'settings', Date.now());
       this.navCtrl.setRoot(MyaccountPage);*/
       //this.navCtrlCtrl.setRoot(AttentionPage);
-    }
+    }else if (page.component == 'AddorgchartonePage') {
+      /* this.menuActive = 'menuactive-settings';
+       this.menuCtrl.close();
+       this.events.publish('menu:created', 'settings', Date.now());
+       this.navCtrl.setRoot(MyaccountPage);*/
+       this.navCtrl.setRoot(AddorgchartonePage);
+     }
+
+    
 
   }
 

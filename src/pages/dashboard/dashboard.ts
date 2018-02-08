@@ -142,6 +142,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
+      console.log("Notifycount URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;

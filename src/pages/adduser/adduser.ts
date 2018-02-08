@@ -700,4 +700,9 @@ export class AdduserPage {
     }
 
   }
+
+  addhashtag(val) {
+    this.hashtag = "@" + val;
+  }
+  
 }

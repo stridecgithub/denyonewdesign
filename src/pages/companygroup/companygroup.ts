@@ -14,7 +14,7 @@ import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
-//import { CompanydetailPage } from '../companydetail/companydetail';
+import { CompanydetailPage } from '../companydetail/companydetail';
 import { OrgchartPage} from '../orgchart/orgchart';
 
 import { Config } from '../../config/config';
@@ -189,10 +189,9 @@ export class CompanygroupPage {
   }
   detail(item)
   {
-    // this.nav.setRoot(CompanydetailPage, {
-    //     record: item
-       
-    //   });
+     this.nav.setRoot(CompanydetailPage, {
+       record: item       
+      });
   }
   doEdit(item, act) {
     if (act == 'edit') {

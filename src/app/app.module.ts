@@ -75,8 +75,15 @@ import { AdduserPage } from '../pages/adduser/adduser';
 //import { ChangepasswordPage } from '../pages/changepassword/changepassword';
 import { ReportviewtablePage } from '../pages/reportviewtable/reportviewtable';
 import { Config } from '../config/config';
+import { CompanydetailPage } from '../pages/companydetail/companydetail';
+import { EngineviewPage } from '../pages/engineview/engineview';
+
+import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
+
 @NgModule({
   declarations: [  
+    AddorgchartonePage,
+    CompanydetailPage,
     ReportviewtablePage, 
     AdduserPage,
     AddreporttemplatePage,
@@ -142,6 +149,8 @@ import { Config } from '../config/config';
     EditprofilesteponePage,
     AddrolePage,
     //ChangepasswordPage
+  
+    EngineviewPage
   ],
   imports: [
     BrowserModule,
@@ -162,7 +171,9 @@ import { Config } from '../config/config';
     )],
   bootstrap: [IonicApp],
   entryComponents: [
-    ReportviewtablePage,    
+    AddorgchartonePage,
+    ReportviewtablePage, 
+    CompanydetailPage,   
     AddrolePage,
     AdduserPage,
     AddreporttemplatePage,
@@ -226,6 +237,8 @@ import { Config } from '../config/config';
     MyaccountPage,
     EditprofilesteponePage,
     //ChangepasswordPage
+    
+    EngineviewPage
   ],
   providers: [
     Config,

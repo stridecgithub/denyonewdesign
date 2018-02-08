@@ -521,7 +521,7 @@ export class AddserviceinfoPage {
       serviced_date = this.serviced_datetime
     }
 
-
+    description = localStorage.getItem("atMentionResult");
     //http://denyoappv2.stridecdev.com/newserviceschedule?is_mobile=1&unitid=1&subject=newschduleservice&dateandtime=2017-11-20&description=newscheduledformdescriotion&created_by=1&time=8 AM
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +

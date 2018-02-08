@@ -158,7 +158,7 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let companygroup of companygroupAllLists">
-      <ion-item>
+      <ion-item   (click)="detail(companygroup)">
         <h5 style="padding-top: 4px;">
           <b>Company:</b>{{companygroup.companygroup_name}}</h5>
         <h5>

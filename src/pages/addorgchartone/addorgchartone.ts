@@ -24,7 +24,7 @@ import { Config } from '../../config/config';
 @Component({
   selector: 'page-addorgchartone',
   templateUrl: 'addorgchartone.html',
-  providers: [Camera, FileTransfer, File, Config, Camera, FileChooser]
+  providers: [Camera, FileTransfer, Config, Camera, FileChooser]
 })
 export class AddorgchartonePage {
   public loginas: any;
@@ -45,7 +45,6 @@ export class AddorgchartonePage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-  public addedImgLists: any;
   public userInfo = [];
   public msgcount: any;
   public notcount: any;
@@ -59,7 +58,13 @@ export class AddorgchartonePage {
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-
+  public responseResultCompanyGroup: any;
+  public responseResultReportTo: any;
+  public len;
+  job_position;
+  company_group;
+  report_to;
+  public addedImgLists = 'assets/imgs/nouser.jpg';
   constructor(public nav: NavController,
     public http: Http,
     public NP: NavParams,
@@ -80,19 +85,35 @@ export class AddorgchartonePage {
       "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
+      "job_position": ["", Validators.required],
+      "company_group": ["", Validators.required],
+      "report_to": [""]
     });
     this.userId = localStorage.getItem("userInfoId");
   }
 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddorgchartonePage');
     this.pageLoad();
+
+    // if (this.NP.get("record")) {
+    //   console.log("User Org Chart:" + JSON.stringify(this.NP.get("record")));
+    //   this.isEdited = true;
+    //   this.selectEntry(this.NP.get("record"));
+    //   this.pageTitle = 'Edit Org Chart';
+    //   this.readOnly = false;
+    //   this.hideActionButton = true;
+    //   let editItem = this.NP.get("record");
+    //        this.getUserListData();
+    // }
+    // else {
+    //   this.isEdited = false;
+    //   this.pageTitle = 'Edit Org Chart';
+    // }
+
   }
-  ionViewWillEnter() {
-    this.pageLoad();
-  }
-  pageLoad()
-  {
+  pageLoad() {
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -110,8 +131,7 @@ export class AddorgchartonePage {
     this.resetFields();
     this.getJsonCountryListData();
     console.log(JSON.stringify(this.NP.get("record")));
-    if (this.NP.get("record")) {
-      console.log("Add User:" + JSON.stringify(this.NP.get("record")));
+    if (this.NP.get("record")!=undefined) {    
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Org Chart';
@@ -143,7 +163,7 @@ export class AddorgchartonePage {
     this.country = "238";
     this.contact = "9443976954";*/
   }
-   getPrimaryContact(ev) {
+  getPrimaryContact(ev) {
     console.log(ev.target.value);
     let char = ev.target.value.toString();
     if (char.length > 5) {
@@ -162,6 +182,9 @@ export class AddorgchartonePage {
     this.contact = item.contact;
     this.photo = item.photo;
     this.recordID = item.userid;
+    this.job_position = item.job_position;
+    this.company_group = item.company_id;
+    this.report_to = item.report_to;
   }
   resetFields(): void {
     this.first_name = "";
@@ -170,37 +193,102 @@ export class AddorgchartonePage {
     this.country = "";
     this.contact = "";
   }
-  createEntry(first_name, last_name, email, country, contact, createdby) {
-    this.userInfo.push({
-      photo: this.photo,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      country: country,
-      contact: contact,
-      createdby: createdby,
+  createEntry(first_name, last_name, email, country, contact, createdby, job_position, company_group, report_to) {
 
-    });
-    // this.nav.setRoot(AddorgcharttwoPage, {
-    //   accountInfo: this.userInfo
-    // });
+    let userPhotoFile = localStorage.getItem("userPhotoFile");
+    if (userPhotoFile) {
+      console.log("Upload Device Image File:" + userPhotoFile);
+      this.fileTrans(userPhotoFile);
+    }
+    if (this.photo == undefined) {
+      this.photo = '';
+    }
+    if (this.photo == 'undefined') {
+      this.photo = '';
+    }
+    this.contact = this.contact.replace("+", "%2B");
+    let body: string = "is_mobile=1&firstname=" + this.first_name +
+      "&lastname=" + this.last_name +
+      "&photo=" + this.photo +
+      "&email=" + this.email +
+      "&country_id=" + this.country +
+      "&contact_number=" + this.contact +
+      "&createdby=" + createdby +
+      "&updatedby=" + createdby +
+      "&report_to=" + report_to +
+      "&company_id=" + company_group +
+      "&job_position=" + job_position,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/orgchart/store";
+    console.log(url);
+    console.log(body);
+
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        //console.log("Response Success:" + JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.hideForm = true;
+          this.sendNotification(`User created was successfully added`);
+          localStorage.setItem("userPhotoFile", "");
+          this.nav.setRoot(OrgchartPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
   }
 
-  updateEntry(first_name, last_name, email, country, contact, createdby) {
-    this.userInfo.push({
-      photo: this.photo,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      country: country,
-      contact: contact,
-      createdby: createdby,
+  updateEntry(first_name, last_name, email, country, contact, createdby, job_position, company_group, report_to) {
 
-    });
-    // this.nav.setRoot(AddorgcharttwoPage, {
-    //   accountInfo: this.userInfo,
-    //   record: this.NP.get("record")
-    // });
+    let userPhotoFile = localStorage.getItem("userPhotoFile");
+    if (userPhotoFile) {
+      console.log("Upload Device Image File:" + userPhotoFile);
+      this.fileTrans(userPhotoFile);
+    }
+    if (this.photo == undefined) {
+      this.photo = '';
+    }
+    if (this.photo == 'undefined') {
+      this.photo = '';
+    }
+    this.contact = this.contact.replace("+", "%2B");
+    let body: string = "is_mobile=1&staff_id=" + this.recordID +
+      "&firstname=" + this.first_name +
+      "&lastname=" + this.last_name +
+      "&photo=" + this.photo +
+      "&email=" + this.email +
+      "&country_id=" + this.country +
+      "&contact_number=" + this.contact +
+      "&createdby=" + createdby +
+      "&updatedby=" + createdby +
+      "&report_to=" + report_to +
+      "&company_id=" + company_group +
+      "&job_position=" + job_position,
+
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/orgchart/update";
+    console.log(url);
+    console.log(body);
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        console.log(data);
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.hideForm = true;
+          this.sendNotification(`successfully updated`);
+          this.nav.setRoot(OrgchartPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
   }
   getJsonCountryListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -217,7 +305,10 @@ export class AddorgchartonePage {
 
   }
   saveEntry() {
-    let first_name: string = this.form.controls["first_name"].value,
+    let job_position: string = this.form.controls["job_position"].value,
+      company_group: string = this.form.controls["company_group"].value,
+      report_to: string = this.form.controls["report_to"].value,
+      first_name: string = this.form.controls["first_name"].value,
       last_name: string = this.form.controls["last_name"].value,
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
@@ -230,10 +321,10 @@ export class AddorgchartonePage {
     }*/
     if (this.isUploadedProcessing == false) {
       if (this.isEdited) {
-        this.updateEntry(first_name, last_name, email, country, contact, this.userId);
+        this.updateEntry(first_name, last_name, email, country, contact, this.userId, job_position, company_group, report_to);
       }
       else {
-        this.createEntry(first_name, last_name, email, country, contact, this.userId);
+        this.createEntry(first_name, last_name, email, country, contact, this.userId, job_position, company_group, report_to);
       }
     }
   }
@@ -344,6 +435,63 @@ export class AddorgchartonePage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
- 
 
+  getCompanyGroupListData() {
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
+    let res;
+    this.http.get(url, options)
+      .subscribe(data => {
+        res = data.json();
+        this.responseResultCompanyGroup = res.companies;
+      });
+
+  }
+
+  getUserListData() {
+    if (this.isEdited == true) {
+      this.userId = this.recordID;
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+      let res;
+      console.log("Report To API:" + url)
+      this.http.get(url, options)
+        .subscribe(data => {
+          res = data.json();
+          // this.responseResultReportTo="N/A";
+          if (this.report_to == 0) {
+            console.log("LENGTH" + this.report_to);
+            this.len = 0;
+          }
+          else {
+            this.len = res.TotalCount;
+          }
+          console.log("length" + res.TotalCount);
+          // this.naDisplay = 1;
+          this.responseResultReportTo = res.staffslist;
+        });
+    }
+    else {
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+      let res;
+      console.log("Report To API:" + url)
+      this.http.get(url, options)
+        .subscribe(data => {
+          res = data.json();
+          // this.responseResultReportTo="N/A";
+          this.len = res.TotalCount;
+          console.log("length" + res.TotalCount);
+          // this.naDisplay = 1;
+          this.responseResultReportTo = res.staffslist;
+        });
+    }
+
+  }
 }

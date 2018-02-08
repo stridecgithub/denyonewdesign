@@ -115,7 +115,7 @@
   
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let enginedetail of enginedetailAllLists">
-      <ion-item (click)="doAction(enginedetail,'detail',enginedetail.model_id)">
+      <ion-item  (click)="doView(enginedetail,'detail')">
 
 
         <div style="overflow: hidden; padding-left: .5em;">
