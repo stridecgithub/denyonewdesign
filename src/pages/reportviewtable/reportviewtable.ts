@@ -50,6 +50,7 @@ export class ReportviewtablePage {
   public reportAllLists = [];
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  profilePhoto;
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
@@ -66,6 +67,11 @@ export class ReportviewtablePage {
       "seltemplate": [""],
       "seltimeframe": [""],
     });
+
+    this.apiServiceURL = this.apiServiceURL;
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+
   }
   ionViewWillEnter() {
     this.success = 0;
