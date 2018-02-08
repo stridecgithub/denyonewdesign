@@ -1518,6 +1518,7 @@ export class UnitdetailsPage {
 		}
 		if (action == 'off') {
 			acttitle = "STOP";
+			action = "STOP";
 		}
 		if (action == 'off-mode') {
 			acttitle = "OFF-MODE";

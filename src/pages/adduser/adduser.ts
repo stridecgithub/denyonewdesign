@@ -121,7 +121,7 @@ export class AdduserPage {
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
   ionViewWillEnter() {
-    this.pageLoad();
+   // this.pageLoad();
 
   }
   getRole() {
@@ -312,7 +312,8 @@ export class AdduserPage {
 
 
     this.photo = item.photo;
-    this.recordID = item.userid;
+    this.recordID = item.staff_id;
+    console.log(this.recordID);
 
     this.username = item.username;
     this.password = item.password;
@@ -338,7 +339,7 @@ export class AdduserPage {
       "&photo=" + this.photo +
       "&email=" + this.email +
       "&country_id=" + this.country +
-      "&contact_number=" + this.contact +
+      "&contact_number=" + contact +
       "&createdby=" + createdby +
       "&updatedby=" + createdby +
       "&username=" + username +
@@ -388,7 +389,7 @@ export class AdduserPage {
       console.log("Upload Device Image File:" + userPhotoFile);
       this.fileTrans(userPhotoFile);
     }
-    this.contact = this.contact.replace("+", "%2B");
+    contact = contact.replace("+", "%2B");
     let body: string = "is_mobile=1&staff_id=" + this.recordID +
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
