@@ -96,7 +96,7 @@
       </button>
     </ion-buttons>
 
-    <ion-title>Edit Report Template</ion-title>
+    <ion-title>{{pageTitle}}</ion-title>
     <div class="right-header-btns">
         <!-- <button class="more">
           <ion-icon name="more"></ion-icon>
@@ -125,7 +125,7 @@
     </ion-item>
 </div>    
     <ion-item style="padding:0 30px;">
-      <button ion-button color="bluedark" text-center block (click)="saveEntry()">Save</button>
+      <button ion-button color="bluedark" text-center block (click)="saveEntry()" [disabled]="!form.valid">Save</button>
     </ion-item>
   </form>
 </ion-content>

@@ -1516,6 +1516,7 @@ export class UnitdetailsPage {
 		console.log('action' + action);
 		let acttitle;
 		if (action == 'on') {
+			acttitle = "START";
 			action = "START";
 		}
 		if (action == 'off') {
