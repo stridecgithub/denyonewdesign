@@ -145,28 +145,60 @@ export class AddUnitPage {
       location: string = this.form.controls["location"].value,
       serial_number: string = this.form.controls["serial_number"].value;
 
-    this.userInfo.push({
-      unitname: unitname,
-      projectname: projectname,
-      controllerid: controllerid,
-      models_id: models_id,
-      neaplateno: neaplateno,
-      location: location,
-      unitgroups_id: unitgroups_id,
-      companys_id: companys_id,
-      lang: this.lang,
-      lat: this.lat,
-      serial_number: serial_number,
-      contacts: this.contacts
-    });
-    localStorage.setItem("addUnitFormOneValue", JSON.stringify(this.userInfo));
-    this.navCtrl.setRoot(NotificationSettingsPage, {
-      accountInfo: this.userInfo,
-      record: this.navParams.get("record"),
-      from: this.navParams.get("from"),
-      isEdited: this.isEdited
-    });
 
+    let urlparam;
+    if (this.navParams.get("unitId") != '') {
+      urlparam = "unit_id=" + this.navParams.get("unitId") + "&controllerid=" + controllerid;
+    } else {
+      urlparam = "unit_id=0&controllerid=" + controllerid;
+    }
+
+    let
+      body: string = urlparam,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/checkcontrollerid";
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        let res = data.json();
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          console.log(JSON.stringify(data.json()));
+
+          if (res.msg[0].Error == '1') {
+            this.conf.sendNotification(res.msg[0].result);
+          }
+          else {
+            this.userInfo.push({
+              unitname: unitname,
+              projectname: projectname,
+              controllerid: controllerid,
+              models_id: models_id,
+              neaplateno: neaplateno,
+              location: location,
+              unitgroups_id: unitgroups_id,
+              companys_id: companys_id,
+              lang: this.lang,
+              lat: this.lat,
+              serial_number: serial_number,
+              contacts: this.contacts
+            });
+            localStorage.setItem("addUnitFormOneValue", JSON.stringify(this.userInfo));
+            this.navCtrl.setRoot(NotificationSettingsPage, {
+              accountInfo: this.userInfo,
+              record: this.navParams.get("record"),
+              from: this.navParams.get("from"),
+              isEdited: this.isEdited
+            });
+          }
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      });
+    // If Controller Id Check Unique
     //this.navCtrl.setRoot(NotificationSettingsPage);
   }
   previous() {

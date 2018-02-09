@@ -353,16 +353,61 @@ export class AdduserPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           console.log("create" + data.json().msg[0].Error);
+          console.log('1');
           if (data.json().msg[0].Error > 0) {
-            //this.userInfo=[];
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
             this.sendNotification(data.json().message);
-           
-            // this.nav.setRoot(UserorgchartPage, {
-            //   accountInfo: this.userInfo
-            // });
+            console.log("create" + data.json().msg[0].Error);
+            console.log('2');
+            if (this.photo == undefined) {
+              this.photo = '';
+            }
+            if (this.photo == 'undefined') {
+              this.photo = '';
+            }
+            if (this.photo == '') {
+              this.photo = '';
+            }
+            contact = contact.replace("+", "%2B");
+            let body: string = "is_mobile=1&firstname=" + this.first_name +
+              "&lastname=" + this.last_name +
+              "&photo=" + this.photo +
+              "&email=" + this.email +
+              "&country_id=" + this.country +
+              "&contact_number=" + contact +
+              "&createdby=" + createdby +
+              "&updatedby=" + createdby +
+              "&username=" + username +
+              "&password=" + password +
+              "&role_id=" + role +
+              "&personalhashtag=" + hashtag +
+              "&report_to=" + report_to +
+              "&company_id=" + company_group +
+              "&job_position=" + job_position,
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/staff/store";
+            console.log(url);
+            console.log(body);
+
+            this.http.post(url, body, options)
+              .subscribe((data) => {
+                //console.log("Response Success:" + JSON.stringify(data.json()));
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  this.sendNotification(`User created was successfully added`);
+                  localStorage.setItem("userPhotoFile", "");
+                  this.nav.setRoot(UserPage);
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.sendNotification('Something went wrong!');
+                }
+              });
           }
         }
         // Otherwise let 'em know anyway
@@ -372,53 +417,7 @@ export class AdduserPage {
       });
 
 
-    if (this.photo == undefined) {
-      this.photo = '';
-    }
-    if (this.photo == 'undefined') {
-      this.photo = '';
-    }
-    if (this.photo == '') {
-      this.photo = '';
-    }
-    contact = contact.replace("+", "%2B");
-    let body: string = "is_mobile=1&firstname=" + this.first_name +
-      "&lastname=" + this.last_name +
-      "&photo=" + this.photo +
-      "&email=" + this.email +
-      "&country_id=" + this.country +
-      "&contact_number=" + contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
-      "&username=" + username +
-      "&password=" + password +
-      "&role_id=" + role +
-      "&personalhashtag=" + hashtag +
-      "&report_to=" + report_to +
-      "&company_id=" + company_group +
-      "&job_position=" + job_position,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/staff/store";
-    console.log(url);
-    console.log(body);
 
-    this.http.post(url, body, options)
-      .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.hideForm = true;
-          this.sendNotification(`User created was successfully added`);
-          localStorage.setItem("userPhotoFile", "");
-          this.nav.setRoot(UserPage);
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.sendNotification('Something went wrong!');
-        }
-      });
 
   }
 
@@ -467,11 +466,46 @@ export class AdduserPage {
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
+
+            let body: string = "is_mobile=1&staff_id=" + this.recordID +
+              "&firstname=" + this.first_name +
+              "&lastname=" + this.last_name +
+              "&photo=" + this.photo +
+              "&email=" + this.email +
+              "&country_id=" + this.country +
+              "&contact_number=" + contact +
+              "&createdby=" + createdby +
+              "&updatedby=" + createdby +
+              "&username=" + username +
+              "&password=" + password +
+              "&role_id=" + role +
+              "&personalhashtag=" + hashtag +
+              "&report_to=" + report_to +
+              "&company_id=" + company_group +
+              "&job_position=" + job_position,
+
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/staff/update";
+            console.log(url);
+            console.log(body);
+            this.http.post(url, body, options)
+              .subscribe(data => {
+                console.log(data);
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  this.sendNotification(`User updated was successfully updated`);
+                  this.nav.setRoot(UserPage);
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.sendNotification('Something went wrong!');
+                }
+              });
             this.sendNotification(data.json().message);
-            // this.navCtrl.setRoot(UserorgchartPage, {
-            //   accountInfo: this.userInfo,
-            //   record: this.NP.get("record")
-            // });
+
           }
         }
 
@@ -481,43 +515,7 @@ export class AdduserPage {
         }
       });
 
-    let body: string = "is_mobile=1&staff_id=" + this.recordID +
-      "&firstname=" + this.first_name +
-      "&lastname=" + this.last_name +
-      "&photo=" + this.photo +
-      "&email=" + this.email +
-      "&country_id=" + this.country +
-      "&contact_number=" + contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
-      "&username=" + username +
-      "&password=" + password +
-      "&role_id=" + role +
-      "&personalhashtag=" + hashtag +
-      "&report_to=" + report_to +
-      "&company_id=" + company_group +
-      "&job_position=" + job_position,
 
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/staff/update";
-    console.log(url);
-    console.log(body);
-    this.http.post(url, body, options)
-      .subscribe(data => {
-        console.log(data);
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.hideForm = true;
-          this.sendNotification(`User updated was successfully updated`);
-          this.nav.setRoot(UserPage);
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.sendNotification('Something went wrong!');
-        }
-      });
   }
 
 
