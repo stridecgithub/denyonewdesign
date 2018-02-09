@@ -599,12 +599,14 @@ export class AddcalendarPage {
       service_remark = localStorage.getItem("atMentionResult");
     }
     this.isSubmitted = true;
+
     let timesplit_start = event_time.split(":");
     let hrvalue_start = timesplit_start[0];
     let minvalue_start = timesplit_start[1];
     let ampmstr_start = 'AM';
     if (hrvalue_start > 12) {
       hrvalue_start = hrvalue_start - 12;
+      hrvalue_start = hrvalue_start < 10 ? "0" + hrvalue_start : hrvalue_start;
       ampmstr_start = 'PM';
     }
     if (hrvalue_start != '') {
@@ -640,6 +642,48 @@ export class AddcalendarPage {
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
+    
+    // let timesplit_start = event_time.split(":");
+    // let hrvalue_start = timesplit_start[0];
+    // let minvalue_start = timesplit_start[1];
+    // let ampmstr_start = 'AM';
+    // if (hrvalue_start > 12) {
+    //   hrvalue_start = hrvalue_start - 12;
+    //   ampmstr_start = 'PM';
+    // }
+    // if (hrvalue_start != '') {
+    //   event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
+    // } else {
+    //   let date = new Date();
+    //   let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+    //   let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+    //   this.hours = hours < 10 ? "0" + hours : hours;
+    //   let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    //   let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    //   event_time = this.hours + ":" + minutes + " " + am_pm;
+    // }
+
+
+    // let timesplit_end = event_end_time.split(":");
+    // let hrvalue_end = timesplit_end[0];
+    // let minvalue_end = timesplit_end[1];
+    // let ampmstr_end = 'AM';
+    // if (hrvalue_end > 12) {
+    //   hrvalue_end = hrvalue_end - 12;
+    //   hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
+    //   ampmstr_end = 'PM';
+    // }
+    // if (hrvalue_end != '') {
+    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
+    // } else {
+    //   let date = new Date();
+    //   let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+    //   let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+    //   this.hours = hours < 10 ? "0" + hours : hours;
+    //   let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    //   let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    //   event_end_time = this.hours + ":" + minutes + " " + am_pm;
+    // }
     
     // let timesplit_end = event_end_time.split(":");
     // let hrvalue_end = timesplit_end[0];
