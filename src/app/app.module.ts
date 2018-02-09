@@ -82,7 +82,7 @@ import { CompanydetailPage } from '../pages/companydetail/companydetail';
 import { EngineviewPage } from '../pages/engineview/engineview';
 
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
-
+import { Network } from '@ionic-native/network';
 @NgModule({
   declarations: [  
     AddorgchartonePage,
@@ -253,6 +253,7 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
     StatusBar,
     SplashScreen,
     NativeStorage,
+    Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider
   ]

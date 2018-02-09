@@ -12,9 +12,10 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
-
 import { Config } from '../../config/config';
 import * as moment from 'moment';
+declare var jQuery: any;
+declare var triggeredAutocomplete: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -45,6 +46,7 @@ export class ServicedetailsPage {
   public mm: any;
   public mn: any;
   public serviced_by: any;
+  atmentioneddata: any;
   //public serviced_date: any;
   serviced_date: String = new Date().toISOString();
   public serviced_time: any;
@@ -67,7 +69,7 @@ export class ServicedetailsPage {
   public msgcount: any;
   public notcount: any;
   public next_service_date: any;
-  public next_service_date_mobileview:any;
+  public next_service_date_mobileview: any;
   public service_priority: any;
   is_request: any;
   public serviced_by_name: any;
@@ -106,7 +108,7 @@ export class ServicedetailsPage {
   currentyear;
   service_time;
   hoursadd24hourformat;
-      constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.next_service_date_selected = 0;
@@ -183,7 +185,7 @@ export class ServicedetailsPage {
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
-    }
+  }
 
   maxDateStr() {
 
@@ -347,6 +349,43 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
+
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
+    console.log(url1);
+    this.http.get(url1, options1)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#description').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+
+          jQuery('#service_remark').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+
+    // Atmentioned API Calls
+
   }
   favoriteaction(unit_id) {
     let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.unitDetailData.userId,
@@ -496,14 +535,21 @@ export class ServicedetailsPage {
 
 
       let
-        service_remark: string = this.form.controls["service_remark"].value,
+        // service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-        description: string = this.form.controls["description"].value,
+        //  description: string = this.form.controls["description"].value,
         service_subject: string = this.service_subject;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
+
+
+      let description = $('#description').val();
+      console.log(description);
+
+      let service_remark = $('#service_remark').val();
+      console.log(service_remark);
 
       //2015-12-10T17:03:00Z
       console.log(service_scheduled_date)
@@ -521,8 +567,8 @@ export class ServicedetailsPage {
         this.currentyear = yearsplithyphen[0];
         console.log("Edit Current Year:-" + this.currentyear);
       }
-            //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
-            let timevalue = this.hrvalue + ":" + minvalue + ":00"
+      //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+      let timevalue = this.hrvalue + ":" + minvalue + ":00"
 
 
       //let d = new Date();
@@ -544,9 +590,9 @@ export class ServicedetailsPage {
 
 
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -669,9 +715,9 @@ export class ServicedetailsPage {
   // for the record data
   updateEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
     if (this.service_priority == undefined) {
       this.service_priority = 0;
     }
@@ -902,30 +948,30 @@ export class ServicedetailsPage {
       }
 
 
-      
-    this.service_time = item.service_scheduled_time_format.substr(0, 5);
-    console.log(" this.service_time" + this.service_time);
-    let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
-    console.log("AMPM:" + getampmpvalue);
-    if (getampmpvalue == 'PM') {
-      let timesplit = this.service_time.split(":");
-      this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-      console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
-      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-    } else {
-      let timesplit = this.service_time.split(":");
-      this.hoursadd24hourformat = parseInt(timesplit[0]);
-      if (this.hoursadd24hourformat == 12) {
-        this.hoursadd24hourformat = '00';
+
+      this.service_time = item.service_scheduled_time_format.substr(0, 5);
+      console.log(" this.service_time" + this.service_time);
+      let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
+      console.log("AMPM:" + getampmpvalue);
+      if (getampmpvalue == 'PM') {
+        let timesplit = this.service_time.split(":");
+        this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+        console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
+        this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+      } else {
+        let timesplit = this.service_time.split(":");
+        this.hoursadd24hourformat = parseInt(timesplit[0]);
+        if (this.hoursadd24hourformat == 12) {
+          this.hoursadd24hourformat = '00';
+        }
+        console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
+        this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
       }
-      console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
-      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-    }
-    
 
-   // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
 
-    console.log("serviceing-details.ts" + this.service_scheduled_date);
+      // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+
+      console.log("serviceing-details.ts" + this.service_scheduled_date);
 
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
@@ -953,7 +999,7 @@ export class ServicedetailsPage {
         this.description = item.service_description;
       } else {
         this.description = item.description;
-      }      this.service_remark = item.service_remark;
+      } this.service_remark = item.service_remark;
       this.service_scheduled_time = item.service_scheduled_time;
       this.created_by_hashtag = item.serviced_created_name;
       this.created_by_photo = item.user_photo;
@@ -1215,19 +1261,19 @@ export class ServicedetailsPage {
     } else {
       this.mn = mn;
     }
-    let dd =  date.getDate();
+    let dd = date.getDate();
     if (dd < 10) {
       this.dd = "0" + dd;
     } else {
       this.dd = dd;
     }
 
-    let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
+    let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-      
+
     } else {
-       this.service_scheduled_date = moment().format();
+      this.service_scheduled_date = moment().format();
       this.isSubmitted = true;
     }
   }

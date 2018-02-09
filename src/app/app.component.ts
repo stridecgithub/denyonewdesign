@@ -29,6 +29,7 @@ import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
+import { Network } from '@ionic-native/network';
 @Component({
   templateUrl: 'app.html',
   providers: [Config, Keyboard, DataServiceProvider]//,Storage
@@ -51,7 +52,7 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
@@ -91,10 +92,10 @@ export class MyApp {
         this.lastname = localStorage.getItem("userInfoLastName");
         this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
         this.profilePhoto = localStorage.getItem("userInfoPhoto");
-        if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-          this.profilePhoto = this.apiServiceURL +"/images/default.png";
+        if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+          this.profilePhoto = this.apiServiceURL + "/images/default.png";
         } else {
-         this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+          this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
         }
       } else {
         this.events.subscribe('user:created', (user, time) => {
@@ -106,10 +107,10 @@ export class MyApp {
           console.log("User info from event created" + JSON.stringify(user));
           this.companyGroupName = user.companygroup_name;
           this.profilePhoto = user.photo;
-          if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-            this.profilePhoto = this.apiServiceURL +"/images/default.png";
+          if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+            this.profilePhoto = this.apiServiceURL + "/images/default.png";
           } else {
-           this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+            this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
           }
         });
       }
@@ -123,6 +124,39 @@ export class MyApp {
       this.getGuageData();
       keyboard.disableScroll(true);
       keyboard.hideKeyboardAccessoryBar(true);
+
+
+
+      // Connection checking
+      // watch network for a disconnect
+      let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+        console.log('network was disconnected :-(');
+        this.conf.sendNotification('network was disconnected :-(')
+      });
+
+      // stop disconnect watch
+      disconnectSubscription.unsubscribe();
+
+
+      // watch network for a connection
+      let connectSubscription = this.network.onConnect().subscribe(() => {
+        console.log('network connected!');
+        this.conf.sendNotification('network connected!');
+        // We just got a connection but we need to wait briefly
+        // before we determine the connection type. Might need to wait.
+        // prior to doing any api requests as well.
+        setTimeout(() => {
+          if (this.network.type === 'wifi') {
+           console.log('we got a wifi connection, woohoo!');
+
+           this.conf.sendNotification('we got a wifi connection, woohoo!');
+          }
+        }, 3000);
+      });
+
+      // stop connect watch
+      connectSubscription.unsubscribe();
+      // Connection Checking
     });
     this.events.publish('menu:created', 'dashboard', Date.now());
     this.pages = [
@@ -454,7 +488,7 @@ export class MyApp {
       this.events.publish('menu:created', 'units', Date.now());
       this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
     } else if (page.component == 'UnitgroupPage') {
-      this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });    
+      this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });
     } else if (page.component == 'MyaccountPage') {
       this.navCtrl.setRoot(MyaccountPage);
     } else if (page.component == 'UserPage') {
@@ -508,20 +542,20 @@ export class MyApp {
     } else if (page.component == 'EnginedetailPage') {
       this.navCtrl.setRoot(EnginedetailPage);
     } else if (page.title == 'Settings') {
-     /* this.menuActive = 'menuactive-settings';
-      this.menuCtrl.close();
-      this.events.publish('menu:created', 'settings', Date.now());
-      this.navCtrl.setRoot(MyaccountPage);*/
-      //this.navCtrlCtrl.setRoot(AttentionPage);
-    }else if (page.component == 'AddorgchartonePage') {
       /* this.menuActive = 'menuactive-settings';
        this.menuCtrl.close();
        this.events.publish('menu:created', 'settings', Date.now());
        this.navCtrl.setRoot(MyaccountPage);*/
-       this.navCtrl.setRoot(AddorgchartonePage);
-     }
+      //this.navCtrlCtrl.setRoot(AttentionPage);
+    } else if (page.component == 'AddorgchartonePage') {
+      /* this.menuActive = 'menuactive-settings';
+       this.menuCtrl.close();
+       this.events.publish('menu:created', 'settings', Date.now());
+       this.navCtrl.setRoot(MyaccountPage);*/
+      this.navCtrl.setRoot(AddorgchartonePage);
+    }
 
-    
+
 
   }
 

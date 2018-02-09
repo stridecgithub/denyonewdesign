@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
 //import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -8,6 +8,8 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { TimerProgress } from '../timerprogress/timerprogress';
 import { Keyboard } from '@ionic-native/keyboard';
+declare var jQuery: any;
+declare var triggeredAutocomplete: any;
 /**
  * Generated class for the LoginPage page.
  *
@@ -24,7 +26,9 @@ import { Keyboard } from '@ionic-native/keyboard';
 export class LoginPage {
   private apiServiceURL: string = '';
   userId;
-  constructor(private keyboard: Keyboard, platform: Platform,private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  public atmentioneddata = [];
+  public companyId: any;
+  constructor(private keyboard: Keyboard, platform: Platform, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
     //  platform.ready().then(() => {
@@ -43,6 +47,41 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+
+
+    // Atmentioned API Calls
+   /* let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=1&userId=1";
+    console.log(url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#inputbox').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+      */
+    // Atmentioned API Calls
+
+
+
+  
+
     console.log('ionViewDidLoad LoginPage');
 
     this.userId = localStorage.getItem("userInfoId");
@@ -110,7 +149,7 @@ export class LoginPage {
           this.createUser(res['staffdetails'][0]);
 
 
-          this.nativeStorage.setItem('menuItem', { profilePhoto: res['staffdetails'][0].photo, firstname: res['staffdetails'][0].firstname, lastname: res['staffdetails'][0].lastname,companyGroupName:res['staffdetails'][0].companygroup_name })
+          this.nativeStorage.setItem('menuItem', { profilePhoto: res['staffdetails'][0].photo, firstname: res['staffdetails'][0].firstname, lastname: res['staffdetails'][0].lastname, companyGroupName: res['staffdetails'][0].companygroup_name })
             .then(
             () => console.log('Stored item!'),
             error => console.error('Error storing item', error)
@@ -138,5 +177,5 @@ export class LoginPage {
   doProgress() {
     this.navCtrl.push(TimerProgress);
   }
-  
+
 }
