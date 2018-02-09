@@ -18,7 +18,7 @@ import { OrgchartPage } from '../orgchart/orgchart';
 import { CompanygroupPage } from '../companygroup/companygroup';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 import { Config } from '../../config/config';
-//import { ChangepasswordPage } from '../changepassword/changepassword';
+import { ChangepasswordPage } from '../changepassword/changepassword';
 
 /**
  * Generated class for the MyaccountPage page.
@@ -164,7 +164,7 @@ export class MyaccountPage {
   }
   
   changepassword(){
-		//this.nav.setRoot(ChangepasswordPage);
+		this.nav.setRoot(ChangepasswordPage);
 	}
 
 

@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
- 
+
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -339,6 +339,39 @@ export class AdduserPage {
   // for the record data
   createEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
 
+
+
+    let body1: string = "username=" + username + "&id=0",
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
+      url1: any = this.apiServiceURL + "/checkusername";
+
+    this.http.post(url1, body1, options1)
+      .subscribe((data) => {
+        console.log(JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          console.log("create" + data.json().msg[0].Error);
+          if (data.json().msg[0].Error > 0) {
+            //this.userInfo=[];
+            this.sendNotification(data.json().msg[0].result);
+            return false;
+          } else {
+            this.sendNotification(data.json().message);
+           
+            // this.nav.setRoot(UserorgchartPage, {
+            //   accountInfo: this.userInfo
+            // });
+          }
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
+
+
     if (this.photo == undefined) {
       this.photo = '';
     }
@@ -406,7 +439,7 @@ export class AdduserPage {
     }
     contact = contact.replace("+", "%2B");
 
-    
+
     if (this.photo == undefined) {
       this.photo = '';
     }
@@ -416,6 +449,37 @@ export class AdduserPage {
     if (this.photo == '') {
       this.photo = '';
     }
+
+
+    let body1: string = "username=" + username + "&id=" + this.recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
+      url1: any = this.apiServiceURL + "/checkusername";
+    this.http.post(url1, body1, options1)
+      .subscribe((data) => {
+        console.log(JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          console.log("update" + data.json().msg[0].Error);
+          if (data.json().msg[0].Error > 0) {
+            //this.userInfo=[];
+            this.sendNotification(data.json().msg[0].result);
+            return false;
+          } else {
+            this.sendNotification(data.json().message);
+            // this.navCtrl.setRoot(UserorgchartPage, {
+            //   accountInfo: this.userInfo,
+            //   record: this.NP.get("record")
+            // });
+          }
+        }
+
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('Something went wrong!');
+        }
+      });
 
     let body: string = "is_mobile=1&staff_id=" + this.recordID +
       "&firstname=" + this.first_name +
