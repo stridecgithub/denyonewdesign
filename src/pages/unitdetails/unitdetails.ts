@@ -471,10 +471,10 @@ export class UnitdetailsPage {
 						let enginespeedgauge = new Gauge(jQuery('.enginespeedgauge'), {
 
 							values: {
-								10: enginespeedlabel_0, 20: enginespeedlabel_1, 80: enginespeedlabel_2, 85: enginespeedlabel_3
+								12.5: enginespeedlabel_0, 25: enginespeedlabel_1, 80: enginespeedlabel_2, 87.5: enginespeedlabel_3
 							},
 							colors: {
-								0: enginespeedcolor_0, 10: enginespeedcolor_1, 20: enginespeedcolor_2, 80: enginespeedcolor_3, 85: enginespeedcolor_4
+								0: enginespeedcolor_0, 12.5: enginespeedcolor_1, 25: enginespeedcolor_2, 80: enginespeedcolor_3, 87.5: enginespeedcolor_4
 							},
 							angles: [90, 380],
 							lineWidth: 8,
