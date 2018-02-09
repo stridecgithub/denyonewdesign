@@ -624,6 +624,7 @@ export class ComposePage {
         console.log("UPLOAD SUCCESS:" + data.response);
         this.nowuploading = 1;
         let successData = JSON.parse(data.response);
+        this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
         console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
         let imgSrc;
