@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { MyaccountPage } from '../myaccount/myaccount';
@@ -14,14 +14,13 @@ import { CalendarPage } from '../calendar/calendar';
 import { DatePicker } from '@ionic-native/date-picker';
 import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 import { OrgchartPage } from '../orgchart/orgchart';
-import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
-import { ReportviewPage } from '../reportview/reportview';
+import { ReportsPage } from "../reports/reports";
 @Component({
-  selector: 'page-reports',
-  templateUrl: 'reports.html',
+  selector: 'page-requestdenyo',
+  templateUrl: 'requestdenyo.html',
   providers: [DatePicker]
 })
-export class ReportsPage {
+export class RequestdenyoPage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
   public loginas: any;
@@ -53,6 +52,7 @@ export class ReportsPage {
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   constructor(private datePicker: DatePicker, public NP: NavParams,
+  	private alertController: AlertController,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController) {
     this.pageTitle = 'Reports';
     this.loginas = localStorage.getItem("userInfoName");
@@ -242,6 +242,7 @@ export class ReportsPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
+
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=0&results=300&sort=unit_id&dir=asc&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
     let res;
@@ -259,19 +260,26 @@ export class ReportsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReportsPage');
   }
-
+  
   previous() {
-    this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(ReportsPage);
   }
   
-  viewreport() {
-    this.navCtrl.setRoot(RequestdenyoPage);
-  }
   
-  viewreportpage() {
-    this.navCtrl.setRoot(ReportviewPage);
-  }
+  openFilters() {
+		let alert = this.alertController.create({
+			title: 'Request Granted',
+			subTitle: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s',
+			buttons: ['OK'],
+			cssClass: 'alertCustomCss'
+		});
+	
+		alert.present();
+	}
+
 }
+
+
 
 
 

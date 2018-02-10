@@ -38,18 +38,21 @@
 
 
 <ion-header>
-
-    <ion-navbar hideBackButton>
-      <button ion-button clear class="left-header-btn" menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>{{pageTitle}}</ion-title>
+<ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-buttons left>
+          <button ion-button icon-only (click)="previous()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+          </button>
+      </ion-buttons>
+      <ion-title>Request Denyo</ion-title>
       <div class="right-header-btns">
         <button class="more">
           <ion-icon name="more"></ion-icon>
         </button>
       </div>
     </ion-navbar>
+</ion-toolbar>    
   </ion-header>
 <ion-content>
 
@@ -94,48 +97,17 @@
 
 
         </ion-item>
+        
+        <ion-item>
+          <ion-label stacked>Format Request <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
+          <ion-select [disabled]="readOnly" [(ngModel)]="seltemplate" formControlName="seltemplate">
+            <ion-option *ngFor="let templateData of responseTemplate" value="{{templateData.id}}">{{templateData.templatename}}</ion-option>
+          </ion-select>
 
 
-
-        <br>
-
-
-        <div>
+        </ion-item>
 
 
-          <ion-list radio-group>
-            <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
-            <ion-radio checked="true" value="go" (click)="getFormat('table')"></ion-radio>
-            Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <ion-radio value="rust" (click)="getFormat('graph')"></ion-radio>
-            Graph
-          </ion-list>
-
-        </div>
-
-        <br>
-
-
-
-
-
-        <div class="ion-badge-container">
-          <ion-badge item-end style="height: 66px">
-            <a href="#" (click)="getNextDate(1)" style="color:white;font-weight:bold;margin-top:6px">
-              <ion-icon name="calendar" style="font-size: 32pt"></ion-icon> <span style="position:relative;bottom:10px">{{start_date}}</span>
-            </a>
-          </ion-badge>
-
-
-          <ion-badge item-end style="height: 66px">
-            <a href="#" (click)="getNextDate(2)" style="color:white;font-weight:bold;margin-top:6px">
-              <ion-icon name="calendar" style="font-size: 32pt"></ion-icon><span style="position:relative;bottom:10px">{{end_date}}</span>
-            </a>
-          </ion-badge>
-
-        </div>
-        <div style="color:red" *ngIf="datevalidaton>0">From date and to date should be selected</div>
-        <div style="clear:both"><br></div>
 
 
 
@@ -145,17 +117,8 @@
     
     <div class="white-area">
     	<ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="viewreportpage()">View Report</button>
+        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="openFilters()">Request Report</button>
       </ion-item>
-    
-    	<div>
-    <b>Attention: </b><br> Report data only allowed 3-6 month. If you want to request extended data &lt; 3-6 month, please send a request as below.</div>
-    
-    <ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="viewreport()">Request Denyo</button>
-      </ion-item>
-    
-    
     </div>
     
 <!-- </ion-content>

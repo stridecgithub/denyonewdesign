@@ -1,7 +1,11 @@
-page-reports {
+page-requestdenyo {
+	
 	.item-md.item-block .item-inner {
 		padding-right: 0px;
 		border-bottom: 1px solid #dedede;
+	}
+	.last-list .item-inner {
+		border-bottom: 1px solid #dedede!important;
 	}
 	.edit-report .item-md {
 		background: transparent;
@@ -23,4 +27,6 @@ page-reports {
 	ion-list[role="radiogroup"] .item-md{
 		border-top: 0px solid #dedede;
 	}
+	
+
 }

@@ -188,6 +188,12 @@ ion-header {
 .running-hrs {
   color: color($app-brand-colors, verdun-green);
   font-size: 14px;
+  z-index: 10000;
+    position: absolute;
+    left: 0;
+    top: 100px;
+    background: #F8F8F8;
+    padding: 10px;
 }
 
 .list-favorite {
@@ -553,4 +559,36 @@ ion-segment.segment-ios .segment-button {
 }
 .search{
   display:none;
+}
+.edit-report {
+    background: #f8f8f8;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+.edit-report .item-md {
+	background:transparent;
+}
+.white-area {
+	background: #fff;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.white-area b{
+	color: #717171;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: 500;
+}
+.alertCustomCss .alert-head {
+	text-align: center;
+}
+.alertCustomCss .alert-sub-title {
+	font-size: 14px;
+	margin: 20px auto 20px;
+	max-width: 80%;
+	line-height: 20px;
 }

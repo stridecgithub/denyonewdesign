@@ -1,0 +1,61 @@
+page-reportview {
+	.unit-title h3 {
+		margin-bottom:0;
+	}
+	.info h1 {
+    	margin-left: 0;
+		margin-bottom: 0;
+	}
+	.info h2 {
+		margin-bottom: 0;
+	}
+	[col-4], [col-6] {
+		padding-left: 0;
+		padding-right: 0;
+	} 
+	.table-view .header .col {
+	  background:#fff;
+	  font-weight:500;
+	}
+	.table-view table {
+		width:100%;
+	}
+	.table-view thead th {
+	  background: #fff;
+	  border: 1px solid #d8d8d8!important;
+	  border-top: none!important;
+	  padding:5px;
+	}
+	
+	.table-view tbody td {
+	  border: 1px solid #d8d8d8!important;
+	  background: #f8f8f8;
+	  padding:5px;
+	}
+	.algn-right {
+		text-align:right;
+	}
+	.unit-title h3{
+		float:left;
+	}
+	.unit-title img{
+		float:right;
+		margin:0 10px 0 0;
+	}
+	.download-option {
+		background: #fafafa;
+		border-radius: 2px;
+		box-shadow: #adabab 0px 1px 8px;
+		padding: 10px;
+		width:100px;
+		right:0;
+		margin:-10px 17px 0 0;
+		z-index:100;
+		position:absolute;		
+	}
+	.download-option ion-list{
+		width:100%;
+		display:block;
+		color:#424242;
+	}
+}

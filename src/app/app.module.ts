@@ -83,6 +83,9 @@ import { EngineviewPage } from '../pages/engineview/engineview';
 
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 
+import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
+import { ReportviewPage } from '../pages/reportview/reportview';
+
 @NgModule({
   declarations: [  
     AddorgchartonePage,
@@ -151,11 +154,14 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
+	RequestdenyoPage,
 	ChangepasswordPage,
+	ReportviewPage,
 	//ReporttemplatedetailPage,
   //  ChangepasswordPage,
   
     EngineviewPage
+	
   ],
   imports: [
     BrowserModule,
@@ -241,8 +247,9 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
-
+	RequestdenyoPage,
 	ChangepasswordPage,
+	ReportviewPage,
 	//ReporttemplatedetailPage,
     //ChangepasswordPage
     
