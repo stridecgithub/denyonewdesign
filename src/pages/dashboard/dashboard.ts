@@ -41,7 +41,8 @@ export class DashboardPage {
   public tabs: string = 'mapView';
   public unitsPopups: any;
 
-
+  connected;
+  disconnected;
   private apiServiceURL: string = '';
   public totalCount;
   public unitAllLists = [];
@@ -95,7 +96,10 @@ export class DashboardPage {
     this.conf.sendNotification(`You are now ${connectionState} via ${networkType}`);
 
   }
-
+  ionViewWillLeave(){
+    this.connected.unsubscribe();
+    this.disconnected.unsubscribe();
+  }
   ionViewDidEnter() {
     this.network.onConnect().subscribe(data => {
       console.log(data)
@@ -106,6 +110,18 @@ export class DashboardPage {
       console.log(data)
       this.displayNetworkUpdate(data.type);
     }, error => console.error(error));
+
+    this.connected = this.network.onConnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
+   
+    this.disconnected = this.network.onDisconnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
+
+
   }
 
   ionViewDidLoad() {

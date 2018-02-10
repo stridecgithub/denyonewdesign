@@ -275,7 +275,7 @@ export class UnitsPage {
   favorite(unit_id) {
     this.reportData.startindex = 0;
     this.unitAllLists = [];
-    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId,
+    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId+ "&company_id=" + this.companyId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
