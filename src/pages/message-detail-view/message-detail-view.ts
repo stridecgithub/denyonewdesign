@@ -252,7 +252,7 @@ export class MessageDetailViewPage {
     this.message_priority = item.message_priority;
     this.time_ago = item.time_ago;
     this.receiver_id = item.receiver_id.toLowerCase();
-    let personalhashtag = localStorage.getItem("personalhashtag");
+    let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
     console.log("Receiver id:" + this.receiver_id.toLowerCase());
     console.log("personal hashtag:" + personalhashtag);
 

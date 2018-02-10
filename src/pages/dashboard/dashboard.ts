@@ -14,6 +14,7 @@ import { MessageDetailViewPage } from '../message-detail-view/message-detail-vie
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
+import { Network } from '@ionic-native/network';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -63,7 +64,7 @@ export class DashboardPage {
   public profilePhoto;
 
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public alertCtrl: AlertController, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if(this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -82,6 +83,29 @@ export class DashboardPage {
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
 
+  }
+
+  displayNetworkUpdate(connectionState: string){
+    let networkType = this.network.type;
+    // this.toast.create({
+    //   message: `You are now ${connectionState} via ${networkType}`,
+    //   duration: 3000
+    // }).present();
+
+    this.conf.sendNotification(`You are now ${connectionState} via ${networkType}`);
+
+  }
+
+  ionViewDidEnter() {
+    this.network.onConnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
+   
+    this.network.onDisconnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
   }
 
   ionViewDidLoad() {
