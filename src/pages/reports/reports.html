@@ -45,31 +45,32 @@
       </button>
       <ion-title>{{pageTitle}}</ion-title>
       <div class="right-header-btns">
-        <button class="more">
+        <!-- <button class="more">
           <ion-icon name="more"></ion-icon>
-        </button>
+        </button> -->
       </div>
     </ion-navbar>
   </ion-header>
 <ion-content>
 
 <ion-content class="ion-content">
-
+    <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
+   
   <div class="edit-report">
     <!-- <div style="position:absolute"><img src="assets/imgs/notready.png" height="50px"></div> -->
     
     
-    <form [formGroup]="form" (ngSubmit)="saveEntry()" enctype='application/x-www-form-urlencoded' method="post">
       <ion-list>
       
       <ion-item>
           <ion-label stacked>From </ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
+          <ion-datetime  displayFormat="MM/DD/YYYY"    max="3000" class="cal-icon" formControlName="start_date" [(ngModel)]="start_date" pickerFormat="MMM DD YYYY"></ion-datetime>
+             </ion-item>
         
         <ion-item>
           <ion-label stacked>To </ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-datetime displayFormat="MM/DD/YYYY"   max="3000"  class="cal-icon" formControlName="end_date" [(ngModel)]="end_date" pickerFormat="MMM DD YYYY"></ion-datetime>
+     
         </ion-item>
 
         <ion-item>
@@ -105,7 +106,7 @@
 
           <ion-list radio-group>
             <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
-            <ion-radio checked="true" value="go" (click)="getFormat('table')"></ion-radio>
+            <ion-radio  value="go" (click)="getFormat('table')"></ion-radio>
             Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ion-radio value="rust" (click)="getFormat('graph')"></ion-radio>
             Graph
@@ -119,7 +120,7 @@
 
 
 
-        <div class="ion-badge-container">
+        <!-- <div class="ion-badge-container">
           <ion-badge item-end style="height: 66px">
             <a href="#" (click)="getNextDate(1)" style="color:white;font-weight:bold;margin-top:6px">
               <ion-icon name="calendar" style="font-size: 32pt"></ion-icon> <span style="position:relative;bottom:10px">{{start_date}}</span>
@@ -133,14 +134,14 @@
             </a>
           </ion-badge>
 
-        </div>
-        <div style="color:red" *ngIf="datevalidaton>0">From date and to date should be selected</div>
-        <div style="clear:both"><br></div>
+        </div> -->
+        <!-- <div style="color:red" *ngIf="datevalidaton>0">From date and to date should be selected</div>
+        <div style="clear:both"><br></div> -->
 
 
 
       </ion-list>
-    </form>
+    
     </div>
     
     <div class="white-area">
@@ -150,51 +151,18 @@
           </ion-item>
 
     	<ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="viewreportpage()">View Report</button>
+        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('2',start_date,end_date)" >View Report</button>
+      
+        <!--(click)="viewreportpage()"-->
       </ion-item>
     
     	<div>
     <b>Attention: </b><br> Report data only allowed 3-6 month. If you want to request extended data &lt; 3-6 month, please send a request as below.</div>
     
     <ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="viewreport()">Request Denyo</button>
+        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('1',start_date,end_date)" >Request Denyo</button> <!--(click)="viewreport()"-->
       </ion-item>
     
     
     </div>
-    
-<!-- </ion-content>
-<ion-footer color="bluedark">
-  <ion-toolbar color="bluedark">
-    <ul class="quick-list">
-      <li>
-        <button ion-button icon-only clear (click)="redirectToMaps()">
-    	<ion-icon name="home" class="footer-icon">MAPS</ion-icon>
-    </button>
-      </li>
-      <li>
-        <button ion-button icon-only (click)="redirectToUser()" clear>
-    	<ion-icon name="contacts" class="footer-icon">UNITS</ion-icon>
-    </button>
-      </li>
-      <li>
-        <button ion-button icon-only (click)="redirectToMessage()" clear>
-    	<ion-icon name="chatboxes" class="footer-icon">MESSAGE</ion-icon>
-      <ion-badge item-end class="messagecount"  *ngIf="msgcount>0">{{this.msgcount}}</ion-badge>
-    </button>
-        <ion-badge color="danger"></ion-badge>
-      </li>
-      <li>
-        <button ion-button icon-only (click)="redirectCalendar()" clear>
-    	<ion-icon name="bicycle" class="footer-icon">CALENDAR</ion-icon>
-    </button>
-      </li>
-      <li>
-        <button style="width: 34px;" ion-button icon-only (click)="redirectToSettings()" clear>
-    	<ion-icon name="settings" class="footer-icon">ORG</ion-icon>
-    </button>
-      </li>
-    </ul>
-
-  </ion-toolbar>
-</ion-footer> -->
+  </form>

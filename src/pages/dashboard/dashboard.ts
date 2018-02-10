@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events, Platform } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -65,13 +65,26 @@ export class DashboardPage {
   public profilePhoto;
 
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(public alertCtrl: AlertController, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+
+
+    this.platform.ready().then(() => {
+      this.network.onConnect().subscribe(data => {
+        console.log(data)
+        //this.displayNetworkUpdate(data.type);
+      }, error => console.error(error));
+
+      this.network.onDisconnect().subscribe(data => {
+        console.log(data)
+       // this.displayNetworkUpdate(data.type);
+      }, error => console.error(error));
+    });
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
     this.pages = [
@@ -86,7 +99,7 @@ export class DashboardPage {
 
   }
 
-  displayNetworkUpdate(connectionState: string){
+  displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
     // this.toast.create({
     //   message: `You are now ${connectionState} via ${networkType}`,
@@ -96,30 +109,30 @@ export class DashboardPage {
     this.conf.sendNotification(`You are now ${connectionState} via ${networkType}`);
 
   }
-  ionViewWillLeave(){
-    this.connected.unsubscribe();
-    this.disconnected.unsubscribe();
+  ionViewWillLeave() {
+    // this.connected.unsubscribe();
+    // this.disconnected.unsubscribe();
   }
   ionViewDidEnter() {
-    this.network.onConnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
-   
-    this.network.onDisconnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
+    // this.network.onConnect().subscribe(data => {
+    //   console.log(data)
+    //   this.displayNetworkUpdate(data.type);
+    // }, error => console.error(error));
 
-    this.connected = this.network.onConnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
-   
-    this.disconnected = this.network.onDisconnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
+    // this.network.onDisconnect().subscribe(data => {
+    //   console.log(data)
+    //   this.displayNetworkUpdate(data.type);
+    // }, error => console.error(error));
+
+    // this.connected = this.network.onConnect().subscribe(data => {
+    //   console.log(data)
+    //   this.displayNetworkUpdate(data.type);
+    // }, error => console.error(error));
+
+    // this.disconnected = this.network.onDisconnect().subscribe(data => {
+    //   console.log(data)
+    //   this.displayNetworkUpdate(data.type);
+    // }, error => console.error(error));
 
 
   }
@@ -411,7 +424,7 @@ export class DashboardPage {
           if (res.favorite == 0) {
             this.conf.sendNotification("Unfavorited successfully");
           } else {
-            this.conf.sendNotification("Favorited successfully");
+            this.conf.sendNotification("favourite successfully");
           }
 
 

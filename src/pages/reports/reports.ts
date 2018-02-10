@@ -16,7 +16,11 @@ import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
+
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
+
+import * as moment from 'moment';
+
 @Component({
   selector: 'page-reports',
   templateUrl: 'reports.html',
@@ -39,6 +43,7 @@ export class ReportsPage {
   public responseUnit: any;
   public companyId: any;
   public userInfo: any;
+  mindate;
   public exportto: any;
   public action: any;
   public seltype: any;
@@ -56,6 +61,7 @@ export class ReportsPage {
   constructor(private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController) {
     this.pageTitle = 'Reports';
+    this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
     this.userid = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
@@ -63,16 +69,18 @@ export class ReportsPage {
     this.form = fb.group({
       "selunit": ["", Validators.required],
       "seltemplate": ["", Validators.required],
-      "seltimeframe": ["", Validators.required]
+      "seltimeframe": ["", Validators.required],
+      "start_date": ["", Validators.required],
+      "end_date": ["", Validators.required],
     });
     this.responseResultTimeFrame = [];
 
     this.apiServiceURL = this.apiServiceURL;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
   ionViewWillEnter() {
@@ -142,7 +150,9 @@ export class ReportsPage {
   }
 
 
-  saveEntry() {
+  saveEntry(val, from, to) {
+    this.from = from;
+    this.to = to;
     console.log("Button 1:" + this.button1);
     console.log("Button 2:" + this.button2);
     let selunit: string = this.form.controls["selunit"].value,
@@ -200,6 +210,7 @@ export class ReportsPage {
       from: this.from,
       to: this.to,
       exportto: this.exportto,
+      val: val
     });
 
 
@@ -264,18 +275,26 @@ export class ReportsPage {
   previous() {
     this.navCtrl.setRoot(DashboardPage);
   }
-  
+
   viewreport() {
     this.navCtrl.setRoot(RequestdenyoPage);
   }
-  
+
   viewreportpage() {
     this.navCtrl.setRoot(ReportviewPage);
   }
 
+
   evecomments() {
     this.navCtrl.setRoot(EventsandcommentsPage);
   }
+
+  filToDate(start_date) {
+    console.log("Start Date:" + start_date);
+    //this.end_date = start_date.split("T")[0];
+  }
+
+
 }
 
 
