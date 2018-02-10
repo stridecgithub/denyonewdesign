@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { MyaccountPage } from '../myaccount/myaccount';
@@ -58,7 +58,7 @@ export class ReportsPage {
 */
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(private datePicker: DatePicker, public NP: NavParams,
+  constructor(private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController) {
     this.pageTitle = 'Reports';
     this.mindate = moment().format();
@@ -83,7 +83,31 @@ export class ReportsPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
+
+  showConfirm() {
+    let confirm = this.alertCtrl.create({
+      title: 'Request Granted',
+
+      message: 'Request successfully sent.',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+           
+          }
+        }
+      ],
+      cssClass: 'alertDanger'
+    });
+    confirm.present();
+  }
   ionViewWillEnter() {
+
+
+    console.log("Req Success" + this.NP.get("reqsuccess"));
+    if(this.NP.get("reqsuccess")>0){
+      this.showConfirm()
+    }
     this.responseResultTimeFrame = [];
     this.datevalidaton = 0;
     this.getFormat('table');

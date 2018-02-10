@@ -3,7 +3,6 @@ import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitgroupPage } from '../unitgroup/unitgroup';
 import { CompanygroupPage } from '../companygroup/companygroup';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { RolePage } from '../role/role';
@@ -27,6 +26,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
+
+ 
+  public posts = [];
+  keys: String[];
+
   public loginas: any;
   iframeContent: any;
   public form: FormGroup;
@@ -63,11 +67,14 @@ export class ReportviewtablePage {
   neaplateno;
   serialnumber;
   nextservicedate;
-  contacts;
+  contactnames;
   fromdate;
   todate;
   generatormodel;
-  unitgroup;
+  unitgroupname;
+  timeframe;
+  contactnumbers;
+  url;
   public buttonClicked: boolean = false;
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
@@ -184,27 +191,34 @@ export class ReportviewtablePage {
           console.log("Report Preview Success Response:-" + JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
+            this.navCtrl.setRoot(ReportsPage,{reqsuccess:1});
           }
           if (res.totalcount > 0) {
 
             this.headLists=res.templatedata;
-            this.headValue=res.reportdata;
+            this.headValue=res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
+
+            this.posts =  res.mobilehistorydata[0];
+            this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
-
-            this.location = res.unitdata.location;
-            this.unitname = res.unitdata.unitname;
-            this.projectname = res.unitdata.projectname;
+           
+            this.location = res.unitdata[0].location;
+            this.unitname = res.unitdata[0].unitname;
+            this.projectname = res.unitdata[0].projectname;
             this.controllerid = res.unitdata[0].controllerid;
-            this.alarmnotificationto = res.unitdata.alarmnotificationto;
-            this.alarmhashtags = res.unitdata.alarmhashtags;
-            this.neaplateno = res.unitdata.neaplateno;
-            this.serialnumber = res.unitdata.serialnumber;
+            this.alarmnotificationto = res.unitdata[0].alarmnotificationto;
+            this.alarmhashtags = res.unitdata[0].alarmhashtags;
+            this.neaplateno = res.unitdata[0].neaplateno;
+            this.serialnumber = res.unitdata[0].serialnumber;
             this.nextservicedate = res.nextservicedate;
-            this.contacts = res.contacts;
+            this.contactnames = res.contactnames;
+            this.contactnumbers=res.contactnumbers
             this.fromdate = res.fromdate;
             this.todate = res.todate;
+            this.timeframe= res.timeframe;
             this.generatormodel=res.generatormodel;
+            this.unitgroupname=res.unitgroupname;
             /*
             
             
@@ -313,7 +327,7 @@ export class ReportviewtablePage {
         this.requestsuccess = 'Request successfully sent';
         console.log(this.requestsuccess);
       } else {
-        this.iframeContent = "<iframe  src=http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
+          this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
           "&seltemplate=" + this.NP.get("seltemplate") +
@@ -324,7 +338,7 @@ export class ReportviewtablePage {
           "&action=" + action +
           "&loginid=" + this.userid +
           "&companyid=" + this.companyid +
-          "&datacodes='' height=350 width=100% frameborder=0></iframe>";
+          "&datacodes=");
       }
     }
 

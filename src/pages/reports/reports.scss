@@ -23,4 +23,9 @@ page-reports {
 	ion-list[role="radiogroup"] .item-md{
 		border-top: 0px solid #dedede;
 	}
+
+	.cal-icon {
+		background: url(../assets/imgs/cal@2x.png) no-repeat right;
+		background-size: 20px auto;
+	  }
 }

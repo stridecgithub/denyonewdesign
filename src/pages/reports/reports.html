@@ -106,7 +106,7 @@
 
           <ion-list radio-group>
             <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
-            <ion-radio  value="go" (click)="getFormat('table')"></ion-radio>
+            <ion-radio   checked="true" value="go" (click)="getFormat('table')"></ion-radio>
             Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ion-radio value="rust" (click)="getFormat('graph')"></ion-radio>
             Graph
@@ -151,7 +151,7 @@
           </ion-item> -->
 
     	<ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('2',start_date,end_date)" >View Report</button>
+        <button ion-button color="primary"  [disabled]="!form.valid"  text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('2',start_date,end_date)" >View Report</button>
       
         <!--(click)="viewreportpage()"-->
       </ion-item>
@@ -160,7 +160,7 @@
     <b>Attention: </b><br> Report data only allowed 3-6 month. If you want to request extended data &lt; 3-6 month, please send a request as below.</div>
     
     <ion-item class="last-btn">
-        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('1',start_date,end_date)" >Request Denyo</button> <!--(click)="viewreport()"-->
+        <button ion-button color="primary"  [disabled]="!form.valid"  text-center block style="max-width:88%;margin:0 auto;"  (click)="saveEntry('1',start_date,end_date)" >Request Denyo</button> <!--(click)="viewreport()"-->
       </ion-item>
     
     
