@@ -41,18 +41,33 @@ export class ReportviewtablePage {
   public notcount: any;
   public from: any;
   public requestsuccess: any;
-  requestsuccessview:any;
+  requestsuccessview: any;
   public to: any;
   public noentrymsg: any;
   public responseTemplate: any;
   public responseUnit: any;
   public companyId: any;
   public reportAllLists = [];
+  public headLists = [];
+  public headValue = [];
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   profilePhoto;
   totalcount;
   location;
+  unitname;
+  projectname;
+  controllerid;
+  alarmnotificationto;
+  alarmhashtags;
+  neaplateno;
+  serialnumber;
+  nextservicedate;
+  contacts;
+  fromdate;
+  todate;
+  generatormodel;
+  unitgroup;
   public buttonClicked: boolean = false;
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
@@ -60,7 +75,7 @@ export class ReportviewtablePage {
     this.graphview = 0;
     this.requestsuccess = '';
     this.pdfdownloadview = 0;
-    this.requestsuccessview=0;
+    this.requestsuccessview = 0;
     this.loginas = localStorage.getItem("userInfoName");
     this.userid = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
@@ -73,17 +88,17 @@ export class ReportviewtablePage {
 
     this.apiServiceURL = this.apiServiceURL;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
   }
   ionViewWillEnter() {
     this.success = 0;
     this.requestsuccess = '';
-    this.requestsuccessview=0;
+    this.requestsuccessview = 0;
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -99,11 +114,11 @@ export class ReportviewtablePage {
   public onButtonClick() {
 
     this.buttonClicked = !this.buttonClicked;
-}
+  }
   ionViewDidLoad() {
     this.requestsuccess = '';
     this.success = 0;
-    this.requestsuccessview=0;
+    this.requestsuccessview = 0;
     let seltypeBtn = this.NP.get("val");
     console.log("Select Type Button Submit" + seltypeBtn);
     let action;
@@ -171,24 +186,39 @@ export class ReportviewtablePage {
             this.success = 1;
           }
           if (res.totalcount > 0) {
-            this.reportAllLists = res.reportdata;
-            this.totalcount=res.totalcount;
 
-this.location=res.unitdata.location;
-/*unitname
-projectname
-controllerid
-alarmnotificationto
-alarmhashtags
-neaplateno
-serialnumber
-nextservicedate
-contacts
-fromdate
-           "fromdate":"2018-02-11","todate":"2018-02-10","unitid":"2","timeframe":"1time","generatormodel":"DCA60ES12"
-*/
-          }else{
-             this.totalcount=0;
+            this.headLists=res.templatedata;
+            this.headValue=res.reportdata;
+            this.reportAllLists = res.reportdata;
+            this.totalcount = res.totalcount;
+
+            this.location = res.unitdata.location;
+            this.unitname = res.unitdata.unitname;
+            this.projectname = res.unitdata.projectname;
+            this.controllerid = res.unitdata[0].controllerid;
+            this.alarmnotificationto = res.unitdata.alarmnotificationto;
+            this.alarmhashtags = res.unitdata.alarmhashtags;
+            this.neaplateno = res.unitdata.neaplateno;
+            this.serialnumber = res.unitdata.serialnumber;
+            this.nextservicedate = res.nextservicedate;
+            this.contacts = res.contacts;
+            this.fromdate = res.fromdate;
+            this.todate = res.todate;
+            this.generatormodel=res.generatormodel;
+            /*
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                       "fromdate":"2018-02-11","todate":"2018-02-10","unitid":"2","timeframe":"1time","generatormodel":"DCA60ES12"
+            */
+          } else {
+            this.totalcount = 0;
           }
 
           if (data.status === 200) {
@@ -279,7 +309,7 @@ fromdate
 
       if (seltypeBtn == '1') {
         this.graphview = 0;
-        this.requestsuccessview=1;
+        this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
         console.log(this.requestsuccess);
       } else {

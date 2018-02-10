@@ -57,8 +57,7 @@
 <ion-content padding class="ion-content">
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
   <div class="error" *ngIf="totalcount==0" style="color:red;text-align:center">{{noentrymsg}}</div>
-
-  <div class="tree-outer">
+  <!-- <div class="tree-outer">
     <div class="tree-overflow">
       <div id="treehtml">
         <div class="tree">
@@ -101,7 +100,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(iframeContent)" *ngIf="graphview>0"></div>
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
@@ -115,7 +114,7 @@
 
       <div class="unit-detail">
           <div class="unit-title">
-            <h3>Generator #2</h3>
+            <h3>{{unitname}}</h3>
             <img src="../assets/imgs/denyo_logo.png" />
           </div>
         </div>
@@ -127,7 +126,7 @@
               <h1>Next Servicing Date</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>03-11-2018</h2>
+              <h2>{{nextservicedate}}</h2>
             </ion-col>
           </ion-row>
           <br/>
@@ -136,7 +135,7 @@
               <h1>Controller ID</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>SHA1234B</h2>
+              <h2>{{controllerid}}</h2>
             </ion-col>
           </ion-row>
       
@@ -145,7 +144,7 @@
               <h1>NEA PLate No.</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>Denyo Group A</h2>
+              <h2>{{neaplateno}}</h2>
             </ion-col>
           </ion-row>
       
@@ -155,7 +154,7 @@
               <h1>Unit Group</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>DCA-600SPV</h2>
+              <h2>{{unitgroup}}</h2>
             </ion-col>
           </ion-row>
       
@@ -164,7 +163,7 @@
               <h1>Generator Model</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>WAB1234567900DENYO</h2>
+              <h2>{{generatormodel}}</h2>
             </ion-col>
           </ion-row>
       
@@ -173,7 +172,7 @@
               <h1>Serial Number</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>AV33912381</h2>
+              <h2>{{serialnumber}}</h2>
             </ion-col>
           </ion-row>
       
@@ -182,7 +181,7 @@
               <h1>Contact Personnel</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>john@denyo.com</h2>
+              <h2>{{alarmnotificationto}}</h2>
             </ion-col>
           </ion-row>
       
@@ -191,7 +190,7 @@
               <h1>Contact Number</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>+19212391238</h2>
+              <h2>{{contacts}}</h2>
             </ion-col>
           </ion-row>
           <br/>
@@ -200,7 +199,7 @@
               <h1>Deployed Location</h1>
             </ion-col>
             <ion-col col-6>
-              <h2>Changi Airport T5</h2>
+              <h2>{{location}}</h2>
             </ion-col>
           </ion-row>
           <br/>
@@ -217,13 +216,13 @@
           </ion-row>
           <ion-row>
             <ion-col col-4>
-              <h2>25-06-2018</h2>
+              <h2>{{fromdate}}</h2>
             </ion-col>
             <ion-col col-4>
-              <h2>26-06-2018</h2>
+              <h2>{{enddate}}</h2>
             </ion-col>
             <ion-col col-4>
-              <h2>1-Time Day</h2>
+              <h2>{{seltimeframe}}</h2>
             </ion-col>
           </ion-row>
         </div>
@@ -232,15 +231,25 @@
           <table>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Time</th>
+                <th  *ngFor="let headitem  of headLists">{{headitem}}</th>
+                <!-- <th>Time</th>
                 <th>Total KWh</th>
                 <th>KWh/day</th>
-                <th>Total Run Hours</th>
+                <th>Total Run Hours</th> -->
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr  *ngFor="let valueitem  of headValue; let i = index">
+                {{i}}
+                <td>{{valueitem.DATEANDTIME}}</td>
+                <td>{{valueitem.FUELLEVEL}}</td>
+                <td>{{valueitem.RUNNINGHR}}</td>
+                <!-- <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td> -->
+              </tr>
+              <!-- <tr>
                 <td>11/01/18</td>
                 <td>9:00AM</td>
                 <td class="algn-right">900</td>
@@ -267,14 +276,7 @@
                 <td class="algn-right">900</td>
                 <td class="algn-right">800</td>
                 <td class="algn-right">1</td>
-              </tr>
-              <tr>
-                <td>11/01/18</td>
-                <td>9:00AM</td>
-                <td class="algn-right">900</td>
-                <td class="algn-right">800</td>
-                <td class="algn-right">1</td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
       

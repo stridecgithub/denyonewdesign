@@ -853,7 +853,7 @@ export class DashboardPage {
         });
         // Add click event
         marker.addListener('click', function () {
-
+          jQuery('.popup').css('display', 'block');
           infowindow.open(this.map, marker);
 
           let popups = document.getElementsByClassName('popup');
