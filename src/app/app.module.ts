@@ -88,6 +88,10 @@ import { ReportviewPage } from '../pages/reportview/reportview';
 import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
 import { EventviewPage } from '../pages/eventview/eventview';
 import { CommentviewPage } from '../pages/commentview/commentview';
+import { EventeditPage } from '../pages/eventedit/eventedit';
+import { EventaddPage } from '../pages/eventadd/eventadd';
+import { CommentreplyPage } from '../pages/commentreply/commentreply';
+import { CommentaddPage } from '../pages/commentadd/commentadd';
 
 import { Network } from '@ionic-native/network';
 
@@ -165,6 +169,10 @@ import { Network } from '@ionic-native/network';
   EventsandcommentsPage,
   EventviewPage,
   CommentviewPage,
+  EventeditPage,
+  EventaddPage,
+  CommentreplyPage,
+  CommentaddPage,
 	//ReporttemplatedetailPage,
   //  ChangepasswordPage,
   
@@ -261,6 +269,10 @@ import { Network } from '@ionic-native/network';
   EventsandcommentsPage,
   EventviewPage,
   CommentviewPage,
+  EventeditPage,
+  EventaddPage,
+  CommentreplyPage,
+  CommentaddPage,
 	//ReporttemplatedetailPage,
     //ChangepasswordPage
     

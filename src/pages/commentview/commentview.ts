@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
+import { CommentreplyPage } from '../commentreply/commentreply';
 
 /**
  * Generated class for the CommentviewPage page.
@@ -25,6 +26,9 @@ export class CommentviewPage {
   
   previous() {
     this.navCtrl.setRoot(EventsandcommentsPage);
+  }
+  commentreply() {
+    this.navCtrl.setRoot(CommentreplyPage);
   }
 
 }

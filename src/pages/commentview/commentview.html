@@ -25,17 +25,7 @@
     
           <div class="unit-title">
     
-            <div class="list-favorite">
-    
-              <button>
-    
-                <!----><ion-icon name="star-outline" role="img" class="icon icon-md ion-md-star-outline" aria-label="star outline"></ion-icon>
-    
-                <!---->
-    
-              </button>
-    
-            </div>
+
     
             <img class="pro" alt="" src="http://denyoappv2.stridecdev.com/images/default.png">
     
@@ -62,8 +52,6 @@
     
     
             <ion-col class="col" col-12="">
-    		 <h1>General Maintenance Event</h1>
-             <h2>27/03/2018 - 9:00AM</h2>
               <p>Lorem Ipsum Dolor Sit Amet Contratry popular Lorem Ipsum Dolor Sit Amet Contratry popular Lorem Ipsum Dolor Sit Amet Contratry popular Lorem Ipsum Dolor Sit Amet Contratry popular Lorem Ipsum Dolor Sit Amet Contratry popular</p>
     
             </ion-col>
@@ -80,11 +68,11 @@
     
             <ion-col class="col" col-12="" style="padding:0;">
     
-              <div class="edit">
+              <div class="edit" (click)="commentreply()">
     
                 <ion-icon name="create" role="img" class="icon icon-md ion-md-create" aria-label="create"></ion-icon>
     
-                <span>Edit</span>
+                <span>Reply</span>
     
               </div>
     
@@ -92,7 +80,7 @@
     
                 <ion-icon name="trash" role="img" class="icon icon-md ion-md-trash" aria-label="trash"></ion-icon>
     
-                <span>Delete</span>
+                <span>Remove</span>
     
               </div>
     

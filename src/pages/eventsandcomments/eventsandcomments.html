@@ -104,7 +104,7 @@
                     </ion-item>
                     <ion-item-options side="right" class="list-item-options">
           
-                      <button ion-button class="edit-btn"  (click)="doAction(unit,'edit',unit.unit_id)">
+                      <button ion-button class="edit-btn" (click)="eventedit()">
                         <img width="25" src="assets/imgs/edit@2x.png">Edit
                       </button>
                       <!--button ion-button class="remove-btn" (click)="doConfirm(unit.unit_id,item)">
@@ -138,7 +138,7 @@
                       </ion-item>
                       <ion-item-options side="right" class="list-item-options">
             
-                        <button ion-button class="edit-btn"  (click)="doAction(unit,'edit',unit.unit_id)">
+                        <button ion-button class="edit-btn" (click)="eventedit()">
                           <img width="25" src="assets/imgs/edit@2x.png">Edit
                         </button>
                         <!--button ion-button class="remove-btn" (click)="doConfirm(unit.unit_id,item)">
@@ -172,7 +172,7 @@
                         </ion-item>
                         <ion-item-options side="right" class="list-item-options">
               
-                          <button ion-button class="edit-btn"  (click)="doAction(unit,'edit',unit.unit_id)">
+                          <button ion-button class="edit-btn" (click)="eventedit()">
                             <img width="25" src="assets/imgs/edit@2x.png">Edit
                           </button>
                           <!--button ion-button class="remove-btn" (click)="doConfirm(unit.unit_id,item)">
@@ -184,7 +184,7 @@
                         </ion-item-options>
                       </ion-item-sliding>
                     </ion-list>
-                                          <h1>Add Event</h1>
+                    <h1 (click)="eventadd()">Add Event</h1>
 
         </div>
         
@@ -203,7 +203,7 @@
   
         <ion-list class="lst">
             <ion-item-sliding #item class="list-item brd item-wrapper" *ngFor="let unit of unitAllLists">
-              <ion-item   (click)="commentview()" class="slide">
+              <ion-item (click)="commentview()" class="slide">
                 <div class="p1">
                           <img alt="" src="http://denyoappv2.stridecdev.com/images/default.png">
                         <div class="check">
@@ -221,8 +221,7 @@
                       </div>
               </ion-item>
               <ion-item-options side="right" class="list-item-options">
-    
-                <button ion-button class="reply-btn"  (click)="doAction(unit,'edit',unit.unit_id)">
+                <button ion-button class="reply-btn" (click)="replycomment()">
                   <img width="25" src="assets/imgs/edit@2x.png">Reply
                 </button>
                 <!--button ion-button class="remove-btn" (click)="doConfirm(unit.unit_id,item)">
@@ -234,7 +233,7 @@
               </ion-item-options>
             </ion-item-sliding>
           </ion-list>
-          <h1>Add Comment</h1>
+          <h1 (click)="commentadd()">Add Comment</h1>
           </div>
           
       </div>
