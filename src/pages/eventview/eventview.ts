@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
+import { EventeditPage } from '../eventedit/eventedit';
 /**
  * Generated class for the EventviewPage page.
  *
@@ -26,4 +27,7 @@ export class EventviewPage {
     this.navCtrl.setRoot(EventsandcommentsPage);
   }
 
+  eventedit() {
+    this.navCtrl.setRoot(EventeditPage);
+  }
 }

@@ -1,0 +1,59 @@
+<!--
+  Generated template for the EventeditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+<ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-buttons left>
+          <button ion-button icon-only (click)="previous()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+          </button>
+      </ion-buttons>
+      <ion-title>Add Event</ion-title>
+    </ion-navbar>
+</ion-toolbar>    
+  </ion-header>
+
+
+<ion-content >
+
+<div>
+    <form class="edit-profo">
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Title
+          </ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <div style="border-top:0px solid #d6d6d6;border-bottom:1px solid #d6d6d6;padding-bottom:15px;background:#f8f8f8;overflow:hidden;" class="sep">
+          <ion-item style="float:left;width:50%;">
+            <ion-label stacked>Time
+            </ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+
+          <ion-item style="float:right;width:50%;" class="time">
+            <ion-label stacked>Time
+            </ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+          <ion-label stacked style="color:#999;">Definition
+          </ion-label>
+          <ion-textarea placeholder="Write Here"></ion-textarea>
+        </ion-item>
+        </div>
+
+      </ion-list>
+      <ion-item style="background-color:#fff;" class="last-btn">
+        <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;">Save</button>
+      </ion-item>
+
+    </form>
+  </div>
+</ion-content>

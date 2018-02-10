@@ -17,6 +17,10 @@ import { AddUnitPage } from "../add-unit/add-unit";
 import { ReportsPage } from "../reports/reports";
 import { EventviewPage } from "../eventview/eventview";
 import { CommentviewPage } from "../commentview/commentview";
+import { EventeditPage } from '../eventedit/eventedit';
+import { EventaddPage } from '../eventadd/eventadd';
+import { CommentaddPage } from '../commentadd/commentadd';
+import { CommentreplyPage } from '../commentreply/commentreply';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -1084,5 +1088,17 @@ export class EventsandcommentsPage {
 
   commentview() {
     this.navCtrl.setRoot(CommentviewPage);
+  }
+  eventedit() {
+  	this.navCtrl.setRoot(EventeditPage);
+  }
+  eventadd() {
+    this.navCtrl.setRoot(EventaddPage);
+  }
+  commentadd() {
+    this.navCtrl.setRoot(CommentaddPage);
+  }
+  replycomment() {
+    this.navCtrl.setRoot(CommentreplyPage);
   }
 }
