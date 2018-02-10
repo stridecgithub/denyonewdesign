@@ -15,7 +15,7 @@ import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { Config } from '../../config/config';
 import * as moment from 'moment';
 declare var jQuery: any;
-declare var triggeredAutocomplete: any;
+/*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the addhocPage page.
  *
@@ -349,7 +349,7 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
-
+/*
 
     // Atmentioned API Calls
     let
@@ -365,15 +365,7 @@ export class ServicedetailsPage {
         if (data.status === 200) {
           this.atmentioneddata = data.json();
           console.log(this.atmentioneddata);
-          jQuery('#description').triggeredAutocomplete({
-            hidden: '#hidden_inputbox',
-            source: this.atmentioneddata
-          });
-
-          jQuery('#service_remark').triggeredAutocomplete({
-            hidden: '#hidden_inputbox',
-            source: this.atmentioneddata
-          });
+         
 
         }
         // Otherwise let 'em know anyway
@@ -383,7 +375,16 @@ export class ServicedetailsPage {
       }, error => {
 
       })
+      jQuery('#description').triggeredAutocomplete({
+        hidden: '#hidden_inputbox',
+        source: this.atmentioneddata
+      });
 
+      jQuery('#service_remark').triggeredAutocomplete({
+        hidden: '#hidden_inputbox',
+        source: this.atmentioneddata
+      });
+      */
     // Atmentioned API Calls
 
   }

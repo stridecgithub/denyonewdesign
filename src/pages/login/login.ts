@@ -9,7 +9,7 @@ import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { TimerProgress } from '../timerprogress/timerprogress';
 import { Keyboard } from '@ionic-native/keyboard';
 declare var jQuery: any;
-declare var triggeredAutocomplete: any;
+/*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the LoginPage page.
  *
