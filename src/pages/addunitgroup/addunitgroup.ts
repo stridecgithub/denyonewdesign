@@ -193,6 +193,7 @@ export class AddunitgroupPage {
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.sendNotification(res.msg[0].result);
+            return false;
           } else {
             this.sendNotification(res.msg[0].result);
             this.nav.setRoot(UnitgroupPage);
@@ -223,8 +224,11 @@ export class AddunitgroupPage {
           console.log("Msg Results:-" + res.msg[0].result);
           this.hideForm = true;
           if (res.msg[0].result > 0) {
+            console.log('1');
             this.sendNotification(res.msg[0].result);
+            return false;
           } else {
+            console.log('2');
             this.sendNotification(res.msg[0].result);
             this.nav.setRoot(UnitgroupPage);
           }
