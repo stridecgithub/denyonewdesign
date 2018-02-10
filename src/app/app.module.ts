@@ -82,7 +82,12 @@ import { CompanydetailPage } from '../pages/companydetail/companydetail';
 import { EngineviewPage } from '../pages/engineview/engineview';
 
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
+
+import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
+import { ReportviewPage } from '../pages/reportview/reportview';
+
 import { Network } from '@ionic-native/network';
+
 @NgModule({
   declarations: [  
     AddorgchartonePage,
@@ -151,11 +156,14 @@ import { Network } from '@ionic-native/network';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
+	RequestdenyoPage,
 	ChangepasswordPage,
+	ReportviewPage,
 	//ReporttemplatedetailPage,
   //  ChangepasswordPage,
   
     EngineviewPage
+	
   ],
   imports: [
     BrowserModule,
@@ -241,8 +249,9 @@ import { Network } from '@ionic-native/network';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
-
+	RequestdenyoPage,
 	ChangepasswordPage,
+	ReportviewPage,
 	//ReporttemplatedetailPage,
     //ChangepasswordPage
     
