@@ -71,12 +71,12 @@ export class DashboardPage {
     this.platform.ready().then(() => {
       this.network.onConnect().subscribe(data => {
         console.log(data)
-        //this.displayNetworkUpdate(data.type);
+        this.displayNetworkUpdate(data.type);
       }, error => console.error(error));
 
       this.network.onDisconnect().subscribe(data => {
         console.log(data)
-       // this.displayNetworkUpdate(data.type);
+       this.displayNetworkUpdate(data.type);
       }, error => console.error(error));
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -106,7 +106,7 @@ export class DashboardPage {
     //   duration: 3000
     // }).present();
 
-    this.conf.sendNotification(`You are now ${connectionState} via ${networkType}`);
+    this.conf.sendNotification(`You are now ${connectionState}`);
 
   }
   ionViewWillLeave() {

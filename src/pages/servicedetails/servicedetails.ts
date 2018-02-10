@@ -536,21 +536,19 @@ export class ServicedetailsPage {
 
 
       let
-        // service_remark: string = this.form.controls["service_remark"].value,
+         service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-        //  description: string = this.form.controls["description"].value,
+          description: string = this.form.controls["description"].value,
         service_subject: string = this.service_subject;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
 
 
-      let description = $('#description').val();
-      console.log(description);
+     
 
-      let service_remark = $('#service_remark').val();
-      console.log(service_remark);
+   
 
       //2015-12-10T17:03:00Z
       console.log(service_scheduled_date)

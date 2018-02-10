@@ -450,7 +450,7 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-
+      let to=$("#to").val();
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +

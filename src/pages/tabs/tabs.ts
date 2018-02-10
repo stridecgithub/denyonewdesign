@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, Events  } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { DashboardPage } from "../dashboard/dashboard";
 import { UnitsPage } from "../units/units";
 import { CalendarPage } from "../calendar/calendar";
@@ -47,14 +47,16 @@ export class TabsPage {
       // Here you can do any higher level native things you might need.
       if (platform.is('android')) {
         console.log("Devices Running...");
-        this.initPushNotification();
+        if (this.userId > 0) {
+          this.initPushNotification();
+        }
       }
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TabsPage');
-    console.log("Page Name"+this.navCtrl.getActive().name);
+    console.log("Page Name" + this.navCtrl.getActive().name);
     this.events.subscribe('menu:created', (menu, time) => {
       console.log(menu);
     });
@@ -101,8 +103,8 @@ export class TabsPage {
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
-        console.log("Message Count:"+this.msgcount);
-        if(this.msgcount==0){this.msgcount='';}
+        console.log("Message Count:" + this.msgcount);
+        if (this.msgcount == 0) { this.msgcount = ''; }
         this.notcount = data.json().notifycount;
       }, error => {
         console.log(error);
@@ -181,68 +183,70 @@ export class TabsPage {
 
 
   }
-    public schedule(notification, cnt) {
-    //this.msgcount = cnt;
-    console.log("D:" + JSON.stringify(notification));
-    this.localNotifications.schedule({
-      title: notification.title,
-      text: notification.message,
-      at: new Date(new Date()),
-      sound: null
-    });
+  public schedule(notification, cnt) {
+    if (this.userId > 0) {
+      //this.msgcount = cnt;
+      console.log("D:" + JSON.stringify(notification));
+      this.localNotifications.schedule({
+        title: notification.title,
+        text: notification.message,
+        at: new Date(new Date()),
+        sound: null
+      });
 
-    localStorage.setItem("navtype", notification.additionalData.arrayval.type);
-    localStorage.setItem("navtid", notification.additionalData.arrayval.id);
+      localStorage.setItem("navtype", notification.additionalData.arrayval.type);
+      localStorage.setItem("navtid", notification.additionalData.arrayval.id);
 
-    this.localNotifications.on("click", (notification, state) => {
-      console.log("Local notification clicked...");
-      console.log("1" + notification);
-      console.log("2" + state);
-      console.log("3" + JSON.stringify(notification));
-      console.log("4" + JSON.stringify(state));
-      let navids = localStorage.getItem("navtid");
-      let navtypes = localStorage.getItem("navtype");
-      console.log(navids);
-      console.log(navtypes);
+      this.localNotifications.on("click", (notification, state) => {
+        console.log("Local notification clicked...");
+        console.log("1" + notification);
+        console.log("2" + state);
+        console.log("3" + JSON.stringify(notification));
+        console.log("4" + JSON.stringify(state));
+        let navids = localStorage.getItem("navtid");
+        let navtypes = localStorage.getItem("navtype");
+        console.log(navids);
+        console.log(navtypes);
 
-      if (navtypes == 'M') {
-        this.navCtrl.setRoot(MessageDetailViewPage, {
-          event_id: navids,
-          from: 'push'
-        });
-      }
-      else if (navtypes == 'OA') {
-        this.navCtrl.setRoot(EventDetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-      } else if (navtypes == 'A') {
-        this.navCtrl.setRoot(EventDetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "AlarmdetailsPage");
-      } else if (navtypes == 'C') {
-        this.navCtrl.setRoot(CommentdetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "CommentdetailsPage");
-      } else if (navtypes == 'E') {
-        this.navCtrl.setRoot(EventDetailsEventPage, {
-          event_id: navids,
-          from: 'Push',
-        });
-        localStorage.setItem("fromModule", "CalendardetailPage");
-      } else if (navtypes == 'S') {
-        this.navCtrl.setRoot(EventDetailsServicePage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "ServicedetailsPage");
-      }
+        if (navtypes == 'M') {
+          this.navCtrl.setRoot(MessageDetailViewPage, {
+            event_id: navids,
+            from: 'push'
+          });
+        }
+        else if (navtypes == 'OA') {
+          this.navCtrl.setRoot(EventDetailsPage, {
+            event_id: navids,
+            from: 'Push'
+          });
+        } else if (navtypes == 'A') {
+          this.navCtrl.setRoot(EventDetailsPage, {
+            event_id: navids,
+            from: 'Push'
+          });
+          localStorage.setItem("fromModule", "AlarmdetailsPage");
+        } else if (navtypes == 'C') {
+          this.navCtrl.setRoot(CommentdetailsPage, {
+            event_id: navids,
+            from: 'Push'
+          });
+          localStorage.setItem("fromModule", "CommentdetailsPage");
+        } else if (navtypes == 'E') {
+          this.navCtrl.setRoot(EventDetailsEventPage, {
+            event_id: navids,
+            from: 'Push',
+          });
+          localStorage.setItem("fromModule", "CalendardetailPage");
+        } else if (navtypes == 'S') {
+          this.navCtrl.setRoot(EventDetailsServicePage, {
+            event_id: navids,
+            from: 'Push'
+          });
+          localStorage.setItem("fromModule", "ServicedetailsPage");
+        }
 
-    });
+      });
 
+    }
   }
 }

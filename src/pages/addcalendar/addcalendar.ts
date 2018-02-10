@@ -524,6 +524,11 @@ export class AddcalendarPage {
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
+
+    if(alldayevent==1){
+      //event_time='';
+      //event_end_time ='';
+    }
     // let timesplit_end = event_end_time.split(":");
     // let hrvalue_end = timesplit_end[0];
     // let minvalue_end = timesplit_end[1];
@@ -810,7 +815,9 @@ export class AddcalendarPage {
         console.log('Positive');
       } else {
         if (type_name != 'Service') {
-
+          console.log("event date start"+event_date);
+           console.log("event date end"+event_end_date)
+console.log(type_name);
           this.conf.sendNotification('End date should be after start date');
           return false;
         }

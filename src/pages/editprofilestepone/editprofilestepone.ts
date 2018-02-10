@@ -52,12 +52,11 @@ export class EditprofilesteponePage {
   public readOnly: boolean = false;
   public hidePasswordField: boolean = false;
 
-  public addedImgLists='';
+  public addedImgLists = '';
   len;
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
-  public hideActionButton = true;
   // Property to help ste the page title
   public pageTitle: string;
   // Property to store the recordID for when an existing entry is being edited
@@ -85,7 +84,7 @@ export class EditprofilesteponePage {
       "contact": ["", Validators.required],
       "job_position": ["", Validators.required],
       "company_id": ["", Validators.required],
-      "report_to": [""],
+      "report_to": ["", Validators.required],
       "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
     });
@@ -147,6 +146,8 @@ export class EditprofilesteponePage {
         console.log(res.settings[0].firstname);
         this.username = res.settings[0].username;
         this.contact = res.settings[0].contact_number;
+        this.photo = res.settings[0].photo_filename;
+        localStorage.setItem("photofromgallery", this.photo);
         if (this.contact != undefined) {
           let contactSplitSpace = this.contact.split(" ");
           this.primary = contactSplitSpace[0];
@@ -175,12 +176,12 @@ export class EditprofilesteponePage {
         //   console.log('Edit Profile One Photo Not Available....')
         // }
 
-        if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
+        if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-           console.log('My Acccount One Photo Available....');
-        }else{
+          console.log('My Acccount One Photo Available....');
+        } else {
           this.addedImgLists = this.apiServiceURL + "/images/default.png";
-           console.log('My Acccount  One Photo Not Available....');
+          console.log('My Acccount  One Photo Not Available....');
         }
 
       }, error => {
@@ -211,12 +212,32 @@ export class EditprofilesteponePage {
 
 
 
-    let userPhotoFile = localStorage.getItem("userPhotoFile");
-    if (userPhotoFile) {
-      console.log("Upload Device Image File:" + userPhotoFile);
-      this.fileTrans(userPhotoFile);
-    }
+    // let userPhotoFile = localStorage.getItem("userPhotoFile");
+    // if (userPhotoFile) {
+    //   console.log("Upload Device Image File:" + userPhotoFile);
+    //   this.fileTrans(userPhotoFile);
+    // }
     contact = contact.replace("+", "%2B");
+    let uploadfromgallery = localStorage.getItem("photofromgallery");
+
+    if (uploadfromgallery != undefined) {
+      console.log('A');
+      this.photo = uploadfromgallery;
+    }
+    if (this.photo == undefined) {
+      console.log('B');
+      this.photo = '';
+    }
+    if (this.photo == 'undefined') {
+      console.log('C');
+      this.photo = '';
+    }
+    if (this.photo == '') {
+      console.log('D');
+      this.photo = '';
+    }
+
+
     let body: string = "is_mobile=1&loggedin_id=" + this.userId +
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
@@ -227,6 +248,7 @@ export class EditprofilesteponePage {
       "&updatedby=" + this.userId +
       "&username=" + this.username +
       "&password=" + this.password +
+      "&report_to=" + this.report_to +
       "&personalhashtag=" + this.hashtag +
       "&company_group=" + company_group,
 
@@ -243,11 +265,12 @@ export class EditprofilesteponePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          if (!userPhotoFile) {
-            localStorage.setItem("userPhotoFile", "");
-            this.conf.sendNotification(`User profile successfully updated`);
-            //this.nav.setRoot(MyaccountPage);
-          }
+          // if (!userPhotoFile) {
+          localStorage.setItem("userPhotoFile", "");
+          localStorage.setItem("photofromgallery", "");
+          // this.conf.sendNotification(`User profile successfully updated`);
+          //this.nav.setRoot(MyaccountPage);
+          //}
         }
         // Otherwise let 'em know anyway
         else {
@@ -396,7 +419,6 @@ export class EditprofilesteponePage {
     console.log("currentName File Name is:" + currentName);
     console.log("fileName File Name is:" + fileName);
     this.photo = fileName;
-
     /*var d = new Date(),
         n = d.getTime(),
         newFileName = n + ".jpg";*/
@@ -418,16 +440,27 @@ export class EditprofilesteponePage {
         console.log(JSON.stringify(data));
         localStorage.setItem("userPhotoFile", "");
         console.log("UPLOAD SUCCESS:" + data.response);
+
+        console.log("File Name:" + JSON.parse(data.response).fileName);
+
+
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
+        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
+
+        console.log("Upload Success File Name" + this.userInfo[0].photo.filename);
+        localStorage.setItem("photofromgallery", this.userInfo[0].photo.filename);
+
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.filename;
+
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
 
         this.isUploadedProcessing = false;
-        return false;
+        //  return false;
 
 
         // Save in Backend and MysQL
@@ -473,6 +506,7 @@ export class EditprofilesteponePage {
             };
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
+              localStorage.setItem("userPhotoFile", imageURI);
               console.log(imageURI);
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
@@ -500,6 +534,7 @@ export class EditprofilesteponePage {
             };
 
             this.camera.getPicture(options).then((uri) => {
+              localStorage.setItem("userPhotoFile", uri);
               console.log(uri);
               this.fileTrans(uri);
               //this.addedAttachList = uri;
