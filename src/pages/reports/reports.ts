@@ -16,7 +16,11 @@ import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
+
+import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
+
 import * as moment from 'moment';
+
 @Component({
   selector: 'page-reports',
   templateUrl: 'reports.html',
@@ -280,10 +284,16 @@ export class ReportsPage {
     this.navCtrl.setRoot(ReportviewPage);
   }
 
+
+  evecomments() {
+    this.navCtrl.setRoot(EventsandcommentsPage);
+  }
+
   filToDate(start_date) {
     console.log("Start Date:" + start_date);
     //this.end_date = start_date.split("T")[0];
   }
+
 
 }
 

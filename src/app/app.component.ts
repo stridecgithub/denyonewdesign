@@ -29,6 +29,7 @@ import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
+import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
 import { Network } from '@ionic-native/network';
 @Component({
   templateUrl: 'app.html',
@@ -174,6 +175,7 @@ export class MyApp {
       { title: 'Message', component: '', icon: 'messages', color: 'gray', background: 'gray' },
       { title: 'Reports', component: '', icon: 'reports', color: 'gray', background: 'gray' },
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
+      { title: 'Events and Comments', component: EventsandcommentsPage, icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
     events.subscribe('user:created', (user, time) => {
@@ -501,6 +503,8 @@ export class MyApp {
       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
       this.navCtrl.setRoot(OrgchartPage);
+    } else if (page.component == 'EventsandcommentsPage') {
+      this.navCtrl.setRoot(EventsandcommentsPage);
     } else if (page.title == 'Message') {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
@@ -532,8 +536,7 @@ export class MyApp {
     } else if (page.title == 'Reports') {
       this.menuCtrl.close();
       this.navCtrl.setRoot(ReportsPage);
-    }
-    else if (page.title == 'Alarm') {
+    } else if (page.title == 'Alarm') {
       this.menuCtrl.close();
       //this.navCtrl.setRoot(AlarmPage);
     }

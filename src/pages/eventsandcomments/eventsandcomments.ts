@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -14,7 +14,9 @@ import { MessageDetailViewPage } from '../message-detail-view/message-detail-vie
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
-import { Network } from '@ionic-native/network';
+import { ReportsPage } from "../reports/reports";
+import { EventviewPage } from "../eventview/eventview";
+import { CommentviewPage } from "../commentview/commentview";
 /**
  * Generated class for the DashboardPage page.
  *
@@ -24,12 +26,10 @@ import { Network } from '@ionic-native/network';
 
 @IonicPage()
 @Component({
-  selector: 'page-dashboard',
-  templateUrl: 'dashboard.html',
-  providers: [Config]
+  selector: 'page-eventsandcomments',
+  templateUrl: 'eventsandcomments.html',
 })
-
-export class DashboardPage {
+export class EventsandcommentsPage {
 
   @ViewChild('map') mapElement: ElementRef;
   public map: any;
@@ -41,8 +41,7 @@ export class DashboardPage {
   public tabs: string = 'mapView';
   public unitsPopups: any;
 
-  connected;
-  disconnected;
+
   private apiServiceURL: string = '';
   public totalCount;
   public unitAllLists = [];
@@ -65,26 +64,13 @@ export class DashboardPage {
   public profilePhoto;
 
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
-
-
-    this.platform.ready().then(() => {
-      this.network.onConnect().subscribe(data => {
-        console.log(data)
-        //this.displayNetworkUpdate(data.type);
-      }, error => console.error(error));
-
-      this.network.onDisconnect().subscribe(data => {
-        console.log(data)
-       // this.displayNetworkUpdate(data.type);
-      }, error => console.error(error));
-    });
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL +"/images/default.png";
     } else {
-      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
     }
 
     this.pages = [
@@ -96,44 +82,6 @@ export class DashboardPage {
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
-
-  }
-
-  displayNetworkUpdate(connectionState: string) {
-    let networkType = this.network.type;
-    // this.toast.create({
-    //   message: `You are now ${connectionState} via ${networkType}`,
-    //   duration: 3000
-    // }).present();
-
-    this.conf.sendNotification(`You are now ${connectionState} via ${networkType}`);
-
-  }
-  ionViewWillLeave() {
-    // this.connected.unsubscribe();
-    // this.disconnected.unsubscribe();
-  }
-  ionViewDidEnter() {
-    // this.network.onConnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.network.onDisconnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.connected = this.network.onConnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.disconnected = this.network.onDisconnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
 
   }
 
@@ -265,8 +213,8 @@ export class DashboardPage {
               alarmnotificationto: res.units[unit].alarmnotificationto,
               genstatus: res.units[unit].genstatus,
               favoriteindication: res.units[unit].favorite,
-              lat: res.units[unit].latitude,
-              lng: res.units[unit].longtitude,
+              lat: res.units[unit].lat,
+              lng: res.units[unit].lng,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid
@@ -404,8 +352,8 @@ export class DashboardPage {
               alarmnotificationto: res.units[unit].alarmnotificationto,
               favoriteindication: res.units[unit].favorite,
               genstatus: res.units[unit].genstatus,
-              lat: res.units[unit].latitude,
-              lng: res.units[unit].longtitude,
+              lat: res.units[unit].lat,
+              lng: res.units[unit].lng,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid
@@ -424,7 +372,7 @@ export class DashboardPage {
           if (res.favorite == 0) {
             this.conf.sendNotification("Unfavorited successfully");
           } else {
-            this.conf.sendNotification("favourite successfully");
+            this.conf.sendNotification("Favorited successfully");
           }
 
 
@@ -1125,5 +1073,16 @@ export class DashboardPage {
     }, 500);
     console.log('E');
   }
-}
 
+  previous() {
+    this.navCtrl.setRoot(ReportsPage);
+  }
+
+  eventview() {
+    this.navCtrl.setRoot(EventviewPage);
+  }
+
+  commentview() {
+    this.navCtrl.setRoot(CommentviewPage);
+  }
+}

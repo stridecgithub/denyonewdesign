@@ -85,6 +85,9 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 
 import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
 import { ReportviewPage } from '../pages/reportview/reportview';
+import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
+import { EventviewPage } from '../pages/eventview/eventview';
+import { CommentviewPage } from '../pages/commentview/commentview';
 
 import { Network } from '@ionic-native/network';
 
@@ -158,7 +161,10 @@ import { Network } from '@ionic-native/network';
     AddrolePage,
 	RequestdenyoPage,
 	ChangepasswordPage,
-	ReportviewPage,
+  ReportviewPage,
+  EventsandcommentsPage,
+  EventviewPage,
+  CommentviewPage,
 	//ReporttemplatedetailPage,
   //  ChangepasswordPage,
   
@@ -251,7 +257,10 @@ import { Network } from '@ionic-native/network';
     EditprofilesteponePage,
 	RequestdenyoPage,
 	ChangepasswordPage,
-	ReportviewPage,
+  ReportviewPage,
+  EventsandcommentsPage,
+  EventviewPage,
+  CommentviewPage,
 	//ReporttemplatedetailPage,
     //ChangepasswordPage
     

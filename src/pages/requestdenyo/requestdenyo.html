@@ -98,7 +98,7 @@
 
         </ion-item>
         
-        <ion-item>
+        <ion-item class="final">
           <ion-label stacked>Format Request <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="seltemplate" formControlName="seltemplate">
             <ion-option *ngFor="let templateData of responseTemplate" value="{{templateData.id}}">{{templateData.templatename}}</ion-option>

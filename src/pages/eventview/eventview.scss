@@ -1,0 +1,145 @@
+page-eventview {
+    .unit-detail .unit-info {
+        border-bottom: #d6d6d6 1px solid;
+		padding-bottom:25px;
+    }
+    .unit-detail .unit-title {
+        font-size: 16px;
+    }
+    .unit-detail .list-favorite {
+        padding: 0;
+        float: right;
+        margin-top: -5px;
+    }
+    .unit-title b, .unit-info strong {
+        font-weight: 500;
+    }
+    .unit-detail .unit-info {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 300;
+    }
+    .new-service h1 {
+        font-size: 16px;
+        background-color: #f8a70f;
+        margin-top: 0;
+        text-align: center;
+        color: #ffffff;
+        padding: 10px 0;
+        font-weight: 300;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .new-service .lst {
+        margin-bottom: 0;
+    }
+    .new-service .lst .brd {
+        border-bottom: 1px solid #d6d6d6;
+    }
+    .new-service .lst .brd .slide {
+        padding: 0;
+        border-bottom: 1px solid #d6d6d6;
+        padding-bottom: 7px;
+    }
+    .item-md.item-block .item-inner {
+        border-bottom: 0px solid #dedede;
+    }
+    .new-service .lst .brd .slide .p1 {
+        overflow: hidden;
+    }
+    .new-service .lst .brd .slide .p1 img {
+        width: 80px;
+        float: left;
+        padding: 0 15px;
+        border-radius: 80%;
+        height: 50px;
+    }
+    .new-service .lst .brd .slide .p1 .check {
+        float: left;
+    }
+    .new-service .lst .brd .slide .p1 .check h3 {
+        margin-top: 0;
+        font-size: 14px;
+        color: #5c5c5c;
+    }
+    .new-service span {
+        font-size: 14px;
+    }
+    .list-item .item-inner .label-md {
+        margin:15px 0;
+    }
+    .list-item .item-inner {
+        padding-left: 0;
+    }
+    .list-item .list-item-options button.delete-btn {
+        background: #c71717;
+    }
+    .new-service span.button-inner {
+        text-transform: capitalize;
+    }
+    .info {
+        margin-top: 0;
+		padding: 0 10px;
+		border:none;
+    }
+    .row {
+        width: 100%;
+    }
+    .info h1 {
+        font-size: 18px;
+        margin-left: 0;
+        color: #555555;
+        margin-top: 0;
+    }
+	.info h2 {
+        font-size: 15px;
+        margin-left: 0;
+        color: #555555;
+        margin-top: 0;
+    }
+    .info p {
+        font-size: 15px;
+        color: #555555;
+        margin-right: 0;
+        margin-top: 0;
+		font-weight:400;
+		line-height:20px;
+    }
+    .buttons {
+        display: inline-block;
+        text-align: center;
+		width: 100%;
+		position:fixed;
+		bottom:0;
+    }
+	.buttons .edit, .buttons .delete {
+		width:50%;
+		min-height:45px;
+		line-height: 25px;
+	}
+	.buttons .edit ion-icon, .buttons .delete ion-icon {
+		float:left;
+		font-size:26px;
+		line-height: 35px;
+	}
+	.buttons span {
+		margin-top:5px;
+		float:left;
+		margin-left: 8px;
+	}
+	.pro {
+		float:left;
+		max-width:13%;
+		margin-right:10px;
+	}
+	.unit-title b, .unit-info strong {
+		font-weight: 400;
+		margin-bottom: 10px;
+	}
+	.list-favorite button ion-icon {
+		color: #949494;
+		font-size: 28px;
+	}
+}
