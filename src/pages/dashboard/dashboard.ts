@@ -265,8 +265,8 @@ export class DashboardPage {
               alarmnotificationto: res.units[unit].alarmnotificationto,
               genstatus: res.units[unit].genstatus,
               favoriteindication: res.units[unit].favorite,
-              lat: res.units[unit].lat,
-              lng: res.units[unit].lng,
+              lat: res.units[unit].latitude,
+              lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid
@@ -404,8 +404,8 @@ export class DashboardPage {
               alarmnotificationto: res.units[unit].alarmnotificationto,
               favoriteindication: res.units[unit].favorite,
               genstatus: res.units[unit].genstatus,
-              lat: res.units[unit].lat,
-              lng: res.units[unit].lng,
+              lat: res.units[unit].latitude,
+              lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid

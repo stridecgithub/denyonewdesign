@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 
-<ion-header>
+<!--<ion-header>
 
     <ion-navbar hideBackButton>
       <button ion-button clear class="left-header-btn" menuToggle>
@@ -26,21 +26,43 @@
       </div>
     </ion-navbar>
   </ion-header>
-<ion-content>
+<ion-content>-->
+
+
+  <ion-header>
+<ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-buttons left>
+          <button ion-button icon-only (click)="previous()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+          </button>
+      </ion-buttons>
+      <ion-title>Report</ion-title>
+      <div class="right-header-btns">
+        <button class="open"(click)="onButtonClick()">
+          <ion-icon name="open"></ion-icon>
+        </button>
+      </div>
+    </ion-navbar>
+    <div class="download-option" *ngIf="buttonClicked">
+    	<ion-row>
+        	<ion-list>PDF</ion-list>
+            <ion-list>CSV</ion-list>
+        </ion-row>
+    </div>
+</ion-toolbar>    
+  </ion-header>
+  
 
 <ion-content padding class="ion-content">
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
-  <div class="error" *ngIf="reportAllLists.length==0" style="color:red;text-align:center">{{noentrymsg}}</div>
+  <div class="error" *ngIf="totalcount==0" style="color:red;text-align:center">{{noentrymsg}}</div>
 
   <div class="tree-outer">
     <div class="tree-overflow">
       <div id="treehtml">
         <div class="tree">
-
-          <!--ul><li>fdsfdsf fdsfsdf gdgfdgfsdgfds gfdsgfdgs gfdsgdsg gfdsgfdsgdf gfdsgfds gfdsgd gdsfgdsgdfsg gfdsg fdsfsdf fdkjfhasjfhashfjkdfhaskd fjkdshfkjhfkjahfashf fskhfkdfhkfhsahfs fdskjfhkfhshfsdkf
-             </li>
-           </ul-->
-          <ion-grid *ngIf="reportAllLists.length>0">
+          <ion-grid *ngIf="totalcount>0">
             <ion-row style="color: white;
     background-color: gray;
     font-size: 12px;">
@@ -87,5 +109,178 @@
     <!--click here to below link<br> <a href="{{pdfDownloadLink}}">Download</a--></div>
   <!--br>
     <a href="{{pdfDownloadLink}}">Download</a-->
+
+
+
+
+      <div class="unit-detail">
+          <div class="unit-title">
+            <h3>Generator #2</h3>
+            <img src="../assets/imgs/denyo_logo.png" />
+          </div>
+        </div>
+      
+        <div class="info">
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Next Servicing Date</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>03-11-2018</h2>
+            </ion-col>
+          </ion-row>
+          <br/>
+          <ion-row>
+            <ion-col col-6>
+              <h1>Controller ID</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>SHA1234B</h2>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>NEA PLate No.</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>Denyo Group A</h2>
+            </ion-col>
+          </ion-row>
+      
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Unit Group</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>DCA-600SPV</h2>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Generator Model</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>WAB1234567900DENYO</h2>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Serial Number</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>AV33912381</h2>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Contact Personnel</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>john@denyo.com</h2>
+            </ion-col>
+          </ion-row>
+      
+          <ion-row>
+            <ion-col col-6>
+              <h1>Contact Number</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>+19212391238</h2>
+            </ion-col>
+          </ion-row>
+          <br/>
+          <ion-row>
+            <ion-col col-6>
+              <h1>Deployed Location</h1>
+            </ion-col>
+            <ion-col col-6>
+              <h2>Changi Airport T5</h2>
+            </ion-col>
+          </ion-row>
+          <br/>
+          <ion-row>
+            <ion-col col-4>
+              <h1>Start Date:</h1>
+            </ion-col>
+            <ion-col col-4>
+              <h1>End Date:</h1>
+            </ion-col>
+            <ion-col col-4>
+              <h1>Time Frame</h1>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-4>
+              <h2>25-06-2018</h2>
+            </ion-col>
+            <ion-col col-4>
+              <h2>26-06-2018</h2>
+            </ion-col>
+            <ion-col col-4>
+              <h2>1-Time Day</h2>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div class="table-view">
+      
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total KWh</th>
+                <th>KWh/day</th>
+                <th>Total Run Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>11/01/18</td>
+                <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td>
+              </tr>
+              <tr>
+                <td>11/01/18</td>
+                <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td>
+              </tr>
+              <tr>
+                <td>11/01/18</td>
+                <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td>
+              </tr>
+              <tr>
+                <td>11/01/18</td>
+                <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td>
+              </tr>
+              <tr>
+                <td>11/01/18</td>
+                <td>9:00AM</td>
+                <td class="algn-right">900</td>
+                <td class="algn-right">800</td>
+                <td class="algn-right">1</td>
+              </tr>
+            </tbody>
+          </table>
+      
+      
+      
+        </div>
+
 
 </ion-content>

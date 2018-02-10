@@ -69,8 +69,10 @@
                 "component": "OrgchartPage"
             }
         ]
-    },
-	{
+
+    },    
+    {
+
         "title": "Logout",
         "icon": "logout",
         "color":"gray"
