@@ -69,11 +69,6 @@
                 "component": "OrgchartPage"
             }
         ]
-    },
-    {
-        "title": "Events & Comments",
-        "icon": "events",
-        "color":"gray"
     }, 
    
     {
