@@ -244,16 +244,16 @@ export class ComposePage {
     // Atmentioned API Calls
 
 
-    if (this.replyforward > 0) {
+    // if (this.replyforward > 0) {
 
-      let imgcount = localStorage.getItem("existingimagecount");
-      if (imgcount != undefined && imgcount != 'undefined' && imgcount != '') {
-        this.existingimagecount = imgcount;
-      } else {
-        localStorage.set("existingimagecount" + this.addedImgLists.length);
-        this.existingimagecount = this.addedImgLists.length;
-      }
-    }
+    //   let imgcount = localStorage.getItem("existingimagecount");
+    //   if (imgcount != undefined && imgcount != 'undefined' && imgcount != '') {
+    //     this.existingimagecount = imgcount;
+    //   } else {
+    //     localStorage.set("existingimagecount" + this.addedImgLists.length);
+    //     this.existingimagecount = this.addedImgLists.length;
+    //   }
+    // }
   }
 
 
