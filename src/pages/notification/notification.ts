@@ -252,23 +252,23 @@ export class NotificationPage {
               }
               console.log("coon" + con);
               let warn_tripped_status;
-              if (res.notification[notifications].notify_type == 'OA') {
-                warn_tripped_status = con.split("<br>")[0];
-                if (warn_tripped_status != '') {
-                  warn_tripped_status = warn_tripped_status;
-                } else {
-                  warn_tripped_status = '';
-                }
-              }
-              if (res.notification[notifications].notify_type == 'A') {
-                warn_tripped_status = con.split("<br>")[2];
-                if (warn_tripped_status != '') {
-                  warn_tripped_status = warn_tripped_status.replace("\n", "");;
-                } else {
-                  warn_tripped_status = '';
-                }
-                console.log("Alarm Warning Status:" + warn_tripped_status);
-              }
+              // if (res.notification[notifications].notify_type == 'OA') {
+              //   warn_tripped_status = con.split("<br>")[0];
+              //   if (warn_tripped_status != '') {
+              //     warn_tripped_status = warn_tripped_status;
+              //   } else {
+              //     warn_tripped_status = '';
+              //   }
+              // }
+              // if (res.notification[notifications].notify_type == 'A') {
+              //   warn_tripped_status = con.split("<br>")[2];
+              //   if (warn_tripped_status != '') {
+              //     warn_tripped_status = warn_tripped_status.replace("\n", "");;
+              //   } else {
+              //     warn_tripped_status = '';
+              //   }
+              //   console.log("Alarm Warning Status:" + warn_tripped_status);
+              // }
 
 
               this.notificationAllLists.push({
@@ -279,7 +279,7 @@ export class NotificationPage {
                 content: res.notification[notifications].content,
                 date_time: res.notification[notifications].date_time,
                 timesince: res.notification[notifications].timesince,
-                warn_tripped_status: warn_tripped_status,
+                priority: res.notification[notifications].priority,
                 notify_by_name: res.notification[notifications].notify_by_name
               });
               console.log(JSON.stringify(this.notificationAllLists));
