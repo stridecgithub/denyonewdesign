@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 
-<ion-header>
+<!--<ion-header>
 
     <ion-navbar hideBackButton>
       <button ion-button clear class="left-header-btn" menuToggle>
@@ -26,11 +26,37 @@
       </div>
     </ion-navbar>
   </ion-header>
-<ion-content>
+<ion-content>-->
+
+
+  <ion-header>
+<ion-toolbar color="primary">
+    <ion-navbar>
+      <ion-buttons left>
+          <button ion-button icon-only (click)="previous()">
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+          </button>
+      </ion-buttons>
+      <ion-title>Report</ion-title>
+      <div class="right-header-btns">
+        <button class="open"(click)="onButtonClick()">
+          <ion-icon name="open"></ion-icon>
+        </button>
+      </div>
+    </ion-navbar>
+    <div class="download-option" *ngIf="buttonClicked">
+    	<ion-row>
+        	<ion-list>PDF</ion-list>
+            <ion-list>CSV</ion-list>
+        </ion-row>
+    </div>
+</ion-toolbar>    
+  </ion-header>
+  
 
 <ion-content padding class="ion-content">
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
-  <div class="error" *ngIf="reportAllLists.length==0" style="color:red;text-align:center">{{noentrymsg}}</div>
+  <div class="error" *ngIf="totalcount==0" style="color:red;text-align:center">{{noentrymsg}}</div>
 
   <div class="tree-outer">
     <div class="tree-overflow">
@@ -40,7 +66,7 @@
           <!--ul><li>fdsfdsf fdsfsdf gdgfdgfsdgfds gfdsgfdgs gfdsgdsg gfdsgfdsgdf gfdsgfds gfdsgd gdsfgdsgdfsg gfdsg fdsfsdf fdkjfhasjfhashfjkdfhaskd fjkdshfkjhfkjahfashf fskhfkdfhkfhsahfs fdskjfhkfhshfsdkf
              </li>
            </ul-->
-          <ion-grid *ngIf="reportAllLists.length>0">
+          <ion-grid *ngIf="totalcount>0">
             <ion-row style="color: white;
     background-color: gray;
     font-size: 12px;">

@@ -51,6 +51,7 @@ export class ReportviewtablePage {
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   profilePhoto;
+  totalcount;
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
@@ -97,7 +98,7 @@ export class ReportviewtablePage {
     this.requestsuccess = '';
     this.success = 0;
     this.requestsuccessview=0;
-    let seltypeBtn = localStorage.getItem("buttonRpt");
+    let seltypeBtn = this.NP.get("val");
     console.log("Select Type Button Submit" + seltypeBtn);
     let action;
     let seltype;
@@ -163,8 +164,11 @@ export class ReportviewtablePage {
           if (seltypeBtn == '1') {
             this.success = 1;
           }
-          if (res.reportdata.length > 0) {
+          if (res.totalcount > 0) {
             this.reportAllLists = res.reportdata;
+            this.totalcount=res.totalcount;
+          }else{
+             this.totalcount=0;
           }
 
           if (data.status === 200) {

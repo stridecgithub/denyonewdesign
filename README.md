@@ -97,3 +97,6 @@ For Image Upload for when Compose Form the following plugin need to be installed
 
 >ionic cordova plugin add cordova-plugin-file-opener2
 >npm install --save @ionic-native/file-opener
+
+>ionic cordova plugin add cordova-plugin-network-information
+>npm install --save @ionic-native/network
