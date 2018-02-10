@@ -62,18 +62,17 @@ console.log("Id"+id+"<==>"+item._value);
 
 console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
 }*/
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddreporttemplatePage');
-  }
-  ionViewWillEnter() {
     if (this.NP.get("record")) {
-      this.pageTitle = "Edit Template";
+      this.pageTitle = "Edit Report Template";
       console.log(this.NP.get("record"));
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
     }
     else {
-      this.pageTitle = "Add Template";
+      this.pageTitle = "Add Report Template";
       this.isEdited = false;
 
     }

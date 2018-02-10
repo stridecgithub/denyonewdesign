@@ -1,4 +1,6 @@
 page-login {
+  .ui-menu-item img { padding-right: 10px; width: 32px; height: 32px; }
+.ui-menu-item span { color: #444; font-size: 12px; vertical-align: top }
   ion-content {
     background: url(../assets/imgs/rainbow-bg@2x.png) no-repeat 0 -30px;
     background-size: 100% auto;

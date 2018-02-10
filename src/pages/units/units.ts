@@ -284,9 +284,9 @@ export class UnitsPage {
     console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
-        this.reportData.startindex = 0;
-        this.unitAllLists = [];
-        this.doUnit();
+        //this.reportData.startindex = 0;
+       // this.unitAllLists = [];
+        //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
           console.log("Kannan:" + res.favorite);
@@ -297,10 +297,7 @@ export class UnitsPage {
           }
         }
 
-        /*
-        console.log(data);
-        let res = data.json();
-
+      
 
         if (res.units.length > 0) {
           for (let unit in res.units) {
@@ -359,7 +356,7 @@ export class UnitsPage {
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
-        } */
+        }
       }, error => {
         console.log(error);// + "\n" + error;
       });

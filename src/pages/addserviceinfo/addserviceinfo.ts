@@ -16,6 +16,8 @@ import { Config } from '../../config/config';
 import { FileChooser } from '@ionic-native/file-chooser';
 import * as moment from 'moment';
 import 'moment-timezone';
+declare var jQuery: any;
+declare var triggeredAutocomplete: any;
 /**
  * Generated class for the AddserviceinfoPage page.
  *
@@ -88,8 +90,12 @@ export class AddserviceinfoPage {
     addedImgLists1: '',
     addedImgLists2: ''
   }
+
   public hideActionButton = true;
   tabBarElement: any;
+  public atmentioneddata = [];
+  public companyId: any;
+
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     //this.mindate = moment().format('Y-MM-DTH:mm:ss A');
@@ -97,8 +103,8 @@ export class AddserviceinfoPage {
 
     //console.log("fdsffsf" + momentdate);
     //moment().format('MMMM Do YYYY, h:mm:ss a'); // January 16th 2018, 10:40:22 pm
-    let  date=new Date();
-    this.currentyear= date.getFullYear();
+    let date = new Date();
+    this.currentyear = date.getFullYear();
 
     console.log("Min date:" + this.mindate);
     this.isFuture = 0;
@@ -211,6 +217,36 @@ export class AddserviceinfoPage {
     this.addedServiceImgLists = [];
     console.log('ionViewDidLoad AddserviceinfoPage');
     localStorage.setItem("fromModule", "AddserviceinfoPage");
+
+    // Atmentioned API Calls
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
+    console.log(url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.atmentioneddata = data.json();
+          console.log(this.atmentioneddata);
+          jQuery('#inputbox').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+
+    // Atmentioned API Calls
+
   }
   ionViewWillEnter() {
     let //body: string = "loginid=" + this.userId,
@@ -433,6 +469,9 @@ export class AddserviceinfoPage {
   }
 
   saveEntry() {
+
+   
+
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
@@ -445,13 +484,11 @@ export class AddserviceinfoPage {
 
 
         let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
-          // service_remark: string = this.form.controls["service_remark"].value,
-          // next_service_date: string = this.form.controls["next_service_date"].value,
           serviced_by: string = this.unitDetailData.userId,
-          // is_request: string = this.form.controls["is_request"].value,
-          service_subject: string = this.form.controls["service_subject"].value,
-          description: string = this.form.controls["description"].value;
-
+          service_subject: string = this.form.controls["service_subject"].value;
+          //description: string = this.form.controls["description"].value;
+          let description = $('#inputbox').val();
+          console.log(description);
         //2015-12-10T17:03:00Z
         console.log("serviced_datetime:" + serviced_datetime);
 
@@ -468,7 +505,7 @@ export class AddserviceinfoPage {
         let ampmstr = 'AM';
         if (this.hrvalue > 12) {
           ampmstr = 'PM';
-        }else{
+        } else {
 
         }
         serviced_datetime = this.serviced_datetime.split("T")[0];
@@ -497,7 +534,7 @@ export class AddserviceinfoPage {
   // for the record data
   createEntry(serviced_time, description, serviced_date, serviced_by, service_subject) {
     this.isSubmitted = true;
-    
+
 
 
     if (this.service_priority == undefined) {
@@ -521,7 +558,7 @@ export class AddserviceinfoPage {
       serviced_date = this.serviced_datetime
     }
 
-    description = localStorage.getItem("atMentionResult");
+    //description = localStorage.getItem("atMentionResult");
     //http://denyoappv2.stridecdev.com/newserviceschedule?is_mobile=1&unitid=1&subject=newschduleservice&dateandtime=2017-11-20&description=newscheduledformdescriotion&created_by=1&time=8 AM
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
@@ -562,7 +599,7 @@ export class AddserviceinfoPage {
           // this.conf.sendNotification(res.msg[0]['result']);
           //}
           this.conf.sendNotification(`New Service Scheduled Added successfully`);
-        
+
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -613,7 +650,7 @@ export class AddserviceinfoPage {
     return result;
   }
 
- 
+
 
 
 
@@ -893,19 +930,19 @@ export class AddserviceinfoPage {
     } else {
       this.mn = mn;
     }
-    let dd =  date.getDate();
+    let dd = date.getDate();
     if (dd < 10) {
       this.dd = "0" + dd;
     } else {
       this.dd = dd;
     }
 
-    let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
+    let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-      
+
     } else {
-       this.serviced_datetime = moment().format();
+      this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
   }

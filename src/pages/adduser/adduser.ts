@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
- 
+
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -339,53 +339,85 @@ export class AdduserPage {
   // for the record data
   createEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
 
-    if (this.photo == undefined) {
-      this.photo = '';
-    }
-    if (this.photo == 'undefined') {
-      this.photo = '';
-    }
-    if (this.photo == '') {
-      this.photo = '';
-    }
-    contact = contact.replace("+", "%2B");
-    let body: string = "is_mobile=1&firstname=" + this.first_name +
-      "&lastname=" + this.last_name +
-      "&photo=" + this.photo +
-      "&email=" + this.email +
-      "&country_id=" + this.country +
-      "&contact_number=" + contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
-      "&username=" + username +
-      "&password=" + password +
-      "&role_id=" + role +
-      "&personalhashtag=" + hashtag +
-      "&report_to=" + report_to +
-      "&company_id=" + company_group +
-      "&job_position=" + job_position,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/staff/store";
-    console.log(url);
-    console.log(body);
 
-    this.http.post(url, body, options)
+
+    let body1: string = "username=" + username + "&id=0",
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
+      url1: any = this.apiServiceURL + "/checkusername";
+
+    this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        console.log(JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.hideForm = true;
-          this.sendNotification(`User created was successfully added`);
-          localStorage.setItem("userPhotoFile", "");
-          this.nav.setRoot(UserPage);
+          console.log("create" + data.json().msg[0].Error);
+          console.log('1');
+          if (data.json().msg[0].Error > 0) {
+            this.sendNotification(data.json().msg[0].result);
+            return false;
+          } else {
+            this.sendNotification(data.json().message);
+            console.log("create" + data.json().msg[0].Error);
+            console.log('2');
+            if (this.photo == undefined) {
+              this.photo = '';
+            }
+            if (this.photo == 'undefined') {
+              this.photo = '';
+            }
+            if (this.photo == '') {
+              this.photo = '';
+            }
+            contact = contact.replace("+", "%2B");
+            let body: string = "is_mobile=1&firstname=" + this.first_name +
+              "&lastname=" + this.last_name +
+              "&photo=" + this.photo +
+              "&email=" + this.email +
+              "&country_id=" + this.country +
+              "&contact_number=" + contact +
+              "&createdby=" + createdby +
+              "&updatedby=" + createdby +
+              "&username=" + username +
+              "&password=" + password +
+              "&role_id=" + role +
+              "&personalhashtag=" + hashtag +
+              "&report_to=" + report_to +
+              "&company_id=" + company_group +
+              "&job_position=" + job_position,
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/staff/store";
+            console.log(url);
+            console.log(body);
+
+            this.http.post(url, body, options)
+              .subscribe((data) => {
+                //console.log("Response Success:" + JSON.stringify(data.json()));
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  this.sendNotification(`User created was successfully added`);
+                  localStorage.setItem("userPhotoFile", "");
+                  this.nav.setRoot(UserPage);
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.sendNotification('Something went wrong!');
+                }
+              });
+          }
         }
         // Otherwise let 'em know anyway
         else {
           this.sendNotification('Something went wrong!');
         }
       });
+
+
+
 
   }
 
@@ -406,7 +438,7 @@ export class AdduserPage {
     }
     contact = contact.replace("+", "%2B");
 
-    
+
     if (this.photo == undefined) {
       this.photo = '';
     }
@@ -417,43 +449,73 @@ export class AdduserPage {
       this.photo = '';
     }
 
-    let body: string = "is_mobile=1&staff_id=" + this.recordID +
-      "&firstname=" + this.first_name +
-      "&lastname=" + this.last_name +
-      "&photo=" + this.photo +
-      "&email=" + this.email +
-      "&country_id=" + this.country +
-      "&contact_number=" + contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
-      "&username=" + username +
-      "&password=" + password +
-      "&role_id=" + role +
-      "&personalhashtag=" + hashtag +
-      "&report_to=" + report_to +
-      "&company_id=" + company_group +
-      "&job_position=" + job_position,
 
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/staff/update";
-    console.log(url);
-    console.log(body);
-    this.http.post(url, body, options)
-      .subscribe(data => {
-        console.log(data);
+    let body1: string = "username=" + username + "&id=" + this.recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
+      url1: any = this.apiServiceURL + "/checkusername";
+    this.http.post(url1, body1, options1)
+      .subscribe((data) => {
+        console.log(JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.hideForm = true;
-          this.sendNotification(`User updated was successfully updated`);
-          this.nav.setRoot(UserPage);
+          console.log("update" + data.json().msg[0].Error);
+          if (data.json().msg[0].Error > 0) {
+            //this.userInfo=[];
+            this.sendNotification(data.json().msg[0].result);
+            return false;
+          } else {
+
+            let body: string = "is_mobile=1&staff_id=" + this.recordID +
+              "&firstname=" + this.first_name +
+              "&lastname=" + this.last_name +
+              "&photo=" + this.photo +
+              "&email=" + this.email +
+              "&country_id=" + this.country +
+              "&contact_number=" + contact +
+              "&createdby=" + createdby +
+              "&updatedby=" + createdby +
+              "&username=" + username +
+              "&password=" + password +
+              "&role_id=" + role +
+              "&personalhashtag=" + hashtag +
+              "&report_to=" + report_to +
+              "&company_id=" + company_group +
+              "&job_position=" + job_position,
+
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/staff/update";
+            console.log(url);
+            console.log(body);
+            this.http.post(url, body, options)
+              .subscribe(data => {
+                console.log(data);
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  this.sendNotification(`User updated was successfully updated`);
+                  this.nav.setRoot(UserPage);
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.sendNotification('Something went wrong!');
+                }
+              });
+            this.sendNotification(data.json().message);
+
+          }
         }
+
         // Otherwise let 'em know anyway
         else {
           this.sendNotification('Something went wrong!');
         }
       });
+
+
   }
 
 

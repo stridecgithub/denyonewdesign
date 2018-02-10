@@ -327,10 +327,10 @@ export class UnitdetailsPage {
 						let voltagecolor_4 = '#df0000'; //localStorage.getItem("voltagecolor_4");
 						let voltagegauge = new Gauge(jQuery('.voltagegauge'), {
 							values: {
-								10: voltagelabel_0, 20: voltagelabel_1, 80: voltagelabel_2, 85: voltagelabel_3
+								10: voltagelabel_0, 20: voltagelabel_1, 80: voltagelabel_2, 90: voltagelabel_3
 							},
 							colors: {
-								0: voltagecolor_0, 10: voltagecolor_1, 20: voltagecolor_2, 80: voltagecolor_3, 85: voltagecolor_4
+								0: voltagecolor_0, 10: voltagecolor_1, 20: voltagecolor_2, 80: voltagecolor_3, 90: voltagecolor_4
 							},
 							angles: [90, 380],
 							lineWidth: 8,
@@ -471,10 +471,10 @@ export class UnitdetailsPage {
 						let enginespeedgauge = new Gauge(jQuery('.enginespeedgauge'), {
 
 							values: {
-								10: enginespeedlabel_0, 20: enginespeedlabel_1, 80: enginespeedlabel_2, 85: enginespeedlabel_3
+								12.5: enginespeedlabel_0, 25: enginespeedlabel_1, 80: enginespeedlabel_2, 87.5: enginespeedlabel_3
 							},
 							colors: {
-								0: enginespeedcolor_0, 10: enginespeedcolor_1, 20: enginespeedcolor_2, 80: enginespeedcolor_3, 85: enginespeedcolor_4
+								0: enginespeedcolor_0, 12.5: enginespeedcolor_1, 25: enginespeedcolor_2, 80: enginespeedcolor_3, 87.5: enginespeedcolor_4
 							},
 							angles: [90, 380],
 							lineWidth: 8,
@@ -1516,6 +1516,7 @@ export class UnitdetailsPage {
 		console.log('action' + action);
 		let acttitle;
 		if (action == 'on') {
+			acttitle = "START";
 			action = "START";
 		}
 		if (action == 'off') {

@@ -86,6 +86,8 @@ import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
 import { ReportviewPage } from '../pages/reportview/reportview';
 
+import { Network } from '@ionic-native/network';
+
 @NgModule({
   declarations: [  
     AddorgchartonePage,
@@ -260,6 +262,7 @@ import { ReportviewPage } from '../pages/reportview/reportview';
     StatusBar,
     SplashScreen,
     NativeStorage,
+    Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider
   ]
