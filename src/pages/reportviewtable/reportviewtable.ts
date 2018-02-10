@@ -52,6 +52,8 @@ export class ReportviewtablePage {
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   profilePhoto;
   totalcount;
+  location;
+  public buttonClicked: boolean = false;
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
@@ -94,6 +96,10 @@ export class ReportviewtablePage {
         this.notcount = data.json().notifycount;
       });
   }
+  public onButtonClick() {
+
+    this.buttonClicked = !this.buttonClicked;
+}
   ionViewDidLoad() {
     this.requestsuccess = '';
     this.success = 0;
@@ -167,6 +173,20 @@ export class ReportviewtablePage {
           if (res.totalcount > 0) {
             this.reportAllLists = res.reportdata;
             this.totalcount=res.totalcount;
+
+this.location=res.unitdata.location;
+/*unitname
+projectname
+controllerid
+alarmnotificationto
+alarmhashtags
+neaplateno
+serialnumber
+nextservicedate
+contacts
+fromdate
+           "fromdate":"2018-02-11","todate":"2018-02-10","unitid":"2","timeframe":"1time","generatormodel":"DCA60ES12"
+*/
           }else{
              this.totalcount=0;
           }

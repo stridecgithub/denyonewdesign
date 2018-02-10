@@ -433,8 +433,10 @@ export class ComposePage {
     if (copytome == true) {
       copytome = '1';
     }
-    if (localStorage.getItem("atMentionResult") != '') {
-      to = localStorage.getItem("atMentionResult");
+    if (this.replyforward == 0) {
+      if (localStorage.getItem("atMentionResult") != '') {
+        to = localStorage.getItem("atMentionResult");
+      }
     }
     let param;
     let urlstring;
