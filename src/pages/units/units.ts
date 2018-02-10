@@ -291,9 +291,9 @@ export class UnitsPage {
         if (data.status === 200) {
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavorited successfully");
+            this.conf.sendNotification("Unfavourited successfully");
           } else {
-            this.conf.sendNotification("Favorited successfully");
+            this.conf.sendNotification("favourite successfully");
           }
         }
 
@@ -343,20 +343,20 @@ export class UnitsPage {
         }
 
         // If the request was successful notify the user
-        if (data.status === 200) {
-          console.log("Kannan:" + res.favorite);
-          if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavorited successfully");
-          } else {
-            this.conf.sendNotification("Favorited successfully");
-          }
+        // if (data.status === 200) {
+        //   console.log("Kannan:" + res.favorite);
+        //   if (res.favorite == 0) {
+        //     this.conf.sendNotification("Unfavorited successfully");
+        //   } else {
+        //     this.conf.sendNotification("Favorited successfully");
+        //   }
 
 
-        }
+        // }
         // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
+        // else {
+        //   this.conf.sendNotification('Something went wrong!');
+        // }
       }, error => {
         console.log(error);// + "\n" + error;
       });
