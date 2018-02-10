@@ -1,0 +1,81 @@
+page-eventsandcomments {
+    .unit-detail {
+        border-bottom: #000 5px solid;
+    }
+    .unit-detail .unit-title {
+        font-size: 16px;
+    }
+    .unit-detail .list-favorite {
+        padding: 0;
+        float: right;
+        margin-top: -5px;
+    }
+    .unit-title b, .unit-info strong {
+        font-weight: 500;
+    }
+    .unit-detail .unit-info {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 300;
+    }
+    .new-service h1 {
+        font-size: 16px;
+        background-color: #f8a70f;
+        margin-top: 0;
+        text-align: center;
+        color: #ffffff;
+        padding: 10px 0;
+        font-weight: 300;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .new-service .lst {
+        margin-bottom: 0;
+    }
+    .new-service .lst .brd {
+        border-bottom: 1px solid #d6d6d6;
+    }
+    .new-service .lst .brd .slide {
+        padding: 0;
+        border-bottom: 1px solid #d6d6d6;
+        padding-bottom: 7px;
+    }
+    .item-md.item-block .item-inner {
+        border-bottom: 0px solid #dedede;
+    }
+    .new-service .lst .brd .slide .p1 {
+        overflow: hidden;
+    }
+    .new-service .lst .brd .slide .p1 img {
+        width: 80px;
+        float: left;
+        padding: 0 15px;
+        border-radius: 80%;
+        height: 50px;
+    }
+    .new-service .lst .brd .slide .p1 .check {
+        float: left;
+    }
+    .new-service .lst .brd .slide .p1 .check h3 {
+        margin-top: 0;
+        font-size: 14px;
+        color: #5c5c5c;
+    }
+    .new-service span {
+        font-size: 14px;
+    }
+    .list-item .item-inner .label-md {
+        margin:15px 0;
+    }
+    .list-item .item-inner {
+        padding-left: 0;
+    }
+    .list-item .list-item-options button.delete-btn {
+        background: #c71717;
+    }
+    .new-service span.button-inner {
+        text-transform: capitalize;
+    }
+}

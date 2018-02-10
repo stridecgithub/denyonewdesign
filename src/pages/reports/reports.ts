@@ -16,6 +16,7 @@ import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
+import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 @Component({
   selector: 'page-reports',
   templateUrl: 'reports.html',
@@ -270,6 +271,10 @@ export class ReportsPage {
   
   viewreportpage() {
     this.navCtrl.setRoot(ReportviewPage);
+  }
+
+  evecomments() {
+    this.navCtrl.setRoot(EventsandcommentsPage);
   }
 }
 
