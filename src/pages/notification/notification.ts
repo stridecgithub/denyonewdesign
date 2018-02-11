@@ -385,6 +385,8 @@ export class NotificationPage {
       this.navCtrl.setRoot(OrgchartPage);
     } else if (this.previousPage == 'DashboardPage') {
       this.navCtrl.setRoot(DashboardPage);
+    } else {
+      this.navCtrl.setRoot(DashboardPage);
     }
   }
 
