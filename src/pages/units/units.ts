@@ -5,6 +5,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from "../add-unit/add-unit";
+import { MapPage } from '../map/map';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -51,10 +52,10 @@ export class UnitsPage {
   constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
@@ -272,96 +273,104 @@ export class UnitsPage {
 
   // Favorite Action
 
-  favorite(unit_id) {
-    this.reportData.startindex = 0;
-    this.unitAllLists = [];
-    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId+ "&company_id=" + this.companyId,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/setunitfavorite";
-    console.log(url);
-    console.log(body);
-    this.http.post(url, body, options)
-      .subscribe(data => {
-        //this.reportData.startindex = 0;
-       // this.unitAllLists = [];
-        //this.doUnit();
-        let res = data.json();
-        if (data.status === 200) {
-          console.log("Kannan:" + res.favorite);
-          if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavourited successfully");
-          } else {
-            this.conf.sendNotification("favourite successfully");
-          }
-        }
-
-      
-
-        if (res.units.length > 0) {
-          for (let unit in res.units) {
-            let cname = res.units[unit].unitgroup_name;
-
-            if (cname != 'undefined' && cname != undefined) {
-              let stringToSplit = cname;
-              let x = stringToSplit.split("");
-              cname = x[0].toUpperCase();
-            } else {
-              cname = '';
-            }
-            console.log("Favorite is:" + res.units[unit].favorite);
-            this.unitAllLists.push({
-              unit_id: res.units[unit].unit_id,
-              unitname: res.units[unit].unitname,
-              location: res.units[unit].location,
-              contacts: res.units[unit].contacts,
-              projectname: res.units[unit].projectname,
-              colorcode: res.units[unit].colorcode,
-              nextservicedate: res.units[unit].nextservicedate,
-              neaplateno: res.units[unit].neaplateno,
-              serial_number: res.units[unit].serialnumber,
-              companys_id: res.units[unit].companys_id,
-              unitgroups_id: res.units[unit].unitgroups_id,
-              models_id: res.units[unit].models_id,
-              alarmnotificationto: res.units[unit].alarmnotificationto,
-              favoriteindication: res.units[unit].favorite,
-              genstatus: res.units[unit].genstatus,
-              lat: res.units[unit].lat,
-              lng: res.units[unit].lng,
-              runninghr: res.units[unit].runninghr,
-              companygroup_name: cname,
-              nextservicedate_mobileview: res.units[unit].nextservicedate_mobileview,
-              duedatecolor: res.units[unit].duedatecolor
-            });
-          }
-          //this.unitAllLists = res.units;
-          this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
-        } else {
-          this.totalCount = 0;
-        }
-
-        // If the request was successful notify the user
-        // if (data.status === 200) {
-        //   console.log("Kannan:" + res.favorite);
-        //   if (res.favorite == 0) {
-        //     this.conf.sendNotification("Unfavorited successfully");
-        //   } else {
-        //     this.conf.sendNotification("Favorited successfully");
-        //   }
-
-
-        // }
-        // Otherwise let 'em know anyway
-        // else {
-        //   this.conf.sendNotification('Something went wrong!');
-        // }
-      }, error => {
-        console.log(error);// + "\n" + error;
+  favorite(unit_id, act) {
+    if (act == 'viewmap') {
+      this.navCtrl.setRoot(MapPage, {
+        act: act,
+        unitId: unit_id
       });
+      return false;
+    } else {
+      this.reportData.startindex = 0;
+      this.unitAllLists = [];
+      let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId + "&company_id=" + this.companyId,
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/setunitfavorite";
+      console.log(url);
+      console.log(body);
+      this.http.post(url, body, options)
+        .subscribe(data => {
+          //this.reportData.startindex = 0;
+          // this.unitAllLists = [];
+          //this.doUnit();
+          let res = data.json();
+          if (data.status === 200) {
+            console.log("Kannan:" + res.favorite);
+            if (res.favorite == 0) {
+              this.conf.sendNotification("Unfavourited successfully");
+            } else {
+              this.conf.sendNotification("favourite successfully");
+            }
+          }
 
-    //this.doUnit();
+
+
+          if (res.units.length > 0) {
+            for (let unit in res.units) {
+              let cname = res.units[unit].unitgroup_name;
+
+              if (cname != 'undefined' && cname != undefined) {
+                let stringToSplit = cname;
+                let x = stringToSplit.split("");
+                cname = x[0].toUpperCase();
+              } else {
+                cname = '';
+              }
+              console.log("Favorite is:" + res.units[unit].favorite);
+              this.unitAllLists.push({
+                unit_id: res.units[unit].unit_id,
+                unitname: res.units[unit].unitname,
+                location: res.units[unit].location,
+                contacts: res.units[unit].contacts,
+                projectname: res.units[unit].projectname,
+                colorcode: res.units[unit].colorcode,
+                nextservicedate: res.units[unit].nextservicedate,
+                neaplateno: res.units[unit].neaplateno,
+                serial_number: res.units[unit].serialnumber,
+                companys_id: res.units[unit].companys_id,
+                unitgroups_id: res.units[unit].unitgroups_id,
+                models_id: res.units[unit].models_id,
+                alarmnotificationto: res.units[unit].alarmnotificationto,
+                favoriteindication: res.units[unit].favorite,
+                genstatus: res.units[unit].genstatus,
+                lat: res.units[unit].lat,
+                lng: res.units[unit].lng,
+                runninghr: res.units[unit].runninghr,
+                companygroup_name: cname,
+                nextservicedate_mobileview: res.units[unit].nextservicedate_mobileview,
+                duedatecolor: res.units[unit].duedatecolor
+              });
+            }
+            //this.unitAllLists = res.units;
+            this.totalCount = res.totalCount;
+            this.reportData.startindex += this.reportData.results;
+          } else {
+            this.totalCount = 0;
+          }
+
+          // If the request was successful notify the user
+          // if (data.status === 200) {
+          //   console.log("Kannan:" + res.favorite);
+          //   if (res.favorite == 0) {
+          //     this.conf.sendNotification("Unfavorited successfully");
+          //   } else {
+          //     this.conf.sendNotification("Favorited successfully");
+          //   }
+
+
+          // }
+          // Otherwise let 'em know anyway
+          // else {
+          //   this.conf.sendNotification('Something went wrong!');
+          // }
+        }, error => {
+          console.log(error);// + "\n" + error;
+        });
+
+      //this.doUnit();
+    }
   }
 
   doSort() {
@@ -500,6 +509,13 @@ export class UnitsPage {
         record: item
       });
       return false;
+    } else if (act == 'viewmap') {
+      this.navCtrl.setRoot(MapPage, {
+        record: item,
+        act: act,
+        unitId: unitId
+      });
+      return false;
     } else {
 
     }
@@ -580,6 +596,8 @@ export class UnitsPage {
     }, 500);
     console.log('E');
   }
+
+
 
 }
 

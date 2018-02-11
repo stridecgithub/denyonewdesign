@@ -92,14 +92,17 @@ import { EventeditPage } from '../pages/eventedit/eventedit';
 import { EventaddPage } from '../pages/eventadd/eventadd';
 import { CommentreplyPage } from '../pages/commentreply/commentreply';
 import { CommentaddPage } from '../pages/commentadd/commentadd';
-
+import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
-
+import { ConferenceData } from '../providers/conference-data';
+import { UserData } from '../providers/user-data';
+import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
-  declarations: [  
+  declarations: [
+    MapPage,
     AddorgchartonePage,
     CompanydetailPage,
-    ReportviewtablePage, 
+    ReportviewtablePage,
     AdduserPage,
     AddreporttemplatePage,
     ReporttemplatePage,
@@ -163,21 +166,21 @@ import { Network } from '@ionic-native/network';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
-	RequestdenyoPage,
-	ChangepasswordPage,
-  ReportviewPage,
-  EventsandcommentsPage,
-  EventviewPage,
-  CommentviewPage,
-  EventeditPage,
-  EventaddPage,
-  CommentreplyPage,
-  CommentaddPage,
-	//ReporttemplatedetailPage,
-  //  ChangepasswordPage,
-  
+    RequestdenyoPage,
+    ChangepasswordPage,
+    ReportviewPage,
+    EventsandcommentsPage,
+    EventviewPage,
+    CommentviewPage,
+    EventeditPage,
+    EventaddPage,
+    CommentreplyPage,
+    CommentaddPage,
+    //ReporttemplatedetailPage,
+    //  ChangepasswordPage,
+
     EngineviewPage
-	
+
   ],
   imports: [
     BrowserModule,
@@ -195,12 +198,14 @@ import { Network } from '@ionic-native/network';
         }
       }
     },
-    )],
+    
+    ) , IonicStorageModule.forRoot()],
   bootstrap: [IonicApp],
   entryComponents: [
+    MapPage,
     AddorgchartonePage,
-    ReportviewtablePage, 
-    CompanydetailPage,   
+    ReportviewtablePage,
+    CompanydetailPage,
     AddrolePage,
     AdduserPage,
     AddreporttemplatePage,
@@ -263,19 +268,19 @@ import { Network } from '@ionic-native/network';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
-	RequestdenyoPage,
-	ChangepasswordPage,
-  ReportviewPage,
-  EventsandcommentsPage,
-  EventviewPage,
-  CommentviewPage,
-  EventeditPage,
-  EventaddPage,
-  CommentreplyPage,
-  CommentaddPage,
-	//ReporttemplatedetailPage,
+    RequestdenyoPage,
+    ChangepasswordPage,
+    ReportviewPage,
+    EventsandcommentsPage,
+    EventviewPage,
+    CommentviewPage,
+    EventeditPage,
+    EventaddPage,
+    CommentreplyPage,
+    CommentaddPage,
+    //ReporttemplatedetailPage,
     //ChangepasswordPage
-    
+
     EngineviewPage
   ],
   providers: [
@@ -285,7 +290,9 @@ import { Network } from '@ionic-native/network';
     NativeStorage,
     Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    DataServiceProvider
+    DataServiceProvider,
+    ConferenceData,
+    UserData,
   ]
 })
 export class AppModule {
