@@ -14,7 +14,7 @@ import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
-
+import { TabsPage } from "../pages/tabs/tabs";
 /**
  * Generated class for the AddorgchartonePage page.
  *
@@ -440,7 +440,7 @@ export class AddorgchartonePage {
     notification.present();
   }
   previous() {
-    this.nav.setRoot(OrgchartPage);
+    this.nav.setRoot(TabsPage, { tabIndex: 4 });
   }
   notification() {
     this.nav.setRoot(NotificationPage);
