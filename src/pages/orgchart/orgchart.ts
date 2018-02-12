@@ -371,7 +371,7 @@ export class OrgchartPage {
 
 
   doAdd() {
-    //this.navCtrl.setRoot(AddorgchartonePage);
+    this.navCtrl.setRoot(AddorgchartonePage);
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
