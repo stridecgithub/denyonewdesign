@@ -125,7 +125,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row class="servicing-details-heading" style="text-align: center; padding-top: 0; font-size: 14px">
+  <!-- <ion-row class="servicing-details-heading" style="text-align: center; padding-top: 0; font-size: 14px">
     <ion-col class="col" col-12>
       <h4>Schedule Next Servicing</h4>
     </ion-col>
@@ -161,7 +161,9 @@
      
        <div  style="color: #000;   
    text-align:center;padding-bottom: 6px;"  *ngIf="unitDetailData.nextServiceDate!=''"><b>Next Service Date:</b>{{unitDetailData.nextServiceDate}}</div>
- <div class="save-btn">
+  -->
+ 
+   <div class="save-btn">
     <button [disabled]="!form.valid  || isSubmitted">Save</button>
   </div>
   </form>

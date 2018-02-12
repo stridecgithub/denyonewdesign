@@ -41,6 +41,13 @@
     <div class="servicing-details-form">
       <ion-list>
 
+
+          <ion-item>
+              <ion-label stacked>Subject</ion-label>
+              <ion-textarea formControlName="service_subject" [(ngModel)]="service_subject"></ion-textarea>
+            </ion-item>
+
+
         <ion-item>
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime min="{{currentyear}}" max="3000" formControlName="service_scheduled_date"  (ionChange)="futureDateValidation(service_scheduled_date)" [(ngModel)]="service_scheduled_date"  pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"

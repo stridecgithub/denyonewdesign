@@ -133,6 +133,7 @@ export class ServicedetailsPage {
     this.form = formBuilder.group({
       profilePic: [''],
       service_remark: ['', Validators.required],
+      service_subject: ['', Validators.required],
       serviced_by: [''],
       next_service_date: [''],
       is_request: [''],
@@ -349,42 +350,42 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
-/*
-
-    // Atmentioned API Calls
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
-      options1: any = new RequestOptions({ headers: headers }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
-    console.log(url1);
-    this.http.get(url1, options1)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-         
-
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-
-      })
-      jQuery('#description').triggeredAutocomplete({
-        hidden: '#hidden_inputbox',
-        source: this.atmentioneddata
-      });
-
-      jQuery('#service_remark').triggeredAutocomplete({
-        hidden: '#hidden_inputbox',
-        source: this.atmentioneddata
-      });
-      */
+    /*
+    
+        // Atmentioned API Calls
+        let
+          //body: string = "key=delete&recordID=" + recordID,
+          type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers1: any = new Headers({ 'Content-Type': type }),
+          options1: any = new RequestOptions({ headers: headers }),
+          url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
+        console.log(url1);
+        this.http.get(url1, options1)
+          .subscribe(data => {
+            // If the request was successful notify the user
+            if (data.status === 200) {
+              this.atmentioneddata = data.json();
+              console.log(this.atmentioneddata);
+             
+    
+            }
+            // Otherwise let 'em know anyway
+            else {
+              this.conf.sendNotification('Something went wrong!');
+            }
+          }, error => {
+    
+          })
+          jQuery('#description').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+    
+          jQuery('#service_remark').triggeredAutocomplete({
+            hidden: '#hidden_inputbox',
+            source: this.atmentioneddata
+          });
+          */
     // Atmentioned API Calls
 
   }
@@ -536,19 +537,19 @@ export class ServicedetailsPage {
 
 
       let
-         service_remark: string = this.form.controls["service_remark"].value,
+        service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-          description: string = this.form.controls["description"].value,
-        service_subject: string = this.service_subject;
+        description: string = this.form.controls["description"].value,
+        service_subject: string = this.form.controls["service_subject"].value;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
 
 
-     
 
-   
+
+
 
       //2015-12-10T17:03:00Z
       console.log(service_scheduled_date)
