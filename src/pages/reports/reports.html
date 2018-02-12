@@ -106,9 +106,9 @@
 
           <ion-list radio-group>
             <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
-            <ion-radio   checked="true" value="go" (click)="getFormat('table')"></ion-radio>
+            <ion-radio   checked="{{tableradiochk}}" value="go" (click)="getFormat('table')"></ion-radio>
             Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <ion-radio value="rust" (click)="getFormat('graph')"></ion-radio>
+            <ion-radio  checked="{{graphradiochk}}" value="rust" (click)="getFormat('graph')"></ion-radio>
             Graph
           </ion-list>
 

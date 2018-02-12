@@ -191,7 +191,7 @@ export class AddorgchartonePage {
     this.country = item.country;
     this.contact = item.contact;
     this.photo = item.photo;
-    this.recordID = item.userid;
+    this.recordID = item.staff_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
     this.report_to = item.report_to;
@@ -216,15 +216,15 @@ export class AddorgchartonePage {
     if (this.photo == 'undefined') {
       this.photo = '';
     }
-    this.contact = this.contact.replace("+", "%2B");
+    contact =contact.replace("+", "%2B");
     let body: string = "is_mobile=1&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
       "&email=" + this.email +
       "&country_id=" + this.country +
-      "&contact_number=" + this.contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
+      "&contact_number=" + contact +
+      "&createdby=" + this.userId  +
+      "&updatedby=" + this.userId  +
       "&report_to=" + report_to +
       "&company_id=" + company_group +
       "&job_position=" + job_position,
@@ -265,16 +265,16 @@ export class AddorgchartonePage {
     if (this.photo == 'undefined') {
       this.photo = '';
     }
-    this.contact = this.contact.replace("+", "%2B");
+    contact = contact.replace("+", "%2B");
     let body: string = "is_mobile=1&staff_id=" + this.recordID +
       "&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
       "&email=" + this.email +
       "&country_id=" + this.country +
-      "&contact_number=" + this.contact +
-      "&createdby=" + createdby +
-      "&updatedby=" + createdby +
+      "&contact_number=" + contact +
+      "&createdby=" + this.userId +
+      "&updatedby=" + this.userId +
       "&report_to=" + report_to +
       "&company_id=" + company_group +
       "&job_position=" + job_position,

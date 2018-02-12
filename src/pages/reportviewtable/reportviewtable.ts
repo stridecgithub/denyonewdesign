@@ -27,7 +27,7 @@ export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
 
- 
+
   public posts = [];
   keys: String[];
 
@@ -191,18 +191,18 @@ export class ReportviewtablePage {
           console.log("Report Preview Success Response:-" + JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
-            this.navCtrl.setRoot(ReportsPage,{reqsuccess:1});
+            this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
 
-            this.headLists=res.templatedata;
-            this.headValue=res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
+            this.headLists = res.templatedata;
+            this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
-            this.posts =  res.mobilehistorydata[0];
+            this.posts = res.mobilehistorydata[0];
             this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
-           
+
             this.location = res.unitdata[0].location;
             this.unitname = res.unitdata[0].unitname;
             this.projectname = res.unitdata[0].projectname;
@@ -213,12 +213,12 @@ export class ReportviewtablePage {
             this.serialnumber = res.unitdata[0].serialnumber;
             this.nextservicedate = res.nextservicedate;
             this.contactnames = res.contactnames;
-            this.contactnumbers=res.contactnumbers
+            this.contactnumbers = res.contactnumbers
             this.fromdate = res.fromdate;
             this.todate = res.todate;
-            this.timeframe= res.timeframe;
-            this.generatormodel=res.generatormodel;
-            this.unitgroupname=res.unitgroupname;
+            this.timeframe = res.timeframe;
+            this.generatormodel = res.generatormodel;
+            this.unitgroupname = res.unitgroupname;
             /*
             
             
@@ -327,7 +327,7 @@ export class ReportviewtablePage {
         this.requestsuccess = 'Request successfully sent';
         console.log(this.requestsuccess);
       } else {
-          this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
           "&seltemplate=" + this.NP.get("seltemplate") +
@@ -360,7 +360,15 @@ export class ReportviewtablePage {
   }
 
   previous() {
-    this.navCtrl.setRoot(ReportsPage);
+    this.navCtrl.setRoot(ReportsPage, {
+      selunit: this.NP.get("selunit"),
+      seltemplate: this.NP.get("seltemplate"),
+      seltimeframe: this.NP.get("seltimeframe"),
+      from: this.NP.get("from"),
+      to: this.NP.get("to"),
+      exportto: this.NP.get("exportto"),
+      val: this.NP.get("val")
+    });
   }
 }
 

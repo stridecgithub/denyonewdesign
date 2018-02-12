@@ -115,6 +115,12 @@ export class LoginPage {
   gotoDashboard(username, password) {
     let device_token = localStorage.getItem("deviceTokenForPushNotification");
     let res;
+    if (device_token == 'null') {
+      device_token = '';
+    }
+    if (device_token == null) {
+      device_token = '';
+    }
     let body: string = "username=" + username +
       "&password=" + password +
       "&device_token=" + device_token +

@@ -502,7 +502,7 @@ export class MyApp {
     } else if (page.component == 'ReporttemplatePage') {
       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
-      this.navCtrl.setRoot(OrgchartPage);
+      this.navCtrl.setRoot(TabsPage, { tabIndex: 4 });
     } else if (page.component == 'EventsandcommentsPage') {
       this.navCtrl.setRoot(EventsandcommentsPage);
     } else if (page.title == 'Message') {

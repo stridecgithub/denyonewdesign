@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { MyaccountPage } from '../myaccount/myaccount';
@@ -53,6 +53,14 @@ export class ReportsPage {
   public start_date = 'Start Date';
   public end_date = 'End Date';
   profilePhoto;
+  val;
+  selunit;
+  seltimeframe;
+  seltemplate;
+  public tableradiochk: boolean = true;
+  public graphradiochk: boolean = false;
+
+
   /* public start_date = '2017-08-02';
   public end_date = '2017-08-02';
 */
@@ -93,7 +101,7 @@ export class ReportsPage {
         {
           text: 'Ok',
           handler: () => {
-           
+
           }
         }
       ],
@@ -105,7 +113,7 @@ export class ReportsPage {
 
 
     console.log("Req Success" + this.NP.get("reqsuccess"));
-    if(this.NP.get("reqsuccess")>0){
+    if (this.NP.get("reqsuccess") > 0) {
       this.showConfirm()
     }
     this.responseResultTimeFrame = [];
@@ -293,6 +301,28 @@ export class ReportsPage {
 
 
   ionViewDidLoad() {
+    console.log(JSON.stringify(this.NP));
+    if (this.NP.get("selunit") > 0) {
+      this.val = this.NP.get("val");
+      this.exportto = this.NP.get("exportto");
+      this.selunit = this.NP.get("selunit");
+      this.start_date = this.NP.get("from");
+      this.end_date = this.NP.get("to");
+      this.seltemplate = this.NP.get("seltemplate")
+      this.seltimeframe = this.NP.get("seltimeframe")
+      if (this.exportto == 'graph') {
+        this.tableradiochk=false;
+        this.graphradiochk=true;
+      }
+
+      if (this.exportto == 'table') {
+        this.tableradiochk=true;
+        this.graphradiochk=false;
+      }
+
+
+
+    }
     console.log('ionViewDidLoad ReportsPage');
   }
 
