@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -7,6 +7,9 @@ import { AddcommentsinfoPage } from '../addcommentsinfo/addcommentsinfo';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
+import { ServicedetailsPage } from "../servicedetails/servicedetails";
+import { AddalarmPage } from "../addalarm/addalarm";
+
 
 /**
  * Generated class for the CommentsinfoPage page.
@@ -27,13 +30,13 @@ export class CommentsinfoPage {
   public notcount: any;
   public atMentionedInfo = [];
   public reportData: any =
-  {
-    status: '',
-    sort: 'companygroup_id',
-    sortascdesc: 'asc',
-    startindex: 0,
-    results: 50
-  }
+    {
+      status: '',
+      sort: 'companygroup_id',
+      sortascdesc: 'asc',
+      startindex: 0,
+      results: 50
+    }
   public unitDetailData: any = {
     userId: '',
     loginas: '',
@@ -61,7 +64,7 @@ export class CommentsinfoPage {
   private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
-  constructor(private platform:Platform,private conf: Config, public http: Http,
+  constructor(private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Comments';
     this.loginas = localStorage.getItem("userInfoName");
@@ -87,31 +90,31 @@ export class CommentsinfoPage {
   }
 
   doAlarmView(event_id, event_type) {
-    this.navCtrl.setRoot(EventDetailsPage, {
+    /*this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       from: 'commentinfo'
-    });
+    });*/
   }
   doServiceView(event_id, event_type, eventdata) {
-    this.navCtrl.setRoot(EventDetailsServicePage, {
-      event_id: event_id,
-      event_type: event_type,
-      eventdata: eventdata,
-      from: 'commentinfo'
-    });
+    /* this.navCtrl.setRoot(EventDetailsServicePage, {
+       event_id: event_id,
+       event_type: event_type,
+       eventdata: eventdata,
+       from: 'commentinfo'
+     });*/
   }
 
   doCommentView(event_id, event_type, eventdata) {
-    console.log("Event Id" + event_id);
-    console.log("event_type" + event_type);
-    console.log("eventdata" + JSON.stringify(eventdata));
-    this.navCtrl.setRoot(CommentdetailsPage, {
-      event_id: event_id,
-      event_type: event_type,
-      eventdata: eventdata,
-      from: 'commentinfo'
-    });
+    /* console.log("Event Id" + event_id);
+     console.log("event_type" + event_type);
+     console.log("eventdata" + JSON.stringify(eventdata));
+     this.navCtrl.setRoot(CommentdetailsPage, {
+       event_id: event_id,
+       event_type: event_type,
+       eventdata: eventdata,
+       from: 'commentinfo'
+     });*/
   }
 
 
@@ -309,226 +312,229 @@ export class CommentsinfoPage {
       localStorage.setItem("microtime", "");
       this.navCtrl.setRoot(AddcommentsinfoPage, {
         record: item,
-        act: 'Edit'
+        act: 'Edit',
+        from: 'commentinfo'
       });
     }
-    /*
+
     if (type.toLowerCase() == 's') {
-      console.log("service")
-      localStorage.setItem("microtime", "");
-      this.navCtrl.push(AddserviceinfoPage, {
+      this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
-        act: 'Edit',from:'comment'
+        act: 'Edit',
+        from: 'commentinfo',
       });
     }
-     if (type.toLowerCase() == 'a') {
+
+
+    if (type.toLowerCase() == 'a') {
       console.log("Alarm")
-     // localStorage.setItem("microtime", "");
+      // localStorage.setItem("microtime", "");
       if (item.alarm_assigned_to == '') {
-      this.navCtrl.setRoot(AddalarmlistPage, {
+        this.navCtrl.setRoot(AddalarmPage, {
           record: item,
-          act: act,
-          from:'comment'
+          act: act,          
+          from: 'commentinfo',
         });
       }
-       else {
-      this.conf.sendNotification("Already Assigned");
+      else {
+        this.conf.sendNotification("Already Assigned");
+      }
     }
-     }*/
-    if (type.toLowerCase() == 'r') {
-      this.conf.sendNotification("Not Applicable!!!");
-    }
-
-
-  }
-  /*details(item, act, type) {
-   console.log(JSON.stringify(item));
-   console.log(act);
-   console.log(type);
-   if (type.toLowerCase() == 'c') {
-     localStorage.setItem("microtime", "");
-     this.navCtrl.push(CommentdetailsPage, {
-       record: item,
-       act: 'Edit'
-     });
-   }
-  if (type.toLowerCase() == 's') {
-     localStorage.setItem("microtime", "");
-     this.navCtrl.push(ServicedetailsPage, {
-       record: item,
-       act: 'Edit',
-       from:'comment'
-     });
-   }
+    /*
    if (type.toLowerCase() == 'r') {
-     localStorage.setItem("microtime", "");
-     this.navCtrl.push(ServicedetailsPage, {
-       record: item,
-       act: 'Edit',
-       from:'comment'
-     });
+     this.conf.sendNotification("Not Applicable!!!");
    }
-   if(type.toLowerCase()=='a')
-   {
-     this.navCtrl.push(AlarmlistdetailPage, {
-       record: item,
-       act: act,
-       from:'comment'
 
-      
-     });
-   }
- }*/
 
-  doConfirm(item, ty) {
-
-    if (ty.toLowerCase() == 'c') {
-      console.log("Deleted Id" + item.comment_id);
-      let confirm = this.alertCtrl.create({
-        message: 'Are you sure you want to delete this comment?',
-        buttons: [{
-          text: 'Yes',
-          handler: () => {
-            this.deleteEntry(item.comment_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
-              }
-            }
-          }
-        },
-        {
-          text: 'No',
-          handler: () => { }
-        }]
-      });
-      confirm.present();
-    }
-    if (ty.toLowerCase() == 's') {
-      console.log("Deleted Id" + item.service_id);
-      let confirm = this.alertCtrl.create({
-        message: 'Are you sure you want to delete this Service?',
-        buttons: [{
-          text: 'Yes',
-          handler: () => {
-            this.deleteEntry(item.service_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
-              }
-            }
-          }
-        },
-        {
-          text: 'No',
-          handler: () => { }
-        }]
-      });
-      confirm.present();
-    }
-    if (ty.toLowerCase() == 'r') {
-      console.log("Deleted Id" + item.service_id);
-      let confirm = this.alertCtrl.create({
-        message: 'Are you sure you want to delete this Service?',
-        buttons: [{
-          text: 'Yes',
-          handler: () => {
-            this.deleteEntry(item.service_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
-              }
-            }
-          }
-        },
-        {
-          text: 'No',
-          handler: () => { }
-        }]
-      });
-      confirm.present();
-    }
+ }
+ /*details(item, act, type) {
+  console.log(JSON.stringify(item));
+  console.log(act);
+  console.log(type);
+  if (type.toLowerCase() == 'c') {
+    localStorage.setItem("microtime", "");
+    this.navCtrl.push(CommentdetailsPage, {
+      record: item,
+      act: 'Edit'
+    });
   }
-  deleteEntry(recordID, types) {
-    if (types.toLowerCase() == 'c') {
-      let
-        //body: string = "key=delete&recordID=" + recordID,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/comments/" + recordID + "/1/delete";
-      this.http.get(url, options)
-        .subscribe(data => {
-          // If the request was successful notify the user
-          if (data.status === 200) {
-
-            this.conf.sendNotification(`Comments was successfully deleted`);
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
-    }
-    if (types.toLowerCase() == 's') {
-      let
-        //body: string = "key=delete&recordID=" + recordID,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-      this.http.get(url, options)
-        .subscribe(data => {
-          // If the request was successful notify the user
-          if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
-    }
-    if (types.toLowerCase() == 'r') {
-      let
-        //body: string = "key=delete&recordID=" + recordID,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-      console.log("DURL" + url);
-      this.http.get(url, options)
-        .subscribe(data => {
-          // If the request was successful notify the user
-          if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
-    }
-
+ if (type.toLowerCase() == 's') {
+    localStorage.setItem("microtime", "");
+    this.navCtrl.push(ServicedetailsPage, {
+      record: item,
+      act: 'Edit',
+      from:'comment'
+    });
   }
-
-
-
-  onSegmentChanged(val) {
-    let splitdata = val.split(",");
-    this.reportData.sort = splitdata[0];
-    this.reportData.sortascdesc = splitdata[1];
-    //this.reportData.status = "ALL";
-    this.reportData.startindex = 0;
-    this.reportAllLists = [];
-    this.doService();
+  if (type.toLowerCase() == 'r') {
+    localStorage.setItem("microtime", "");
+    this.navCtrl.push(ServicedetailsPage, {
+      record: item,
+      act: 'Edit',
+      from:'comment'
+    });
   }
+  if(type.toLowerCase()=='a')
+  {
+    this.navCtrl.push(AlarmlistdetailPage, {
+      record: item,
+      act: act,
+      from:'comment'
+
+     
+    });
+  }*/
 }
+
+    doConfirm(item, ty) {
+
+      if (ty.toLowerCase() == 'c') {
+        console.log("Deleted Id" + item.comment_id);
+        let confirm = this.alertCtrl.create({
+          message: 'Are you sure you want to delete this comment?',
+          buttons: [{
+            text: 'Yes',
+            handler: () => {
+              this.deleteEntry(item.comment_id, item.event_type);
+              for (let q: number = 0; q < this.reportAllLists.length; q++) {
+                if (this.reportAllLists[q] == item) {
+                  this.reportAllLists.splice(q, 1);
+                }
+              }
+            }
+          },
+          {
+            text: 'No',
+            handler: () => { }
+          }]
+        });
+        confirm.present();
+      }
+      if (ty.toLowerCase() == 's') {
+        console.log("Deleted Id" + item.service_id);
+        let confirm = this.alertCtrl.create({
+          message: 'Are you sure you want to delete this Service?',
+          buttons: [{
+            text: 'Yes',
+            handler: () => {
+              this.deleteEntry(item.service_id, item.event_type);
+              for (let q: number = 0; q < this.reportAllLists.length; q++) {
+                if (this.reportAllLists[q] == item) {
+                  this.reportAllLists.splice(q, 1);
+                }
+              }
+            }
+          },
+          {
+            text: 'No',
+            handler: () => { }
+          }]
+        });
+        confirm.present();
+      }
+      if (ty.toLowerCase() == 'r') {
+        console.log("Deleted Id" + item.service_id);
+        let confirm = this.alertCtrl.create({
+          message: 'Are you sure you want to delete this Service?',
+          buttons: [{
+            text: 'Yes',
+            handler: () => {
+              this.deleteEntry(item.service_id, item.event_type);
+              for (let q: number = 0; q < this.reportAllLists.length; q++) {
+                if (this.reportAllLists[q] == item) {
+                  this.reportAllLists.splice(q, 1);
+                }
+              }
+            }
+          },
+          {
+            text: 'No',
+            handler: () => { }
+          }]
+        });
+        confirm.present();
+      }
+    }
+    deleteEntry(recordID, types) {
+      if (types.toLowerCase() == 'c') {
+        let
+          //body: string = "key=delete&recordID=" + recordID,
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/comments/" + recordID + "/1/delete";
+        this.http.get(url, options)
+          .subscribe(data => {
+            // If the request was successful notify the user
+            if (data.status === 200) {
+
+              this.conf.sendNotification(`Comments was successfully deleted`);
+            }
+            // Otherwise let 'em know anyway
+            else {
+              this.conf.sendNotification('Something went wrong!');
+            }
+          }, error => {
+            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+          });
+      }
+      if (types.toLowerCase() == 's') {
+        let
+          //body: string = "key=delete&recordID=" + recordID,
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
+        this.http.get(url, options)
+          .subscribe(data => {
+            // If the request was successful notify the user
+            if (data.status === 200) {
+
+              this.conf.sendNotification(`Service was successfully deleted`);
+            }
+            // Otherwise let 'em know anyway
+            else {
+              this.conf.sendNotification('Something went wrong!');
+            }
+          }, error => {
+            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+          });
+      }
+      if (types.toLowerCase() == 'r') {
+        let
+          //body: string = "key=delete&recordID=" + recordID,
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
+        console.log("DURL" + url);
+        this.http.get(url, options)
+          .subscribe(data => {
+            // If the request was successful notify the user
+            if (data.status === 200) {
+
+              this.conf.sendNotification(`Service was successfully deleted`);
+            }
+            // Otherwise let 'em know anyway
+            else {
+              this.conf.sendNotification('Something went wrong!');
+            }
+          }, error => {
+            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+          });
+      }
+
+    }
+
+
+
+    onSegmentChanged(val) {
+      let splitdata = val.split(",");
+      this.reportData.sort = splitdata[0];
+      this.reportData.sortascdesc = splitdata[1];
+      //this.reportData.status = "ALL";
+      this.reportData.startindex = 0;
+      this.reportAllLists = [];
+      this.doService();
+    }
+  }

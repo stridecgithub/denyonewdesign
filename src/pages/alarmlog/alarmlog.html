@@ -71,7 +71,7 @@
           </ion-row>
         </div>
       </ion-item>
-      <ion-item-options side="right" class="list-item-options">
+      <ion-item-options side="right" class="list-item-options" *ngIf="userId==1">
         <button ion-button class="edit-btn" (click)="doEdit(alarmitem,'edit')">
               <img width="25" src="assets/imgs/edit@2x.png"><br>Edit
             </button>

@@ -115,7 +115,7 @@ export class MyaccountPage {
           this.username = res.settings[0].username;
           this.password = res.settings[0].password;
           this.contactnumber = res.settings[0].contact_number;
-          this.hashtag = "@" + this.userid;
+          this.hashtag = res.settings[0].personalhashtag;
           this.role = res.settings[0].role_name;
           this.email = res.settings[0].email;
           this.country = res.settings[0].country_name;

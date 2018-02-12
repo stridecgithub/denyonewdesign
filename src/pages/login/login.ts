@@ -50,37 +50,37 @@ export class LoginPage {
 
 
     // Atmentioned API Calls
-   /* let
-      //body: string = "key=delete&recordID=" + recordID,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=1&userId=1";
-    console.log(url);
-    this.http.get(url, options)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          jQuery('#inputbox').triggeredAutocomplete({
-            hidden: '#hidden_inputbox',
-            source: this.atmentioneddata
-          });
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-
-      })
-      */
+    /* let
+       //body: string = "key=delete&recordID=" + recordID,
+       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+       headers: any = new Headers({ 'Content-Type': type }),
+       options: any = new RequestOptions({ headers: headers }),
+       url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=1&userId=1";
+     console.log(url);
+     this.http.get(url, options)
+       .subscribe(data => {
+         // If the request was successful notify the user
+         if (data.status === 200) {
+           this.atmentioneddata = data.json();
+           console.log(this.atmentioneddata);
+           jQuery('#inputbox').triggeredAutocomplete({
+             hidden: '#hidden_inputbox',
+             source: this.atmentioneddata
+           });
+         }
+         // Otherwise let 'em know anyway
+         else {
+           this.conf.sendNotification('Something went wrong!');
+         }
+       }, error => {
+ 
+       })
+       */
     // Atmentioned API Calls
 
 
 
-  
+
 
     console.log('ionViewDidLoad LoginPage');
 
@@ -143,7 +143,7 @@ export class LoginPage {
           localStorage.setItem("userInfoPhoto", res['staffdetails'][0].photo);
           localStorage.setItem("userInfoRoleId", res['staffdetails'][0].role_id);
           localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
-
+          console.log("firsname:" + res['staffdetails'][0].firstname)
           console.log("Company Id:" + res['staffdetails'][0].company_id);
           console.log("User Id:" + res['staffdetails'][0].staff_id);
           this.createUser(res['staffdetails'][0]);

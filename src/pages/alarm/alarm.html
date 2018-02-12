@@ -48,9 +48,9 @@
 
           <!-- <ion-icon class="angel" name="analytics" (click)="doEdit(alarmitem,'trendline')"></ion-icon>
            -->
-          <img class="angel" src="assets/imgs/trendline_new.png" (click)="doEdit(alarmitem,'trendline')">
+          <img class="angel" src="assets/imgs/trendline_new.png"  (click)="doEdit(alarmitem,'trendline')">
           <ion-row>
-            <ion-col col-12 (click)="doEdit(alarmitem,'edit')">
+            <ion-col col-12>
               <h1>{{alarmitem.alarm_name}}</h1>
               <p>Assigned by:{{alarmitem.alarm_assginedby_name}}
                 <br> Assigned to:{{alarmitem.alarm_assginedto_name}}</p>
@@ -62,7 +62,12 @@
           </ion-row>
         </div>
       </ion-item>
-
+      <ion-item-options side="right" class="list-item-options" *ngIf="userId==1">
+        <button ion-button class="edit-btn" (click)="doEdit(alarmitem,'edit')">
+          <img width="25" src="assets/imgs/edit@2x.png">
+          <br>Edit
+        </button>
+      </ion-item-options>
     </ion-item-sliding>
 
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">

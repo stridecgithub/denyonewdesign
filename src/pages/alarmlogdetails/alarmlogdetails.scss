@@ -1,9 +1,9 @@
 page-alarmlogdetails {
   .switch .time {
-   
-    margin: 0px; 
-    top: 24px;
-    position: relative;
+    float: right;
+    margin:0px 0px 0 0;
+    color: #424242;
+    font-size: 12px;
 }
 .alarm-log-row{
 padding-left: 13px;
@@ -79,4 +79,9 @@ padding-left: 13px;
       margin: 0 10px 0 0;
     }
   }
+
+  .edit-alarm-top {
+    padding:15px 0 0 15px;
+    }
+  
 }
