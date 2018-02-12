@@ -31,9 +31,11 @@ import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
 import { Network } from '@ionic-native/network';
+
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 @Component({
   templateUrl: 'app.html',
-  providers: [Config, Keyboard, DataServiceProvider]//,Storage
+  providers: [Config, Keyboard, DataServiceProvider, Push]//,Storage
 })
 export class MyApp {
   @Output() input: EventEmitter<string> = new EventEmitter<string>();
@@ -53,7 +55,7 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
@@ -77,6 +79,7 @@ export class MyApp {
           );
     */
     platform.ready().then(() => {
+      this.initPushNotification();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if (platform.is('android')) {
@@ -148,9 +151,9 @@ export class MyApp {
         // prior to doing any api requests as well.
         setTimeout(() => {
           if (this.network.type === 'wifi') {
-           console.log('we got a wifi connection, woohoo!');
+            console.log('we got a wifi connection, woohoo!');
 
-           this.conf.sendNotification('we got a wifi connection, woohoo!');
+            this.conf.sendNotification('we got a wifi connection, woohoo!');
           }
         }, 3000);
       });
@@ -625,6 +628,48 @@ export class MyApp {
   onEnter() {
     console.log("onEnter()-kannan appcomponent ts");
     this.keyboard.close();
+  }
+
+  initPushNotification() {
+    // to check if we have permission
+    this.push.hasPermission()
+      .then((res: any) => {
+
+        if (res.isEnabled) {
+          console.log('We have permission to send push notifications');
+        } else {
+          console.log('We do not have permission to send push notifications');
+        }
+
+      });
+
+    // to initialize push notifications
+
+    const options: PushOptions = {
+      android: {},
+      ios: {
+        alert: 'true',
+        badge: true,
+        sound: 'true'
+      },
+      windows: {}
+    };
+
+
+
+
+    const pushObject: PushObject = this.push.init(options);
+    pushObject.on('registration').subscribe((registration: any) => {
+
+      console.log('Device registered', registration);
+      console.log('Device Json registered', JSON.stringify(registration));
+      localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
+    }
+    );
+
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+
+
   }
   onNext() {
     console.log("onNext()");
