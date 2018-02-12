@@ -14,7 +14,7 @@ import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
-import { TabsPage } from "../pages/tabs/tabs";
+import { TabsPage } from "../tabs/tabs";
 /**
  * Generated class for the AddorgchartonePage page.
  *
