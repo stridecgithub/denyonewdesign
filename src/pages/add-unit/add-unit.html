@@ -106,17 +106,19 @@
     </div-->
     <div class="hard-coded-row">
       <div>
-          <!-- <a href="#" (click)="getmaplocation()">Pick Location from Map</a> -->
+        <!-- <a href="#" (click)="getmaplocation()">Pick Location from Map</a> -->
         <h2>
-          <ion-input type="text"  [disabled]="locationedit" formControlName="location" [(ngModel)]="location"></ion-input>
+          <ion-input type="text" [disabled]="locationedit" formControlName="location" [(ngModel)]="location"></ion-input>
         </h2>
         <ion-icon name="close" (click)="editDeployedLocation()" *ngIf="isEdited"></ion-icon>
       </div>
 
       <p *ngIf="isEdited">
         <a href="#" (click)="getGps()">Use GPS Location</a>
-        <br><span *ngIf="lat!=''">GPS Location: {{location}}</span>
-        <br><span *ngIf="lat!=''">(Latitude: {{lat}}, Longitude: {{lang}})</span>
+        <br>
+        <span *ngIf="lat!=''">GPS Location: {{location}}</span>
+        <br>
+        <span *ngIf="lat!=''">(Latitude: {{lat}}, Longitude: {{lang}})</span>
       </p>
     </div>
 
@@ -128,4 +130,5 @@
       <button [disabled]="!form.valid">Next</button>
     </div>
   </form>
+  <div style="height:50px"></div>
 </ion-content>
