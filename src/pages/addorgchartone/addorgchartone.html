@@ -144,7 +144,7 @@
         <ion-label stacked>Company
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged()">
+        <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged(company_group)">
           <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
         </ion-select>
       </ion-item>

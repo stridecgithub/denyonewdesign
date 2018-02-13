@@ -52,11 +52,11 @@
       <div class="error" *ngIf="reportAllLists.length==0">No entries found</div>
       <ion-list class="lst">
         <ion-item-sliding class="brd" *ngFor="let upcomintitem of reportAllLists;">
-         
-          <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'"   (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
+
+          <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'" (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.comment_subject}}</b>
@@ -64,7 +64,7 @@
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.comment_date_formatted}}
                 </div>
-               
+
                 <span>Comment By:{{upcomintitem.comment_by_name}} {{upcomintitem.comment_by_name_hastag}} </span>
 
                 <!-- <h5>{{upcomintitem.comment_remark}}</h5> -->
@@ -73,18 +73,18 @@
           margin-right: 27px;" src="img/low_priority.png" hspace="10" *ngIf="item.comment_priority=='1'" />
               <img  style="width: 20px;height:20px;    margin-top: 22px;
           margin-right: 27px;" src="img/high_priority.png" hspace="10" *ngIf="item.comment_priority=='2'" /></span-->
-              
-            
+
+
 
               </div>
             </div>
           </ion-item>
 
-          <ion-item class="slide" *ngIf="upcomintitem.event_type=='R'"   (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
-           
+          <ion-item class="slide" *ngIf="upcomintitem.event_type=='R'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
+
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.service_subject}}</b>
@@ -95,8 +95,8 @@
                 <span *ngIf="upcomintitem.service_created_name!='null'">Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag}} </span>
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
-               
-  <div style="position: absolute;
+
+                <div style="position: absolute;
                 margin-top: -60px;
                 margin-left: 57%;
                 text-align: center;">
@@ -111,10 +111,10 @@
 
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='S'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
-           
+
             <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
                 <h3>
                   <b>{{upcomintitem.service_subject}}</b>
@@ -122,11 +122,11 @@
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_datetime_formatted}}
                 </div>
-                
+
                 <span>Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag}} </span>
-<br>
+                <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
-  <div style="position: absolute;
+                <div style="position: absolute;
                 margin-top: -60px;
                 margin-left: 57%;
                 text-align: center;">
@@ -135,42 +135,59 @@
                     <br>Denyo Support
                     <br>Request</span>
                 </div>
-               
+
               </div>
             </div>
           </ion-item>
 
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-              this.photo =   this.apiServiceURL + "/images/default.png"     
-              <div class="p1">
-                <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img  *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
-                <div class="check">
-                  <h3>
-                    <b>{{upcomintitem.alarm_name}}</b>
-                  </h3>
-                  <div class="D&T" style="font-size:14px">
-                    {{upcomintitem.alarm_received_date}}
-                  </div>
-                  <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
-                  <br>
-                  <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
-  
-  
+            this.photo = this.apiServiceURL + "/images/default.png"
+            <div class="p1">
+              <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
+              <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <div class="check">
+                <h3>
+                  <b>{{upcomintitem.alarm_name}}</b>
+                </h3>
+                <div class="D&T" style="font-size:14px">
+                  {{upcomintitem.alarm_received_date}}
                 </div>
+                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                <br>
+                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
+
+
               </div>
-            </ion-item>
+            </div>
+          </ion-item>
 
           <ion-item-options side="right" class="list-item-options">
-            <button ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type!='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>
-            <button ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+
+            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+              <img width="25" src="assets/imgs/edit@2x.png">
+              <br>Edit           
+            </button>
+
+
+
+
+
+            <button ion-button  *ngIf="upcomintitem.event_type!='C'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
+
+
+            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+                <ion-icon name="trash"></ion-icon>
+                Delete
+              </button>
+
 
 
           </ion-item-options>

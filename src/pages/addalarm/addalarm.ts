@@ -62,6 +62,8 @@ export class AddalarmPage {
   tabBarElement: any;
   alarm_assigned_date: any;
   mindate;
+  alarm_assgined_to;
+  alarm_remark;
   public atmentioneddata = [];
   constructor(private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
@@ -175,7 +177,7 @@ export class AddalarmPage {
     // Unit Details API Call
 
 
-    this.getUserListData();
+   
 
     if (this.NP.get("record")) {
       console.log(this.NP.get("act"));
@@ -188,7 +190,7 @@ export class AddalarmPage {
     else {
       this.isEdited = false;
     }
-
+    this.getUserListData();
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -255,9 +257,12 @@ export class AddalarmPage {
     console.log("Select entry list" + JSON.stringify(item));
     this.subject = item.alarm_name;
     this.assignedby = this.uname;
-    this.assigned_to = item.assigned_to;
+    this.alarm_assgined_to = item.alarm_assgined_to;
+    this.assigned_to= item.alarm_assgined_to;
     this.recordID = item.alarm_id;
     this.alarm_priority = item.alarm_priority
+    this.alarm_remark= item.alarm_remark;
+    this.remark= item.alarm_remark
     this.alarm_received_time = item.alarm_received_time;
 
 

@@ -93,7 +93,7 @@ export class AddorgchartonePage {
     this.userId = localStorage.getItem("userInfoId");
     this.company_id = localStorage.getItem("userInfoCompanyId");
 
-    this.getUserListData();
+    this.getUserListData(this.company_id);
   
 
   }
@@ -161,12 +161,14 @@ export class AddorgchartonePage {
         this.primary = contactSplitSpace[0];
         this.contact = contactSplitSpace[1];
       }
-      this.getUserListData();
+     
     }
     else {
       this.isEdited = false;
       this.pageTitle = 'Add Org Chart';
     }
+
+    this.getUserListData(this.company_id);
     /*this.first_name = "Kannan";
     this.last_name = "Nagarathinam";
     this.email = "kannanrathvalli@gmail.com";
@@ -461,13 +463,13 @@ export class AddorgchartonePage {
 
   }
 
-  getUserListData() {
+  getUserListData(companyid) {
     if (this.isEdited == true) {
       this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
       console.log("getstaffs API:" + url);
       this.http.get(url, options)
@@ -490,7 +492,7 @@ export class AddorgchartonePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -506,8 +508,8 @@ export class AddorgchartonePage {
 
   }
 
-  onSegmentChanged() {
+  onSegmentChanged(comapnyid) {
     console.log("ID" + this.company_group);
-    this.getUserListData();
+    this.getUserListData(comapnyid);
   }
 }

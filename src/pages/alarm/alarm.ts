@@ -76,7 +76,7 @@ export class AlarmPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
- this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
@@ -241,6 +241,8 @@ export class AlarmPage {
               alarm_priority: res.alarms[alarm].alarm_priority,
               alarm_received_date: res.alarms[alarm].alarm_received_date,
               alarm_received_time: res.alarms[alarm].alarm_received_time,
+              alarm_assgined_to: res.alarms[alarm].alarm_assgined_to,
+              alarm_remark: res.alarms[alarm].alarm_remark
 
             });
           }
@@ -298,25 +300,36 @@ export class AlarmPage {
 
 
     if (act == 'edit') {
-      if (item.alarm_assginedby_name == '') {
-        /*this.navCtrl.setRoot(AddalarmlistPage, {
-          record: item,
-          act: act,
-          from: 'alarm',
-          unitid: unitid
-        });*/
+
+      if (this.userId == '1') {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
-          from:'alarm',
+          from: 'alarm',
           unitid: localStorage.getItem("unitId")
         });
-        return false;
+      } else {
+        if (item.alarm_assginedby_name == '' && this.userId != '1') {
+          /*this.navCtrl.setRoot(AddalarmlistPage, {
+            record: item,
+            act: act,
+            from: 'alarm',
+            unitid: unitid
+          });*/
+          this.navCtrl.setRoot(AddalarmPage, {
+            record: item,
+            act: act,
+            from: 'alarm',
+            unitid: localStorage.getItem("unitId")
+          });
+          return false;
+        }
+        else {
+          if (this.userId != '1') {
+            this.conf.sendNotification("Already Assigned");
+          }
+        }
       }
-      else {
-        this.conf.sendNotification("Already Assigned");
-      }
-
     } else if (act == 'trendline') {
 
       this.trendlineInfo(item.alarm_id, item);

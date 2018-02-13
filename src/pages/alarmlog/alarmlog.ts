@@ -222,7 +222,8 @@ export class AlarmlogPage {
               alarm_remark: res.alarms[alarm].alarm_remark,
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
               alarm_assginedby_hashtag: hashtagbyname,
-              alarm_assginedto_hashtag: hashtagtoname
+              alarm_assginedto_hashtag: hashtagtoname,
+              alarm_assgined_to: res.alarms[alarm].alarm_assgined_to
 
 
             });
@@ -303,18 +304,28 @@ export class AlarmlogPage {
     });
   }
   doEdit(item, act) {
-    if (item.alarm_assginedby_name == '') {
-      if (act == 'edit') {
-        this.navCtrl.setRoot(AddalarmPage, {
-          record: item,
-          act: act,
-          from: 'alarmlog',
-          unitid: localStorage.getItem("unitId")
-        });
+
+    if (this.userId == '1') {
+      this.navCtrl.setRoot(AddalarmPage, {
+        record: item,
+        act: act,
+        from: 'alarmlog',
+        unitid: localStorage.getItem("unitId")
+      });
+    } else {
+      if (item.alarm_assginedby_name == '') {
+        if (act == 'edit') {
+          this.navCtrl.setRoot(AddalarmPage, {
+            record: item,
+            act: act,
+            from: 'alarmlog',
+            unitid: localStorage.getItem("unitId")
+          });
+        }
       }
-    }
-    else {
-      this.conf.sendNotification("Already Assigned");
+      else {
+        this.conf.sendNotification("Already Assigned");
+      }
     }
   }
 
