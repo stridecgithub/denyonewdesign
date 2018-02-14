@@ -372,7 +372,9 @@ export class AddalarmPage {
 
   trendlineInfo(alarmid, item) {
     this.navCtrl.setRoot(TrendlinePage, {
-      alarmid: alarmid, record: item,
+      alarmid: alarmid,
+      record: item,
+      from:this.NP.get("from")
     });
   }
 

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlarmPage } from '../alarm/alarm';
+import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 /**
@@ -32,11 +33,11 @@ export class TrendlinePage {
   }
   private apiServiceURL: string = "";
 
-  constructor(public platfom:Platform,private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-     this.platfom.registerBackButtonAction(() => {
+    this.platfom.registerBackButtonAction(() => {
       this.previous();
     });
   }
@@ -52,7 +53,7 @@ export class TrendlinePage {
     let alarmID = this.navParams.get("alarmid");
     //this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID + " height=350 width=100% frameborder=0></iframe > ";
     this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID);
-   
+
     // UnitDetails Api Call
     let unid = this.navParams.get("record").alarm_unit_id;
     let
@@ -110,9 +111,18 @@ export class TrendlinePage {
     // Unit Details API Call
   }
   previous() {
-    this.navCtrl.setRoot(AlarmPage, {
-      record: this.navParams.get("record"),
-      from: 'trendline',
-    });
+    console.log("From Page"+this.navParams.get("from"));
+    if (this.navParams.get("from") == 'alarmlog') {
+      this.navCtrl.setRoot(AlarmlogPage, {
+        record: this.navParams.get("record"),
+        from: 'trendline',
+      });
+    } else {
+      this.navCtrl.setRoot(AlarmPage, {
+        record: this.navParams.get("record"),
+        from: 'trendline',
+      });
+    }
+
   }
 }

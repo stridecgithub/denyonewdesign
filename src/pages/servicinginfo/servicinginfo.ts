@@ -277,9 +277,13 @@ export class ServicinginfoPage {
 
           if (res.services.length > 0) {
             for (let serviceData in res.services) {
-              this.upcomingAllLists.push({
+              this.upcomingAllLists.push({                
+                'service_unitid': res.services[serviceData].service_unitid,
                 'is_request': res.services[serviceData].is_request,
                 'service_id': res.services[serviceData].service_id,
+                'next_service_date': res.services[serviceData].next_service_date,
+                'serviced_schduled_date': res.services[serviceData].serviced_schduled_date,
+                'service_scheduled_time_format': res.services[serviceData].service_scheduled_time_format,
                 'serviced_by': res.services[serviceData].serviced_by,                
                 'user_photo': res.services[serviceData].user_photo,
                 'service_subject': res.services[serviceData].service_subject,
