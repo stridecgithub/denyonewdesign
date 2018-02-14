@@ -77,7 +77,7 @@ export class DashboardPage {
 
       this.network.onDisconnect().subscribe(data => {
         console.log(data)
-       this.displayNetworkUpdate(data.type);
+        this.displayNetworkUpdate(data.type);
       }, error => console.error(error));
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -425,7 +425,7 @@ export class DashboardPage {
           if (res.favorite == 0) {
             this.conf.sendNotification("Unfavorited successfully");
           } else {
-            this.conf.sendNotification("favourite successfully");
+            this.conf.sendNotification("Favourite successfully");
           }
 
 
@@ -480,10 +480,11 @@ export class DashboardPage {
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
-
+       
         // JSON data
         let res = data.json();
         console.log("Total Count:" + res.totalCount);
+        this.totalCount = res.totalCount;
         console.log(res, res.trippedcount);
 
         if (res.totalCount > 0) {        // Map overlay circles
@@ -491,22 +492,12 @@ export class DashboardPage {
           this.warningcount = res.warningcount;
           this.runningcount = res.runningcount;
           this.readycount = res.readycount;
-          if (this.readycount == "0") {
-            this.readycount = this.runningcount;
-          } else {
-            this.readycount = this.runningcount;
-          }
           this.offlinecount = res.offlinecount;
         } else {
           this.alarms = '0';
           this.warningcount = '0';
           this.runningcount = '0';
           this.readycount = '0';
-          if (this.readycount == "0") {
-            this.readycount = this.runningcount;
-          } else {
-            this.readycount = this.runningcount;
-          }
           this.offlinecount = '0';
         }
 
@@ -849,12 +840,12 @@ export class DashboardPage {
         let infowindow = new google.maps.InfoWindow({
           content: markers[i].location
         });
-        google.maps.event.addListener(infowindow, 'closeclick', function () {
-          jQuery('.popup').css('display', 'none');
-        });
+        // google.maps.event.addListener(infowindow, 'closeclick', function () {
+        //   jQuery('.popup').css('display', 'none');
+        // });
         // Add click event
         marker.addListener('click', function () {
-          jQuery('.popup').css('display', 'block');
+          // jQuery('.popup').css('display', 'block');
           infowindow.open(this.map, marker);
 
           let popups = document.getElementsByClassName('popup');

@@ -391,7 +391,7 @@ export class AddhocPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-        this.isSubmitted = true;
+       // this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -425,7 +425,7 @@ export class AddhocPage {
         this.progress += 5;
         this.isProgress = false;
         if (this.progress == 100) {
-          this.isSubmitted = false;
+          //this.isSubmitted = false;
         }
         this.isUploadedProcessing = false;
         return false;
@@ -955,8 +955,8 @@ export class AddhocPage {
               quality: 25,
               destinationType: this.camera.DestinationType.FILE_URI,
               sourceType: 1,
-              targetWidth: 200,
-              targetHeight: 200,
+              // targetWidth: 200,
+              // targetHeight: 200,
               saveToPhotoAlbum: true
 
             };

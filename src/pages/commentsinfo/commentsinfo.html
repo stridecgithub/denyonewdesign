@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
 
-    <ion-title>Comments Info</ion-title>
+    <ion-title>Comments</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -45,10 +45,28 @@
 
 
 
+    <!-- <ion-item style="width: 100%; margin: 0; padding-left: 10px;">
+      <ion-label>Sort By</ion-label>
+      <ion-select style="padding: 1px 1px 6px 1px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
+        <ion-option value="alarm,asc" selected="true">Alarm</ion-option>
+        <ion-option value="comment,asc">Comment</ion-option>
+        <ion-option value="service,asc">Service</ion-option>
+        <ion-option value="name,asc">Sender Ascending</ion-option>
+        <ion-option value="name,desc">Sender Descending</ion-option>
+      </ion-select>
+    </ion-item> -->
+
 
     <!-- service p1 -->
     <div class="new-service">
-      <h1 (click)="doAdd()">Add New Comment</h1>
+      <h1 (click)="doAdd()">New Comment</h1>
+
+      <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}
+        <ion-icon name="arrow-down" *ngIf="sortLblTxt === Comment"></ion-icon>
+        <ion-icon name="arrow-down" *ngIf="reportData.sortascdesc === 'desc' && sortLblTxt !== Comment"></ion-icon>
+        <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Comment"></ion-icon>
+      </div>
+
       <div class="error" *ngIf="reportAllLists.length==0">No entries found</div>
       <ion-list class="lst">
         <ion-item-sliding class="brd" *ngFor="let upcomintitem of reportAllLists;">
@@ -142,8 +160,7 @@
 
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            this.photo = this.apiServiceURL + "/images/default.png"
-            <div class="p1">
+              <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
@@ -170,23 +187,23 @@
 
             <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit           
+              <br>Edit
             </button>
 
 
 
 
 
-            <button ion-button  *ngIf="upcomintitem.event_type!='C'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+            <button ion-button *ngIf="upcomintitem.event_type!='C'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
 
 
             <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
-                <ion-icon name="trash"></ion-icon>
-                Delete
-              </button>
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
 
 
 

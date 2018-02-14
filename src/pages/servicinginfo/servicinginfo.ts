@@ -101,11 +101,11 @@ export class ServicinginfoPage {
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
-      if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL +"/images/default.png";
-      } else {
-       this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
-      }
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -273,7 +273,26 @@ export class ServicinginfoPage {
         console.log("1" + res.services.length);
         console.log("2" + res.services);
         if (res.services.length > 0) {
-          this.upcomingAllLists = res.services;
+          // this.upcomingAllLists = res.services;
+
+          if (res.services.length > 0) {
+            for (let serviceData in res.services) {
+              this.upcomingAllLists.push({
+                'is_request': res.services[serviceData].is_request,
+                'service_id': res.services[serviceData].service_id,
+                'serviced_by': res.services[serviceData].serviced_by,                
+                'user_photo': res.services[serviceData].user_photo,
+                'service_subject': res.services[serviceData].service_subject,
+                'serviced_scheduled_display': res.services[serviceData].serviced_scheduled_display,
+                "serviced_created_name": res.services[serviceData].serviced_created_name,
+                "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag != undefined ? "(" + res.services[serviceData].serviced_created_name_hastag + ")" : '',
+                "serviced_by_name": res.services[serviceData].serviced_by_name,
+                "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag != undefined ? "(" + res.services[serviceData].serviced_by_name_hastag + ")" : '',
+              });
+            }
+          }
+
+
           this.totalCountUpcoming = res.totalCountUpcoming;
           this.upcomingData.startindex += this.upcomingData.results;
           this.loadingMoreDataContent = 'Loading More Data';

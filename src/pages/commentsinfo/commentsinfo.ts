@@ -64,6 +64,7 @@ export class CommentsinfoPage {
   private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
+  public sortLblTxt: string = 'Comment';
   constructor(private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Comments';
@@ -255,7 +256,7 @@ export class CommentsinfoPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId")+ "&loginid=" + this.userId;
+      url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
     console.log(url);
     this.http.get(url, options)
@@ -332,7 +333,7 @@ export class CommentsinfoPage {
       if (item.alarm_assigned_to == '') {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
-          act: act,          
+          act: act,
           from: 'commentinfo',
         });
       }
@@ -384,157 +385,227 @@ export class CommentsinfoPage {
      
     });
   }*/
-}
+  }
 
-    doConfirm(item, ty) {
+  doConfirm(item, ty) {
 
-      if (ty.toLowerCase() == 'c') {
-        console.log("Deleted Id" + item.comment_id);
-        let confirm = this.alertCtrl.create({
-          message: 'Are you sure you want to delete this comment?',
-          buttons: [{
-            text: 'Yes',
-            handler: () => {
-              this.deleteEntry(item.comment_id, item.event_type);
-              for (let q: number = 0; q < this.reportAllLists.length; q++) {
-                if (this.reportAllLists[q] == item) {
-                  this.reportAllLists.splice(q, 1);
-                }
+    if (ty.toLowerCase() == 'c') {
+      console.log("Deleted Id" + item.comment_id);
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this comment?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            this.deleteEntry(item.comment_id, item.event_type);
+            for (let q: number = 0; q < this.reportAllLists.length; q++) {
+              if (this.reportAllLists[q] == item) {
+                this.reportAllLists.splice(q, 1);
               }
             }
-          },
-          {
-            text: 'No',
-            handler: () => { }
-          }]
-        });
-        confirm.present();
-      }
-      if (ty.toLowerCase() == 's') {
-        console.log("Deleted Id" + item.service_id);
-        let confirm = this.alertCtrl.create({
-          message: 'Are you sure you want to delete this Service?',
-          buttons: [{
-            text: 'Yes',
-            handler: () => {
-              this.deleteEntry(item.service_id, item.event_type);
-              for (let q: number = 0; q < this.reportAllLists.length; q++) {
-                if (this.reportAllLists[q] == item) {
-                  this.reportAllLists.splice(q, 1);
-                }
-              }
-            }
-          },
-          {
-            text: 'No',
-            handler: () => { }
-          }]
-        });
-        confirm.present();
-      }
-      if (ty.toLowerCase() == 'r') {
-        console.log("Deleted Id" + item.service_id);
-        let confirm = this.alertCtrl.create({
-          message: 'Are you sure you want to delete this Service?',
-          buttons: [{
-            text: 'Yes',
-            handler: () => {
-              this.deleteEntry(item.service_id, item.event_type);
-              for (let q: number = 0; q < this.reportAllLists.length; q++) {
-                if (this.reportAllLists[q] == item) {
-                  this.reportAllLists.splice(q, 1);
-                }
-              }
-            }
-          },
-          {
-            text: 'No',
-            handler: () => { }
-          }]
-        });
-        confirm.present();
-      }
+          }
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+      confirm.present();
     }
-    deleteEntry(recordID, types) {
-      if (types.toLowerCase() == 'c') {
-        let
-          //body: string = "key=delete&recordID=" + recordID,
-          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers: any = new Headers({ 'Content-Type': type }),
-          options: any = new RequestOptions({ headers: headers }),
-          url: any = this.apiServiceURL + "/comments/" + recordID + "/1/delete";
-        this.http.get(url, options)
-          .subscribe(data => {
-            // If the request was successful notify the user
-            if (data.status === 200) {
-
-              this.conf.sendNotification(`Comments was successfully deleted`);
+    if (ty.toLowerCase() == 's') {
+      console.log("Deleted Id" + item.service_id);
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this Service?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            this.deleteEntry(item.service_id, item.event_type);
+            for (let q: number = 0; q < this.reportAllLists.length; q++) {
+              if (this.reportAllLists[q] == item) {
+                this.reportAllLists.splice(q, 1);
+              }
             }
-            // Otherwise let 'em know anyway
-            else {
-              this.conf.sendNotification('Something went wrong!');
-            }
-          }, error => {
-            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-          });
-      }
-      if (types.toLowerCase() == 's') {
-        let
-          //body: string = "key=delete&recordID=" + recordID,
-          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers: any = new Headers({ 'Content-Type': type }),
-          options: any = new RequestOptions({ headers: headers }),
-          url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-        this.http.get(url, options)
-          .subscribe(data => {
-            // If the request was successful notify the user
-            if (data.status === 200) {
-
-              this.conf.sendNotification(`Service was successfully deleted`);
-            }
-            // Otherwise let 'em know anyway
-            else {
-              this.conf.sendNotification('Something went wrong!');
-            }
-          }, error => {
-            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-          });
-      }
-      if (types.toLowerCase() == 'r') {
-        let
-          //body: string = "key=delete&recordID=" + recordID,
-          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers: any = new Headers({ 'Content-Type': type }),
-          options: any = new RequestOptions({ headers: headers }),
-          url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-        console.log("DURL" + url);
-        this.http.get(url, options)
-          .subscribe(data => {
-            // If the request was successful notify the user
-            if (data.status === 200) {
-
-              this.conf.sendNotification(`Service was successfully deleted`);
-            }
-            // Otherwise let 'em know anyway
-            else {
-              this.conf.sendNotification('Something went wrong!');
-            }
-          }, error => {
-            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-          });
-      }
-
+          }
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+      confirm.present();
     }
-
-
-
-    onSegmentChanged(val) {
-      let splitdata = val.split(",");
-      this.reportData.sort = splitdata[0];
-      this.reportData.sortascdesc = splitdata[1];
-      //this.reportData.status = "ALL";
-      this.reportData.startindex = 0;
-      this.reportAllLists = [];
-      this.doService();
+    if (ty.toLowerCase() == 'r') {
+      console.log("Deleted Id" + item.service_id);
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this Service?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            this.deleteEntry(item.service_id, item.event_type);
+            for (let q: number = 0; q < this.reportAllLists.length; q++) {
+              if (this.reportAllLists[q] == item) {
+                this.reportAllLists.splice(q, 1);
+              }
+            }
+          }
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+      confirm.present();
     }
   }
+  deleteEntry(recordID, types) {
+    if (types.toLowerCase() == 'c') {
+      let
+        //body: string = "key=delete&recordID=" + recordID,
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/comments/" + recordID + "/1/delete";
+      this.http.get(url, options)
+        .subscribe(data => {
+          // If the request was successful notify the user
+          if (data.status === 200) {
+
+            this.conf.sendNotification(`Comments was successfully deleted`);
+          }
+          // Otherwise let 'em know anyway
+          else {
+            this.conf.sendNotification('Something went wrong!');
+          }
+        }, error => {
+          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+        });
+    }
+    if (types.toLowerCase() == 's') {
+      let
+        //body: string = "key=delete&recordID=" + recordID,
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
+      this.http.get(url, options)
+        .subscribe(data => {
+          // If the request was successful notify the user
+          if (data.status === 200) {
+
+            this.conf.sendNotification(`Service was successfully deleted`);
+          }
+          // Otherwise let 'em know anyway
+          else {
+            this.conf.sendNotification('Something went wrong!');
+          }
+        }, error => {
+          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+        });
+    }
+    if (types.toLowerCase() == 'r') {
+      let
+        //body: string = "key=delete&recordID=" + recordID,
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
+      console.log("DURL" + url);
+      this.http.get(url, options)
+        .subscribe(data => {
+          // If the request was successful notify the user
+          if (data.status === 200) {
+
+            this.conf.sendNotification(`Service was successfully deleted`);
+          }
+          // Otherwise let 'em know anyway
+          else {
+            this.conf.sendNotification('Something went wrong!');
+          }
+        }, error => {
+          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+        });
+    }
+
+  }
+
+  doSort() {
+    let prompt = this.alertCtrl.create({
+      title: 'Sort By',
+      inputs: [
+        {
+          type: 'radio',
+          label: 'Comment',
+          value: 'comment'
+        },
+        {
+          type: 'radio',
+          label: 'Service Name',
+          value: 'service',
+        },
+        {
+          type: 'radio',
+          label: 'Sender',
+          value: 'name',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Asc',
+          handler: data => {
+            console.log(data);
+            console.log('Asc clicked');
+            if (data != undefined) {
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'asc';
+              if (data == 'service') {
+                this.sortLblTxt = 'Service Name';
+              } else if (data == 'comment') {
+                this.sortLblTxt = 'Comment';
+              } else if (data == 'name') {
+                this.sortLblTxt = 'Sender';
+              } else if (data == 'status') {
+                this.sortLblTxt = 'Status';
+              }
+              this.reportData.startindex = 0;
+              this.reportAllLists = [];
+              this.doService();
+            }
+          }
+        },
+        {
+          text: 'Desc',
+          handler: data => {
+            console.log(data);
+            if (data != undefined) {
+              console.log('Desc clicked');
+              this.reportData.sort = data;
+              this.reportData.sortascdesc = 'desc';
+              if (data == 'service') {
+                this.sortLblTxt = 'Service Name';
+              } else if (data == 'comment') {
+                this.sortLblTxt = 'Comment';
+              } else if (data == 'name') {
+                this.sortLblTxt = 'Sender';
+              } else if (data == 'status') {
+                this.sortLblTxt = 'Status';
+              }
+              this.reportData.startindex = 0;
+              this.reportAllLists = [];
+              this.doService();
+            }
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  onSegmentChanged(val) {
+    let splitdata = val.split(",");
+    this.reportData.sort = splitdata[0];
+    this.reportData.sortascdesc = splitdata[1];
+    //this.reportData.status = "ALL";
+    this.reportData.startindex = 0;
+    this.reportAllLists = [];
+    this.doService();
+  }
+}

@@ -356,7 +356,7 @@ export class AddrequestsupportPage {
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
       "&unitid=" + this.service_unitid +
-      "&dateandtime=" + serviced_datetime +
+      "&dateandtime=" + timevalue +
       // "&service_remark=" + service_remark +
       "&service_remark=" + service_remark +
       "&time=" + timevalue +
@@ -621,8 +621,8 @@ export class AddrequestsupportPage {
               quality: 25,
               destinationType: this.camera.DestinationType.FILE_URI,
               sourceType: 1,
-              targetWidth: 200,
-              targetHeight: 200,
+              // targetWidth: 200,
+              // targetHeight: 200,
               saveToPhotoAlbum: true
 
             };

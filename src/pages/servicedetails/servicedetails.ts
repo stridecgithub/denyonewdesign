@@ -1206,8 +1206,8 @@ export class ServicedetailsPage {
               quality: 25,
               destinationType: this.camera.DestinationType.FILE_URI,
               sourceType: 1,
-              targetWidth: 200,
-              targetHeight: 200,
+              // targetWidth: 200,
+              // targetHeight: 200,
               saveToPhotoAlbum: true
 
             };

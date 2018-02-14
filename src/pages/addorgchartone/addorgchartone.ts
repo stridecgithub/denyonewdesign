@@ -355,10 +355,10 @@ export class AddorgchartonePage {
   doUploadPhoto() {
 
     const options: CameraOptions = {
-      quality: 75,
+      quality: 25,
       destinationType: this.camera.DestinationType.FILE_URI,
-      targetWidth: 200,
-      targetHeight: 200,
+      // targetWidth: 200,
+      // targetHeight: 200,
       sourceType: 1
     }
     this.camera.getPicture(options).then((imageData) => {

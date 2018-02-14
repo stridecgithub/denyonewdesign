@@ -293,7 +293,7 @@ export class UnitsPage {
           if (res.favorite == 0) {
             this.conf.sendNotification("Unfavourited successfully");
           } else {
-            this.conf.sendNotification("favourite successfully");
+            this.conf.sendNotification("Favourite successfully");
           }
         }
 
