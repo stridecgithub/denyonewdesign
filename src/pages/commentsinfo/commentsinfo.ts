@@ -91,23 +91,23 @@ export class CommentsinfoPage {
   }
 
   doAlarmView(event_id, event_type) {
-    /*this.navCtrl.setRoot(EventDetailsPage, {
+    this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       from: 'commentinfo'
-    });*/
+    });
   }
   doServiceView(event_id, event_type, eventdata) {
-    /* this.navCtrl.setRoot(EventDetailsServicePage, {
+   this.navCtrl.setRoot(EventDetailsServicePage, {
        event_id: event_id,
        event_type: event_type,
        eventdata: eventdata,
        from: 'commentinfo'
-     });*/
+     });
   }
 
   doCommentView(event_id, event_type, eventdata) {
-    /* console.log("Event Id" + event_id);
+    console.log("Event Id" + event_id);
      console.log("event_type" + event_type);
      console.log("eventdata" + JSON.stringify(eventdata));
      this.navCtrl.setRoot(CommentdetailsPage, {
@@ -115,7 +115,7 @@ export class CommentsinfoPage {
        event_type: event_type,
        eventdata: eventdata,
        from: 'commentinfo'
-     });*/
+     });
   }
 
 
