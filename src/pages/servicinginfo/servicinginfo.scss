@@ -1,4 +1,5 @@
 page-servicinginfo {
+
 	span{
 		font-size:14px;
 	}
@@ -55,8 +56,9 @@ page-servicinginfo {
 				border-bottom: 1px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;
-	  			border-bottom: 1px solid #d6d6d6;
-			  		padding-bottom: 16px;
+				border-top: 1px solid #d6d6d6;
+	  			border-bottom: 0px solid #d6d6d6;
+			  		padding-bottom: 5px;
 			  	.p1{
 			  		overflow: hidden;
 			  		img{
@@ -116,7 +118,7 @@ page-servicinginfo {
 		  text-align: center;
 		  margin-top: 20px;
 		  button {
-		    font-size: 18px;
+		    font-size: 14px;
 		    flex: 1;
 		    padding: 15px 0;
 		    background: #00BA28;

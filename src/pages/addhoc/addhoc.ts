@@ -899,22 +899,23 @@ export class AddhocPage {
 
       message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
       buttons: [
+	  {
+          text: 'Cancel',
+          handler: () => {
+            this.is_request = false;
+            console.log('Cancel clicked');
+          }
+        },
         {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
             console.log('Confirm clicked');
           }
-        },
-        {
-          text: 'Cancel',
-          handler: () => {
-            this.is_request = false;
-            console.log('Cancel clicked');
-          }
         }
+        
       ],
-      cssClass: 'alertDanger'
+      cssClass: 'alertDanger adhoc-alert'
     });
     confirm.present();
   }

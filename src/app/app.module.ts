@@ -9,6 +9,7 @@ import { LoginPage } from "../pages/login/login";
 import { DashboardPage } from "../pages/dashboard/dashboard";
 import { NotificationPage } from "../pages/notification/notification";
 import { MessagesPage } from "../pages/messages/messages";
+import { MessagePage } from "../pages/message/message";
 import { ComposePage } from "../pages/compose/compose";
 import { HttpModule } from '@angular/http';
 import { AddcalendarPage } from "../pages/addcalendar/addcalendar";
@@ -120,6 +121,7 @@ import { Network } from '@ionic-native/network';
     DashboardPage,
     NotificationPage,
     MessagesPage,
+	MessagePage,
     ComposePage,
     CalendarPage,
     AddcalendarPage,
@@ -194,8 +196,7 @@ import { Network } from '@ionic-native/network';
           scrollPadding: false
         }
       }
-    },
-    )],
+    })],
   bootstrap: [IonicApp],
   entryComponents: [
     AddorgchartonePage,
@@ -233,6 +234,7 @@ import { Network } from '@ionic-native/network';
     OrgchartPage,
     ReportsPage,
     ComposePage,
+	MessagePage,
     MessagedetailPage,
     UnitdetailsPage,
     UnitDetailsPage,

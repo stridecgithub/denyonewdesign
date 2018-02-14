@@ -1,4 +1,96 @@
 page-addserviceinfo {
+
+.user-img {
+  margin: 0 0 7px;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.user-img img {
+  border-radius: 50%;
+  border: 2px solid #006BF4;
+}
+
+.user-camera-block {
+  margin: 0 0 7px;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.user-camera-block img {
+  border-radius: 50%;
+  border: 2px solid #006BF4;
+}
+
+.user-name {
+  font-size: 23px;
+  color: #424242;
+  margin-bottom: 4px;
+}
+
+.user-company {
+  font-size: 20px;
+  color: #888888;
+}
+
+.user-hashtag {
+  color: #6C6C6C;
+  font-size: 18px;
+}
+
+.info {
+  border-bottom: 0px solid #d6d6d6;
+}
+
+.profile-title {
+  padding: 15px;
+}
+.list-md .item-block .item-inner {
+	border-bottom: 0px solid #dedede;
+}
+.edit-profo .item-md {
+  background-color: #f8f8f8;
+  padding-right: 16px;
+  border-bottom: 0px solid #ccc;
+  background: #f8f8f8;
+}
+
+.item-input ion-textarea{
+    border-bottom: 1px solid #dedede!important;
+}
+.item-input ion-datetime {
+    border-bottom: 1px solid #dedede!important;
+}
+.servicing-details-form {
+  background-color: #f8f8f8;
+}
+.edit-profo {
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+  border-top: 1px solid #ccc;
+  background-color: #f8f8f8;
+}
+
+.edit-profo ion-input, .edit-profo ion-select {
+  border-bottom: 1px solid #b8b8b8;
+}
+
+.sep .list-md .item-input {
+  border-bottom: none !important;
+}
+
+.action-sheet-md .action-sheet-group {
+  margin-top: -1px;
+}
+
+.item-md.item-block .item-inner {
+  padding-right: 0px;
+}
+.dati .item-inner {
+	border-bottom: 1px solid #dedede!important;
+}
+
+
   .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
     border-bottom-color: #F8F8F8;
       -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;
@@ -11,7 +103,7 @@ page-addserviceinfo {
     box-shadow: inset 0 -1px 0 0 #f8f8f8;
   }
   .save-btn {
-    padding: 20px;
+    padding: 20px 0px;
     button {
       background-color: color($app-brand-colors, azure-radiance);
       border-radius: 0;
@@ -25,6 +117,8 @@ page-addserviceinfo {
     .next-service-cal-icon {
     background: url(../assets/imgs/cal@2x.png) no-repeat right;
     background-size: 20px auto;
+	border-bottom: 1px solid #dedede!important;
+	padding-bottom: 0;
   }
   .img-list-div{
       padding-left: 23px;

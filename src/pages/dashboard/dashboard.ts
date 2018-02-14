@@ -12,6 +12,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
+
 declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
 import { Network } from '@ionic-native/network';
@@ -1125,5 +1126,6 @@ export class DashboardPage {
     }, 500);
     console.log('E');
   }
+
 }
 

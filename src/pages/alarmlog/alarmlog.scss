@@ -1,5 +1,13 @@
 page-alarmlog {
-
+	.list-item-options button.edit-btn {
+		background: #00BA28;
+	}
+	.list-item-options button {
+		width: 100px;
+	}
+	.item-md {
+    	padding-left: 0;
+	}
 	.alarm-list {
 		border-bottom: #000 5px solid;
 		.alarm-title {

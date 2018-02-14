@@ -566,21 +566,21 @@ export class AddrequestsupportPage {
 
       message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
       buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            this.saveEntry();
-          }
-        },
-        {
+	  {
           text: 'Cancel',
           handler: () => {
             this.isSubmitted = false;
             console.log('Cancel clicked');
           }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            this.saveEntry();
+          }
         }
       ],
-      cssClass: 'alertDanger'
+      cssClass: 'alertDanger adhoc-alert'
     });
     confirm.present();
   }

@@ -592,3 +592,21 @@ ion-segment.segment-ios .segment-button {
 	max-width: 80%;
 	line-height: 20px;
 }
+
+.alert-md.adhoc-alert .alert-wrapper {
+  	text-align: center;
+	min-width:180px;
+	max-width:72%;
+}
+  .alert-md.adhoc-alert .alert-head {
+  	text-align: center;
+	border-bottom:2px solid #80ccff;
+	padding-bottom:10px;
+	margin-bottom:5px;
+}
+  .alert-md.adhoc-alert .alert-message {
+  	color:#303030;
+	margin-top: 5px;
+    font-size: 14px;
+    padding: 0 20px;
+}

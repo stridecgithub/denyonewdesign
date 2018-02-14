@@ -34,6 +34,7 @@ export class TabsPage {
   public pushnotifycount: any;
   public tabIndex: Number = 0;
   private apiServiceURL: string = "";
+  
   constructor(platform: Platform, public events: Events, public navCtrl: NavController, private push: Push, private localNotifications: LocalNotifications, public navParams: NavParams, public http: Http, private conf: Config) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
@@ -249,4 +250,7 @@ export class TabsPage {
 
     }
   }
+
+  
+  
 }

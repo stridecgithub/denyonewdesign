@@ -34,20 +34,21 @@
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="saveEntry()" enctype='application/x-www-form-urlencoded' method="post">
 
-    <h5 style="padding-left:17px">Service Assignment</h5>
+
+    <h5 style="padding-left:17px;font-size:14px;">Service Assignment</h5>
 
 
-    <div class="form-group">
+    <div class="form-group edit-profo">
       <ion-list>
 
 
         <ion-item>
           <ion-label stacked>Subject</ion-label>
-          <ion-textarea formControlName="service_subject" [(ngModel)]="service_subject"></ion-textarea>
+          <ion-textarea style="height:30px;" formControlName="service_subject" [(ngModel)]="service_subject"></ion-textarea>
         </ion-item>
 
 
-        <ion-item>
+        <ion-item class="dati">
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
             class="next-service-cal-icon"  min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
@@ -69,11 +70,15 @@
                 <ion-label stacked>Description</ion-label>
                
               </ion-item>
-               <textarea style="width: 91%;
-               margin-left: 4%;
+               <textarea style="width:91%;
                background-color: #f8f8f8;
-               border: 1px solid #cccccc;
-               height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
+               border-bottom: 1px solid #dedede;
+                height: 71px;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                margin: 0 auto;
+    			display: table;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
                           onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="description"
                           [(ngModel)]="description"></textarea>
         
@@ -92,7 +97,7 @@
     </div>
 
     <div class="save-btn">
-      <button style="background-color:#009AFF;width:90%" [disabled]="!form.valid  || isSubmitted">Save</button>
+      <button style="width:80%;margin:0 auto;display:table;" [disabled]="!form.valid  || isSubmitted">Save</button>
     </div>
 
   </form>

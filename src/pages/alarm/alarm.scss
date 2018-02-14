@@ -1,4 +1,11 @@
 page-alarm{
+	.list-item-options button.edit-btn {
+		background: #00BA28;
+	}
+	.list-item-options button {
+		width: 100px;
+	}
+
 	.alarm-list {
     border-bottom: #000 5px solid;
     /*.status {
