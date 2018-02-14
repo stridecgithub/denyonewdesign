@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
 
-    <ion-title>Comments Info</ion-title>
+    <ion-title>Comments</ion-title>
 
   </ion-toolbar>
 </ion-header>
@@ -160,8 +160,7 @@
 
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            this.photo = this.apiServiceURL + "/images/default.png"
-            <div class="p1">
+              <div class="p1">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
