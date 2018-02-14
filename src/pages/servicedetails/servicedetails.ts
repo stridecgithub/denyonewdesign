@@ -429,9 +429,9 @@ export class ServicedetailsPage {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true
+      correctOrientation: true
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
       this.fileTrans(imageData, micro_timestamp);
@@ -1189,14 +1189,24 @@ export class ServicedetailsPage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-            var options = {
-              quality: 25,
+            // var options = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            //   allowEdit: true,
+            //   encodingType: this.camera.EncodingType.JPEG,
+            //   saveToPhotoAlbum: true
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
               destinationType: this.camera.DestinationType.FILE_URI,
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-              //allowEdit: true,
               encodingType: this.camera.EncodingType.JPEG,
-              saveToPhotoAlbum: true
-            };
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               console.log(imageURI);
@@ -1211,15 +1221,23 @@ export class ServicedetailsPage {
           icon: 'md-camera',
           handler: () => {
             console.log('Camera clicked');
-            const options: CameraOptions = {
-              quality: 25,
-              destinationType: this.camera.DestinationType.FILE_URI,
-              sourceType: 1,
-              // targetWidth: 200,
-              // targetHeight: 200,
-              saveToPhotoAlbum: true
+            // const options: CameraOptions = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: 1,
+            //   targetWidth: 200,
+            //   targetHeight: 200,
+            //   saveToPhotoAlbum: true
 
-            };
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation:true
+            }
 
             this.camera.getPicture(options).then((uri) => {
               console.log(uri);

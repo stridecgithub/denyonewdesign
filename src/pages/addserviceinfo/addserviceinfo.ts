@@ -877,14 +877,24 @@ export class AddserviceinfoPage {
             icon: 'md-image',
             role: 'fromgallery',
             handler: () => {
-              var options = {
-                quality: 25,
+              // var options = {
+              //   quality: 25,
+              //   destinationType: this.camera.DestinationType.FILE_URI,
+              //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+              //   allowEdit: true,
+              //   encodingType: this.camera.EncodingType.JPEG,
+              //   saveToPhotoAlbum: true
+              // };
+
+              const options: CameraOptions = {
+                quality: 100,
                 destinationType: this.camera.DestinationType.FILE_URI,
                 sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-                //allowEdit: true,
                 encodingType: this.camera.EncodingType.JPEG,
-                saveToPhotoAlbum: true
-              };
+                mediaType: this.camera.MediaType.PICTURE,
+                correctOrientation:true
+              }
+              
               this.camera.getPicture(options).then((imageURI) => {
                 localStorage.setItem("receiptAttachPath", imageURI);
                 console.log(imageURI);
