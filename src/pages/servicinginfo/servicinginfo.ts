@@ -273,18 +273,19 @@ export class ServicinginfoPage {
         console.log("1" + res.services.length);
         console.log("2" + res.services);
         if (res.services.length > 0) {
-          // this.upcomingAllLists = res.services;
-
-          if (res.services.length > 0) {
+           this.upcomingAllLists = res.services;
+          /*if (res.services.length > 0) {
             for (let serviceData in res.services) {
-              this.upcomingAllLists.push({                
+              this.upcomingAllLists.push({
+                'is_denyo_support': res.services[serviceData].is_denyo_support,
+                'next_service_date_selected': res.services[serviceData].next_service_date_selected,
                 'service_unitid': res.services[serviceData].service_unitid,
                 'is_request': res.services[serviceData].is_request,
                 'service_id': res.services[serviceData].service_id,
                 'next_service_date': res.services[serviceData].next_service_date,
                 'serviced_schduled_date': res.services[serviceData].serviced_schduled_date,
                 'service_scheduled_time_format': res.services[serviceData].service_scheduled_time_format,
-                'serviced_by': res.services[serviceData].serviced_by,                
+                'serviced_by': res.services[serviceData].serviced_by,
                 'user_photo': res.services[serviceData].user_photo,
                 'service_subject': res.services[serviceData].service_subject,
                 'serviced_scheduled_display': res.services[serviceData].serviced_scheduled_display,
@@ -294,7 +295,7 @@ export class ServicinginfoPage {
                 "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag != undefined ? "(" + res.services[serviceData].serviced_by_name_hastag + ")" : '',
               });
             }
-          }
+          }*/
 
 
           this.totalCountUpcoming = res.totalCountUpcoming;
