@@ -64,7 +64,7 @@ export class ServicingDetailsPage {
     this.service_unitid = this.navParams.get("record").service_unitid;
     this.serviced_datetime = this.navParams.get("record").serviced_datetime;
     this.next_service_date_selected = this.navParams.get("record").next_service_date_selected;
-    this.next_service_date = this.navParams.get("record").next_service_date;
+    this.next_service_date = this.navParams.get("record").next_service_date.substr(0,10);
     this.next_service_date_mobileview = this.navParams.get("record").next_service_date_mobileview;
     if (this.next_service_date == '0000-00-00') {
       this.next_service_date_selected = 0;
