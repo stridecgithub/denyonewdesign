@@ -523,15 +523,23 @@ export class EditprofilesteponePage {
           icon: 'md-camera',
           handler: () => {
             console.log('Camera clicked');
-            const options: CameraOptions = {
-              quality: 25,
-              destinationType: this.camera.DestinationType.FILE_URI,
-              sourceType: 1,
-              // targetWidth: 200,
-              // targetHeight: 200,
-              // saveToPhotoAlbum: true
+            // const options: CameraOptions = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: 1,
+            //   targetWidth: 200,
+            //   targetHeight: 200,
+            //   saveToPhotoAlbum: true
 
-            };
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation:true
+            }
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);

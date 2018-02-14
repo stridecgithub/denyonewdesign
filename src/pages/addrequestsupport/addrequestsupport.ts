@@ -187,11 +187,20 @@ export class AddrequestsupportPage {
 
   takePictureURL(micro_timestamp) {
     this.isUploadedProcessing = true;
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.FILE_URI,
+    //   saveToPhotoAlbum: true
+    // }
+
     const options: CameraOptions = {
-      quality: 25,
+      quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
-      saveToPhotoAlbum: true
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation:true
     }
+    
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
       this.fileTrans(imageData, micro_timestamp);

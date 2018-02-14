@@ -354,13 +354,22 @@ export class AddorgchartonePage {
   }
   doUploadPhoto() {
 
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.FILE_URI,
+    //   targetWidth: 200,
+    //   targetHeight: 200,
+    //   sourceType: 1
+    // }
+
     const options: CameraOptions = {
-      quality: 25,
+      quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
-      // targetWidth: 200,
-      // targetHeight: 200,
-      sourceType: 1
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation:true
     }
+    
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
       localStorage.setItem("userPhotoFile", imageData);
