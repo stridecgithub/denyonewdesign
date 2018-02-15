@@ -184,55 +184,60 @@
             </div>
           </ion-item> -->
 
+<!--  && upcomintitem.alarm_assigned_by!='' -->
+          <ion-item *ngIf="upcomintitem.event_type=='OA'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
+            <div class="p1">
+              <div class="msg">
+                <!-- <div class="user-img"> -->
+                <img src="assets/imgs/warning-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
+                <img src="assets/imgs/error-pic@2x.png"  height="50"  alt="" *ngIf="upcomintitem.alarm_priority=='0'">
+                <img src="assets/imgs/error-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
+                <!-- </div> -->
 
-          <ion-item *ngIf="upcomintitem.event_type=='OA'"  (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="msg">
-              <div class="user-img">
-                <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
-                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
-                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
-              </div>
-             
-              
 
-              <div class="check">
-                <h3>
-                  <b>{{upcomintitem.alarm_name}}</b>
-                </h3>
-                <div class="D&T" style="font-size:14px">
-                  {{upcomintitem.alarm_received_date}}
+
+                <div class="check">
+                  <h3 style="padding-left:13px">
+                    <b>{{upcomintitem.alarm_name}}</b>
+                  </h3>
+                  <div class="D&T" style="font-size:14px;padding-left:13px">
+                    {{upcomintitem.alarm_received_date}}
+                  </div>
+                  <span style="padding-left:13px" *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                  <br>
+                  <span style="padding-left:13px">Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
+
+
                 </div>
-                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
-                <br>
-                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
-
-
               </div>
-
             </div>
           </ion-item>
+<!--  && upcomintitem.alarm_assigned_by!=''-->
+          <ion-item *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
+            <div class="p1">
+              <div class="msg">
+                <!-- <div class="user-img"> -->
+                <img src="assets/imgs/warning-pic@2x.png"  height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
+                <img src="assets/imgs/error-pic@2x.png"  height="50" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
+                <img src="assets/imgs/error-pic@2x.png"  height="50" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
+                <!-- </div> -->
 
-          <ion-item *ngIf="upcomintitem.event_type=='A'"  (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="msg">
-              <div class="user-img">
-                <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
-                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
-                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
-              </div>
-             
 
-              <div class="check">
-                <h3>
-                  <b>{{upcomintitem.alarm_name}}</b>
-                </h3>
-                <div class="D&T" style="font-size:14px">
-                  {{upcomintitem.alarm_received_date}}
+                <div class="check">
+                  <h3 style="padding-left:13px">
+                    <b>{{upcomintitem.alarm_name}}</b>
+                  </h3>
+                  <div class="D&T" style="font-size:14px;padding-left:13px">
+                    {{upcomintitem.alarm_received_date}}
+                  </div>
+                  <span style="padding-left:13px" *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                  <br>
+                  <span style="padding-left:13px">Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
+
+
                 </div>
-                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
-                <br>
-                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
 
-
+               
               </div>
             </div>
           </ion-item>

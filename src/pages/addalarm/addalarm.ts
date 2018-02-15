@@ -357,7 +357,9 @@ export class AddalarmPage {
         });
     } else if (this.NP.get("from") == 'comment') {
       this.navCtrl.setRoot(CommentsinfoPage);
-    } else {
+    }else if (this.NP.get("from") == 'commentinfo') {
+      this.navCtrl.setRoot(CommentsinfoPage);
+    }  else {
       this.navCtrl.setRoot(AlarmdetailsPage,
         {
           record: this.NP.get("record")

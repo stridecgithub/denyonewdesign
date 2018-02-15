@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -9,6 +9,7 @@ import { AddcalendarPage } from "../addcalendar/addcalendar";
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { AddcommentsinfoPage } from '../addcommentsinfo/addcommentsinfo';
 import { NotificationPage } from '../notification/notification';
+import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 /**
  * Generated class for the CalendardetailPage page.
  *
@@ -42,12 +43,12 @@ export class CommentdetailsPage {
   public addedImgListsDetails = [];
   tabBarElement: any;
   eventitem;
-  constructor(public platform:Platform,public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+  constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
       this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-     this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
@@ -182,7 +183,7 @@ export class CommentdetailsPage {
   addCalendar(item) {
 
     //if (this.NP.get("from") != 'Push') {
-     // this.tabBarElement.style.display = 'none';
+    // this.tabBarElement.style.display = 'none';
     //}
     this.navCtrl.setRoot(AddcommentsinfoPage,
       {
@@ -235,5 +236,14 @@ export class CommentdetailsPage {
       }, error => {
       });
   }
+
+  preview(imagedata, from) {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
+      imagedata: imagedata,
+      event_id: this.NP.get("event_id"),
+      frompage: from
+    });
+  }
+
 }
 

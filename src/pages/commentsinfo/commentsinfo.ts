@@ -308,6 +308,7 @@ export class CommentsinfoPage {
 
 
   doEdit(item, act, type) {
+    console.log(type);
     if (type.toLowerCase() == 'c') {
       console.log("comment")
       localStorage.setItem("microtime", "");
@@ -319,6 +320,14 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 's') {
+      this.navCtrl.setRoot(ServicedetailsPage, {
+        record: item,
+        act: 'Edit',
+        from: 'commentinfo',
+      });
+    }
+
+    if (type.toLowerCase() == 'r') {
       this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',

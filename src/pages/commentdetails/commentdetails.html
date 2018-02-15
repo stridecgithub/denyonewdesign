@@ -88,7 +88,7 @@
   </ion-row>
   <ion-row class="attachment-row" style="border-top: none">
     <ion-col class="col" col-3 *ngFor="let item of addedImgListsDetails; let i = index" [attr.data-index]="i">
-      <div (click)="preview(addedImgListsDetails[i],'ServicingDetailsPage')">
+      <div (click)="preview(addedImgListsDetails[i],'CommentdetailsPage')">
         <img src="{{addedImgListsDetails[i].imgSrc}}" alt="">
       </div>
     </ion-col>
@@ -96,13 +96,13 @@
 
 
 
-  <ion-row class="event-detail-btn">
+  <!-- <ion-row class="event-detail-btn">
     <ion-col class="col" col-12>
       <div>
         <button  (click)="addCalendar(eventitem)"><img src="assets/imgs/edit@2x.png" width="12">Edit</button>
         <button style="background-color: red; border: red"  (click)="doEventDelete(eventitem)"><ion-icon name="trash"></ion-icon>Delete</button>
       </div>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 
 </ion-content>

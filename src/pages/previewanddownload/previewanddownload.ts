@@ -7,6 +7,8 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Config } from '../../config/config';
 import { CalendarPage } from "../calendar/calendar";
+
+import { CommentdetailsPage } from "../commentdetails/commentdetails";
 /**
  * Generated class for the PreviewanddownloadPage page.
  *
@@ -58,13 +60,18 @@ export class PreviewanddownloadPage {
   }
   previous(frompage) {
     console.log("From page for previous:" + frompage);
-    if (this.navParams.get("record") == undefined) {
-      this.navCtrl.setRoot(CalendarPage, {});
-      return false;
-    }
+    // if (this.navParams.get("record") == undefined) {
+    //   this.navCtrl.setRoot(CalendarPage, {});
+    //   return false;
+    // }
     if (frompage == 'ServicingDetailsPage') {
       this.navCtrl.setRoot(ServicingDetailsPage, {
         record: this.navParams.get("record")
+      });
+    } else if (frompage == 'CommentdetailsPage') {
+      this.navCtrl.setRoot(CommentdetailsPage, {
+        event_id: this.navParams.get("event_id"),
+        from: 'commentinfo'
       });
     } else if (frompage == 'MessagedetailPage') {
       this.navCtrl.setRoot(MessagedetailPage, {
