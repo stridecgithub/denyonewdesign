@@ -47,14 +47,14 @@ export class EventDetailsPage {
   }
 
   ionViewWillLeave() {
-
-    this.tabBarElement.style.display = 'flex';
-
+    if (this.NP.get("from") != 'Push') {
+      this.tabBarElement.style.display = 'flex';
+    }
   }
   ionViewDidLoad() {
-
-    this.tabBarElement.style.display = 'none';
-
+    if (this.NP.get("from") != 'Push') {
+      this.tabBarElement.style.display = 'none';
+    }
     if (this.NP.get("event_id")) {
       let body: string = "alarmid=" + this.NP.get("event_id"),
         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
