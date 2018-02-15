@@ -159,20 +159,69 @@
           </ion-item>
 
 
-          <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-              <div style="border-radius:0%" class="p1">
-              <!-- <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
-              <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
-              -->
-
+          <!-- <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
+            <div style="border-radius:0%" class="p1">
               <img style="border-radius:0%" src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
-              <img style="border-radius:0%" src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='1'"> 
+              <img style="border-radius:0%" src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
               <img style="border-radius:0%" src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
-          
 
 
+
+
+              <div class="check">
+                <h3>
+                  <b>{{upcomintitem.alarm_name}}</b>
+                </h3>
+                <div class="D&T" style="font-size:14px">
+                  {{upcomintitem.alarm_received_date}}
+                </div>
+                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                <br>
+                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
+
+
+              </div>
+            </div>
+          </ion-item> -->
+
+
+          <ion-item *ngIf="upcomintitem.event_type=='OA'"  (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
+            <div class="msg">
+              <div class="user-img">
+                <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
+                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
+                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
+              </div>
+             
               
-              <div class="check"> 
+
+              <div class="check">
+                <h3>
+                  <b>{{upcomintitem.alarm_name}}</b>
+                </h3>
+                <div class="D&T" style="font-size:14px">
+                  {{upcomintitem.alarm_received_date}}
+                </div>
+                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                <br>
+                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
+
+
+              </div>
+
+            </div>
+          </ion-item>
+
+          <ion-item *ngIf="upcomintitem.event_type=='A'"  (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
+            <div class="msg">
+              <div class="user-img">
+                <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
+                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
+                <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
+              </div>
+             
+
+              <div class="check">
                 <h3>
                   <b>{{upcomintitem.alarm_name}}</b>
                 </h3>
@@ -187,6 +236,7 @@
               </div>
             </div>
           </ion-item>
+
 
           <ion-item-options side="right" class="list-item-options">
             <button *ngIf="upcomintitem.event_type!='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">

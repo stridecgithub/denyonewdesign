@@ -365,7 +365,7 @@ export class AddrequestsupportPage {
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
       "&unitid=" + this.service_unitid +
-      "&dateandtime=" + timevalue +
+      "&dateandtime=" + serviced_datetime +
       // "&service_remark=" + service_remark +
       "&service_remark=" + service_remark +
       "&time=" + timevalue +

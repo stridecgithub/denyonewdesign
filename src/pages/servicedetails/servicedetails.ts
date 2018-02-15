@@ -58,6 +58,7 @@ export class ServicedetailsPage {
   serviced_scheduled_display;
   serviced_created_name;
   serviced_created_name_hastag;
+  serviced_created_name_hastag_withinclosedbracket;
   public created_by_hashtag: any
   public created_by_photo: any;
   public isFuture: any;
@@ -984,6 +985,8 @@ export class ServicedetailsPage {
 
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
+      this.serviced_created_name_hastag_withinclosedbracket = item.serviced_created_name_hastag_withinclosedbracket;
+
       this.next_service_date_selected = item.next_service_date_selected;
       console.log("next_service_date_selected" + this.next_service_date_selected);
       console.log("next_service_date:" + this.next_service_date);
@@ -1236,7 +1239,7 @@ export class ServicedetailsPage {
               destinationType: this.camera.DestinationType.FILE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
 
             this.camera.getPicture(options).then((uri) => {

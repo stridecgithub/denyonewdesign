@@ -522,7 +522,7 @@ export class AddhocPage {
       console.log("service datetime for form entry is 2" + this.serviced_date);
       serviced_date = this.serviced_date
     }
-    service_subject = 'my service';
+    service_subject = 'Ad-hoc Service';
 
     if (is_request == true) {
       is_request = 1;
