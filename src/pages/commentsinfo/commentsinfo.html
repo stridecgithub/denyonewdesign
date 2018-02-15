@@ -193,11 +193,10 @@
                 <img src="assets/imgs/error-pic@2x.png"  height="50"  alt="" *ngIf="upcomintitem.alarm_priority=='0'">
                 <img src="assets/imgs/error-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
                 <!-- </div> -->
-
-
+          
 
                 <div class="check">
-                  <h3 style="padding-left:13px">
+                  <h3 style="padding-left:13px;white-space: normal;">
                     <b>{{upcomintitem.alarm_name}}</b>
                   </h3>
                   <div class="D&T" style="font-size:14px;padding-left:13px">
@@ -224,7 +223,7 @@
 
 
                 <div class="check">
-                  <h3 style="padding-left:13px">
+                  <h3 style="padding-left:13px;white-space: normal;">
                     <b>{{upcomintitem.alarm_name}}</b>
                   </h3>
                   <div class="D&T" style="font-size:14px;padding-left:13px">
@@ -258,13 +257,13 @@
 
 
 
-            <button ion-button *ngIf="upcomintitem.event_type!='C'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+            <button ion-button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
 
 
-            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'  && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA'" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

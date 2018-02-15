@@ -82,7 +82,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="event-detail-btn" (click)="doEditAlarm(item,'edit')">
+    <ion-row class="event-detail-btn" (click)="doEditAlarm(item,'edit')"  *ngIf="frompage!='commentinfo'">
       <ion-col class="col" col-12>
         <div>
           <button>

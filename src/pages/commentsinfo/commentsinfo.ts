@@ -32,7 +32,7 @@ export class CommentsinfoPage {
   public reportData: any =
     {
       status: '',
-      sort: 'companygroup_id',
+      sort: 'comment',
       sortascdesc: 'asc',
       startindex: 0,
       results: 50
@@ -547,12 +547,12 @@ export class CommentsinfoPage {
         },
         {
           type: 'radio',
-          label: 'Service Name',
+          label: 'Service',
           value: 'service',
         },
         {
           type: 'radio',
-          label: 'Sender',
+          label: 'Name',
           value: 'name',
         }
       ],
@@ -566,14 +566,12 @@ export class CommentsinfoPage {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
               if (data == 'service') {
-                this.sortLblTxt = 'Service Name';
+                this.sortLblTxt = 'Service';
               } else if (data == 'comment') {
                 this.sortLblTxt = 'Comment';
               } else if (data == 'name') {
-                this.sortLblTxt = 'Sender';
-              } else if (data == 'status') {
-                this.sortLblTxt = 'Status';
-              }
+                this.sortLblTxt = 'Name';
+              } 
               this.reportData.startindex = 0;
               this.reportAllLists = [];
               this.doService();
@@ -589,14 +587,12 @@ export class CommentsinfoPage {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'service') {
-                this.sortLblTxt = 'Service Name';
+                this.sortLblTxt = 'Service';
               } else if (data == 'comment') {
                 this.sortLblTxt = 'Comment';
               } else if (data == 'name') {
-                this.sortLblTxt = 'Sender';
-              } else if (data == 'status') {
-                this.sortLblTxt = 'Status';
-              }
+                this.sortLblTxt = 'Name';
+              } 
               this.reportData.startindex = 0;
               this.reportAllLists = [];
               this.doService();

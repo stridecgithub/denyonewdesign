@@ -35,6 +35,7 @@ export class EventDetailsPage {
   item;
   alarm_priority;
   tabBarElement: any;
+  frompage;
   private apiServiceURL: string = "";
   constructor(private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
@@ -55,6 +56,8 @@ export class EventDetailsPage {
     if (this.NP.get("from") != 'Push') {
       this.tabBarElement.style.display = 'none';
     }
+    console.log("From Page:"+this.frompage);
+    this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
       let body: string = "alarmid=" + this.NP.get("event_id"),
         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",

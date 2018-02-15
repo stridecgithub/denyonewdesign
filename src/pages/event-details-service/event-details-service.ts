@@ -48,6 +48,7 @@ export class EventDetailsServicePage {
   next_service_date_selected;
   tabBarElement: any;
   eventitem;
+  frompage;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
@@ -67,6 +68,8 @@ export class EventDetailsServicePage {
     if (this.NP.get("from") != 'Push') {
       this.tabBarElement.style.display = 'none';
     }
+
+    this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
       console.log("Event Type:" + eventType);
@@ -99,7 +102,7 @@ export class EventDetailsServicePage {
             console.log(JSON.stringify(this.item));
             this.is_request = data.json().servicedetail[0].is_request;
             this.is_denyo_support = data.json().servicedetail[0].is_denyo_support;
-this.serviced_by= data.json().servicedetail[0].serviced_by;
+            this.serviced_by = data.json().servicedetail[0].serviced_by;
 
 
             this.service_resources = data.json().servicedetail[0].service_resources;
