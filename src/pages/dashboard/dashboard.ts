@@ -99,31 +99,31 @@ export class DashboardPage {
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
-    events.subscribe('menu:opened', () => {
-      this.firstname = localStorage.getItem("userInfoName");
-      this.lastname = localStorage.getItem("userInfoLastName");
-      this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
-      this.profilePhoto = localStorage.getItem("userInfoPhoto");
-      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL + "/images/default.png";
-      } else {
-        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-      }
-      console.log("Dashboard- Menu Opened");
-    });
-
-    events.subscribe('menu:closed', () => {
-      this.firstname = localStorage.getItem("userInfoName");
-      this.lastname = localStorage.getItem("userInfoLastName");
-      this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
-      this.profilePhoto = localStorage.getItem("userInfoPhoto");
-      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL + "/images/default.png";
-      } else {
-        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-      }
-      console.log("Dashboard- Menu Closed");
-    });
+    /* events.subscribe('menu:opened', () => {
+       this.firstname = localStorage.getItem("userInfoName");
+       this.lastname = localStorage.getItem("userInfoLastName");
+       this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+       this.profilePhoto = localStorage.getItem("userInfoPhoto");
+       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+         this.profilePhoto = this.apiServiceURL + "/images/default.png";
+       } else {
+         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+       }
+       console.log("Dashboard- Menu Opened");
+     });
+ 
+     events.subscribe('menu:closed', () => {
+       this.firstname = localStorage.getItem("userInfoName");
+       this.lastname = localStorage.getItem("userInfoLastName");
+       this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+       this.profilePhoto = localStorage.getItem("userInfoPhoto");
+       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+         this.profilePhoto = this.apiServiceURL + "/images/default.png";
+       } else {
+         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+       }
+       console.log("Dashboard- Menu Closed");
+     });*/
   }
 
   displayNetworkUpdate(connectionState: string) {
