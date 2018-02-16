@@ -479,7 +479,7 @@ export class AddhocPage {
       if (this.hrvalue > 12) {
         ampmstr = 'PM';
       }
-      serviced_date = this.serviced_date.split("T")[0];
+     // serviced_date = this.serviced_date.split("T")[0];
      // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
       let timevalue = this.hrvalue + ":" + minvalue + ":00";
       console.log(timevalue);
@@ -488,7 +488,7 @@ export class AddhocPage {
       console.log("is_request:" + is_request);
       console.log("service_subject:" + service_subject);
       console.log("nextServiceDate:" + this.unitDetailData.nextServiceDate);
-      this.createEntry(serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+      this.createEntry( this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
 
     }
 
@@ -513,14 +513,14 @@ export class AddhocPage {
     console.log("Form date:" + serviced_date);
     if (serviced_date == 'undefined') {
 
-      this.serviced_date = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 1" + this.serviced_date);
-      serviced_date = this.serviced_date
+      serviced_date = new Date().toJSON();
+      console.log("service datetime for form entry is 1" + serviced_date);
+      //serviced_date = this.serviced_date
     }
     if (serviced_date == undefined) {
-      this.serviced_date = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 2" + this.serviced_date);
-      serviced_date = this.serviced_date
+      serviced_date = new Date().toJSON();
+      console.log("service datetime for form entry is 2" + serviced_date);
+      //serviced_date = this.serviced_date
     }
     service_subject = 'Ad-hoc Service';
 
@@ -554,9 +554,8 @@ export class AddhocPage {
       "&service_remark=" + service_remark +
       "&next_service_date=" + nextServiceDate +
       "&next_service_date_selected=" + this.next_service_date_selected +
-      "&is_denyo_support=" + is_denyo_support +
-      "&service_status=0" +
-      "&serviced_by=0" +// "&serviced_by=" + this.unitDetailData.userId +
+      "&is_denyo_support=" + is_denyo_support +     
+      "&serviced_by=" + this.unitDetailData.userId+// "&serviced_by=" + this.unitDetailData.userId +
       "&created_by=" + this.unitDetailData.userId +
       "&is_request=" + is_request +
       "&service_subject=" + service_subject +

@@ -616,7 +616,7 @@ export class ServicinginfoPage {
             this.historyAllLists.push({
               "user_photo": res.services[serviceData].user_photo,
               "service_subject": res.services[serviceData].service_subject,
-              "serviced_datetime_display": res.services[serviceData].serviced_datetime_display,
+              "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
               "service_created_name": res.services[serviceData].service_created_name,
               "service_created_name_hastag": res.services[serviceData].service_created_name_hastag != undefined ? "(" + res.services[serviceData].service_created_name_hastag + ")" : '',
               "serviced_by_name": res.services[serviceData].serviced_by_name,
@@ -633,7 +633,8 @@ export class ServicinginfoPage {
               "next_service_date": res.services[serviceData].next_service_date,
               "next_service_date_selected": res.services[serviceData].next_service_date_selected,
               "service_status": res.services[serviceData].service_status,
-              "currentdate_mobileview": res.services[serviceData].currentdate_mobileview
+              "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
+              "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
             });
           }
 

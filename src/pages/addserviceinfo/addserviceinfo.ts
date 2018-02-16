@@ -246,447 +246,437 @@ export class AddserviceinfoPage {
         jQuery('#description').triggeredAutocomplete({
           source: this.atmentioneddata
         });*/
+  }
+
+
+  ionViewWillEnter() {
+    let //body: string = "loginid=" + this.userId,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
+    console.log(url);
+    // console.log(body);
+
+    this.http.get(url, options)
+      .subscribe((data) => {
+        console.log("Count Response Success:" + JSON.stringify(data.json()));
+        this.msgcount = data.json().msgcount;
+        this.notcount = data.json().notifycount;
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+    // this.getPrority(1);
+    //let users = localStorage.getItem("atMentionedStorage");
+    //this.is_request = false;
+    console.log(JSON.stringify(this.NP.get("record")));
+
+
+
+    if (this.NP.get("record")) {
+      this.selectEntry(this.NP.get("record"));
+      this.service_id = this.NP.get("record").service_id;
+      if (this.NP.get("act") == 'Add') {
+        //this.serviced_datetime = "";
+        this.getPrority(0);
+        //this.service_remark = "";
+        this.service_subject = "";
+        this.next_service_date = "";
+        this.isEdited = false;
+        this.unitDetailData.pageTitle = 'Servicing Info Add';
+        this.service_unitid = this.NP.get("unit_id");
+      } else {
+        this.service_unitid = this.NP.get("record").service_unitid;
+        this.unitDetailData.pageTitle = 'Servicing Info Edit';
+        this.isEdited = true;
+        this.isSubmitted = false;
       }
 
 
-    ionViewWillEnter() {
-      let //body: string = "loginid=" + this.userId,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-      console.log(url);
-      // console.log(body);
+      console.log("Service Id:" + this.service_id);
+      console.log("Service Unit Id:" + this.service_unitid);
+      // UnitDetails Api Call		
+      let
+        typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headersunit: any = new Headers({ 'Content-Type': typeunit }),
+        optionsunit: any = new RequestOptions({ headers: headersunit }),
+        urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
+          "&unitid=" + this.service_unitid;
+      console.log(urlunit);
+      this.http.get(urlunit, optionsunit)
+        .subscribe((data) => {					// If the request was successful notify the user
+          if (data.status === 200) {
+            this.unitDetailData.unitname = data.json().units[0].unitname;
+            this.unitDetailData.projectname = data.json().units[0].projectname;
+            this.unitDetailData.location = data.json().units[0].location;
+            this.unitDetailData.colorcodeindications = data.json().units[0].colorcode;
+            this.unitDetailData.gen_status = data.json().units[0].genstatus;
+            this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
+            this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
+            this.unitDetailData.runninghr = data.json().units[0].runninghr;
 
-      this.http.get(url, options)
-        .subscribe((data) => {
-          console.log("Count Response Success:" + JSON.stringify(data.json()));
-          this.msgcount = data.json().msgcount;
-          this.notcount = data.json().notifycount;
+            this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
+            if (data.json().units[0].lat == undefined) {
+              this.unitDetailData.lat = '';
+            } else {
+              this.unitDetailData.lat = data.json().units[0].lat;
+            }
+
+            if (data.json().units[0].lat == 'undefined') {
+              this.unitDetailData.lat = '';
+            } else {
+              this.unitDetailData.lat = data.json().units[0].lat;
+            }
+
+
+            if (data.json().units[0].lng == undefined) {
+              this.unitDetailData.lng = '';
+            } else {
+              this.unitDetailData.lng = data.json().units[0].lng;
+            }
+
+            if (data.json().units[0].lng == 'undefined') {
+              this.unitDetailData.lng = '';
+            } else {
+              this.unitDetailData.lng = data.json().units[0].lng;
+            }
+
+            this.unitDetailData.favoriteindication = data.json().units[0].favorite;
+            console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+
+          }
         }, error => {
           this.networkType = this.conf.serverErrMsg();// + "\n" + error;
         });
-      // this.getPrority(1);
-      //let users = localStorage.getItem("atMentionedStorage");
-      //this.is_request = false;
-      console.log(JSON.stringify(this.NP.get("record")));
+      // Unit Details API Call
+    }
 
 
 
-      if (this.NP.get("record")) {
-        this.selectEntry(this.NP.get("record"));
-        this.service_id = this.NP.get("record").service_id;
-        if (this.NP.get("act") == 'Add') {
-          //this.serviced_datetime = "";
-          this.getPrority(0);
-          //this.service_remark = "";
-          this.service_subject = "";
-          this.next_service_date = "";
-          this.isEdited = false;
-          this.unitDetailData.pageTitle = 'Servicing Info Add';
-          this.service_unitid = this.NP.get("unit_id");
+
+  }
+
+
+
+  takePictureURL(micro_timestamp) {
+    this.isUploadedProcessing = true;
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.FILE_URI,
+    //   saveToPhotoAlbum: true
+    // }
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      console.log(imageData);
+      this.fileTrans(imageData, micro_timestamp);
+      this.addedAttachList = imageData;
+    }, (err) => {
+      // Handle error
+      this.conf.sendNotification(err);
+    });
+  }
+
+  fileTrans(path, micro_timestamp) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let currentName = path.replace(/^.*[\\\/]/, '');
+    console.log("File Name is:" + currentName);
+
+    //YmdHis_123_filename
+    let dateStr = new Date();
+    let year = dateStr.getFullYear();
+    let month = dateStr.getMonth();
+    let date = dateStr.getDate();
+    let hr = dateStr.getHours();
+    let mn = dateStr.getMinutes();
+    let sec = dateStr.getSeconds();
+    let d = new Date(),
+      n = d.getTime(),
+      newFileName = year + "" + month + "" + date + "" + hr + "" + mn + "" + sec + "_123_" + n + ".jpg";
+
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      fileName: newFileName,
+      headers: {},
+      chunkedMode: false,
+      mimeType: "text/plain",
+    }
+
+
+
+
+    //  http://127.0.0.1/ionic/upload_attach.php
+    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
+    fileTransfer.onProgress(this.onProgress);
+    fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
+      .then((data) => {
+        this.isSubmitted = true;
+        // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
+
+
+        console.log("Upload Response is" + JSON.stringify(data))
+        let res = JSON.parse(data.response);
+        console.log(res.id);
+        console.log(JSON.stringify(res));
+
+        let imgSrc;
+        imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
+        this.addedServiceImgLists.push({
+          imgSrc: imgSrc,
+          imgDateTime: new Date(),
+          fileName: newFileName,
+          resouce_id: res.id
+        });
+
+        //loading.dismiss();
+        /* if (this.addedServiceImgLists.length > 9) {
+           this.isUploaded = false;
+         }*/
+        this.uploadcount = 10;
+        if (this.addedServiceImgLists.length > 9) {
+          this.isUploaded = false;
+
+          this.uploadcount = '';
         } else {
-          this.service_unitid = this.NP.get("record").service_unitid;
-          this.unitDetailData.pageTitle = 'Servicing Info Edit';
-          this.isEdited = true;
+          let remcount = this.uploadcount - this.addedServiceImgLists.length;
+          this.uploadcount = remcount;
+        }
+        this.progress += 5;
+        this.isProgress = false;
+        if (this.progress == 100) {
           this.isSubmitted = false;
         }
-
-
-        console.log("Service Id:" + this.service_id);
-        console.log("Service Unit Id:" + this.service_unitid);
-        // UnitDetails Api Call		
-        let
-          typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headersunit: any = new Headers({ 'Content-Type': typeunit }),
-          optionsunit: any = new RequestOptions({ headers: headersunit }),
-          urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
-            "&unitid=" + this.service_unitid;
-        console.log(urlunit);
-        this.http.get(urlunit, optionsunit)
-          .subscribe((data) => {					// If the request was successful notify the user
-            if (data.status === 200) {
-              this.unitDetailData.unitname = data.json().units[0].unitname;
-              this.unitDetailData.projectname = data.json().units[0].projectname;
-              this.unitDetailData.location = data.json().units[0].location;
-              this.unitDetailData.colorcodeindications = data.json().units[0].colorcode;
-              this.unitDetailData.gen_status = data.json().units[0].genstatus;
-              this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
-              this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
-              this.unitDetailData.runninghr = data.json().units[0].runninghr;
-
-              this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
-              if (data.json().units[0].lat == undefined) {
-                this.unitDetailData.lat = '';
-              } else {
-                this.unitDetailData.lat = data.json().units[0].lat;
-              }
-
-              if (data.json().units[0].lat == 'undefined') {
-                this.unitDetailData.lat = '';
-              } else {
-                this.unitDetailData.lat = data.json().units[0].lat;
-              }
-
-
-              if (data.json().units[0].lng == undefined) {
-                this.unitDetailData.lng = '';
-              } else {
-                this.unitDetailData.lng = data.json().units[0].lng;
-              }
-
-              if (data.json().units[0].lng == 'undefined') {
-                this.unitDetailData.lng = '';
-              } else {
-                this.unitDetailData.lng = data.json().units[0].lng;
-              }
-
-              this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-              console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
-
-            }
-          }, error => {
-            this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-          });
-        // Unit Details API Call
-      }
+        this.isUploadedProcessing = false;
+        return false;
 
 
 
-
-    }
-
-
-
-    takePictureURL(micro_timestamp) {
-      this.isUploadedProcessing = true;
-      // const options: CameraOptions = {
-      //   quality: 25,
-      //   destinationType: this.camera.DestinationType.FILE_URI,
-      //   saveToPhotoAlbum: true
-      // }
-
-      const options: CameraOptions = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        correctOrientation:true
-      }
-      
-      this.camera.getPicture(options).then((imageData) => {
-        console.log(imageData);
-        this.fileTrans(imageData, micro_timestamp);
-        this.addedAttachList = imageData;
+        // Save in Backend and MysQL
+        //this.uploadToServer(data.response);
+        // Save in Backend and MysQL
       }, (err) => {
-        // Handle error
-        this.conf.sendNotification(err);
-      });
+        //loading.dismiss();
+        console.log("Upload Error:" + JSON.stringify(err));
+        this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
+      })
+  }
+
+  onProgress = (progressEvent: ProgressEvent): void => {
+    this.ngZone.run(() => {
+      if (progressEvent.lengthComputable) {
+        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
+        this.isProgress = true;
+        this.progress = progress;
+      }
+    });
+  }
+
+  saveEntry() {
+
+
+
+    let isNet = localStorage.getItem("isNet");
+    if (isNet == 'offline') {
+      this.networkType = this.conf.networkErrMsg();
+    } else {
+      console.log(this.form.controls);
+      if (this.isUploadedProcessing == false) {
+        let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
+          serviced_by: string = this.unitDetailData.userId,
+          service_subject: string = this.form.controls["service_subject"].value;
+        let description = $('#to').val();
+        // console.log(description);
+        // console.log("serviced_datetime:" + serviced_datetime);
+
+        // if (serviced_datetime == undefined) {
+        //   this.serviced_datetime = moment().format();
+        //   console.log("Default date is" + this.serviced_datetime);
+        // } else {
+        //   this.serviced_datetime = serviced_datetime;
+        // }
+        // let datesplit = this.serviced_datetime.split("T")[1];
+        // let timesplit = datesplit.split(":");
+        // this.hrvalue = timesplit[0];
+        // let minvalue = timesplit[1];
+        // let ampmstr = 'AM';
+        // if (this.hrvalue > 12) {
+        //   ampmstr = 'PM';
+        // } else {
+
+        // }
+        //serviced_datetime = this.serviced_datetime.split("T")[0];
+        //let timevalue = this.hrvalue + ":" + minvalue + " " + ampmstr;
+        // let timevalue = this.hrvalue + ":" + minvalue + ":00";
+        // console.log(timevalue);
+        //let d = new Date();
+        //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
+        //updateEntry(description, serviced_datetime, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
+
+       
+
+          this.createEntry( description, serviced_datetime, serviced_by, service_subject);
+       
+      }
+    }
+  }
+
+  // Save a new record that has been added to the page's HTML form
+  // Use angular's http post method to submit the record data
+  // to our remote PHP script (note the body variable we have created which
+  // supplies a variable of key with a value of create followed by the key/value pairs
+  // for the record data
+  createEntry( description, serviced_date, serviced_by, service_subject) {
+    this.isSubmitted = true;
+
+
+
+    if (this.service_priority == undefined) {
+      this.service_priority = '0';
+    }
+    if (this.service_priority == 'undefined') {
+      this.service_priority = '0';
     }
 
-    fileTrans(path, micro_timestamp) {
-      const fileTransfer: FileTransferObject = this.transfer.create();
-      let currentName = path.replace(/^.*[\\\/]/, '');
-      console.log("File Name is:" + currentName);
 
-      //YmdHis_123_filename
-      let dateStr = new Date();
-      let year = dateStr.getFullYear();
-      let month = dateStr.getMonth();
-      let date = dateStr.getDate();
-      let hr = dateStr.getHours();
-      let mn = dateStr.getMinutes();
-      let sec = dateStr.getSeconds();
-      let d = new Date(),
-        n = d.getTime(),
-        newFileName = year + "" + month + "" + date + "" + hr + "" + mn + "" + sec + "_123_" + n + ".jpg";
+    console.log("Form date:" + serviced_date);
+    if (serviced_date == 'undefined') {
 
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: newFileName,
-        headers: {},
-        chunkedMode: false,
-        mimeType: "text/plain",
-      }
+      this.serviced_datetime = new Date().toJSON().split('T')[0];
+      console.log("service datetime for form entry is 1" + this.serviced_datetime);
+      serviced_date = this.serviced_datetime
+    }
+    if (serviced_date == undefined) {
+      this.serviced_datetime = new Date().toJSON().split('T')[0];
+      console.log("service datetime for form entry is 2" + this.serviced_datetime);
+      serviced_date = this.serviced_datetime
+    }
 
+    //description = localStorage.getItem("atMentionResult");
+    //http://denyoappv2.stridecdev.com/newserviceschedule?is_mobile=1&unitid=1&subject=newschduleservice&dateandtime=2017-11-20&description=newscheduledformdescriotion&created_by=1&time=8 AM
+    let body: string = "is_mobile=1" +
+      //"&service_priority=" + this.service_priority +
+      "&unitid=" + this.service_unitid +
+      "&dateandtime=" + serviced_date +
+      // "&service_remark=" + service_remark +
+      "&description=" + description +
+      //"&time=" + serviced_time +
+      //"&next_service_date=" + nextServiceDate +
+      //"&is_denyo_support=0" +
+      "&created_by=" + this.unitDetailData.userId +
+      //"&is_request=" + is_request +
+      "&subject=" + service_subject,
+      //"&micro_timestamp=" + micro_timestamp +
+      //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
+      //"&contact_number=" + this.contact_number +
+      //"&contact_name=" + this.contact_name +
+      //"&nextServiceDate=" + nextServiceDate,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/newserviceschedule";
+    console.log(url);
+    console.log(body);
 
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        let res = data.json();
+        //console.log("Response Success:" + JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.service_subject = '';
+          //this.service_remark = '';
+          this.addedServiceImgLists = [];
+          localStorage.setItem("microtime", "");
+          this.addedServiceImgLists = [];
+          //if (res.msg[0]['Error'] > 0) {
+          // this.conf.sendNotification(res.msg[0]['result']);
+          //}
+          this.conf.sendNotification(`New Service Scheduled Added successfully`);
 
-
-      //  http://127.0.0.1/ionic/upload_attach.php
-      //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-      fileTransfer.onProgress(this.onProgress);
-      fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
-        .then((data) => {
-          this.isSubmitted = true;
-          // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
-
-
-          console.log("Upload Response is" + JSON.stringify(data))
-          let res = JSON.parse(data.response);
-          console.log(res.id);
-          console.log(JSON.stringify(res));
-
-          let imgSrc;
-          imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
-          this.addedServiceImgLists.push({
-            imgSrc: imgSrc,
-            imgDateTime: new Date(),
-            fileName: newFileName,
-            resouce_id: res.id
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
           });
-
-          //loading.dismiss();
-          /* if (this.addedServiceImgLists.length > 9) {
-             this.isUploaded = false;
-           }*/
-          this.uploadcount = 10;
-          if (this.addedServiceImgLists.length > 9) {
-            this.isUploaded = false;
-
-            this.uploadcount = '';
-          } else {
-            let remcount = this.uploadcount - this.addedServiceImgLists.length;
-            this.uploadcount = remcount;
-          }
-          this.progress += 5;
-          this.isProgress = false;
-          if (this.progress == 100) {
-            this.isSubmitted = false;
-          }
-          this.isUploadedProcessing = false;
-          return false;
-
-
-
-          // Save in Backend and MysQL
-          //this.uploadToServer(data.response);
-          // Save in Backend and MysQL
-        }, (err) => {
-          //loading.dismiss();
-          console.log("Upload Error:" + JSON.stringify(err));
-          this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
-        })
-    }
-
-    onProgress = (progressEvent: ProgressEvent): void => {
-      this.ngZone.run(() => {
-        if (progressEvent.lengthComputable) {
-          let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
-          this.isProgress = true;
-          this.progress = progress;
         }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+  }
+
+  address1get(hashtag) {
+    console.log(hashtag);
+    this.unitDetailData.hashtag = hashtag;
+  }
+
+  // Update an existing record that has been edited in the page's HTML form
+  // Use angular's http post method to submit the record data
+  // to our remote PHP script (note the body variable we have created which
+  // supplies a variable of key with a value of update followed by the key/value pairs
+  // for the record data
+
+
+  getPrority(val) {
+    this.priority_highclass = '';
+    this.priority_lowclass = '';
+    if (val == "2") {
+      this.priority_highclass = "border_high";
+    }
+    if (val == "1") {
+      this.priority_lowclass = "border_low";
+    }
+    this.service_priority = val
+  }
+
+  addDays(days) {
+    let result = new Date();
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  subDays(days) {
+    let result = new Date();
+    result.setDate(result.getDate() - days);
+    console.log("SubDays Function Result is:" + result);
+    return result;
+  }
+
+
+
+
+
+  previous() {
+    this.addedServiceImgLists = [];
+    if (this.NP.get("from") == 'service') {
+      this.navCtrl.setRoot(ServicinginfoPage, {
+        record: this.NP.get("record")
       });
     }
-
-    saveEntry() {
-
-
-
-      let isNet = localStorage.getItem("isNet");
-      if (isNet == 'offline') {
-        this.networkType = this.conf.networkErrMsg();
-      } else {
-        console.log(this.form.controls);
-        if (this.isUploadedProcessing == false) {
-          /* let name: string = this.form.controls["lat"].value,
-             description: string = this.form.controls["long"].value,
-             photos: object = this.addedImgLists;*/
-
-
-          let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
-            serviced_by: string = this.unitDetailData.userId,
-            service_subject: string = this.form.controls["service_subject"].value;
-          //description: string = this.form.controls["description"].value;
-          let description = $('#to').val();
-          console.log(description);
-          //2015-12-10T17:03:00Z
-          console.log("serviced_datetime:" + serviced_datetime);
-
-          if (serviced_datetime == undefined) {
-            this.serviced_datetime = moment().format();
-            console.log("Default date is" + this.serviced_datetime);
-          } else {
-            this.serviced_datetime = serviced_datetime;
-          }
-          let datesplit = this.serviced_datetime.split("T")[1];
-          let timesplit = datesplit.split(":");
-          this.hrvalue = timesplit[0];
-          let minvalue = timesplit[1];
-          let ampmstr = 'AM';
-          if (this.hrvalue > 12) {
-            ampmstr = 'PM';
-          } else {
-
-          }
-          serviced_datetime = this.serviced_datetime.split("T")[0];
-          //let timevalue = this.hrvalue + ":" + minvalue + " " + ampmstr;
-          let timevalue = this.hrvalue + ":" + minvalue + ":00";
-          console.log(timevalue);
-          //let d = new Date();
-          //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
-          //updateEntry(description, serviced_datetime, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
-
-          if (this.isEdited) {
-            //this.updateEntry(description, serviced_datetime, serviced_by, service_subject);
-          }
-          else {
-
-            this.createEntry(timevalue, description, serviced_datetime, serviced_by, service_subject);
-          }
-        }
-      }
+    else if (this.NP.get("from") == 'comment') {
+      //this.navCtrl.setRoot(CommentsinfoPage);
     }
-
-    // Save a new record that has been added to the page's HTML form
-    // Use angular's http post method to submit the record data
-    // to our remote PHP script (note the body variable we have created which
-    // supplies a variable of key with a value of create followed by the key/value pairs
-    // for the record data
-    createEntry(serviced_time, description, serviced_date, serviced_by, service_subject) {
-      this.isSubmitted = true;
-
-
-
-      if (this.service_priority == undefined) {
-        this.service_priority = '0';
-      }
-      if (this.service_priority == 'undefined') {
-        this.service_priority = '0';
-      }
-
-
-      console.log("Form date:" + serviced_date);
-      if (serviced_date == 'undefined') {
-
-        this.serviced_datetime = new Date().toJSON().split('T')[0];
-        console.log("service datetime for form entry is 1" + this.serviced_datetime);
-        serviced_date = this.serviced_datetime
-      }
-      if (serviced_date == undefined) {
-        this.serviced_datetime = new Date().toJSON().split('T')[0];
-        console.log("service datetime for form entry is 2" + this.serviced_datetime);
-        serviced_date = this.serviced_datetime
-      }
-
-      //description = localStorage.getItem("atMentionResult");
-      //http://denyoappv2.stridecdev.com/newserviceschedule?is_mobile=1&unitid=1&subject=newschduleservice&dateandtime=2017-11-20&description=newscheduledformdescriotion&created_by=1&time=8 AM
-      let body: string = "is_mobile=1" +
-        //"&service_priority=" + this.service_priority +
-        "&unitid=" + this.service_unitid +
-        "&dateandtime=" + serviced_date +
-        // "&service_remark=" + service_remark +
-        "&description=" + description +
-        "&time=" + serviced_time +
-        //"&next_service_date=" + nextServiceDate +
-        //"&is_denyo_support=0" +
-        "&created_by=" + this.unitDetailData.userId +
-        //"&is_request=" + is_request +
-        "&subject=" + service_subject,
-        //"&micro_timestamp=" + micro_timestamp +
-        //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
-        //"&contact_number=" + this.contact_number +
-        //"&contact_name=" + this.contact_name +
-        //"&nextServiceDate=" + nextServiceDate,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/newserviceschedule";
-      console.log(url);
-      console.log(body);
-
-      this.http.post(url, body, options)
-        .subscribe((data) => {
-          let res = data.json();
-          //console.log("Response Success:" + JSON.stringify(data.json()));
-          // If the request was successful notify the user
-          if (data.status === 200) {
-            this.service_subject = '';
-            //this.service_remark = '';
-            this.addedServiceImgLists = [];
-            localStorage.setItem("microtime", "");
-            this.addedServiceImgLists = [];
-            //if (res.msg[0]['Error'] > 0) {
-            // this.conf.sendNotification(res.msg[0]['result']);
-            //}
-            this.conf.sendNotification(`New Service Scheduled Added successfully`);
-
-            this.navCtrl.setRoot(ServicinginfoPage, {
-              record: this.NP.get("record")
-            });
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
+    else {
+      this.navCtrl.setRoot(ServicinginfoPage, {
+        record: this.NP.get("record")
+      });
     }
-
-    address1get(hashtag) {
-      console.log(hashtag);
-      this.unitDetailData.hashtag = hashtag;
-    }
-
-    // Update an existing record that has been edited in the page's HTML form
-    // Use angular's http post method to submit the record data
-    // to our remote PHP script (note the body variable we have created which
-    // supplies a variable of key with a value of update followed by the key/value pairs
-    // for the record data
-
-
-    getPrority(val) {
-      this.priority_highclass = '';
-      this.priority_lowclass = '';
-      if (val == "2") {
-        this.priority_highclass = "border_high";
-      }
-      if (val == "1") {
-        this.priority_lowclass = "border_low";
-      }
-      this.service_priority = val
-    }
-
-    addDays(days) {
-      let result = new Date();
-      result.setDate(result.getDate() + days);
-      return result;
-    }
-
-    subDays(days) {
-      let result = new Date();
-      result.setDate(result.getDate() - days);
-      console.log("SubDays Function Result is:" + result);
-      return result;
-    }
-
-
-
-
-
-    previous() {
-      this.addedServiceImgLists = [];
-      if (this.NP.get("from") == 'service') {
-        this.navCtrl.setRoot(ServicinginfoPage, {
-          record: this.NP.get("record")
-        });
-      }
-      else if (this.NP.get("from") == 'comment') {
-        //this.navCtrl.setRoot(CommentsinfoPage);
-      }
-      else {
-        this.navCtrl.setRoot(ServicinginfoPage, {
-          record: this.NP.get("record")
-        });
-      }
-    }
+  }
 
 
 
 
 
 
-    selectEntry(item) {/*
+  selectEntry(item) {/*
 
     // http://denyoappv2.stridecdev.com/servicescheduleedit/1
     let //body: string = "loginid=" + this.userId,
@@ -767,211 +757,211 @@ export class AddserviceinfoPage {
       this.service_subject = '';
       localStorage.setItem("microtime", "");
     }*/
-    }
-    doRemoveResouce(id, item) {
-      console.log("Deleted Id" + id);
-      let confirm = this.alertCtrl.create({
-        message: 'Are you sure you want to delete this file?',
-        buttons: [{
-          text: 'Yes',
-          handler: () => {
-            if (id != undefined) {
-              this.deleteEntry(id);
-            }
-            for (let q: number = 0; q < this.addedServiceImgLists.length; q++) {
-              if (this.addedServiceImgLists[q] == item) {
-                this.addedServiceImgLists.splice(q, 1);
+  }
+  doRemoveResouce(id, item) {
+    console.log("Deleted Id" + id);
+    let confirm = this.alertCtrl.create({
+      message: 'Are you sure you want to delete this file?',
+      buttons: [{
+        text: 'Yes',
+        handler: () => {
+          if (id != undefined) {
+            this.deleteEntry(id);
+          }
+          for (let q: number = 0; q < this.addedServiceImgLists.length; q++) {
+            if (this.addedServiceImgLists[q] == item) {
+              this.addedServiceImgLists.splice(q, 1);
 
-              }
             }
-            this.uploadcount = 10 - this.addedServiceImgLists.length;
-            console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
-            console.log("After Deleted Upload count length:" + this.uploadcount);
+          }
+          this.uploadcount = 10 - this.addedServiceImgLists.length;
+          console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
+          console.log("After Deleted Upload count length:" + this.uploadcount);
+        }
+      },
+      {
+        text: 'No',
+        handler: () => { }
+      }]
+    });
+    confirm.present();
+  }
+
+
+  // Remove an existing record that has been selected in the page's HTML form
+  // Use angular's http post method to submit the record data
+  // to our remote PHP script (note the body variable we have created which
+  // supplies a variable of key with a value of delete followed by the key/value pairs
+  // for the record ID we want to remove from the remote database
+  deleteEntry(recordID) {
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/" + recordID + "/removeresource";
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.conf.sendNotification(`File was successfully deleted`);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+  }
+
+
+  notification() {
+    this.navCtrl.setRoot(NotificationPage);
+  }
+  redirectToUser() {
+    this.navCtrl.setRoot(UnitsPage);
+  }
+
+  redirectCalendar() {
+    this.navCtrl.setRoot(CalendarPage);
+  }
+
+  redirectToSettings() {
+    this.navCtrl.setRoot(OrgchartPage);
+  }
+
+
+  showConfirm() {
+    let confirm = this.alertCtrl.create({
+      title: 'Attention',
+
+      message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            // this.is_request = true;
+            console.log('Confirm clicked');
           }
         },
         {
-          text: 'No',
-          handler: () => { }
-        }]
-      });
-      confirm.present();
-    }
-
-
-    // Remove an existing record that has been selected in the page's HTML form
-    // Use angular's http post method to submit the record data
-    // to our remote PHP script (note the body variable we have created which
-    // supplies a variable of key with a value of delete followed by the key/value pairs
-    // for the record ID we want to remove from the remote database
-    deleteEntry(recordID) {
-      let
-        //body: string = "key=delete&recordID=" + recordID,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/" + recordID + "/removeresource";
-      this.http.get(url, options)
-        .subscribe(data => {
-          // If the request was successful notify the user
-          if (data.status === 200) {
-            this.conf.sendNotification(`File was successfully deleted`);
+          text: 'Cancel',
+          handler: () => {
+            // this.is_request = false;
+            console.log('Cancel clicked');
           }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
+        }
+      ],
+      cssClass: 'alertDanger'
+    });
+    confirm.present();
+  }
+  fileChooser(micro_timestamp) {
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Attachment',
+      buttons: [
+        {
+          text: 'From Gallery',
+          icon: 'md-image',
+          role: 'fromgallery',
+          handler: () => {
+            // var options = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            //   allowEdit: true,
+            //   encodingType: this.camera.EncodingType.JPEG,
+            //   saveToPhotoAlbum: true
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
+            this.camera.getPicture(options).then((imageURI) => {
+              localStorage.setItem("receiptAttachPath", imageURI);
+              console.log(imageURI);
+              this.fileTrans(imageURI, micro_timestamp);
+              this.addedAttachList = imageURI;
+            }, (err) => {
+
+            });
           }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
-    }
+        }, {
+          text: 'From Camera',
+          icon: 'md-camera',
+          handler: () => {
+            console.log('Camera clicked');
+            const options: CameraOptions = {
+              quality: 25,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              sourceType: 1,
+              targetWidth: 200,
+              targetHeight: 200,
+              saveToPhotoAlbum: true
+            };
 
 
-    notification() {
-      this.navCtrl.setRoot(NotificationPage);
-    }
-    redirectToUser() {
-      this.navCtrl.setRoot(UnitsPage);
-    }
-
-    redirectCalendar() {
-      this.navCtrl.setRoot(CalendarPage);
-    }
-
-    redirectToSettings() {
-      this.navCtrl.setRoot(OrgchartPage);
-    }
+            // const options: CameraOptions = {
+            //   quality: 100,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   encodingType: this.camera.EncodingType.JPEG,
+            //   mediaType: this.camera.MediaType.PICTURE
+            // }
 
 
-    showConfirm() {
-      let confirm = this.alertCtrl.create({
-        title: 'Attention',
-
-        message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
-        buttons: [
-          {
-            text: 'Ok',
-            handler: () => {
-              // this.is_request = true;
-              console.log('Confirm clicked');
-            }
-          },
-          {
-            text: 'Cancel',
-            handler: () => {
-              // this.is_request = false;
-              console.log('Cancel clicked');
-            }
+            this.camera.getPicture(options).then((uri) => {
+              console.log(uri);
+              this.fileTrans(uri, micro_timestamp);
+              this.addedAttachList = uri;
+            }, (err) => {
+              // Handle error
+              this.conf.sendNotification(err);
+            });
           }
-        ],
-        cssClass: 'alertDanger'
-      });
-      confirm.present();
-    }
-    fileChooser(micro_timestamp) {
-
-      let actionSheet = this.actionSheetCtrl.create({
-        title: 'Attachment',
-        buttons: [
-          {
-            text: 'From Gallery',
-            icon: 'md-image',
-            role: 'fromgallery',
-            handler: () => {
-              // var options = {
-              //   quality: 25,
-              //   destinationType: this.camera.DestinationType.FILE_URI,
-              //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-              //   allowEdit: true,
-              //   encodingType: this.camera.EncodingType.JPEG,
-              //   saveToPhotoAlbum: true
-              // };
-
-              const options: CameraOptions = {
-                quality: 100,
-                destinationType: this.camera.DestinationType.FILE_URI,
-                sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-                encodingType: this.camera.EncodingType.JPEG,
-                mediaType: this.camera.MediaType.PICTURE,
-                correctOrientation:true
-              }
-              
-              this.camera.getPicture(options).then((imageURI) => {
-                localStorage.setItem("receiptAttachPath", imageURI);
-                console.log(imageURI);
-                this.fileTrans(imageURI, micro_timestamp);
-                this.addedAttachList = imageURI;
-              }, (err) => {
-
-              });
-            }
-          }, {
-            text: 'From Camera',
-            icon: 'md-camera',
-            handler: () => {
-              console.log('Camera clicked');
-              const options: CameraOptions = {
-                quality: 25,
-                destinationType: this.camera.DestinationType.FILE_URI,
-                sourceType: 1,
-                 targetWidth: 200,
-                targetHeight: 200,
-                saveToPhotoAlbum: true
-              };
-
-
-              // const options: CameraOptions = {
-              //   quality: 100,
-              //   destinationType: this.camera.DestinationType.FILE_URI,
-              //   encodingType: this.camera.EncodingType.JPEG,
-              //   mediaType: this.camera.MediaType.PICTURE
-              // }
-
-
-              this.camera.getPicture(options).then((uri) => {
-                console.log(uri);
-                this.fileTrans(uri, micro_timestamp);
-                this.addedAttachList = uri;
-              }, (err) => {
-                // Handle error
-                this.conf.sendNotification(err);
-              });
-            }
-          }, {
-            text: 'Cancel',
-            icon: 'md-close',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
+        }, {
+          text: 'Cancel',
+          icon: 'md-close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
           }
-        ]
-      });
-      actionSheet.present();
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  futureDateValidation(formvalue) {
+    this.isSubmitted = true;
+    let date = new Date();
+    let mn = date.getMonth() + 1;
+    if (mn < 10) {
+      this.mn = "0" + mn;
+    } else {
+      this.mn = mn;
+    }
+    let dd = date.getDate();
+    if (dd < 10) {
+      this.dd = "0" + dd;
+    } else {
+      this.dd = dd;
     }
 
-    futureDateValidation(formvalue) {
+    let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
+    if (formvalue.split("T")[0] >= current_date) {
+      this.isSubmitted = false;
+
+    } else {
+      this.serviced_datetime = moment().format();
       this.isSubmitted = true;
-      let date = new Date();
-      let mn = date.getMonth() + 1;
-      if (mn < 10) {
-        this.mn = "0" + mn;
-      } else {
-        this.mn = mn;
-      }
-      let dd = date.getDate();
-      if (dd < 10) {
-        this.dd = "0" + dd;
-      } else {
-        this.dd = dd;
-      }
-
-      let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
-      if (formvalue.split("T")[0] >= current_date) {
-        this.isSubmitted = false;
-
-      } else {
-        this.serviced_datetime = moment().format();
-        this.isSubmitted = true;
-      }
     }
   }
+}

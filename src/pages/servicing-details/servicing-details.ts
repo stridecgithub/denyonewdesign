@@ -75,7 +75,7 @@ export class ServicingDetailsPage {
     this.serviced_schduled_date = this.navParams.get("record").serviced_schduled_date;
     this.service_scheduled_time_format = this.navParams.get("record").service_scheduled_time_format;
 
-
+  
 
     if (this.navParams.get("from") == 'upcoming') {
       this.serviced_datetime_display_format = this.navParams.get("record").serviced_scheduled_display;
@@ -83,13 +83,13 @@ export class ServicingDetailsPage {
       this.serviced_created_name_hastag = "(" + this.navParams.get("record").serviced_created_name_hastag + ")";
 
     } else {
-      this.serviced_datetime_display_format = this.navParams.get("record").serviced_datetime_display;
+      this.serviced_datetime_display_format = this.navParams.get("record").serviced_scheduled_display;
       this.serviced_created_name = this.navParams.get("record").service_created_name;
       this.serviced_created_name_hastag = this.navParams.get("record").service_created_name_hastag;
 
     }
 //let tme=this.navParams.get("record").service_scheduled_time_format.replace(" ",":00");
-    this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
+    this.serviced_datetime_display = this.navParams.get("record").serviced_datetime_edit;
 
 
     // this.serviced_datetime_display = this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
@@ -104,30 +104,30 @@ export class ServicingDetailsPage {
     // }
 
 
-    this.service_time = this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
-    console.log(" this.service_time" + this.service_time);
-    let getampmpvalue = this.navParams.get("record").service_scheduled_time_format.substr(6, 8)
-    console.log("AMPM:" + getampmpvalue);
-    if (getampmpvalue == 'PM') {
-      let timesplit = this.service_time.split(":");
-      this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-      console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
-      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-    } else {
-      let timesplit = this.service_time.split(":");
-      this.hoursadd24hourformat = parseInt(timesplit[0]);
-      if (this.hoursadd24hourformat == 12) {
-        this.hoursadd24hourformat = '00';
-      }
-      console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
-      this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-    }
+    // this.service_time = this.navParams.get("record").service_scheduled_time_format.substr(0, 5);
+    // console.log(" this.service_time" + this.service_time);
+    // let getampmpvalue = this.navParams.get("record").service_scheduled_time_format.substr(6, 8)
+    // console.log("AMPM:" + getampmpvalue);
+    // if (getampmpvalue == 'PM') {
+    //   let timesplit = this.service_time.split(":");
+    //   this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+    //   console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
+    //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    // } else {
+    //   let timesplit = this.service_time.split(":");
+    //   this.hoursadd24hourformat = parseInt(timesplit[0]);
+    //   if (this.hoursadd24hourformat == 12) {
+    //     this.hoursadd24hourformat = '00';
+    //   }
+    //   console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
+    //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+    // }
 
 
-    //this.serviced_datetime_display = '2018-02-06T00:00';
-    //this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+    // //this.serviced_datetime_display = '2018-02-06T00:00';
+    // //this.serviced_datetime_display = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
 
-    console.log("serviceing-details.ts" + this.serviced_datetime_display);
+    // console.log("serviceing-details.ts" + this.serviced_datetime_display);
 
 
 

@@ -44,6 +44,7 @@ export class AddrequestsupportPage {
   public msgcount: any;
   public notcount: any;
   hrvalue;
+  serviced_datetime;
   public isSubmitted: boolean = false;
   public isUploadedProcessing: boolean = false;
   public isProgress = false;
@@ -345,9 +346,9 @@ export class AddrequestsupportPage {
   createEntry(service_remark, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
 
-    let serviced_datetime = new Date().toJSON().split('T')[0];
+   // let serviced_datetime = new Date().toJSON().split('T');
     var date = new Date();
-    serviced_datetime = moment().format();
+    let serviced_datetime = moment().format();
     console.log("Default date is" + serviced_datetime);
 
     let datesplit = serviced_datetime.split("T")[1];
@@ -358,7 +359,7 @@ export class AddrequestsupportPage {
     if (this.hrvalue > 12) {
       ampmstr = 'PM';
     }
-    serviced_datetime = serviced_datetime.split("T")[0];
+    this.serviced_datetime = serviced_datetime.split("T");
     //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
     let timevalue = this.hrvalue + ":" + minvalue + ":00"
     console.log(timevalue);
@@ -367,7 +368,7 @@ export class AddrequestsupportPage {
       "&unitid=" + this.service_unitid +
       "&dateandtime=" + serviced_datetime +
       // "&service_remark=" + service_remark +
-      "&service_remark=" + service_remark +
+      "&description=" + service_remark +
       "&time=" + timevalue +
       //"&next_service_date=" + nextServiceDate +
       "&is_denyo_support=1" +

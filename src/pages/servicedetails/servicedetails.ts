@@ -555,36 +555,8 @@ export class ServicedetailsPage {
         description: string = this.form.controls["description"].value,
         service_subject: string = this.form.controls["service_subject"].value;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
-
-
-
-
-
-
-      //2015-12-10T17:03:00Z
-      console.log(service_scheduled_date)
-      let datesplit = service_scheduled_date.split("T")[1];
-      let timesplit = datesplit.split(":");
-      this.hrvalue = timesplit[0];
-      let minvalue = timesplit[1];
-      let ampmstr = 'AM';
-      if (this.hrvalue > 12) {
-        ampmstr = 'PM';
-      }
-      this.serviced_date = service_scheduled_date.split("T")[0];
-      if (this.serviced_date != '') {
-        let yearsplithyphen = this.serviced_date.split("-");
-        this.currentyear = yearsplithyphen[0];
-        console.log("Edit Current Year:-" + this.currentyear);
-      }
-      //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
-      let timevalue = this.hrvalue + ":" + minvalue + ":00"
-
-
-      //let d = new Date();
-      //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
-
-      this.createEntry(this.serviced_date, description, status, this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+     // service_scheduled_date = "2018-02-16T02:45:00";
+      this.createEntry(service_scheduled_date, description, status,service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
 
     }
 
@@ -950,38 +922,46 @@ export class ServicedetailsPage {
         if (item.serviced_schduled_date == undefined) {
           item.serviced_schduled_date = item.service_scheduled_date;
         }
-        this.service_scheduled_date = item.serviced_schduled_date + "T" + item.service_scheduled_time_format.substr(0, 5);
-        console.log("With Substring 5:" + item.service_scheduled_time_format.substr(0, 5));
-        console.log("Without Substring 5:" + item.service_scheduled_time_format);
-        //this.service_scheduled_date ='';
-        console.log("service_scheduled_date-kannan 1" + this.service_scheduled_date);
+        // this.service_scheduled_date = item.serviced_schduled_date + "T" + item.service_scheduled_time_format.substr(0, 5);
+        // console.log("With Substring 5:" + item.service_scheduled_time_format.substr(0, 5));
+        // console.log("Without Substring 5:" + item.service_scheduled_time_format);
+        // //this.service_scheduled_date ='';
+        // console.log("service_scheduled_date-kannan 1" + this.service_scheduled_date);
       }
 
 
 
-      this.service_time = item.service_scheduled_time_format.substr(0, 5);
-      console.log(" this.service_time" + this.service_time);
-      let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
-      console.log("AMPM:" + getampmpvalue);
-      if (getampmpvalue == 'PM') {
-        let timesplit = this.service_time.split(":");
-        this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-        console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
-        this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-      } else {
-        let timesplit = this.service_time.split(":");
-        this.hoursadd24hourformat = parseInt(timesplit[0]);
-        if (this.hoursadd24hourformat == 12) {
-          this.hoursadd24hourformat = '00';
-        }
-        console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
-        this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-      }
+      // this.service_time = item.service_scheduled_time_format.substr(0, 5);
+      // console.log(" this.service_time" + this.service_time);
+      // let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
+      // console.log("AMPM:" + getampmpvalue);
+      // if (getampmpvalue == 'PM') {
+      //   let timesplit = this.service_time.split(":");
+      //   this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+      //   console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
+      //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+      // } else {
+      //   let timesplit = this.service_time.split(":");
+      //   this.hoursadd24hourformat = parseInt(timesplit[0]);
+      //   if (this.hoursadd24hourformat == 12) {
+      //     this.hoursadd24hourformat = '00';
+      //   }
+      //   console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
+      //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
+      // }
 
 
       // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
+     // this.service_scheduled_date = item.serviced_datetime_edit;
 
-      console.log("serviceing-details.ts" + this.service_scheduled_date);
+     this.service_scheduled_date = item.serviced_datetime_edit;
+     //this.service_scheduled_date ="2018-02-17T13:45:30";
+     
+      console.log("ffsf" + this.service_scheduled_date);
+      //this.service_scheduled_date="2018-02-17 03:17";
+      // this.service_scheduled_date="2018-02-17T13:17";
+
+      //console.log("serviceing-details.ts" + this.service_scheduled_date);
 
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
@@ -1169,7 +1149,7 @@ export class ServicedetailsPage {
             console.log('Cancel clicked');
           }
         },
-		{
+        {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
