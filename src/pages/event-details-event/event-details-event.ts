@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -39,25 +39,25 @@ export class EventDetailsEventPage {
   tabBarElement: any;
   eventitem;
   private apiServiceURL: string = "";
-  constructor(public platform:Platform,public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+  constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
-     if (this.NP.get("from") != 'Push') {
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-     }
-     this.platform.registerBackButtonAction(() => {
+    if (this.NP.get("from") != 'Push') {
+      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    }
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
 
   ionViewWillLeave() {
-     if (this.NP.get("from") != 'Push') {
-    this.tabBarElement.style.display = 'flex';
-     }
+    if (this.NP.get("from") != 'Push') {
+      this.tabBarElement.style.display = 'flex';
+    }
   }
   ionViewDidLoad() {
-     if (this.NP.get("from") != 'Push') {
-    this.tabBarElement.style.display = 'none';
-     }
+    if (this.NP.get("from") != 'Push') {
+      this.tabBarElement.style.display = 'none';
+    }
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
       console.log("Event Type:" + eventType);
@@ -80,8 +80,15 @@ export class EventDetailsEventPage {
           this.evenDate = data.json().eventslist[0].formatted_event_date;
           this.location = data.json().eventslist[0].event_location;
           this.event_remark = data.json().eventslist[0].event_remark;
-          this.event_time = data.json().eventslist[0].event_time;
+          let event_alldayevent = data.json().eventslist[0].event_alldayevent;
+          if (event_alldayevent == 0) {
+            this.event_time = data.json().eventslist[0].event_time;
+          } else {
+            this.event_time =  "- " + data.json().eventslist[0].formatted_event_end_date;
+          }
           console.log("A:" + data.json().eventslist[0].event_end_time);
+
+
           let evttime;
           if (data.json().eventslist[0].event_end_time == null) {
             evttime = '';
@@ -89,8 +96,10 @@ export class EventDetailsEventPage {
           if (data.json().eventslist[0].event_end_time == null) {
             evttime = '';
           }
-          if (evttime != '') {
-            this.event_end_time = "-" + data.json().eventslist[0].event_end_time;
+          if (event_alldayevent == 0) {
+            if (evttime != '') {
+              this.event_end_time = "-" + data.json().eventslist[0].formatted_event_end_date + " " + data.json().eventslist[0].event_end_time;
+            }
           }
 
 

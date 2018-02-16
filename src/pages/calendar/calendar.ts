@@ -15,7 +15,7 @@ import { EventDetailsEventPage } from '../../pages/event-details-event/event-det
 import { NotificationPage } from '../notification/notification';
 
 import { AddcalendarPage } from '../../pages/addcalendar/addcalendar';
-
+import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { Config } from '../../config/config';
 interface CalendarEvent {
   data?: any;
@@ -194,11 +194,11 @@ export class CalendarPage {
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
-       if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL +"/images/default.png";
-      } else {
-       this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
-      }
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
 
   }
   ionViewDidLoad() {
@@ -797,6 +797,12 @@ export class CalendarPage {
             startTimej = new Date(yearstrj, monthstrj, datestrj, 10, 0 + startMinutej);
             endTimej = new Date(yearstrj, monthstrj, datestrj, 10, 0 + endMinutej);
           }
+
+          let rem_desc = this.serviceIdentify[j]['description'];
+          if (rem_desc == '') {
+            rem_desc = this.serviceIdentify[j]['service_remark']
+          }
+
           this.calEvents.push({
             data: {},
             id: this.serviceIdentify[j]['service_id'],
@@ -818,7 +824,7 @@ export class CalendarPage {
             style: { color: 'green' },
             servicelength: this.serviceIdentify.length,
             event_time: this.serviceIdentify[j]['serviced_time'],
-            event_remark: this.serviceIdentify[j]['description'],
+            event_remark: rem_desc,
             event_location: this.serviceIdentify[j]['service_location'],
             event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
             event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
@@ -1228,7 +1234,10 @@ export class CalendarPage {
       eventdate = this.serviceIdentify[j]['next_service_date'];
 
 
-
+      let rem_desc = this.serviceIdentify[j]['description'];
+      if (rem_desc == '') {
+        rem_desc = this.serviceIdentify[j]['service_remark']
+      }
       this.calendarResultEvent.push({
         event_id: this.serviceIdentify[j]['service_id'],
         event_title: this.serviceIdentify[j]['service_subject'],
@@ -1237,7 +1246,7 @@ export class CalendarPage {
         projectname: this.serviceIdentify[j]['unit_project_name'],
         event_date: this.serviceIdentify[j]['next_service_date'],
         event_time: this.serviceIdentify[j]['serviced_time'],
-        event_remark: this.serviceIdentify[j]['description'],
+        event_remark: rem_desc,
         event_location: this.serviceIdentify[j]['service_location'],
         event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
         formatted_datetime: this.serviceIdentify[j]['formatted_datetime'],
@@ -1409,5 +1418,145 @@ export class CalendarPage {
       });
     // Notiifcation count
   }
+
+
+
+  doServiceDelete(item) {
+    console.log("Deleted Id" + item.event_id);
+    let confirm = this.alertCtrl.create({
+      message: 'Are you sure you want to delete?',
+      buttons: [{
+        text: 'Yes',
+        handler: () => {
+          this.deleteEntryService(item.event_id);
+        }
+      },
+      {
+        text: 'No',
+        handler: () => { }
+      }]
+    });
+    confirm.present();
+  }
+
+  deleteEntryService(recordID) {
+    let delactionurl;
+    delactionurl = "/calendar/" + recordID + "/1/deleteservice";
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + delactionurl;
+    console.log("Event Deleted API Url:" + url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.conf.sendNotification(`Service was successfully deleted`);
+          this.navCtrl.setRoot(CalendarPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+      });
+  }
+  addCalendar(item, event_type) {
+    console.log(JSON.stringify(item));
+    console.log(item.event_id);
+    console.log(event_type);
+    if (event_type == 'S') {
+      event_type = 'service';
+      this.navCtrl.setRoot(AddcalendarPage,
+        {
+          from: 'event-detail-service',
+          item: item,
+          // item: this.NP.get("eventdata"),
+          type: event_type,
+          service_id: item.event_id
+        });
+    } 
+    if (event_type == 'E') {
+      event_type = 'event';
+      this.navCtrl.setRoot(AddcalendarPage,
+        {
+          from: 'event-detail-service',
+          item: item,
+          // item: this.NP.get("eventdata"),
+          type: event_type,
+          event_id: item.event_id
+        });
+    }
+
+  }
+
+
+  doEditAlarm(item, act) {
+    console.log(JSON.stringify(item));
+    let unitid = item.alarm_unit_id;
+    console.log(item.alarm_assginedby_name);
+    if (item.alarm_assginedby_name == '') {
+      if (act == 'edit') {
+        this.navCtrl.setRoot(AddalarmPage, {
+          record: item,
+          act: act,
+          from: 'alarm',
+          unitid: item.alarm_unit_id
+        });
+      }
+    }
+    else {
+      this.conf.sendNotification("Already Assigned");
+    }
+  }
+
+
+
+  doEventDelete(item) {
+    console.log("Deleted Id" + item.event_id);
+    let confirm = this.alertCtrl.create({
+      message: 'Are you sure you want to delete?',
+      buttons: [{
+        text: 'Yes',
+        handler: () => {
+          this.deleteEntryEvent(item.event_id);
+        }
+      },
+      {
+        text: 'No',
+        handler: () => { }
+      }]
+    });
+    confirm.present();
+  }
+
+  deleteEntryEvent(recordID) {
+    let delactionurl;
+    delactionurl = "/calendar/" + recordID + "/1/deleteevent";
+
+    let
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + delactionurl;
+    console.log("Event Deleted API Url:" + url);
+    this.http.get(url, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          this.conf.sendNotification(`Event was successfully deleted`);
+          this.navCtrl.setRoot(CalendarPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+      });
+  }
+
 }
 

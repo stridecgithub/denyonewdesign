@@ -7,7 +7,7 @@ import { AddcommentsinfoPage } from '../addcommentsinfo/addcommentsinfo';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
-import { ServicedetailsPage } from "../servicedetails/servicedetails";
+import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 
 
@@ -97,12 +97,17 @@ export class CommentsinfoPage {
       from: 'commentinfo'
     });
   }
+
+
+
   doServiceView(event_id, event_type, eventdata) {
-   this.navCtrl.setRoot(EventDetailsServicePage, {
+   this.navCtrl.setRoot(ServicingDetailsPage, {
        event_id: event_id,
        event_type: event_type,
        eventdata: eventdata,
-       from: 'commentinfo'
+       from: 'commentinfo',
+       record: eventdata,
+       act: 'View'
      });
   }
 
@@ -320,15 +325,15 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 's') {
-      this.navCtrl.setRoot(ServicedetailsPage, {
+      this.navCtrl.setRoot(ServicingDetailsPage, {
         record: item,
-        act: 'Edit',
+       
         from: 'commentinfo',
       });
     }
 
     if (type.toLowerCase() == 'r') {
-      this.navCtrl.setRoot(ServicedetailsPage, {
+      this.navCtrl.setRoot(ServicingDetailsPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo',

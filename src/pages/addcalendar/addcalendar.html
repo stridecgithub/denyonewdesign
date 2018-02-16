@@ -8,7 +8,7 @@
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
-         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -60,25 +60,34 @@
       <ion-list>
 
 
-   <ion-item>
+        <ion-item>
           <ion-label stacked>Title</ion-label>
           <ion-input [disabled]="readOnly" type="text" formControlName="event_subject" [(ngModel)]="event_subject"></ion-input>
         </ion-item>
 
 
-        <ion-item  *ngIf="alldayeventhide">
+
+        <ion-item class="dati"  *ngIf="servicedatetimefield">
+          <ion-label stacked>Date & Time</ion-label>
+          <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
+            class="next-service-cal-icon" min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
+        </ion-item>
+
+
+        <ion-item *ngIf="alldayeventhide">
           <ion-label stacked style="color: #999">All-day Event</ion-label>
           <ion-toggle (ionChange)="alldayeenttoggle($event,alldayevent)" [(ngModel)]="alldayevent" formControlName="alldayevent"></ion-toggle>
         </ion-item>
 
 
 
-     
 
 
-        <ion-item>
+
+        <ion-item *ngIf="startdatefield">
           <ion-label stacked>{{startdatelabel}} Date</ion-label>
-          <ion-datetime  displayFormat="MM/DD/YYYY"   min="{{mindate}}"  max="3000" class="cal-icon" formControlName="event_date" [(ngModel)]="event_date" (ionChange)="filToDate(event_date)" pickerFormat="MMM DD YYYY"></ion-datetime>
+          <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}" max="3000" class="cal-icon" formControlName="event_date" [(ngModel)]="event_date"
+            (ionChange)="filToDate(event_date)" pickerFormat="MMM DD YYYY"></ion-datetime>
         </ion-item>
 
         <ion-item *ngIf="starttimefield">
@@ -93,7 +102,8 @@
 
         <ion-item *ngIf="enddatefield">
           <ion-label stacked>End Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY"  min="{{mindate}}"  max="3000"  class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date" pickerFormat="MMM DD YYYY"></ion-datetime>
+          <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}" max="3000" class="cal-icon" formControlName="event_end_date" [(ngModel)]="event_end_date"
+            pickerFormat="MMM DD YYYY"></ion-datetime>
         </ion-item>
 
 
@@ -111,9 +121,9 @@
         margin-left: 4%;
         background-color: #f8f8f8;
         border: 1px solid #cccccc;
-        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
-                   onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
-                   [(ngModel)]="event_notes"></textarea>
+        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
+          onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
+          [(ngModel)]="event_notes"></textarea>
 
       </ion-list>
     </div>

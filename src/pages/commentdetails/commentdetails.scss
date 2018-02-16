@@ -1,4 +1,42 @@
 page-commentdetails {
+
+  .switchevent{
+    border-bottom: 0px solid #d6d6d6;
+    overflow: hidden;
+    img{
+      width: 20%;
+      float: left;
+      padding: 14px 12px 0px 16px;
+    }
+    .angel{
+        float: right;
+        color: #006BF4;
+        font-size: 24px;
+        padding: 20px 20px 0px 0px;
+      }
+    ion-col{
+      h1{
+        font-size: 16px;
+        color: #000000;
+        font-weight: bold;
+        margin-top: 14px;
+      }
+      p{
+        text-align: 14px;
+        line-height: 20px;
+        margin-top: -6px;
+        float: left;
+        font-size: 12px;
+      }
+    }
+    .time{
+      float: right;
+      margin: 18px -26px 0 0;
+       color: #424242;
+      font-size: 12px;
+    }
+  }
+  
   .event-head {
     margin-bottom: 10px;
     border-bottom: 1px solid #848484;
