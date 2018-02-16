@@ -1,13 +1,41 @@
 page-commentdetails {
+  .servicing-details-top-row {
+    padding: 15px 5px;
+    border-bottom: 1px solid #848484;
+    img {
 
+      border-radius: 50%;
+    float: left;
+    padding: 4px;
+
+      border-radius: 50%;
+    }
+    h4 {
+      margin: -20px 0 5px 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    h5 {
+      margin: 0 0 5px 0;
+      font-size: 14px;
+    }
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: lighter;
+    }
+    span {
+      font-weight: normal;
+    }
+  }
   .switchevent{
     border-bottom: 0px solid #d6d6d6;
     overflow: hidden;
-    img{
-      width: 20%;
-      float: left;
-      padding: 14px 12px 0px 16px;
-    }
+    // img{
+    //   width: 20%;
+    //   float: left;
+    //   padding: 14px 12px 0px 16px;
+    // }
     .angel{
         float: right;
         color: #006BF4;
