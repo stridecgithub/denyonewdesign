@@ -568,9 +568,9 @@ export class AddserviceinfoPage {
       "&description=" + description +
       //"&time=" + serviced_time +
       //"&next_service_date=" + nextServiceDate +
-      //"&is_denyo_support=0" +
+      "&is_denyo_support=0" +
       "&created_by=" + this.unitDetailData.userId +
-      //"&is_request=" + is_request +
+      "&is_request=0"  +
       "&subject=" + service_subject,
       //"&micro_timestamp=" + micro_timestamp +
       //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
