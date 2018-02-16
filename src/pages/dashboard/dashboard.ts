@@ -64,7 +64,9 @@ export class DashboardPage {
   public msgcount: any;
   public notcount: any;
   public profilePhoto;
-
+  firstname;
+  lastname;
+  companyGroupName;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
   constructor(public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
@@ -97,7 +99,31 @@ export class DashboardPage {
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
+    events.subscribe('menu:opened', () => {
+      this.firstname = localStorage.getItem("userInfoName");
+      this.lastname = localStorage.getItem("userInfoLastName");
+      this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+      this.profilePhoto = localStorage.getItem("userInfoPhoto");
+      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+        this.profilePhoto = this.apiServiceURL + "/images/default.png";
+      } else {
+        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+      }
+      console.log("Dashboard- Menu Opened");
+    });
 
+    events.subscribe('menu:closed', () => {
+      this.firstname = localStorage.getItem("userInfoName");
+      this.lastname = localStorage.getItem("userInfoLastName");
+      this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+      this.profilePhoto = localStorage.getItem("userInfoPhoto");
+      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+        this.profilePhoto = this.apiServiceURL + "/images/default.png";
+      } else {
+        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+      }
+      console.log("Dashboard- Menu Closed");
+    });
   }
 
   displayNetworkUpdate(connectionState: string) {
@@ -480,7 +506,7 @@ export class DashboardPage {
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         // JSON data
         let res = data.json();
         console.log("Total Count:" + res.totalCount);

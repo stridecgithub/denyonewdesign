@@ -1,4 +1,4 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content"  (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
   <ion-header>
     <div class="user-img">
       <img src="{{profilePhoto}}" width="100" height="100" alt="">

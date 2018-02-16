@@ -61,7 +61,8 @@ export class MyApp {
 
     this.dataService.getMenus()
       .subscribe((response) => {
-
+        console.log("Menu Loading......");
+        this.menuOpened();
         this.pages = response;
       });
 
@@ -686,6 +687,72 @@ export class MyApp {
       }
     }*/
   }
+
+
+  menuClosed() {
+
+    this.events.subscribe('user:created', (user, time) => {
+      // user and time are the same arguments passed in `events.publish(user, time)`
+      console.log('Welcome', user, 'at', time);
+      console.log("First Name:" + user.firstname);
+      this.firstname = user.firstname;
+      this.lastname = user.lastname;
+      console.log("User info from event created" + JSON.stringify(user));
+      this.companyGroupName = user.companygroup_name;
+      this.profilePhoto = user.photo;
+      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+        this.profilePhoto = this.apiServiceURL + "/images/default.png";
+      } else {
+        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+      }
+    });
+
+    console.log("Dashboard- Menu Opened");
+    this.events.publish('menu:closed', '');
+    this.firstname = localStorage.getItem("userInfoName");
+    this.lastname = localStorage.getItem("userInfoLastName");
+    this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
+  }
+
+  menuOpened() {
+
+    this.events.subscribe('user:created', (user, time) => {
+      // user and time are the same arguments passed in `events.publish(user, time)`
+      console.log('Welcome', user, 'at', time);
+      console.log("First Name:" + user.firstname);
+      this.firstname = user.firstname;
+      this.lastname = user.lastname;
+      console.log("User info from event created" + JSON.stringify(user));
+      this.companyGroupName = user.companygroup_name;
+      this.profilePhoto = user.photo;
+      if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+        this.profilePhoto = this.apiServiceURL + "/images/default.png";
+      } else {
+        this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+      }
+    });
+
+    console.log("Dashboard- Menu Opened");
+
+    this.firstname = localStorage.getItem("userInfoName");
+    this.lastname = localStorage.getItem("userInfoLastName");
+    this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
+    this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
+
+    this.events.publish('menu:opened', '');
+  }
+
   toggleLevel1(idx) {
     if (this.isLevel1Shown(idx)) {
       this.showLevel1 = null;
