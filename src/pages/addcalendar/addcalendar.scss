@@ -11,7 +11,12 @@ page-addcalendar{
     -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;
     box-shadow: inset 0 -1px 0 0 #f8f8f8;
   }
-  
+  .next-service-cal-icon {
+    background: url(../assets/imgs/cal@2x.png) no-repeat right;
+    background-size: 20px auto;
+	border-bottom: 1px solid #dedede!important;
+	padding-bottom: 0;
+  }
 .form-group {
   
   background: #F8F8F8;

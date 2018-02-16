@@ -188,83 +188,103 @@
       </ion-list>
 
       <div id="event-list" *ngIf="onLoad==false">
-        <ion-list *ngFor="let eventitem of calEvents">
-          <ion-item *ngIf="eventitem.event_type=='E'" (click)="doEventView(eventitem.event_id,eventitem.event_type,calendaritem)">
+        <ion-list>
+          <ion-item-sliding #item class="list-item" *ngFor="let eventitem of calEvents">
+            <ion-item *ngIf="eventitem.event_type=='E'" (click)="doEventView(eventitem.event_id,eventitem.event_type,calendaritem)">
 
-            <div class="event-time" *ngIf="eventitem.event_time==''">
-              N/A
-            </div>
-
-            <div class="event-time" *ngIf="eventitem.event_time!=''">
-              {{eventitem.event_time}}
-            </div>
-
-            <div class="event-detail eventcolor">
-              <div style="white-space: normal">
-                <b>{{eventitem.event_title}}</b>
+              <div class="event-time" *ngIf="eventitem.event_time==''">
+                N/A
               </div>
 
-              <div style="white-space: normal">{{eventitem.event_location}}</div>
-              <div style="white-space: normal">{{eventitem.event_remark}}</div>
-              <div>{{eventitem.event_addedby_name}}
+              <div class="event-time" *ngIf="eventitem.event_time!=''">
+                {{eventitem.event_time}}
               </div>
-            </div>
-          </ion-item>
+
+              <div class="event-detail eventcolor">
+                <div style="white-space: normal">
+                  <b>{{eventitem.event_title}}</b>
+                </div>
+
+                <div style="white-space: normal">{{eventitem.event_location}}</div>
+                <div style="white-space: normal">{{eventitem.event_remark}}</div>
+                <div>{{eventitem.event_addedby_name}}
+                </div>
+              </div>
+            </ion-item>
 
 
-          <ion-item (click)="doServiceView(eventitem.event_id,eventitem.event_type,eventitem)" *ngIf="eventitem.event_type=='S'">
+            <ion-item (click)="doServiceView(eventitem.event_id,eventitem.event_type,eventitem)" *ngIf="eventitem.event_type=='S'">
 
 
 
-            <div class="event-time" *ngIf="eventitem.event_time_new==''">
-              N/A
-            </div>
+              <div class="event-time" *ngIf="eventitem.event_time_new==''">
+                N/A
+              </div>
 
-            <div class="event-time" *ngIf="eventitem.event_time_new!=''">
-              {{eventitem.event_time_new}}
-            </div>
-
-
+              <div class="event-time" *ngIf="eventitem.event_time_new!=''">
+                {{eventitem.event_time_new}}
+              </div>
 
 
-            <div class="event-detail servicecolor">
-              <!--div style="white-space: normal">Location:{{eventitem.event_location}}</div>
+
+
+              <div class="event-detail servicecolor">
+                <!--div style="white-space: normal">Location:{{eventitem.event_location}}</div>
               <div style="white-space: normal">Remarks:{{eventitem.event_remark}}</div>
               <div>Created By:{{eventitem.event_addedby_name}}-->
 
-              <h1>
-                <b> {{eventitem.event_title}}</b>
-              </h1>
-              <p>{{eventitem.unitname}}
-                <br> {{eventitem.projectname}}
-                <br> {{eventitem.event_remark}}
-                <br> {{eventitem.event_location}} </p>
+                <h1>
+                  <b> {{eventitem.event_title}}</b>
+                </h1>
+                <p>{{eventitem.unitname}}
+                  <br> {{eventitem.projectname}}
+                  <br> {{eventitem.event_remark}}
+                  <br> {{eventitem.event_location}} </p>
 
 
 
 
-            </div>
-          </ion-item>
-          <ion-item *ngIf="eventitem.event_type=='A'" (click)="doCalendarView(eventitem.event_id,eventitem.event_type)">
-            <div class="event-time">
-              {{eventitem.alarm_time}}
+              </div>
+            </ion-item>
+            <ion-item *ngIf="eventitem.event_type=='A'" (click)="doCalendarView(eventitem.event_id,eventitem.event_type)">
+              <div class="event-time">
+                {{eventitem.alarm_time}}
 
-            </div>
+              </div>
 
-            <div class="event-detail" ngClass="{{eventitem.eventcolor}}">
-              <h1> {{eventitem.name}}</h1>
-              <p>{{eventitem.unitname}}
-                <br> {{eventitem.projectname}}
-                <br> {{eventitem.event_location}}
-                <br>{{eventitem.event_remark}}</p>
-            </div>
-          </ion-item>
+              <div class="event-detail" ngClass="{{eventitem.eventcolor}}">
+                <h1> {{eventitem.name}}</h1>
+                <p>{{eventitem.unitname}}
+                  <br> {{eventitem.projectname}}
+                  <br> {{eventitem.event_location}}
+                  <br>{{eventitem.event_remark}}</p>
+              </div>
+            </ion-item>
+
+            <ion-item-options side="right" class="list-item-options">
+                <button *ngIf="eventitem.event_type!='A'" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
+                  <img width="25" src="assets/imgs/edit@2x.png">Edit
+                </button>
+                <button  *ngIf="eventitem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(eventitem,'edit')">
+                    <img width="25" src="assets/imgs/edit@2x.png">Edit
+                  </button>
+                <button *ngIf="eventitem.event_type=='S'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
+                  <ion-icon name="trash"></ion-icon>Delete
+                </button>  
+                <button *ngIf="eventitem.event_type=='E'" ion-button class="del-btn" (click)="doEventDelete(eventitem)">
+                    <ion-icon name="trash"></ion-icon>Delete
+                  </button> 
+              </ion-item-options>
+
+            </ion-item-sliding>
         </ion-list>
       </div>
 
       <div id="event-list" *ngIf="onLoad==true">
-        <ion-list *ngFor="let calendaritem of calendarResultEvent">
-          <!--ion-item>
+        <ion-list>
+          <ion-item-sliding #item class="list-item" *ngFor="let calendaritem of calendarResultEvent">
+
+            <!--ion-item>
             <div class="event-time">
               11:30AM
             </div>
@@ -276,68 +296,85 @@
 
 
 
-          <ion-item *ngIf="calendaritem.event_type=='E'" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
+            <ion-item *ngIf="calendaritem.event_type=='E'" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
 
-            <div class="event-time" *ngIf="calendaritem.event_time==''">
-              N/A
-            </div>
-
-            <div class="event-time" *ngIf="calendaritem.event_time!=''">
-              {{calendaritem.event_time}}
-            </div>
-
-            <div class="event-detail eventcolor">
-              <div style="white-space: normal">
-                <b>{{calendaritem.event_title}}</b>
+              <div class="event-time" *ngIf="calendaritem.event_time==''">
+                N/A
               </div>
 
-              <div style="white-space: normal">{{calendaritem.event_location}}</div>
-              <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-              <div>{{calendaritem.event_addedby_name}}
+              <div class="event-time" *ngIf="calendaritem.event_time!=''">
+                {{calendaritem.event_time}}
               </div>
-            </div>
-          </ion-item>
 
+              <div class="event-detail eventcolor">
+                <div style="white-space: normal">
+                  <b>{{calendaritem.event_title}}</b>
+                </div>
 
-          <ion-item *ngIf="calendaritem.event_type=='S'" (click)="doServiceView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
-
-
-
-            <div class="event-time" *ngIf="calendaritem.event_time_new==''">
-              N/A
-            </div>
-
-            <div class="event-time" *ngIf="calendaritem.event_time_new!=''">
-              {{calendaritem.event_time_new}}
-            </div>
-
-            <div class="event-detail servicecolor">
-              <div style="white-space: normal">
-                <b>{{calendaritem.event_title}}</b>
+                <div style="white-space: normal">{{calendaritem.event_location}}</div>
+                <div style="white-space: normal">{{calendaritem.event_remark}}</div>
+                <div>{{calendaritem.event_addedby_name}}
+                </div>
               </div>
-              <h1>{{calendaritem.unitname}}</h1>
-              <div style="white-space: normal">{{calendaritem.event_location}}</div>
-              <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-              <div>{{calendaritem.event_addedby_name}}
-              </div>
-            </div>
-          </ion-item>
-          <ion-item *ngIf="calendaritem.event_type=='A'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
-            <div class="event-time">
-              {{calendaritem.alarm_time}}
-            </div>
-            <div class="event-detail" ngClass="{{calendaritem.eventcolor}}">
-              <h1>
-                <b>{{calendaritem.event_title}}</b>
-              </h1>
-              <p>{{calendaritem.unitname}}
-                <br> {{calendaritem.projectname}}
-                <br> {{calendaritem.event_location}}
-                <br>{{calendaritem.event_remark}}
-              </p>
-            </div>
-          </ion-item>
+            </ion-item>
 
+
+            <ion-item *ngIf="calendaritem.event_type=='S'" (click)="doServiceView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
+
+
+
+              <div class="event-time" *ngIf="calendaritem.event_time_new==''">
+                N/A
+              </div>
+
+              <div class="event-time" *ngIf="calendaritem.event_time_new!=''">
+                {{calendaritem.event_time_new}}
+              </div>
+
+              <div class="event-detail servicecolor">
+                <div style="white-space: normal">
+                  <b>{{calendaritem.event_title}}</b>
+                </div>
+                <h1>{{calendaritem.unitname}}</h1>
+                <div style="white-space: normal">{{calendaritem.event_location}}</div>
+                <div style="white-space: normal">{{calendaritem.event_remark}}</div>
+                <div>{{calendaritem.event_addedby_name}}
+                </div>
+              </div>
+            </ion-item>
+            <ion-item *ngIf="calendaritem.event_type=='A'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
+              <div class="event-time">
+                {{calendaritem.alarm_time}}
+              </div>
+              <div class="event-detail" ngClass="{{calendaritem.eventcolor}}">
+                <h1>
+                  <b>{{calendaritem.event_title}}</b>
+                </h1>
+                <p>{{calendaritem.unitname}}
+                  <br> {{calendaritem.projectname}}
+                  <br> {{calendaritem.event_location}}
+                  <br>{{calendaritem.event_remark}}
+                </p>
+              </div>
+            </ion-item>
+            <ion-item-options side="right" class="list-item-options">
+              <button *ngIf="calendaritem.event_type!='A'" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
+                <img width="25" src="assets/imgs/edit@2x.png">Edit
+              </button>
+              <button  *ngIf="calendaritem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(calendaritem,'edit')">
+                  <img width="25" src="assets/imgs/edit@2x.png">Edit
+                </button>
+              <button *ngIf="calendaritem.event_type=='S'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
+                <ion-icon name="trash"></ion-icon>Delete
+              </button>
+
+              <button *ngIf="calendaritem.event_type=='E'" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">
+                  <ion-icon name="trash"></ion-icon>Delete
+                </button>
+              
+
+            </ion-item-options>
+          </ion-item-sliding>
         </ion-list>
       </div>
 

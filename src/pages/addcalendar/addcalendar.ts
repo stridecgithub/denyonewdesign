@@ -21,6 +21,7 @@ import * as moment from 'moment';
 })
 export class AddcalendarPage {
   // Define FormBuilder /model properties
+  item;
   public loginas: any;
   public form: FormGroup;
   public type_name: any;
@@ -34,7 +35,9 @@ export class AddcalendarPage {
   public event_end_date: any;
   public event_time: any = '';
   public event_end_time: any = '';
-
+  serviced_datetime;
+  mn;
+  dd;
   public msgcount: any;
   public notcount: any;
   public month1: any;
@@ -53,7 +56,10 @@ export class AddcalendarPage {
   public responseResultCompany: any;
   public unitfield: any;
   public starttimefield: boolean = false;
+  public servicedatetimefield: boolean = false;
   public endtimefield: boolean = false;
+
+  public startdatefield: boolean = true;
   public enddatefield: boolean = true;
   public alldayeventhide: boolean = true;
 
@@ -68,7 +74,7 @@ export class AddcalendarPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-
+  currentyear;
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
   public hideActionButton = true;
@@ -84,6 +90,7 @@ export class AddcalendarPage {
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
+    this.event_type = 'Event';
     this.locationstr = "Deployed";
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
@@ -100,14 +107,18 @@ export class AddcalendarPage {
       "event_notes": ["", Validators.required],
       "event_time": [""],
       "event_end_time": [""],
-      "alldayevent": [""]
+      "alldayevent": [""],
+      "serviced_datetime": [""],
 
     });
     this.disunit = false;
+    this.serviced_datetime = moment().format(); // 2018-01-16T23:08:57+05:30
+    console.log(this.serviced_datetime);
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
 
-
+    let date = new Date();
+    this.currentyear = date.getFullYear();
 
 
 
@@ -225,11 +236,11 @@ export class AddcalendarPage {
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
-      if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL +"/images/default.png";
-      } else {
-       this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
-      }
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+    }
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         this.previous();
@@ -257,9 +268,85 @@ export class AddcalendarPage {
     this.getUnitListData();
     this.resetFields();
     if (this.NP.get("item")) {
-      console.log(this.NP.get("type"));
+
+      console.log("Kannan");
+      if (this.NP.get("service_id")) {
+        let eventType = this.NP.get("type");
+        console.log("Event Type:" + eventType);
+
+
+        let body: string = "serviceid=" + this.NP.get("service_id"),
+          type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers1: any = new Headers({ 'Content-Type': type1 }),
+          options1: any = new RequestOptions({ headers: headers1 }),
+          url1: any = this.apiServiceURL + "/servicebyid";
+        console.log(url1 + "?" + body);
+        this.http.post(url1, body, options1)
+          .subscribe((data) => {
+            console.log(JSON.stringify(data.json()))
+            this.item = data.json().servicedetail[0];
+            if (this.item != '') {
+              console.log("JSON for service detail" + JSON.stringify(data.json().servicedetail[0]));
+              this.selectEntry(data.json().servicedetail[0], this.NP.get("type"));
+            }
+          }, error => {
+
+          });
+      } else if (this.NP.get("event_id")) {
+        let eventType = this.NP.get("type");
+        console.log("Event Type:" + eventType);
+
+
+
+        let body: string = "eventid=" + this.NP.get("event_id"),
+          type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers1: any = new Headers({ 'Content-Type': type1 }),
+          options1: any = new RequestOptions({ headers: headers1 }),
+          url1: any = this.apiServiceURL + "/eventdetailbyid";
+        console.log(url1);
+        this.http.post(url1, body, options1)
+          .subscribe((data) => {
+            console.log("eventdetailbyid Response Success:" + JSON.stringify(data.json()));
+            console.log("Event Details:" + data.json().eventslist[0]);
+            this.selectEntry(data.json().eventslist[0], this.NP.get("type"));
+            // this.eventitem = data.json().eventslist[0];
+            // this.eventTitle = data.json().eventslist[0].event_title;
+            // this.event_dot_color = data.json().eventslist[0].event_dot_color;
+            // this.evenDate = data.json().eventslist[0].formatted_event_date;
+            // this.location = data.json().eventslist[0].event_location;
+            // this.event_remark = data.json().eventslist[0].event_remark;
+            // let event_alldayevent = data.json().eventslist[0].event_alldayevent;
+            // if (event_alldayevent == 0) {
+            //   this.event_time = data.json().eventslist[0].event_time;
+            // } else {
+            //   this.event_time = "- " + data.json().eventslist[0].formatted_event_end_date;
+            // }
+            // console.log("A:" + data.json().eventslist[0].event_end_time);
+
+
+            // let evttime;
+            // if (data.json().eventslist[0].event_end_time == null) {
+            //   evttime = '';
+            // }
+            // if (data.json().eventslist[0].event_end_time == null) {
+            //   evttime = '';
+            // }
+            // if (event_alldayevent == 0) {
+            //   if (evttime != '') {
+            //     this.event_end_time = "-" + data.json().eventslist[0].formatted_event_end_date + " " + data.json().eventslist[0].event_end_time;
+            //   }
+            // }
+
+
+          }, error => {
+
+          });
+      } else {
+        console.log(this.NP.get("type"));
+        this.selectEntry(this.NP.get("item"), this.NP.get("type"));
+      }
       this.isEdited = true;
-      this.selectEntry(this.NP.get("item"), this.NP.get("type"));
+
       this.pageTitle = 'Update Event';
       this.readOnly = false;
       this.hideActionButton = true;
@@ -325,36 +412,46 @@ export class AddcalendarPage {
     this.event_location = item.event_location
 
     if (type == 'service') {
+      this.startdatefield = false;
+      this.starttimefield = false;
+      this.servicedatetimefield = true;
       this.type_name = "Service";
       this.event_type = 'Service';
       this.event_date = item.service_scheduled_date;
       console.log("Event Date:" + item.event_date);
       this.event_unitid = item.service_unitid;
       this.recordID = item.service_id;
-      this.event_time = item.service_scheduled_time.substr(0, 5);
-      let getampmpvalue = item.service_scheduled_time.substr(6, 8)
-      console.log("AMPM:" + getampmpvalue);
-      if (getampmpvalue == 'PM') {
-        let timesplit = this.event_time.split(":");
-        let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-        console.log("hoursadd24hourformat" + hoursadd24hourformat);
-        this.event_time = hoursadd24hourformat + ":" + timesplit[1];
-      }
-      //this.event_time ='17:30';
-      console.log("Time for Start:" + this.event_time);
+      console.log(item.serviced_datetime);
+
+      this.serviced_datetime = item.serviced_datetime;
+
+      // this.event_time = item.service_scheduled_time.substr(0, 5);
+      // let getampmpvalue = item.service_scheduled_time.substr(6, 8)
+      // console.log("AMPM:" + getampmpvalue);
+      // if (getampmpvalue == 'PM') {
+      //   let timesplit = this.event_time.split(":");
+      //   let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+      //   console.log("hoursadd24hourformat" + hoursadd24hourformat);
+      //   this.event_time = hoursadd24hourformat + ":" + timesplit[1];
+      // }
+      // //this.event_time ='17:30';
+      // console.log("Time for Start:" + this.event_time);
 
       this.event_subject = item.service_subject;
       this.event_notes = item.description;
       this.alldayeventhide = false;
       this.enddatefield = false;
       this.endtimefield = false;
-      this.starttimefield = true;
+      // this.starttimefield = true;
       this.starttimelabel = "";
       this.startdatelabel = "";
       this.unitfield = true;
       this.disunit = true;
     }
     if (type == 'event') {
+      this.startdatefield = true;
+      this.starttimefield = true;
+      this.servicedatetimefield = false;
       this.unitfield = false;
       this.disunit = false;
       console.log("Time for End Before:" + item.event_end_time);
@@ -368,17 +465,19 @@ export class AddcalendarPage {
       this.recordID = item.event_id;
       this.event_date = item.event_date_y_m_d;
       this.event_end_date = item.event_end_date;
-      this.event_time = item.event_time.substr(0, 5);
-      let getampmpvalue = item.event_time.substr(6, 8)
-      console.log("AMPM:" + getampmpvalue);
-      if (getampmpvalue == 'PM') {
-        let timesplit = this.event_time.split(":");
-        let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-        console.log("hoursadd24hourformat" + hoursadd24hourformat);
-        this.event_time = hoursadd24hourformat + ":" + timesplit[1];
-        console.log("this.event_time" + this.event_time);
-      }
+      if (item.event_time != undefined) {
+        this.event_time = item.event_time.substr(0, 5);
+        let getampmpvalue = item.event_time.substr(6, 8)
 
+        console.log("AMPM:" + getampmpvalue);
+        if (getampmpvalue == 'PM') {
+          let timesplit = this.event_time.split(":");
+          let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
+          console.log("hoursadd24hourformat" + hoursadd24hourformat);
+          this.event_time = hoursadd24hourformat + ":" + timesplit[1];
+          console.log("this.event_time" + this.event_time);
+        }
+      }
 
       if (this.event_time != '') {
         this.starttimefield = true;
@@ -427,7 +526,7 @@ export class AddcalendarPage {
       } else {
         this.event_end_time = '';
       }
-     
+
       if (item.event_alldayevent == 0) {
         this.starttimefield = true;
         this.endtimefield = true;
@@ -451,22 +550,28 @@ export class AddcalendarPage {
   getType(type) {
     console.log("Event Type:" + type);
     if (type == "Service") {
+      this.startdatefield = false;
+      this.starttimefield = false;
       this.locationstr = 'Deployed';
       this.unitfield = true;
       this.disunit = true;
-      this.starttimefield = true;
+      this.servicedatetimefield = true;
       this.enddatefield = false;
       this.endtimefield = false;
       this.starttimelabel = "";
       this.startdatelabel = "";
       this.alldayeventhide = false;
     } else {
+      this.startdatefield = true;
+      //this.starttimefield=true;
+      this.starttimefield = false;
+      this.servicedatetimefield = false;
       this.locationstr = '';
       this.unitfield = false;
       this.disunit = false;
       this.enddatefield = true;
       this.endtimefield = false;
-      this.starttimefield = false;
+
       this.starttimelabel = "Start";
       this.startdatelabel = "Start";
       this.alldayeventhide = true;
@@ -478,7 +583,7 @@ export class AddcalendarPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
-  createEntry(event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
+  createEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
     //let updatedby = createdby;
 
 
@@ -525,7 +630,7 @@ export class AddcalendarPage {
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
-    if(alldayevent==1){
+    if (alldayevent == 1) {
       //event_time='';
       //event_end_time ='';
     }
@@ -543,7 +648,7 @@ export class AddcalendarPage {
     //   event_end_time = '';
     // }
     this.isSubmitted = true;
-   
+
 
     if (localStorage.getItem("atMentionResult") != '') {
       service_remark = localStorage.getItem("atMentionResult");
@@ -556,7 +661,7 @@ export class AddcalendarPage {
       field = "&event_title=" + event_subject;
     }
     let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + service_remark + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time,
+      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + service_remark + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -598,8 +703,8 @@ export class AddcalendarPage {
   // for the record data
 
 
-  updateEntry(event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
-    
+  updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
+
     if (localStorage.getItem("atMentionResult") != '') {
       service_remark = localStorage.getItem("atMentionResult");
     }
@@ -647,7 +752,7 @@ export class AddcalendarPage {
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
-    
+
     // let timesplit_start = event_time.split(":");
     // let hrvalue_start = timesplit_start[0];
     // let minvalue_start = timesplit_start[1];
@@ -689,7 +794,7 @@ export class AddcalendarPage {
     //   let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
     //   event_end_time = this.hours + ":" + minutes + " " + am_pm;
     // }
-    
+
     // let timesplit_end = event_end_time.split(":");
     // let hrvalue_end = timesplit_end[0];
     // let minvalue_end = timesplit_end[1];
@@ -714,7 +819,7 @@ export class AddcalendarPage {
     }
     event_unitid = this.event_unitid;
     let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&event_remark=" + service_remark + "&ses_login_id=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time,
+      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&event_remark=" + service_remark + "&ses_login_id=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -797,7 +902,10 @@ export class AddcalendarPage {
       event_time: string = this.form.controls["event_time"].value,
       event_end_time: string = this.form.controls["event_end_time"].value,
       event_location: string = this.form.controls["event_location"].value,
-      service_remark: string = this.form.controls["event_notes"].value;
+      service_remark: string = this.form.controls["event_notes"].value,
+      serviced_datetime: string = this.form.controls["serviced_datetime"].value
+
+      ;
     this.alldayeventvalue = this.form.controls["alldayevent"].value;
 
     console.log("alldayevent toggle value" + this.alldayeventvalue);
@@ -815,9 +923,9 @@ export class AddcalendarPage {
         console.log('Positive');
       } else {
         if (type_name != 'Service') {
-          console.log("event date start"+event_date);
-           console.log("event date end"+event_end_date)
-console.log(type_name);
+          console.log("event date start" + event_date);
+          console.log("event date end" + event_end_date)
+          console.log(type_name);
           this.conf.sendNotification('End date should be after start date');
           return false;
         }
@@ -835,10 +943,10 @@ console.log(type_name);
     console.log("Final Toggle" + this.alldayeventvalue + ":" + togglevalue);
 
     if (this.isEdited) {
-      this.updateEntry(event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
+      this.updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
     }
     else {
-      this.createEntry(event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
+      this.createEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
     }
 
   }
@@ -940,6 +1048,32 @@ console.log(type_name);
   filToDate(event_date) {
     console.log("Start Date:" + event_date);
     this.event_end_date = event_date.split("T")[0];
+  }
+
+  futureDateValidation(formvalue) {
+    this.isSubmitted = true;
+    let date = new Date();
+    let mn = date.getMonth() + 1;
+    if (mn < 10) {
+      this.mn = "0" + mn;
+    } else {
+      this.mn = mn;
+    }
+    let dd = date.getDate();
+    if (dd < 10) {
+      this.dd = "0" + dd;
+    } else {
+      this.dd = dd;
+    }
+
+    let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
+    if (formvalue.split("T")[0] >= current_date) {
+      this.isSubmitted = false;
+
+    } else {
+      this.serviced_datetime = moment().format();
+      this.isSubmitted = true;
+    }
   }
 }
 

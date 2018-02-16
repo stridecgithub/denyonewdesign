@@ -25,8 +25,12 @@
     <ion-col class="col" col-12>
       <div>
         <h3>{{eventTitle}}</h3>
-        <p style="font-size: 12px;
-        width: 250px;">{{evenDate}} {{event_time}} {{event_end_time}}</p>
+        <p style="font-size: 12px;">
+        
+        {{evenDate}} {{event_time}} {{event_end_time}}
+
+
+      </p>
         <span class="span-text"><span class="span-icon-event" style="background-color:#9013fe"></span>Event</span>
       </div>
     </ion-col>
@@ -59,13 +63,13 @@
     </ion-col>
   </ion-row>
 
-  <ion-row class="event-detail-btn">
+  <!-- <ion-row class="event-detail-btn">
     <ion-col class="col" col-12>
       <div>
         <button (click)="addCalendar(eventitem)"><img src="assets/imgs/edit@2x.png" width="12">Edit</button>
         <button (click)="doEventDelete(eventitem)" style="background-color: red; border: red"><ion-icon name="trash"></ion-icon>Delete</button>
       </div>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 
 </ion-content>

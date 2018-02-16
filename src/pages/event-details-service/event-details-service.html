@@ -24,7 +24,7 @@
       <div>
         <h3>{{eventTitle}}</h3>
         <p style="font-size: 12px;
-        width: 250px;">{{evenDate}} - {{service_scheduled_time}}</p>
+        width: 250px;">{{evenDate}}</p>
         <span class="span-text">
           <span class="span-icon-service" [ngStyle]="{'background-color':  + service_dot_color}"></span>Service</span>
       </div>
@@ -142,15 +142,14 @@
   </ion-row>
 
 
-  <ion-row class="event-detail-btn" *ngIf="frompage!='commentinfo'">
+  <!-- <ion-row class="event-detail-btn" *ngIf="frompage!='commentinfo'">
     <ion-col class="col" col-12>
-      <div>
-          <!--*ngIf="serviced_by==0"-->
+      <div>        
         <button   (click)="addCalendar(eventitem)"><img src="assets/imgs/edit@2x.png" width="12">Edit</button>
         <button style="background-color: red; border: red"  (click)="doEventDelete(eventitem)"><ion-icon name="trash"></ion-icon>Delete</button>
       </div>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 
 
   

@@ -43,6 +43,7 @@ export class CommentdetailsPage {
   public addedImgListsDetails = [];
   tabBarElement: any;
   eventitem;
+  user_photo;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
@@ -85,6 +86,8 @@ export class CommentdetailsPage {
           this.evenDate = data.json().comments[0].comment_date;
           this.location = data.json().comments[0].location;
           this.description = data.json().comments[0].comment_remark;
+          this.user_photo= data.json().comments[0].user_photo;
+          console.log("User Photo :"+ this.user_photo);
           this.service_scheduled_time = data.json().comments[0].service_scheduled_time;
           this.service_dot_color = data.json().comments[0].service_dot_color;
           console.log(JSON.stringify(this.item));
