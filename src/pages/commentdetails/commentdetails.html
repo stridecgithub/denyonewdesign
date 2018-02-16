@@ -36,18 +36,29 @@
   </ion-row> -->
 
   <div class="switchevent edit-alarm-top" style="border-bottom: 1px solid #cccccc;">
-      <img src="{{user_photo}}" alt="" width="50" height="50">
+    <!-- <img src="{{user_photo}}" alt="" width="50" height="50">
       <ion-row>
         <ion-col col-12>
           <h1>{{eventTitle}}</h1>
           <p>{{evenDate}}</p>
-          <!-- <span class="span-text" style="margin-top: -16px;
-          float:right;">
-            <span class="span-warning" [ngStyle]="{'background-color':  + service_dot_color}"></span>{{labels}}</span> -->
-
+        
         </ion-col>
-      </ion-row>
-    </div>
+      </ion-row> -->
+
+
+    <ion-row class="servicing-details-top-row">
+      <ion-col class="col" col-2>
+        <img src="{{user_photo}}" alt="" width="50" height="50">
+      </ion-col>
+
+      <ion-col class="col" col-10>
+        <h4>{{eventTitle}}</h4>
+        <h5>{{evenDate}}</h5>
+      </ion-col>
+    </ion-row>
+
+
+  </div>
 
 
   <ion-row class="event-body">
@@ -97,7 +108,7 @@
   </ion-row>
 
 
-  
+
   <div style="border-bottom: 1px solid #dedede; margin:0 10px 0 10px;"></div>
   <ion-row *ngIf="comment_resources!=''" class="attachment-row" style="border-bottom: none; padding-left: 5px; border-top: none">
     <ion-col class="col" col-12>
