@@ -610,3 +610,136 @@ ion-segment.segment-ios .segment-button {
     font-size: 14px;
     padding: 0 20px;
 }
+.custom-tab {
+	left: 0;
+	  bottom: 0;
+	  position: fixed;
+	  z-index: 10;
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: -ms-flexbox;
+	  display: flex;
+	  width: 100%;
+	background: #EDEDED;
+    border-top: #006BF4 1px solid;
+}
+.custom-tab a {
+	min-height: 5.6rem;
+    font-weight: normal;
+    color: rgba(60, 60, 60, 0.7);
+    padding: 0;
+	margin: 0;
+  text-align: center;
+  border-radius: 0;
+  position: relative;
+  z-index: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 0;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.custom-tab a ion-icon {
+  margin-top: 1px;
+  min-width: 3rem;
+  font-size: 2.4rem;
+  color: rgba(60, 60, 60, 0.7);
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  -webkit-transform-origin: 50% 150%;
+  transform-origin: 50% 150%;
+}
+.custom-tab a span{
+font-size: 10px !important;
+margin-top: 4px;
+margin-bottom: 0;
+}
+.custom-tab a ion-icon:before {
+  content: '';
+  width: 100%;
+  height: 24px;
+  display: block;
+  background-size: auto 20px !important;
+  margin: 0 auto;
+}
+
+.custom-tab a:nth-child(1) ion-icon:before {
+  background: url(../assets/imgs/tab-dashboard-icon@2x.png) no-repeat center;
+}
+
+.custom-tab a:nth-child(2) ion-icon:before {
+  background: url(../assets/imgs/tab-units-icon@2x.png) no-repeat center;
+}
+
+.custom-tab a:nth-child(3) ion-icon:before {
+  background: url(../assets/imgs/tab-calendar-icon@2x.png) no-repeat center;
+}
+
+.custom-tab a:nth-child(4) ion-icon:before {
+  background: url(../assets/imgs/tab-message-icon@2x.png) no-repeat center;
+}
+
+.custom-tab a:nth-child(5) ion-icon:before {
+  background: url(../assets/imgs/tab-orgchart-icon@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true]:nth-child(1) ion-icon:before {
+  background: url(../assets/imgs/tab-dashboard-icon-active@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true]:nth-child(2) ion-icon:before {
+  background: url(../assets/imgs/tab-units-icon-active@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true]:nth-child(3) ion-icon:before {
+  background: url(../assets/imgs/tab-calendar-icon-active@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true]:nth-child(4) ion-icon:before {
+  background: url(../assets/imgs/tab-message-icon-active@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true]:nth-child(5) ion-icon:before {
+  background: url(../assets/imgs/tab-orgchart-icon-active@2x.png) no-repeat center;
+}
+
+.custom-tab a[aria-selected=true] {
+	color: #488aff;
+    padding: 0;
+	border-top: 2px solid #488aff;
+}
+.custom-tab a[aria-selected=true] span {
+	color: #488aff;
+	font-size: 12px !important;
+}
