@@ -22,6 +22,11 @@
 
 
 <ion-content>
+
+    <button style="text-align:right;"  (click)="viewMap()">
+        <img src="assets/imgs/map.png" class="icon-size">
+    </button>
+
   <button class="add-unit-btn" (click)="doAdd()">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit</button>
   <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>

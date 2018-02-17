@@ -272,7 +272,11 @@ export class UnitsPage {
 
 
   // Favorite Action
+  viewMap() {
+    this.navCtrl.setRoot(MapPage, {
+    });
 
+  }
   favorite(unit_id, act) {
     if (act == 'viewmap') {
       this.navCtrl.setRoot(MapPage, {
