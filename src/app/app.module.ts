@@ -93,14 +93,16 @@ import { EventeditPage } from '../pages/eventedit/eventedit';
 import { EventaddPage } from '../pages/eventadd/eventadd';
 import { CommentreplyPage } from '../pages/commentreply/commentreply';
 import { CommentaddPage } from '../pages/commentadd/commentadd';
-
+import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
-
+import { ModalPage } from '../pages/modal/modal';
 @NgModule({
-  declarations: [  
+  declarations: [
+    ModalPage,
+    MapPage,
     AddorgchartonePage,
     CompanydetailPage,
-    ReportviewtablePage, 
+    ReportviewtablePage,
     AdduserPage,
     AddreporttemplatePage,
     ReporttemplatePage,
@@ -121,7 +123,7 @@ import { Network } from '@ionic-native/network';
     DashboardPage,
     NotificationPage,
     MessagesPage,
-	MessagePage,
+    MessagePage,
     ComposePage,
     CalendarPage,
     AddcalendarPage,
@@ -165,21 +167,21 @@ import { Network } from '@ionic-native/network';
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
-	RequestdenyoPage,
-	ChangepasswordPage,
-  ReportviewPage,
-  EventsandcommentsPage,
-  EventviewPage,
-  CommentviewPage,
-  EventeditPage,
-  EventaddPage,
-  CommentreplyPage,
-  CommentaddPage,
-	//ReporttemplatedetailPage,
-  //  ChangepasswordPage,
-  
+    RequestdenyoPage,
+    ChangepasswordPage,
+    ReportviewPage,
+    EventsandcommentsPage,
+    EventviewPage,
+    CommentviewPage,
+    EventeditPage,
+    EventaddPage,
+    CommentreplyPage,
+    CommentaddPage,
+    //ReporttemplatedetailPage,
+    //  ChangepasswordPage,
+
     EngineviewPage
-	
+
   ],
   imports: [
     BrowserModule,
@@ -199,9 +201,11 @@ import { Network } from '@ionic-native/network';
     })],
   bootstrap: [IonicApp],
   entryComponents: [
+    ModalPage,
+    MapPage,
     AddorgchartonePage,
-    ReportviewtablePage, 
-    CompanydetailPage,   
+    ReportviewtablePage,
+    CompanydetailPage,
     AddrolePage,
     AdduserPage,
     AddreporttemplatePage,
@@ -234,7 +238,7 @@ import { Network } from '@ionic-native/network';
     OrgchartPage,
     ReportsPage,
     ComposePage,
-	MessagePage,
+    MessagePage,
     MessagedetailPage,
     UnitdetailsPage,
     UnitDetailsPage,
@@ -265,19 +269,19 @@ import { Network } from '@ionic-native/network';
     MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
-	RequestdenyoPage,
-	ChangepasswordPage,
-  ReportviewPage,
-  EventsandcommentsPage,
-  EventviewPage,
-  CommentviewPage,
-  EventeditPage,
-  EventaddPage,
-  CommentreplyPage,
-  CommentaddPage,
-	//ReporttemplatedetailPage,
+    RequestdenyoPage,
+    ChangepasswordPage,
+    ReportviewPage,
+    EventsandcommentsPage,
+    EventviewPage,
+    CommentviewPage,
+    EventeditPage,
+    EventaddPage,
+    CommentreplyPage,
+    CommentaddPage,
+    //ReporttemplatedetailPage,
     //ChangepasswordPage
-    
+
     EngineviewPage
   ],
   providers: [

@@ -20,7 +20,11 @@ import { ReportviewPage } from '../reportview/reportview';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 
 import * as moment from 'moment';
-
+@Component({
+  selector: 'page-reports',
+  templateUrl: 'reports.html',
+  providers: [DatePicker]
+})
 @Component({
   selector: 'page-reports',
   templateUrl: 'reports.html',
