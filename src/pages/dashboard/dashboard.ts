@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -12,7 +12,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
-
+import { ModalPage } from '../modal/modal';
 declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
 import { Network } from '@ionic-native/network';
@@ -68,7 +68,7 @@ export class DashboardPage {
   lastname;
   companyGroupName;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
 
     this.platform.ready().then(() => {
@@ -125,7 +125,11 @@ export class DashboardPage {
        console.log("Dashboard- Menu Closed");
      });*/
   }
-
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage,{unitdata:unit});
+    modal.present();
+  }
   displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
     // this.toast.create({
