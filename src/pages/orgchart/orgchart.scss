@@ -488,7 +488,11 @@ background-color: #FBE983;
  //Web View
 }
 .popover-md .popover-content{
-	  top:225px;
-	  width:38%;
-	  left:62%;
-  }
+	  top:10% !important;
+	  width:60%;
+	  left:22% !important;
+}
+.popover-md .popover-content img{
+	max-width: 92%;
+    margin-top: 8px;
+}  
