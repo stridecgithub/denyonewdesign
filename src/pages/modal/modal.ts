@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 declare var google: any;
 /**
  * Generated class for the ModalPage page.
@@ -16,7 +16,7 @@ declare var google: any;
 export class ModalPage {
   public mapData = [];
   @ViewChild('mapCanvas') mapElement: ElementRef;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
   }
 
   ionViewDidLoad() {
@@ -249,11 +249,11 @@ export class ModalPage {
         ]
       }
     ];
-    console.log(JSON.stringify(this.navParams.get('unitdata')));
+    console.log("Unit Data:"+JSON.stringify(this.navParams.get('unitdata')));
 
     this.mapData.push({
       name: this.navParams.get('unitdata').location,
-      "lat":parseFloat(this.navParams.get('unitdata').lat), "lng": parseFloat(this.navParams.get('unitdata').lng), "center": true
+      "lat": parseFloat(this.navParams.get('unitdata').lat), "lng": parseFloat(this.navParams.get('unitdata').lng), "center": true
     });
 
     let mapEle = this.mapElement.nativeElement;
@@ -270,7 +270,16 @@ export class ModalPage {
         content: `<h5>${markerData.name}</h5>`
       });
       let iconDisplay;
-      iconDisplay = 'assets/imgs/marker-' + this.navParams.get('unitdata').genstatus + '.png'
+      let genstatus;
+      console.log('A');
+      if (this.navParams.get('unitdata').enginestatus != undefined) {
+        console.log('B');
+        genstatus = this.navParams.get('unitdata').enginestatus
+      } else {
+        console.log('C:' + this.navParams.get('unitdata').gen_status);
+        genstatus = this.navParams.get('unitdata').gen_status;
+      }
+      iconDisplay = 'assets/imgs/marker-' + genstatus + '.png'
       let marker = new google.maps.Marker({
         position: markerData,
         map: map,

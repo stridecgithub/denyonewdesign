@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the TrendlinePage page.
  *
@@ -33,7 +34,8 @@ export class UnitdetailgraphPage {
   }
   private apiServiceURL: string = "";
 
-  constructor(public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public modalCtrl: ModalController, public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
@@ -41,7 +43,11 @@ export class UnitdetailgraphPage {
       this.previous();
     });
   }
-
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
+  }
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
   }
@@ -53,39 +59,39 @@ export class UnitdetailgraphPage {
     let unit_id = this.navParams.get("unit_id");
     let graphname = this.navParams.get("graphname");
     if (graphname == 'LOADPOWERFACTOR') {
-      this.title='Load Power Factore';
+      this.title = 'Load Power Factore';
       //http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWERFACTOR/1/showgraph");
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'OILPRESSURE') {
-      this.title='Oil Pressure';
+      this.title = 'Oil Pressure';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/OILPRESSURE/1/showgraph");
     } else if (graphname == 'BATTERYVOLTAGE') {
-      this.title='Battery Voltage';
+      this.title = 'Battery Voltage';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/BATTERYVOLTAGE/1/showgraph");
     } else if (graphname == 'LOADPOWERFACTOR') {
-      this.title='Load Power Factor';
+      this.title = 'Load Power Factor';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'COLLANTTEMP') {
-      this.title='Collanttemp';
+      this.title = 'Collanttemp';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/COLLANTTEMP/1/showgraph");
     } else if (graphname == 'LOADPOWER') {
-      this.title='Load Power';
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/LOADPOWER/1/showgraph");
+      this.title = 'Load Power';
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWER/1/showgraph");
     } else if (graphname == 'VOLT1') {
-      this.title='Voltage';
+      this.title = 'Voltage';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/VOLT1/1/showgraph");
     } else if (graphname == 'CURRENT1') {
-      this.title='Current';
+      this.title = 'Current';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/CURRENT1/1/showgraph");
     } else if (graphname == 'FREQ') {
-      this.title='Frequency';
+      this.title = 'Frequency';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/FREQ/1/showgraph");
     } else if (graphname == 'ENGINESPEED') {
-      this.title='Engine Speed';
+      this.title = 'Engine Speed';
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/ENGINESPEED/1/showgraph");
     } else if (graphname == 'FUELLVEL') {
-      this.title='Fuel Level';
-      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" +unit_id + "/FUELLVEL/1/showgraph");
+      this.title = 'Fuel Level';
+      this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/FUELLVEL/1/showgraph");
 
     }
 

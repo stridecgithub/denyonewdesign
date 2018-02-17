@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform,ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AlarmlistdetailPage } from '../alarmlistdetail/alarmlistdetail';
@@ -10,6 +10,7 @@ import { CalendarPage } from '../calendar/calendar';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the AddalarmlistPage page.
  *
@@ -58,7 +59,7 @@ export class AddalarmlistPage {
   private permissionMessage: string = "";
   public networkType: string;
 
-  constructor(private conf: Config, public platform: Platform, public navCtrl: NavController,
+  constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
@@ -224,7 +225,11 @@ export class AddalarmlistPage {
       });
 
   }
- 
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
+  }
   saveEntry() {
     /*let dateStr = new Date();
     let yearstr = dateStr.getFullYear();

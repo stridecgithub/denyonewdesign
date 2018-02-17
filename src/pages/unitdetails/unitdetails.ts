@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { AlarmPage } from '../alarm/alarm';
@@ -12,7 +12,7 @@ import { EnginedetailviewPage } from '../enginedetailview/enginedetailview';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { AddUnitPage } from "../add-unit/add-unit";
 import { UnitdetailgraphPage } from "../unitdetailgraph/unitdetailgraph";
-
+import { ModalPage } from '../modal/modal';
 import * as $ from 'jquery';
 declare var jQuery: any;
 declare var Gauge: any;
@@ -133,7 +133,7 @@ export class UnitdetailsPage {
 	l1l2l3currentlablel;
 	currentselection;
 	genkey;
-	constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
 		this.l1l2l3voltagelablel = 'L1-L2';
@@ -148,11 +148,11 @@ export class UnitdetailsPage {
 		this.profilePhoto = localStorage.getItem
 
 			("userInfoPhoto");
-			if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-				this.profilePhoto = this.apiServiceURL +"/images/default.png";
-			  } else {
-			   this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
-			  }
+		if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+			this.profilePhoto = this.apiServiceURL + "/images/default.png";
+		} else {
+			this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
+		}
 
 		this.platform.registerBackButtonAction(() => {
 			this.previous();
@@ -166,6 +166,11 @@ export class UnitdetailsPage {
 	// 		this.tick = t;
 	// 	});
 	// }
+	presentModal(unit) {
+		console.log(JSON.stringify(unit));
+		let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+		modal.present();
+	}
 
 	ngOnDestroy() {
 		// unsubscribe here
@@ -1972,10 +1977,18 @@ export class UnitdetailsPage {
 	}
 	showgraph(unit_id, graphname) {
 
-		this.navCtrl.setRoot(UnitdetailgraphPage, {
+		// this.navCtrl.setRoot(UnitdetailgraphPage, {
+		// 	unit_id: unit_id,
+		// 	graphname: graphname
+		// });
+
+
+		let modal = this.modalCtrl.create(UnitdetailgraphPage, {
 			unit_id: unit_id,
 			graphname: graphname
 		});
+		modal.present();
+
 		console.log("Show Graph function calling:-" + unit_id);
 
 	}

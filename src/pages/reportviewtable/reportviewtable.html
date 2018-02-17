@@ -26,10 +26,10 @@
     <div class="download-option" *ngIf="buttonClicked">
       <ion-row *ngIf="pdfdownloadview>0">
         <ion-list>
-          <a href="{{pdfDownloadLink}}">PDF</a>
+          <a href="#" (click)="download(1)">PDF</a>
         </ion-list>
         <ion-list>
-          <a href="#" (click)="csv()">CSV</a>
+          <a href="#" (click)="download(2)">CSV</a>
         </ion-list>
       </ion-row>
     </div>
@@ -45,7 +45,7 @@
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
   <!-- <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format. -->
-    <!--click here to below link<br> <a href="{{pdfDownloadLink}}">Download</a-->
+  <!--click here to below link<br> <a href="{{pdfDownloadLink}}">Download</a-->
   <!-- </div> -->
   <!--br>
     <a href="{{pdfDownloadLink}}">Download</a-->

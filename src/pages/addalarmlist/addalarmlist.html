@@ -10,7 +10,7 @@
     <button ion-button clear class="left-header-btn" menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Edit Alarm</ion-title>   
+    <ion-title>Edit Alarm</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -24,16 +24,13 @@
       <div class="list-desc">{{unitDetailData.projectname }}</div>
       {{unitDetailData.location }}
       <div class="list-favorite">
-        <!-- <button>
-                
-                <img class="icon-size" src="assets/imgs/map.png">
-              </button> -->
+        <button>
+          <img class="icon-size" src="assets/imgs/map.png" (click)="presentModal(unit)">
+        </button>
         <button (click)="favorite(unitDetailData.unit_id)">
-                <ion-icon name="star-outline"
-                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
-                <ion-icon name="star" class="favorite"
-                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
-              </button>
+          <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+          <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+        </button>
       </div>
       <div class="running-hrs">Running Hours: {{unitDetailData.runninghr}}</div>
     </ion-item>
@@ -41,12 +38,12 @@
 
 
   </ion-list>
-<form [formGroup]="form" (ngSubmit)="saveEntry()">
-        <ion-item>
-        <ion-label stacked>Date</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
-      </ion-item>
-      <!--ion-item>
+  <form [formGroup]="form" (ngSubmit)="saveEntry()">
+    <ion-item>
+      <ion-label stacked>Date</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
+    </ion-item>
+    <!--ion-item>
         <ion-label stacked>Subject<span class="mandatory" *ngIf="hideActionButton"> *</span></ion-label>
         <ion-input type="text" [disabled]=true formControlName="subject" [(ngModel)]="subject"></ion-input>
       </ion-item>
@@ -55,36 +52,36 @@
         <ion-label stacked>Assign by <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
         <ion-input type="text" [disabled]=true formControlName="assignedby" [(ngModel)]="assignedby"></ion-input>
       </ion-item-->
-      <ion-item>
-        <ion-label stacked>Assigned To</ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
-          <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
-        </ion-select>
-      </ion-item>
-
-    
+    <ion-item>
+      <ion-label stacked>Assigned To</ion-label>
+      <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
+        <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+      </ion-select>
+    </ion-item>
 
 
 
-        <div class="inner-div">
-          <div  class="txt-area" style="
+
+
+    <div class="inner-div">
+      <div class="txt-area" style="
     color: gray;
     font-size: 12px;
     margin-top: 15px;
 ">Remark</div>
-          <textarea style="height: 70px;
+      <textarea style="height: 70px;
     width: 100%;
     margin-left: 2px;
     margin-top: 2px;border: 0px;
     background-color: #f8f8f8;" type="text" name="remark" id="remark" rows="8" [disabled]="readOnly" formControlName="assigned_to"
-            [(ngModel)]="remark"></textarea>
+        [(ngModel)]="remark"></textarea>
 
-        </div>
+    </div>
 
 
 
-      <ion-item>
-        <button ion-button color="primary" text-center [disabled]="!form.valid || isSubmitted">Complete and Save</button>
-      </ion-item>
-    </form>
+    <ion-item>
+      <button ion-button color="primary" text-center [disabled]="!form.valid || isSubmitted">Complete and Save</button>
+    </ion-item>
+  </form>
 </ion-content>
