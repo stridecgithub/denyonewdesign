@@ -15,7 +15,8 @@ page-servicedetails {
     padding: 15px 5px;
     border-bottom: 1px solid #848484;
     img {
-      border-radius: 50%;
+      border-radius: 50%;    
+        max-width: fit-content;
     }
     h4 {
       margin: 0 0 5px 0;

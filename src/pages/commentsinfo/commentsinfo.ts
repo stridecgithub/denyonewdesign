@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -9,7 +9,7 @@ import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
-
+import { ModalPage } from '../modal/modal';
 
 /**
  * Generated class for the CommentsinfoPage page.
@@ -65,7 +65,7 @@ export class CommentsinfoPage {
   public networkType: string;
   public totalCount;
   public sortLblTxt: string = 'Comment';
-  constructor(private platform: Platform, private conf: Config, public http: Http,
+  constructor( public modalCtrl: ModalController,private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Comments';
     this.loginas = localStorage.getItem("userInfoName");
@@ -90,6 +90,11 @@ export class CommentsinfoPage {
     console.log('ionViewDidLoadCommentsinfoPage');
   }
 
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
+  }
   doAlarmView(event_id, event_type) {
     this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,

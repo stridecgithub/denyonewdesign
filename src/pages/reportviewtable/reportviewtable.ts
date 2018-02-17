@@ -81,10 +81,10 @@ export class ReportviewtablePage {
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
-    this.readCsvData();
+    //this.readCsvData();
     this.graphview = 0;
     this.requestsuccess = '';
-    this.pdfdownloadview = 0;
+    this.pdfdownloadview = 1;
     this.requestsuccessview = 0;
     this.loginas = localStorage.getItem("userInfoName");
     this.userid = localStorage.getItem("userInfoId");
@@ -224,7 +224,7 @@ export class ReportviewtablePage {
             this.timeframe = res.timeframe;
             this.generatormodel = res.generatormodel;
             this.unitgroupname = res.unitgroupname;
-            this.pdf();
+
             /*
             
             
@@ -308,7 +308,7 @@ export class ReportviewtablePage {
       val: this.NP.get("val")
     });
   }
-  pdf() {
+  download(val) {
     this.buttonClicked = false;
     console.log("PDF Download");
     // PDF Viewer Calling      
@@ -319,7 +319,7 @@ export class ReportviewtablePage {
       "&from=" + this.NP.get("from") +
       "&to=" + this.NP.get("to") +
       "&exportto=" + this.NP.get("exportto") +
-      "&seltype=1" +
+      "&seltype=" + val +
       "&action=view" +
       "&loginid=" + this.userid +
       "&companyid=" + this.companyid,
@@ -333,7 +333,7 @@ export class ReportviewtablePage {
         "&from=" + this.NP.get("from") +
         "&to=" + this.NP.get("to") +
         "&exportto=" + this.NP.get("exportto") +
-        "&seltype=1" +
+        "&seltype=" + val +
         "&action=view" +
         "&loginid=" + this.userid +
         "&companyid=" + this.companyid;
@@ -348,20 +348,34 @@ export class ReportviewtablePage {
         this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
-        console.log("Uploaded and generated success file is:" + res.pdf);
+        if (val == 1) {
+          const url = res.pdf;
+        } else {
+          const url = res.csv;
+        }
+        console.log("Uploaded and generated success file is:" +url);
         this.pdfdownloadview = 1;
-        let pdfFile = res.pdf;
+        let pdfFile = url;
         let pdfPathURL = this.apiServiceURL;
         console.log("PDF Path URL:-" + pdfPathURL + pdfFile);
-        this.pdfDownloadLink = res.pdf;
-        const url = res.pdf;
+        // this.pdfDownloadLink = url;
+      
+
+
+        url = url
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(url, this.file.dataDirectory + pdfFile).then((entry) => {
           console.log('download complete: ' + entry.toURL());
           const options: DocumentViewerOptions = {
-            title: res.pdf
+            title: url
           }
-          this.document.viewDocument(entry.toURL(), 'application/pdf', options)
+          if (val == 1) {
+            this.document.viewDocument(entry.toURL(), 'application/pdf', options);
+          } else {
+            this.document.viewDocument(entry.toURL(), 'application/xls', options);
+          }
+
+          this.pdfdownloadview = 0;
         }, (error) => {
           // handle error
         });

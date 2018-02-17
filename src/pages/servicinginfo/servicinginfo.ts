@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform,ModalController } from 'ionic-angular';
 import { AddserviceinfoPage } from '../addserviceinfo/addserviceinfo';
 import { UnitsPage } from '../units/units';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -13,6 +13,7 @@ import { Config } from '../../config/config';
 import { AddhocPage } from "../addhoc/addhoc";
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the ServicinginfoPage page.
  *
@@ -80,7 +81,7 @@ export class ServicinginfoPage {
   public profilePhoto;
   public sortLblTxt: string = 'Date';
   //tabBarElement: any;
-  constructor(private conf: Config, public platform: Platform, public http: Http,
+  constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Servicing Info';
     this.loginas = localStorage.getItem("userInfoName");
@@ -115,6 +116,7 @@ export class ServicinginfoPage {
   ionViewWillLeave() {
     //this.tabBarElement.style.display = 'flex';
   }
+  
   ionViewDidLoad() {
     // this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad ServicinginfoPage');
@@ -391,6 +393,11 @@ export class ServicinginfoPage {
       act: 'View',
       from: from
     });
+  }
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
   }
 
   doConfirmUpcoming(id, item, from) {

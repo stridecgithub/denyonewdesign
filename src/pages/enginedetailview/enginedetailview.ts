@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, Platform } from 'ionic-angular';
+import { NavController, AlertController, NavParams, Platform, ModalController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
-
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the EnginedetailviewPage page.
  *
@@ -52,7 +52,7 @@ export class EnginedetailviewPage {
   iframeContent: any;
   public msgcount: any;
   public notcount: any;
-  constructor(private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
+  constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -61,11 +61,15 @@ export class EnginedetailviewPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
- this.platform.registerBackButtonAction(() => {
+    this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
-
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad EnginedetailviewPage');
     localStorage.setItem("fromModule", "EnginedetailviewPage");
@@ -160,7 +164,7 @@ export class EnginedetailviewPage {
 
     }
 
-    this.pageTitle = "Engine Detail";    
+    this.pageTitle = "Engine Detail";
     this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + this.unitid + "/1/enginedetails");
 
 

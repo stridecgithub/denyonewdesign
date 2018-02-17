@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, Platform } from 'ionic-angular';
+import { NavController, AlertController, NavParams, Platform,ModalController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddalarmPage } from '../addalarm/addalarm';
@@ -11,7 +11,7 @@ import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { AlarmlogdetailsPage } from '../alarmlogdetails/alarmlogdetails';
-
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the AlarmlogPage page.
  *
@@ -61,7 +61,7 @@ export class AlarmlogPage {
   public msgcount: any;
   public notcount: any;
   public sortLblTxt: string = 'Date';
-  constructor(private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -79,6 +79,11 @@ export class AlarmlogPage {
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
+  }
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
   }
   doAlarmLogDetail(item) {
     this.navCtrl.setRoot(AlarmlogdetailsPage, {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlarmPage } from '../alarm/alarm';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the TrendlinePage page.
  *
@@ -33,7 +34,7 @@ export class TrendlinePage {
   }
   private apiServiceURL: string = "";
 
-  constructor(public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+  constructor( public modalCtrl: ModalController,public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
@@ -45,6 +46,12 @@ export class TrendlinePage {
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
   }
+  
+presentModal(unit) {
+  console.log(JSON.stringify(unit));
+  let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+  modal.present();
+}
   ionViewDidLoad() {
     console.log("Navigation data of item" + JSON.stringify(this.navParams.get("record")));
     this.tabBarElement.style.display = 'none';
@@ -111,7 +118,7 @@ export class TrendlinePage {
     // Unit Details API Call
   }
   previous() {
-    console.log("From Page"+this.navParams.get("from"));
+    console.log("From Page" + this.navParams.get("from"));
     if (this.navParams.get("from") == 'alarmlog') {
       this.navCtrl.setRoot(AlarmlogPage, {
         record: this.navParams.get("record"),
