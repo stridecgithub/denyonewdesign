@@ -793,6 +793,7 @@ button.currentDataHighlights {
     width: 80%;
     position: relative;
     font-size: 12px;
+	white-space: normal;
     &:before {      
       content: '●';
       position: absolute;
