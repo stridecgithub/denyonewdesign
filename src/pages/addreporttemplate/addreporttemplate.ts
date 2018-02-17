@@ -72,7 +72,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
       this.selectEntry(this.NP.get("record"));
     }
     else {
-      this.pageTitle = "Add Report Template";
+      this.pageTitle = "New Report Template";
       this.isEdited = false;
 
     }

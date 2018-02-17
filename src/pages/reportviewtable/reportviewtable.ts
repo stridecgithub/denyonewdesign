@@ -18,6 +18,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as papa from 'papaparse';
 @Component({
   selector: 'page-reportviewtable',
   templateUrl: 'reportviewtable.html',
@@ -27,7 +28,8 @@ export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
 
-
+  csvData: any[] = [];
+  headerRow: any[] = [];
   public posts = [];
   keys: String[];
 
@@ -79,6 +81,7 @@ export class ReportviewtablePage {
   constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
+    this.readCsvData();
     this.graphview = 0;
     this.requestsuccess = '';
     this.pdfdownloadview = 0;
@@ -142,6 +145,8 @@ export class ReportviewtablePage {
       action = 'view';
       seltype = '1'; // PDF
     }
+
+
 
     if (this.NP.get("exportto") == 'graph') {
       this.graphview = 1;
@@ -219,6 +224,7 @@ export class ReportviewtablePage {
             this.timeframe = res.timeframe;
             this.generatormodel = res.generatormodel;
             this.unitgroupname = res.unitgroupname;
+            this.pdf();
             /*
             
             
@@ -248,75 +254,7 @@ export class ReportviewtablePage {
 
 
     } else if (seltypeBtn == '3' && this.graphview == 0) {
-      console.log("Block B");
-      // PDF Viewer Calling      
-      let body: string = "is_mobile=1" +
-        "&selunit=" + this.NP.get("selunit") +
-        "&seltimeframe=" + this.NP.get("seltimeframe") +
-        "&seltemplate=" + this.NP.get("seltemplate") +
-        "&from=" + this.NP.get("from") +
-        "&to=" + this.NP.get("to") +
-        "&exportto=" + this.NP.get("exportto") +
-        "&seltype=" + seltype +
-        "&action=" + action +
-        "&loginid=" + this.userid +
-        "&companyid=" + this.companyid,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
-          "&selunit=" + this.NP.get("selunit") +
-          "&seltimeframe=" + this.NP.get("seltimeframe") +
-          "&seltemplate=" + this.NP.get("seltemplate") +
-          "&from=" + this.NP.get("from") +
-          "&to=" + this.NP.get("to") +
-          "&exportto=" + this.NP.get("exportto") +
-          "&seltype=" + seltype +
-          "&action=" + action +
-          "&loginid=" + this.userid +
-          "&companyid=" + this.companyid;
-
-      console.log("Report submit url is:-" + url);
-      let res;
-      this.presentLoading(1);
-      //this.http.post(url, body, options)
-      this.http.get(url, options)
-        ///this.http.post(url, body, options)
-        .subscribe((data) => {
-          this.presentLoading(0);
-          // If the request was successful notify the user
-          res = data.json();
-          console.log("Uploaded and generated success file is:" + res.pdf);
-          this.pdfdownloadview = 1;
-          let pdfFile = res.pdf;
-          let pdfPathURL = this.apiServiceURL;
-          console.log("PDF Path URL:-" + pdfPathURL + pdfFile);
-          this.pdfDownloadLink = res.pdf;
-          const url = res.pdf;
-          const fileTransfer: FileTransferObject = this.transfer.create();
-          fileTransfer.download(url, this.file.dataDirectory + pdfFile).then((entry) => {
-            console.log('download complete: ' + entry.toURL());
-            const options: DocumentViewerOptions = {
-              title: res.pdf
-            }
-            this.document.viewDocument(entry.toURL(), 'application/pdf', options)
-          }, (error) => {
-            // handle error
-          });
-
-
-          if (data.status === 200) {
-
-          }
-          // Otherwise let 'em know anyway
-          else {
-
-          }
-
-
-        });
-      //  {"msg":{"result":"success"},"pdf":"reports_generator_1.pdf"}
-
+      // PDF
 
     } else if (this.graphview > 0) {
       console.log("Block C");
@@ -369,6 +307,135 @@ export class ReportviewtablePage {
       exportto: this.NP.get("exportto"),
       val: this.NP.get("val")
     });
+  }
+  pdf() {
+    this.buttonClicked = false;
+    console.log("PDF Download");
+    // PDF Viewer Calling      
+    let body: string = "is_mobile=1" +
+      "&selunit=" + this.NP.get("selunit") +
+      "&seltimeframe=" + this.NP.get("seltimeframe") +
+      "&seltemplate=" + this.NP.get("seltemplate") +
+      "&from=" + this.NP.get("from") +
+      "&to=" + this.NP.get("to") +
+      "&exportto=" + this.NP.get("exportto") +
+      "&seltype=1" +
+      "&action=view" +
+      "&loginid=" + this.userid +
+      "&companyid=" + this.companyid,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
+        "&selunit=" + this.NP.get("selunit") +
+        "&seltimeframe=" + this.NP.get("seltimeframe") +
+        "&seltemplate=" + this.NP.get("seltemplate") +
+        "&from=" + this.NP.get("from") +
+        "&to=" + this.NP.get("to") +
+        "&exportto=" + this.NP.get("exportto") +
+        "&seltype=1" +
+        "&action=view" +
+        "&loginid=" + this.userid +
+        "&companyid=" + this.companyid;
+
+    console.log("Report submit url is:-" + url);
+    let res;
+    this.presentLoading(1);
+    //this.http.post(url, body, options)
+    this.http.get(url, options)
+      ///this.http.post(url, body, options)
+      .subscribe((data) => {
+        this.presentLoading(0);
+        // If the request was successful notify the user
+        res = data.json();
+        console.log("Uploaded and generated success file is:" + res.pdf);
+        this.pdfdownloadview = 1;
+        let pdfFile = res.pdf;
+        let pdfPathURL = this.apiServiceURL;
+        console.log("PDF Path URL:-" + pdfPathURL + pdfFile);
+        this.pdfDownloadLink = res.pdf;
+        const url = res.pdf;
+        const fileTransfer: FileTransferObject = this.transfer.create();
+        fileTransfer.download(url, this.file.dataDirectory + pdfFile).then((entry) => {
+          console.log('download complete: ' + entry.toURL());
+          const options: DocumentViewerOptions = {
+            title: res.pdf
+          }
+          this.document.viewDocument(entry.toURL(), 'application/pdf', options)
+        }, (error) => {
+          // handle error
+        });
+
+
+        if (data.status === 200) {
+
+        }
+        // Otherwise let 'em know anyway
+        else {
+
+        }
+
+
+      });
+    //  {"msg":{"result":"success"},"pdf":"reports_generator_1.pdf"}
+  }
+  csv() {
+
+    let csv = papa.unparse({
+      fields: this.headerRow,
+      data: this.csvData
+    });
+
+    // Dummy implementation for Desktop download purpose
+    var blob = new Blob([csv]);
+    var a = window.document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = "newdata.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    //this.readCsvData();
+    //http://denyoappv2.stridecdev.com/report.csv
+  }
+  private readCsvData() {
+    // this.http.get('http://denyoappv2.stridecdev.com/report.csv')
+    //   .subscribe(
+    //   data => {
+    //     console.log(JSON.stringify(data));
+    //     this.extractData(data);
+    //   },
+    //   err => this.handleError(err)
+    //   );
+
+    let //body: string = "loginid=" + this.userId,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/report.csv";
+    this.http.get(url, options)
+      .subscribe((data) => {
+        console.log("CSV response Success:" + JSON.stringify(data.json()));
+        this.extractData(data);
+
+      });
+
+  }
+
+  private extractData(res) {
+    let csvData = res['_body'] || '';
+    let parsedData = papa.parse(csvData).data;
+
+    this.headerRow = parsedData[0];
+
+    parsedData.splice(0, 1);
+    this.csvData = parsedData;
+  }
+  private handleError(err) {
+    console.log('something went wrong: ', err);
+  }
+
+  trackByFn(index: any, item: any) {
+    return index;
   }
 }
 
