@@ -1,10 +1,11 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Events,ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from "../add-unit/add-unit";
+import { ModalPage } from '../modal/modal';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -48,19 +49,24 @@ export class UnitsPage {
   public msgcount: any;
   public notcount: any;
   public profilePhoto;
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public modalCtrl: ModalController,public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ionViewWillEnter() {
     this.tabBarElement.style.display = 'flex';
+  }
+  presentModal(unit) {
+    console.log(JSON.stringify(unit));
+    let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
+    modal.present();
   }
   ionViewDidLoad() {
     //console.log("Page Name"+this.navCtrl.getActive().name);
@@ -275,7 +281,7 @@ export class UnitsPage {
   favorite(unit_id) {
     this.reportData.startindex = 0;
     this.unitAllLists = [];
-    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId+ "&company_id=" + this.companyId,
+    let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId + "&company_id=" + this.companyId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -285,7 +291,7 @@ export class UnitsPage {
     this.http.post(url, body, options)
       .subscribe(data => {
         //this.reportData.startindex = 0;
-       // this.unitAllLists = [];
+        // this.unitAllLists = [];
         //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
@@ -297,7 +303,7 @@ export class UnitsPage {
           }
         }
 
-      
+
 
         if (res.units.length > 0) {
           for (let unit in res.units) {

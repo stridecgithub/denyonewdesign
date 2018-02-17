@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UserPage } from '../user/user';
@@ -12,7 +12,7 @@ import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage } from '../orgchart/orgchart';
-
+import { PopovercolorcodePage } from '../popovercolorcode/popovercolorcode';
 /**
  * Generated class for the AddunitgroupPage page.
  *
@@ -49,7 +49,7 @@ export class AddunitgroupPage {
   public recordID: any = null;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
 
-  constructor(public nav: NavController,
+  constructor(public nav: NavController, public popoverCtrl: PopoverController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
@@ -68,6 +68,17 @@ export class AddunitgroupPage {
   // ionViewDidLoad() {
   //   console.log('ionViewDidLoad AddunitgroupPage');
   // }
+
+  colorcodePopover() {
+    let popover = this.popoverCtrl.create(PopovercolorcodePage, { item: '' });
+    popover.present({
+      ev: '',
+    });
+    popover.onWillDismiss(data => {
+      console.log(JSON.stringify(data));
+
+    });
+  }
   ionViewDidLoad() {
 
 
@@ -274,11 +285,11 @@ export class AddunitgroupPage {
     document.getElementById(colorCodeValue).classList.add("border-need");
 
     //if (this.isEdited == true) {
-      // if (this.ccode != colorCodeValue) {
-      //   console.log(this.ccode);
-      //   document.getElementById(this.ccode).classList.remove("border-need");
-      // }
-   // }
+    // if (this.ccode != colorCodeValue) {
+    //   console.log(this.ccode);
+    //   document.getElementById(this.ccode).classList.remove("border-need");
+    // }
+    // }
 
 
 

@@ -96,8 +96,11 @@ import { CommentaddPage } from '../pages/commentadd/commentadd';
 import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
 import { ModalPage } from '../pages/modal/modal';
+import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode';
+
 @NgModule({
   declarations: [
+    PopovercolorcodePage,
     ModalPage,
     MapPage,
     AddorgchartonePage,
@@ -201,6 +204,7 @@ import { ModalPage } from '../pages/modal/modal';
     })],
   bootstrap: [IonicApp],
   entryComponents: [
+    PopovercolorcodePage,
     ModalPage,
     MapPage,
     AddorgchartonePage,

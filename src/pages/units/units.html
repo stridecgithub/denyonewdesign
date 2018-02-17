@@ -34,15 +34,15 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists">
-      <ion-item (click)="doAction(unit,'detail',unit.unit_id)">
-        <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
-        <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
-        <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.unitname}}
-        <div class="list-desc">{{unit.projectname}}</div>
+      <ion-item>
+        <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}"  (click)="doAction(unit,'detail',unit.unit_id)">{{unit.nextservicedate_mobileview}}</div>
+        <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}"  (click)="doAction(unit,'detail',unit.unit_id)">{{unit.companygroup_name}}</span>
+        <span class="status" ngClass="{{unit.genstatus}}"  (click)="doAction(unit,'detail',unit.unit_id)"></span> {{unit.unitname}}
+        <div class="list-desc"  (click)="doAction(unit,'detail',unit.unit_id)">{{unit.projectname}}</div>
         <div class="list-favorite">
-          <!-- <button style="text-align:right;">
+          <button style="text-align:right;"  (click)="presentModal(unit)">
               <img src="assets/imgs/map.png" class="icon-size">
-          </button> -->
+          </button>
           <button (click)="favorite(unit.unit_id)" style="text-align:right;">
             <ion-icon name="star-outline" *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
             <ion-icon name="star" class="favorite" *ngIf="unit.favoriteindication === 1 || unit.favoriteindication === 'favorite'"></ion-icon>

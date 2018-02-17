@@ -125,13 +125,13 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content   padding>
+<ion-content padding>
 	<form [formGroup]="form">
 
 		<div>
 			<ion-list>
 				<ion-item>
-					<ion-label stacked>Unit Group Name</ion-label>
+					<ion-label stacked>Unit Group Name<span style="color:red">*</span></ion-label>
 					<ion-input type="text" [disabled]="readOnly" formControlName="cname" [(ngModel)]="cname"></ion-input>
 				</ion-item>
 			</ion-list>
@@ -160,14 +160,31 @@
 		</div>
 
 
+
+		
 		<div>
-			<ion-list>
-				<ion-item>
-					<ion-label stacked>Remark</ion-label>
-					<ion-textarea rows="6" type="text" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></ion-textarea>
-				</ion-item>
-			</ion-list>
-		</div>
+				<ion-list>
+					<ion-item>
+						<ion-label stacked>Remark
+							<span style="color:red">*</span>
+						</ion-label>
+						<ion-textarea rows="6" type="text" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></ion-textarea>
+					</ion-item>
+				</ion-list>
+			</div>
+
+
+		<!-- <div>
+
+			<ion-label stacked>Select color code
+				<span style="color:red">*</span>
+			</ion-label>
+			<span class="initial" [ngStyle]="{'background-color': '#E1E1E1'}"></span>
+			<ion-icon name="md-arrow-dropdown" (click)="colorcodePopover()"></ion-icon>
+
+		</div> -->
+
+
 
 		<div>
 			<ion-list>
