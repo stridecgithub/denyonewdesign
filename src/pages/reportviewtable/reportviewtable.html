@@ -24,9 +24,13 @@
       </div>
     </ion-navbar>
     <div class="download-option" *ngIf="buttonClicked">
-      <ion-row>
-        <ion-list>PDF</ion-list>
-        <ion-list>CSV</ion-list>
+      <ion-row *ngIf="pdfdownloadview>0">
+        <ion-list>
+          <a href="{{pdfDownloadLink}}">PDF</a>
+        </ion-list>
+        <ion-list>
+          <a href="#" (click)="csv()">CSV</a>
+        </ion-list>
       </ion-row>
     </div>
   </ion-toolbar>
@@ -36,13 +40,13 @@
 <ion-content padding class="ion-content">
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
   <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
-  
-  <iframe width="100%" height="500" [src]="url" frameborder="0"  *ngIf="graphview>0"></iframe>
+
+  <iframe width="100%" height="500" [src]="url" frameborder="0" *ngIf="graphview>0"></iframe>
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
-  <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format.
+  <!-- <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format. -->
     <!--click here to below link<br> <a href="{{pdfDownloadLink}}">Download</a-->
-  </div>
+  <!-- </div> -->
   <!--br>
     <a href="{{pdfDownloadLink}}">Download</a-->
 

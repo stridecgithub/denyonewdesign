@@ -100,3 +100,9 @@ For Image Upload for when Compose Form the following plugin need to be installed
 
 >ionic cordova plugin add cordova-plugin-network-information
 >npm install --save @ionic-native/network
+
+CSV 
+--------
+https://devdactic.com/csv-data-ionic/
+npm install papaparse --save
+npm install @types/papaparse --save
