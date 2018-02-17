@@ -142,7 +142,7 @@ export class MessageDetailViewPage {
     } else {
       messageids = this.detailItem.message_id;
     }
-    let bodymessage: string = "messageid=" + messageids,
+    let bodymessage: string = "messageid=" + messageids+"&loginid="+this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),

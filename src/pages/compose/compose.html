@@ -107,7 +107,7 @@
 
       <ion-item>
         <ion-label stacked>Message</ion-label>
-        <ion-textarea formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
+        <ion-textarea id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
       </ion-item>
 
 
@@ -143,7 +143,7 @@
         existing image count {{existingimagecount}} -->
         <button (click)="doRemoveResouce(imageitem)">
           <!-- *ngIf="act!='reply' && act!='forward'" -->
-          <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
+          <ion-icon name="md-close-circle" style="color:red;" *ngIf="act!='reply' && act!='forward' && act!='replytoall'" ></ion-icon>
         </button>
       </div>
     </div>

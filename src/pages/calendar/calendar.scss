@@ -153,12 +153,12 @@ page-calendar {
     background-color: #fff;
   }
   ion-item-sliding {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 0px solid #ccc;
   }
   .item-md {
     color: #333;
     padding: 0;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 0px solid #ccc;
   }
   .item-md h2 {
     margin: 10px 0;
@@ -195,7 +195,7 @@ page-calendar {
     padding-right: 0;
   }
   .label-md {
-    margin: 13px 0px 13px 0;
+    margin: 11px 0px 11px 0!important;
   }
   ion-select {
     background: #f0f0f0;
@@ -779,7 +779,7 @@ button.currentDataHighlights {
     padding: 0
   }
   .item-inner {
-    padding: 10px;
+    padding:0 10px;
   }
   .event-time {
     font-size: 12px;
@@ -793,6 +793,7 @@ button.currentDataHighlights {
     width: 80%;
     position: relative;
     font-size: 12px;
+	white-space: normal;
     &:before {      
       content: '●';
       position: absolute;

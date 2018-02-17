@@ -88,8 +88,9 @@
       top: 16%;
       position: absolute;"></ion-icon>
       <div class="frwd-rply"  *ngIf="openpop>0">
-        <button (click)="action(detailItem,'reply',from)">Reply All</button>
-        <button (click)="action(detailItem,'forward',from)">Forward</button>
+        <button (click)="action(detailItem,'reply',from)" style="text-align:left">Reply</button>
+        <button (click)="action(detailItem,'replytoall',from)"  style="text-align:left">Reply to all</button>
+        <button (click)="action(detailItem,'forward',from)"  style="text-align:left">Forward</button>
       </div>
     </div>
   </div>

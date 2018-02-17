@@ -80,6 +80,7 @@ export class ComposePage {
   public companyId: any;
   public atmentioneddata = [];
   existingimagecount;
+  replyall;
   constructor(private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
     private transfer: FileTransfer,
@@ -142,6 +143,8 @@ export class ComposePage {
     this.doAttachmentResources(this.micro_timestamp);
     console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
     this.act = this.navParams.get("action");
+    this.replyall = this.navParams.get("record").replyall;
+    console.log("REply all:" + this.replyall);
     console.log("Action" + this.act);
     this.choice = this.navParams.get("from");
     console.log("Choice of From" + this.choice);
@@ -177,7 +180,7 @@ export class ComposePage {
           this.getPrority(this.navParams.get("record").message_priority);
           console.log("Priority B" + this.navParams.get("record").message_priority);
           this.subject = this.navParams.get("record").messages_subject;
-          this.composemessagecontent = this.navParams.get("record").message_body;
+          this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
         }
 
@@ -186,6 +189,71 @@ export class ComposePage {
         this.messageid = this.navParams.get("record").message_id;
         this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
       }
+
+
+      if (this.act == 'replytoall') {
+        // $("#composemessagecontent").text("<p></p><p></p>");
+
+
+        // $("#composemessagecontent").css({ "background-color": "yellow", "font-size": "200%" });
+        console.log("goto replytoall");
+        //this.reply(this.navParams.get("record").messages_body);
+        this.priority_highclass = '';
+        this.priority_lowclass = '';
+        this.inboxsortaction = false;
+        this.sendsortaction = false;
+        this.isCompose = true;
+        this.isSubmitted = false;
+        this.replyforward = 1;
+        this.isReply = 1;
+        if (this.senderid == this.userId) {
+          console.log("A:Get Reply All Users:" + this.navParams.get("record").replyall);
+          this.to = this.navParams.get("record").replyall;//this.receiver_id;
+
+          this.addedImgLists = [];
+          this.copytome = 0;
+
+          this.getPrority(this.navParams.get("record").message_priority);
+          console.log("TO A" + this.navParams.get("record").message_priority);
+          this.subject = this.messages_subject;
+          this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
+          // $("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
+
+
+          // $('#composemessagecontent').blur(function () {
+          //   var val = $("#composemessagecontent").val();
+          //   $("#composemessagecontent").val('');
+          //   setTimeout(function () { $("#composemessagecontent").val(val); }, 20);
+          // });
+        }
+        else {
+
+          // $('#composemessagecontent').blur(function () {
+          //   var val = $("#composemessagecontent").val();
+          //   $("#composemessagecontent").val('');
+          //   setTimeout(function () { $("#composemessagecontent").val(val); }, 20);
+          // });
+
+          this.isReply = 0;
+          console.log("B:Get Reply All Users:" + this.navParams.get("record").replyall);
+          this.to = this.navParams.get("record").replyall;
+
+          this.addedImgLists = [];
+          this.copytome = 0;
+          this.getPrority(this.navParams.get("record").message_priority);
+          console.log("Priority B" + this.navParams.get("record").message_priority);
+          this.subject = this.navParams.get("record").messages_subject;
+          this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
+
+          //$("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
+        }
+
+        this.isReply = 1;
+        console.log("Reply Calling");
+        this.messageid = this.navParams.get("record").message_id;
+        this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
+      }
+
       if (this.act == 'forward') {
         this.messageid = this.navParams.get("record").message_id;
         this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
@@ -205,7 +273,7 @@ export class ComposePage {
         console.log("Priority C" + this.navParams.get("record").message_priority);
         this.getPrority(this.navParams.get("record").message_priority);
         this.subject = this.navParams.get("record").messages_subject;
-        this.composemessagecontent = "-----Forward Message-----" + "\n" + this.navParams.get("record").message_body;
+        this.composemessagecontent = "\n\n\n" + "-----Forward Message-----" + "\n" + this.navParams.get("record").message_body;
         this.replyforward = 1;
       }
     }
@@ -261,7 +329,7 @@ export class ComposePage {
 
   doAttachmentResources(micro_timestamp) {
     this.addedImgLists = [];
-    let bodymessage: string = "messageid=0&micro_timestamp=" + micro_timestamp,
+    let bodymessage: string = "messageid=0&micro_timestamp=" + micro_timestamp + "&loginid=" + this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
@@ -311,7 +379,7 @@ export class ComposePage {
 
   doAttachmentResourcesExisting(message_id, micro_timestamp) {
 
-    let bodymessage: string = "messageid=" + message_id + "&micro_timestamp=" + micro_timestamp,
+    let bodymessage: string = "messageid=" + message_id + "&micro_timestamp=" + micro_timestamp + "&loginid=" + this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
@@ -450,7 +518,7 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-      let to=$("#to").val();
+      let to = $("#to").val();
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
@@ -528,7 +596,7 @@ export class ComposePage {
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
@@ -560,9 +628,9 @@ export class ComposePage {
               destinationType: this.camera.DestinationType.FILE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
-            
+
 
             this.camera.getPicture(options).then((uri) => {
               console.log(uri);

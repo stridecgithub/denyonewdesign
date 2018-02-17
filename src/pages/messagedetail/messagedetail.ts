@@ -43,6 +43,7 @@ export class MessagedetailPage {
   public senderphoto: any;
   public attachedFileLists = [];
   public service_resources;
+  replyall;
   // For Messages
   isUploadedProcessing;
   micro_timestamp;
@@ -90,12 +91,13 @@ export class MessagedetailPage {
       this.previous();
     });
   }
-  action(item, action, from) {
+  action(item, action, from,replyall) {
     localStorage.setItem("microtime", '');
     this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
-      from: from
+      from: from,
+      replyall:replyall
     });
   }
   toggle(isopenorclose) {
@@ -155,7 +157,7 @@ export class MessagedetailPage {
     } else {
       messageids = this.detailItem.message_id;
     }
-    let bodymessage: string = "messageid=" + messageids,
+    let bodymessage: string = "messageid=" + messageids + "&loginid=" + this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
@@ -250,7 +252,8 @@ export class MessagedetailPage {
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
     this.messageid = item.message_id;
-
+    this.replyall = item.replyall;
+    console.log('replyall' + this.replyall);
     this.priority_highclass = '';
     this.priority_lowclass = '';
     if (item.message_priority == "2") {
@@ -768,7 +771,7 @@ export class MessagedetailPage {
     });
   }
   presentPopover(myEvent, detailItem, from) {
-    let popover = this.popoverCtrl.create(MsgPopoverPage, { item: detailItem, from: from });
+    let popover = this.popoverCtrl.create(MsgPopoverPage, { item: detailItem, from: from,replyall:this.replyall });
     popover.present({
       ev: myEvent,
     });
@@ -777,7 +780,7 @@ export class MessagedetailPage {
       console.log("Data:" + data);
       console.log("From:" + from);
       if (data != null) {
-        this.action(detailItem, data, from);
+        this.action(detailItem, data, from,this.replyall);
       }
     });
   }
