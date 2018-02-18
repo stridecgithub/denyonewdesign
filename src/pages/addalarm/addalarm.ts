@@ -373,19 +373,19 @@ export class AddalarmPage {
   }
 
   trendlineInfo(alarmid, item) {
-    // this.navCtrl.setRoot(TrendlinePage, {
-    //   alarmid: alarmid,
-    //   record: item,
-    //   from:this.NP.get("from")
-    // });
-
-
-    let modal = this.modalCtrl.create(TrendlinePage, {
+    this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid,
       record: item,
-      from: this.NP.get("from")
+      from:this.NP.get("from")
     });
-    modal.present();
+
+
+    // let modal = this.modalCtrl.create(TrendlinePage, {
+    //   alarmid: alarmid,
+    //   record: item,
+    //   from: this.NP.get("from")
+    // });
+    // modal.present();
 
   }
 
