@@ -1,4 +1,8 @@
 page-reports {
+	.table-view {
+		width: 100%;
+    	overflow-y: auto;
+	}
 	.item-md.item-block .item-inner {
 		padding-right: 0px;
 		border-bottom: 1px solid #dedede;

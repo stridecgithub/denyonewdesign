@@ -1,4 +1,8 @@
 page-reportview {
+	.table-view {
+		width: 100%;
+    	overflow-y: auto;
+	}
 	.unit-title h3 {
 		margin-bottom:0;
 	}

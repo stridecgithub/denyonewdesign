@@ -66,4 +66,8 @@ page-reportviewtable {
 		overflow:inherit;
 		contain: inherit;
 	}
+	.table-view {
+		width: 100%;
+    	overflow-y: auto;
+	}
 }

@@ -299,6 +299,27 @@ export class AddunitgroupPage {
 
 
 
+ chooseColor() {
+    let confirm = this.alertCtrl.create({
+      title: 'Select Color',
+      message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
+      buttons: [
+	  {
+          text: 'Select',
+          handler: () => {
+            this.is_request = true;
+            console.log('Confirm clicked');
+          }
+        }
+        
+      ],
+      cssClass: 'alertDanger adhoc-alert'
+    });
+    confirm.present();
+  }
+
+
+
 
   previous() {
     this.nav.setRoot(UnitgroupPage);

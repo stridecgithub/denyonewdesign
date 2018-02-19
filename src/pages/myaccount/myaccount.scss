@@ -1,10 +1,13 @@
 page-myaccount {
+	[col-6]{
+		padding:0 5px;
+	}
     .user-img {
         margin: 0 0 7px;
         background-color: #EDEDED;
         img {
           border-radius: 50%;
-          border: 2px solid #006BF4;
+          border: 3px solid #006bf4;
         }
         text-align: center;
         border-bottom: 2px solid #D6D6D6;

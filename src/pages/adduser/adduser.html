@@ -150,13 +150,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
 
     <div class="user-img">
         <div class="profile-title">Profile Photo</div>
         <img src="{{addedImgLists}}" width="100" height="100" alt="">
-    
+    	<div class="user-name">User Information*</div>
         <div style="position: absolute;
         left: 54%;
         top: 18%;" class="user-camera-block">
@@ -190,7 +190,7 @@
       
 
 
-  <form [formGroup]="form" (ngSubmit)="saveEntry()">
+  <form [formGroup]="form" (ngSubmit)="saveEntry()" class="edit-profo">
     <ion-list>
       <!-- <div style="margin-left: 112px;">
 
@@ -211,10 +211,6 @@
           <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
         </p>
       </div> -->
-      <div style="position: relative;
-          left: 6%;">
-        <b>User Information*</b>
-      </div>
       <ion-item>
         <ion-label stacked>First Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -309,26 +305,18 @@
             </ion-select>
           </ion-item>
   
-          <ion-item>
+          <ion-item style="padding-bottom:15px;">
             <ion-label stacked>Report To</ion-label>
             <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
               <ion-option  value="0" *ngIf="this.len==0">N/A</ion-option>
               <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}" >{{userData.firstname}} {{userData.lastname}}</ion-option>
             </ion-select>
           </ion-item>
-          
 
-      <ion-item *ngIf="hideActionButton">
-        <button ion-button color="primary" text-center block [disabled]="!form.valid">Save</button>
-      </ion-item>
-      <div>
-        <p>&nbsp;</p>
-        <br>
-      </div>
     </ion-list>
+    <ion-item *ngIf="hideActionButton" style="background-color:#fff;" class="last-btn">
+        <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
+      </ion-item>
 
-    <div>
-      <br>
-    </div>
   </form>
 </ion-content>

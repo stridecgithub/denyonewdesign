@@ -1,12 +1,17 @@
 
  page-adduser {  
+ 	
     .border-bottom-validtion{
         border-bottom-color: red;
         border-bottom-width: 2px;
         }
 
         .contactinfo{
-            margin-left :18px;
+            margin-left :0;
+			padding-left :16px;
+			padding-right :16px;
+			background-color: #f8f8f8;
+			overflow: hidden;
             color:gray
             }
             
@@ -18,14 +23,20 @@
 .list-md .item-input:last-child {
 	border-bottom: none!important;
 }
-.contactinfo{
-margin-left :18px;
+.list-md .item-block .item-inner {
+    border-bottom: 0px solid #dedede;
 }
+
 .item-md {
 	font-size: 1.4rem;
 }
+.last-btn .item-inner{
+	padding-right: 0px!important;
+	border-bottom: none!important;
+}
 .last-btn .label-md{
 	margin-top: 0;
+	margin-right: 0;
 }
   ion-app.md [padding] .scroll-content {
     padding: 0px;
@@ -36,7 +47,7 @@ margin-left :18px;
        
         img {
           border-radius: 50%;
-          border: 2px solid #006BF4;
+          border: 3px solid #006bf4;
         }
         text-align: center;
        
@@ -55,10 +66,11 @@ margin-left :18px;
         padding-bottom: 15px;
       }
       .user-name {
-        font-size: 23px;
-        color: #424242;
-        margin-bottom: 4px;
-      }
+		font-size: 18px;
+		color: #424242;
+		margin-bottom: 4px;
+		font-weight: 500;
+	}
       .user-company {
         font-size: 20px;
         color: #888888;
@@ -76,6 +88,7 @@ margin-left :18px;
       }
 	  .edit-profo ion-item {
 	  	background-color: #f8f8f8;
+		padding-right: 16px;
 	  }
 	  .edit-profo {
 	  	border-top: 1px solid #ccc;
@@ -87,4 +100,6 @@ margin-left :18px;
 	  .sep .list-md .item-input{
 	  	border-bottom: none!important;
 	  }
+	  
+	  
   }
