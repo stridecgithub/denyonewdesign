@@ -24,12 +24,14 @@
       </div>
     </ion-navbar>
     <div class="download-option" *ngIf="buttonClicked">
-      <ion-row *ngIf="pdfdownloadview>0">
+      <ion-row>
         <ion-list>
           <a href="#" (click)="download(1)">PDF</a>
         </ion-list>
         <ion-list>
-          <a href="#" (click)="download(2)">CSV</a>
+          <a href="{{csvurl}}">CSV</a>
+
+           <!--<a href="{{csvurl}}">CSV</a>-->
         </ion-list>
       </ion-row>
     </div>

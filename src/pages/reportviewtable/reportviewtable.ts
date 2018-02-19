@@ -32,7 +32,7 @@ export class ReportviewtablePage {
   headerRow: any[] = [];
   public posts = [];
   keys: String[];
-
+  csvurl;
   public loginas: any;
   iframeContent: any;
   public form: FormGroup;
@@ -199,7 +199,7 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-
+            this.download(2);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
@@ -309,7 +309,7 @@ export class ReportviewtablePage {
     });
   }
   download(val) {
-    this.buttonClicked = false;
+    this.buttonClicked = true;
     console.log("PDF Download");
     // PDF Viewer Calling      
     let body: string = "is_mobile=1" +
@@ -348,23 +348,25 @@ export class ReportviewtablePage {
         this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
+        console.log("JSON Return" + JSON.stringify(res));
+        let uri;
         if (val == 1) {
-          const url = res.pdf;
+          uri = res.pdf;
         } else {
-          const url = res.csv;
+          uri = res.csv;
         }
-        console.log("Uploaded and generated success file is:" +url);
+        console.log("Uploaded and generated success file is:" + uri);
         this.pdfdownloadview = 1;
-        let pdfFile = url;
+        let pdfFile = uri;
         let pdfPathURL = this.apiServiceURL;
-        console.log("PDF Path URL:-" + pdfPathURL + pdfFile);
+        this.csvurl = uri;
         // this.pdfDownloadLink = url;
-      
 
 
-        url = url
+
+
         const fileTransfer: FileTransferObject = this.transfer.create();
-        fileTransfer.download(url, this.file.dataDirectory + pdfFile).then((entry) => {
+        fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
           console.log('download complete: ' + entry.toURL());
           const options: DocumentViewerOptions = {
             title: url
@@ -372,7 +374,8 @@ export class ReportviewtablePage {
           if (val == 1) {
             this.document.viewDocument(entry.toURL(), 'application/pdf', options);
           } else {
-            this.document.viewDocument(entry.toURL(), 'application/xls', options);
+            this.csvurl =entry.toURL()
+            // this.document.viewDocument(entry.toURL(), 'application/xls', options);
           }
 
           this.pdfdownloadview = 0;
