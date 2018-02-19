@@ -42,7 +42,7 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of unitgroupAllLists">
-      <ion-item (click)="view(unitgroup.unitgroup_id)">
+      <ion-item (click)="view(unitgroup.unitgroup_id, unitgroup.colorcode, unitgroup.cname, unitgroup.favoriteindication,unitgroup.unitgroup_name,unitgroup.totalunits)">
         <!-- <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
 
         </button> -->
