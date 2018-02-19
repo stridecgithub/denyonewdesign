@@ -23,7 +23,7 @@
 
 
 
-  <div class="error" *ngIf="reportAllLists.length==0">No unit entries found</div>
+  
 
 
   <span class="initial" [ngStyle]="{'background-color': '#' + colorcode}">{{cname}}</span>
@@ -47,7 +47,7 @@
     </button>
   </div>
 
-
+  <div class="error" *ngIf="reportAllLists.length==0">No unit entries found</div>
   <div class="separator-line" *ngIf="reportAllLists.length!=0">&nbsp;</div>
   <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="reportAllLists.length!=0">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
