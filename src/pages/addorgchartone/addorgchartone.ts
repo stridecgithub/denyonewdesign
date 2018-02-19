@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -15,6 +15,7 @@ import { CalendarPage } from '../calendar/calendar';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
 import { TabsPage } from "../tabs/tabs";
+
 /**
  * Generated class for the AddorgchartonePage page.
  *
@@ -66,14 +67,14 @@ export class AddorgchartonePage {
   report_to;
   company_id;
   public addedImgLists = this.apiServiceURL + "/images/default.png";
-  constructor(public nav: NavController,
+  constructor(private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     private camera: Camera
-    , private transfer: FileTransfer, private ngZone: NgZone) {
+    , private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -172,6 +173,7 @@ export class AddorgchartonePage {
     this.country = item.country;
     this.contact = item.contact;
     this.photo = item.photo;
+    localStorage.setItem("photofromgallery", this.photo);
     this.recordID = item.staff_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
@@ -186,15 +188,23 @@ export class AddorgchartonePage {
   }
   createEntry(first_name, last_name, email, country, contact, createdby, job_position, company_group, report_to) {
 
-    let userPhotoFile = localStorage.getItem("userPhotoFile");
-    if (userPhotoFile) {
-      console.log("Upload Device Image File:" + userPhotoFile);
-      this.fileTrans(userPhotoFile);
+
+    let uploadfromgallery = localStorage.getItem("photofromgallery");
+
+    if (uploadfromgallery != undefined) {
+      console.log('A');
+      this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
+      console.log('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
+      console.log('C');
+      this.photo = '';
+    }
+    if (this.photo == '') {
+      console.log('D');
       this.photo = '';
     }
     contact = contact.replace("+", "%2B");
@@ -224,6 +234,7 @@ export class AddorgchartonePage {
           this.hideForm = true;
           this.sendNotification(data.json().msg[0].result);
           localStorage.setItem("userPhotoFile", "");
+          localStorage.setItem("photofromgallery", "");
           this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
         }
         // Otherwise let 'em know anyway
@@ -235,15 +246,23 @@ export class AddorgchartonePage {
 
   updateEntry(first_name, last_name, email, country, contact, createdby, job_position, company_group, report_to) {
 
-    let userPhotoFile = localStorage.getItem("userPhotoFile");
-    if (userPhotoFile) {
-      console.log("Upload Device Image File:" + userPhotoFile);
-      this.fileTrans(userPhotoFile);
+
+    let uploadfromgallery = localStorage.getItem("photofromgallery");
+
+    if (uploadfromgallery != undefined) {
+      console.log('A');
+      this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
+      console.log('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
+      console.log('C');
+      this.photo = '';
+    }
+    if (this.photo == '') {
+      console.log('D');
       this.photo = '';
     }
     contact = contact.replace("+", "%2B");
@@ -272,6 +291,8 @@ export class AddorgchartonePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
+          localStorage.setItem("userPhotoFile", "");
+          localStorage.setItem("photofromgallery", "");
           this.sendNotification(data.json().msg[0].result);
           this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
         }
@@ -331,97 +352,9 @@ export class AddorgchartonePage {
       loader.dismiss();
     }
   }
-  doUploadPhoto() {
-
-    // const options: CameraOptions = {
-    //   quality: 25,
-    //   destinationType: this.camera.DestinationType.FILE_URI,
-    //   targetWidth: 200,
-    //   targetHeight: 200,
-    //   sourceType: 1
-    // }
-
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
-      localStorage.setItem("userPhotoFile", imageData);
-      //this.fileTrans(imageData);
-
-      this.uploadResultBase64Data = imageData;
-      this.addedImgLists = imageData;
-      this.isUploadedProcessing = false;
-      return false;
-    }, (err) => {
-      // Handle error
-      this.sendNotification(err);
-    });
-
-  }
-
-  fileTrans(path) {
-    let fileName = path.substr(path.lastIndexOf('/') + 1);
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    this.photo = currentName;
-    console.log("File Name is:" + currentName);
-
-
-    /*var d = new Date(),
-        n = d.getTime(),
-        newFileName = n + ".jpg";*/
-
-    let options: FileUploadOptions = {
-      fileKey: 'file',
-      fileName: fileName,
-      headers: {},
-      chunkedMode: false,
-      mimeType: "text/plain",
-    }
-
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
-    fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
-      .then((data) => {
-        console.log(JSON.stringify(data));
-        console.log("UPLOAD SUCCESS:" + data.response);
-        let successData = JSON.parse(data.response);
-        this.userInfo.push({
-          photo: successData
-        });
-        this.sendNotification("User photo uploaded successfully");
-        this.progress += 5;
-        this.isProgress = false;
-        this.isUploadedProcessing = false;
-        return false;
 
 
 
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
-      }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:");
-        this.sendNotification("Upload Error:" + JSON.stringify(err));
-      })
-  }
-  onProgress = (progressEvent: ProgressEvent): void => {
-    this.ngZone.run(() => {
-      if (progressEvent.lengthComputable) {
-        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
-        this.isProgress = true;
-        this.progress = progress;
-      }
-    });
-  }
   sendNotification(message): void {
     let notification = this.toastCtrl.create({
       message: message,
@@ -499,5 +432,171 @@ export class AddorgchartonePage {
   onSegmentChanged(comapnyid) {
     console.log("ID" + this.company_group);
     this.getUserListData(comapnyid);
+  }
+  fileChooser() {
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: '',
+      buttons: [
+        {
+          text: 'From Gallery',
+          icon: 'md-image',
+          role: 'fromgallery',
+          handler: () => {
+            // var options = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            //   allowEdit: true,
+            //   encodingType: this.camera.EncodingType.JPEG,
+            //   saveToPhotoAlbum: true
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
+            this.camera.getPicture(options).then((imageURI) => {
+              localStorage.setItem("receiptAttachPath", imageURI);
+              localStorage.setItem("userPhotoFile", imageURI);
+              console.log(imageURI);
+              this.fileTrans(imageURI);
+              // this.addedAttachList = imageURI;
+
+              //this.photo = imageURI;
+              this.isUploadedProcessing = true;
+              return false;
+            }, (err) => {
+
+            });
+          }
+        }, {
+          text: 'From Camera',
+          icon: 'md-camera',
+          handler: () => {
+            console.log('Camera clicked');
+            // const options: CameraOptions = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: 1,
+            //   targetWidth: 200,
+            //   targetHeight: 200,
+            //   saveToPhotoAlbum: true
+
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
+            this.camera.getPicture(options).then((uri) => {
+              localStorage.setItem("userPhotoFile", uri);
+              console.log(uri);
+              this.fileTrans(uri);
+              //this.addedAttachList = uri;
+              //this.photo = uri;
+              this.isUploadedProcessing = true;
+              return false;
+            }, (err) => {
+              // Handle error
+              this.conf.sendNotification(err);
+            });
+          }
+        }, {
+          text: 'Cancel',
+          icon: 'md-close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+    return false;
+  }
+
+
+  fileTrans(path) {
+    let fileName = path.substr(path.lastIndexOf('/') + 1);
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let currentName = path.replace(/^.*[\\\/]/, '');
+    this.photo = fileName;
+    console.log("currentName File Name is:" + currentName);
+    console.log("fileName File Name is:" + fileName);
+    this.photo = fileName;
+    /*var d = new Date(),
+        n = d.getTime(),
+        newFileName = n + ".jpg";*/
+
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      fileName: fileName,
+      headers: {},
+      chunkedMode: false,
+      mimeType: "text/plain",
+    }
+
+    //  http://127.0.0.1/ionic/upload_attach.php
+    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
+    // this.conf.sendNotification(`profile photo uploaded few minutes redirect to my account page. please wait`);
+    fileTransfer.onProgress(this.onProgress);
+    fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        localStorage.setItem("userPhotoFile", "");
+        console.log("UPLOAD SUCCESS:" + data.response);
+
+        console.log("File Name:" + JSON.parse(data.response).fileName);
+
+
+        let successData = JSON.parse(data.response);
+        this.userInfo.push({
+          photo: successData
+        });
+        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
+
+        console.log("Upload Success File Name" + this.userInfo[0].photo.filename);
+        localStorage.setItem("photofromgallery", this.userInfo[0].photo.filename);
+
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.filename;
+
+        //this.conf.sendNotification("User photo uploaded successfully");
+        this.progress += 5;
+        this.isProgress = false;
+
+        this.isUploadedProcessing = false;
+        //  return false;
+
+
+        // Save in Backend and MysQL
+        //this.uploadToServer(data.response);
+        // Save in Backend and MysQL
+        //  this.conf.sendNotification(`User profile successfully updated`);
+        //this.nav.push(MyaccountPage);
+
+      }, (err) => {
+        //loading.dismiss();
+        console.log("Upload Error:");
+        this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
+      })
+  }
+  onProgress = (progressEvent: ProgressEvent): void => {
+    this.ngZone.run(() => {
+      if (progressEvent.lengthComputable) {
+        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
+        this.isProgress = true;
+        this.progress = progress;
+      }
+    });
   }
 }

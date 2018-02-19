@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Platform, ActionSheetController, } from 'ionic-angular';
+import { NavController, NavParams, Platform, ActionSheetController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';

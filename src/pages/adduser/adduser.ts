@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-  public useriddisabled: boolean = false;  
+  public useriddisabled: boolean = false;
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -78,14 +78,14 @@ export class AdduserPage {
   public responseResultReportTo: any;
   public responseResultRole = [];
   public responseResultRoleDropDown = [];
-  constructor(public nav: NavController,
+  constructor(private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public loadingCtrl: LoadingController, private camera: Camera
 
     , private transfer: FileTransfer,
-    private ngZone: NgZone) {
+    private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     // Create form builder validation rules
@@ -207,10 +207,10 @@ export class AdduserPage {
         this.primary = contactSplitSpace[0];
         this.contact = contactSplitSpace[1];
       }
-      this.useriddisabled=true;
+      this.useriddisabled = true;
     }
     else {
-      this.useriddisabled=false;
+      this.useriddisabled = false;
       this.isEdited = false;
       this.pageTitle = 'New User';
     }
@@ -315,6 +315,7 @@ export class AdduserPage {
 
 
     this.photo = item.photo;
+    localStorage.setItem("photofromgallery", this.photo);
     this.recordID = item.staff_id;
     console.log(this.recordID);
 
@@ -363,13 +364,22 @@ export class AdduserPage {
             this.sendNotification(data.json().message);
             console.log("create" + data.json().msg[0].Error);
             console.log('2');
+            let uploadfromgallery = localStorage.getItem("photofromgallery");
+
+            if (uploadfromgallery != undefined) {
+              console.log('A');
+              this.photo = uploadfromgallery;
+            }
             if (this.photo == undefined) {
+              console.log('B');
               this.photo = '';
             }
             if (this.photo == 'undefined') {
+              console.log('C');
               this.photo = '';
             }
             if (this.photo == '') {
+              console.log('D');
               this.photo = '';
             }
             contact = contact.replace("+", "%2B");
@@ -404,6 +414,7 @@ export class AdduserPage {
                   // this.sendNotification(`User created was successfully added`);
                   this.sendNotification(data.json().msg[0].result);
                   localStorage.setItem("userPhotoFile", "");
+                  localStorage.setItem("photofromgallery", "");
                   this.nav.setRoot(UserPage);
                 }
                 // Otherwise let 'em know anyway
@@ -434,21 +445,26 @@ export class AdduserPage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   updateEntry(first_name, last_name, email, country, contact, createdby, role, username, password, hashtag, report_to, company_group, job_position) {
-    let userPhotoFile = localStorage.getItem("userPhotoFile");
-    if (userPhotoFile) {
-      console.log("Upload Device Image File:" + userPhotoFile);
-      this.fileTrans(userPhotoFile);
-    }
+
     contact = contact.replace("+", "%2B");
 
 
+    let uploadfromgallery = localStorage.getItem("photofromgallery");
+
+    if (uploadfromgallery != undefined) {
+      console.log('A');
+      this.photo = uploadfromgallery;
+    }
     if (this.photo == undefined) {
+      console.log('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
+      console.log('C');
       this.photo = '';
     }
     if (this.photo == '') {
+      console.log('D');
       this.photo = '';
     }
 
@@ -499,6 +515,8 @@ export class AdduserPage {
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
+                  localStorage.setItem("userPhotoFile", "");
+                  localStorage.setItem("photofromgallery", "");
                   // this.sendNotification(`User updated was successfully updated`);
                   this.sendNotification(data.json().msg[0].result);
                   this.nav.setRoot(UserPage);
@@ -635,97 +653,9 @@ export class AdduserPage {
       loader.dismiss();
     }
   }
-  doUploadPhoto() {
-
-    // const options: CameraOptions = {
-    //   quality: 75,
-    //   destinationType: this.camera.DestinationType.FILE_URI,
-    //   targetWidth: 200,
-    //   targetHeight: 200,
-    //   sourceType: 1
-    // }
-
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
-      localStorage.setItem("userPhotoFile", imageData);
-      //this.fileTrans(imageData);
-
-      this.uploadResultBase64Data = imageData;
-      this.addedImgLists = imageData;
-      this.isUploadedProcessing = false;
-      return false;
-    }, (err) => {
-      // Handle error
-      this.sendNotification(err);
-    });
-
-  }
-
-  fileTrans(path) {
-    let fileName = path.substr(path.lastIndexOf('/') + 1);
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    this.photo = currentName;
-    console.log("File Name is:" + currentName);
-
-
-    /*var d = new Date(),
-        n = d.getTime(),
-        newFileName = n + ".jpg";*/
-
-    let options: FileUploadOptions = {
-      fileKey: 'file',
-      fileName: fileName,
-      headers: {},
-      chunkedMode: false,
-      mimeType: "text/plain",
-    }
-
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
-    fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
-      .then((data) => {
-        console.log(JSON.stringify(data));
-        console.log("UPLOAD SUCCESS:" + data.response);
-        let successData = JSON.parse(data.response);
-        this.userInfo.push({
-          photo: successData
-        });
-        this.sendNotification("User photo uploaded successfully");
-        this.progress += 5;
-        this.isProgress = false;
-        this.isUploadedProcessing = false;
-        return false;
 
 
 
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
-      }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:");
-        this.sendNotification("Upload Error:" + JSON.stringify(err));
-      })
-  }
-  onProgress = (progressEvent: ProgressEvent): void => {
-    this.ngZone.run(() => {
-      if (progressEvent.lengthComputable) {
-        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
-        this.isProgress = true;
-        this.progress = progress;
-      }
-    });
-  }
 
 
 
@@ -811,5 +741,169 @@ export class AdduserPage {
     console.log("ID" + this.company_group);
     this.getUserListData();
   }
+  fileChooser() {
 
+    let actionSheet = this.actionSheetCtrl.create({
+      title: '',
+      buttons: [
+        {
+          text: 'From Gallery',
+          icon: 'md-image',
+          role: 'fromgallery',
+          handler: () => {
+            // var options = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            //   allowEdit: true,
+            //   encodingType: this.camera.EncodingType.JPEG,
+            //   saveToPhotoAlbum: true
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
+            this.camera.getPicture(options).then((imageURI) => {
+              localStorage.setItem("receiptAttachPath", imageURI);
+              localStorage.setItem("userPhotoFile", imageURI);
+              console.log(imageURI);
+              this.fileTrans(imageURI);
+              // this.addedAttachList = imageURI;
+
+              //this.photo = imageURI;
+              this.isUploadedProcessing = true;
+              return false;
+            }, (err) => {
+
+            });
+          }
+        }, {
+          text: 'From Camera',
+          icon: 'md-camera',
+          handler: () => {
+            console.log('Camera clicked');
+            // const options: CameraOptions = {
+            //   quality: 25,
+            //   destinationType: this.camera.DestinationType.FILE_URI,
+            //   sourceType: 1,
+            //   targetWidth: 200,
+            //   targetHeight: 200,
+            //   saveToPhotoAlbum: true
+
+            // };
+
+            const options: CameraOptions = {
+              quality: 100,
+              destinationType: this.camera.DestinationType.FILE_URI,
+              encodingType: this.camera.EncodingType.JPEG,
+              mediaType: this.camera.MediaType.PICTURE,
+              correctOrientation: true
+            }
+
+            this.camera.getPicture(options).then((uri) => {
+              localStorage.setItem("userPhotoFile", uri);
+              console.log(uri);
+              this.fileTrans(uri);
+              //this.addedAttachList = uri;
+              //this.photo = uri;
+              this.isUploadedProcessing = true;
+              return false;
+            }, (err) => {
+              // Handle error
+              this.conf.sendNotification(err);
+            });
+          }
+        }, {
+          text: 'Cancel',
+          icon: 'md-close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+    return false;
+  }
+
+  fileTrans(path) {
+    let fileName = path.substr(path.lastIndexOf('/') + 1);
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let currentName = path.replace(/^.*[\\\/]/, '');
+    this.photo = fileName;
+    console.log("currentName File Name is:" + currentName);
+    console.log("fileName File Name is:" + fileName);
+    this.photo = fileName;
+    /*var d = new Date(),
+        n = d.getTime(),
+        newFileName = n + ".jpg";*/
+
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      fileName: fileName,
+      headers: {},
+      chunkedMode: false,
+      mimeType: "text/plain",
+    }
+
+    //  http://127.0.0.1/ionic/upload_attach.php
+    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
+    // this.conf.sendNotification(`profile photo uploaded few minutes redirect to my account page. please wait`);
+    fileTransfer.onProgress(this.onProgress);
+    fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        localStorage.setItem("userPhotoFile", "");
+        console.log("UPLOAD SUCCESS:" + data.response);
+
+        console.log("File Name:" + JSON.parse(data.response).fileName);
+
+
+        let successData = JSON.parse(data.response);
+        this.userInfo.push({
+          photo: successData
+        });
+        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
+
+        console.log("Upload Success File Name" + this.userInfo[0].photo.filename);
+        localStorage.setItem("photofromgallery", this.userInfo[0].photo.filename);
+
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.filename;
+
+        //this.conf.sendNotification("User photo uploaded successfully");
+        this.progress += 5;
+        this.isProgress = false;
+
+        this.isUploadedProcessing = false;
+        //  return false;
+
+
+        // Save in Backend and MysQL
+        //this.uploadToServer(data.response);
+        // Save in Backend and MysQL
+        //  this.conf.sendNotification(`User profile successfully updated`);
+        //this.nav.push(MyaccountPage);
+
+      }, (err) => {
+        //loading.dismiss();
+        console.log("Upload Error:");
+        this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
+      })
+  }
+  onProgress = (progressEvent: ProgressEvent): void => {
+    this.ngZone.run(() => {
+      if (progressEvent.lengthComputable) {
+        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 95);
+        this.isProgress = true;
+        this.progress = progress;
+      }
+    });
+  }
 }

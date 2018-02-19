@@ -1977,19 +1977,19 @@ export class UnitdetailsPage {
 	}
 	showgraph(unit_id, graphname) {
 
-		// this.navCtrl.setRoot(UnitdetailgraphPage, {
-		// 	unit_id: unit_id,
-		// 	graphname: graphname
-		// });
-
-
-		let modal = this.modalCtrl.create(UnitdetailgraphPage, {
+		this.navCtrl.setRoot(UnitdetailgraphPage, {
 			unit_id: unit_id,
 			graphname: graphname
 		});
-		modal.present();
 
-		console.log("Show Graph function calling:-" + unit_id);
+
+		// let modal = this.modalCtrl.create(UnitdetailgraphPage, {
+		// 	unit_id: unit_id,
+		// 	graphname: graphname
+		// });
+		// modal.present();
+
+		// console.log("Show Graph function calling:-" + unit_id);
 
 	}
 
