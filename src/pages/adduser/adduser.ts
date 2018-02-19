@@ -50,7 +50,7 @@ export class AdduserPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-
+  public useriddisabled: boolean = false;  
   public userInfo = [];
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -76,7 +76,7 @@ export class AdduserPage {
   roleId;
   public responseResultCompanyGroup: any;
   public responseResultReportTo: any;
-  public responseResultRole;
+  public responseResultRole = [];
   public responseResultRoleDropDown = [];
   constructor(public nav: NavController,
     public http: Http,
@@ -111,6 +111,10 @@ export class AdduserPage {
     });
     this.userId = localStorage.getItem("userInfoId");
     this.roleId = localStorage.getItem("userInfoRoleId");
+    this.getJsonCountryListData();
+    this.getRole();
+    this.getUserListData();
+    this.getCompanyGroupListData();
   }
 
   ionViewDidLoad() {
@@ -122,7 +126,7 @@ export class AdduserPage {
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
   ionViewWillEnter() {
-    // this.pageLoad();
+    this.pageLoad();
 
   }
   getRole() {
@@ -176,10 +180,7 @@ export class AdduserPage {
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
-    this.getJsonCountryListData();
-    this.getRole();
-    this.getUserListData();
-    this.getCompanyGroupListData();
+
     console.log(JSON.stringify(this.NP.get("record")));
     if (this.NP.get("record")) {
       console.log("Add User:" + JSON.stringify(this.NP.get("record")));
@@ -206,9 +207,10 @@ export class AdduserPage {
         this.primary = contactSplitSpace[0];
         this.contact = contactSplitSpace[1];
       }
-
+      this.useriddisabled=true;
     }
     else {
+      this.useriddisabled=false;
       this.isEdited = false;
       this.pageTitle = 'New User';
     }
@@ -648,9 +650,9 @@ export class AdduserPage {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true
+      correctOrientation: true
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
       localStorage.setItem("userPhotoFile", imageData);

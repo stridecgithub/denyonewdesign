@@ -265,7 +265,7 @@
 
       <ion-item>
           <ion-label stacked>User Id <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]="readOnly" formControlName="username" [(ngModel)]="username"></ion-input>
+          <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" [(ngModel)]="username"></ion-input>
         </ion-item>
 
         <ion-item>

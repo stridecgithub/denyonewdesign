@@ -300,6 +300,7 @@ export class AddunitgroupPage {
 
 
  chooseColor() {
+    /* Vinoth i have commented some line for error. pleae before code push without incomplete
     let confirm = this.alertCtrl.create({
       title: 'Select Color',
       message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
@@ -315,7 +316,7 @@ export class AddunitgroupPage {
       ],
       cssClass: 'alertDanger adhoc-alert'
     });
-    confirm.present();
+    confirm.present();*/
   }
 
 
