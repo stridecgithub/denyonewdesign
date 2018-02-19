@@ -253,8 +253,8 @@ export class ReporttemplatePage {
     this.nav.setRoot(NotificationPage);
   }
   
-  reportdetail() {
-    this.nav.setRoot(ReporttemplatedetailPage);
+  reportdetail(templatename,templatedata) {
+    this.nav.setRoot(ReporttemplatedetailPage,{templatename:templatename,templatedata:templatedata});
   }
  
 

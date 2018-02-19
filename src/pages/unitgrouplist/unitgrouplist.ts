@@ -118,7 +118,7 @@ export class Unitgrouplist {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/unitgroupdetails?startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitgroupid=" + localStorage.getItem("uid") + "&loginid=" + this.userId;
+      url: any = this.apiServiceURL + "/unitgroupdetails?startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitgroupid=" + this.navParams.get('unitid') + "&loginid=" + this.userId;
     let res;
     console.log(url);
     this.http.get(url, options)

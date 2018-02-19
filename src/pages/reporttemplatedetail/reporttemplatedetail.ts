@@ -15,15 +15,35 @@ import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
   templateUrl: 'reporttemplatedetail.html',
 })
 export class ReporttemplatedetailPage {
-
+  public templatename;
+  public availableheading = [];
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReporttemplatedetailPage');
+    this.templatename=this.navParams.get('templatename');
+    this.availableheading=this.navParams.get('templatedata');
+    console.log("Report template name"+this.templatename);
+    console.log("Report availabe"+JSON.stringify(this.availableheading));
+    // console.log('ionViewDidLoad ReporttemplatedetailPage');
+    // let res = this.navParams.get('templatedata');
+    // console.log(JSON.stringify(res));
+    // if (res.length > 0) {
+    //   console.log('A');
+    //   for (let availabletemps in res) {
+    //     console.log('B');
+    //     this.reporttemplateAllLists.push({
+    //       id: res[availabletemps].id,
+    //       templatename: res[availabletemps].templatename,
+    //      // availableheading: res[availabletemps].availableheading.split("#")
+    //     });
+    //   }
+    //   console.log(JSON.stringify(this.reporttemplateAllLists));
+    // } else {
+    //   console.log('C');
+    //   //this.totalCount = 0;
+    // }
   }
-	previous() {
-     this.navCtrl.setRoot(ReporttemplatePage);
+  previous() {
+    this.navCtrl.setRoot(ReporttemplatePage);
   }
-
 }

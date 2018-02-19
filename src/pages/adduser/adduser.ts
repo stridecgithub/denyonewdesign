@@ -397,7 +397,7 @@ export class AdduserPage {
 
             this.http.post(url, body, options)
               .subscribe((data) => {
-                //console.log("Response Success:" + JSON.stringify(data.json()));
+                console.log("Response Success:" + JSON.stringify(data.json()));
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;

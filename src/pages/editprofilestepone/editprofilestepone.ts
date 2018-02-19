@@ -208,7 +208,7 @@ export class EditprofilesteponePage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   //first_name, last_name, email, username,password, contact, this.userId
-  updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_group, report_to) {
+  updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_id, report_to) {
 
 
 
@@ -251,7 +251,7 @@ export class EditprofilesteponePage {
       "&password=" + this.password +
       "&report_to=" + this.report_to +
       "&personalhashtag=" + this.hashtag +
-      "&company_group=" + company_group,
+      "&company_id=" + company_id,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),

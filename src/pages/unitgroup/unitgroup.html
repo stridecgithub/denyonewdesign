@@ -42,7 +42,7 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of unitgroupAllLists">
-      <ion-item (click)="doAction(unitgroup,'detail',unitgroup.unitgroup_id)">
+      <ion-item (click)="view(unitgroup.unitgroup_id)">
         <!-- <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
 
         </button> -->
@@ -74,7 +74,7 @@
             <img width="25" src="assets/imgs/edit@2x.png">Edit
           </button>
           <button ion-button class="del-btn" (click)="doConfirm(unitgroup.unitgroup_id,unitgroup)">
-            <ion-icon name="trash"></ion-icon>Remove
+            <ion-icon name="trash"></ion-icon>Delete
           </button>
       </ion-item-options>
     </ion-item-sliding>

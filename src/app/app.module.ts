@@ -81,9 +81,7 @@ import { ReportviewtablePage } from '../pages/reportviewtable/reportviewtable';
 import { Config } from '../config/config';
 import { CompanydetailPage } from '../pages/companydetail/companydetail';
 import { EngineviewPage } from '../pages/engineview/engineview';
-
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
-
 import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
 import { ReportviewPage } from '../pages/reportview/reportview';
 import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
@@ -97,9 +95,13 @@ import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
 import { ModalPage } from '../pages/modal/modal';
 import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode';
+import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
+import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 
 @NgModule({
   declarations: [
+    ReporttemplatedetailPage,
+    Unitgrouplist,
     PopovercolorcodePage,
     ModalPage,
     MapPage,
@@ -204,6 +206,8 @@ import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode
     })],
   bootstrap: [IonicApp],
   entryComponents: [
+    ReporttemplatedetailPage,
+    Unitgrouplist,
     PopovercolorcodePage,
     ModalPage,
     MapPage,

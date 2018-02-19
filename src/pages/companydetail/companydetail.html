@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
   <ion-content padding>
     <ion-item>
 
@@ -50,12 +50,12 @@
         </ion-col>
 
         <ion-col class="col" col-7>
-          <p>{{address}}</p>
+          <p style="white-space:normal">{{address}}</p>
         </ion-col>
       </ion-row>
 
 
-      <ion-row class="event-body">
+      <ion-row class="event-body"  *ngIf="totaluser>0">
           <ion-col class="col" col-5>
             <h5>Total User</h5>
           </ion-col>
@@ -68,7 +68,7 @@
 
 
         
-      <ion-row class="event-body">
+      <ion-row class="event-body"  *ngIf="totaluser>0">
           <ion-col class="col" col-5>
             <h5>User</h5>
           </ion-col>
@@ -81,7 +81,7 @@
           </ion-col>
         </ion-row>
 
-      <ion-row class="event-detail-btn">
+      <!-- <ion-row class="event-detail-btn">
         <ion-col class="col" col-12>
           <div>
             <button  (click)="edit()">
@@ -90,39 +90,10 @@
               <ion-icon name="trash"></ion-icon>Delete</button>
           </div>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
 
 
-      <!-- <div style="overflow: hidden; padding-left: 0.7em;padding-top: 4px">
-        <h6>
-          <b style="font-size: 14px;">Company Name:</b>{{name}}</h6>
-        <h6>
-          <b style="font-size: 14px;">Contact:</b>{{contact}}</h6>
-        <h6>
-          <b style="font-size: 14px;">Address:</b>{{address}}</h6>
-        <h6>
-          <b style="font-size: 14px;">Total User:</b>{{totaluser}}</h6>
-        <h6>
-          <b style="font-size:14px;">User</b>
-          <p *ngFor="let item of reportAllLists;">
-            {{item.username}} - {{item.role}}
-
-          </p>
-        </h6>
-        <h6>
-          <b style="font-size: 14px;">Total Unit:</b>{{totalunit}}</h6>
-        <h6>
-          <b style="font-size:14px;">Unit</b>
-          <p *ngFor="let items of reportAllLists1;">
-            {{items.unitname}}
-
-          </p>
-        </h6>
-      </div>
-      <div>
-        <button (click)="edit()" style="float:left;width:50%;height:40px">Edit</button>
-        <button (click)="delete()" style="float:left;width:50%;height:40px">Delete</button>
-      </div> -->
+     
     </ion-item>
 
   </ion-content>

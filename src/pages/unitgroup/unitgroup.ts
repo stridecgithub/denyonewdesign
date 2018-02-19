@@ -60,10 +60,10 @@ export class UnitgroupPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
 
@@ -413,8 +413,8 @@ export class UnitgroupPage {
     this.nav.setRoot(NotificationPage);
   }
   view(id) {
-    localStorage.setItem("uid", id);
-    this.nav.setRoot(Unitgrouplist);
+    //  localStorage.setItem("uid", id);
+    this.nav.setRoot(Unitgrouplist, { unitid: id });
   }
 
   doSort() {

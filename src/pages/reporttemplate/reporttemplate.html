@@ -149,13 +149,14 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let reporttemplate of reporttemplateAllLists">
-      <ion-item (click)="reportdetail()">
+      <ion-item (click)="reportdetail(reporttemplate.templatename,reporttemplate.availableheading)">
           <div style="overflow: hidden; padding-left: .5em;">
               <h2><b>{{reporttemplate.templatename}}</b>
-              </h2>
-              <h2>
-                <p *ngFor="let itemava of reporttemplate.availableheading;">{{itemava}}</p>
-              </h2>
+              </h2>            
+              <h2 style="white-space:normal">
+                <!-- <span *ngFor="let itemava of reporttemplate.availableheading;">{{itemava}}</span-->
+                                {{reporttemplate.availableheading}}
+                </h2>
     
             </div>
       </ion-item>

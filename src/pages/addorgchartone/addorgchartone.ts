@@ -93,8 +93,8 @@ export class AddorgchartonePage {
     this.userId = localStorage.getItem("userInfoId");
     this.company_id = localStorage.getItem("userInfoCompanyId");
 
-    this.getUserListData(this.company_id);
-  
+    // this.getUserListData(this.company_id);
+
 
   }
 
@@ -102,22 +102,6 @@ export class AddorgchartonePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddorgchartonePage');
     this.pageLoad();
-
-    // if (this.NP.get("record")) {
-    //   console.log("User Org Chart:" + JSON.stringify(this.NP.get("record")));
-    //   this.isEdited = true;
-    //   this.selectEntry(this.NP.get("record"));
-    //   this.pageTitle = 'Edit Org Chart';
-    //   this.readOnly = false;
-    //   this.hideActionButton = true;
-    //   let editItem = this.NP.get("record");
-    //        this.getUserListData();
-    // }
-    // else {
-    //   this.isEdited = false;
-    //   this.pageTitle = 'Edit Org Chart';
-    // }
-
   }
   pageLoad() {
     let //body: string = "loginid=" + this.userId,
@@ -136,10 +120,10 @@ export class AddorgchartonePage {
       });
     this.resetFields();
     this.getJsonCountryListData();
- 
+
     console.log(JSON.stringify(this.NP.get("record")));
     this.getCompanyGroupListData();
-    if (this.NP.get("record")!=undefined) {    
+    if (this.NP.get("record") != undefined) {
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Org Chart';
@@ -161,19 +145,14 @@ export class AddorgchartonePage {
         this.primary = contactSplitSpace[0];
         this.contact = contactSplitSpace[1];
       }
-     
+      this.getUserListData(editItem.company_id);
     }
     else {
       this.isEdited = false;
       this.pageTitle = 'Add Org Chart';
     }
 
-    this.getUserListData(this.company_id);
-    /*this.first_name = "Kannan";
-    this.last_name = "Nagarathinam";
-    this.email = "kannanrathvalli@gmail.com";
-    this.country = "238";
-    this.contact = "9443976954";*/
+
   }
   getPrimaryContact(ev) {
     console.log(ev.target.value);
@@ -218,15 +197,15 @@ export class AddorgchartonePage {
     if (this.photo == 'undefined') {
       this.photo = '';
     }
-    contact =contact.replace("+", "%2B");
+    contact = contact.replace("+", "%2B");
     let body: string = "is_mobile=1&firstname=" + this.first_name +
       "&lastname=" + this.last_name +
       "&photo=" + this.photo +
       "&email=" + this.email +
       "&country_id=" + this.country +
       "&contact_number=" + contact +
-      "&createdby=" + this.userId  +
-      "&updatedby=" + this.userId  +
+      "&createdby=" + this.userId +
+      "&updatedby=" + this.userId +
       "&report_to=" + report_to +
       "&company_id=" + company_group +
       "&job_position=" + job_position,
@@ -243,9 +222,9 @@ export class AddorgchartonePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`User created was successfully added`);
+          this.sendNotification(data.json().msg[0].result);
           localStorage.setItem("userPhotoFile", "");
-          this.nav.setRoot(OrgchartPage);
+          this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
         }
         // Otherwise let 'em know anyway
         else {
@@ -293,8 +272,8 @@ export class AddorgchartonePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.sendNotification(`successfully updated`);
-          this.nav.setRoot(OrgchartPage);
+          this.sendNotification(data.json().msg[0].result);
+          this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
         }
         // Otherwise let 'em know anyway
         else {
@@ -367,9 +346,9 @@ export class AddorgchartonePage {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true
+      correctOrientation: true
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
       console.log(imageData);
       localStorage.setItem("userPhotoFile", imageData);
