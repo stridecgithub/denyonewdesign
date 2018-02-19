@@ -6,14 +6,25 @@ page-editprofilestepone {
 .list-md .item-input:last-child {
 	border-bottom: none!important;
 }
+.list-md .item-block .item-inner {
+    border-bottom: 0px solid #dedede;
+}
 .contactinfo{
-margin-left :18px;
+	margin-left :0;
+	padding-left :16px;
+	padding-right :16px;
+	background-color: #f8f8f8;
+	overflow: hidden;
 }
 .item-md {
 	font-size: 1.4rem;
 }
+.last-btn .item-inner{
+	border-bottom: none!important;
+}
 .last-btn .label-md{
 	margin-top: 0;
+	margin-right: 0;
 }
   ion-app.md [padding] .scroll-content {
     padding: 0px;
@@ -24,7 +35,7 @@ margin-left :18px;
        
         img {
           border-radius: 50%;
-          border: 2px solid #006BF4;
+          border: 3px solid #006bf4;
         }
         text-align: center;
        
