@@ -246,6 +246,7 @@ export class EditprofilesteponePage {
       "&contact_number=" + contact +
       "&createdby=" + this.userId +
       "&updatedby=" + this.userId +
+      "&job_position=" + job_position +
       "&username=" + this.username +
       "&password=" + this.password +
       "&report_to=" + this.report_to +
@@ -271,6 +272,10 @@ export class EditprofilesteponePage {
           // this.conf.sendNotification(`User profile successfully updated`);
           //this.nav.setRoot(MyaccountPage);
           //}
+
+          this.conf.sendNotification(data.json().msg['result']);
+          this.nav.setRoot(MyaccountPage);
+
         }
         // Otherwise let 'em know anyway
         else {
@@ -278,8 +283,7 @@ export class EditprofilesteponePage {
         }
       });
 
-    this.conf.sendNotification(`User profile successfully updated`);
-    this.nav.setRoot(MyaccountPage);
+   
   }
 
 

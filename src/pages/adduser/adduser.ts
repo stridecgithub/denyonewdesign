@@ -399,7 +399,8 @@ export class AdduserPage {
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
-                  this.sendNotification(`User created was successfully added`);
+                  // this.sendNotification(`User created was successfully added`);
+                  this.sendNotification(data.json().msg[0].result);
                   localStorage.setItem("userPhotoFile", "");
                   this.nav.setRoot(UserPage);
                 }
@@ -496,7 +497,8 @@ export class AdduserPage {
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
-                  this.sendNotification(`User updated was successfully updated`);
+                  // this.sendNotification(`User updated was successfully updated`);
+                  this.sendNotification(data.json().msg[0].result);
                   this.nav.setRoot(UserPage);
                 }
                 // Otherwise let 'em know anyway

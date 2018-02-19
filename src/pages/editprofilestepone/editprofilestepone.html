@@ -142,14 +142,14 @@
             <ion-label stacked>User Name
               <span class="mandatory">*</span>
             </ion-label>
-            <ion-input type="text"   formControlName="username" [(ngModel)]="username"></ion-input>
+            <ion-input type="text" [disabled]=true  formControlName="username" [(ngModel)]="username"></ion-input>
           </ion-item>
 
           <ion-item style="float:right;width:50%;">
             <ion-label stacked>Hashtag
               <span class="mandatory"> *</span>
             </ion-label>
-            <ion-input type="text"   formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+            <ion-input type="text"   [disabled]=true  formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
           </ion-item>
         </div>
         <!-- <ion-item>
