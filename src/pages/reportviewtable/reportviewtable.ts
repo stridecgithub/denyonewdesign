@@ -199,7 +199,7 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-            this.download(2);
+            //this.download(2);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
@@ -375,7 +375,7 @@ export class ReportviewtablePage {
             this.document.viewDocument(entry.toURL(), 'application/pdf', options);
           } else {
             this.csvurl =entry.toURL()
-            // this.document.viewDocument(entry.toURL(), 'application/xls', options);
+             this.document.viewDocument(entry.toURL(), 'application/xls', options);
           }
 
           this.pdfdownloadview = 0;
