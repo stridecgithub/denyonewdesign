@@ -863,7 +863,7 @@ export class AdduserPage {
         localStorage.setItem("userPhotoFile", "");
         console.log("UPLOAD SUCCESS:" + data.response);
 
-        console.log("File Name:" + JSON.parse(data.response).fileName);
+        console.log("File Name:" + JSON.parse(data.response).name);
 
 
         let successData = JSON.parse(data.response);
@@ -872,10 +872,10 @@ export class AdduserPage {
         });
         console.log("Upload Success Push" + JSON.stringify(this.userInfo));
 
-        console.log("Upload Success File Name" + this.userInfo[0].photo.filename);
-        localStorage.setItem("photofromgallery", this.userInfo[0].photo.filename);
+        console.log("Upload Success File Name" + this.userInfo[0].photo.name);
+        localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
-        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.filename;
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
 
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
