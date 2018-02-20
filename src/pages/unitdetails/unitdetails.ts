@@ -40,7 +40,29 @@ export class UnitdetailsPage {
 	public pageTitle: string;
 	//public userId: any;
 	public item = [];
+	voltlabel;
+	voltcolors;
+	currentlabel;
+	currentcolors;
+	frequencylabel;
+	frequencycolors;
+	enginespeedlabel
+	enginespeedcolors;
+	fuellabel;
+	fuelcolors;
+	loadpowerlabel;
+	loadpowercolors;
+	coolantlabel;
+	coolantcolors;
+	coolantbarlabels;
 
+	batteryvoltbarlabels;
+	oilperssuerbarlabels;
+
+	oilpressuerlabel;
+	oilpressuercolors;
+	batteryvoltlabel;
+	batteryvoltcolors;
 	public colorListArr = [];
 	public voltsetpointslabel = [];
 	iframeContent: any;
@@ -182,7 +204,10 @@ export class UnitdetailsPage {
 
 	}
 	ionViewDidLoad() {
+
+
 		// this.unitstimervalue(1);
+
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
 
@@ -299,44 +324,12 @@ export class UnitdetailsPage {
 							voltage = 100;
 						else
 							voltage = ((actual_voltage - 260) / 200) * 100;
-
-						console.log(voltage);
-
-
-						console.log("Voltage storage Label" + this.voltguagelabel);
-
-
-						let oilguagelabel = localStorage.getItem("oilguagelabel");
-						let iolguagecolors = localStorage.getItem("iolguagecolors");
-
-						console.log("oilguagelabel" + oilguagelabel);
-						console.log("iolguagecolors" + iolguagecolors);
-
 						let voltguagelabel = this.voltguagelabel;
-						let colorzero = "#df0000";
-						let colorten = "#ffca00";
-						let colortwenty = "#00ff50";
-						let coloreighty = "#ffca00";
-						let coloreightyfive = "#df0000";
-						let voltagelabel_0 = 280;//localStorage.getItem("voltagelabel_0");
-						let voltagelabel_1 = 300; //localStorage.getItem("voltagelabel_1");
-						let voltagelabel_2 = 420; //localStorage.getItem("voltagelabel_2");
-						let voltagelabel_3 = 440; //localStorage.getItem("voltagelabel_3");
-						let voltagecolor_0 = '#df0000'; //localStorage.getItem("voltagecolor_0");
-
-						///0:,10:,20:,80:,85:
-
-						let voltagecolor_1 = '#ffca00';//localStorage.getItem("voltagecolor_1");
-						let voltagecolor_2 = '#00ff50'; //localStorage.getItem("voltagecolor_2");
-						let voltagecolor_3 = '#ffca00';//localStorage.getItem("voltagecolor_3");
-						let voltagecolor_4 = '#df0000'; //localStorage.getItem("voltagecolor_4");
+						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
+						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
 						let voltagegauge = new Gauge(jQuery('.voltagegauge'), {
-							values: {
-								10: voltagelabel_0, 20: voltagelabel_1, 80: voltagelabel_2, 90: voltagelabel_3
-							},
-							colors: {
-								0: voltagecolor_0, 10: voltagecolor_1, 20: voltagecolor_2, 80: voltagecolor_3, 90: voltagecolor_4
-							},
+							values: vltlabels,
+							colors: vltcolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -349,15 +342,7 @@ export class UnitdetailsPage {
 
 						// Current
 						let current = 0;
-						console.log("Current SB" + this.selectedcurrent);
 						let actual_current = this.selectedcurrent;
-						// if (actual_current > 0) {
-						// 	current = actual_current;
-						// } else if (actual_current == 0) {
-						// 	current = 0;
-						// } else {
-						// 	current = 0;
-						// }
 
 
 						if (actual_current <= 0) {
@@ -369,27 +354,27 @@ export class UnitdetailsPage {
 						}
 
 
-
-						// if (actual_current == 0)
-						// 	current = 0;
-						// else
-						// 	current = actual_current;
-
-						let currentlabel_0 = 85; //localStorage.getItem("currentlabel_0");
-						let currentlabel_1 = 90; //localStorage.getItem("currentlabel_1");
-
-						let currentcolor_0 = '#00ff50'; //localStorage.getItem("currentcolor_0");
-						let currentcolor_1 = '#ffca00'; //localStorage.getItem("currentcolor_1");
-						let currentcolor_2 = '#df0000'; //localStorage.getItem("currentcolor_2");
+						var cntlabels = JSON.parse('{' + this.currentlabel + '}');
+						var cntcolors = JSON.parse('{' + this.currentcolors + '}');
+						/*frequencylabel;
+						frequencycolors;
+						enginespeedlabel
+						enginespeedcolors;
+						fuellabel;
+						fuelcolors;
+						loadpowerlabel;
+						loadpowercolors;
+						coolantlabel;
+						coolantcolors;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 
 						let currentgauge = new Gauge(jQuery('.currentgauge'), {
 
-							values: {
-								85: currentlabel_0, 90: currentlabel_1
-							},
-							colors: {
-								0: currentcolor_0, 85: currentcolor_1, 90: currentcolor_2
-							},
+							values: cntlabels,
+							colors: cntcolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -419,23 +404,27 @@ export class UnitdetailsPage {
 							frequency = (((actual_frequency - 40) / 20) * 100);
 
 
-						let freqlabel_0 = 42.5; //localStorage.getItem("freqlabel_0");
-						let freqlabel_1 = 45; //localStorage.getItem("freqlabel_1");
-						let freqlabel_2 = 56; //localStorage.getItem("freqlabel_2");
-						let freqlabel_3 = 57.5; //localStorage.getItem("freqlabel_3");
-						let freqcolor_0 = '#df0000';    //localStorage.getItem("freqcolor_0");
-						let freqcolor_1 = '#ffca00'; //localStorage.getItem("freqcolor_1");
-						let freqcolor_2 = '#00ff50'; //localStorage.getItem("freqcolor_2");
-						let freqcolor_3 = '#ffca00'; //localStorage.getItem("freqcolor_3");
-						let freqcolor_4 = '#df0000'; //localStorage.getItem("freqcolor_4");
+
+
+						var frqlabels = JSON.parse('{' + this.frequencylabel + '}');
+						var frqcolors = JSON.parse('{' + this.frequencycolors + '}');
+						/*
+						enginespeedlabel
+						enginespeedcolors;
+						fuellabel;
+						fuelcolors;
+						loadpowerlabel;
+						loadpowercolors;
+						coolantlabel;
+						coolantcolors;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 						let frequencygauge = new Gauge(jQuery('.frequencygauge'), {
 
-							values: {
-								12.5: freqlabel_0, 25: freqlabel_1, 80: freqlabel_2, 87.5: freqlabel_3
-							},
-							colors: {
-								0: freqcolor_0, 12.5: freqcolor_1, 25: freqcolor_2, 80: freqcolor_3, 87.5: freqcolor_4
-							},
+							values: frqlabels,
+							colors: frqcolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -460,27 +449,23 @@ export class UnitdetailsPage {
 
 
 
-						console.log(enginespeed);
-
-						let enginespeedlabel_0 = 1275; //localStorage.getItem("enginespeedlabel_0");
-						let enginespeedlabel_1 = 1350; //localStorage.getItem("enginespeedlabel_1");
-						let enginespeedlabel_2 = 1680; //localStorage.getItem("enginespeedlabel_2");
-						let enginespeedlabel_3 = 1725; //localStorage.getItem("enginespeedlabel_3");
-						let enginespeedcolor_0 = '#df0000'; //localStorage.getItem("enginespeedcolor_0");
-						let enginespeedcolor_1 = '#ffca00'; //localStorage.getItem("enginespeedcolor_1");
-						let enginespeedcolor_2 = '#00ff50'; //localStorage.getItem("enginespeedcolor_2");
-						let enginespeedcolor_3 = '#ffca00'; //localStorage.getItem("enginespeedcolor_3");
-						let enginespeedcolor_4 = '#df0000'; //localStorage.getItem("enginespeedcolor_4");
-
-
+						var engspeedlabels = JSON.parse('{' + this.enginespeedlabel + '}');
+						var engspeedcolors = JSON.parse('{' + this.enginespeedcolors + '}');
+						/*
+						fuellabel;
+						fuelcolors;
+						loadpowerlabel;
+						loadpowercolors;
+						coolantlabel;
+						coolantcolors;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 						let enginespeedgauge = new Gauge(jQuery('.enginespeedgauge'), {
 
-							values: {
-								12.5: enginespeedlabel_0, 25: enginespeedlabel_1, 80: enginespeedlabel_2, 87.5: enginespeedlabel_3
-							},
-							colors: {
-								0: enginespeedcolor_0, 12.5: enginespeedcolor_1, 25: enginespeedcolor_2, 80: enginespeedcolor_3, 87.5: enginespeedcolor_4
-							},
+							values: engspeedlabels,
+							colors: engspeedcolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -502,19 +487,21 @@ export class UnitdetailsPage {
 						} else {
 							fuel = actual_fuel;
 						}
-						let fuellevellabel_0 = 6.25// localStorage.getItem("fuellevellabel_0");
-
-						let fuellevelcolor_0 = '#ffca00'// localStorage.getItem("fuellevelcolor_0");
-						let fuellevelcolor_1 = '#00ff50'// localStorage.getItem("fuellevelcolor_1");
-
+						var fullabels = JSON.parse('{' + this.fuellabel + '}');
+						var fulcolors = JSON.parse('{' + this.fuelcolors + '}');
+						/*
+						loadpowerlabel;
+						loadpowercolors;
+						coolantlabel;
+						coolantcolors;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 						let fuelgauge = new Gauge(jQuery('.fuelgauge'), {
 
-							values: {
-								6.25: fuellevellabel_0
-							},
-							colors: {
-								0: fuellevelcolor_0, 6.25: fuellevelcolor_1
-							},
+							values: fullabels,
+							colors: fulcolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -546,21 +533,20 @@ export class UnitdetailsPage {
 						}
 
 
-						let loadfactorlabel_0 = 48; //localStorage.getItem("loadfactorlabel_0");
-						let loadfactorlabel_1 = 50; //localStorage.getItem("loadfactorlabel_1");
-
-						let loadfactorcolor_0 = '#00ff50'; //localStorage.getItem("loadfactorcolor_0");
-						let loadfactorcolor_1 = '#ffca00'; //localStorage.getItem("loadfactorcolor_1");
-						let loadfactorcolor_2 = '#df0000'; //localStorage.getItem("loadfactorcolor_2");
-
+						var loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
+						var loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
+						/*
+						
+						coolantlabel;
+						coolantcolors;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 						let loadpowergauge = new Gauge(jQuery('.loadpowergauge'), {
 
-							values: {
-								80: loadfactorlabel_0, 83: loadfactorlabel_1
-							},
-							colors: {
-								0: loadfactorcolor_0, 80: loadfactorcolor_1, 83: loadfactorcolor_2
-							},
+							values: loadpowerlabels,
+							colors: loadpowercolors,
 							angles: [90, 380],
 							lineWidth: 8,
 							arrowWidth: 5,
@@ -585,6 +571,16 @@ export class UnitdetailsPage {
 
 
 
+						var coolantbarlabels = this.coolantbarlabels.split(",");
+
+						/*
+						
+						;
+						;
+						oilpressuerlabel;
+						oilpressuercolors;
+						batteryvoltlabel;
+						batteryvoltcolors;*/
 
 						// 1 Linear Graph For Coolant Temp
 						var ctgradient1 = {
@@ -670,7 +666,7 @@ export class UnitdetailsPage {
 										offset: 1,
 										lineWidth: 2
 									},
-									customTickMarks: [coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4],
+									customTickMarks: coolantbarlabels,//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
 									ranges: [
 										{
 											startValue: 0,
@@ -748,6 +744,8 @@ export class UnitdetailsPage {
 						let oilpressurecolor_3 = '#00FF50'; //localStorage.getItem("oilpressurecolor_3");
 						let oilpressurecolor_4 = '' //localStorage.getItem("oilpressurecolor_4");
 						// 2 Linear Graph For Oil Pressure
+
+						var oilpressurebarlabels = this.oilperssuerbarlabels.split(",");
 						var gradient1 = {
 							type: 'linearGradient',
 							x0: 0.5,
@@ -822,7 +820,7 @@ export class UnitdetailsPage {
 										offset: 1,
 										lineWidth: 2
 									},
-									customTickMarks: [oilpressurelabel_0, oilpressurelabel_1, oilpressurelabel_2, oilpressurelabel_3],
+									customTickMarks: oilpressurebarlabels,// [oilpressurelabel_0, oilpressurelabel_1, oilpressurelabel_2, oilpressurelabel_3],
 									ranges: [
 										{
 											startValue: 0,
@@ -889,6 +887,8 @@ export class UnitdetailsPage {
 						let loadpowerfactorcolor_3 = ''; //localStorage.getItem("loadpowerfactorcolor_3");
 						let loadpowerfactorcolor_4 = ''; //localStorage.getItem("loadpowerfactorcolor_4");
 						// 3 Linear Graph For Load Power Factor
+
+
 						var lpgradient1 = {
 							type: 'linearGradient',
 							x0: 0.5,
@@ -996,7 +996,7 @@ export class UnitdetailsPage {
 						let batteryvoltagecolor_2 = '#ffca00' //localStorage.getItem("batteryvoltagecolor_2");
 						let batteryvoltagecolor_3 = '#00FF50';//localStorage.getItem("batteryvoltagecolor_3");
 						let batteryvoltagecolor_4 = '';//localStorage.getItem("batteryvoltagecolor_4");
-
+						var batteryvoltlabels = this.batteryvoltbarlabels.split(",");
 						//4 Linear Graph For Battery Voltage
 						var bvgradient1 = {
 							type: 'linearGradient',
@@ -1071,7 +1071,7 @@ export class UnitdetailsPage {
 										offset: 1,
 										lineWidth: 2
 									},
-									customTickMarks: [batteryvoltagelabel_0, batteryvoltagelabel_1, batteryvoltagelabel_2, batteryvoltagelabel_3],
+									customTickMarks: batteryvoltlabels,//[batteryvoltagelabel_0, batteryvoltagelabel_1, batteryvoltagelabel_2, batteryvoltagelabel_3],
 									ranges: [
 										{
 											startValue: 0,
@@ -1378,142 +1378,7 @@ export class UnitdetailsPage {
 		}
 
 		this.genkey = Math.floor(Math.random() * 9000000000) + 1000000000;//'1502851159';
-		// Linear Graph Calling
-		//var randomvalue = this.getRandomInt(0, 10);
-		/*
-				var gradient1 = {
-					type: 'linearGradient',
-					x0: 0.5,
-					y0: 0,
-					x1: 0.5,
-					y1: 1,
-					colorStops: [{ offset: 0, color: '#df0000' },
-					{ offset: 1, color: '#df0000' }]
-				};
-		
-				var gradient2 = {
-					type: 'linearGradient',
-					x0: 0.5,
-					y0: 0,
-					x1: 0.5,
-					y1: 1,
-					colorStops: [{ offset: 0, color: '#ffca00' },
-					{ offset: 1, color: '#ffca00' }]
-				};
-		
-				var gradient3 = {
-					type: 'linearGradient',
-					x0: 0.5,
-					y0: 0,
-					x1: 0.5,
-					y1: 1,
-					colorStops: [{ offset: 0, color: '#00FF50' },
-					{ offset: 1, color: '#00FF50' }]
-				};
-		
-				var needleGradient = {
-					type: 'linearGradient',
-					x0: 0,
-					y0: 0.5,
-					x1: 1,
-					y1: 0.5,
-					colorStops: [{ offset: 0, color: '#4F6169' },
-					{ offset: 1, color: '#252E32' }]
-				};
-		
-		
-				jQuery('#oilpressure').jqLinearGauge({
-					orientation: 'horizontal',
-					background: '#F7F7F7',
-					border: {
-						padding: 5,
-						lineWidth: 2,
-						strokeStyle: '#76786A'
-					},
-					tooltips: {
-						disabled: false,
-						highlighting: true
-					},
-					animation: {
-						duration: 1
-					},
-					scales: [
-						{
-							minimum: 0,
-							maximum: 10,
-							labels: {
-								offset: 0.15,
-							},
-							majorTickMarks: {
-								length: 3,
-								offset: 0.28,
-								lineWidth: 2
-							},
-							minorTickMarks: {
-								length: 3,
-								visible: true,
-								interval: 2,
-								offset: 0.32,
-								lineWidth: 2
-							},
-							ranges: [
-								{
-									startValue: 0,
-									endValue: 1.0,
-									innerOffset: 0.46,
-									outerStartOffset: 0.50,
-									outerEndOffset: 0.50,
-									fillStyle: gradient1
-								},
-								{
-									startValue: 1.0,
-									endValue: 1.3,
-									innerOffset: 0.46,
-									outerStartOffset: 0.50,
-									outerEndOffset: 0.50,
-									fillStyle: gradient2
-								},
-								{
-									startValue: 1.3,
-									endValue: 10,
-									innerOffset: 0.46,
-									outerStartOffset: 0.50,
-									outerEndOffset: 0.50,
-									fillStyle: gradient3
-								}
-							],
-							needles: [
-								{
-									type: 'pointer',
-									value: this.coolanttemp,
-									fillStyle: needleGradient,
-									innerOffset: 0.50,
-									outerOffset: 1.00
-								}
-							]
-						}
-					]
-		
-				});
-		
-		
-				$('#oilpressure').bind('tooltipFormat', function (e, data) {
-		
-					var tooltip = '<b>Element: ' + data.elementType + '</b> ' + '<br />';
-		
-					switch (data.elementType) {
-		
-						case 'needle':
-							tooltip += 'Value: ' + data.value;
-							break;
-						case 'range':
-							tooltip += 'Start Value: ' + data.startValue + '<br/>End Value: ' + data.endValue;
-					}
-		
-					return tooltip;
-				});
-		*/
-		// Linear Graph Calling
+
 	}
 	overviewAction(genkey, controllerid, action) {
 
@@ -1624,6 +1489,61 @@ export class UnitdetailsPage {
 				this.unitDetailData.generatormodel = unitdetails.generatormodel;
 				this.unitDetailData.companygroup_name = unitdetails.companygroup_name;
 				this.unitDetailData.alarmnotificationto = unitdetails.alarmnotificationto;
+
+
+
+				// Get Guage Details
+				//denyoappv2.stridecdev.com/gaugedetails/GEN0002
+
+				let //body: string = "loginid=" + this.userId,
+					type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+					headers1: any = new Headers({ 'Content-Type': type1 }),
+					options1: any = new RequestOptions({ headers: headers1 }),
+					url1: any = this.apiServiceURL + "/gaugedetails/" + this.unitDetailData.controllerid;
+
+				console.log(url1);
+				this.http.get(url1, options1)
+					.subscribe((data) => {
+						let res;
+						res = data.json();
+
+						this.voltlabel = data.json().setpoints[0].labels;
+						this.voltcolors = data.json().setpoints[0].colors;
+
+						this.currentlabel = data.json().setpoints[1].labels;
+						this.currentcolors = data.json().setpoints[1].colors;
+
+						this.frequencylabel = data.json().setpoints[2].labels;
+						this.frequencycolors = data.json().setpoints[2].colors;
+
+						this.enginespeedlabel = data.json().setpoints[3].labels;
+						this.enginespeedcolors = data.json().setpoints[3].colors;
+
+						this.fuellabel = data.json().setpoints[4].labels;
+						this.fuelcolors = data.json().setpoints[4].colors;
+
+						this.loadpowerlabel = data.json().setpoints[5].labels;
+						this.loadpowercolors = data.json().setpoints[5].colors;
+
+						this.coolantlabel = data.json().setpoints[6].labels;
+						this.coolantcolors = data.json().setpoints[6].colors;
+						this.coolantbarlabels = data.json().setpoints[6].barlabels;
+
+						this.oilpressuerlabel = data.json().setpoints[7].labels;
+						this.oilpressuercolors = data.json().setpoints[7].colors;
+						this.oilperssuerbarlabels = data.json().setpoints[7].barlabels;
+
+						this.batteryvoltlabel = data.json().setpoints[8].labels;
+						this.batteryvoltcolors = data.json().setpoints[8].colors;
+						this.batteryvoltbarlabels = data.json().setpoints[8].barlabels;
+
+
+
+
+					}, error => {
+						this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+					});
+				// Get Guage Details
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
