@@ -309,7 +309,7 @@ export class ReportviewtablePage {
     });
   }
   download(val) {
-    this.buttonClicked = true;
+    //this.buttonClicked = true;
     console.log("PDF Download");
     // PDF Viewer Calling      
     let body: string = "is_mobile=1" +
