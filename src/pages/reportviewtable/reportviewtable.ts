@@ -204,7 +204,7 @@ export class ReportviewtablePage {
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
             this.posts = res.mobilehistorydata[0];
-            this.keys = Object.keys(this.posts);
+           // this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
 
