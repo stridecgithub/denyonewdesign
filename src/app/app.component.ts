@@ -190,7 +190,7 @@ export class MyApp {
     });
   }
 
-  getGuageData() {
+  getGuageData() {/*
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -423,7 +423,7 @@ export class MyApp {
       }, error => {
 
       });
-
+*/
   }
   openPage(page) {
     /*
