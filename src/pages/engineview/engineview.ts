@@ -18,7 +18,7 @@ import { Config } from '../../config/config';
 })
 export class EngineviewPage {
   public pageTitle: string;
-
+ footerBar: number = 0;
   public item = [];
   public msgcount: any;
   public notcount: any;

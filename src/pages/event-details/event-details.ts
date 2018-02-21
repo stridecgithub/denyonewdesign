@@ -34,13 +34,13 @@ export class EventDetailsPage {
   alarm_color_code;
   item;
   alarm_priority;
-  tabBarElement: any;
+ // tabBarElement: any;
   frompage;
   private apiServiceURL: string = "";
   constructor(private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
 
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
     this.platform.registerBackButtonAction(() => {
       this.previous();
@@ -49,12 +49,12 @@ export class EventDetailsPage {
 
   ionViewWillLeave() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'flex';
+      //this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'none';
+      //this.tabBarElement.style.display = 'none';
     }
     console.log("From Page:"+this.frompage);
     this.frompage = this.NP.get("from");

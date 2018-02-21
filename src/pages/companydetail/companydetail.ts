@@ -27,6 +27,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
   templateUrl: 'companydetail.html',
 })
 export class CompanydetailPage {
+   footerBar: number = 0;
    public pageTitle: string;
   public loginas: any;
   public Role;
