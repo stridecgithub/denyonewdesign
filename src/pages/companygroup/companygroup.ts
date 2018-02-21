@@ -56,7 +56,7 @@ export class CompanygroupPage {
     sort: 'companygroup_id',
     sortascdesc: 'asc',
     startindex: 0,
-    results: 8
+    results: 50
   }
   public companygroupAllLists = [];
   profilePhoto;

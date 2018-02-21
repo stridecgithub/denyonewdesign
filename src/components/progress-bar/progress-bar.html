@@ -24,6 +24,7 @@
   
   <a class=""  (click)="goto('MessagePage')"  aria-selected="messagehighlight">
       <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+      <i class="chat-count" *ngIf="msgcount>0">{{msgcount}}</i>
       <span class="">Message</span>
   </a>
   
