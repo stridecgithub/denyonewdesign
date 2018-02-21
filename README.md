@@ -106,3 +106,7 @@ CSV
 https://devdactic.com/csv-data-ionic/
 npm install papaparse --save
 npm install @types/papaparse --save
+
+
+>ionic cordova plugin add ionic-plugin-deeplinks --variable URL_SCHEME=denyoapp --variable DEEPLINK_SCHEME=https --variable DEEPLINK_HOST=http://www.denyoappv2.stridecdev.com --variable ANDROID_PATH_PREFIX=/
+>npm install --save @ionic-native/deeplinks
