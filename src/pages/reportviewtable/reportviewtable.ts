@@ -199,12 +199,12 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-            this.download(2);
+            //this.download(2);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
             this.posts = res.mobilehistorydata[0];
-            this.keys = Object.keys(this.posts);
+           // this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
 
@@ -309,7 +309,7 @@ export class ReportviewtablePage {
     });
   }
   download(val) {
-    this.buttonClicked = true;
+    //this.buttonClicked = true;
     console.log("PDF Download");
     // PDF Viewer Calling      
     let body: string = "is_mobile=1" +
@@ -375,7 +375,7 @@ export class ReportviewtablePage {
             this.document.viewDocument(entry.toURL(), 'application/pdf', options);
           } else {
             this.csvurl =entry.toURL()
-            // this.document.viewDocument(entry.toURL(), 'application/xls', options);
+             this.document.viewDocument(entry.toURL(), 'application/xls', options);
           }
 
           this.pdfdownloadview = 0;

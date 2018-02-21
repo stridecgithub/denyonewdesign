@@ -60,10 +60,10 @@ export class UnitgroupPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
 
@@ -374,6 +374,17 @@ export class UnitgroupPage {
               favorite = "unfavorite";
 
             }
+
+            let cname = res.unitgroups[unitgroup].unitgroup_name;
+
+            if (cname != 'undefined' && cname != undefined) {
+              let stringToSplit = cname;
+              let x = stringToSplit.split("");
+              cname = x[0].toUpperCase();
+            } else {
+              cname = '';
+            }
+
             console.log(favorite);
             this.unitgroupAllLists.push({
               unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
@@ -383,7 +394,8 @@ export class UnitgroupPage {
               totalunits: res.unitgroups[unitgroup].totalunits,
               colorcode: res.unitgroups[unitgroup].colorcode,
               colorcodeindication: colorcode,
-              favoriteindication: favorite
+              favoriteindication: favorite,
+              cname: cname
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
@@ -412,9 +424,9 @@ export class UnitgroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  view(id) {
-    localStorage.setItem("uid", id);
-    this.nav.setRoot(Unitgrouplist);
+  view(id, colorcode, cname, favoriteindication,unitgroup_name,totalunits) {
+    //  localStorage.setItem("uid", id);
+    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication,'unitgroup_name':unitgroup_name,'totalunits':totalunits });
   }
 
   doSort() {

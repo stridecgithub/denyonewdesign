@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, AlertController, NavParams, Platform, Gesture ,PopoverController} from 'ionic-angular';
+import { IonicPage, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
@@ -83,10 +83,10 @@ export class OrgchartPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     //Authorization Get Value
 
@@ -116,12 +116,12 @@ export class OrgchartPage {
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
-      if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-        this.profilePhoto = this.apiServiceURL +"/images/default.png";
-      } else {
-       this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
-      }
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
+    } else {
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
+  }
 
 
 
@@ -260,7 +260,15 @@ export class OrgchartPage {
   }
 
 
-  ionViewDidLoad() {
+
+
+  onSegmentChanged(val) {
+    this.companyId = val;
+    this.parents = [];
+    this.doOrgChart();
+  }
+  pageLoad() {
+
 
     //create gesture obj w/ ref to DOM element
     this.gesture = new Gesture(this.el.nativeElement);
@@ -274,24 +282,17 @@ export class OrgchartPage {
     this.gesture.on('pinch', e => this.pinchEvent(e));
     console.log('ionViewDidLoad OrgchartPage');
     localStorage.setItem("fromModule", "OrgchartPage");
-  }
-
-
-  onSegmentChanged(val) {
-    this.companyId = val;
-    this.parents = [];
-    this.doOrgChart();
-  }
-
-  ionViewWillEnter() {
     this.getCompanyGroupListData();
 
 
-    let compId = this.NP.get("companyId")
+    let compId = this.NP.get("companyId");
+    console.log('A' + compId);
     if (compId > 0) {
+      console.log('B')
       this.pet = compId;
       this.companyId = compId;
     } else {
+      console.log('C')
       this.pet = this.companyId;
     }
 
@@ -314,11 +315,17 @@ export class OrgchartPage {
     this.pageTitle = "Org Chart";
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
-    if (this.VIEWACCESS > 0) {
-      this.doOrgChart();
-    }
+
+    this.doOrgChart();
+
 
     console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
+  }
+  ionViewDidLoad() {
+    this.pageLoad();
+  }
+  ionViewDidEnter() {
+    this.pageLoad();
   }
   doOrgChart() {
     //this.conf.presentLoading(1);
@@ -335,20 +342,23 @@ export class OrgchartPage {
         // this.conf.presentLoading(0);
         // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
         res = data.json();
+        this.totalCount = res.totalCount;
+        console.log("Total Count:" + this.totalCount);
         console.log("Parent" + JSON.stringify(res));
         if (res.parents.length > 0) {
           this.parents = res.parents;
           // this.responseResultCompany = res.companies;
           //console.log("1:"+JSON.stringify(this.responseResultCompany));
-        } else {
-          //this.totalCount = 0;
+
+
         }
+
       }, error => {
         this.networkType = this.conf.serverErrMsg();//+ "\n" + error;
       });
 
   }
-  
+
   /*previous() {
     this.nav.setRoot(MyaccountPage);
   }*/
@@ -371,7 +381,7 @@ export class OrgchartPage {
 
 
   doAdd() {
-    this.navCtrl.setRoot(AddorgchartonePage);
+    this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
@@ -380,7 +390,8 @@ export class OrgchartPage {
     if (act == 'edit') {
       this.navCtrl.setRoot(AddorgchartonePage, {
         record: item,
-        act: act
+        act: act,
+        'companyId': this.companyId
       });
     }
   }

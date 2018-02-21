@@ -113,7 +113,7 @@
           <ion-label stacked>Company
             <span class="mandatory">*</span>
           </ion-label>
-          <ion-select [(ngModel)]="company_id" formControlName="company_id" (ionChange)="onSegmentChanged()">
+          <ion-select [(ngModel)]="company_id" formControlName="company_id">
             <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
           </ion-select>
         </ion-item>
@@ -142,14 +142,14 @@
             <ion-label stacked>User Name
               <span class="mandatory">*</span>
             </ion-label>
-            <ion-input type="text"   formControlName="username" [(ngModel)]="username"></ion-input>
+            <ion-input type="text" [disabled]=true  formControlName="username" [(ngModel)]="username"></ion-input>
           </ion-item>
 
           <ion-item style="float:right;width:50%;box-shadow:none;">
             <ion-label stacked>Hashtag
               <span class="mandatory"> *</span>
             </ion-label>
-            <ion-input type="text"   formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+            <ion-input type="text"   [disabled]=true  formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
           </ion-item>
         </div>
         <!-- <ion-item>

@@ -26,7 +26,7 @@
 <ion-content>
 	<div class="unit-detail" padding="" style="padding-bottom:0;">
       <div class="unit-title">
-        <b>Invision</b>
+        <b>{{templatename}}</b>
       </div>
       
     </div>
@@ -34,13 +34,15 @@
  		<ion-label stacked="" class="label label-md" id="lbl-234">Available</ion-label>
     </ion-item>
     <div class="edit-report">
-        	<p>Fuel Level, Load</p>
+        	<!-- <p>Fuel Level, Load</p>
            <p> Power Factor</p>
            <p> Current 1</p>
            <p> FREQUENCY</p>
-           <p> Engine State</p>
+           <p> Engine State</p> -->
+
+           <p *ngFor="let itemava of availableheading;">{{itemava}}</p>
     </div>
-    <div class="buttons" style="display:block;">
+    <!-- <div class="buttons" style="display:block;">
       <ion-row class="row">
         <ion-col class="col" col-12=""  style="padding:0">
           <div class="edit">
@@ -53,5 +55,5 @@
           </div>
         </ion-col>
       </ion-row>
-    </div>
+    </div> -->
 </ion-content>

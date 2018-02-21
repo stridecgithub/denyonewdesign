@@ -24,6 +24,7 @@
     "@ionic-native/camera": "^4.5.3",
     "@ionic-native/core": "4.3.2",
     "@ionic-native/date-picker": "^4.4.2",
+    "@ionic-native/deeplinks": "^4.5.3",
     "@ionic-native/document-viewer": "^4.5.3",
     "@ionic-native/file": "^4.4.2",
     "@ionic-native/file-chooser": "^4.5.3",
@@ -63,6 +64,7 @@
     "de.appplant.cordova.plugin.local-notification": "^0.8.5",
     "filestack-js": "^0.10.1",
     "ionic-angular": "^3.9.2",
+    "ionic-plugin-deeplinks": "^1.0.15",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
     "jquery": "^3.3.1",
@@ -108,7 +110,25 @@
       "cordova-plugin-badge": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file-opener2": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "ionic-plugin-deeplinks": {
+        "URL_SCHEME": "denyoapp",
+        "DEEPLINK_SCHEME": "https",
+        "DEEPLINK_HOST": "http://www.denyoappv2.stridecdev.com",
+        "ANDROID_PATH_PREFIX": "/",
+        "ANDROID_2_PATH_PREFIX": "/",
+        "ANDROID_3_PATH_PREFIX": "/",
+        "ANDROID_4_PATH_PREFIX": "/",
+        "ANDROID_5_PATH_PREFIX": "/",
+        "DEEPLINK_2_SCHEME": " ",
+        "DEEPLINK_2_HOST": " ",
+        "DEEPLINK_3_SCHEME": " ",
+        "DEEPLINK_3_HOST": " ",
+        "DEEPLINK_4_SCHEME": " ",
+        "DEEPLINK_4_HOST": " ",
+        "DEEPLINK_5_SCHEME": " ",
+        "DEEPLINK_5_HOST": " "
+      }
     },
     "platforms": [
       "android"

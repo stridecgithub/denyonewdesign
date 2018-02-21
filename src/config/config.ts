@@ -90,5 +90,8 @@ export class Config {
     toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     }
+    showfooter(){
+        return '<div class="custom-tab"><a class="" href="#" aria-selected="true"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Dashboard</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Units</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Calendar</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Message</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Org Chart</span></a></div>';
+    }
 
 }

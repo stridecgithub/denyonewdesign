@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Platform, ActionSheetController, } from 'ionic-angular';
+import { NavController, NavParams, Platform, ActionSheetController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -208,7 +208,7 @@ export class EditprofilesteponePage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   //first_name, last_name, email, username,password, contact, this.userId
-  updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_group, report_to) {
+  updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_id, report_to) {
 
 
 
@@ -246,11 +246,12 @@ export class EditprofilesteponePage {
       "&contact_number=" + contact +
       "&createdby=" + this.userId +
       "&updatedby=" + this.userId +
+      "&job_position=" + job_position +
       "&username=" + this.username +
       "&password=" + this.password +
       "&report_to=" + this.report_to +
       "&personalhashtag=" + this.hashtag +
-      "&company_group=" + company_group,
+      "&company_id=" + company_id,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -271,6 +272,10 @@ export class EditprofilesteponePage {
           // this.conf.sendNotification(`User profile successfully updated`);
           //this.nav.setRoot(MyaccountPage);
           //}
+
+          this.conf.sendNotification(data.json().msg['result']);
+          this.nav.setRoot(MyaccountPage);
+
         }
         // Otherwise let 'em know anyway
         else {
@@ -278,8 +283,7 @@ export class EditprofilesteponePage {
         }
       });
 
-    this.conf.sendNotification(`User profile successfully updated`);
-    this.nav.setRoot(MyaccountPage);
+   
   }
 
 
@@ -441,7 +445,7 @@ export class EditprofilesteponePage {
         localStorage.setItem("userPhotoFile", "");
         console.log("UPLOAD SUCCESS:" + data.response);
 
-        console.log("File Name:" + JSON.parse(data.response).fileName);
+        console.log("File Name:" + JSON.parse(data.response).name);
 
 
         let successData = JSON.parse(data.response);
@@ -450,10 +454,10 @@ export class EditprofilesteponePage {
         });
         console.log("Upload Success Push" + JSON.stringify(this.userInfo));
 
-        console.log("Upload Success File Name" + this.userInfo[0].photo.filename);
-        localStorage.setItem("photofromgallery", this.userInfo[0].photo.filename);
+        console.log("Upload Success File Name" + this.userInfo[0].photo.name);
+        localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
-        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.filename;
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
 
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;

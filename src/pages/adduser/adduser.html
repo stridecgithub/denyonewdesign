@@ -162,7 +162,7 @@
         top: 18%;" class="user-camera-block">
     
     
-          <a (click)="doUploadPhoto()" href="#" *ngIf="!addedImgLists">
+          <a (click)="fileChooser()" href="#" *ngIf="!addedImgLists">
             <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
             color: #009ACD;
             border-radius: 50%;
@@ -170,7 +170,7 @@
             width: 40px;
             height: 40px;"></ion-icon>
           </a>
-          <a (click)="doUploadPhoto()" href="#" *ngIf="addedImgLists">
+          <a (click)="fileChooser()" href="#" *ngIf="addedImgLists">
             <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
             color: #009ACD;
             border-radius: 50%;
@@ -265,7 +265,7 @@
 
       <ion-item>
           <ion-label stacked>User Id <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]="readOnly" formControlName="username" [(ngModel)]="username"></ion-input>
+          <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" [(ngModel)]="username"></ion-input>
         </ion-item>
 
         <ion-item>

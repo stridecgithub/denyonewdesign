@@ -52,6 +52,7 @@ export class Unitgrouplist {
   public str: any;
   public msgcount: any;
   public notcount: any;
+  colorcode;cname;favoriteindication;unitgroup_name;totalunits
   //Authorization Declaration
 
   //Authorization Declaration
@@ -64,6 +65,7 @@ export class Unitgrouplist {
     results: 50
   }
   public reportAllLists = [];
+  unitgroup;
   constructor(public http: Http, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Units';
@@ -74,6 +76,20 @@ export class Unitgrouplist {
     //Authorization Get Value
    
     //Authorization Get Value
+    this.colorcode=this.navParams.get('colorcode');
+    console.log(this.colorcode);
+
+    this.cname=this.navParams.get('cname');
+    console.log(this.cname);
+
+    this.favoriteindication=this.navParams.get('favoriteindication');
+    console.log(this.favoriteindication);
+
+    this.unitgroup_name=this.navParams.get('unitgroup_name');
+    console.log(this.unitgroup_name);
+
+    this.totalunits=this.navParams.get('totalunits');
+    console.log(this.totalunits);
   }
 
   ionViewDidLoad() {
@@ -118,7 +134,7 @@ export class Unitgrouplist {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/unitgroupdetails?startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitgroupid=" + localStorage.getItem("uid") + "&loginid=" + this.userId;
+      url: any = this.apiServiceURL + "/unitgroupdetails?startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitgroupid=" + this.navParams.get('unitid') + "&loginid=" + this.userId;
     let res;
     console.log(url);
     this.http.get(url, options)
