@@ -4,7 +4,7 @@ import { CalendarPage } from '../../pages/calendar/calendar';
 import { DashboardPage } from '../../pages/dashboard/dashboard';
 import { MessagesPage } from '../../pages/messages/messages';
 import { UnitsPage } from '../../pages/units/units';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 @Component({
@@ -22,7 +22,7 @@ export class ProgressBarComponent {
   orgcharthighlight: any;
   notcount;
   private apiServiceURL: string = "";
-  constructor(public navCtrl: NavController, public navParams: NavParams, private conf: Config, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private conf: Config, public http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.dashboardhighlight = 0;
@@ -50,29 +50,33 @@ export class ProgressBarComponent {
         console.log(error);
       });
     // Notiifcation count
-  } 
+  }
   goto(page) {
+
     console.log(page);
     if (page == 'DashboardPage') {
       this.dashboardhighlight = 1;
+      this.events.publish('menu:created', 'dashboard', Date.now());
       this.navCtrl.setRoot(DashboardPage, { dashboardselected: this.dashboardhighlight });
       return false;
     }
     if (page == 'UnitsPage') {
       this.unitshighlight = 1;
-
+      this.events.publish('menu:created', 'units', Date.now());
       this.navCtrl.setRoot(UnitsPage, { dashboardselected: this.dashboardhighlight });
     }
     if (page == 'CalendarPage') {
       this.calendarhighlight = 1;
-
+      this.events.publish('menu:created', 'calendar', Date.now());
       this.navCtrl.setRoot(CalendarPage), { dashboardselected: this.dashboardhighlight };
     }
     if (page == 'MessagePage') {
+      this.events.publish('menu:created', 'message', Date.now());
       this.messagehighlight = 1;
       this.navCtrl.setRoot(MessagesPage, { dashboardselected: this.dashboardhighlight });
     }
     if (page == 'OrgchartPage') {
+      this.events.publish('menu:created', 'orgchart', Date.now());
       this.orgcharthighlight = 1;
       this.navCtrl.setRoot(OrgchartPage, { dashboardselected: this.dashboardhighlight });
     }
@@ -82,7 +86,31 @@ export class ProgressBarComponent {
     console.log(this.messagehighlight);
     console.log(this.orgcharthighlight);
     console.log('dashboardselected' + this.navParams.get('dashboardselected'));
-    this.dashboardhighlight = this.navParams.get('dashboardselected');
+
+    this.events.subscribe('menu:created', (menu, time) => {
+      console.log(menu);
+      if (menu == 'dashboard') {
+        console.log('A');
+        this.dashboardhighlight = 1;
+      }
+      if (menu == 'units') {
+        console.log('B');
+        this.unitshighlight = 1;
+      }
+      if (menu == 'calendar') {
+        console.log('C');
+        this.calendarhighlight = 1;
+      }
+      if (menu == 'message') {
+        console.log('D');
+        this.messagehighlight = 1;
+      }
+      if (menu == 'orgchart') {
+        console.log('E');
+        this.orgcharthighlight = 1;
+      }
+    });
+
 
   }
 

@@ -106,6 +106,7 @@ export class LoginPage {
     if (this.userId > 0) {
       console.log("login.ts E");
       console.log("login.ts  User id logged out action from dashboard.ts");
+      this.events.publish('menu:created', 'dashboard', Date.now());
       this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
     }
 
@@ -163,7 +164,7 @@ export class LoginPage {
             () => console.log('Stored item!'),
             error => console.error('Error storing item', error)
             );
-
+            this.events.publish('menu:created', 'dashboard', Date.now());
           this.navCtrl.setRoot(DashboardPage, {
             companyId: res['staffdetails'][0].company_id,
             userId: res['staffdetails'][0].staff_id,

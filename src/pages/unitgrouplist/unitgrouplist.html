@@ -31,12 +31,12 @@
 
   <button class="{{favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
   <div style="overflow: hidden; padding-left: .5em;">
-    <h2>
+    <h4 style="font-size:17px">
       <b>{{unitgroup_name}}</b>
-    </h2>
-    <h2>
+    </h4>
+    <h5  style="font-size:14px">
       <b>Total Units:{{totalunits}}</b>
-    </h2>
+    </h5>
 
   </div>
 
@@ -57,17 +57,12 @@
     <ion-item-sliding *ngFor="let item of reportAllLists;">
 
       <ion-item style="margin-bottom: -4px;">
-        
-        <button class="{{item.colorcodeindications}}" style="float: left ;width:8px;height:68px"></button>
-		<button  class="{{item.genstatus}}" style="float:left ;width:40px;height:40px;margin-left: 6px;margin-top: 12px;background-color:#ffffff"></button>
-        <button  class="{{item.favoriteindication}}" style="margin-left: -25px;float: right ;width:30px;height:30px;margin-top: 13px;background-color:#ffffff"></button>
-        
-        
+         
         <div style="overflow: hidden; padding-left: 2.7em;padding-top: 4px">
-          <h5 ><b style="font-size: 14px;">{{item.unitname}}</b></h5>
-          <h5 ><b style="font-size: 14px;">{{item.projectname}}</b></h5>
-          <h6 ><b style="font-size: 14px;">Gen Status:</b>{{item.genstatus}}</h6>
-          <h6 ><b style="font-size: 14px;">Next Servicing:</b>{{item.nextservicedate}}</h6>
+          <h5 ><b style="font-size: 12px;">{{item.unitname}}</b></h5>
+          <h5 ><b style="font-size: 12px;">{{item.projectname}}</b></h5>
+          <h6 ><b style="font-size: 12px;">Gen Status:</b>{{item.genstatus}}</h6>
+          <h6 ><b style="font-size: 12px;">Next Servicing:</b>{{item.nextservicedate}}</h6>
         </div>
       </ion-item>
     </ion-item-sliding>

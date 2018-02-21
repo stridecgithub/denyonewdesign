@@ -9,6 +9,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
+import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 //declare var jQuery: any;
 /**
  * Generated class for the ComposePage page.
@@ -135,6 +136,19 @@ export class ComposePage {
   ionViewWillLeave() {
     //this.tabBarElement.style.display = 'flex';
   }
+
+  preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
+      imagedata: imagedata,
+      record: this.navParams.get('item'),
+      frompage: frompage,
+      from: from,
+      favstatus: favstatus,
+      message_readstatus: message_readstatus,
+      messageid: messageid
+    });
+  }
+
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
 
