@@ -41,13 +41,13 @@ export class CommentdetailsPage {
   comment_resources;
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
-  tabBarElement: any;
+  //tabBarElement: any;
   eventitem;
   user_photo;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+      //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
     this.platform.registerBackButtonAction(() => {
       this.previous();
@@ -56,12 +56,12 @@ export class CommentdetailsPage {
 
   ionViewWillLeave() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'flex';
+      //this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'none';
+      //this.tabBarElement.style.display = 'none';
     }
     console.log("Nav Param:" + JSON.stringify(this.NP));
     if (this.NP.get("event_id")) {

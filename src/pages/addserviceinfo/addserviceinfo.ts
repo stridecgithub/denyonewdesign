@@ -92,7 +92,7 @@ export class AddserviceinfoPage {
   }
 
   public hideActionButton = true;
-  tabBarElement: any;
+  //tabBarElement: any;
   public atmentioneddata = [];
   public companyId: any;
 
@@ -157,7 +157,7 @@ export class AddserviceinfoPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+   // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -210,10 +210,10 @@ export class AddserviceinfoPage {
     return this.servicemindate;
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+   // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
     console.log('ionViewDidLoad AddserviceinfoPage');
     localStorage.setItem("fromModule", "AddserviceinfoPage");

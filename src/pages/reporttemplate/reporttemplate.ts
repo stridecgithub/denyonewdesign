@@ -38,6 +38,8 @@ export class ReporttemplatePage {
   public reporttemplate;
   public msgcount: any;
   public notcount: any;
+  
+footerBar: number = 0;
   pet: string = "ALL";
   public reportData: any =
   {

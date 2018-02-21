@@ -73,7 +73,7 @@ export class ComposePage {
   composemessagecontent;
   subject;
   to;
-  tabBarElement: any;
+ // tabBarElement: any;
   isopenorclose = 1;
   close = 0;
   open = 1;
@@ -115,7 +115,7 @@ export class ComposePage {
     this.userId = localStorage.getItem("userInfoId");
     this.replyforward = 0;
     this.isReply = 0;
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.close = 1;
     this.open = 0;
   }
@@ -133,10 +133,10 @@ export class ComposePage {
     }
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
 
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');

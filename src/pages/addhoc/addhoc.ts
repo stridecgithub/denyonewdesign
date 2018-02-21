@@ -85,13 +85,13 @@ export class AddhocPage {
     addedImgLists2: ''
   }
   public hideActionButton = true;
-  tabBarElement: any;
+  //tabBarElement: any;
   next_service_date_selected;
   atmentioneddata = [];
   companyId
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -147,13 +147,13 @@ export class AddhocPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
 
     let already = localStorage.getItem("microtime");
     if (already != undefined && already != 'undefined' && already != '') {

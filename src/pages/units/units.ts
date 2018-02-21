@@ -21,7 +21,7 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-
+  footerBar: number = 0;
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";
@@ -34,7 +34,7 @@ export class UnitsPage {
   public sortLblTxt: string = 'Favourites';
   testRadioOpen: boolean;
   testRadioResult;
-  tabBarElement: any;
+  //tabBarElement: any;
   public reportData: any =
     {
       status: '',
@@ -57,11 +57,11 @@ export class UnitsPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ionViewWillEnter() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));

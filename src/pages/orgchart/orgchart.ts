@@ -67,6 +67,7 @@ export class OrgchartPage {
 
   iframeContent: any;
   public profilePhoto;
+  footerBar: number = 0;
   constructor(private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public navParams: NavParams) {
     //this.width = 1;

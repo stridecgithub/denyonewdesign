@@ -31,6 +31,7 @@ import { Config } from '../../config/config';
 export class AdduserPage {
   // Define FormBuilder /model properties
   public loginas: any;
+  footerBar: number = 0;
   public form: FormGroup;
   public first_name: any;
   public last_name: any;

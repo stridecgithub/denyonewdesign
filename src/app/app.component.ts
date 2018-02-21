@@ -6,7 +6,7 @@ import { LoginPage } from "../pages/login/login";
 /* For Notification */
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
-import { TabsPage } from "../pages/tabs/tabs";
+//import { TabsPage } from "../pages/tabs/tabs";
 import { Config } from '../config/config';
 
 import { AttentionPage } from "../pages/attention/attention";
@@ -40,7 +40,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
 export class MyApp {
   @Output() input: EventEmitter<string> = new EventEmitter<string>();
   @Input('br-data-dependency') nextIonInputId: any = null;
-  rootPage: any = TabsPage;
+  rootPage: any = LoginPage;
   firstname;
   lastname;
   companyId;
@@ -492,7 +492,7 @@ export class MyApp {
       this.menuActive = 'menuactive-units';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'units', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 1 });
+      this.navCtrl.setRoot(UnitsPage, { tabIndex: 1 });
     } else if (page.component == 'UnitgroupPage') {
       this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });
     } else if (page.component == 'MyaccountPage') {
@@ -506,14 +506,14 @@ export class MyApp {
     } else if (page.component == 'ReporttemplatePage') {
       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 4 });
+      this.navCtrl.setRoot(OrgchartPage, { tabIndex: 4 });
     } else if (page.component == 'EventsandcommentsPage') {
       this.navCtrl.setRoot(EventsandcommentsPage);
     } else if (page.title == 'Message') {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'messages', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 3 });
+      this.navCtrl.setRoot(MessagesPage, { tabIndex: 3 });
     } else if (page.title == 'Logout') {
       this.menuActive = 'menuactive-logout';
       this.events.publish('menu:created', 'logout', Date.now());
@@ -525,7 +525,7 @@ export class MyApp {
       this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'dashboard', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 0 });
+      this.navCtrl.setRoot(DashboardPage, { tabIndex: 0 });
 
     } else if (page.title == 'Reports') {
       this.menuActive = 'menuactive-reports';
@@ -536,7 +536,7 @@ export class MyApp {
       this.menuActive = 'menuactive-calendar';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'calendar', Date.now());
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 2 });
+      this.navCtrl.setRoot(CalendarPage, { tabIndex: 2 });
     } else if (page.title == 'Reports') {
       this.menuCtrl.close();
       this.navCtrl.setRoot(ReportsPage);

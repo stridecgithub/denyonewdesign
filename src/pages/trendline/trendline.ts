@@ -19,7 +19,7 @@ import { ModalPage } from '../modal/modal';
   providers: [Config]
 })
 export class TrendlinePage {
-  tabBarElement: any;
+  //tabBarElement: any;
   iframeContent: any;
   public userId: any;
   public unitDetailData: any = {
@@ -37,14 +37,14 @@ export class TrendlinePage {
   constructor( public modalCtrl: ModalController,public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platfom.registerBackButtonAction(() => {
       this.previous();
     });
   }
 
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   
 presentModal(unit) {
@@ -54,7 +54,7 @@ presentModal(unit) {
 }
   ionViewDidLoad() {
     console.log("Navigation data of item" + JSON.stringify(this.navParams.get("record")));
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad TrendlinePage');
     console.log("Alaram Id" + this.navParams.get("alarmid"));
     let alarmID = this.navParams.get("alarmid");

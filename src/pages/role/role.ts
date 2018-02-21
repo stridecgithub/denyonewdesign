@@ -13,7 +13,7 @@ import { CompanygroupPage } from '../companygroup/companygroup';
 import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 /**
  * Generated class for the AddrolePage page.
@@ -27,6 +27,7 @@ import { Config } from '../../config/config';
   providers: [Config]
 })
 export class RolePage {
+  footerBar: number = 0;
   public pageTitle: string;
   public loginas: any;
   private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
@@ -41,17 +42,17 @@ export class RolePage {
   public vendorsort = "asc";
   public ascending = true;
   public reportData: any =
-  {
-    status: '',
-    sort: 'asc',
-    sortascdesc: '',
-    startindex: 0,
-    results: 8
-  }
+    {
+      status: '',
+      sort: 'asc',
+      sortascdesc: '',
+      startindex: 0,
+      results: 8
+    }
   public roleAllLists = [];
   profilePhoto;
   constructor(public http: Http, private conf: Config,
-   public nav: NavController,
+    public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Roles';
     this.loginas = localStorage.getItem("userInfoName");
@@ -65,10 +66,10 @@ export class RolePage {
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
 
@@ -77,8 +78,8 @@ export class RolePage {
 
     this.reportData.startindex = 0;
     this.reportData.sort = "createdon";
-   
-      this.doRole();
+
+    this.doRole();
 
   }
 
@@ -149,7 +150,7 @@ export class RolePage {
     }, 500);
     console.log('E');
   }
- 
+
 
   doAdd() {
     this.nav.setRoot(AddrolePage);

@@ -32,6 +32,7 @@ import { ChangepasswordPage } from '../changepassword/changepassword';
   providers: [Config]
 })
 export class MyaccountPage {
+  footerBar: number = 0;
   public pageTitle: string;
   public photo: any;
   public name: any;

@@ -60,7 +60,7 @@ export class MessageDetailViewPage {
   totalCount;
   totalFileSize = 0;
   from;
-  tabBarElement: any;
+  //tabBarElement: any;
   isopenorclose = 1;
   close = 0;
   open = 1;
@@ -81,7 +81,7 @@ export class MessageDetailViewPage {
     });
     this.isCompose = 0;
     if (this.navParams.get("from") != 'push') {
-      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+      //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
     this.close = 1;
     this.open = 0;
@@ -111,12 +111,12 @@ export class MessageDetailViewPage {
   }
   ionViewWillLeave() {
     if (this.navParams.get("from") != 'push') {
-      this.tabBarElement.style.display = 'flex';
+     // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.navParams.get("from") != 'push') {
-      this.tabBarElement.style.display = 'none';
+      //this.tabBarElement.style.display = 'none';
     }
     console.log('ionViewDidLoad MessageDetailViewPage');
     this.detailItem = this.navParams.get('item');

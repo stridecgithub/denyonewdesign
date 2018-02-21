@@ -69,4 +69,5 @@
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitAllLists.length!=0">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>

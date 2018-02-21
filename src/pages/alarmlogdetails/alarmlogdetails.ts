@@ -40,7 +40,7 @@ export class AlarmlogdetailsPage {
     addedImgLists2: ''
   }
   public userId: any;
-  tabBarElement: any;
+  //tabBarElement: any;
   alarm_assginedby_hashtag;
   alarm_assginedto_hashtag
   constructor(private platform:Platform,private conf: Config, public navCtrl: NavController, public navParams: NavParams,
@@ -53,17 +53,17 @@ export class AlarmlogdetailsPage {
       "alarm_received_date": ["", Validators.required]
 
     });
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
      this.platform.registerBackButtonAction(() => {
       this.previous();
     });
   }
   //{"alarm_id":"1","alarm_name":"Emergency Stop","alarm_assginedby_name":"Guest 1 Demo","alarm_assginedto_name":"Chun Hsin Ler","alarm_priority":"1","alarm_received_date":"05 Dec 2017 03:43PM","alarm_received_time":"03:43 PM","alarm_remark":"please check what is the problem. Thank."}
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-   this.tabBarElement.style.display = 'none';
+  // this.tabBarElement.style.display = 'none';
     let record = this.navParams.get("record");
     console.log(JSON.stringify(record));
 

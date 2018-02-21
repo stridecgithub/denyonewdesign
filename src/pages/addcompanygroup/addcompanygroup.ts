@@ -25,6 +25,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 })
 export class AddcompanygroupPage {
   // Define FormBuilder /model properties
+  footerBar: number = 0;
   public loginas: any;
   public form: FormGroup;
   public companygroup_name: any;

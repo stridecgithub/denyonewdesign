@@ -18,7 +18,7 @@ import { ModalPage } from '../modal/modal';
   providers: [Config]
 })
 export class UnitdetailgraphPage {
-  tabBarElement: any;
+ // tabBarElement: any;
   iframeContent: any;
   public userId: any;
   title;
@@ -38,7 +38,7 @@ export class UnitdetailgraphPage {
     public modalCtrl: ModalController, public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platfom.registerBackButtonAction(() => {
       this.previous();
     });
@@ -49,11 +49,11 @@ export class UnitdetailgraphPage {
     modal.present();
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    ///this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
     console.log("Navigation data of item" + JSON.stringify(this.navParams.get("record")));
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad TrendlinePage');
     console.log("Alaram Id" + this.navParams.get("alarmid"));
     let unit_id = this.navParams.get("unit_id");

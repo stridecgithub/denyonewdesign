@@ -46,13 +46,13 @@ export class EventDetailsServicePage {
   private apiServiceURL: string = "";
   next_service_date_mobileview;
   next_service_date_selected;
-  tabBarElement: any;
+  //tabBarElement: any;
   eventitem;
   frompage;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+      //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
     this.platform.registerBackButtonAction(() => {
       this.previous();
@@ -61,12 +61,12 @@ export class EventDetailsServicePage {
 
   ionViewWillLeave() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'flex';
+     // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'none';
+      //this.tabBarElement.style.display = 'none';
     }
 
     this.frompage = this.NP.get("from");

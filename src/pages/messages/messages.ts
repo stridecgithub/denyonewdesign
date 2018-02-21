@@ -13,7 +13,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
   providers: [Config]
 })
 export class MessagesPage {
-
+  footerBar: number = 0;
   public tabs: string = 'inboxView';
   isReadyToSave: boolean;
   public photoInfo = [];
@@ -122,7 +122,7 @@ export class MessagesPage {
 
   testRadioOpen: boolean;
   testRadioResult;
-  tabBarElement;
+ // tabBarElement;
   public profilePhoto;
   constructor(public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();

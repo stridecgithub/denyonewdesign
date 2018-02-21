@@ -85,7 +85,7 @@ export class AddcalendarPage {
   private apiServiceURL: string = "";
   private permissionMessage: string = "";
   public networkType: string;
-  tabBarElement: any;
+  //tabBarElement: any;
   constructor(private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
@@ -246,7 +246,7 @@ export class AddcalendarPage {
         this.previous();
       });
     });
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -381,10 +381,10 @@ export class AddcalendarPage {
     return number.toString().length;
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad  AddcalendarPage');
     localStorage.setItem("fromModule", "AddcalendarPage");
 

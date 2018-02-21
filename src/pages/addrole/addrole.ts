@@ -23,6 +23,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
 export class AddrolePage {
   // Define FormBuilder /model properties
   public loginas: any;
+  footerBar: number = 0;
   public form: FormGroup;
   public role_name: any;
   public userId: any;

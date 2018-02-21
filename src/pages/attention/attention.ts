@@ -1,7 +1,7 @@
 import { Component, Pipe } from '@angular/core';
 import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { TabsPage } from "../tabs/tabs";
+//import { TabsPage } from "../tabs/tabs";
 import { DomSanitizer } from '@angular/platform-browser';
 /**
  * Generated class for the AttentionPage page.
@@ -47,7 +47,7 @@ export class AttentionPage {
         {
           text: 'Back',
           handler: () => {
-            this.navCtrl.setRoot(TabsPage);
+            //this.navCtrl.setRoot(TabsPage);
           }
         }
       ]
@@ -55,6 +55,6 @@ export class AttentionPage {
     confirm.present();
   }
   previous() {
-    this.navCtrl.setRoot(TabsPage);
+    //this.navCtrl.setRoot(TabsPage);
   }
 }

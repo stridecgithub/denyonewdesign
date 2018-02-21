@@ -153,41 +153,41 @@
 <ion-content>
 
 
-    <div class="user-img">
-        <div class="profile-title">Profile Photo</div>
-        <img src="{{addedImgLists}}" width="100" height="100" alt="">
-    	<div class="user-name">User Information*</div>
-        <div style="position: absolute;
+  <div class="user-img">
+    <div class="profile-title">Profile Photo</div>
+    <img src="{{addedImgLists}}" width="100" height="100" alt="">
+    <div class="user-name">User Information*</div>
+    <div style="position: absolute;
         left: 54%;
         top: 18%;" class="user-camera-block">
-    
-    
-          <a (click)="fileChooser()" href="#" *ngIf="!addedImgLists">
-            <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
+
+
+      <a (click)="fileChooser()" href="#" *ngIf="!addedImgLists">
+        <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
             color: #009ACD;
             border-radius: 50%;
             border: 1px solid #006BF4;
             width: 40px;
             height: 40px;"></ion-icon>
-          </a>
-          <a (click)="fileChooser()" href="#" *ngIf="addedImgLists">
-            <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
+      </a>
+      <a (click)="fileChooser()" href="#" *ngIf="addedImgLists">
+        <ion-icon name="camera" style="font-size: 17pt;background-color:#fff;line-height: 35px;
             color: #009ACD;
             border-radius: 50%;
             border: 1px solid #006BF4;
             width: 40px;
             height: 40px;"></ion-icon>
-          </a>
-    
-    
-        </div>
-      </div>
-      <div style="text-align:center" *ngIf="isProgress">
-        <span style="color:green">Profile photo uploaded. please wait</span>
-        <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
-        <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
-      </div>
-      
+      </a>
+
+
+    </div>
+  </div>
+  <div style="text-align:center" *ngIf="isProgress">
+    <span style="color:green">Profile photo uploaded. please wait</span>
+    <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
+    <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+  </div>
+
 
 
   <form [formGroup]="form" (ngSubmit)="saveEntry()" class="edit-profo">
@@ -242,14 +242,14 @@
       </div> -->
 
       <div class="contactinfo">
-          <ion-label stacked>Contact Number
-            <span class="mandatory" *ngIf="hideActionButton">*</span>
-          </ion-label>
-          <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
-            [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
-          <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
-        </div>
-      
+        <ion-label stacked>Contact Number
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
+          [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
+        <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
+      </div>
+
 
 
       <ion-item>
@@ -264,59 +264,76 @@
 
 
       <ion-item>
-          <ion-label stacked>User Id <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" [(ngModel)]="username"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label stacked>Password <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-input type="password" [disabled]="readOnly" formControlName="password" [(ngModel)]="password"></ion-input>
-        </ion-item>
-
-
-        <ion-item>
-          <ion-label stacked>Confirm Password <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-input type="password" [disabled]="readOnly" formControlName="re_password" [(ngModel)]="re_password"></ion-input>
-        </ion-item>
-
-
-
-        <ion-item>
-          <ion-label stacked>Personal Hashtag<span class="mandatory" *ngIf="hideActionButton"> *</span></ion-label>
-          <ion-input type="text" [disabled]=true formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label stacked>Role <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-          <ion-select [disabled]="readOnly" [(ngModel)]="role" formControlName="role">
-            <ion-option *ngFor="let roleData of responseResultRoleDropDown" value="{{roleData.role_id}}">{{roleData.role_name}}</ion-option>
-          </ion-select>
-        </ion-item>
-
-
-        <ion-item>
-            <ion-label stacked>Job Position <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-            <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label stacked>Company <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
-            <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged()">
-              <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
-            </ion-select>
-          </ion-item>
-  
-          <ion-item style="padding-bottom:15px;">
-            <ion-label stacked>Report To</ion-label>
-            <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
-              <ion-option  value="0" *ngIf="this.len==0">N/A</ion-option>
-              <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}" >{{userData.firstname}} {{userData.lastname}}</ion-option>
-            </ion-select>
-          </ion-item>
-
-    </ion-list>
-    <ion-item *ngIf="hideActionButton" style="background-color:#fff;" class="last-btn">
-        <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
+        <ion-label stacked>User Id
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" [(ngModel)]="username"></ion-input>
       </ion-item>
 
+      <ion-item>
+        <ion-label stacked>Password
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input type="password" [disabled]="readOnly" formControlName="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label stacked>Confirm Password
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input type="password" [disabled]="readOnly" formControlName="re_password" [(ngModel)]="re_password"></ion-input>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label stacked>Personal Hashtag
+          <span class="mandatory" *ngIf="hideActionButton"> *</span>
+        </ion-label>
+        <ion-input type="text" [disabled]=true formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Role
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-select [disabled]="readOnly" [(ngModel)]="role" formControlName="role">
+          <ion-option *ngFor="let roleData of responseResultRoleDropDown" value="{{roleData.role_id}}">{{roleData.role_name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label stacked>Job Position
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Company
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged()">
+          <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item style="padding-bottom:15px;">
+        <ion-label stacked>Report To</ion-label>
+        <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
+          <ion-option value="0" *ngIf="this.len==0">N/A</ion-option>
+          <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item style="background-color:#fff;" class="last-btn">
+        <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
+      </ion-item>
+    </ion-list>
+
+
   </form>
+  <br>
+  <br>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>

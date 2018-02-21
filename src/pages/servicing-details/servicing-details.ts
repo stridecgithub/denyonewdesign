@@ -42,7 +42,7 @@ export class ServicingDetailsPage {
   next_service_date_mobileview;
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
-  tabBarElement: any;
+  //tabBarElement: any;
   service_time;
   hoursadd24hourformat;
   constructor(public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http) {
@@ -50,13 +50,13 @@ export class ServicingDetailsPage {
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad ServicingDetailsPage');
     console.log("Record" + JSON.stringify(this.navParams.get("record")));
     console.log("From" + this.navParams.get("from"));

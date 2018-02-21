@@ -63,7 +63,7 @@ export class MessagedetailPage {
   totalCount;
   totalFileSize = 0;
   from;
-  tabBarElement: any;
+  //tabBarElement: any;
   isopenorclose = 1;
   close = 0;
   open = 1;
@@ -84,7 +84,7 @@ export class MessagedetailPage {
 
     });
     this.isCompose = 0;
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.close = 1;
     this.open = 0;
     this.platform.registerBackButtonAction(() => {
@@ -128,7 +128,7 @@ export class MessagedetailPage {
     }
   }
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
 

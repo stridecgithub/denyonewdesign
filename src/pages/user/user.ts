@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AdduserPage } from '../adduser/adduser';
@@ -14,7 +14,7 @@ import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 
 /**
@@ -31,33 +31,34 @@ import { Config } from '../../config/config';
 })
 
 export class UserPage {
+  footerBar: number = 0;
   public loginas: any;
   public pageTitle: string;
   private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
-   private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-   public VIEWACCESS: any;
+  private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
+  public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
   public sortby = 2;
   public vendorsort = "asc";
   public ascending = true;
-  public companyId:any;
-  public msgcount:any;
-  public notcount:any;
+  public companyId: any;
+  public msgcount: any;
+  public notcount: any;
   profilePhoto;
   public sortLblTxt: string = 'Name';
   public reportData: any =
-  {
-    status: '',
-    
-    sort: 'firstname',
-    sortascdesc: 'asc',
-    startindex: 0,
-    results: 50
-  }
+    {
+      status: '',
+
+      sort: 'firstname',
+      sortascdesc: 'asc',
+      startindex: 0,
+      results: 50
+    }
   public userAllLists = [];
   constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
@@ -65,20 +66,20 @@ export class UserPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_USERLIST_VIEW");
-    console.log("Role Authority for Unit Listing View:"+this.VIEWACCESS );
+    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERLIST_CREATE");
-    console.log("Role Authority for Unit Listing Create:"+this.CREATEACCESS );
+    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
     this.EDITACCESS = localStorage.getItem("SETTINGS_USERLIST_EDIT");
-    console.log("Role Authority for Unit Listing Edit:"+this.EDITACCESS )
+    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS)
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERLIST_DELETE");
-    console.log("Role Authority for Unit Listing Delete:"+this.DELETEACCESS )
+    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS)
 
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
 
@@ -110,7 +111,7 @@ export class UserPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/staff?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc+"&companyid="+this.companyId;
+      url: any = this.apiServiceURL + "/staff?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
     console.log(url);
     this.http.get(url, options)
@@ -151,29 +152,29 @@ export class UserPage {
     console.log('E');
   }
 
-  
+
 
   ionViewDidLoad() {
-     let //body: string = "loginid=" + this.userId,
+    let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
     console.log(url);
-   // console.log(body);
+    // console.log(body);
 
     this.http.get(url, options)
       .subscribe((data) => {
         console.log("Count Response Success:" + JSON.stringify(data.json()));
-       this.msgcount=data.json().msgcount;
-        this.notcount=data.json().notifycount;
+        this.msgcount = data.json().msgcount;
+        this.notcount = data.json().notifycount;
       });
-   
-   
-       this.reportData.startindex = 0;
+
+
+    this.reportData.startindex = 0;
     this.reportData.sort = "staff_id";
     this.doUser();
-   
+
   }
 
   doAdd() {
@@ -324,12 +325,12 @@ export class UserPage {
           type: 'radio',
           label: 'Name',
           value: 'firstname',
-        },{
+        }, {
           type: 'radio',
           label: 'Group',
           value: 'companygroup_name'
         }
-       ,
+        ,
       ],
       buttons: [
         {

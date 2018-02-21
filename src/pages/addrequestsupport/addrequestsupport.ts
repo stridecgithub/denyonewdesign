@@ -65,7 +65,7 @@ export class AddrequestsupportPage {
     addedImgLists2: ''
   }
   public hideActionButton = true;
-  tabBarElement: any;
+  //tabBarElement: any;
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
     private ngZone: NgZone) {
     this.uploadcount = 10;
@@ -107,14 +107,14 @@ export class AddrequestsupportPage {
         this.previous();
       });
     });
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+   // this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+   // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
     console.log('ionViewDidLoad AddrequestsupportPage');
     localStorage.setItem("fromModule", "AddrequestsupportPage");

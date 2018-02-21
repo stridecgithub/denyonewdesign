@@ -1,8 +1,9 @@
 import { Component, Pipe } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { TabsPage } from "../tabs/tabs";
+//import { TabsPage } from "../tabs/tabs";
 import { DomSanitizer } from '@angular/platform-browser';
+import { DashboardPage } from '../dashboard/dashboard';
 /**
  * Generated class for the MenuPage page.
  *
@@ -45,7 +46,7 @@ export class MenuPage {
         {
           text: 'Back',
           handler: () => {
-            this.navCtrl.setRoot(TabsPage);
+            this.navCtrl.setRoot(DashboardPage);
           }
         }
       ]
@@ -53,6 +54,6 @@ export class MenuPage {
     confirm.present();
   }
   previous() {
-    this.navCtrl.setRoot(TabsPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
 }

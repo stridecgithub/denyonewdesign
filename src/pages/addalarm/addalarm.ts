@@ -59,7 +59,7 @@ export class AddalarmPage {
   private permissionMessage: string = "";
   public networkType: string;
   item;
-  tabBarElement: any;
+  //tabBarElement: any;
   alarm_assigned_date: any;
   mindate;
   alarm_assgined_to;
@@ -103,8 +103,8 @@ export class AddalarmPage {
     this.uname = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -112,10 +112,10 @@ export class AddalarmPage {
 
 
   ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
+    //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
 
     console.log('ionViewDidLoad AddalarmPage');
     localStorage.setItem("fromModule", "AddalarmPage");

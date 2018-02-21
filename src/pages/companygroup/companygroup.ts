@@ -30,6 +30,7 @@ import { Config } from '../../config/config';
   providers: [Config]
 })
 export class CompanygroupPage {
+  footerBar: number = 0;
   public pageTitle: string;
   public loginas: any;
   public Role;

@@ -7,7 +7,8 @@ import { Config } from '../../config/config';
 import { NativeGeocoder, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { PiclocationPage } from "../piclocation/piclocation";
 import { UnitsPage } from "../units/units";
-import { TabsPage } from '../tabs/tabs';
+import { DashboardPage } from '../dashboard/dashboard';
+//import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the AddUnitPage page.
  *
@@ -45,7 +46,7 @@ export class AddUnitPage {
   contacts;
   pageTitle;
   public locationedit: boolean = false;
-  tabBarElement: any;
+  //tabBarElement: any;
   constructor(private nativeGeocoder: NativeGeocoder, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder) {
     this.form = fb.group({
@@ -67,7 +68,7 @@ export class AddUnitPage {
     this.getCompanyListData();
     this.getUnitGroupListData();
     this.getJsonModelListData();
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -77,7 +78,7 @@ export class AddUnitPage {
     // this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad AddUnitPage');
     console.log("Navigation data from back notification settings" + JSON.stringify(this.navParams.get("accountsInfo")));
     if (this.navParams.get("accountsInfo") == undefined) {
@@ -204,7 +205,7 @@ export class AddUnitPage {
   previous() {
 
     if (this.navParams.get("from") == 'dashboard') {
-      this.navCtrl.setRoot(TabsPage, { tabIndex: 0, tabs: 'listView' });
+      this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
     } else {
       this.navCtrl.setRoot(UnitsPage, {
 

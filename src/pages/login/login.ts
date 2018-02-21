@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Platform, IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
-//import { DashboardPage } from "../dashboard/dashboard";
+import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { TabsPage } from "../tabs/tabs";
+//import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { TimerProgress } from '../timerprogress/timerprogress';
@@ -106,7 +106,7 @@ export class LoginPage {
     if (this.userId > 0) {
       console.log("login.ts E");
       console.log("login.ts  User id logged out action from dashboard.ts");
-      this.navCtrl.setRoot(TabsPage, { selectedindex: 0 });
+      this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
     }
 
   }
@@ -164,7 +164,7 @@ export class LoginPage {
             error => console.error('Error storing item', error)
             );
 
-          this.navCtrl.setRoot(TabsPage, {
+          this.navCtrl.setRoot(DashboardPage, {
             companyId: res['staffdetails'][0].company_id,
             userId: res['staffdetails'][0].staff_id,
           });

@@ -52,6 +52,7 @@ export class EnginedetailviewPage {
   iframeContent: any;
   public msgcount: any;
   public notcount: any;
+  
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");

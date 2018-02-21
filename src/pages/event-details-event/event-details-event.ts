@@ -36,13 +36,13 @@ export class EventDetailsEventPage {
   event_dot_color;
   item;
   service_remark;
-  tabBarElement: any;
+ // tabBarElement: any;
   eventitem;
   private apiServiceURL: string = "";
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+     /// this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
     this.platform.registerBackButtonAction(() => {
       this.previous();
@@ -51,12 +51,12 @@ export class EventDetailsEventPage {
 
   ionViewWillLeave() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'flex';
+     // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.NP.get("from") != 'Push') {
-      this.tabBarElement.style.display = 'none';
+     // this.tabBarElement.style.display = 'none';
     }
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");

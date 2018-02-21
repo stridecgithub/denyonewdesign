@@ -15,7 +15,7 @@ import { HttpModule } from '@angular/http';
 import { AddcalendarPage } from "../pages/addcalendar/addcalendar";
 import { DragulaModule } from "ng2-dragula/ng2-dragula"
 //import { AlarmdetailsPage } from '../pages/alarmdetails/alarmdetails';
-import { TabsPage } from "../pages/tabs/tabs";
+//import { TabsPage } from "../pages/tabs/tabs";
 import { UnitsPage } from "../pages/units/units";
 import { CalendarPage } from "../pages/calendar/calendar";
 import { OrgchartPage } from "../pages/orgchart/orgchart";
@@ -97,9 +97,10 @@ import { ModalPage } from '../pages/modal/modal';
 import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode';
 import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
-
+import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 @NgModule({
-  declarations: [
+  declarations: [    
+    ProgressBarComponent,
     ReporttemplatedetailPage,
     Unitgrouplist,
     PopovercolorcodePage,
@@ -136,7 +137,7 @@ import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reportte
     ForgotpasswordPage,
     EventDetailsServicePage,
     MessagesPage,
-    TabsPage,
+    //TabsPage,
     UnitsPage,
     CalendarPage,
     OrgchartPage,
@@ -206,6 +207,7 @@ import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reportte
     })],
   bootstrap: [IonicApp],
   entryComponents: [
+    ProgressBarComponent,
     ReporttemplatedetailPage,
     Unitgrouplist,
     PopovercolorcodePage,
@@ -240,7 +242,7 @@ import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reportte
     CalendarPage,
     AddcalendarPage,
     EventDetailsServicePage,
-    TabsPage,
+    //TabsPage,
     UnitsPage,
     CalendarPage,
     OrgchartPage,

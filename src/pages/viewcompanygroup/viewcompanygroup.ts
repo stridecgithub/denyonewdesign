@@ -27,6 +27,7 @@ export class ViewcompanygroupPage {
   public contact: any;
   public userId: any;
   public totaluser:any;
+  footerBar: number = 0;
   public totalunit:any;
   public responseResultCountry: any;
   public recordID: any = null;

@@ -38,7 +38,8 @@ export class EditprofilesteponePage {
   public userId: any;
   public hashtag: any;
   report_to;
-  naDisplay
+  naDisplay;
+  footerBar: number = 0;
   public job_position: any;
   public company_group: any;
   progress: number;

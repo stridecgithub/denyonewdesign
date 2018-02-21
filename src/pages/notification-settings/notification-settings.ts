@@ -6,7 +6,8 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from '../add-unit/add-unit';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { TabsPage } from '../tabs/tabs';
+import { DashboardPage } from '../dashboard/dashboard';
+//import { TabsPage } from '../tabs/tabs';
 //declare var jQuery: any;
 //declare var tagEditor: any;
 /**
@@ -79,7 +80,7 @@ export class NotificationSettingsPage {
   public contactInfo = [];
   public previousFormData = [];
   public unitgroups_id: any;
-  tabBarElement: any;
+  //tabBarElement: any;
   serial_number: any;
   contactpersonal;
   contactnumber;
@@ -138,7 +139,7 @@ export class NotificationSettingsPage {
     console.log("Is Edited?" + this.navParams.get("isEdited"));
 
     console.log(this.isEdited);
-    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+   // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   geninfo(item, editdata) {
     console.log("Get Info:" + JSON.stringify(item));
@@ -237,7 +238,7 @@ export class NotificationSettingsPage {
       this.isEdited = 0;
     }
     this.addmorebtn = 1;
-    this.tabBarElement.style.display = 'none';
+    //this.tabBarElement.style.display = 'none';
 
     console.log('ionViewDidLoad NotificationSettingsPage');
     // Atmentioned API Calls
@@ -697,7 +698,7 @@ export class NotificationSettingsPage {
               });
             } else if (this.navParams.get("from") == 'dashboard') {
 
-              this.navCtrl.setRoot(TabsPage, { tabIndex: 0, tabs: 'listView' });
+              this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
               // this.navCtrl.setRoot(DashboardPage, {
               //   record: this.navParams.get("record"),
               //   tabs: 'listView'

@@ -23,6 +23,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
   templateUrl: 'addreporttemplate.html',
 })
 export class AddreporttemplatePage {
+  footerBar: number = 0;
   public items = [];
   public template_data = [];
   public getCheckboxData = [];

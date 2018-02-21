@@ -51,7 +51,7 @@ export class UnitgroupPage {
   public userId: any;
   public companyId;
   public profilePhoto;
-  tabBarElement: any;
+  //tabBarElement: any;
   constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.apiServiceURL = conf.apiBaseURL();

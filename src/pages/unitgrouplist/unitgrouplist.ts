@@ -54,7 +54,7 @@ export class Unitgrouplist {
   public notcount: any;
   colorcode;cname;favoriteindication;unitgroup_name;totalunits
   //Authorization Declaration
-
+  footerBar: number = 0;
   //Authorization Declaration
   public reportData: any =
   {

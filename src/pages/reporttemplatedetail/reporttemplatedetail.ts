@@ -17,6 +17,7 @@ import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 export class ReporttemplatedetailPage {
   public templatename;
   public availableheading = [];
+  footerBar: number = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
   ionViewDidLoad() {
