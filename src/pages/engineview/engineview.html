@@ -27,25 +27,20 @@
   </ion-header> -->
 
 
-  <ion-header>
-      <ion-toolbar color="primary">
-        <ion-buttons left>
-          <button ion-button icon-only (click)="previous()">
-            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
-          </button>
-        </ion-buttons>
-    
-        <ion-title>Engine View</ion-title>
-    
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="previous()">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Engine View</ion-title>
+
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-
-
-<ion-content padding>
- <!-- <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(iframeContent)"></div> -->
- <iframe width="100%"  height="500" [src]="iframeContent" frameborder="0"></iframe>
+  <!-- <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(iframeContent)"></div> -->
+  <iframe width="100%" height="500" [src]="iframeContent" frameborder="0"></iframe>
 </ion-content>
