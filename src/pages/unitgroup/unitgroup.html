@@ -50,8 +50,8 @@
         <span class="initial"  [ngStyle]="{'background-color': '#' + unitgroup.colorcode}">{{unitgroup.cname}}</span>
     
 
-        <button (click)="favorite(unitgroup.unitgroup_id)" class="{{unitgroup.favoriteindication}}" style="    margin-top: 5px;float: right ;width:30px;height:30px;background-color:#ffffff"></button>
-        <div style="overflow: hidden; padding-left: .5em;">
+        <button (click)="favorite(unitgroup.unitgroup_id)" class="{{unitgroup.favoriteindication}}" style="float: right ;width:30px;height:30px;background-color:#ffffff"></button>
+        <div class="group-info">
           <h2>
             <b>{{unitgroup.unitgroup_name}}</b>
           </h2>

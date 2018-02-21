@@ -95,6 +95,9 @@ import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
 import { ModalPage } from '../pages/modal/modal';
 import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode';
+
+import { PopoverchoosecolorPage } from '../pages/popoverchoosecolor/popoverchoosecolor';
+
 import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
@@ -186,7 +189,8 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     //ReporttemplatedetailPage,
     //  ChangepasswordPage,
 
-    EngineviewPage
+    EngineviewPage,
+	PopoverchoosecolorPage
 
   ],
   imports: [
@@ -292,7 +296,8 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     //ReporttemplatedetailPage,
     //ChangepasswordPage
 
-    EngineviewPage
+    EngineviewPage,
+	PopoverchoosecolorPage
   ],
   providers: [
     Config,

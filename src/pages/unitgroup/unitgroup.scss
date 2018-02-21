@@ -1,4 +1,9 @@
 page-unitgroup {
+	.group-info {
+		float:left;
+		width:69%;
+		white-space:normal
+	}
     .add-unit-btn {
       background: #424242;
       border-radius: 0;
@@ -22,5 +27,11 @@ page-unitgroup {
       margin-top: 3px;
       margin-right: 10px;
     }
+	.list-favorite {
+		margin-top:-15px;
+	}
+	.list-item .item-inner .label-md{
+		margin: 15px 0 10px 0;
+	}
   }
   
