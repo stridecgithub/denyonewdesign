@@ -1,5 +1,33 @@
 
  page-addrole {  
+ 
+ 	.col span.view, .col span.create, .col span.edit, .col span.delete {
+		 text-align: center;
+		 display: block;
+	}
+	.label-md[stacked] {
+		font-size: 1.5rem;
+	}
+ 	.toggle-md {
+		padding: 4px;
+	 }
+	 .label-md {
+		margin: 0px;
+	}
+	 ion-col ion-label {
+	 	margin-top:4px !important;
+	 }
+	 .grid {
+    	padding: 5px 0;
+	}
+	.item-md {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	ion-item.item-md {
+		min-height: 25px;
+    	margin-bottom: 10px;
+	}
     .border-bottom-validtion{
         border-bottom-color: red;
         border-bottom-width: 2px;
@@ -13,7 +41,7 @@
     .border-need{border:2px solid #000000;}
   
   .input{
-      border: 1px solid #ededed;
+      border: 0px solid #ededed;
   }
 
 
@@ -67,12 +95,12 @@
     }
   
     ion-row {
-      height: 45px;
+      height: 40px;
       background-color: #ffffff;
-      padding-left: 8px;
+      padding-left: 0;
       h4 {
         margin: 0;
-        line-height: 45px;
+        line-height: 40px;
       }
     }
   

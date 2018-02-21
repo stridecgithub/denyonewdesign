@@ -384,294 +384,557 @@
       <div>
           <form [formGroup]="form" (ngSubmit)="saveEntry()">
             <ion-list>
-              <ion-item>
+              <ion-item style="margin-bottom:10px;">
                 <ion-label stacked>Role Name <span class="mandatory" *ngIf="hideActionButton">*</span></ion-label>
                 <ion-input type="text" [disabled]="readOnly" formControlName="role_name" [(ngModel)]="role_name"></ion-input>
               </ion-item>
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Dashboard</ion-label>
-                </ion-item>
-                <div class="action-block-hide"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 4%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 6%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 7%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 10%;"><b>Delete</b></span> <span class="hide-act" style="position: relative;
-          left: 10%;"><b>Hide</b></span>
-                </div>
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Map</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardviewmap" formControlName="dashboardviewmap" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardcreatemap" formControlName="dashboardcreatemap" color="greenm" disabled
+              
+              
+              
+              <ion-grid>
+                  <ion-item>
+                      <ion-label stacked><b>Module : </b>Dashboard</ion-label>
+                    </ion-item>
+                  <ion-row>
+                  	<ion-col col-2>
+						<span class="page"><b>Page</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="view"><b>View</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="create"><b>Create</b></span>
+                    </ion-col>
+                    <ion-col col-2>
+						 <span class="edit"><b>Edit</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="delete"><b>Delete</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="hide-act"><b>Hide</b></span>
+                    </ion-col>
+              	  </ion-row>
+                  
+                  <ion-row>
+                  	<ion-col col-2>
+						<ion-label stacked style="font-size:12px">Map</ion-label>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardviewmap" formControlName="dashboardviewmap" color="greenm" checked="false"></ion-toggle> 
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardcreatemap" formControlName="dashboardcreatemap" color="greenm" disabled checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						 <ion-toggle [(ngModel)]="rolepermissionData.dashboardeditmap" formControlName="dashboardeditmap" color="greenm" disabled checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboarddeletemap" formControlName="dashboarddeletemap" color="greenm" disabled checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardhidemap" formControlName="dashboardhidemap" color="greenm" disabled checked="false"></ion-toggle>
+                    </ion-col>
+              	  </ion-row>
+                  
+                  <ion-row>
+                  	<ion-col col-2>
+						<ion-label stacked style="font-size:12px">Units</ion-label>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardviewunits" formControlName="dashboardviewunits" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardcreateunits" formControlName="dashboardcreateunits" color="greenm" disabled
                     checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardeditmap" formControlName="dashboardeditmap" color="greenm" disabled
+                    </ion-col>
+                    <ion-col col-2>
+						 <ion-toggle [(ngModel)]="rolepermissionData.dashboardeditunits" formControlName="dashboardeditunits" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboarddeleteunits" formControlName="dashboarddeleteunits" color="greenm" disabled
                     checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboarddeletemap" formControlName="dashboarddeletemap" color="greenm" disabled
-                    checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardhidemap" formControlName="dashboardhidemap" color="greenm" disabled
-                    checked="false"></ion-toggle>
-                </ion-item>
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Units</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardviewunits" formControlName="dashboardviewunits" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardcreateunits" formControlName="dashboardcreateunits" color="greenm" disabled
-                    checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardeditunits" formControlName="dashboardeditunits" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboarddeleteunits" formControlName="dashboarddeleteunits" color="greenm" disabled
-                    checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.dashboardhideunits" formControlName="dashboardhideunits" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-              </div>
-      
-      
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;width:100%">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Calendar</ion-label>
-                </ion-item>
-                <div class="action-block"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 23%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 25%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 26%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 28%;"><b>Delete</b></span>
-                </div>
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Events</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calviewevents" formControlName="calviewevents" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calcreateevents" formControlName="calcreateevents" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caleditevents" formControlName="caleditevents" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caldeleteevents" formControlName="caldeleteevents" color="greenm" checked="false"></ion-toggle>
-      
-                </ion-item>
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Services</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calviewservices" formControlName="calviewservices" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calcreateservices" formControlName="calcreateservices" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caleditservices" formControlName="caleditservices" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caldeleteservices" formControlName="caldeleteservices" color="greenm" checked="false"></ion-toggle>
-      
-                </ion-item>
-      
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Alarm</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calviewalarm" formControlName="calviewalarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.calcreatealarm" formControlName="calcreatealarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caleditalarm" formControlName="caleditalarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.caldeletealarm" formControlName="caldeletealarm" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-              </div>
-      
-      
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;width:100%">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Units</ion-label>
-                </ion-item>
-                <div class="action-block"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 23%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 25%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 26%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 28%;"><b>Delete</b></span>
-                </div>
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Units Listing</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.univiewlist" formControlName="univiewlist" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unicreatelist" formControlName="unicreatelist" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unieditlist" formControlName="unieditlist" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unideletelist" formControlName="unideletelist" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Alarm</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.univiewalarm" formControlName="univiewalarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unicreatealarm" formControlName="unicreatealarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unieditalarm" formControlName="unieditalarm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unideletealarm" formControlName="unideletealarm" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-                <ion-item>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.dashboardhideunits" formControlName="dashboardhideunits" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+              	  </ion-row>
+                  
+               </ion-grid>
+               
+               
+               <ion-grid>
+                  <ion-item>
+                      <ion-label stacked><b>Module : </b>Calendar</ion-label>
+                    </ion-item>
+                  <ion-row>
+                  	<ion-col col-4>
+						<span class="page"><b>Page</b></span>
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="view"><b>View</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="create"><b>Create</b></span>
+                    </ion-col>
+                    <ion-col col-2>
+						 <span class="edit"><b>Edit</b></span> 
+                    </ion-col>
+                    <ion-col col-2>
+						<span class="delete"><b>Delete</b></span> 
+                    </ion-col>
+
+              	  </ion-row>
+                  <ion-row>
+                  	
+                    <ion-col col-4>
+						<ion-label stacked style="font-size:12px">Events</ion-label>
+                    </ion-col>
+                  	<ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.calviewevents" formControlName="calviewevents" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.calcreateevents" formControlName="calcreateevents" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						<ion-toggle [(ngModel)]="rolepermissionData.caleditevents" formControlName="caleditevents" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+                    <ion-col col-2>
+						 <ion-toggle [(ngModel)]="rolepermissionData.caldeleteevents" formControlName="caldeleteevents" color="greenm" checked="false"></ion-toggle>
+                    </ion-col>
+
+              	  </ion-row>
+                  
+                  <ion-row>
+                    <ion-col col-4>
+                  		<ion-label stacked style="font-size:12px">Services</ion-label>
+                  	</ion-col>
+                  	<ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.calviewservices" formControlName="calviewservices" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.calcreateservices" formControlName="calcreateservices" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.caleditservices" formControlName="caleditservices" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.caldeleteservices" formControlName="caldeleteservices" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                  </ion-row>
+                  
+                  <ion-row>
+                  	<ion-col col-4>
+                      <ion-label stacked style="font-size:12px">Alarm</ion-label>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.calviewalarm" formControlName="calviewalarm" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.calcreatealarm" formControlName="calcreatealarm" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.caleditalarm" formControlName="caleditalarm" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                        <ion-col col-2>
+                      <ion-toggle [(ngModel)]="rolepermissionData.caldeletealarm" formControlName="caldeletealarm" color="greenm" checked="false"></ion-toggle>
+                      </ion-col>
+                    </ion-row>
+                </ion-grid>
+                
+<ion-grid>
+      <ion-item>
+          <ion-label stacked><b>Module : </b>Units</ion-label>
+        </ion-item>
+          <ion-row>
+            <ion-col col-4>
+                <span class="page"><b>Page</b></span>
+            </ion-col>
+            <ion-col col-2>
+                <span class="view"><b>View</b></span> 
+            </ion-col>
+            <ion-col col-2>
+                <span class="create"><b>Create</b></span>
+            </ion-col>
+            <ion-col col-2>
+                 <span class="edit"><b>Edit</b></span> 
+            </ion-col>
+            <ion-col col-2>
+                <span class="delete"><b>Delete</b></span> 
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col col-4>
+              <ion-label stacked style="font-size:12px">Units Listing</ion-label>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.univiewlist" formControlName="univiewlist" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unicreatelist" formControlName="unicreatelist" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unieditlist" formControlName="unieditlist" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unideletelist" formControlName="unideletelist" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col col-4>
+              <ion-label stacked style="font-size:12px">Alarm</ion-label>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.univiewalarm" formControlName="univiewalarm" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unicreatealarm" formControlName="unicreatealarm" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unieditalarm" formControlName="unieditalarm" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+            <ion-col col-2>  
+              <ion-toggle [(ngModel)]="rolepermissionData.unideletealarm" formControlName="unideletealarm" color="greenm" checked="false"></ion-toggle>
+            </ion-col>
+
+            </ion-row>
+            <ion-row>
+                <ion-col col-4>  
                   <ion-label stacked style="font-size:12px">Servicing Info</ion-label>
+                  </ion-col>
+                <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.univiewservices" formControlName="univiewservices" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+                <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.unicreateservices" formControlName="unicreateservices" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+                <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.unieditservices" formControlName="unieditservices" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+                <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.unideleteservices" formControlName="unideleteservices" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+            </ion-row>
+            <ion-row>
+            <ion-col col-4>
+              <ion-label stacked style="font-size:12px">Comments</ion-label>
+              </ion-col>
+                    <ion-col col-2>
+              <ion-toggle [(ngModel)]="rolepermissionData.univiewcomm" formControlName="univiewcomm" color="greenm" checked="false"></ion-toggle>
+              </ion-col>
+                    <ion-col col-2>
+              <ion-toggle [(ngModel)]="rolepermissionData.unicreatecomm" formControlName="unicreatecomm" color="greenm" checked="false"></ion-toggle>
+              </ion-col>
+                    <ion-col col-2>
+              <ion-toggle [(ngModel)]="rolepermissionData.unieditcomm" formControlName="unieditcomm" color="greenm" checked="false"></ion-toggle>
+              </ion-col>
+                    <ion-col col-2>
+              <ion-toggle [(ngModel)]="rolepermissionData.unideletecomm" formControlName="unideletecomm" color="greenm" checked="false"></ion-toggle>
+              </ion-col>
+
+        </ion-row>
+        
+        <ion-row>
+          <ion-col col-4>
+            <ion-label stacked style="font-size:12px">Unit Group</ion-label>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.univiewgroup" formControlName="univiewgroup" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unicreategroup" formControlName="unicreategroup" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unieditgroup" formControlName="unieditgroup" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unideletegroup" formControlName="unideletegroup" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>
+            <ion-label stacked style="font-size:12px">Gen Model Mgmt</ion-label>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.univiewgmm" formControlName="univiewgmm" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unicreategmm" formControlName="unicreategmm" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unieditgmm" formControlName="unieditgmm" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+          <ion-col col-2>
+            <ion-toggle [(ngModel)]="rolepermissionData.unideletegmm" formControlName="unideletegmm" color="greenm" checked="false"></ion-toggle>
+          </ion-col>
+
+        </ion-row>
+</ion-grid>
+                
+               
+               
+<ion-grid>
+    <ion-item>
+      <ion-label stacked><b>Module : </b>Reports</ion-label>
+    </ion-item>
+    <ion-row>
+        <ion-col col-4>
+            <span class="page"><b>Page</b></span>
+        </ion-col>
+        <ion-col col-2>
+            <span class="view"><b>View</b></span> 
+        </ion-col>
+        <ion-col col-2>
+            <span class="create"><b>Create</b></span>
+        </ion-col>
+        <ion-col col-2>
+             <span class="edit"><b>Edit</b></span> 
+        </ion-col>
+        <ion-col col-2>
+            <span class="delete"><b>Delete</b></span> 
+        </ion-col>
+
+  	</ion-row>
+    <ion-row>
+      <ion-col col-4>	
+      <ion-label stacked style="font-size:12px">Reports</ion-label>
+      </ion-col>
+      <ion-col col-2>
+      <ion-toggle [(ngModel)]="rolepermissionData.viewreports" formControlName="viewreports" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      <ion-toggle [(ngModel)]="rolepermissionData.createreports" formControlName="createreports" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      <ion-toggle [(ngModel)]="rolepermissionData.editreports" formControlName="editreports" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      <ion-toggle [(ngModel)]="rolepermissionData.deletereports" formControlName="deletereports" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+
+    </ion-row>
+</ion-grid>      
+
+
+<ion-grid>
+    <ion-item>
+      <ion-label stacked><b>Module : </b>Messages</ion-label>
+    </ion-item>
+    <ion-row>
+        <ion-col col-4>
+            <span class="page"><b>Page</b></span>
+        </ion-col>
+        <ion-col col-2>
+            <span class="view"><b>View</b></span> 
+        </ion-col>
+        <ion-col col-2>
+            <span class="create"><b>Create</b></span>
+        </ion-col>
+        <ion-col col-2>
+             <span class="edit"><b>Edit</b></span> 
+        </ion-col>
+        <ion-col col-2>
+            <span class="delete"><b>Delete</b></span> 
+        </ion-col>
+
+  	</ion-row>
+    <ion-row>
+      <ion-col col-4>	
+      	<ion-label stacked style="font-size:12px">Inbox</ion-label>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgviewinbox" formControlName="msgviewinbox" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgcreateinbox" formControlName="msgcreateinbox" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgeditinbox" formControlName="msgeditinbox" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgdeleteinbox" formControlName="msgdeleteinbox" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col col-4>	
+      	<ion-label stacked style="font-size:12px">Sent</ion-label>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgviewsent" formControlName="msgviewsent" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgcreatesent" formControlName="msgcreatesent" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgeditsent" formControlName="msgeditsent" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+      <ion-col col-2>
+      	<ion-toggle [(ngModel)]="rolepermissionData.msgdeletesent" formControlName="msgdeletesent" color="greenm" checked="false"></ion-toggle>
+      </ion-col>
+
+    </ion-row>
+</ion-grid>    
       
       
+
       
+
       
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Comments</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.univiewcomm" formControlName="univiewcomm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unicreatecomm" formControlName="unicreatecomm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unieditcomm" formControlName="unieditcomm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unideletecomm" formControlName="unideletecomm" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Unit Group</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.univiewgroup" formControlName="univiewgroup" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unicreategroup" formControlName="unicreategroup" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unieditgroup" formControlName="unieditgroup" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unideletegroup" formControlName="unideletegroup" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Gen Model Mgmt</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.univiewgmm" formControlName="univiewgmm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unicreategmm" formControlName="unicreategmm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unieditgmm" formControlName="unieditgmm" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.unideletegmm" formControlName="unideletegmm" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-      
-              </div>
-      
-      
-      
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;width:100%">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Reports</ion-label>
-                </ion-item>
-                <div class="action-block"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 23%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 25%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 26%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 28%;"><b>Delete</b></span>
-                </div>
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Reports</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.viewreports" formControlName="viewreports" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.createreports" formControlName="createreports" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.editreports" formControlName="editreports" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.deletereports" formControlName="deletereports" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-      
-              </div>
-      
-      
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;width:100%">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Messages</ion-label>
-                </ion-item>
-                <div class="action-block"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 23%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 25%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 26%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 28%;"><b>Delete</b></span>
-                </div>
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Inbox</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgviewinbox" formControlName="msgviewinbox" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgcreateinbox" formControlName="msgcreateinbox" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgeditinbox" formControlName="msgeditinbox" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgdeleteinbox" formControlName="msgdeleteinbox" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-      
-                <ion-item>
-                  <ion-label stacked style="font-size:12px">Sent</ion-label>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgviewsent" formControlName="msgviewsent" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgcreatesent" formControlName="msgcreatesent" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgeditsent" formControlName="msgeditsent" color="greenm" checked="false"></ion-toggle>
-                  <ion-toggle [(ngModel)]="rolepermissionData.msgdeletesent" formControlName="msgdeletesent" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
-      
-      
-      
-              </div>
-      
-      
-              <div style="border: 1px solid #58994F;
-          position: relative;
-          margin-top: 3%;width:100%">
-                <ion-item>
-                  <ion-label stacked><b>Module:</b>Settings</ion-label>
-                </ion-item>
-                <div class="action-block"><span class="page" style="left: 5%;
-          position: absolute;"><b>Page</b></span> <span class="view" style="position: relative;
-          left: 23%"><b>View</b></span> <span class="create" style="position: relative;
-          left: 25%"><b>Create</b></span> <span class="edit" style="position: relative;
-          left: 26%;"><b>Edit</b></span> <span class="delete" style="position: relative;
-          left: 28%;"><b>Delete</b></span>
-                </div>
-                <ion-item>
+
+                
+                <ion-grid>
+                    <ion-item>
+                      <ion-label stacked><b>Module : </b>Settings</ion-label>
+                    </ion-item>
+                    <ion-row>
+                        <ion-col col-4>
+                            <span class="page"><b>Page</b></span>
+                        </ion-col>
+                        <ion-col col-2>
+                            <span class="view"><b>View</b></span> 
+                        </ion-col>
+                        <ion-col col-2>
+                            <span class="create"><b>Create</b></span>
+                        </ion-col>
+                        <ion-col col-2>
+                             <span class="edit"><b>Edit</b></span> 
+                        </ion-col>
+                        <ion-col col-2>
+                            <span class="delete"><b>Delete</b></span> 
+                        </ion-col>
+
+                    </ion-row>
+                
+                
+                
+                <ion-row>
+                  <ion-col col-4>	
                   <ion-label stacked style="font-size:12px">My Account</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setviewmyacc" formControlName="setviewmyacc" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreatemyacc" formControlName="setcreatemyacc" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.seteditmyacc" formControlName="seteditmyacc" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeletemyacc" formControlName="setdeletemyacc" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
       
-                <ion-item>
+                <ion-row>
+                  <ion-col col-4>	
                   <ion-label stacked style="font-size:12px">User List</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setviewuselst" formControlName="setviewuselst" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreateuselst" formControlName="setcreateuselst" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setedituselst" formControlName="setedituselst" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeleteuselst" formControlName="setdeleteuselst" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
       
-                <ion-item>
+                <ion-row>
+                  <ion-col col-4>	
                   <ion-label stacked style="font-size:12px">Company Group</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setviewusegru" formControlName="setviewusegru" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreateusegru" formControlName="setcreateusegru" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.seteditusegru" formControlName="seteditusegru" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeleteusegru" formControlName="setdeleteusegru" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
-                <ion-item>
+                <ion-row>
+                  <ion-col col-4>
                   <ion-label stacked style="font-size:12px">User Role</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setviewuserle" formControlName="setviewuserle" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreateuserle" formControlName="setcreateuserle" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setedituserle" formControlName="setedituserle" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeleteuserle" formControlName="setdeleteuserle" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
       
-                <ion-item>
+                <ion-row>
+                  <ion-col col-4>
                   <ion-label stacked style="font-size:12px">Report Template</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setviewtmp" formControlName="setviewtmp" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreatetmp" formControlName="setcreatetmp" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setedittmp" formControlName="setedittmp" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeletetmp" formControlName="setdeletetmp" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
       
-                <ion-item>
+                <ion-row>
+                  <ion-col col-4>
                   <ion-label stacked style="font-size:12px">Org Chart</ion-label>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setvieworg" formControlName="setvieworg" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setcreateorg" formControlName="setcreateorg" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.seteditorg" formControlName="seteditorg" color="greenm" checked="false"></ion-toggle>
+                  </ion-col>
+      			  <ion-col col-2>
                   <ion-toggle [(ngModel)]="rolepermissionData.setdeleteorg" formControlName="setdeleteorg" color="greenm" checked="false"></ion-toggle>
-                </ion-item>
+                  </ion-col>
+
+                </ion-row>
       
-              </div>
+              </ion-grid>
       
               <ion-item *ngIf="hideActionButton">
                 <button ion-button color="primary" text-center block [disabled]="!form.valid ||  isSubmitted">Save</button>
               </ion-item>
-      
       
             </ion-list>
           </form>

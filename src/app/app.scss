@@ -743,3 +743,21 @@ margin-bottom: 0;
 	color: #488aff;
 	font-size: 12px !important;
 }
+.custom-tab .chat-count {
+	color: #fff;
+    background-color: #f53d3d;
+	border-radius: 4px;
+	top: 6%;
+    right: calc(50% - 30px);
+    padding: 1px 6px;
+    position: absolute;
+    height: auto;
+    font-size: 12px;
+    line-height: 16px;
+	font-style: normal;
+}
+.contact-popover.popover-md .popover-content {
+	top: 26% !important;
+	width: 303px !important;
+	left: 7% !important;
+ }

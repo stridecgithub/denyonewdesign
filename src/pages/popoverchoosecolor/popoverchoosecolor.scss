@@ -1,12 +1,7 @@
+page-popoverchoosecolor {
 
- page-addunitgroup {  
  
- 	.chosecolor {
-		background:url(../assets/imgs/expand-more-icn@2x.png) no-repeat right center;
-		padding: 0 26px 0 0px;
-		background-size: 28%;
-		margin-top: 10px;
-	}
+ 
  
   .border-need{border:2px solid #000000;}
 
@@ -168,4 +163,36 @@
      width: 40px;
      height: 40px;
      }
+	 button {
+	 	margin:0 7px 0 0;
+	 }
+	 
+	 
+	 .sele {
+	 	display:block;
+		width:100%;
+		text-align:center;
+		color:#0081ff;
+		padding:0;
+		margin:0;
+		text-decoration:none;
+		background:none;
+		border:none;
+	 }
+	 
+	 .list-header-md {
+	 	color:#000;
+		margin-bottom:0;
+		min-height:inherit;
+	 }
+	 .label-md {
+		margin: 13px 8px 7px 0;
+	}
+	.list-md {
+		margin:0;
+	}
+	ion-row.fin {
+		height:35px;
+	}
+
 }

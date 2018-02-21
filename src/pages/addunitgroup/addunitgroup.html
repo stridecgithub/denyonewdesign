@@ -138,12 +138,10 @@
 		</div>
         
         
-        <ion-item>
+        <ion-list>
           <ion-label stacked>Select Color Code*</ion-label>
-          <ion-select placeholder="Please Select Color Codes" click="chooseColor()">
-            <ion-option>Select Color </ion-option>
-          </ion-select>
-        </ion-item>
+          <button class="chosecolor" (click)="openPopover($event)"><span style="background:#9013fe;width:30px;height:30px;float:left;"></span></button>
+        </ion-list>
 
 		<div style="left:3px;padding:15px">
 

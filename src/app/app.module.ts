@@ -97,6 +97,7 @@ import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
 import { ModalPage } from '../pages/modal/modal';
 import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode';
+import { PopoverchoosecolorPage } from '../pages/popoverchoosecolor/popoverchoosecolor';
 
 @NgModule({
   declarations: [
@@ -183,7 +184,8 @@ import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode
     //ReporttemplatedetailPage,
     //  ChangepasswordPage,
 
-    EngineviewPage
+    EngineviewPage,
+	PopoverchoosecolorPage
 
   ],
   imports: [
@@ -286,7 +288,8 @@ import { PopovercolorcodePage } from '../pages/popovercolorcode/popovercolorcode
     //ReporttemplatedetailPage,
     //ChangepasswordPage
 
-    EngineviewPage
+    EngineviewPage,
+	PopoverchoosecolorPage
   ],
   providers: [
     Config,

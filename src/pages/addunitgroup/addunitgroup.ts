@@ -13,6 +13,7 @@ import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { PopovercolorcodePage } from '../popovercolorcode/popovercolorcode';
+import { PopoverchoosecolorPage } from '../popoverchoosecolor/popoverchoosecolor';
 /**
  * Generated class for the AddunitgroupPage page.
  *
@@ -299,26 +300,6 @@ export class AddunitgroupPage {
 
 
 
- chooseColor() {
-    let confirm = this.alertCtrl.create({
-      title: 'Select Color',
-      message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
-      buttons: [
-	  {
-          text: 'Select',
-          handler: () => {
-            this.is_request = true;
-            console.log('Confirm clicked');
-          }
-        }
-        
-      ],
-      cssClass: 'alertDanger adhoc-alert'
-    });
-    confirm.present();
-  }
-
-
 
 
   previous() {
@@ -328,5 +309,18 @@ export class AddunitgroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
+  
+  
+  openPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverchoosecolorPage, {}, {cssClass: 'contact-popover'});
+    popover.present({
+      ev: myEvent
+    });
+  }
+  
+  
 
 }
+
+
+
