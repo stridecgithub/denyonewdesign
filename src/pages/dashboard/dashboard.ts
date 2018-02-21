@@ -169,6 +169,7 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
+    this.conf.showfooter();
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
     console.log(this.navParams.get("tabs"));
