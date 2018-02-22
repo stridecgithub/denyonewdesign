@@ -864,6 +864,11 @@ export class DashboardPage {
     // Create map
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
+    // Use unit location for info box content
+    let infowindow = new google.maps.InfoWindow({
+      content: ''
+    });
+
     //if (units > 0) {
     // Loop to go through all generators Lat Lang
     for (let i = 0; i < markers.length; i++) {
@@ -891,16 +896,25 @@ export class DashboardPage {
           icon: iconDisplay
         });
 
-        // Use unit location for info box content
-        let infowindow = new google.maps.InfoWindow({
-          content: markers[i].location
+        
+        
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+          let popups = document.getElementsByClassName('popup');
+         for (let i = 0; i < popups.length; i++) {
+          popups[i].classList.remove('showPopup');
+
+        }
+        
         });
-        // google.maps.event.addListener(infowindow, 'closeclick', function () {
-        //   jQuery('.popup').css('display', 'none');
-        // });
+
+        let currinfowindow = null;
+
+        
         // Add click event
         marker.addListener('click', function () {
-          // jQuery('.popup').css('display', 'block');
+          
+          // Use unit location for info box content
+          infowindow.setContent(markers[i].location);
           infowindow.open(this.map, marker);
 
           let popups = document.getElementsByClassName('popup');

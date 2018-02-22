@@ -204,8 +204,8 @@
 
                 <div style="white-space: normal">{{eventitem.event_location}}</div>
                 <div style="white-space: normal">{{eventitem.event_remark}}</div>
-                <div>{{eventitem.event_addedby_name}}
-                </div>
+                <!-- <div>{{eventitem.event_addedby_name}}
+                </div> -->
               </div>
             </ion-item>
 
@@ -310,8 +310,8 @@
 
                 <div style="white-space: normal">{{calendaritem.event_location}}</div>
                 <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-                <div>{{calendaritem.event_addedby_name}}
-                </div>
+                <!-- <div>{{calendaritem.event_addedby_name}}
+                </div> -->
               </div>
             </ion-item>
 
@@ -335,8 +335,8 @@
                 <h1>{{calendaritem.unitname}}</h1>
                 <div style="white-space: normal">{{calendaritem.event_location}}</div>
                 <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-                <div>{{calendaritem.event_addedby_name}}
-                </div>
+                <!-- <div>{{calendaritem.event_addedby_name}}
+                </div> -->
               </div>
             </ion-item>
             <ion-item *ngIf="calendaritem.event_type=='A'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
