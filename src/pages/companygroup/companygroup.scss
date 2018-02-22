@@ -1,4 +1,15 @@
 page-companygroup {
+.group-info {
+    float: left;
+    width: 82%;
+    white-space: normal;
+}
+.group-info h3 {
+	color:#417505;
+}
+.list-item .item-inner .label-md {
+	margin: 7px 0 10px 0;
+}
 
   ion-header .toolbar-title-md, ion-header .toolbar-title-ios {
       font-size: 17px;

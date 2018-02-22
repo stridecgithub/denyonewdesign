@@ -1,4 +1,19 @@
 page-companydetail {
+ .info {
+  border-bottom: 0px solid #d6d6d6;
+  margin-top: 0;
+}
+.info h2 {
+  color: #383737 !important;
+  font-weight: 400 !important;
+}
+
+.info h1 {
+  color: #383737;
+  font-weight: 600;
+  margin-left: 0;
+}
+
     .event-head {
       margin-bottom: 10px;
       border-bottom: 1px solid #848484;

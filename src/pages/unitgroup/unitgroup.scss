@@ -4,6 +4,9 @@ page-unitgroup {
 		width:69%;
 		white-space:normal
 	}
+	.group-info h3 {
+		color:#417505;
+	}
     .add-unit-btn {
       background: #424242;
       border-radius: 0;
@@ -28,7 +31,7 @@ page-unitgroup {
       margin-right: 10px;
     }
 	.list-favorite {
-    margin-top: -2px;
+    margin-top: -12px;
 		/*margin-top:-15px;*/
 	}
 	.list-item .item-inner .label-md{

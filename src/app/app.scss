@@ -48,6 +48,8 @@ ion-header {
     }
   }
 
+
+
   .right-header-btns {
     float: right;
     button {
@@ -757,7 +759,11 @@ margin-bottom: 0;
 	font-style: normal;
 }
 .contact-popover.popover-md .popover-content {
-	top: 26% !important;
-	width: 303px !important;
-	left: 7% !important;
- }
+	top: 50% !important;
+    width: 303px !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%)!important;
+}
+.ion-page > ion-content {
+    height: 91%;
+}

@@ -159,10 +159,12 @@
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let companygroup of companygroupAllLists">
       <ion-item   (click)="detail(companygroup)">
-        <h5 style="padding-top: 4px;">
-          <b>Company:</b>{{companygroup.companygroup_name}}</h5>
-        <h5>
-          <b>Total User:</b>{{companygroup.totalusers}}</h5>
+      	<div class="group-info">
+        <h2 style="padding-top: 4px;">
+          <b>Company :</b> {{companygroup.companygroup_name}}</h2>
+        <h3>
+          <b>Total User :</b> {{companygroup.totalusers}}</h3>
+          </div>
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
         <button ion-button class="edit-btn" (click)="doEdit(companygroup,'edit')">

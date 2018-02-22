@@ -97,42 +97,42 @@ page-popoverchoosecolor {
   }
 
   .button1{
-    background-color: #FBE983;
+    background-color: #9013fe;
      width: 40px;
      height: 40px;
      }
      .button2{
-     background-color: #5584EE;
+     background-color: #50e2c1;
      width: 40px;
      height: 40px;
      }
       .button3{
-     background-color: #A4BDFD;
+     background-color: #3f7105;
      width: 40px;
      height: 40px;
      }
       .button4{
-     background-color: #47D6DC;
+     background-color: #000000;
      width: 40px;
      height: 40px;
      }
       .button5{
-     background-color: #7AE7BE;
+     background-color: #fe1398;
      width: 40px;
      height: 40px;
      }
       .button6{
-     background-color: #51B749;
+     background-color: #2d66c4;
      width: 40px;
      height: 40px;
      }
       .button7{
-     background-color: #FBD75C;
+     background-color: #f3f01e;
      width: 40px;
      height: 40px;
      }
       .button8{
-     background-color: #FFB878;
+     background-color: #fea313;
      width: 40px;
      height: 40px;
      }
@@ -143,13 +143,15 @@ page-popoverchoosecolor {
     border: 1px solid #000;
     }
      /*.buttoncolorgroup button:active,.buttoncolorgroup button:focus,.buttoncolorgroup button:hover{border: 2px solid #000;}
-     */.button9{
-     background-color: #FF877C;
+     */
+	 
+	 .button9{
+     background-color: #d80e21;
      width: 40px;
      height: 40px;
      }
       .button10{
-     background-color: #DC2128;
+     background-color: #6f6a73;
      width: 40px;
      height: 40px;
      }
@@ -187,12 +189,16 @@ page-popoverchoosecolor {
 	 }
 	 .label-md {
 		margin: 13px 8px 7px 0;
+		font-weight: 600;
 	}
 	.list-md {
 		margin:0;
 	}
 	ion-row.fin {
 		height:35px;
+	}
+	.chose-color-btns button {
+		border:2px solid #fff;
 	}
 
 }
