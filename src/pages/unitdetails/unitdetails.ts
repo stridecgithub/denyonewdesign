@@ -57,7 +57,7 @@ export class UnitdetailsPage {
 	coolantlabel;
 	coolantcolors;
 	coolantbarlabels;
-
+	needlevalue;
 	batteryvoltbarlabels;
 	oilperssuerbarlabels;
 
@@ -612,7 +612,7 @@ export class UnitdetailsPage {
 						};
 
 
-						
+
 						let res = this.setpointsdata;
 						console.log(this.setpointsdata);
 						console.log(this.setpointsdata.length);
@@ -625,7 +625,7 @@ export class UnitdetailsPage {
 							var sval = 0;
 							var enval = 0;
 							//
-							console.log("Lables Length:"+labels.length);
+							console.log("Lables Length:" + labels.length);
 							for (var x = 0; x < labels.length; x++) {
 								if (x == 0) {
 									sval = 0;
@@ -641,15 +641,24 @@ export class UnitdetailsPage {
 									enval = labels[x];
 
 								}
-								var brclr= barchartcolors[x].replace('"','');
-								console.log("brclr"+brclr);
+								//var brclr= barchartcolors[x].replace('"','');
+								var gradver;
+								if (barchartcolors[x] == "gradient1") {
+									gradver = gradient1
+								}
+								if (barchartcolors[x] == "gradient2") {
+									gradver = gradient2
+								}
+								if (barchartcolors[x] == "gradient3") {
+									gradver = gradient3
+								}
 								this.rangesdata.push({
 									startValue: sval,
 									endValue: enval,
 									innerOffset: 0.46,
 									outerStartOffset: 0.70,
 									outerEndOffset: 0.70,
-									fillStyle:brclr
+									fillStyle: gradver
 								})
 								/*startValue: 97,
 									endValue: 105,
@@ -660,19 +669,52 @@ export class UnitdetailsPage {
 
 
 							}
-							/*if (enval == res[i].maxvalue) {
+							if (enval == res[i].maxvalue) {
 								enval = sval; 
 							}
+							/*this.rangesdata.push({
+								startValue: enval,
+								endValue: res[i].maxvalue,
+								innerOffset:0.46,
+								outerStartOffset: 0.70,
+								outerEndOffset: 0.70,
+								fillStyle: gradver
+							})*/
+
 							this.rangesdata.push({
 								startValue: enval,
 								endValue: res[i].maxvalue,
-								innerOffset: 0.70,
+								innerOffset: 0.46,
+								outerStartOffset: 0.70,
 								outerEndOffset: 0.70,
-								fillStyle: gradient1
-							})*/
-							
+								fillStyle: gradver
+							})
+
 							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
-							console.log("code" + code);
+
+							if (code == "coolanttemp") {
+								console.log("this.coolanttemp" + this.coolanttemp);
+								this.needlevalue = this.coolanttemp;
+							}
+							if (code == "oilpressure") {
+								console.log("this.oilpressure" + this.oilpressure)
+								this.needlevalue = this.oilpressure;
+							}
+							if (code == "batteryvolt") {
+								console.log("this.batteryvoltage" + this.batteryvoltage)
+								this.needlevalue = this.batteryvoltage;
+							}
+							// if (code == "loadpower") {
+							// 	needlevalue = this.loadpowerfactor;
+							// }
+							if (this.needlevalue == undefined) {
+								this.needlevalue = 0;
+							}
+							if (this.needlevalue == 'undefined') {
+								this.needlevalue = 0;
+							}
+							console.log("Needle value:" + this.needlevalue);
+
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -706,39 +748,39 @@ export class UnitdetailsPage {
 											lineWidth: 2
 										},
 										customTickMarks: res[i].barlabels.split(','),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
-										ranges: 
+										ranges:
 											// {"startValue":0,"endValue":8,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient2"},
 											// {"startValue":8,"endValue":15,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient3"}
 											this.rangesdata
-											/*{
-												startValue: 0,
-												endValue: 20,
-												innerOffset: 0.46,
-												outerStartOffset: 0.70,
-												outerEndOffset: 0.70,
-												fillStyle: gradient1
-											},
-											{
-												startValue: 20,
-												endValue: 97,
-												innerOffset: 0.46,
-												outerStartOffset: 0.70,
-												outerEndOffset: 0.70,
-												fillStyle: gradient2
-											},
-											{
-												startValue: 97,
-												endValue: 105,
-												innerOffset: 0.46,
-												outerStartOffset: 0.70,
-												outerEndOffset: 0.70,
-												fillStyle: gradient3
-											}*/
+										/*{
+											startValue: 0,
+											endValue: 20,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient1
+										},
+										{
+											startValue: 20,
+											endValue: 97,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient2
+										},
+										{
+											startValue: 97,
+											endValue: 105,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient3
+										}*/
 										,
 										needles: [
 											{
 												type: 'pointer',
-												value: 5,
+												value: this.needlevalue,
 												fillStyle: needleGradient,
 												innerOffset: 0.50,
 												outerOffset: 1.00
