@@ -40,6 +40,8 @@ export class UnitdetailsPage {
 	public pageTitle: string;
 	//public userId: any;
 	public item = [];
+	public setpointsdata = [];
+	public rangesdata = [];
 	voltlabel;
 	voltcolors;
 	currentlabel;
@@ -55,7 +57,7 @@ export class UnitdetailsPage {
 	coolantlabel;
 	coolantcolors;
 	coolantbarlabels;
-
+	needlevalue;
 	batteryvoltbarlabels;
 	oilperssuerbarlabels;
 
@@ -573,65 +575,283 @@ export class UnitdetailsPage {
 
 						var coolantbarlabels = this.coolantbarlabels.split(",");
 
-						/*
-						
-						;
-						;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
-
-						// 1 Linear Graph For Coolant Temp
-						var ctgradient1 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: coolanttempcolor_0 },
-							{ offset: 1, color: coolanttempcolor_0 }]
-						};
-
-						var ctgradient2 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: coolanttempcolor_1 },
-							{ offset: 1, color: coolanttempcolor_1 }]
-						};
-
-						var ctgradient3 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: coolanttempcolor_2 },
-							{ offset: 1, color: coolanttempcolor_2 }]
-						};
-
-						var ctgradient4 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: coolanttempcolor_3 },
-							{ offset: 1, color: coolanttempcolor_3 }]
-						};
-
-						var ctneedleGradient = {
+						var gradient1 = {
 							type: 'linearGradient',
 							x0: 0,
 							y0: 0.5,
 							x1: 1,
 							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#4F6169' },
-							{ offset: 1, color: '#252E32' }]
+							colorStops: [{ offset: 0, color: '#df0000' }, { offset: 1, color: '#df0000' }]
 						};
+
+						var gradient2 = {
+							type: 'linearGradient',
+							x0: 0,
+							y0: 0.5,
+							x1: 1,
+							y1: 0.5,
+							colorStops: [{ offset: 0, color: '#ffca00' }, { offset: 1, color: '#ffca00' }]
+						};
+
+						var gradient3 = {
+							type: 'linearGradient',
+							x0: 0,
+							y0: 0.5,
+							x1: 1,
+							y1: 0.5,
+							colorStops: [{ offset: 0, color: '#00FF50' }, { offset: 1, color: '#00FF50' }]
+						};
+
+						var needleGradient = {
+							type: 'linearGradient',
+							x0: 0.5,
+							y0: 0,
+							x1: 0.1,
+							y1: 0.1,
+							colorStops: [{ offset: 0, color: '#4F6169' }, { offset: 1, color: '#252E32' }]
+						};
+
+
+
+						let res = this.setpointsdata;
+						console.log(this.setpointsdata);
+						console.log(this.setpointsdata.length);
+						for (var i = 0; i < res.length; i++) {
+							this.rangesdata = [];
+							var code = res[i].code.toLowerCase();
+							var labels = res[i].barlabels.split(',');
+							console.log("Bar Colors:-" + code + '=' + res[i].barchartcolors);
+							var barchartcolors = res[i].barchartcolors.split(',');
+							var sval = 0;
+							var enval = 0;
+							//
+							console.log("Lables Length:" + labels.length);
+							for (var x = 0; x < labels.length; x++) {
+								if (x == 0) {
+									sval = 0;
+									enval = labels[x];
+
+								} /*else if (x == labels.length - 1) {
+									sval = labels[x];
+									enval = res[i].maxvalue;
+									
+								}*/ else {
+
+									sval = labels[x - 1];
+									enval = labels[x];
+
+								}
+								//var brclr= barchartcolors[x].replace('"','');
+								var gradver;
+								if (barchartcolors[x] == "gradient1") {
+									gradver = gradient1
+								}
+								if (barchartcolors[x] == "gradient2") {
+									gradver = gradient2
+								}
+								if (barchartcolors[x] == "gradient3") {
+									gradver = gradient3
+								}
+								this.rangesdata.push({
+									startValue: sval,
+									endValue: enval,
+									innerOffset: 0.46,
+									outerStartOffset: 0.70,
+									outerEndOffset: 0.70,
+									fillStyle: gradver
+								})
+								/*startValue: 97,
+									endValue: 105,
+										innerOffset: 0.46,
+											outerStartOffset: 0.70,
+												outerEndOffset: 0.70,
+													fillStyle: gradient3*/
+
+
+							}
+							if (enval == res[i].maxvalue) {
+								enval = sval; 
+							}
+							/*this.rangesdata.push({
+								startValue: enval,
+								endValue: res[i].maxvalue,
+								innerOffset:0.46,
+								outerStartOffset: 0.70,
+								outerEndOffset: 0.70,
+								fillStyle: gradver
+							})*/
+
+							this.rangesdata.push({
+								startValue: enval,
+								endValue: res[i].maxvalue,
+								innerOffset: 0.46,
+								outerStartOffset: 0.70,
+								outerEndOffset: 0.70,
+								fillStyle: gradver
+							})
+
+							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
+
+							if (code == "coolanttemp") {
+								console.log("this.coolanttemp" + this.coolanttemp);
+								this.needlevalue = this.coolanttemp;
+							}
+							if (code == "oilpressure") {
+								console.log("this.oilpressure" + this.oilpressure)
+								this.needlevalue = this.oilpressure;
+							}
+							if (code == "batteryvolt") {
+								console.log("this.batteryvoltage" + this.batteryvoltage)
+								this.needlevalue = this.batteryvoltage;
+							}
+							// if (code == "loadpower") {
+							// 	needlevalue = this.loadpowerfactor;
+							// }
+							if (this.needlevalue == undefined) {
+								this.needlevalue = 0;
+							}
+							if (this.needlevalue == 'undefined') {
+								this.needlevalue = 0;
+							}
+							console.log("Needle value:" + this.needlevalue);
+
+							jQuery('#' + code).jqLinearGauge({
+								orientation: 'horizontal',
+								background: '#fff',
+								border: {
+									padding: 5,
+									lineWidth: 0,
+									strokeStyle: '#76786A'
+								},
+								tooltips: {
+									disabled: false,
+									highlighting: true
+								},
+								animation: false,
+								scales: [
+									{
+										minimum: res[i].minvalue,
+										maximum: res[i].maxvalue,
+										labels: {
+											offset: 0.15
+										},
+										majorTickMarks: {
+											length: 0,
+											offset: 1,
+											lineWidth: 2
+										},
+										minorTickMarks: {
+											length: 0,
+											visible: false,
+											interval: 2,
+											offset: 1,
+											lineWidth: 2
+										},
+										customTickMarks: res[i].barlabels.split(','),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+										ranges:
+											// {"startValue":0,"endValue":8,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient2"},
+											// {"startValue":8,"endValue":15,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient3"}
+											this.rangesdata
+										/*{
+											startValue: 0,
+											endValue: 20,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient1
+										},
+										{
+											startValue: 20,
+											endValue: 97,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient2
+										},
+										{
+											startValue: 97,
+											endValue: 105,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient3
+										}*/
+										,
+										needles: [
+											{
+												type: 'pointer',
+												value: this.needlevalue,
+												fillStyle: needleGradient,
+												innerOffset: 0.50,
+												outerOffset: 1.00
+											}
+										]
+									}
+								]
+							});
+						}
+
+						jQuery('#powerfactor').jqLinearGauge({
+							orientation: 'horizontal',
+							background: '#fff',
+							border: {
+								padding: 5,
+								lineWidth: 0,
+								strokeStyle: '#76786A'
+							},
+							tooltips: {
+								disabled: false,
+								highlighting: true
+							},
+							animation: false,
+							scales: [
+								{
+									minimum: 0,
+									maximum: 1.0,
+									labels: {
+										offset: 0.15
+									},
+									majorTickMarks: {
+										length: 0,
+										offset: 1,
+										lineWidth: 2
+									},
+									minorTickMarks: {
+										length: 0,
+										visible: false,
+										interval: 2,
+										offset: 1,
+										lineWidth: 2
+									},
+									customTickMarks: coolantbarlabels,//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+									ranges: [
+										{
+											startValue: 0,
+											endValue: 1.0,
+											innerOffset: 0.46,
+											outerStartOffset: 0.70,
+											outerEndOffset: 0.70,
+											fillStyle: gradient3
+										}
+									],
+									needles: [
+										{
+											type: 'pointer',
+											value: this.loadpowerfactor,
+											fillStyle: needleGradient,
+											innerOffset: 0.50,
+											outerOffset: 1.00
+										}
+									]
+								}
+							]
+
+						});
+
+						/*
+
+						// 1 Linear Graph For Coolant Temp
+						
 
 
 						jQuery('#coolanttemp').jqLinearGauge({
@@ -1129,6 +1349,14 @@ export class UnitdetailsPage {
 							return tooltip;
 						});
 						// 4 Linear Graph For Battery Voltage
+						*/
+						// console.log("SETPOINTS:" + JSON.stringify(this.setpointsdata.setpoints[0]));
+						// console.log("SETPOINTS LENGTH:" + this.setpointsdata.setpoints[0].length);
+						// for (let lg = 0; lg <= this.setpointsdata.setpoints[0].length; lg++) {
+						// 	console.log(lg);
+						// 	console.log(this.setpointsdata.setpoints[0][lg]);
+
+						// }
 
 					}
 
@@ -1200,11 +1428,7 @@ export class UnitdetailsPage {
 					}
 
 
-					// if (this.timerswitch > 0) {
-					// 	setTimeout(function () {
-					// 		this.unitstimervalue;
-					// 	}, 2000);
-					// }
+
 				}
 			});
 		}
@@ -1506,7 +1730,22 @@ export class UnitdetailsPage {
 					.subscribe((data) => {
 						let res;
 						res = data.json();
-
+						//this.setpointsdata = data.json();
+						console.log("data.json().setpoints[0].length:" + data.json().setpoints[0].length);
+						if (data.json().setpoints.length > 0) {
+							for (let sp in res.setpoints) {
+								this.setpointsdata.push({
+									code: res.setpoints[sp].code,
+									labels: res.setpoints[sp].labels,
+									colors: res.setpoints[sp].colors,
+									barlabels: res.setpoints[sp].barlabels,
+									minvalue: res.setpoints[sp].minvalue,
+									maxvalue: res.setpoints[sp].maxvalue,
+									barchartcolors: res.setpoints[sp].barchartcolors
+								})
+							}
+						}
+						console.log("Push Value:-" + JSON.stringify(this.setpointsdata))
 						this.voltlabel = data.json().setpoints[0].labels;
 						this.voltcolors = data.json().setpoints[0].colors;
 
