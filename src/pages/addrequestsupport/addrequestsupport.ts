@@ -374,9 +374,9 @@ export class AddrequestsupportPage {
       "&is_denyo_support=1" +
       "&created_by=" + this.unitDetailData.userId +
       "&is_request=1" +
-      "&subject=" + service_subject,
-      //"&micro_timestamp=" + micro_timestamp +
-      //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
+      "&subject=" + service_subject+
+      "&micro_timestamp=" + micro_timestamp +
+      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
       //"&contact_number=" + this.contact_number +
       //"&contact_name=" + this.contact_name +
       //"&nextServiceDate=" + nextServiceDate,

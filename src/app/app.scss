@@ -767,6 +767,6 @@ margin-bottom: 0;
 .ion-page > ion-content {
     height: 91%;
 }
-page-add-unit.ion-page > ion-content {
+page-add-unit.ion-page > ion-content,page-unitdetails.ion-page > ion-content { 
     height: 100%;
 }
