@@ -15,7 +15,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { NotificationPage } from '../notification/notification';
 import { ReportsPage } from '../reports/reports';
 import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+import { OrgchartPage } from '../orgchart/orgchart';
 import { UnitsPage } from '../units/units';
 
 /**
@@ -31,7 +31,7 @@ import { UnitsPage } from '../units/units';
 })
 export class Unitgrouplist {
 
- public loginas: any;
+  public loginas: any;
   public pageTitle: string;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
@@ -52,18 +52,20 @@ export class Unitgrouplist {
   public str: any;
   public msgcount: any;
   public notcount: any;
-  colorcode;cname;favoriteindication;unitgroup_name;totalunits
+  remark;
+  createdOn;
+  colorcode; cname; favoriteindication; unitgroup_name; totalunits
   //Authorization Declaration
   footerBar: number = 0;
   //Authorization Declaration
   public reportData: any =
-  {
-    status: '',
-    sort: 'unit_id',
-    sortascdesc: 'asc',
-    startindex: 0,
-    results: 50
-  }
+    {
+      status: '',
+      sort: 'unit_id',
+      sortascdesc: 'asc',
+      startindex: 0,
+      results: 50
+    }
   public reportAllLists = [];
   unitgroup;
   constructor(public http: Http, public nav: NavController,
@@ -74,28 +76,30 @@ export class Unitgrouplist {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
     //Authorization Get Value
-   
+
     //Authorization Get Value
-    this.colorcode=this.navParams.get('colorcode');
+    this.colorcode = this.navParams.get('colorcode');
     console.log(this.colorcode);
 
-    this.cname=this.navParams.get('cname');
+    this.cname = this.navParams.get('cname');
     console.log(this.cname);
 
-    this.favoriteindication=this.navParams.get('favoriteindication');
+    this.favoriteindication = this.navParams.get('favoriteindication');
     console.log(this.favoriteindication);
 
-    this.unitgroup_name=this.navParams.get('unitgroup_name');
-    console.log(this.unitgroup_name);
-
-    this.totalunits=this.navParams.get('totalunits');
+    this.unitgroup_name = this.navParams.get('unitgroup_name');
+    this.remark = this.navParams.get('remark');
+    this.createdOn = this.navParams.get('createdOn');
+    console.log(this.remark);
+    console.log(this.createdOn);
+    this.totalunits = this.navParams.get('totalunits');
     console.log(this.totalunits);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Unitgrouplist');
   }
- doRefresh(refresher) {
+  doRefresh(refresher) {
     console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
     this.reportAllLists = [];
@@ -231,9 +235,9 @@ export class Unitgrouplist {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
-  
-      this.doUnit();
-    
+
+    this.doUnit();
+
   }
 
   doAdd() {
@@ -566,5 +570,5 @@ console.log(JSON.stringify(this.selectedAction));*/
     this.nav.setRoot(NotificationPage);
   }
 
- 
+
 }

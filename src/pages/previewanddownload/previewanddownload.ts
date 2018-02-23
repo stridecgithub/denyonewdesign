@@ -74,6 +74,7 @@ export class PreviewanddownloadPage {
         from: 'commentinfo'
       });
     } else if (frompage == 'MessagedetailPage') {
+      console.log("this.navParams.get('messageid')"+this.navParams.get("messageid"));
       this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get("record"),
         from: this.navParams.get("from"),
