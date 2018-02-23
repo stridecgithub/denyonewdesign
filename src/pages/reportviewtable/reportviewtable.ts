@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { MyaccountPage } from '../myaccount/myaccount';
@@ -42,6 +42,7 @@ export class ReportviewtablePage {
   public graphview: any;
   public pdfdownloadview: any;
   public pdfDownloadLink: any;
+  public csvDownloadLink: any;
   public pageTitle: string;
   public msgcount: any;
   public notcount: any;
@@ -77,8 +78,9 @@ export class ReportviewtablePage {
   timeframe;
   contactnumbers;
   url;
+  storageDirectory: string = '';
   public buttonClicked: boolean = false;
-  constructor(private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
+  constructor(private platform: Platform, private alertCtrl: AlertController, private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
     //this.readCsvData();
@@ -103,7 +105,7 @@ export class ReportviewtablePage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-
+    // make sure this is on a device, not an emulation (e.g. chrome tools device mode)   
   }
   ionViewWillEnter() {
     this.success = 0;
@@ -199,12 +201,12 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-            //this.download(2);
+            // this.download(2);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
             this.posts = res.mobilehistorydata[0];
-           // this.keys = Object.keys(this.posts);
+            // this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
 
@@ -356,30 +358,37 @@ export class ReportviewtablePage {
           uri = res.csv;
         }
         console.log("Uploaded and generated success file is:" + uri);
+        this.csvDownloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
         let pdfPathURL = this.apiServiceURL;
         this.csvurl = uri;
         // this.pdfDownloadLink = url;
 
+        if (val == 2) {
+          pdfFile = 'report_' + new Date().toISOString() + '.csv';
+          pdfFile =pdfFile.replace("-","_");
+        }
 
-
-
+        // if (val == 1) {
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
           console.log('download complete: ' + entry.toURL());
           const options: DocumentViewerOptions = {
             title: url
           }
+          console.log("val:" + val);
           if (val == 1) {
             this.document.viewDocument(entry.toURL(), 'application/pdf', options);
           } else {
-            this.csvurl =entry.toURL()
-             this.document.viewDocument(entry.toURL(), 'application/xls', options);
+            this.fileOpener.open(this.file.dataDirectory + pdfFile, 'application/excel')
+              .then(() => console.log('File is opened'))
+              .catch(e => console.log('Error openening file', e));
           }
 
           this.pdfdownloadview = 0;
         }, (error) => {
+          console.log(error);
           // handle error
         });
 
@@ -391,10 +400,36 @@ export class ReportviewtablePage {
         else {
 
         }
-
+        //}
 
       });
     //  {"msg":{"result":"success"},"pdf":"reports_generator_1.pdf"}
+  }
+
+  fileDownload(filepathurl) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let url = filepathurl;
+    fileTransfer.download(url, this.file.dataDirectory + 'report_' + new Date().toISOString() + '.csv').then((entry) => {
+      if (entry) {
+        console.log('download complete: ' + entry.toURL());
+        let alert = this.alertCtrl.create({
+          title: 'CSV Downloaded Successfully',
+          buttons: [{
+            text: 'Ok',
+          }]
+        });
+        alert.present();
+      }
+      else {
+        let alert = this.alertCtrl.create({
+          title: 'No File to download',
+          buttons: [{
+            text: 'Ok',
+          }]
+        });
+        alert.present();
+      }
+    });
   }
   csv() {
 

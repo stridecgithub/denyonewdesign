@@ -139,7 +139,7 @@ export class NotificationSettingsPage {
     console.log("Is Edited?" + this.navParams.get("isEdited"));
 
     console.log(this.isEdited);
-   // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   geninfo(item, editdata) {
     console.log("Get Info:" + JSON.stringify(item));
@@ -527,8 +527,36 @@ export class NotificationSettingsPage {
     // }
     this.timezone = '2017-12-14 12:28:AM';
     let
-      primary: string = this.form.controls["primary"].value;
-    let contact = primary + " " + this.form.controls["contact_number_1"].value;
+      primary: string = this.form.controls["primary"].value,
+      secondary: string = this.form.controls["contact_number_1"].value;
+
+    if (this.form.controls["primary"].value == undefined) {
+      primary = '';
+    }
+    if (this.form.controls["primary"].value == 'undefined') {
+      primary = '';
+    }
+    if (this.form.controls["primary"].value == 'null') {
+      primary = '';
+    }
+    if (this.form.controls["primary"].value == null) {
+      primary = '';
+    }
+
+    if (this.form.controls["contact_number_1"].value == undefined) {
+      secondary = ''
+    }
+    if (this.form.controls["contact_number_1"].value == 'undefined') {
+      secondary = '';
+    }
+    if (this.form.controls["contact_number_1"].value == 'null') {
+      secondary = '';
+    }
+    if (this.form.controls["contact_number_1"].value == null) {
+      secondary = '';
+    }
+
+    let contact = primary + " " + secondary;
     console.log(contact);
     contact = contact.replace("+", "%2B");
     if (this.form.controls["contact_name_1"].value != '') {

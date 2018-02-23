@@ -29,10 +29,8 @@
           <a href="#" (click)="download(1)">PDF</a>
         </ion-list>
         <ion-list>
-           <a href="#" (click)="download(2)">CSV</a>
-          <!--<a href="{{csvurl}}">CSV</a>-->
-
-           <!--<a href="{{csvurl}}">CSV</a>-->
+           <!--<a href="{{csvDownloadLink}}">CSV</a>-->
+          <a href="#" (click)="download(2)">CSV</a>
         </ion-list>
       </ion-row>
     </div>
@@ -44,7 +42,9 @@
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
   <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
 
-  <iframe width="100%" height="500" [src]="url" frameborder="0" *ngIf="graphview>0"></iframe>
+   <div class="table-view" *ngIf="graphview>0">
+     <iframe width="1000px" height="500" [src]="url" frameborder="0"></iframe>
+   </div>
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
   <!-- <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format. -->
