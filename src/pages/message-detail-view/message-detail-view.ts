@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -15,7 +15,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-message-detail-view',
   templateUrl: 'message-detail-view.html',

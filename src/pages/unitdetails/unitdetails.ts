@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
+import {  NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { AlarmPage } from '../alarm/alarm';
@@ -27,7 +27,7 @@ import { TimerObservable } from "rxjs/observable/TimerObservable";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+
 @Component({
 	selector: 'page-unitdetails',
 	templateUrl: 'unitdetails.html',

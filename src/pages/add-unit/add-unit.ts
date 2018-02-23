@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import {  NavController, NavParams, Platform } from 'ionic-angular';
 import { NotificationSettingsPage } from "../notification-settings/notification-settings";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -16,7 +16,7 @@ import { DashboardPage } from '../dashboard/dashboard';
  * Ionic pages and navigation.
  */
 
-//@IonicPage()
+
 @Component({
   selector: 'page-add-unit',
   templateUrl: 'add-unit.html',

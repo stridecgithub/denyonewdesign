@@ -1,5 +1,5 @@
 import { Component, Pipe } from '@angular/core';
-import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
+import {  NavController, NavParams,Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 //import { TabsPage } from "../tabs/tabs";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-attention',
   templateUrl: 'attention.html',

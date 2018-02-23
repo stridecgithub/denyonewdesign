@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import {  NavController, NavParams, Platform } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { ServicinginfoPage } from "../servicinginfo/servicinginfo";
@@ -11,7 +11,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-servicing-details',
   templateUrl: 'servicing-details.html',

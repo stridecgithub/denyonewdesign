@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { AlertController,  NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -18,7 +18,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-compose',
   templateUrl: 'compose.html',

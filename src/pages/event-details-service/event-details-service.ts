@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -16,7 +16,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-event-details-service',
   templateUrl: 'event-details-service.html',

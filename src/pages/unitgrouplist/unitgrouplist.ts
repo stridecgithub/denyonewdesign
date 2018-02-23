@@ -3,7 +3,6 @@ import { NavController, ToastController, AlertController, NavParams } from 'ioni
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddunitsonePage } from '../addunitsone/addunitsone';
-import { ViewcompanygroupPage } from '../viewcompanygroup/viewcompanygroup';
 import { LoadingController } from 'ionic-angular';
 import { DashboardPage } from '../dashboard/dashboard';
 import { UserPage } from '../user/user';
@@ -361,13 +360,7 @@ console.log(JSON.stringify(this.selectedAction));*/
         record: item
       });
       return false;
-    } else {
-      this.nav.setRoot(ViewcompanygroupPage, {
-        record: item,
-        act: act
-      });
-      return false;
-    }
+    } 
   }
 
 

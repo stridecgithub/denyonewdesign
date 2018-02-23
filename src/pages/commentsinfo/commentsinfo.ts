@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -18,7 +18,8 @@ import { ModalPage } from '../modal/modal';
  * Ionic pages and navCtrligation.
  */
 
-@IonicPage() @Component({
+
+@Component({
   selector: 'page-commentsinfo',
   templateUrl: 'commentsinfo.html',
   providers: [Config]

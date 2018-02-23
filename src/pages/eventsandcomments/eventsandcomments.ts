@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import {  NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -28,7 +28,7 @@ import { CommentreplyPage } from '../commentreply/commentreply';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-eventsandcomments',
   templateUrl: 'eventsandcomments.html',

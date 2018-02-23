@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, ModalController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { Config } from '../../config/config';
@@ -11,7 +11,7 @@ import { ModalPage } from '../modal/modal';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-@IonicPage()
+
 @Component({
   selector: 'page-unitdetailgraph',
   templateUrl: 'unitdetailgraph.html',

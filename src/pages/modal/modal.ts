@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import {  NavController, NavParams, ViewController } from 'ionic-angular';
 declare var google: any;
 /**
  * Generated class for the ModalPage page.
@@ -8,7 +8,7 @@ declare var google: any;
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-modal',
   templateUrl: 'modal.html',

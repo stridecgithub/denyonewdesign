@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { CommentviewPage } from '../commentview/commentview';
 
 /**
@@ -9,7 +9,7 @@ import { CommentviewPage } from '../commentview/commentview';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-commentadd',
   templateUrl: 'commentadd.html',

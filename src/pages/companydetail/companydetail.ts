@@ -3,7 +3,6 @@ import {  NavController, ToastController, AlertController, NavParams } from 'ion
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
-import { ViewcompanygroupPage } from '../viewcompanygroup/viewcompanygroup';
 import { LoadingController } from 'ionic-angular';
 import { UserPage } from '../user/user';
 import { UnitgroupPage } from '../unitgroup/unitgroup';

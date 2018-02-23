@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform,  NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -14,7 +14,6 @@ import { NotificationPage } from '../notification/notification';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-event-details',
   templateUrl: 'event-details.html',

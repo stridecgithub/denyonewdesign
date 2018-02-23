@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
+import {  NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -28,7 +28,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',

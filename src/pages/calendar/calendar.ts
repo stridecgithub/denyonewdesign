@@ -1,9 +1,9 @@
 ///<<<<<<< HEAD
 //import { Component } from '@angular/core';
-//import { IonicPage, NavController, NavParams } from 'ionic-angular';
+//import {  NavController, NavParams } from 'ionic-angular';
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
-import { IonicPage, Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
+import {  Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
@@ -64,7 +64,7 @@ interface CalendarControl {
 }
 /*=======
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 
 >>>>>>> ui*/
 /**
@@ -74,7 +74,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-calendar',
   templateUrl: 'calendar.html',

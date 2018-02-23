@@ -3,7 +3,6 @@ import { NavController, NavParams, Platform ,ModalController} from 'ionic-angula
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
-import { AlarmdetailsPage } from '../alarmdetails/alarmdetails';
 import { AlarmPage } from '../alarm/alarm';
 import { Config } from '../../config/config';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
@@ -360,10 +359,7 @@ export class AddalarmPage {
     } else if (this.NP.get("from") == 'commentinfo') {
       this.navCtrl.setRoot(CommentsinfoPage);
     } else {
-      this.navCtrl.setRoot(AlarmdetailsPage,
-        {
-          record: this.NP.get("record")
-        });
+     
     }
     console.log(this.navCtrl.getActive().name);
     /* this.navCtrl.setRoot(AlarmPage, {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -17,7 +17,7 @@ import { stringify } from '@angular/compiler/src/util';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-messagedetail',
   templateUrl: 'messagedetail.html',

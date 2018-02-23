@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
+import {  NavController, NavParams,Platform } from 'ionic-angular';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -11,7 +11,6 @@ import { Config } from '../../config/config';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-alarmlogdetails',
   templateUrl: 'alarmlogdetails.html',

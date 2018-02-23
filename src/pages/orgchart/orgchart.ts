@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
+import {  NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
@@ -16,7 +16,7 @@ import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+
 @Component({
   selector: 'page-orgchart',
   templateUrl: 'orgchart.html',

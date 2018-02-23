@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform,ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { AlarmlistdetailPage } from '../alarmlistdetail/alarmlistdetail';
 import { AlarmPage } from '../alarm/alarm';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
@@ -289,20 +288,7 @@ export class AddalarmlistPage {
   }
 
   previous() {
-    if (this.NP.get("from") == 'alarm') {
-     this.navCtrl.setRoot(AlarmlistdetailPage,
-        {
-          record: this.NP.get("record")
-        });
-    }
-    else if (this.NP.get("from") == 'comment') {
-     this.navCtrl.setRoot(CommentsinfoPage);
-    } else {
-     this.navCtrl.setRoot(AlarmlistdetailPage,
-        {
-          record: this.NP.get("record")
-        });
-    }
+ 
   }
   notification() {
    this.navCtrl.setRoot(NotificationPage);

@@ -1,5 +1,5 @@
 import { Component, Pipe } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 //import { TabsPage } from "../tabs/tabs";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { DashboardPage } from '../dashboard/dashboard';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-menu',
   templateUrl: 'menu.html',
