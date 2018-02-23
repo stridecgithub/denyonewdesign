@@ -23,6 +23,7 @@ export class ProgressBarComponent {
   orgcharthighlight: any;
   tabIndexVal: any;
   notcount;
+  page;
   private apiServiceURL: string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams, private conf: Config, public http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
@@ -48,6 +49,8 @@ export class ProgressBarComponent {
         console.log("Message Count:" + this.msgcount);
         if (this.msgcount == 0) { this.msgcount = ''; }
         this.notcount = data.json().notifycount;
+        this.page = this.navCtrl.getActive().name;
+        console.log(this.page);
       }, error => {
         console.log(error);
       });

@@ -82,7 +82,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   providers: [DragulaService, Config]
 })
 export class CalendarPage {
-  footerBar: number = 0;
+  footerBar: number = 2;
   allselected: any;
   typeStr: any;
   serviceselected: any;

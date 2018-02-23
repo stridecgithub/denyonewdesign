@@ -2,40 +2,72 @@
 
 <div class="custom-tab">
 
+    <a class="" (click)="goto('DashboardPage')" *ngIf="progress!=0">
+        <!--aria-selected="true"-->
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <span class="">Dashboard</span>
+    </a>
 
-    <!-- Tab Index: -->
+    <a class="" (click)="goto('DashboardPage')" *ngIf="progress==0" aria-selected="true">
+        <!--aria-selected="true"-->
+        <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <span class="">Dashboard</span>
+    </a>
 
-  <a class="" (click)="goto('DashboardPage')"   aria-selected="dashboardhighlight"><!--aria-selected="true"-->
-      <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-      <span class="">Dashboard</span>
-  </a>
 
 
-  
-  <a class="" (click)="goto('UnitsPage')"  aria-selected="unitshighlight">
-      <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-      <span class="">Units</span>
-  </a>
-  
-  <a class="" (click)="goto('CalendarPage')"  aria-selected="calendarhighlight">
-      <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-      <span class="">Calendar</span>
-  </a>
-  
-  <a class=""  (click)="goto('MessagePage')"  aria-selected="messagehighlight">
-      <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-      <i class="chat-count" *ngIf="msgcount>0">{{msgcount}}</i>
-      <span class="">Message</span>
-  </a>
-  
-  <a class="" (click)="goto('OrgchartPage')"  aria-selected="orgcharthighlight">
-      <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-      <span class="">Org Chart</span>
-  </a>
-  </div>
+    <a class="" (click)="goto('UnitsPage')" *ngIf="progress!=1">
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <span class="">Units</span>
+    </a>
+
+
+
+    <a class="" (click)="goto('UnitsPage')" aria-selected="true" *ngIf="progress==1">
+        <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <span class="">Units</span>
+    </a>
+
+
+    <a class="" (click)="goto('CalendarPage')" *ngIf="progress!=2">
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <span class="">Calendar</span>
+    </a>
+
+
+    <a class="" (click)="goto('CalendarPage')" aria-selected="true" *ngIf="progress==2">
+        <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <span class="">Calendar</span>
+    </a>
+
+
+    <a class="" (click)="goto('MessagePage')" *ngIf="progress!=3">
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <i class="chat-count" *ngIf="msgcount>0">{{msgcount}}</i>
+        <span class="">Message</span>
+    </a>
+
+    <a class="" (click)="goto('MessagePage')" aria-selected="true" *ngIf="progress==3">
+        <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <i class="chat-count" *ngIf="msgcount>0">{{msgcount}}</i>
+        <span class="">Message</span>
+    </a>
+
+
+    <a class="" (click)="goto('OrgchartPage')" *ngIf="progress!=4">
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <span class="">Org Chart</span>
+    </a>
+
+
+    <a class="" (click)="goto('OrgchartPage')" aria-selected="true" *ngIf="progress==4">
+        <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <span class="">Org Chart</span>
+    </a>
+
+</div>
 <!-- <div class="progress-outer">
   <div class="progress-inner" [style.width]="progress + '%'">
      kannan
   </div>
 </div> -->
-

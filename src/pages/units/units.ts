@@ -21,7 +21,7 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-  footerBar: number = 0;
+  footerBar: number = 1;
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";

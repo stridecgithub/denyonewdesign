@@ -74,11 +74,12 @@ export class DashboardPage {
   lastname;
   companyGroupName;
   dashboardhighlight;
-  pushnotifycount
+  pushnotifycount;
+  page;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
   constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, private push: Push, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
-
+    this.page = this.navCtrl.getActive().name;
     this.platform.ready().then(() => {
       this.tabIndexVal = localStorage.getItem("tabIndex");
       this.network.onConnect().subscribe(data => {
