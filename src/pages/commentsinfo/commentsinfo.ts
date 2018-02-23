@@ -48,6 +48,7 @@ export class CommentsinfoPage {
     addedImgLists2: '',
     colorcodeindications: ''
   }
+  footerBar: number = 1;
   public userId: any;
   public reportAllLists = [];
   public loginas: any;

@@ -25,7 +25,7 @@ import { Config } from '../../config/config';
 })
 export class EnginedetailPage {
   public pageTitle: string;
-  footerBar: number = 0;
+  footerBar: number = 1;
   public loginas: any;
   private apiServiceURL: string = "";
   public totalCount;

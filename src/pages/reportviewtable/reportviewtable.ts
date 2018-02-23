@@ -27,7 +27,7 @@ import * as papa from 'papaparse';
 export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
-
+  footerBar: number = 0;
   csvData: any[] = [];
   headerRow: any[] = [];
   public posts = [];

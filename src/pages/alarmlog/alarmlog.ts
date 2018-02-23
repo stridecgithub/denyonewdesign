@@ -26,6 +26,7 @@ import { ModalPage } from '../modal/modal';
 export class AlarmlogPage {
   public pageTitle: string;
   public loginas: any;
+  footerBar: number = 1;
   private apiServiceURL: string = "";
   private permissionMessage: string = "";
   public networkType: string;

@@ -19,6 +19,7 @@ import { ModalPage } from '../modal/modal';
   providers: [Config]
 })
 export class EnginedetailviewPage {
+  footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
   public unitid: any;

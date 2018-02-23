@@ -19,7 +19,7 @@ import { OrgchartPage} from '../orgchart/orgchart';
   templateUrl: 'addenginedetail.html',
 })
 export class AddenginedetailPage {
-  footerBar: number = 0;
+  footerBar: number = 1;
  public pageTitle: string;
   public loginas: any;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";

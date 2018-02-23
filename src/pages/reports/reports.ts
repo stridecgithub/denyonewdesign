@@ -33,6 +33,7 @@ import * as moment from 'moment';
 export class ReportsPage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
+  footerBar: number = 0;
   public loginas: any;
   public form: FormGroup;
   public userid: any;

@@ -28,7 +28,7 @@ import { Config } from '../../config/config';
   providers: [Config]
 })
 export class UnitgroupPage {
-
+  footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
   public msgcount: any;

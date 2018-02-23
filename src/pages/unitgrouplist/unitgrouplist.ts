@@ -56,7 +56,7 @@ export class Unitgrouplist {
   createdOn;
   colorcode; cname; favoriteindication; unitgroup_name; totalunits
   //Authorization Declaration
-  footerBar: number = 0;
+  footerBar: number = 1;
   //Authorization Declaration
   public reportData: any =
     {

@@ -35,7 +35,7 @@ export class AddunitgroupPage {
   public nccode: any;
   public userId: any;
   public responseResultCountry: any;
-  footerBar: number = 0;
+  footerBar: number = 1;
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
