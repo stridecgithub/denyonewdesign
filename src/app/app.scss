@@ -765,7 +765,9 @@ margin-bottom: 0;
     transform: translate(-50%, -50%)!important;
 }
 .ion-page > ion-content {
-    height: 91%;
+	height: -moz-calc(100% - 58px);
+    height: -webkit-calc(100% - 58px);
+    height: calc(100% - 58px);
 }
 page-add-unit.ion-page > ion-content,
 page-notification-settings.ion-page > ion-content,

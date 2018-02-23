@@ -7,6 +7,9 @@
  	.fix-bot .item-inner {
 		border-bottom:none!important;
 	}
+	.fix-bot .label-md {
+		margin: 15px 0 0 0;
+	}
  	.item-md {
 		padding-left:0;
 		background: transparent;
@@ -74,7 +77,7 @@
 		padding-right:16px;
 		padding-top:16px;
 		padding-bottom:16px;
-		max-height: 56vh;
+		height: calc(100vh - 295px);
     	overflow-y: auto;
 	}
     .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{

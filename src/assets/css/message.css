@@ -108,7 +108,7 @@
   background: #fff;
   padding: 0px;
   position: absolute;
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
   font-size: 14px;
   max-height: 150px;
   overflow-y: scroll;
@@ -124,4 +124,9 @@
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
+}
+.mystyle {
+	background:red;
+	color:#fff;
+	padding:10px;
 }
