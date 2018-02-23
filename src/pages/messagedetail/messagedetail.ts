@@ -91,13 +91,13 @@ export class MessagedetailPage {
       this.previous();
     });
   }
-  action(item, action, from,replyall) {
+  action(item, action, from, replyall) {
     localStorage.setItem("microtime", '');
     this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
       from: from,
-      replyall:replyall
+      replyall: replyall
     });
   }
   toggle(isopenorclose) {
@@ -153,6 +153,9 @@ export class MessagedetailPage {
     } else {*/
     let messageids;
     if (this.from == 'push') {
+      messageids = this.navParams.get("event_id");
+    } else if (this.from == 'compose') {
+      console.log("compose"+this.navParams.get("event_id"))
       messageids = this.navParams.get("event_id");
     } else {
       messageids = this.detailItem.message_id;
@@ -771,7 +774,7 @@ export class MessagedetailPage {
     });
   }
   presentPopover(myEvent, detailItem, from) {
-    let popover = this.popoverCtrl.create(MsgPopoverPage, { item: detailItem, from: from,replyall:this.replyall });
+    let popover = this.popoverCtrl.create(MsgPopoverPage, { item: detailItem, from: from, replyall: this.replyall });
     popover.present({
       ev: myEvent,
     });
@@ -780,7 +783,7 @@ export class MessagedetailPage {
       console.log("Data:" + data);
       console.log("From:" + from);
       if (data != null) {
-        this.action(detailItem, data, from,this.replyall);
+        this.action(detailItem, data, from, this.replyall);
       }
     });
   }

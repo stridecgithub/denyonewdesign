@@ -141,14 +141,14 @@
         <!-- i value {{i}}
         index value {{index}}
         existing image count {{existingimagecount}} -->
-        <button (click)="doRemoveResouce(imageitem)">
+        <button (click)="doRemoveResouce(imageitem)"  *ngIf="act!='reply' && act!='forward' && act!='replytoall'" >
           <!-- *ngIf="act!='reply' && act!='forward'" -->
-          <ion-icon name="md-close-circle" style="color:red;" *ngIf="act!='reply' && act!='forward' && act!='replytoall'" ></ion-icon>
+          <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>
 
-        <!-- <button (click)="preview(addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
+        <button (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
             <ion-icon name="download"></ion-icon>
-          </button> -->
+          </button>
       </div>
     </div>
   </div>

@@ -184,7 +184,8 @@ export class UnitgroupPage {
               colorcode: res.unitgroups[unitgroup].colorcode,
               colorcodeindication: colorcode,
               favoriteindication: favorite,
-              cname: cname
+              cname: cname,
+              createdOn: res.unitgroups[unitgroup].createdOn,
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
@@ -424,9 +425,9 @@ export class UnitgroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  view(id, colorcode, cname, favoriteindication,unitgroup_name,totalunits) {
+  view(id, colorcode, cname, favoriteindication,unitgroup_name,totalunits,remark,createdOn) {
     //  localStorage.setItem("uid", id);
-    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication,'unitgroup_name':unitgroup_name,'totalunits':totalunits });
+    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication,'unitgroup_name':unitgroup_name,'totalunits':totalunits,'remark':remark,'createdOn':createdOn });
   }
 
   doSort() {

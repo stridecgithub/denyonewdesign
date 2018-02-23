@@ -138,6 +138,7 @@ export class ComposePage {
   }
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
+    console.log("Message Id"+messageid);
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
@@ -156,6 +157,7 @@ export class ComposePage {
     console.log('ionViewDidLoad ComposePage');
     this.doAttachmentResources(this.micro_timestamp);
     console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
+    this.messageid = this.navParams.get("record").message_id;
     this.act = this.navParams.get("action");
     this.replyall = this.navParams.get("record").replyall;
     console.log("REply all:" + this.replyall);
@@ -452,6 +454,7 @@ export class ComposePage {
   }
 
   selectEntry(item) {
+    
     console.log(JSON.stringify(item));
     //if (this.nowuploading == 0) {
     this.totalFileSize = item.totalfilesize;

@@ -42,7 +42,7 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of unitgroupAllLists">
-      <ion-item (click)="view(unitgroup.unitgroup_id, unitgroup.colorcode, unitgroup.cname, unitgroup.favoriteindication,unitgroup.unitgroup_name,unitgroup.totalunits)">
+      <ion-item (click)="view(unitgroup.unitgroup_id, unitgroup.colorcode, unitgroup.cname, unitgroup.favoriteindication,unitgroup.unitgroup_name,unitgroup.totalunits,unitgroup.remark,unitgroup.createdOn)">
         <!-- <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
 
         </button> -->
@@ -69,6 +69,7 @@
           </div>
 
       </ion-item>
+      
       <ion-item-options side="right" class="list-item-options">
         <button ion-button class="edit-btn"  (click)="doEdit(unitgroup,'edit')">
             <img width="25" src="assets/imgs/edit@2x.png">Edit
