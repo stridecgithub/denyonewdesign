@@ -236,7 +236,7 @@ export class AddorgchartonePage {
           this.sendNotification(data.json().msg[0].result);
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
-          this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
+          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {
@@ -295,7 +295,7 @@ export class AddorgchartonePage {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
           this.sendNotification(data.json().msg[0].result);
-          this.nav.setRoot(OrgchartPage, { 'companyId': this.NP.get('companyId') });
+          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {

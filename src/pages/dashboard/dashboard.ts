@@ -32,11 +32,12 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
-  providers: [Push, LocalNotifications,Config]
+  providers: [Push, LocalNotifications, Config]
 })
 
 export class DashboardPage {
   footerBar: number = 0;
+  tabIndexVal;
   @ViewChild('map') mapElement: ElementRef;
   public map: any;
   public alarms: string = "0";
@@ -79,6 +80,7 @@ export class DashboardPage {
 
 
     this.platform.ready().then(() => {
+      this.tabIndexVal = localStorage.getItem("tabIndex");
       this.network.onConnect().subscribe(data => {
         console.log(data)
         this.displayNetworkUpdate(data.type);
@@ -153,10 +155,13 @@ export class DashboardPage {
 
   }
   ionViewWillLeave() {
+    this.tabIndexVal = localStorage.getItem("tabIndex");
     // this.connected.unsubscribe();
     // this.disconnected.unsubscribe();
   }
   ionViewDidEnter() {
+    localStorage.setItem("tabIndex", "0");
+    this.tabIndexVal = localStorage.getItem("tabIndex");
     // this.network.onConnect().subscribe(data => {
     //   console.log(data)
     //   this.displayNetworkUpdate(data.type);
@@ -181,18 +186,13 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
-
+    localStorage.setItem("tabIndex", "0");
+    this.tabIndexVal = localStorage.getItem("tabIndex");
     console.log('dashboardselected' + this.navParams.get('dashboardselected'));
     this.dashboardhighlight = this.navParams.get('dashboardselected');
-/*
-    setInterval(() => {
 
-      if (this.footerBar < 100) {
-        this.footerBar++;
-      }
+   
 
-    }, 50);
-*/
     this.conf.showfooter();
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
@@ -896,23 +896,23 @@ export class DashboardPage {
           icon: iconDisplay
         });
 
-        
-        
+
+
         google.maps.event.addListener(infowindow, 'closeclick', function () {
           let popups = document.getElementsByClassName('popup');
-         for (let i = 0; i < popups.length; i++) {
-          popups[i].classList.remove('showPopup');
+          for (let i = 0; i < popups.length; i++) {
+            popups[i].classList.remove('showPopup');
 
-        }
-        
+          }
+
         });
 
         let currinfowindow = null;
 
-        
+
         // Add click event
         marker.addListener('click', function () {
-          
+
           // Use unit location for info box content
           infowindow.setContent(markers[i].location);
           infowindow.open(this.map, marker);
@@ -1186,7 +1186,7 @@ export class DashboardPage {
     }, 500);
     console.log('E');
   }
- initPushNotification() {
+  initPushNotification() {
     // to check if we have permission
     this.push.hasPermission()
       .then((res: any) => {

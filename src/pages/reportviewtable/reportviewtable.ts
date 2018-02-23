@@ -226,19 +226,6 @@ export class ReportviewtablePage {
             this.timeframe = res.timeframe;
             this.generatormodel = res.generatormodel;
             this.unitgroupname = res.unitgroupname;
-
-            /*
-            
-            
-            
-            
-            
-            
-            
-            
-            
-                       "fromdate":"2018-02-11","todate":"2018-02-10","unitid":"2","timeframe":"1time","generatormodel":"DCA60ES12"
-            */
           } else {
             this.totalcount = 0;
           }
@@ -267,6 +254,90 @@ export class ReportviewtablePage {
         this.requestsuccess = 'Request successfully sent';
         console.log(this.requestsuccess);
       } else {
+
+        // For Getting Unit Details in Graph
+        let body: string = "is_mobile=1" +
+        "&selunit=" + this.NP.get("selunit") +
+        "&seltimeframe=" + this.NP.get("seltimeframe") +
+        "&seltemplate=" + this.NP.get("seltemplate") +
+        "&from=" + this.NP.get("from") +
+        "&to=" + this.NP.get("to") +
+        "&exportto=" + this.NP.get("exportto") +
+        "&seltype=" + seltype +
+        "&action=" + action +
+        "&loginid=" + this.userid +
+        "&companyid=" + this.companyid,
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
+          "&selunit=" + this.NP.get("selunit") +
+          "&seltimeframe=" + this.NP.get("seltimeframe") +
+          "&seltemplate=" + this.NP.get("seltemplate") +
+          "&from=" + this.NP.get("from") +
+          "&to=" + this.NP.get("to") +
+          "&exportto=table"+
+          "&seltype=" + seltype +
+          "&action=" + action +
+          "&loginid=" + this.userid +
+          "&companyid=" + this.companyid;
+
+      console.log("Report submit url is:-" + url);
+      let res;
+      this.presentLoading(1);
+      //this.http.post(url, body, options)
+      this.http.get(url, options)
+        ///this.http.post(url, body, options)
+        .subscribe((data) => {
+
+          // If the request was successful notify the user
+          res = data.json();
+          console.log("Report Preview Success Response:-" + JSON.stringify(res));
+          if (seltypeBtn == '1') {
+            this.success = 1;
+            this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+          }
+          if (res.totalcount > 0) {
+            // this.download(2);
+            this.headLists = res.templatedata;
+            this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
+
+            this.posts = res.mobilehistorydata[0];
+            // this.keys = Object.keys(this.posts);
+           // this.reportAllLists = res.reportdata;
+            this.totalcount = res.totalcount;
+
+            this.location = res.unitdata[0].location;
+            this.unitname = res.unitdata[0].unitname;
+            this.projectname = res.unitdata[0].projectname;
+            this.controllerid = res.unitdata[0].controllerid;
+            this.alarmnotificationto = res.unitdata[0].alarmnotificationto;
+            this.alarmhashtags = res.unitdata[0].alarmhashtags;
+            this.neaplateno = res.unitdata[0].neaplateno;
+            this.serialnumber = res.unitdata[0].serialnumber;
+            this.nextservicedate = res.nextservicedate;
+            this.contactnames = res.contactnames;
+            this.contactnumbers = res.contactnumbers
+            this.fromdate = res.fromdate;
+            this.todate = res.todate;
+            this.timeframe = res.timeframe;
+            this.generatormodel = res.generatormodel;
+            this.unitgroupname = res.unitgroupname;
+          } else {
+            this.totalcount = 0;
+          }
+
+          if (data.status === 200) {
+
+          }
+          // Otherwise let 'em know anyway
+          else {
+
+          }
+
+          this.noentrymsg = 'No report entries found';
+        });
+        // For Gettting Unit Details in Graph
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
