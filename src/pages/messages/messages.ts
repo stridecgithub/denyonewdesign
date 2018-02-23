@@ -13,7 +13,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
   providers: [Config]
 })
 export class MessagesPage {
-  footerBar: number = 0;
+  footerBar: number = 3;
   public tabs: string = 'inboxView';
   isReadyToSave: boolean;
   public photoInfo = [];

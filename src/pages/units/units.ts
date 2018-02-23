@@ -21,7 +21,7 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-  footerBar: number = 0;
+  footerBar: number = 1;
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";
@@ -49,6 +49,7 @@ export class UnitsPage {
   public msgcount: any;
   public notcount: any;
   public profilePhoto;
+  tabIndexVal;
   constructor(public modalCtrl: ModalController,public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
@@ -58,9 +59,13 @@ export class UnitsPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.tabIndexVal = localStorage.getItem("tabIndex");
   }
 
   ionViewWillEnter() {
+   
+    localStorage.setItem("tabIndex", "1");
+    this.tabIndexVal = localStorage.getItem("tabIndex");
     //this.tabBarElement.style.display = 'flex';
   }
   presentModal(unit) {
@@ -69,6 +74,9 @@ export class UnitsPage {
     modal.present();
   }
   ionViewDidLoad() {
+   
+    localStorage.setItem("tabIndex", "1");
+    this.tabIndexVal = localStorage.getItem("tabIndex");
     //console.log("Page Name"+this.navCtrl.getActive().name);
 
     this.companyId = localStorage.getItem("userInfoCompanyId");

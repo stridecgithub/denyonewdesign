@@ -81,6 +81,7 @@ export class ServicinginfoPage {
   public profilePhoto;
   public sortLblTxt: string = 'Date';
   //tabBarElement: any;
+  footerBar: number = 1;
   constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Servicing Info';

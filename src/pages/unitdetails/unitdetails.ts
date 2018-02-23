@@ -36,7 +36,7 @@ import { TimerObservable } from "rxjs/observable/TimerObservable";
 export class UnitdetailsPage {
 	private tick: any;
 	private subscription: Subscription;
-
+	footerBar: number = 1;
 	public pageTitle: string;
 	//public userId: any;
 	public item = [];

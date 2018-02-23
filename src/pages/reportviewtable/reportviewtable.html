@@ -42,9 +42,7 @@
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
   <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
 
-   <div class="table-view" *ngIf="graphview>0">
-     <iframe width="1000px" height="500" [src]="url" frameborder="0"></iframe>
-   </div>
+  
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
   <!-- <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format. -->
@@ -56,14 +54,14 @@
 
 
 
-  <div class="unit-detail" *ngIf="graphview==0  && success==0">
+  <div class="unit-detail" *ngIf="success==0">
     <div class="unit-title">
       <h3>{{unitname}}</h3>
       <img src="assets/imgs/denyo_logo.png" />
     </div>
   </div>
 
-  <div class="info" *ngIf="graphview==0 && success==0">
+  <div class="info" *ngIf="success==0">
 
     <ion-row>
       <ion-col col-6>
@@ -191,5 +189,8 @@
 
   </div>
 
-
+  <div class="table-view" *ngIf="graphview>0">
+    <iframe width="1000px" height="500" [src]="url" frameborder="0"></iframe>
+  </div>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
