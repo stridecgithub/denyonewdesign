@@ -91,7 +91,10 @@ export class OrgchartPage {
     }
     //Authorization Get Value
 
-
+    platform.registerBackButtonAction(() => {
+      console.log(this.previous);
+      this.previous();
+    });
 
 
     this.VIEWACCESS = localStorage.getItem("SETTINGS_ORGCHART_VIEW");
@@ -317,7 +320,7 @@ export class OrgchartPage {
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
 
-    this.doOrgChart();
+    //this.doOrgChart();
 
 
     console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");

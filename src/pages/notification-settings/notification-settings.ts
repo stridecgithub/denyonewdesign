@@ -168,9 +168,10 @@ export class NotificationSettingsPage {
           this.contact_number_1 = contactNumber;
 
           if (this.contact_number_1 != undefined) {
-            let contactSplitSpace = this.contact_number_1.split(" ");
+            //let contactSplitSpace = this.contact_number_1.split(" ");
             //this.primary = contactSplitSpace[0];
-            this.contact_number_1 = contactSplitSpace[1];
+            //this.contact_number_1 = contactSplitSpace[1];
+            this.contact_number_1 = this.contact_number_1;
           }
         }
         if (i == 1 && contactName != '') {
@@ -179,10 +180,11 @@ export class NotificationSettingsPage {
           this.contact_number_2 = contactNumber;
 
           if (this.contact_number_2 != undefined) {
-            let contactSplitSpace = this.contact_number_2.split(" ");
+            //let contactSplitSpace = this.contact_number_2.split(" ");
             //this.primary_2 = contactSplitSpace[0];
-            this.contact_number_2 = contactSplitSpace[1];
+            //this.contact_number_2 = contactSplitSpace[1];
             //console.log("primary_2:" + this.primary_2);
+            this.contact_number_2 = this.contact_number_2;
             console.log("contact_number_2:" + this.contact_number_2);
           }
 
@@ -196,7 +198,8 @@ export class NotificationSettingsPage {
           if (this.contact_number_3 != undefined) {
             let contactSplitSpace = this.contact_number_3.split(" ");
            // this.primary_3 = contactSplitSpace[0];
-            this.contact_number_3 = contactSplitSpace[1];
+           // this.contact_number_3 = contactSplitSpace[1];
+           this.contact_number_3 = this.contact_number_3;
           }
         }
         if (i == 3 && contactName != '') {
@@ -204,9 +207,10 @@ export class NotificationSettingsPage {
           this.contact_name_4 = contactName;
           this.contact_number_4 = contactNumber;
           if (this.contact_number_4 != undefined) {
-            let contactSplitSpace = this.contact_number_4.split(" ");
+           // let contactSplitSpace = this.contact_number_4.split(" ");
            // this.primary_4 = contactSplitSpace[0];
-            this.contact_number_4 = contactSplitSpace[1];
+            //this.contact_number_4 = contactSplitSpace[1];
+            this.contact_number_4 = this.contact_number_4;
           }
         }
         if (i == 4 && contactName != '') {
@@ -217,7 +221,8 @@ export class NotificationSettingsPage {
           if (this.contact_number_5 != undefined) {
             let contactSplitSpace = this.contact_number_5.split(" ");
            // this.primary_5 = contactSplitSpace[0];
-            this.contact_number_5 = contactSplitSpace[1];
+           // this.contact_number_5 = contactSplitSpace[1];
+           this.contact_number_5 = this.contact_number_5;
           }
 
         }

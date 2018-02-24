@@ -86,7 +86,7 @@ export class EditprofilesteponePage {
       "job_position": ["", Validators.required],
       "company_id": ["", Validators.required],
       "report_to": ["", Validators.required],
-      "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+      //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
     });
     this.userId = localStorage.getItem("userInfoId");
@@ -150,9 +150,10 @@ export class EditprofilesteponePage {
         this.photo = res.settings[0].photo_filename;
         localStorage.setItem("photofromgallery", this.photo);
         if (this.contact != undefined) {
-          let contactSplitSpace = this.contact.split(" ");
-          this.primary = contactSplitSpace[0];
-          this.contact = contactSplitSpace[1];
+          // let contactSplitSpace = this.contact.split(" ");
+          // this.primary = contactSplitSpace[0];
+          // this.contact = contactSplitSpace[1];
+          this.contact = this.contact;
         }
 
         this.email = res.settings[0].email;

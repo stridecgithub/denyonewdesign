@@ -143,9 +143,9 @@ export class AddorgchartonePage {
       this.contact = editItem.contact_number;
       console.log(this.contact);
       if (this.contact != undefined) {
-        let contactSplitSpace = this.contact.split(" ");
+       // let contactSplitSpace = this.contact.split(" ");
        // this.primary = contactSplitSpace[0];
-        this.contact = contactSplitSpace[1];
+        this.contact = this.contact ;
       }
       this.getUserListData(editItem.company_id);
     }

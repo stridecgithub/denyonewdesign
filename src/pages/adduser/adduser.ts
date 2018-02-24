@@ -204,9 +204,10 @@ export class AdduserPage {
       this.contact = editItem.contact_number;
       this.username = editItem.username;
       if (this.contact != undefined) {
-        let contactSplitSpace = this.contact.split(" ");
+        //let contactSplitSpace = this.contact.split(" ");
        // this.primary = contactSplitSpace[0];
-        this.contact = contactSplitSpace[1];
+       // this.contact = contactSplitSpace[1];
+        this.contact = this.contact;
       }
       this.useriddisabled = true;
     }
@@ -241,9 +242,10 @@ export class AdduserPage {
           this.contact = info[key].contact;
           this.photo = info[key].photo;
           if (this.contact != '') {
-            let contactSplitSpace = this.contact.split(" ");
+           // let contactSplitSpace = this.contact.split(" ");
            // this.primary = contactSplitSpace[0];
-            this.contact = contactSplitSpace[1];
+            //this.contact = contactSplitSpace[1];
+            this.contact = this.contact;
           }
 
           console.log("First Name for User Account:" + this.first_name);
@@ -260,7 +262,8 @@ export class AdduserPage {
           if (this.contact != '') {
             let contactSplitSpace = this.contact.split(" ");
             //this.primary = contactSplitSpace[0];
-            this.contact = contactSplitSpace[1];
+            //this.contact = contactSplitSpace[1];
+            this.contact = this.contact;
           }
 
 

@@ -320,8 +320,8 @@ export class ReportviewtablePage {
             this.nextservicedate = res.nextservicedate;
             this.contactnames = res.contactnames;
             this.contactnumbers = res.contactnumbers
-            this.fromdate = res.fromdate;
-            this.todate = res.todate;
+            this.fromdatedisplay = res.fromdate;
+            this.todatedisplay = res.todate;
             this.timeframe = res.timeframe;
             this.generatormodel = res.generatormodel;
             this.unitgroupname = res.unitgroupname;

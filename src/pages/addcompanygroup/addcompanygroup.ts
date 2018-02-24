@@ -1100,9 +1100,10 @@ export class AddcompanygroupPage {
     this.country = item.country;
     this.contact = item.contact;
     if (this.contact != undefined) {
-      let contactSplitSpace = this.contact.split(" ");
+      //let contactSplitSpace = this.contact.split(" ");
       //this.primary = contactSplitSpace[0];
-      this.contact = contactSplitSpace[1];
+     // this.contact = contactSplitSpace[1];
+      this.contact =this.contact;
     }
     this.recordID = item.companygroup_id;
   }
