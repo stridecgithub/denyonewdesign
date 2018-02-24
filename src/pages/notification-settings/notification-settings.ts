@@ -535,18 +535,18 @@ export class NotificationSettingsPage {
      // primary: string = this.form.controls["primary"].value,
       secondary: string = this.form.controls["contact_number_1"].value;
 
-    if (this.form.controls["primary"].value == undefined) {
-     // primary = '';
-    }
-    if (this.form.controls["primary"].value == 'undefined') {
-      //primary = '';
-    }
-    if (this.form.controls["primary"].value == 'null') {
-      ///primary = '';
-    }
-    if (this.form.controls["primary"].value == null) {
-      //primary = '';
-    }
+    // if (this.form.controls["primary"].value == undefined) {
+    //  // primary = '';
+    // }
+    // if (this.form.controls["primary"].value == 'undefined') {
+    //   //primary = '';
+    // }
+    // if (this.form.controls["primary"].value == 'null') {
+    //   ///primary = '';
+    // }
+    // if (this.form.controls["primary"].value == null) {
+    //   //primary = '';
+    // }
 
     if (this.form.controls["contact_number_1"].value == undefined) {
       secondary = ''
@@ -806,7 +806,7 @@ export class NotificationSettingsPage {
 
   addmore() {
     if (this.isEdited == 0) {
-      this.isSubmitted = true;
+      //this.isSubmitted = true;
     }
     let len = this.contactnameArray.length;
     let incr;

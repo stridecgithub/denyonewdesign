@@ -164,9 +164,10 @@ export class EditprofilesteponePage {
         this.country = res.settings[0].country_id;
         this.company_id = res.settings[0].company_id;
         this.report_to = res.settings[0].report_to;
-        if (this.company_id > 0) {
-          this.getUserListData(this.company_id);
-        }
+        console.log("this.report_to "+this.report_to );
+        //if (this.company_id > 0) {
+          this.getUserListData();
+       // }
 
         this.job_position = res.settings[0].job_position;
 
@@ -601,13 +602,13 @@ export class EditprofilesteponePage {
 
   }
 
-  getUserListData(companyid) {
+  getUserListData() {
     if (this.isEdited == true) {
-      this.userId = this.recordID;
+      //this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -621,6 +622,7 @@ export class EditprofilesteponePage {
           else {
             this.len = res.TotalCount;
           }
+          console.log("this.len:"+this.len)
           console.log("length" + res.TotalCount);
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
@@ -632,7 +634,7 @@ export class EditprofilesteponePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
