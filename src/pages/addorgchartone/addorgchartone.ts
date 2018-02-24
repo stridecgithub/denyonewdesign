@@ -38,7 +38,7 @@ export class AddorgchartonePage {
   public country: any;
   public borderbottomredvalidation: any;
   public contact: any;
-  public primary: any;
+  //public primary: any;
   public userId: any;
   public responseResultCountry: any;
   progress: number;
@@ -85,7 +85,7 @@ export class AddorgchartonePage {
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
       "contact": ["", Validators.required],
-      "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+     // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
       "job_position": ["", Validators.required],
@@ -143,9 +143,9 @@ export class AddorgchartonePage {
       this.contact = editItem.contact_number;
       console.log(this.contact);
       if (this.contact != undefined) {
-        let contactSplitSpace = this.contact.split(" ");
-        this.primary = contactSplitSpace[0];
-        this.contact = contactSplitSpace[1];
+       // let contactSplitSpace = this.contact.split(" ");
+       // this.primary = contactSplitSpace[0];
+        this.contact = this.contact ;
       }
       this.getUserListData(editItem.company_id);
     }
@@ -325,9 +325,10 @@ export class AddorgchartonePage {
       last_name: string = this.form.controls["last_name"].value,
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
-      contact: string = this.form.controls["contact"].value,
-      primary: string = this.form.controls["primary"].value;
-    contact = primary + " " + contact;
+      contact: string = this.form.controls["contact"].value;
+     // primary: string = this.form.controls["primary"].value;
+    //contact = primary + " " + contact;
+    contact =  contact;
     console.log(contact);
     /*if (this.addedImgLists) {
       this.isUploadedProcessing = true;

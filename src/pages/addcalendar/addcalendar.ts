@@ -43,7 +43,7 @@ export class AddcalendarPage {
   public month1: any;
   public date1: any;
   public event_title: any;
-
+  futuredatemsg;
   public alldayeventvalue: boolean = false;
   public isSubmitted: boolean = false;
   public alldayevent: boolean = true;
@@ -1051,6 +1051,8 @@ export class AddcalendarPage {
   }
 
   futureDateValidation(formvalue) {
+    console.log("A");
+    this.futuredatemsg ='';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1069,8 +1071,12 @@ export class AddcalendarPage {
     let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-
+      console.log("B");
     } else {
+     
+      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+      console.log("C");
+    
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }

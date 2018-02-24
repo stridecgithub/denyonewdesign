@@ -142,16 +142,21 @@
         <ion-textarea [disabled]="readOnly" formControlName="address" rows="6" [(ngModel)]="address"></ion-textarea>
       </ion-item>
 
-      
+      <ion-item>
+        <ion-label stacked>Company Contact
+          <span class="mandatory" *ngIf="hideActionButton">*</span>
+        </ion-label>
+        <ion-input type="text" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
+      </ion-item>
 
-      <div class="contactinfo">
+      <!-- <div class="contactinfo">
           <ion-label stacked>Company Contact
             <span class="mandatory" *ngIf="hideActionButton">*</span>
           </ion-label>
           <ion-input  class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
             [(ngModel)]="primary" style="width:19%;float:left;border: 1px solid #ededed;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
-        </div>
+        </div> -->
 
 
 

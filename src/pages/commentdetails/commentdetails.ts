@@ -41,6 +41,8 @@ export class CommentdetailsPage {
   comment_resources;
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
+  comment_by_name_hastag;
+  comment_by_name;
   //tabBarElement: any;
   eventitem;
   user_photo;
@@ -86,6 +88,10 @@ export class CommentdetailsPage {
           this.evenDate = data.json().comments[0].comment_date;
           this.location = data.json().comments[0].location;
           this.description = data.json().comments[0].comment_remark;
+          this.comment_by_name_hastag = "("+data.json().comments[0].comment_by_name_hastag+")";
+          this.comment_by_name = data.json().comments[0].comment_by_name;
+          
+          
           this.user_photo= data.json().comments[0].user_photo;
           console.log("User Photo :"+ this.user_photo);
           this.service_scheduled_time = data.json().comments[0].service_scheduled_time;

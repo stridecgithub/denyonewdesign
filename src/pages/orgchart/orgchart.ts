@@ -91,7 +91,10 @@ export class OrgchartPage {
     }
     //Authorization Get Value
 
-
+    platform.registerBackButtonAction(() => {
+      console.log(this.previous);
+      this.previous();
+    });
 
 
     this.VIEWACCESS = localStorage.getItem("SETTINGS_ORGCHART_VIEW");
@@ -317,7 +320,7 @@ export class OrgchartPage {
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
 
-    this.doOrgChart();
+    //this.doOrgChart();
 
 
     console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
@@ -328,8 +331,8 @@ export class OrgchartPage {
   ionViewDidEnter() {
     this.pageLoad();
   }
-  doOrgChart() {
-    //this.conf.presentLoading(1);
+  doOrgChart() {   
+    this.conf.presentLoading(1);
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -340,7 +343,7 @@ export class OrgchartPage {
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-        // this.conf.presentLoading(0);
+         this.conf.presentLoading(0);
         // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
         res = data.json();
         this.totalCount = res.totalCount;
