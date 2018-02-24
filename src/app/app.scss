@@ -613,9 +613,9 @@ ion-segment.segment-ios .segment-button {
     padding: 0 20px;
 }
 .custom-tab {
-	left: 0;
+	/*left: 0;
 	  bottom: 0;
-	  position: fixed;
+	  position: fixed;*/
 	  z-index: 10;
 	  display: -webkit-box;
 	  display: -webkit-flex;
@@ -764,7 +764,7 @@ margin-bottom: 0;
     left: 50% !important;
     transform: translate(-50%, -50%)!important;
 }
-.ion-page > ion-content {
+/*.ion-page > ion-content {
 	height: -moz-calc(100% - 58px);
     height: -webkit-calc(100% - 58px);
     height: calc(100% - 58px);
@@ -792,4 +792,8 @@ page-reportviewtable.ion-page > ion-content,
 page-login.ion-page > ion-content,
 page-forgotpassword.ion-page > ion-content { 
     height: 100%;
+}
+*/
+ion-content .scroll-content {
+	margin-bottom: 55px;
 }

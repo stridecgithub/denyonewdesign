@@ -128,5 +128,9 @@
       <button ion-button color="bluedark" text-center block (click)="saveEntry()" [disabled]="!form.valid">Save</button>
     </ion-item>
   </form>
-  <progress-bar [progress]="footerBar"></progress-bar>
+  
 </ion-content>
+
+<ion-footer>
+  	<progress-bar [progress]="footerBar"></progress-bar>
+  </ion-footer>
