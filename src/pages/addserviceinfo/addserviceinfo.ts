@@ -598,7 +598,7 @@ export class AddserviceinfoPage {
           //if (res.msg[0]['Error'] > 0) {
           // this.conf.sendNotification(res.msg[0]['result']);
           //}
-          this.conf.sendNotification(`New Service Scheduled Added successfully`);
+          this.conf.sendNotification(`New service scheduled added successfully`);
 
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")

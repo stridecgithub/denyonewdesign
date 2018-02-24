@@ -391,7 +391,7 @@ export class AddhocPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-       // this.isSubmitted = true;
+        // this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -479,8 +479,8 @@ export class AddhocPage {
       if (this.hrvalue > 12) {
         ampmstr = 'PM';
       }
-     // serviced_date = this.serviced_date.split("T")[0];
-     // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
+      // serviced_date = this.serviced_date.split("T")[0];
+      // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
       let timevalue = this.hrvalue + ":" + minvalue + ":00";
       console.log(timevalue);
       console.log("service_remark:" + service_remark);
@@ -488,7 +488,7 @@ export class AddhocPage {
       console.log("is_request:" + is_request);
       console.log("service_subject:" + service_subject);
       console.log("nextServiceDate:" + this.unitDetailData.nextServiceDate);
-      this.createEntry( this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+      this.createEntry(this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
 
     }
 
@@ -554,8 +554,8 @@ export class AddhocPage {
       "&service_remark=" + service_remark +
       "&next_service_date=" + nextServiceDate +
       "&next_service_date_selected=" + this.next_service_date_selected +
-      "&is_denyo_support=" + is_denyo_support +     
-      "&serviced_by=" + this.unitDetailData.userId+// "&serviced_by=" + this.unitDetailData.userId +
+      "&is_denyo_support=" + is_denyo_support +
+      "&serviced_by=" + this.unitDetailData.userId +// "&serviced_by=" + this.unitDetailData.userId +
       "&created_by=" + this.unitDetailData.userId +
       "&is_request=" + is_request +
       "&service_subject=" + service_subject +
@@ -605,7 +605,7 @@ export class AddhocPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-   
+
   }
 
 
@@ -898,7 +898,7 @@ export class AddhocPage {
 
       message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
       buttons: [
-	  {
+        {
           text: 'Cancel',
           handler: () => {
             this.is_request = false;
@@ -912,7 +912,7 @@ export class AddhocPage {
             console.log('Confirm clicked');
           }
         }
-        
+
       ],
       cssClass: 'alertDanger adhoc-alert'
     });
@@ -943,7 +943,7 @@ export class AddhocPage {
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
@@ -974,7 +974,7 @@ export class AddhocPage {
               destinationType: this.camera.DestinationType.FILE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
 
             this.camera.getPicture(options).then((uri) => {
@@ -1018,8 +1018,8 @@ export class AddhocPage {
   // }
 
 
-  futureDateValidation(formvalue) {
-    this.futuredatemsg='';
+  AddhocFutureDateValidation(formvalue) {
+    this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1028,24 +1028,35 @@ export class AddhocPage {
     } else {
       this.mn = mn;
     }
-    let dd =  date.getDate();
+    let dd = date.getDate();
     if (dd < 10) {
       this.dd = "0" + dd;
     } else {
       this.dd = dd;
     }
 
-    let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
+    let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] > current_date) {
-     
-      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+      this.futuredatemsg = "No future date is allowed";
       console.log("C");
-       this.serviced_date = moment().format();
+      this.serviced_date = moment().format();
       this.isSubmitted = true;
     } else {
-      
+
       this.isSubmitted = false;
     }
+    console.log(this.futuredatemsg);
+    console.log(this.futuredatemsg);
+    if (this.futuredatemsg != '') {
+      this.showAlert('Invalid Date', 'Sorry,you have selected future date.no future date is allowed.')
+    }
   }
-
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 }

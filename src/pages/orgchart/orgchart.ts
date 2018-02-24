@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import {  NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
+import { ViewController, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
@@ -68,7 +68,7 @@ export class OrgchartPage {
   iframeContent: any;
   public profilePhoto;
   footerBar: number = 4;
-  constructor(private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
+  constructor(public viewCtrl: ViewController, private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public navParams: NavParams) {
     //this.width = 1;
     //this.height = 150";
@@ -94,6 +94,7 @@ export class OrgchartPage {
     platform.registerBackButtonAction(() => {
       console.log(this.previous);
       this.previous();
+      this.viewCtrl.dismiss(PopoverPage);
     });
 
 
@@ -250,7 +251,7 @@ export class OrgchartPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.conf.sendNotification(`Orgchart was successfully deleted`);
+          this.conf.sendNotification(`Non-user was successfully deleted`);
           this.parents = [];
           this.doOrgChart();
         }
@@ -331,7 +332,7 @@ export class OrgchartPage {
   ionViewDidEnter() {
     this.pageLoad();
   }
-  doOrgChart() {   
+  doOrgChart() {
     this.conf.presentLoading(1);
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -343,7 +344,7 @@ export class OrgchartPage {
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-         this.conf.presentLoading(0);
+        this.conf.presentLoading(0);
         // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
         res = data.json();
         this.totalCount = res.totalCount;

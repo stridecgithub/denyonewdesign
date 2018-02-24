@@ -314,7 +314,7 @@ export class AddalarmPage {
         .subscribe((data) => {
           if (data.status === 200) {
             this.hideForm = true;
-            this.conf.sendNotification(`successfully Assigned`);
+            this.conf.sendNotification(`Successfully assigned`);
             localStorage.setItem("userPhotoFile", "");
             localStorage.setItem("atMentionResult", '');
             if (this.NP.get("from") == 'alarm') {

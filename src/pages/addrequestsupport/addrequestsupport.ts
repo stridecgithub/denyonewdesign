@@ -373,6 +373,7 @@ export class AddrequestsupportPage {
       //"&next_service_date=" + nextServiceDate +
       "&is_denyo_support=1" +
       "&created_by=" + this.unitDetailData.userId +
+      "&serviced_by=" + this.unitDetailData.userId +
       "&is_request=1" +
       "&subject=" + service_subject+
       "&micro_timestamp=" + micro_timestamp +

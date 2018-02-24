@@ -140,7 +140,7 @@
         <ion-item style="padding-bottom:15px;">
           <ion-label stacked>Report To</ion-label>
           <ion-select  [(ngModel)]="report_to" formControlName="report_to">
-            <ion-option value="0" *ngIf="this.len==0">N/A</ion-option>
+            <ion-option value="0">N/A</ion-option><!--  *ngIf="this.len==0"-->
             <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
           </ion-select>
         </ion-item>

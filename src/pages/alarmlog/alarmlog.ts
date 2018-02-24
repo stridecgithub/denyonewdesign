@@ -329,7 +329,7 @@ export class AlarmlogPage {
         }
       }
       else {
-        this.conf.sendNotification("Already Assigned");
+        this.conf.sendNotification("Alarm already assigned");
       }
     }
   }

@@ -1509,7 +1509,7 @@ export class CalendarPage {
       }
     }
     else {
-      this.conf.sendNotification("Already Assigned");
+      this.conf.sendNotification("Alarm already assigned");
     }
   }
 

@@ -619,9 +619,9 @@ export class ServicinginfoPage {
 
         if (res.services.length > 0) {
           for (let serviceData in res.services) {
-            // this.historyAllLists = res.services;
+             this.historyAllLists = res.services;
 
-            this.historyAllLists.push({
+           /* this.historyAllLists.push({
               "user_photo": res.services[serviceData].user_photo,
               "service_subject": res.services[serviceData].service_subject,
               "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
@@ -643,7 +643,7 @@ export class ServicinginfoPage {
               "service_status": res.services[serviceData].service_status,
               "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
               "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
-            });
+            });*/
           }
 
           this.totalCounthistory = res.totalCounthistory;

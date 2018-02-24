@@ -98,7 +98,7 @@ export class EventDetailsPage {
       }
     }
     else {
-      this.conf.sendNotification("Already Assigned");
+      this.conf.sendNotification("Alarm already assigned");
     }
   }
   previous() {

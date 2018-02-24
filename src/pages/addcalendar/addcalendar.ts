@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -86,7 +86,7 @@ export class AddcalendarPage {
   private permissionMessage: string = "";
   public networkType: string;
   //tabBarElement: any;
-  constructor(private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
+  constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
@@ -872,7 +872,7 @@ export class AddcalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Company group: ${type_name} was successfully deleted`);
+          this.conf.sendNotification(`Company group was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {
@@ -1050,9 +1050,9 @@ export class AddcalendarPage {
     this.event_end_date = event_date.split("T")[0];
   }
 
-  futureDateValidation(formvalue) {
+  CalendarfutureDateValidation(formvalue) {
     console.log("A");
-    this.futuredatemsg ='';
+    this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1073,13 +1073,26 @@ export class AddcalendarPage {
       this.isSubmitted = false;
       console.log("B");
     } else {
-     
+
       this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
       console.log("C");
-    
+
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
+    console.log(this.futuredatemsg);
+    if (this.futuredatemsg != '') {
+      this.showAlert('Invalid Date', 'Sorry,you have selected previous date.kindly select future date only.')
+    }
+
+  }
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
 

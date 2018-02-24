@@ -359,7 +359,7 @@ export class CommentsinfoPage {
         });
       }
       else {
-        this.conf.sendNotification("Already Assigned");
+        this.conf.sendNotification("Alarm already assigned");
       }
     }
     /*

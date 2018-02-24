@@ -33,7 +33,7 @@
 
         <ion-item style="border: none">
           <ion-label stacked>Date & Time</ion-label>
-          <ion-datetime min="{{currentyear}}" max="3000" formControlName="serviced_date" pickerFormat="MMM DD YYYY h mm A" (ionChange)="futureDateValidation(serviced_date)"
+          <ion-datetime min="{{currentyear}}" max="3000" formControlName="serviced_date" pickerFormat="MMM DD YYYY h mm A" (ionChange)="AddhocFutureDateValidation(serviced_date)"
             [(ngModel)]="serviced_date" displayFormat="MM/DD/YYYY h:mm A" class="cal-icon" style="border-bottom: 1px solid #dedede"></ion-datetime>
         </ion-item>
       </ion-list>

@@ -264,7 +264,7 @@ export class AddalarmlistPage {
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;
-            this.conf.sendNotification(`successfully Assigned`);
+            this.conf.sendNotification(`Successfully assigned`);
             localStorage.setItem("userPhotoFile", "");
             
             if (this.NP.get("record") == 'alarm') {

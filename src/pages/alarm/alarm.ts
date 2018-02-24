@@ -323,7 +323,7 @@ export class AlarmPage {
         }
         else {
           if (this.userId != '1') {
-            this.conf.sendNotification("Already Assigned");
+            this.conf.sendNotification("Alarm already assigned");
           }
         }
       }
