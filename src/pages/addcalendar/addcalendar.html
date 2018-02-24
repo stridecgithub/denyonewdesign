@@ -67,12 +67,12 @@
 
 
 
-        <ion-item class="dati"  *ngIf="servicedatetimefield">
+        <ion-item class="dati" *ngIf="servicedatetimefield">
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
             class="next-service-cal-icon" min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
         </ion-item>
-
+        
 
         <ion-item *ngIf="alldayeventhide">
           <ion-label stacked style="color: #999">All-day Event</ion-label>
@@ -127,7 +127,7 @@
 
       </ion-list>
     </div>
-
+    <div class="error">{{futuredatemsg}}</div>
     <div class="save-btn">
       <button ion-button color="primary" text-center block [disabled]="!form.valid  || isSubmitted">Save</button>
 

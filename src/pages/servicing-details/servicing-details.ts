@@ -77,17 +77,17 @@ export class ServicingDetailsPage {
 
   
 
-    if (this.navParams.get("from") == 'upcoming') {
+    //if (this.navParams.get("from") == 'upcoming') {
       this.serviced_datetime_display_format = this.navParams.get("record").serviced_scheduled_display;
       this.serviced_created_name = this.navParams.get("record").serviced_created_name;
       this.serviced_created_name_hastag = "(" + this.navParams.get("record").serviced_created_name_hastag + ")";
 
-    } else {
-      this.serviced_datetime_display_format = this.navParams.get("record").serviced_scheduled_display;
-      this.serviced_created_name = this.navParams.get("record").service_created_name;
-      this.serviced_created_name_hastag = this.navParams.get("record").service_created_name_hastag;
+    // } else {
+    //   this.serviced_datetime_display_format = this.navParams.get("record").serviced_scheduled_display;
+    //   this.serviced_created_name = this.navParams.get("record").service_created_name;
+    //   this.serviced_created_name_hastag = this.navParams.get("record").service_created_name_hastag;
 
-    }
+    // }
 //let tme=this.navParams.get("record").service_scheduled_time_format.replace(" ",":00");
     this.serviced_datetime_display = this.navParams.get("record").serviced_datetime_edit;
 

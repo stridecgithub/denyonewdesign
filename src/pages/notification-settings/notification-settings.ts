@@ -57,11 +57,11 @@ export class NotificationSettingsPage {
   public cont4: boolean = false;
   public cont5: boolean = false;
   public isSubmitted: boolean = false;
-  public primary: any;
+  /*public primary: any;
   public primary_2: any;
   public primary_3: any;
   public primary_4: any;
-  public primary_5: any;
+  public primary_5: any;*/
   public contactnameArray = [];
   public contactnumberArray = [];
   public atmentioneddata = [];
@@ -100,11 +100,11 @@ export class NotificationSettingsPage {
       'contact_number_4': [""],
       "contact_name_5": [""],
       'contact_number_5': [""],
-      "primary": [""],
+     /* "primary": [""],
       "primary_2": [""],
       "primary_3": [""],
       "primary_4": [""],
-      "primary_5": [""],
+      "primary_5": [""],*/
 
     });
 
@@ -169,7 +169,7 @@ export class NotificationSettingsPage {
 
           if (this.contact_number_1 != undefined) {
             let contactSplitSpace = this.contact_number_1.split(" ");
-            this.primary = contactSplitSpace[0];
+            //this.primary = contactSplitSpace[0];
             this.contact_number_1 = contactSplitSpace[1];
           }
         }
@@ -180,9 +180,9 @@ export class NotificationSettingsPage {
 
           if (this.contact_number_2 != undefined) {
             let contactSplitSpace = this.contact_number_2.split(" ");
-            this.primary_2 = contactSplitSpace[0];
+            //this.primary_2 = contactSplitSpace[0];
             this.contact_number_2 = contactSplitSpace[1];
-            console.log("primary_2:" + this.primary_2);
+            //console.log("primary_2:" + this.primary_2);
             console.log("contact_number_2:" + this.contact_number_2);
           }
 
@@ -195,7 +195,7 @@ export class NotificationSettingsPage {
 
           if (this.contact_number_3 != undefined) {
             let contactSplitSpace = this.contact_number_3.split(" ");
-            this.primary_3 = contactSplitSpace[0];
+           // this.primary_3 = contactSplitSpace[0];
             this.contact_number_3 = contactSplitSpace[1];
           }
         }
@@ -205,7 +205,7 @@ export class NotificationSettingsPage {
           this.contact_number_4 = contactNumber;
           if (this.contact_number_4 != undefined) {
             let contactSplitSpace = this.contact_number_4.split(" ");
-            this.primary_4 = contactSplitSpace[0];
+           // this.primary_4 = contactSplitSpace[0];
             this.contact_number_4 = contactSplitSpace[1];
           }
         }
@@ -216,7 +216,7 @@ export class NotificationSettingsPage {
 
           if (this.contact_number_5 != undefined) {
             let contactSplitSpace = this.contact_number_5.split(" ");
-            this.primary_5 = contactSplitSpace[0];
+           // this.primary_5 = contactSplitSpace[0];
             this.contact_number_5 = contactSplitSpace[1];
           }
 
@@ -489,25 +489,25 @@ export class NotificationSettingsPage {
             this.cont2 = false;
             this.contact_name_2 = '';
             this.contact_number_2 = '';
-            this.primary_2 = '';
+            //this.primary_2 = '';
           }
           if (val == 3) {
             this.cont3 = false;
             this.contact_name_3 = '';
             this.contact_number_3 = '';
-            this.primary_3 = '';
+           // this.primary_3 = '';
           }
           if (val == 4) {
             this.cont4 = false;
             this.contact_name_4 = '';
             this.contact_number_4 = '';
-            this.primary_4 = '';
+           // this.primary_4 = '';
           }
           if (val == 5) {
             this.cont5 = false;
             this.contact_name_5 = '';
             this.contact_number_5 = '';
-            this.primary_5 = '';
+           // this.primary_5 = '';
           }
         }
       },
@@ -527,20 +527,20 @@ export class NotificationSettingsPage {
     // }
     this.timezone = '2017-12-14 12:28:AM';
     let
-      primary: string = this.form.controls["primary"].value,
+     // primary: string = this.form.controls["primary"].value,
       secondary: string = this.form.controls["contact_number_1"].value;
 
     if (this.form.controls["primary"].value == undefined) {
-      primary = '';
+     // primary = '';
     }
     if (this.form.controls["primary"].value == 'undefined') {
-      primary = '';
+      //primary = '';
     }
     if (this.form.controls["primary"].value == 'null') {
-      primary = '';
+      ///primary = '';
     }
     if (this.form.controls["primary"].value == null) {
-      primary = '';
+      //primary = '';
     }
 
     if (this.form.controls["contact_number_1"].value == undefined) {
@@ -556,7 +556,8 @@ export class NotificationSettingsPage {
       secondary = '';
     }
 
-    let contact = primary + " " + secondary;
+   // let contact = primary + " " + secondary;
+    let contact = secondary;
     console.log(contact);
     contact = contact.replace("+", "%2B");
     if (this.form.controls["contact_name_1"].value != '') {
@@ -582,7 +583,8 @@ export class NotificationSettingsPage {
       }
       if (cont2value != '') {
         let contact;
-        contact = this.form.controls["primary_2"].value + " " + this.form.controls["contact_number_2"].value;
+      //  contact = this.form.controls["primary_2"].value + " " + this.form.controls["contact_number_2"].value;
+        contact = this.form.controls["contact_number_2"].value;
         console.log(contact);
         contact = contact.replace("+", "%2B");
 
@@ -610,7 +612,8 @@ export class NotificationSettingsPage {
       }
       if (cont3value != '') {
         let contact;
-        contact = this.form.controls["primary_3"].value + " " + this.form.controls["contact_number_3"].value;
+       // contact = this.form.controls["primary_3"].value + " " + this.form.controls["contact_number_3"].value;
+        contact =  this.form.controls["contact_number_3"].value;
         console.log(contact);
         contact = contact.replace("+", "%2B");
         if (this.form.controls["contact_name_3"].value != '') {
@@ -637,8 +640,9 @@ export class NotificationSettingsPage {
       }
       if (cont4value != '') {
         let contact;
-        contact = this.form.controls["primary_4"].value + " " + this.form.controls["contact_number_4"].value;
-        console.log(contact);
+       // contact = this.form.controls["primary_4"].value + " " + this.form.controls["contact_number_4"].value;
+        contact = this.form.controls["contact_number_4"].value;
+       console.log(contact);
         contact = contact.replace("+", "%2B");
         if (this.form.controls["contact_name_4"].value != '') {
           this.contactInfo.push({
@@ -664,7 +668,8 @@ export class NotificationSettingsPage {
       }
       if (cont5value != '') {
         let contact;
-        contact = this.form.controls["primary_5"].value + " " + this.form.controls["contact_number_5"].value;
+        //contact = this.form.controls["primary_5"].value + " " + this.form.controls["contact_number_5"].value;
+        contact =  this.form.controls["contact_number_5"].value;
         console.log(contact);
         contact = contact.replace("+", "%2B");
         if (this.form.controls["contact_name_5"].value != '') {

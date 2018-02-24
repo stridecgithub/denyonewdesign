@@ -328,8 +328,8 @@ export class OrgchartPage {
   ionViewDidEnter() {
     this.pageLoad();
   }
-  doOrgChart() {
-    //this.conf.presentLoading(1);
+  doOrgChart() {   
+    this.conf.presentLoading(1);
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -340,7 +340,7 @@ export class OrgchartPage {
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-        // this.conf.presentLoading(0);
+         this.conf.presentLoading(0);
         // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
         res = data.json();
         this.totalCount = res.totalCount;

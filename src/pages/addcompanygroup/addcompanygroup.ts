@@ -32,7 +32,7 @@ export class AddcompanygroupPage {
   public address: any;
   public country: any;
   public contact: any;
-  public primary: any;
+  //public primary: any;
   public userId: any;
   public msgcount: any;
   public selectedCountry: any;
@@ -67,7 +67,7 @@ export class AddcompanygroupPage {
       "companygroup_name": ["", Validators.required],
       "country": ["", Validators.required],
       "contact": ["", Validators.required],
-      "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+     // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       "address": [""]
     });
 
@@ -1101,7 +1101,7 @@ export class AddcompanygroupPage {
     this.contact = item.contact;
     if (this.contact != undefined) {
       let contactSplitSpace = this.contact.split(" ");
-      this.primary = contactSplitSpace[0];
+      //this.primary = contactSplitSpace[0];
       this.contact = contactSplitSpace[1];
     }
     this.recordID = item.companygroup_id;
@@ -1242,10 +1242,11 @@ export class AddcompanygroupPage {
     let companygroup_name: string = this.form.controls["companygroup_name"].value,
       address: string = this.form.controls["address"].value,
       country: string = this.form.controls["country"].value,
-      contact: string = this.form.controls["contact"].value,
-      primary: string = this.form.controls["primary"].value;
+      contact: string = this.form.controls["contact"].value;
+      //primary: string = this.form.controls["primary"].value;
 
-    contact = primary + " " + contact;
+   // contact = primary + " " + contact;
+    contact = contact;
     console.log(contact);
     if (companygroup_name.toLowerCase() == 'denyo' || companygroup_name.toLowerCase() == 'dum' || companygroup_name.toLowerCase() == 'dsg' || companygroup_name.toLowerCase() == 'denyo singapore') {
       this.sendNotification("Given Company Name Not Acceptable....");

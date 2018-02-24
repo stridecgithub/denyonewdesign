@@ -27,7 +27,7 @@ declare var jQuery: any;
 })
 export class AddhocPage {
   @ViewChild('fileInput') fileInput;
-
+  futuredatemsg;
   isReadyToSave: boolean;
   public photoInfo = [];
   public addedServiceImgLists = [];
@@ -1019,6 +1019,7 @@ export class AddhocPage {
 
 
   futureDateValidation(formvalue) {
+    this.futuredatemsg='';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1035,12 +1036,15 @@ export class AddhocPage {
     }
 
     let current_date = date.getFullYear() + "-" + this.mn + "-" +this.dd;
-    if (formvalue.split("T")[0] >= current_date) {
-      this.isSubmitted = false;
-      
-    } else {
+    if (formvalue.split("T")[0] > current_date) {
+     
+      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+      console.log("C");
        this.serviced_date = moment().format();
       this.isSubmitted = true;
+    } else {
+      
+      this.isSubmitted = false;
     }
   }
 
