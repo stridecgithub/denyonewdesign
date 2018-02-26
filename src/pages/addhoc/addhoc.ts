@@ -1048,7 +1048,7 @@ export class AddhocPage {
     console.log(this.futuredatemsg);
     console.log(this.futuredatemsg);
     if (this.futuredatemsg != '') {
-      this.showAlert('Invalid Date', 'Sorry,you have selected future date.no future date is allowed.')
+      this.showAlert('', 'Sorry,you have selected future date.no future date is allowed.')
     }
   }
   showAlert(title, message) {

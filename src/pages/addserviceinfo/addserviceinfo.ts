@@ -37,6 +37,7 @@ export class AddserviceinfoPage {
   public addedImgListsArray = [];
   public addedServiceImgLists = [];
   progress: number;
+  futuredatemsg;
   public uploadcount: any;
   public priority_lowclass: any;
   public priority_highclass: any;
@@ -157,7 +158,7 @@ export class AddserviceinfoPage {
     this.networkType = '';
     this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
-   // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
@@ -213,7 +214,7 @@ export class AddserviceinfoPage {
     //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-   // this.tabBarElement.style.display = 'none';
+    // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
     console.log('ionViewDidLoad AddserviceinfoPage');
     localStorage.setItem("fromModule", "AddserviceinfoPage");
@@ -519,10 +520,10 @@ export class AddserviceinfoPage {
         //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
         //updateEntry(description, serviced_datetime, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
 
-       
 
-          this.createEntry( description, serviced_datetime, serviced_by, service_subject);
-       
+
+        this.createEntry(description, serviced_datetime, serviced_by, service_subject);
+
       }
     }
   }
@@ -532,7 +533,7 @@ export class AddserviceinfoPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
-  createEntry( description, serviced_date, serviced_by, service_subject) {
+  createEntry(description, serviced_date, serviced_by, service_subject) {
     this.isSubmitted = true;
 
 
@@ -570,7 +571,7 @@ export class AddserviceinfoPage {
       //"&next_service_date=" + nextServiceDate +
       "&is_denyo_support=0" +
       "&created_by=" + this.unitDetailData.userId +
-      "&is_request=0"  +
+      "&is_request=0" +
       "&subject=" + service_subject,
       //"&micro_timestamp=" + micro_timestamp +
       //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
@@ -940,6 +941,7 @@ export class AddserviceinfoPage {
   }
 
   futureDateValidation(formvalue) {
+    this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -960,8 +962,22 @@ export class AddserviceinfoPage {
       this.isSubmitted = false;
 
     } else {
+      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
+    if (this.futuredatemsg != '') {
+      this.showAlert('', 'Sorry,you have selected previous date.kindly select future date only.')
+    }
+  }
+
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
