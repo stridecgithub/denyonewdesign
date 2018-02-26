@@ -1,5 +1,10 @@
 page-compose{
-
+ion-content .scroll-content {
+		margin-bottom: 0;
+	}
+.right-header-btns button {
+	box-shadow: none;
+}
   .subx{
     top:120px!important;
   }

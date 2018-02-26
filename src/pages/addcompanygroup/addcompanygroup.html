@@ -120,8 +120,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content   padding>
+<ion-content>
   <form [formGroup]="form" (ngSubmit)="saveEntry()">
+  
+  <div class="add-unit-gp">
+<div class="unit-sapce">
     <ion-list>
       <ion-item>
         <ion-label stacked>Company Name
@@ -129,18 +132,28 @@
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="companygroup_name" [(ngModel)]="companygroup_name"></ion-input>
       </ion-item>
+      </ion-list>
+      
+      <ion-list>
       <ion-item>
         <ion-label stacked>Country
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
+        <ion-select class="input" [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
           <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
         </ion-select>
       </ion-item>
+      </ion-list>
+      
+      <ion-list>
       <ion-item>
         <ion-label stacked>Address</ion-label>
         <ion-textarea [disabled]="readOnly" formControlName="address" rows="6" [(ngModel)]="address"></ion-textarea>
       </ion-item>
+      </ion-list>
+
+	
+    <ion-list>
 
       <ion-item>
         <ion-label stacked>Company Contact
@@ -148,6 +161,7 @@
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
       </ion-item>
+      </ion-list>
 
       <!-- <div class="contactinfo">
           <ion-label stacked>Company Contact
@@ -158,12 +172,15 @@
           <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
         </div> -->
 
+</div>
 
-
-      <ion-item *ngIf="hideActionButton">
-        <button ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">Save</button>
+	<ion-list style="border-top:1px solid #d6d6d6;" class="last-btn">
+      <ion-item *ngIf="hideActionButton" style="background-color:#fff;padding-top:10px;">
+        <button style="max-width:81%;margin:0 auto;" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">Save</button>
       </ion-item>
     </ion-list>
+    
+    </div>
   </form>
 </ion-content>
 <ion-footer>

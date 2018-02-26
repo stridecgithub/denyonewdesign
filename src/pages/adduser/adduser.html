@@ -335,7 +335,7 @@
           <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item style="background-color:#fff;" class="last-btn">
+      <ion-item style="background-color:#fff;border-top:1px solid #d6d6d6;padding-top:20px;" class="last-btn">
         <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
       </ion-item>
     </ion-list>

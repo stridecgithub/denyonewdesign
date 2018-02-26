@@ -1,5 +1,32 @@
 
  page-addcompanygroup {  
+ 	
+	ion-textarea{
+		height: 60px; 
+	}
+    .input{
+        border-bottom: 1px solid #b8b8b8;
+        // line-height: 15px;
+        // padding-top: 3px;
+        // padding-bottom: 3px;
+    }
+	.add-unit-gp {
+		background: #f8f8f8;
+		margin: 0;
+		
+	}
+	.last-btn .label-md{
+		margin-right: 0;
+	}
+	.item-md {
+		padding-left:0;
+		background: #f8f8f8;
+	}
+	.unit-sapce {
+		padding:0 16px;
+	}
+ 
+ 
     .border-bottom-validtion{
         border-bottom-color: red;
         border-bottom-width: 2px;
@@ -10,11 +37,8 @@
             color:gray
             }
             
-    .border-need{border:2px solid #000000;}
+    .border-need{border:2px solid #000000;} 
   
-  .input{
-      border: 1px solid #ededed;
-  }
 
 
     .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{

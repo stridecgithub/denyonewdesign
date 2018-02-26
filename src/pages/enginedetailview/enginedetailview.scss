@@ -5,7 +5,9 @@
 
 page-enginedetailview {
 
-	
+	ion-content .scroll-content {
+		margin-bottom: 0;
+	}
 	
 
 	.unit-detail {
