@@ -109,7 +109,7 @@ export class AdduserPage {
       "job_position": ["", Validators.required],
       "company_group": ["", Validators.required],
       "report_to": [""]
-    });
+    }, { validator: this.matchingPasswords('password', 're_password') });
     this.userId = localStorage.getItem("userInfoId");
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.getJsonCountryListData();
@@ -118,6 +118,18 @@ export class AdduserPage {
     this.getCompanyGroupListData();
   }
 
+  matchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
+    console.log('A');
+    return (group: FormGroup) => {
+      console.log('B');
+      let passwordInput = group.controls[passwordKey];
+      let passwordConfirmationInput = group.controls[passwordConfirmationKey];
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        console.log('C');
+        return passwordConfirmationInput.setErrors({ notEquivalent: true })
+      }
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddcompanygroupPage');
     this.pageLoad();

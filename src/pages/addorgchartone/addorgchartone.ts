@@ -365,7 +365,7 @@ export class AddorgchartonePage {
     notification.present();
   }
   previous() {
-    this.nav.setRoot(DashboardPage, { tabIndex: 4 });
+    this.nav.setRoot(OrgchartPage);
   }
   notification() {
     this.nav.setRoot(NotificationPage);

@@ -232,17 +232,17 @@
 
 
 
-            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='S'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type=='S'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit
+              <br>Edit Two
             </button>
 
 
 
             
-            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='R'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type=='R'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit
+              <br>Edit one
             </button>
 
 

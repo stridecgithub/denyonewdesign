@@ -46,6 +46,7 @@ export class MessageDetailViewPage {
   micro_timestamp;
   public isCompose;
   isReply;
+  priority_image;
   to;
   addedImgLists = [];
   copytome;
@@ -208,22 +209,26 @@ export class MessageDetailViewPage {
   }
 
   selectEntry(item) {
+    this.priority_image='';
     console.log(JSON.stringify(item));
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
 
+    this.priority_image = item.priority_image;
     this.messageid = item.message_id;
     this.priority_highclass = '';
     this.priority_lowclass = '';
     if (item.message_priority == "2") {
       this.priority_highclass = "border-high";
-    } else {
-      this.priority_highclass = "";
     }
     if (item.message_priority == "1") {
       this.priority_lowclass = "border-low";
+    } 
+
+    if (item.message_priority == "0") {
+      this.priority_lowclass = "";
     } else {
       this.priority_lowclass = "";
     }

@@ -91,7 +91,7 @@ export class AddcalendarPage {
     public NP: NavParams,
     public fb: FormBuilder) {
     this.event_type = 'Event';
-    this.locationstr = "Deployed";
+    this.locationstr = "";
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
@@ -919,12 +919,14 @@ export class AddcalendarPage {
       event_end_date = '';
     }
     if (event_end_date != '') {
-      if (event_end_date >= event_date) {
+      let event_date_valid = event_date.split("T")[0];
+      let event_end_date_valid = event_end_date.split("T")[0];
+      if (event_date_valid >= event_end_date_valid) {
         console.log('Positive');
       } else {
         if (type_name != 'Service') {
-          console.log("event date start" + event_date);
-          console.log("event date end" + event_end_date)
+          console.log("event date start" + event_date_valid);
+          console.log("event date end" + event_end_date_valid)
           console.log(type_name);
           this.conf.sendNotification('End date should be after start date');
           return false;

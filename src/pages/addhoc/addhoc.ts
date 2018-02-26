@@ -1048,7 +1048,7 @@ export class AddhocPage {
     console.log(this.futuredatemsg);
     console.log(this.futuredatemsg);
     if (this.futuredatemsg != '') {
-      this.showAlert('', 'Please select current date or future date.')
+      this.showAlert('', 'Please select current date or previous date.')
     }
   }
   showAlert(title, message) {

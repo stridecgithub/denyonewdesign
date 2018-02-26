@@ -36,7 +36,7 @@
 
 
     <div class="list-icon">
-      <ion-icon *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)"
+      <!-- <ion-icon *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)"
         style="
         left: 90%;
         top: 20%;
@@ -44,7 +44,14 @@
       <ion-icon *ngIf="priority_highclass!=''" ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
         left: 90%;
         top: 20%;
-        position: absolute;"></ion-icon>
+        position: absolute;"></ion-icon> -->
+
+        <img *ngIf="priority_image!=''" src="assets/imgs/{{priority_image}}" style="background-size: 82%;
+        width: 34px;
+        height: 34px;
+        position: absolute;
+        margin-left: 0%;
+        margin-top: 72px;">
 
       <button class="profile">
         <ion-icon name="star" *ngIf="is_favorite==1" style="font-size: 30px;color: orange;"></ion-icon>

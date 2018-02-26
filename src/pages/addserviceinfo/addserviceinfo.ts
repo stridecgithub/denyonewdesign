@@ -968,7 +968,7 @@ export class AddserviceinfoPage {
       this.isSubmitted = true;
     }
     if (this.futuredatemsg != '') {
-      this.showAlert('', 'Please select current date or previous date.')
+      this.showAlert('', 'Please select current date or future date.')
     }
   }
 

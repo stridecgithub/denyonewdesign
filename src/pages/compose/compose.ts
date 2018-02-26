@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController,  NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { AlertController, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -74,7 +74,7 @@ export class ComposePage {
   composemessagecontent;
   subject;
   to;
- // tabBarElement: any;
+  // tabBarElement: any;
   isopenorclose = 1;
   close = 0;
   open = 1;
@@ -95,6 +95,7 @@ export class ComposePage {
       to: ['']
 
     });
+    this.getPrority(0);
     this.apiServiceURL = conf.apiBaseURL();
     this.message_priority = 0;
     this.nowuploading = 0;
@@ -138,7 +139,7 @@ export class ComposePage {
   }
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    console.log("Message Id"+messageid);
+    console.log("Message Id" + messageid);
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
@@ -454,7 +455,7 @@ export class ComposePage {
   }
 
   selectEntry(item) {
-    
+
     console.log(JSON.stringify(item));
     //if (this.nowuploading == 0) {
     this.totalFileSize = item.totalfilesize;
@@ -787,23 +788,25 @@ export class ComposePage {
   getPrority(val) {
     console.log("getPrority function calling:-" + val);
 
-    this.priority_highclass = '0';
-    this.priority_lowclass = '0';
+
     if (val == "2") {
-      // this.priority_highclass = "1";
+      console.log('val A:'+val);
       this.activelow = "0";
       this.activehigh = "1";
       this.normallow = "0";
       this.activenormal = "1";
-    }
-    if (val == "1") {
-      this.priority_lowclass = "1";
-
+    } else if (val == "1") {
+      console.log('val B:'+val);
       this.activelow = "1";
       this.activehigh = "0";
       this.normallow = "1";
       this.activenormal = "0";
-
+    } else {
+      console.log('val C:'+val);
+      this.activelow = "0";
+      this.activehigh = "0";
+      this.normallow = "0";
+      this.activenormal = "0";
     }
 
 
