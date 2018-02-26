@@ -1,6 +1,8 @@
 page-requestdenyo {
-	
-	.item-md.item-block .item-inner {
+  ion-content .scroll-content {
+		margin-bottom: 0;
+	}	
+.item-md.item-block .item-inner {
 		padding-right: 0px;
 		border-bottom: 1px solid #dedede;
 	}

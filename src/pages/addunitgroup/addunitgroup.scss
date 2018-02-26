@@ -1,20 +1,34 @@
 
  page-addunitgroup {  
- 
+
+	ion-textarea{
+		height: 60px;
+	}
  	.chosecolor {
 		background:url(../assets/imgs/expand-more-icn@2x.png) no-repeat right center;
 		padding: 0 26px 0 0px;
 		background-size: 28%;
 		margin-top: 10px;
 	}
- 
+	.add-unit-gp {
+		background: #f8f8f8;
+		margin: 0;
+		
+	}
+ 	.unit-sapce {
+		padding:0 16px;
+	}
   .border-need{border:2px solid #000000;}
 
 .input{
-    border: 1px solid #ededed;
+    border-bottom: 1px solid #b8b8b8;
     // line-height: 15px;
     // padding-top: 3px;
     // padding-bottom: 3px;
+}
+.item-md {
+	padding-left:0;
+	background: #f8f8f8;
 }
   .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
     border-bottom-color: #F8F8F8;

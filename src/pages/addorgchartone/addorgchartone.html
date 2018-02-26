@@ -19,7 +19,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
   <div class="user-img">
     <div class="profile-title">Profile Photo</div>
@@ -49,6 +49,8 @@
 
 
     </div>
+    	<div class="user-name">User Information*</div>
+    
   </div>
   <div style="text-align:center" *ngIf="isProgress">
     <span style="color:green">Profile photo uploaded. please wait</span>
@@ -57,7 +59,7 @@
   </div>
 
   <div>
-    <form [formGroup]="form"  class="c">
+    <form [formGroup]="form"  class="c edit-profo">
       <!-- <div style="position: relative;left: 35%;">
 
         <a (click)="doUploadPhoto()" href="#" *ngIf="!addedImgLists">
@@ -77,29 +79,35 @@
           <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
         </p>
       </div> -->
-      <div style="position: relative;
-    left: 6%;">
-        <b>User Information*</b>
-      </div>
+
+      <ion-list>
       <ion-item>
         <ion-label stacked>First Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="first_name" [(ngModel)]="first_name"></ion-input>
       </ion-item>
+      </ion-list>
+      
+      
+      <ion-list>
       <ion-item>
         <ion-label stacked>Last Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="last_name" [(ngModel)]="last_name"></ion-input>
       </ion-item>
-
+      </ion-list>
+      
+      
+	  <ion-list>
       <ion-item>
         <ion-label stacked>Email
           <span class="mandatory" *ngIf="hideActionButton"> *</span>
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email"></ion-input>
       </ion-item>
+      </ion-list>
 
       <!-- <div>
         <ion-label stacked>Contact Number
@@ -130,7 +138,7 @@
             <ion-input type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
           </div> -->
 
-
+  		  <ion-list>
           <ion-item>
             <ion-label stacked>Contact Number
               <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -138,8 +146,9 @@
             <ion-input type="text" formControlName="contact" [(ngModel)]="contact"></ion-input>
          
           </ion-item>
+          </ion-list>
           
-
+	  <ion-list>
       <ion-item>
         <ion-label stacked>Country
           <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -148,14 +157,18 @@
           <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
         </ion-select>
       </ion-item>
+      </ion-list>
 
-
+	  <ion-list>
       <ion-item>
         <ion-label stacked>Job Position
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
         <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
       </ion-item>
+      </ion-list>
+      
+      <ion-list>
       <ion-item>
         <ion-label stacked>Company
           <span class="mandatory" *ngIf="hideActionButton">*</span>
@@ -164,7 +177,9 @@
           <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
         </ion-select>
       </ion-item>
+      </ion-list>
 
+	  <ion-list style="padding-bottom:25px;">
       <ion-item>
         <ion-label stacked>Report To</ion-label>
         <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
@@ -172,10 +187,13 @@
           <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
         </ion-select>
       </ion-item>
-
-      <ion-item *ngIf="hideActionButton">
-        <button ion-button color="bluedark" text-center block [disabled]="!form.valid" (click)="saveEntry()">Save</button>
+      </ion-list>
+	  
+      <ion-list style="border-top:1px solid #d6d6d6;padding:0;" class="last-btn">
+      <ion-item *ngIf="hideActionButton" style="background-color: #fff;padding-top:15px;">
+        <button style="max-width:81%;margin:0 auto;" ion-button color="bluedark" text-center block [disabled]="!form.valid" (click)="saveEntry()">Save</button>
       </ion-item>
+      </ion-list>
     </form>
   </div>
 

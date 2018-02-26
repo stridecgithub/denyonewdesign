@@ -120,33 +120,37 @@
 			</button>
 		</ion-buttons>
 
-		<ion-title>{{pageTitle}}</ion-title>
+		<ion-title>Add New Unit Group</ion-title>
 
 	</ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 	<form [formGroup]="form">
+    <div class="add-unit-gp">
+<div class="unit-sapce">
 
-		<div>
 			<ion-list>
 				<ion-item>
 					<ion-label stacked>Unit Group Name<span style="color:red">*</span></ion-label>
 					<ion-input type="text" [disabled]="readOnly" formControlName="cname" [(ngModel)]="cname"></ion-input>
 				</ion-item>
 			</ion-list>
-		</div>
         
         
-        <!-- <ion-list>
-          <ion-label stacked>Select Color Code*</ion-label>
-          <button class="chosecolor" (click)="openPopover($event)"><span style="background:#9013fe;width:30px;height:30px;float:left;"></span></button>
-        </ion-list> -->
+        <ion-list>
+            <ion-item>
+                <ion-label stacked>Remark
+                    <span style="color:red">*</span>
+                </ion-label>
+                <ion-textarea rows="6" type="text" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></ion-textarea>
+            </ion-item>
+        </ion-list>
 
-		<div style="left:3px;padding:15px">
 
+		<ion-list>
 			<div class="buttoncolorgroup">
-				<ion-label stacked style="margin-top:5px">Select Color Code</ion-label>
+				<ion-label stacked style="margin-top:5px;margin-bottom:12px;">Select Color Code</ion-label>
 				<button class="button1" id="FBE983" (click)="getColor('FBE983')"></button>
 				<button class="button2" id="5584EE" (click)="getColor('5584EE')"></button>
 				<button class="button3" id="A4BDFD" (click)="getColor('A4BDFD')"></button>
@@ -162,44 +166,16 @@
 				<button class="button11" id="DAADFE" (click)="getColor('DAADFE')"></button>
 				<button class="button12" id="E1E1E1" (click)="getColor('E1E1E1')"></button>
 			</div>
+		</ion-list>
+</div>
 
-		</div>
+    <ion-list style="border-top:1px solid #d6d6d6;">
+        <ion-item *ngIf="hideActionButton" style="background-color:#fff;padding-top:10px;">
+        	<button style="max-width:81%;margin:0 auto;" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted" (click)="saveEntry()">Save</button>
+        </ion-item>
+    </ion-list>
 
-		
-		<div>
-				<ion-list>
-					<ion-item>
-						<ion-label stacked>Remark
-							<span style="color:red">*</span>
-						</ion-label>
-						<ion-textarea rows="6" type="text" [disabled]="readOnly" formControlName="remark" [(ngModel)]="remark"></ion-textarea>
-					</ion-item>
-				</ion-list>
-			</div>
-
-
-		<!-- <div>
-
-			<ion-label stacked>Select color code
-				<span style="color:red">*</span>
-			</ion-label>
-			<span class="initial" [ngStyle]="{'background-color': '#E1E1E1'}"></span>
-			<ion-icon name="md-arrow-dropdown" (click)="colorcodePopover()"></ion-icon>
-
-		</div> -->
-
-
-
-		<div>
-			<ion-list>
-
-
-				<ion-item *ngIf="hideActionButton">
-					<button ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted" (click)="saveEntry()">Save</button>
-				</ion-item>
-			</ion-list>
-		</div>
-
+</div>
 	</form>
 </ion-content>
 <ion-footer>
