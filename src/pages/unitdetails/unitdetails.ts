@@ -559,16 +559,7 @@ export class UnitdetailsPage {
 						// Load Factor
 
 
-						let coolanttemplabel_0 = 0;//localStorage.getItem("coolanttemplabel_0");
-						let coolanttemplabel_1 = 20;//localStorage.getItem("coolanttemplabel_1");
-						let coolanttemplabel_2 = 97; //localStorage.getItem("coolanttemplabel_2");
-						let coolanttemplabel_3 = 105;//localStorage.getItem("coolanttemplabel_3");
-						let coolanttemplabel_4 = 120;  //localStorage.getItem("coolanttemplabel_4");
-						let coolanttempcolor_0 = '#ffca00'; //localStorage.getItem("coolanttempcolor_0");
-						let coolanttempcolor_1 = '#00FF50'; //localStorage.getItem("coolanttempcolor_1");
-						let coolanttempcolor_2 = '#ffca00';// localStorage.getItem("coolanttempcolor_2");
-						let coolanttempcolor_3 = '#df0000';// localStorage.getItem("coolanttempcolor_3");
-						let coolanttempcolor_4 = '#df0000'; //localStorage.getItem("coolanttempcolor_4");
+						
 
 
 

@@ -131,7 +131,7 @@ export class ServicingDetailsPage {
   previous() {
 
     if (this.navParams.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.navParams.get("record")
       });
     } else {

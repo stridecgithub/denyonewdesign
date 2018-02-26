@@ -3,7 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { MenuPage } from "../pages/menu/menu";
 import { MyApp } from './app.component';
 import { LoginPage } from "../pages/login/login";
 import { DashboardPage } from "../pages/dashboard/dashboard";
@@ -29,7 +28,6 @@ import { AlarmPage } from '../pages/alarm/alarm';
 import { AddalarmPage } from '../pages/addalarm/addalarm';
 import { AddalarmlistPage } from '../pages/addalarmlist/addalarmlist';
 import { AddunitsonePage } from '../pages/addunitsone/addunitsone';
-import { AttentionPage } from '../pages/attention/attention';
 import { CommentsinfoPage } from "../pages/commentsinfo/commentsinfo";
 import { AddhocPage } from "../pages/addhoc/addhoc";
 import { ServicedetailsPage } from "../pages/servicedetails/servicedetails";
@@ -126,7 +124,6 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     MyApp,
     UnitdetailgraphPage,
     AddUnitPage,
-    MenuPage,
     EventDetailsPage,
     LoginPage,
     DashboardPage,
@@ -156,7 +153,6 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     AddalarmPage,
     AddalarmlistPage,
     AddunitsonePage,
-    AttentionPage,
     CommentsinfoPage,
     AddhocPage,
     ServicedetailsPage,
@@ -235,7 +231,6 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     UnitgroupPage,
     UnitdetailgraphPage,
     AddUnitPage,
-    MenuPage,
     EventDetailsPage,
     LoginPage,
     DashboardPage,
@@ -263,7 +258,6 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     AddalarmPage,
     AddalarmlistPage,
     AddunitsonePage,
-    AttentionPage,
     ForgotpasswordPage,
     CommentsinfoPage,
     AddhocPage,

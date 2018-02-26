@@ -293,189 +293,128 @@ export class NotificationSettingsPage {
     }
   }
 
-  getPrimaryContact2(contact_name, primary, secondary) {
-    console.log(primary);
-    if (primary != undefined) {
-      let char = primary.toString();
-      if (char.length > 5) {
-        console.log('Reached five characters above');
-        this.borderbottomredvalidation2 = 'border-bottom-invalid';
-      } else {
-        console.log('Reached five characters below');
-        this.borderbottomredvalidation2 = 'border-bottom-valid';
-      }
+  getPrimaryContact2(contact_name, secondary) {
+    console.log("contact_name for 2" + contact_name);
+    console.log("secondary" + secondary)
+    let nme;
+    if (contact_name == undefined) {
+      console.log('A');
+      nme = '';
     }
-    if (this.isEdited == 0) {
-      let nme;
-      if (contact_name == undefined) {
-        nme = '';
-      }
-      if (contact_name == '') {
-        nme = '';
-      }
-
-      let primnum;
-      if (primary == undefined) {
-        primnum = '';
-      }
-      if (primary == '') {
-        primnum = '';
-      }
-
-      let num;
-      if (secondary == undefined) {
-        num = '';
-      }
-      if (secondary == '') {
-        num = '';
-      }
-      if (this.cont2 == true) {
-        if (nme == '' || num == '' || primnum == '') {
-          this.isSubmitted = true;
-        } else {
-          this.isSubmitted = false;
-        }
-      }
-
+    if (contact_name == '') {
+      console.log('B');
+      nme = '';
+    }
+    let num;
+    if (secondary == undefined) {
+      num = '';
+      console.log('C');
+    }
+    if (secondary == '') {
+      console.log('D');
+      num = '';
+    }
+    console.log(this.cont5);
+    if (nme != '' && num != '') {
+      console.log('E');
+      this.isSubmitted = false;
+    } else {
+      console.log('F');
+      this.isSubmitted = true;
     }
   }
 
-  getPrimaryContact3(contact_name, primary, secondary) {
-    console.log(primary);
-    if (primary != undefined) {
-      let char = primary.toString();
-      if (char.length > 5) {
-        console.log('Reached five characters above');
-        this.borderbottomredvalidation3 = 'border-bottom-invalid';
-      } else {
-        console.log('Reached five characters below');
-        this.borderbottomredvalidation3 = 'border-bottom-valid';
-      }
+  getPrimaryContact3(contact_name, secondary) {
+    console.log("contact_name for 3" + contact_name);
+    console.log("secondary" + secondary)
+    let nme;
+    if (contact_name == undefined) {
+      console.log('A');
+      nme = '';
     }
-    if (this.isEdited == 0) {
-      let nme;
-      if (contact_name == undefined) {
-        nme = '';
-      }
-      if (contact_name == '') {
-        nme = '';
-      }
-
-      let primnum;
-      if (primary == undefined) {
-        primnum = '';
-      }
-      if (primary == '') {
-        primnum = '';
-      }
-
-      let num;
-      if (secondary == undefined) {
-        num = '';
-      }
-      if (secondary == '') {
-        num = '';
-      }
-      if (this.cont3 == true) {
-        if (nme == '' || num == '' || primnum == '') {
-          this.isSubmitted = true;
-        } else {
-          this.isSubmitted = false;
-        }
-      }
+    if (contact_name == '') {
+      console.log('B');
+      nme = '';
+    }
+    let num;
+    if (secondary == undefined) {
+      num = '';
+      console.log('C');
+    }
+    if (secondary == '') {
+      console.log('D');
+      num = '';
+    }
+    console.log(this.cont5);
+    if (nme != '' && num != '') {
+      console.log('E');
+      this.isSubmitted = false;
+    } else {
+      console.log('F');
+      this.isSubmitted = true;
     }
   }
 
-  getPrimaryContact4(contact_name, primary, secondary) {
-    console.log(primary);
-    if (primary != undefined) {
-      let char = primary.toString();
-      if (char.length > 5) {
-        console.log('Reached five characters above');
-        this.borderbottomredvalidation4 = 'border-bottom-invalid';
-      } else {
-        console.log('Reached five characters below');
-        this.borderbottomredvalidation4 = 'border-bottom-valid';
-      }
+  getPrimaryContact4(contact_name, secondary) {
+    console.log("contact_name for 4" + contact_name);
+    console.log("secondary" + secondary)
+    let nme;
+    if (contact_name == undefined) {
+      console.log('A');
+      nme = '';
     }
-    if (this.isEdited == 0) {
-      let nme;
-      if (contact_name == undefined) {
-        nme = '';
-      }
-      if (contact_name == '') {
-        nme = '';
-      }
-
-      let primnum;
-      if (primary == undefined) {
-        primnum = '';
-      }
-      if (primary == '') {
-        primnum = '';
-      }
-
-      let num;
-      if (secondary == undefined) {
-        num = '';
-      }
-      if (secondary == '') {
-        num = '';
-      }
-      if (this.cont4 == true) {
-        if (nme == '' || num == '' || primnum == '') {
-          this.isSubmitted = true;
-        } else {
-          this.isSubmitted = false;
-        }
-      }
+    if (contact_name == '') {
+      console.log('B');
+      nme = '';
+    }
+    let num;
+    if (secondary == undefined) {
+      num = '';
+      console.log('C');
+    }
+    if (secondary == '') {
+      console.log('D');
+      num = '';
+    }
+    console.log(this.cont5);
+    if (nme != '' && num != '') {
+      console.log('E');
+      this.isSubmitted = false;
+    } else {
+      console.log('F');
+      this.isSubmitted = true;
     }
   }
 
 
-  getPrimaryContact5(contact_name, primary, secondary) {
-    console.log(primary);
-    if (primary != undefined) {
-      let char = primary.toString();
-      if (char.length > 5) {
-        console.log('Reached five characters above');
-        this.borderbottomredvalidation5 = 'border-bottom-invalid';
-      } else {
-        console.log('Reached five characters below');
-        this.borderbottomredvalidation5 = 'border-bottom-valid';
-      }
+  getPrimaryContact5(contact_name, secondary) {
+    console.log("contact_name for 5" + contact_name);
+    console.log("secondary" + secondary)
+    let nme;
+    if (contact_name == undefined) {
+      console.log('A');
+      nme = '';
     }
-    if (this.isEdited == 0) {
-      let nme;
-      if (contact_name == undefined) {
-        nme = '';
-      }
-      if (contact_name == '') {
-        nme = '';
-      }
-
-      let primnum;
-      if (primary == undefined) {
-        primnum = '';
-      }
-      if (primary == '') {
-        primnum = '';
-      }
-
-      let num;
-      if (secondary == undefined) {
-        num = '';
-      }
-      if (secondary == '') {
-        num = '';
-      }
-      if (this.cont5 == true) {
-        if (nme == '' || num == '' || primnum == '') {
-          this.isSubmitted = true;
-        } else {
-          this.isSubmitted = false;
-        }
-      }
+    if (contact_name == '') {
+      console.log('B');
+      nme = '';
+    }
+    let num;
+    if (secondary == undefined) {
+      num = '';
+      console.log('C');
+    }
+    if (secondary == '') {
+      console.log('D');
+      num = '';
+    }
+    console.log(this.cont5);
+    if (nme != '' && num != '') {
+      console.log('E');
+      this.isSubmitted = false;
+    } else {
+      console.log('F');
+      this.isSubmitted = true;
     }
   }
   doRemoveContact(val, contactArr) {
@@ -702,9 +641,12 @@ export class NotificationSettingsPage {
       this.latitude = '';
       this.longitude = '';
     }
-    if (localStorage.getItem("atMentionResult") != '') {
-      this.alarmhashtags = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   this.alarmhashtags = localStorage.getItem("atMentionResult");
+    // }
+
+    this.alarmhashtags = $("#to").val();
+    console.log("#to value" + $("#to").val());
     console.log(this.isEdited);
     if (this.isEdited > 0) {
       let body: string = "is_mobile=1&unit_id=" + this.isEdited +

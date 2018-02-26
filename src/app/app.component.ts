@@ -9,7 +9,7 @@ import { LoginPage } from "../pages/login/login";
 //import { TabsPage } from "../pages/tabs/tabs";
 import { Config } from '../config/config';
 
-import { AttentionPage } from "../pages/attention/attention";
+
 /* For Notification */
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import {Storage} from '@ionic/storage';

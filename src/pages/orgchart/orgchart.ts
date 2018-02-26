@@ -93,8 +93,9 @@ export class OrgchartPage {
 
     platform.registerBackButtonAction(() => {
       console.log(this.previous);
-      this.previous();
       this.viewCtrl.dismiss();
+      this.previous();     
+     // this.navCtrl.setRoot(DashboardPage);
     });
 
 
@@ -390,6 +391,7 @@ export class OrgchartPage {
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
+    this.viewCtrl.dismiss();    
   }
   doEdit(item, act) {
     if (act == 'edit') {

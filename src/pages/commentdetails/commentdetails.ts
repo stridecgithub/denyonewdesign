@@ -88,7 +88,7 @@ export class CommentdetailsPage {
           this.evenDate = data.json().comments[0].comment_date;
           this.location = data.json().comments[0].location;
           this.description = data.json().comments[0].comment_remark;
-          this.comment_by_name_hastag = "("+data.json().comments[0].comment_by_name_hastag+")";
+          this.comment_by_name_hastag = data.json().comments[0].comment_by_name_hastag;
           this.comment_by_name = data.json().comments[0].comment_by_name;
           
           

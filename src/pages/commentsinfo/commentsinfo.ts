@@ -10,7 +10,7 @@ import { EventDetailsServicePage } from '../event-details-service/event-details-
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 import { ModalPage } from '../modal/modal';
-
+import { ServicedetailsPage } from "../servicedetails/servicedetails";
 /**
  * Generated class for the CommentsinfoPage page.
  *
@@ -332,19 +332,34 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 's') {
-      this.navCtrl.setRoot(ServicingDetailsPage, {
-        record: item,
+      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //   record: item,
        
-        from: 'commentinfo',
+      //   from: 'commentinfo',
+      // });
+
+      this.navCtrl.setRoot(ServicedetailsPage, {
+        record: item,
+        act: 'Edit',
+        from: 'commentinfo'
       });
+
+      
     }
 
     if (type.toLowerCase() == 'r') {
-      this.navCtrl.setRoot(ServicingDetailsPage, {
+      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //   record: item,
+      //   act: 'Edit',
+      //   from: 'commentinfo',
+      // });
+
+      this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
-        from: 'commentinfo',
+        from: 'commentinfo'
       });
+  
     }
 
 
