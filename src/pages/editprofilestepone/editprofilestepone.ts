@@ -340,13 +340,14 @@ export class EditprofilesteponePage {
         password: string = this.form.controls["password"].value,
         email: string = this.form.controls["email"].value,
         contact: string = this.form.controls["contact"].value,
-        primary: string = this.form.controls["primary"].value,
+       // primary: string = this.form.controls["primary"].value,
         //country: string = this.form.controls["country"].value,
         hashtag: string = this.form.controls["hashtag"].value,
         job_position: string = this.form.controls["job_position"].value,
         company_id: string = this.form.controls["company_id"].value,
         report_to: string = this.form.controls["report_to"].value;
-      contact = primary + " " + contact;
+      //contact = primary + " " + contact;
+      contact = contact;
       console.log("Contact Concatenate" + contact);
       console.log(this.form.controls);
       console.log("this.isUploadedProcessing" + this.isUploadedProcessing);

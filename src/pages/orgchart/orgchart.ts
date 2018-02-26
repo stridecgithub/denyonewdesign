@@ -94,7 +94,7 @@ export class OrgchartPage {
     platform.registerBackButtonAction(() => {
       console.log(this.previous);
       this.previous();
-      this.viewCtrl.dismiss(PopoverPage);
+      this.viewCtrl.dismiss();
     });
 
 
