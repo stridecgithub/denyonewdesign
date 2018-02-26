@@ -134,7 +134,7 @@
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>
 
-        <button (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
+        <button  *ngIf="act=='reply' && act=='forward' && act=='replytoall'"  (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
             <ion-icon name="download"></ion-icon>
           </button>
       </div>

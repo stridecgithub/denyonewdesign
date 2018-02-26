@@ -157,10 +157,13 @@ export class ComposePage {
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');
     this.doAttachmentResources(this.micro_timestamp);
+    if(this.navParams.get("record")!=undefined){
     console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
     this.messageid = this.navParams.get("record").message_id;
-    this.act = this.navParams.get("action");
     this.replyall = this.navParams.get("record").replyall;
+    }
+    this.act = this.navParams.get("action");
+   
     console.log("REply all:" + this.replyall);
     console.log("Action" + this.act);
     this.choice = this.navParams.get("from");

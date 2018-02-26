@@ -325,7 +325,7 @@ export class OrgchartPage {
     //this.doOrgChart();
 
 
-    console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
+   // console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
   }
   ionViewDidLoad() {
     this.pageLoad();
@@ -339,7 +339,7 @@ export class OrgchartPage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1&id=" + this.userId;
+      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
     console.log(url);
     // console.log(body);
     let res;

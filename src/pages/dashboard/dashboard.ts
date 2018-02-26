@@ -21,6 +21,7 @@ declare let google;
 import { AddUnitPage } from "../add-unit/add-unit";
 import { Network } from '@ionic-native/network';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { LoginPage } from '../login/login';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -76,26 +77,37 @@ export class DashboardPage {
   dashboardhighlight;
   pushnotifycount;
   page;
+  alert: any;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
   constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, private push: Push, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     this.page = this.navCtrl.getActive().name;
+   
+
+
     this.platform.ready().then(() => {
       this.tabIndexVal = localStorage.getItem("tabIndex");
-      this.network.onConnect().subscribe(data => {
-        console.log(data)
-        this.displayNetworkUpdate(data.type);
-      }, error => console.error(error));
-
-      this.network.onDisconnect().subscribe(data => {
-        console.log(data)
-        this.displayNetworkUpdate(data.type);
-      }, error => console.error(error));
-
-      if (this.userId > 0) {
-        this.initPushNotification();
-      }
-
+      this.platform.registerBackButtonAction(() => {
+        let userId = localStorage.getItem("userInfoId");
+        if (userId == '') {
+          console.log("User id logged out");
+          this.navCtrl.setRoot(LoginPage);
+        }
+        console.log('3:registerBackButtonAction');
+        if (this.navCtrl.canGoBack()) {
+          console.log('4:canGoBack if');
+          this.navCtrl.pop();
+        } else {
+          console.log('5:canGoBack else');
+          if (this.alert) {
+            this.alert.dismiss();
+            this.alert = null;
+          } else {
+            this.showAlertExist();
+          }
+        }
+      });
+     
     });
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
@@ -140,11 +152,36 @@ export class DashboardPage {
        console.log("Dashboard- Menu Closed");
      });*/
   }
+  
   presentModal(unit) {
     console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
+  showAlertExist() {
+    this.alert = this.alertCtrl.create({
+      title: 'Exit?',
+      message: 'Do you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alert = null;
+          }
+        },
+        {
+          text: 'Exit',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+
+  
   displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
     // this.toast.create({
