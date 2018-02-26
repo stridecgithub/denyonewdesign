@@ -1082,7 +1082,7 @@ export class AddcalendarPage {
     }
     console.log(this.futuredatemsg);
     if (this.futuredatemsg != '') {
-      this.showAlert('', 'Sorry,you have selected previous date.kindly select future date only.')
+      this.showAlert('', 'Please select current date or future date.')
     }
 
   }
