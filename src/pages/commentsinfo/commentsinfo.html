@@ -232,7 +232,7 @@
 
 
 
-            <button *ngIf="upcomintitem.event_type=='S' && upcomintitem.serviced_by_name==''"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type=='S' && upcomintitem.serviced_by==0"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>

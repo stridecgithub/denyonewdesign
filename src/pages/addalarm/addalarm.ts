@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform ,ModalController} from 'ionic-angular';
+import { NavController, NavParams, Platform, ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
@@ -64,7 +64,7 @@ export class AddalarmPage {
   alarm_assgined_to;
   alarm_remark;
   public atmentioneddata = [];
-  constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public navCtrl: NavController,
+  constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
@@ -78,8 +78,7 @@ export class AddalarmPage {
     // Create form builder validation rules
     this.form = fb.group({
       "assigned_to": ["", Validators.required],
-      "remark": [""],
-      "subject": [""],
+      "remark": ["", Validators.required],     
       "assignedby": [""],
       "alarm_assigned_date": ["", Validators.required]
 
@@ -288,7 +287,7 @@ export class AddalarmPage {
     let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
       assigned_to: string = this.form.controls["assigned_to"].value;
     //this.remark = this.form.controls["remark"].value;
-    this.remark = localStorage.getItem("atMentionResult");
+    this.remark = $("#to").val();;
     alarm_assigned_date = alarm_assigned_date.split("T")[0]
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
@@ -314,9 +313,11 @@ export class AddalarmPage {
         .subscribe((data) => {
           if (data.status === 200) {
             this.hideForm = true;
-            this.conf.sendNotification(`Successfully assigned`);
+            console.log("Alarm Assinged Reponse:" + JSON.stringify(data));
+            //this.conf.sendNotification(`Successfully assigned`);
+            this.conf.sendNotification(data.json().msg[0].result);
             localStorage.setItem("userPhotoFile", "");
-            localStorage.setItem("atMentionResult", '');
+           // localStorage.setItem("atMentionResult", '');
             if (this.NP.get("from") == 'alarm') {
               this.navCtrl.setRoot(AlarmPage);
             } else {
@@ -359,7 +360,7 @@ export class AddalarmPage {
     } else if (this.NP.get("from") == 'commentinfo') {
       this.navCtrl.setRoot(CommentsinfoPage);
     } else {
-     
+
     }
     console.log(this.navCtrl.getActive().name);
     /* this.navCtrl.setRoot(AlarmPage, {
@@ -372,7 +373,7 @@ export class AddalarmPage {
     this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid,
       record: item,
-      from:this.NP.get("from")
+      from: this.NP.get("from")
     });
 
 

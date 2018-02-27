@@ -872,7 +872,9 @@ export class AddcalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Company group was successfully deleted`);
+        //  console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
+         // this.conf.sendNotification(`Company group was successfully deleted`);
+         this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {

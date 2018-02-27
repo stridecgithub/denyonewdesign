@@ -733,7 +733,8 @@ export class NotificationSettingsPage {
           if (data.status === 200) {
             this.hideForm = true;
             localStorage.setItem("addUnitFormOneValue", "");
-            this.conf.sendNotificationTimer(`Units created was successfully added`);
+            //this.conf.sendNotificationTimer(`Units created was successfully added`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
             this.navCtrl.setRoot(UnitsPage);
           }
           // Otherwise let 'em know anyway

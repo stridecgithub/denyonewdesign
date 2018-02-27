@@ -62,7 +62,8 @@ export class ChangepasswordPage {
           if (res.msg[0].Error > 0) {
             this.conf.sendNotification(res.msg[0].result);
           } else {
-            this.conf.sendNotification('New password has been updated successfully.');
+           // this.conf.sendNotification('New password has been updated successfully.');
+           this.conf.sendNotification(res.msg[0].result);
             this.navCtrl.setRoot(MyaccountPage);
           }
         }

@@ -49,11 +49,14 @@
           <ion-label stacked>Date</ion-label>
           <ion-datetime displayFormat="MM/DD/YYYY" min="{{mindate}}" class="cal-icon" formControlName="alarm_assigned_date" [(ngModel)]="alarm_assigned_date"></ion-datetime>
         </ion-item>
-
+        <ion-item>
+          <ion-label stacked>Assigned to</ion-label>
+          <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
+            <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+          </ion-select>
+        </ion-item>
         <div class="inner-div">
-          <!--ion-item style="border: none">
-            <ion-label stacked>Remarks</ion-label>
-            <ion-textarea></ion-textarea-->
+        
           <div style="
     color: gray;
     font-size: 12px;
@@ -66,15 +69,9 @@
     background-color: #f8f8f8;" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
             onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" formControlName="remark"
             [(ngModel)]="remark"></textarea>
-          <!--/ion-item-->
         </div>
 
-        <ion-item>
-          <ion-label stacked>Assigned to</ion-label>
-          <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
-            <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
-          </ion-select>
-        </ion-item>
+       
 
 
         <!-- <div class="inner-div">

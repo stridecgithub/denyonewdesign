@@ -592,7 +592,8 @@ export class AddhocPage {
           if (res.msg[0]['Error'] > 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }*/
-          this.conf.sendNotification(`Servicing info was successfully added`);
+         // this.conf.sendNotification(`Servicing info was successfully added`);
+         this.conf.sendNotification(data.json().msg[0].result);
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
             unitid: this.service_unitid
@@ -874,7 +875,8 @@ export class AddhocPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+          //this.conf.sendNotification(`File was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {

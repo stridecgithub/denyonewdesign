@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import {  NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -82,7 +82,7 @@ export class DashboardPage {
   constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, private push: Push, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     this.page = this.navCtrl.getActive().name;
-   
+
 
 
     this.platform.ready().then(() => {
@@ -152,7 +152,7 @@ export class DashboardPage {
        console.log("Dashboard- Menu Closed");
      });*/
   }
-  
+
   presentModal(unit) {
     console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
@@ -181,7 +181,7 @@ export class DashboardPage {
     this.alert.present();
   }
 
-  
+
   displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
     // this.toast.create({
@@ -229,7 +229,7 @@ export class DashboardPage {
     console.log('dashboardselected' + this.navParams.get('dashboardselected'));
     this.dashboardhighlight = this.navParams.get('dashboardselected');
 
-   
+
 
     this.conf.showfooter();
     let mapView = document.getElementById('mapView');
@@ -425,7 +425,8 @@ export class DashboardPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Units was successfully deleted`);
+          // this.conf.sendNotification(`Units was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
@@ -516,9 +517,11 @@ export class DashboardPage {
         if (data.status === 200) {
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavorited successfully");
+            //this.conf.sendNotification("Unfavorited successfully");
+            this.conf.sendNotification(res.msg[0]['result']);
           } else {
-            this.conf.sendNotification("Favourite successfully");
+            //this.conf.sendNotification("Favourite successfully");
+            this.conf.sendNotification(res.msg[0]['result']);
           }
 
 
@@ -896,7 +899,7 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom:11
+      zoom: 11
     }
 
 
@@ -1117,11 +1120,12 @@ export class DashboardPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+        console.log("dashboardaction?id=" + id + "&action=hide&is_mobile=1&loginid=" + this.userId + JSON.stringify(data.json()));
 
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Dashboard hide action successfully updated`);
+          //this.conf.sendNotification(`Dashboard hide action successfully updated`);
+          this.conf.sendNotification(data.json().msg['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
@@ -1282,67 +1286,67 @@ export class DashboardPage {
   }
   public schedule(notification, cnt) {
     //if (this.userId > 0) {
-      //this.msgcount = cnt;
-      console.log("D:" + JSON.stringify(notification));
-      this.localNotifications.schedule({
-        title: notification.title,
-        text: notification.message,
-        at: new Date(new Date()),
-        sound: null
-      });
+    //this.msgcount = cnt;
+    console.log("D:" + JSON.stringify(notification));
+    this.localNotifications.schedule({
+      title: notification.title,
+      text: notification.message,
+      at: new Date(new Date()),
+      sound: null
+    });
 
-      localStorage.setItem("navtype", notification.additionalData.arrayval.type);
-      localStorage.setItem("navtid", notification.additionalData.arrayval.id);
+    localStorage.setItem("navtype", notification.additionalData.arrayval.type);
+    localStorage.setItem("navtid", notification.additionalData.arrayval.id);
 
-      this.localNotifications.on("click", (notification, state) => {
-        console.log("Local notification clicked...");
-        console.log("1" + notification);
-        console.log("2" + state);
-        console.log("3" + JSON.stringify(notification));
-        console.log("4" + JSON.stringify(state));
-        let navids = localStorage.getItem("navtid");
-        let navtypes = localStorage.getItem("navtype");
-        console.log(navids);
-        console.log(navtypes);
+    this.localNotifications.on("click", (notification, state) => {
+      console.log("Local notification clicked...");
+      console.log("1" + notification);
+      console.log("2" + state);
+      console.log("3" + JSON.stringify(notification));
+      console.log("4" + JSON.stringify(state));
+      let navids = localStorage.getItem("navtid");
+      let navtypes = localStorage.getItem("navtype");
+      console.log(navids);
+      console.log(navtypes);
 
-        if (navtypes == 'M') {
-          this.navCtrl.setRoot(MessageDetailViewPage, {
-            event_id: navids,
-            from: 'push'
-          });
-        }
-        else if (navtypes == 'OA') {
-          this.navCtrl.setRoot(EventDetailsPage, {
-            event_id: navids,
-            from: 'Push'
-          });
-        } else if (navtypes == 'A') {
-          this.navCtrl.setRoot(EventDetailsPage, {
-            event_id: navids,
-            from: 'Push'
-          });
-          localStorage.setItem("fromModule", "AlarmdetailsPage");
-        } else if (navtypes == 'C') {
-          this.navCtrl.setRoot(CommentdetailsPage, {
-            event_id: navids,
-            from: 'Push'
-          });
-          localStorage.setItem("fromModule", "CommentdetailsPage");
-        } else if (navtypes == 'E') {
-          this.navCtrl.setRoot(EventDetailsEventPage, {
-            event_id: navids,
-            from: 'Push',
-          });
-          localStorage.setItem("fromModule", "CalendardetailPage");
-        } else if (navtypes == 'S') {
-          this.navCtrl.setRoot(EventDetailsServicePage, {
-            event_id: navids,
-            from: 'Push'
-          });
-          localStorage.setItem("fromModule", "ServicedetailsPage");
-        }
+      if (navtypes == 'M') {
+        this.navCtrl.setRoot(MessageDetailViewPage, {
+          event_id: navids,
+          from: 'push'
+        });
+      }
+      else if (navtypes == 'OA') {
+        this.navCtrl.setRoot(EventDetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+      } else if (navtypes == 'A') {
+        this.navCtrl.setRoot(EventDetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "AlarmdetailsPage");
+      } else if (navtypes == 'C') {
+        this.navCtrl.setRoot(CommentdetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "CommentdetailsPage");
+      } else if (navtypes == 'E') {
+        this.navCtrl.setRoot(EventDetailsEventPage, {
+          event_id: navids,
+          from: 'Push',
+        });
+        localStorage.setItem("fromModule", "CalendardetailPage");
+      } else if (navtypes == 'S') {
+        this.navCtrl.setRoot(EventDetailsServicePage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "ServicedetailsPage");
+      }
 
-      });
+    });
 
     //}
   }

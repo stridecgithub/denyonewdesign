@@ -475,7 +475,8 @@ export class ServicinginfoPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.conf.sendNotification(`Service details deleted successfully`);
+         // this.conf.sendNotification(`Service details deleted successfully`);
+         this.conf.sendNotification(data.json().msg[0]['result']);
           if (from == 'upcoming') {
             this.upcomingData.startindex = 0;
             this.upcomingAllLists = [];

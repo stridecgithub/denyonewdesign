@@ -2025,8 +2025,8 @@ export class UnitdetailsPage {
 				// If the request was successful notify the user
 				if (data.status === 200) {
 
-					this.conf.sendNotification(`Units was successfully deleted`);
-
+					//this.conf.sendNotification(`Units was successfully deleted`);
+					this.conf.sendNotification(data.json().msg[0]['result']);
 					this.navCtrl.setRoot(UnitsPage);
 				}
 				// Otherwise let 'em know anyway
@@ -2068,8 +2068,8 @@ export class UnitdetailsPage {
 
 				// If the request was successful notify the user
 				if (data.status === 200) {
-					this.conf.sendNotification(`Dashboard view action successfully updated`);
-
+					//this.conf.sendNotification(`Dashboard view action successfully updated`);
+					this.conf.sendNotification(data.json().msg[0]['result']);
 				}
 				// Otherwise let 'em know anyway
 				else {

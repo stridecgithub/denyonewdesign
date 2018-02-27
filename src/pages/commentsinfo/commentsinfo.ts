@@ -505,7 +505,8 @@ export class CommentsinfoPage {
           // If the request was successful notify the user
           if (data.status === 200) {
 
-            this.conf.sendNotification(`Comments was successfully deleted`);
+           // this.conf.sendNotification(`Comments was successfully deleted`);
+           this.conf.sendNotification(data.json().msg[0]['result']);
           }
           // Otherwise let 'em know anyway
           else {
@@ -526,8 +527,8 @@ export class CommentsinfoPage {
         .subscribe(data => {
           // If the request was successful notify the user
           if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
+           // this.conf.sendNotification(`Service was successfully deleted`);
           }
           // Otherwise let 'em know anyway
           else {
@@ -549,8 +550,8 @@ export class CommentsinfoPage {
         .subscribe(data => {
           // If the request was successful notify the user
           if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
+            //this.conf.sendNotification(`Service was successfully deleted`);
           }
           // Otherwise let 'em know anyway
           else {

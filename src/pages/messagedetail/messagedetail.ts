@@ -748,8 +748,8 @@ export class MessagedetailPage {
         if (data.status === 200) {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Message sending successfully`);
-
+        //  this.conf.sendNotification(`Message sending successfully`);
+        this.conf.sendNotification(data.json().msg[0]['result']);
 
           this.addedImgLists = [];
           this.to = '';

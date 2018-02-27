@@ -209,7 +209,8 @@ export class EventDetailsEventPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Event was successfully deleted`);
+          //this.conf.sendNotification(`Event was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway

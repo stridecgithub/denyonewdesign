@@ -157,13 +157,13 @@ export class ComposePage {
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');
     this.doAttachmentResources(this.micro_timestamp);
-    if(this.navParams.get("record")!=undefined){
-    console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
-    this.messageid = this.navParams.get("record").message_id;
-    this.replyall = this.navParams.get("record").replyall;
+    if (this.navParams.get("record") != undefined) {
+      console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
+      this.messageid = this.navParams.get("record").message_id;
+      this.replyall = this.navParams.get("record").replyall;
     }
     this.act = this.navParams.get("action");
-   
+
     console.log("REply all:" + this.replyall);
     console.log("Action" + this.act);
     this.choice = this.navParams.get("from");
@@ -545,8 +545,8 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent +
-        "&copytome=" + copytome +
+        "&composemessagecontent='" + composemessagecontent.toString() +
+        "'&copytome=" + copytome +
         "&submit=" + isrepfor +
         "&forwardmsgid=" + this.messageid +
         "&subject=" + subject;
@@ -557,8 +557,8 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent +
-        "&copytome=" + copytome +
+        "&composemessagecontent='" + composemessagecontent.toString() +
+        "'&copytome=" + copytome +
         "&subject=" + subject;
       urlstring = this.apiServiceURL + "/messages/store";
     }
@@ -581,6 +581,10 @@ export class ComposePage {
           //localStorage.setItem("atMentionResult", '');
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
+
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          this.navCtrl.setRoot(MessagesPage);
+
         }
         // Otherwise let 'em know anyway
         else {
@@ -589,9 +593,8 @@ export class ComposePage {
       });
     localStorage.setItem("microtime", "");
     // localStorage.setItem("atMentionResult", '');
-    this.conf.sendNotification(`Message sending successfully`);
+    //this.conf.sendNotification(`Message sending successfully`);
 
-    this.navCtrl.setRoot(MessagesPage);
   }
   fileChooser(micro_timestamp) {
 
@@ -734,6 +737,7 @@ export class ComposePage {
         let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
+        
         console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
         let imgSrc;
         if (this.messageid == undefined) {
@@ -793,19 +797,19 @@ export class ComposePage {
 
 
     if (val == "2") {
-      console.log('val A:'+val);
+      console.log('val A:' + val);
       this.activelow = "0";
       this.activehigh = "1";
       this.normallow = "0";
       this.activenormal = "1";
     } else if (val == "1") {
-      console.log('val B:'+val);
+      console.log('val B:' + val);
       this.activelow = "1";
       this.activehigh = "0";
       this.normallow = "1";
       this.activenormal = "0";
     } else {
-      console.log('val C:'+val);
+      console.log('val C:' + val);
       this.activelow = "0";
       this.activehigh = "0";
       this.normallow = "0";
@@ -877,8 +881,9 @@ export class ComposePage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+         // this.conf.sendNotification(`File was successfully deleted`);
           //this.doImageResources(service_id);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.doAttachmentResources(this.micro_timestamp);
         }
         // Otherwise let 'em know anyway

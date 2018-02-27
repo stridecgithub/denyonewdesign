@@ -233,7 +233,8 @@ export class CommentdetailsPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Comment was successfully deleted`);
+          //this.conf.sendNotification(`Comment was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.item
           });

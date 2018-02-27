@@ -393,8 +393,8 @@ export class AddrequestsupportPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Servicing info was successfully added`);
-
+          //this.conf.sendNotification(`Servicing info was successfully added`);
+          this.conf.sendNotification(data.json().msg[0].result);
           this.nav.push(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -554,7 +554,8 @@ export class AddrequestsupportPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+          //this.conf.sendNotification(`File was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {

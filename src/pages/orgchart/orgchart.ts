@@ -94,8 +94,8 @@ export class OrgchartPage {
     platform.registerBackButtonAction(() => {
       console.log(this.previous);
       this.viewCtrl.dismiss();
-      this.previous();     
-     // this.navCtrl.setRoot(DashboardPage);
+      this.previous();
+      // this.navCtrl.setRoot(DashboardPage);
     });
 
 
@@ -251,8 +251,9 @@ export class OrgchartPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          // this.conf.sendNotification(`Non-user was successfully deleted`);
 
-          this.conf.sendNotification(`Non-user was successfully deleted`);
           this.parents = [];
           this.doOrgChart();
         }
@@ -325,7 +326,7 @@ export class OrgchartPage {
     //this.doOrgChart();
 
 
-   // console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
+    // console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
   }
   ionViewDidLoad() {
     this.pageLoad();
@@ -391,7 +392,7 @@ export class OrgchartPage {
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
-    this.viewCtrl.dismiss();    
+    this.viewCtrl.dismiss();
   }
   doEdit(item, act) {
     if (act == 'edit') {

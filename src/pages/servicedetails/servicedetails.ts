@@ -674,11 +674,19 @@ export class ServicedetailsPage {
           /* if (res.msg[0]['Error'] > 0) {
              this.conf.sendNotification(res.msg[0]['result']);
            }*/
-          this.conf.sendNotification(`Servicing info was successfully updated`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          // this.conf.sendNotification(`Servicing info was successfully updated`);
           localStorage.setItem("atMentionResult", '');
-          this.navCtrl.setRoot(ServicinginfoPage, {
-            record: this.NP.get("record")
-          });
+
+          if (this.NP.get("from") == 'commentinfo') {
+            this.navCtrl.setRoot(CommentsinfoPage, {
+              record: this.NP.get("record")
+            });
+          } else {
+            this.navCtrl.setRoot(ServicinginfoPage, {
+              record: this.NP.get("record")
+            });
+          }
         }
         // Otherwise let 'em know anyway
         else {
@@ -743,7 +751,9 @@ export class ServicedetailsPage {
           this.service_subject = '';
           this.service_remark = '';
           this.addedServiceImgLists = [];
-          this.conf.sendNotification(`Servicing info  was successfully updated`);
+          //this.conf.sendNotification(`Servicing info  was successfully updated`);
+
+          this.conf.sendNotification(data.json().msg[0]['result']);
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
@@ -1114,7 +1124,9 @@ export class ServicedetailsPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+          //   this.conf.sendNotification(`File was successfully deleted`);
+
+          this.conf.sendNotification(data.json().msg[0]['result']);
           //this.doImageResources(service_id);
         }
         // Otherwise let 'em know anyway

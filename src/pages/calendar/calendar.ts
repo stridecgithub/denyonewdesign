@@ -3,7 +3,7 @@
 //import {  NavController, NavParams } from 'ionic-angular';
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
-import {  Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
+import { Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
@@ -986,13 +986,16 @@ export class CalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           if (deltype == 'Event') {
-            this.conf.sendNotification(`Event was successfully deleted`);
+            //this.conf.sendNotification(`Event was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
           if (deltype == 'Service') {
-            this.conf.sendNotification(`Service was successfully deleted`);
+            // this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
           if (deltype == 'Alarm') {
-            this.conf.sendNotification(`Alarm was successfully deleted`);
+            // this.conf.sendNotification(`Alarm was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
         }
         // Otherwise let 'em know anyway
@@ -1454,7 +1457,8 @@ export class CalendarPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Service was successfully deleted`);
+         // this.conf.sendNotification(`Service was successfully deleted`);
+         this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
@@ -1478,7 +1482,7 @@ export class CalendarPage {
           type: event_type,
           service_id: item.event_id
         });
-    } 
+    }
     if (event_type == 'E') {
       event_type = 'event';
       this.navCtrl.setRoot(AddcalendarPage,
@@ -1548,7 +1552,8 @@ export class CalendarPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Event was successfully deleted`);
+          //this.conf.sendNotification(`Event was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
