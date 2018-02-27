@@ -107,7 +107,7 @@ export class DashboardPage {
           }
         }
       });
-     
+      this.initPushNotification();
     });
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
@@ -895,7 +895,8 @@ export class DashboardPage {
       styles: mapStyle,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: latLngmapoption
+      center: latLngmapoption,
+      zoom:11
     }
 
 
@@ -978,10 +979,10 @@ export class DashboardPage {
     this.map.fitBounds(bounds);
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-      this.setZoom(12);
-      google.maps.event.removeListener(boundsListener);
-    });
+    // let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
+    //   this.setZoom(8);
+    //   google.maps.event.removeListener(boundsListener);
+    // });
 
 
   }
@@ -1280,7 +1281,7 @@ export class DashboardPage {
 
   }
   public schedule(notification, cnt) {
-    if (this.userId > 0) {
+    //if (this.userId > 0) {
       //this.msgcount = cnt;
       console.log("D:" + JSON.stringify(notification));
       this.localNotifications.schedule({
@@ -1343,7 +1344,7 @@ export class DashboardPage {
 
       });
 
-    }
+    //}
   }
 }
 

@@ -73,6 +73,7 @@ export class ServicedetailsPage {
   public next_service_date_mobileview: any;
   public service_priority: any;
   is_request: any;
+  futuredatemsg;
   public serviced_by_name: any;
   public service_resources: any;
   micro_timestamp: any;
@@ -111,7 +112,7 @@ export class ServicedetailsPage {
   hoursadd24hourformat;
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-   // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.next_service_date_selected = 0;
     this.isFuture = 0;
     this.uploadcount = 10;
@@ -555,8 +556,8 @@ export class ServicedetailsPage {
         description: string = this.form.controls["description"].value,
         service_subject: string = this.form.controls["service_subject"].value;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
-     // service_scheduled_date = "2018-02-16T02:45:00";
-      this.createEntry(service_scheduled_date, description, status,service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+      // service_scheduled_date = "2018-02-16T02:45:00";
+      this.createEntry(service_scheduled_date, description, status, service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
 
     }
 
@@ -952,11 +953,11 @@ export class ServicedetailsPage {
 
 
       // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
-     // this.service_scheduled_date = item.serviced_datetime_edit;
+      // this.service_scheduled_date = item.serviced_datetime_edit;
 
-     this.service_scheduled_date = item.serviced_datetime_edit;
-     //this.service_scheduled_date ="2018-02-17T13:45:30";
-     
+      this.service_scheduled_date = item.serviced_datetime_edit;
+      //this.service_scheduled_date ="2018-02-17T13:45:30";
+
       console.log("ffsf" + this.service_scheduled_date);
       //this.service_scheduled_date="2018-02-17 03:17";
       // this.service_scheduled_date="2018-02-17T13:17";
@@ -1263,6 +1264,7 @@ export class ServicedetailsPage {
 
 
   futureDateValidation(formvalue) {
+    this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1283,9 +1285,23 @@ export class ServicedetailsPage {
       this.isSubmitted = false;
 
     } else {
+      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+
       this.service_scheduled_date = moment().format();
       this.isSubmitted = true;
     }
-  }
 
+
+    if (this.futuredatemsg != '') {
+      this.showAlert('', 'Please select current date or future date.')
+    }
+  }
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 }

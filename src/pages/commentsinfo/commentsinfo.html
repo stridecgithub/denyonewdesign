@@ -220,7 +220,7 @@
 
 
           <ion-item-options side="right" class="list-item-options">
-            <button *ngIf="upcomintitem.event_type!='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='S'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>
@@ -232,18 +232,15 @@
 
 
 
-            <button *ngIf="upcomintitem.event_type=='S'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type=='S' && upcomintitem.serviced_by_name==''"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit Two
+              <br>Edit
             </button>
 
 
 
             
-            <button *ngIf="upcomintitem.event_type=='R'"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
-              <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit one
-            </button>
+          
 
 
             <button ion-button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
