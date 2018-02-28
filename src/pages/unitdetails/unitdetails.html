@@ -406,10 +406,10 @@
       <br>
       <ion-row class="mid-col2">
         <ion-col class="col" col-7>
-          <h2>Coolant temperature (&deg;C)</h2>
+          <h2>Coolant temperature</h2>
         </ion-col>
         <ion-col class="col" col-5>
-          <h1>{{coolanttemp}}</h1>
+          <h1>{{coolanttemp}}&deg;C</h1>
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->
@@ -423,11 +423,11 @@
 
       <ion-row class="mid-col2">
         <ion-col class="col" col-7>
-          <h2>Oil pressure (bar)</h2>
+          <h2>Oil pressure</h2>
         </ion-col>
 
         <ion-col class="col" col-5>
-          <h1>{{oilpressure}}</h1>
+          <h1>{{oilpressure}} bar</h1>
         </ion-col>
         <ion-col class="col" col-12>
           <div (click)="showgraph(this.unitDetailData.unit_id,'OILPRESSURE')">
@@ -459,11 +459,11 @@
 
       <ion-row class="mid-col2">
         <ion-col class="col" col-7>
-          <h2>battery voltage (v)</h2>
+          <h2>battery voltage</h2>
         </ion-col>
 
         <ion-col class="col" col-5>
-          <h1>{{batteryvoltage}}</h1>
+          <h1>{{batteryvoltage}}V</h1>
         </ion-col>
         <ion-col class="col" col-12>
           <!-- <img src="assets/imgs/test-img2.jpg" alt="test image"> -->

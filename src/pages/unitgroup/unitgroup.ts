@@ -37,11 +37,11 @@ export class UnitgroupPage {
   private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
-  public sortLblTxt: string = 'Favourites';
+  public sortLblTxt: string = 'Date';
   public reportData: any =
     {
       status: '',
-      sort: 'favorite',
+      sort: 'date',
       sortascdesc: 'desc',
       startindex: 0,
       results: 50
@@ -434,6 +434,13 @@ export class UnitgroupPage {
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
+
+        {
+          type: 'radio',
+          label: 'Date',
+          value: 'date'
+        },
+
         {
           type: 'radio',
           label: 'Favourites',
@@ -458,6 +465,8 @@ export class UnitgroupPage {
                 this.sortLblTxt = 'Favourites';
               } else if (data == 'unitgroup_name') {
                 this.sortLblTxt = 'Unit Group';
+              } else if (data == 'date') {
+                this.sortLblTxt = 'Date';
               }
               this.reportData.startindex = 0;
               this.unitgroupAllLists = [];
@@ -477,6 +486,8 @@ export class UnitgroupPage {
                 this.sortLblTxt = 'Favourites';
               } else if (data == 'unitgroup_name') {
                 this.sortLblTxt = 'Unit Group';
+              }else if (data == 'date') {
+                this.sortLblTxt = 'Date';
               }
               this.reportData.startindex = 0;
               this.unitgroupAllLists = [];

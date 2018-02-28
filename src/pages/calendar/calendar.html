@@ -125,6 +125,10 @@
               style="font-size:32pt;color:rgb(63,139,197);" (click)="onTimeSelected(d.date.year(),d.date.month()+1,d.date.date(),'1')">&nbsp;</span>
 
 
+              <span class="{{h.class}}" *ngIf="h.class=='warning_service_event' && h.dte==d.date.date()  && h.mne==d.date.month()+1 && h.yrd==d.date.year()"
+              style="font-size:32pt;color:rgb(63,139,197);" (click)="onTimeSelected(d.date.year(),d.date.month()+1,d.date.date(),'1')">&nbsp;</span>
+
+              
 
             <span class="{{h.class}}" *ngIf="h.class=='alarm_warning_service' && h.dte==d.date.date()  && h.mne==d.date.month()+1 && h.yrd==d.date.year()"
               style="font-size:32pt;color:rgb(63,139,197);" (click)="onTimeSelected(d.date.year(),d.date.month()+1,d.date.date(),'1')">&nbsp;</span>
@@ -206,6 +210,8 @@
                 <div style="white-space: normal">{{eventitem.event_remark}}</div>
                 <!-- <div>{{eventitem.event_addedby_name}}
                 </div> -->
+
+               
               </div>
             </ion-item>
 
@@ -259,7 +265,7 @@
             </ion-item>
 
             <ion-item-options side="right" class="list-item-options">
-                <button *ngIf="eventitem.event_type!='A'" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
+                <button *ngIf="eventitem.event_type=='E'  && eventitem.event_added_by==userId" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
                   <img width="25" src="assets/imgs/edit@2x.png">Edit
                 </button>
                 <button  *ngIf="eventitem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(eventitem,'edit')">
@@ -268,7 +274,7 @@
                 <button *ngIf="eventitem.event_type=='S'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
                   <ion-icon name="trash"></ion-icon>Delete
                 </button>  
-                <button *ngIf="eventitem.event_type=='E'" ion-button class="del-btn" (click)="doEventDelete(eventitem)">
+                <button *ngIf="eventitem.event_type=='E' && eventitem.event_added_by==userId" ion-button class="del-btn" (click)="doEventDelete(eventitem)">
                     <ion-icon name="trash"></ion-icon>Delete
                   </button> 
               </ion-item-options>
@@ -351,11 +357,15 @@
                   <br> {{calendaritem.projectname}}
                   <br> {{calendaritem.event_location}}
                   <br>{{calendaritem.event_remark}}
+
+
+
                 </p>
               </div>
             </ion-item>
+           
             <ion-item-options side="right" class="list-item-options">
-              <button *ngIf="calendaritem.event_type!='A'" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
+              <button *ngIf="calendaritem.event_type=='E'  && calendaritem.event_added_by==userId" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
               <button  *ngIf="calendaritem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(calendaritem,'edit')">
@@ -365,7 +375,7 @@
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
 
-              <button *ngIf="calendaritem.event_type=='E'" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">
+              <button *ngIf="calendaritem.event_type=='E' && calendaritem.event_added_by==userId" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">
                   <ion-icon name="trash"></ion-icon>Delete
                 </button>
               

@@ -264,7 +264,9 @@ export class AddcalendarPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    //this.event_date=localStorage.getItem("sdate");
+    this.event_date=localStorage.getItem("sdate");
+    this.event_end_date=localStorage.getItem("sdate");
+   // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
     if (this.NP.get("item")) {

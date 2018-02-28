@@ -165,7 +165,6 @@ export class CalendarPage {
     }
     this.currentYear = currentDate.getFullYear();
     this.userId = localStorage.getItem("userInfoId");
-    this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.EVENTVIEWACCESS = localStorage.getItem("CALENDAR_EVENTS_VIEW");
     this.EVENTCREATEACCESS = localStorage.getItem("CALENDAR_EVENTS_CREATE");
@@ -766,6 +765,7 @@ export class CalendarPage {
             type: 'event',
             event_type: 'E',
             allDay: true,
+            event_added_by:this.eventIdentify[i]['event_added_by'],
             icon: 'clock',
             class: 'event',
             iconStyle: { color: 'green' },
@@ -1216,7 +1216,7 @@ export class CalendarPage {
         event_addedby_name: this.eventIdentify[i]['event_addedby_name'],
         formatted_datetime: this.eventIdentify[i]['formatted_datetime'],
         event_time_new: this.eventIdentify[i]['service_scheduled_time'],
-
+        event_added_by:this.eventIdentify[i]['event_added_by'],
         event_type: 'E',
         icon: 'alarm', // Icon of the alert. This is compulsory when using the 
         // calendar on small screens, as the name of the event will

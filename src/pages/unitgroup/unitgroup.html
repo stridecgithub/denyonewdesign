@@ -49,7 +49,8 @@
 
         <span class="initial"  [ngStyle]="{'background-color': '#' + unitgroup.colorcode}">{{unitgroup.cname}}</span>
     
-
+        <div class="date-time">{{unitgroup.createdOn}}</div>
+      
         <button (click)="favorite(unitgroup.unitgroup_id)" class="{{unitgroup.favoriteindication}}" style="float: right ;width:30px;height:30px;background-color:#ffffff"></button>
         <div class="group-info">
           <h2>

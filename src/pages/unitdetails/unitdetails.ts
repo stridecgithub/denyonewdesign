@@ -318,13 +318,13 @@ export class UnitdetailsPage {
 						// 	voltage = 0;
 						// }
 
-
+						let diff=this.setpointsdata[0].maxvalue-this.setpointsdata[0].minvalue;
 						if (actual_voltage < this.setpointsdata[0].minvalue)
 							voltage = 0;
 						else if (actual_voltage > this.setpointsdata[0].maxvalue)
 							voltage = 100;
 						else
-							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / 200) * 100;
+							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) /  diff) * 100;
 
 						console.log("Voltage Pecentage:" + voltage);
 						let voltguagelabel = this.voltguagelabel;
@@ -384,13 +384,13 @@ export class UnitdetailsPage {
 							frequency = 0;
 						}*/
 
-
+						let difffreq=this.setpointsdata[2].maxvalue-this.setpointsdata[2].minvalue;
 						if (actual_frequency < this.setpointsdata[2].minvalue)
 							frequency = 0;
 						else if (actual_frequency > this.setpointsdata[2].maxvalue)
 							frequency = 100;
 						else
-							frequency = (((actual_frequency - 40) / 20) * 100);
+							frequency = (((actual_frequency -this.setpointsdata[2].minvalue) / difffreq) * 100);
 
 
 
@@ -413,14 +413,14 @@ export class UnitdetailsPage {
 
 						// Engine Speed
 						let enginespeed = 0;
-
+						let diffengine=this.setpointsdata[3].maxvalue-this.setpointsdata[3].minvalue;
 						let actual_enginespeed = this.enginespeed;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
 						if (actual_enginespeed < this.setpointsdata[3].minvalue) {
 							enginespeed = 0;
 						} else if (actual_enginespeed > this.setpointsdata[3].maxvalue) {
 							enginespeed = 100;
 						} else {
-							enginespeed = (((actual_enginespeed - 1200) / 600) * 100);
+							enginespeed = (((actual_enginespeed - this.setpointsdata[3].minvalue) / diffengine) * 100);
 						}
 
 
@@ -614,22 +614,14 @@ export class UnitdetailsPage {
 							if (enval == res[i].maxvalue) {
 								enval = sval;
 							}
-							/*this.rangesdata.push({
-								startValue: enval,
-								endValue: res[i].maxvalue,
-								innerOffset:0.46,
-								outerStartOffset: 0.70,
-								outerEndOffset: 0.70,
-								fillStyle: gradver
-							})*/
-
+							
 							this.rangesdata.push({
 								startValue: enval,
 								endValue: res[i].maxvalue,
 								innerOffset: 0.46,
 								outerStartOffset: 0.70,
 								outerEndOffset: 0.70,
-								fillStyle: gradver
+								fillStyle: '#df0000'
 							})
 
 							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
