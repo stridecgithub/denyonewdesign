@@ -447,9 +447,9 @@ export class UnitdetailsPage {
 						let fuel = 0;
 
 						let actual_fuel = this.fuellevel;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						if (actual_fuel <= this.setpointsdata[3].minvalue) {
+						if (actual_fuel <= 0) {
 							fuel = 0;
-						} else if (actual_fuel >= this.setpointsdata[3].maxvalue) {
+						} else if (actual_fuel >= 100) {
 							fuel = 100;
 						} else {
 							fuel = actual_fuel;
@@ -561,13 +561,14 @@ export class UnitdetailsPage {
 							this.rangesdata = [];
 							var code = res[i].code.toLowerCase();
 							var labels = res[i].barlabels.split(',');
-							console.log("Bar Colors:-" + code + '=' + res[i].barchartcolors);
+							console.log("Bar Lbels:-" + labels);
 							var barchartcolors = res[i].barchartcolors.split(',');
 							var sval = 0;
 							var enval = 0;
 							//
 							console.log("Lables Length:" + labels.length);
 							for (var x = 0; x < labels.length; x++) {
+								console.log("Xav"+x);
 								if (x == 0) {
 									sval = 0;
 									enval = labels[x];
@@ -585,13 +586,13 @@ export class UnitdetailsPage {
 								//var brclr= barchartcolors[x].replace('"','');
 								var gradver;
 								if (barchartcolors[x] == "gradient1") {
-									gradver = gradient1
+									gradver = '#df0000';
 								}
 								if (barchartcolors[x] == "gradient2") {
-									gradver = gradient2
+									gradver = '#ffca00';
 								}
 								if (barchartcolors[x] == "gradient3") {
-									gradver = gradient3
+									gradver = '#00FF50';
 								}
 								this.rangesdata.push({
 									startValue: sval,
@@ -607,7 +608,7 @@ export class UnitdetailsPage {
 											outerStartOffset: 0.70,
 												outerEndOffset: 0.70,
 													fillStyle: gradient3*/
-
+								
 
 							}
 							if (enval == res[i].maxvalue) {
@@ -655,7 +656,9 @@ export class UnitdetailsPage {
 								this.needlevalue = 0;
 							}
 							console.log("Needle value:" + this.needlevalue);
-
+							console.log("Join:" + labels.join(","));
+							console.log("JASON PARSE:" + JSON.parse('[' + labels + ']'));
+							
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -688,7 +691,7 @@ export class UnitdetailsPage {
 											offset: 1,
 											lineWidth: 2
 										},
-										customTickMarks: res[i].barlabels.split(','),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+										customTickMarks:  JSON.parse('[' + labels + ']'),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
 										ranges:
 											// {"startValue":0,"endValue":8,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient2"},
 											// {"startValue":8,"endValue":15,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient3"}
