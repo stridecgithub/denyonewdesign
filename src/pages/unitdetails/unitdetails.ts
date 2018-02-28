@@ -160,8 +160,8 @@ export class UnitdetailsPage {
 	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
-		this.l1l2l3voltagelablel = 'L1-L2';
-		this.l1l2l3currentlablel = 'L1';
+		//this.l1l2l3voltagelablel = 'L1-L2';
+		//this.l1l2l3currentlablel = 'L1';
 		this.permissionMessage = conf.rolePermissionMsg();
 		this.apiServiceURL = conf.apiBaseURL();
 		this.timerswitch = 1;
@@ -1002,7 +1002,7 @@ export class UnitdetailsPage {
 							orientation: 'horizontal',
 							background: '#fff',
 							border: {
-								padding: 5,
+								padding: 0,
 								lineWidth: 0,
 								strokeStyle: '#76786A'
 							},
@@ -1016,20 +1016,22 @@ export class UnitdetailsPage {
 									minimum: 0,
 									maximum: 10,
 									labels: {
-										offset: -2.15,
-										font: '2px'
+										offset: 2.15,
+										font: '0.7em'
 									},
 									majorTickMarks: {
 										length: 0,
+										visible: true,
+										interval: 15,
 										offset: 1,
-										lineWidth: 2
+										lineWidth: 1
 									},
 									minorTickMarks: {
 										length: 0,
 										visible: true,
-										interval: 2,
+										interval: 5,
 										offset: 1,
-										lineWidth: 2
+										lineWidth: 1
 									},
 									customTickMarks: oilpressurebarlabels,// [oilpressurelabel_0, oilpressurelabel_1, oilpressurelabel_2, oilpressurelabel_3],
 									ranges: [

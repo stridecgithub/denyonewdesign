@@ -2,15 +2,14 @@ page-commentdetails {
 ion-content .scroll-content {
 		margin-bottom: 0;
 	}
+
   .servicing-details-top-row {
-    padding: 15px 5px;
+    padding: 15px 10px;
     border-bottom: 1px solid #848484;
     img {
-
-      border-radius: 50%;
     float: left;
-    padding: 4px;
-
+    padding: 2px;
+	margin-right:5px;
       border-radius: 50%;
     }
     h4 {
@@ -99,7 +98,7 @@ ion-content .scroll-content {
     }
   }
   .event-body {
-    padding: 0 5px;
+    padding:10px 10px 0 10px;
     h5 {
       margin: 0;
       font-size: 15px;
@@ -112,7 +111,7 @@ ion-content .scroll-content {
   .event-body-border {
     border-bottom: 1px solid #006BF4;
     padding: 5px;
-    margin: 0 10px 20px 10px;
+    margin: 0 5px 20px 5px;
   }
 
   .event-detail-btn {
