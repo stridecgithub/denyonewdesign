@@ -289,10 +289,7 @@
               </span>
               <div class="svg-draw">
                 <div class="voltagegauge demo2"></div>
-                <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" style="
-              position: relative;
-              top: -51px;
-              left: 80px;">
+                <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" class="sel-big">
                   <ion-option value="1" selected="true">L1-L2</ion-option>
                   <ion-option value="2">L2-L3</ion-option>
                   <ion-option value="3">L1-L3</ion-option>
@@ -315,10 +312,7 @@
                 font-size: 15px;">{{l1l2l3currentlablel}}</span>
               <div class="svg-draw">
                 <div class="currentgauge demo2"></div>
-                <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" style="
-                  position: relative;
-                  top: -51px;
-                  left: 80px;">
+                <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" class="sel-big">
                   <ion-option value="1" selected="true">L1</ion-option>
                   <ion-option value="2">L2</ion-option>
                   <ion-option value="3">L3</ion-option>
