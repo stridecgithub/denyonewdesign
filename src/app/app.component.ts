@@ -762,14 +762,7 @@ menuOpened() {
 
   this.events.publish('menu:opened', '');
 
-  this.dataService.getMenus()
-  .subscribe((response) => {
-    console.log("Menu Loading inside of Menu Opened......");
-    this.menuOpened();
-    this.pages = response;
-    console.log("Menu JSON" + JSON.stringify(this.pages));
-  });
-
+  
 
 }
 
