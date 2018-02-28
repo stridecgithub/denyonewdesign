@@ -16,7 +16,9 @@ import { Config } from '../../config/config';
 import { FileChooser } from '@ionic-native/file-chooser';
 import * as moment from 'moment';
 import 'moment-timezone';
+
 declare var jQuery: any;
+declare var mention:any;
 /*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the AddserviceinfoPage page.
@@ -247,6 +249,71 @@ export class AddserviceinfoPage {
         jQuery('#description').triggeredAutocomplete({
           source: this.atmentioneddata
         });*/
+
+        jQuery("#attention").mention({
+          users: [
+                                      {
+                username: 'bala',
+                name: 'Bala Murugan',			
+              },	
+                                {
+                username: 'Lerkila',
+                name: 'Chun Hsin Ler',			
+              },	
+                                {
+                username: 'denyov2',
+                name: 'Guest Demo',			
+              },	
+                                {
+                username: 'JasonTan',
+                name: 'Jason Tan',			
+              },	
+                                {
+                username: 'Joseph',
+                name: 'Joseph Teo',			
+              },	
+                                {
+                username: 'Kent',
+                name: 'Kent Ng',			
+              },	
+                                {
+                username: 'Pto',
+                name: 'Pto Usrr',			
+              },	
+                                {
+                username: 'Sarvan',
+                name: 'Sarvan Palani',			
+              },	
+                                {
+                username: 'Sebastian',
+                name: 'Sebastian Koh',			
+              },	
+                                {
+                username: 'Sinyee',
+                name: 'Sin Yee Lee',			
+              },	
+                                {
+                username: 'sofia',
+                name: 'sofia bhuvanesh',			
+              },	
+                                {
+                username: 'Ikedha',
+                name: 'Takatoshi Ikeda',			
+              },	
+                                {
+                username: 'tst',
+                name: 'ts tst',			
+              },	
+                                {
+                username: 'Weichien',
+                name: 'Wei Chien Lim',			
+              },	
+                                {
+                username: 'Kuboyama',
+                name: 'Yasuaki Kuboyama',			
+              }	
+                        ]
+        });	
   }
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { AlarmPage } from '../alarm/alarm';
@@ -19,7 +19,6 @@ declare var Gauge: any;
 declare var jqLinearGauge: any;
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from "rxjs";
-import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 /**
  * Generated class for the UnitdetailsPage page.
@@ -320,12 +319,14 @@ export class UnitdetailsPage {
 						// }
 
 
-						if (actual_voltage < 260)
+						if (actual_voltage < this.setpointsdata[0].minvalue)
 							voltage = 0;
-						else if (actual_voltage > 460)
+						else if (actual_voltage > this.setpointsdata[0].maxvalue)
 							voltage = 100;
 						else
-							voltage = ((actual_voltage - 260) / 200) * 100;
+							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / 200) * 100;
+
+						console.log("Voltage Pecentage:" + voltage);
 						let voltguagelabel = this.voltguagelabel;
 						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
 						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
@@ -347,9 +348,9 @@ export class UnitdetailsPage {
 						let actual_current = this.selectedcurrent;
 
 
-						if (actual_current <= 0) {
+						if (actual_current <= this.setpointsdata[1].minvalue) {
 							current = 0;
-						} else if (actual_current >= 100) {
+						} else if (actual_current >=this.setpointsdata[1].maxvalue) {
 							current = 100;
 						} else {
 							current = actual_current;
@@ -358,21 +359,7 @@ export class UnitdetailsPage {
 
 						var cntlabels = JSON.parse('{' + this.currentlabel + '}');
 						var cntcolors = JSON.parse('{' + this.currentcolors + '}');
-						/*frequencylabel;
-						frequencycolors;
-						enginespeedlabel
-						enginespeedcolors;
-						fuellabel;
-						fuelcolors;
-						loadpowerlabel;
-						loadpowercolors;
-						coolantlabel;
-						coolantcolors;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
-
+						
 						let currentgauge = new Gauge(jQuery('.currentgauge'), {
 
 							values: cntlabels,
@@ -398,9 +385,9 @@ export class UnitdetailsPage {
 						}*/
 
 
-						if (actual_frequency < 40)
+						if (actual_frequency < this.setpointsdata[2].minvalue)
 							frequency = 0;
-						else if (actual_frequency > 60)
+						else if (actual_frequency > this.setpointsdata[2].maxvalue)
 							frequency = 100;
 						else
 							frequency = (((actual_frequency - 40) / 20) * 100);
@@ -410,19 +397,7 @@ export class UnitdetailsPage {
 
 						var frqlabels = JSON.parse('{' + this.frequencylabel + '}');
 						var frqcolors = JSON.parse('{' + this.frequencycolors + '}');
-						/*
-						enginespeedlabel
-						enginespeedcolors;
-						fuellabel;
-						fuelcolors;
-						loadpowerlabel;
-						loadpowercolors;
-						coolantlabel;
-						coolantcolors;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
+						
 						let frequencygauge = new Gauge(jQuery('.frequencygauge'), {
 
 							values: frqlabels,
@@ -440,9 +415,9 @@ export class UnitdetailsPage {
 						let enginespeed = 0;
 
 						let actual_enginespeed = this.enginespeed;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						if (actual_enginespeed < 1200) {
+						if (actual_enginespeed < this.setpointsdata[3].minvalue) {
 							enginespeed = 0;
-						} else if (actual_enginespeed > 1800) {
+						} else if (actual_enginespeed > this.setpointsdata[3].maxvalue) {
 							enginespeed = 100;
 						} else {
 							enginespeed = (((actual_enginespeed - 1200) / 600) * 100);
@@ -453,17 +428,7 @@ export class UnitdetailsPage {
 
 						var engspeedlabels = JSON.parse('{' + this.enginespeedlabel + '}');
 						var engspeedcolors = JSON.parse('{' + this.enginespeedcolors + '}');
-						/*
-						fuellabel;
-						fuelcolors;
-						loadpowerlabel;
-						loadpowercolors;
-						coolantlabel;
-						coolantcolors;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
+						
 						let enginespeedgauge = new Gauge(jQuery('.enginespeedgauge'), {
 
 							values: engspeedlabels,
@@ -482,24 +447,16 @@ export class UnitdetailsPage {
 						let fuel = 0;
 
 						let actual_fuel = this.fuellevel;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						if (actual_fuel <= 0) {
+						if (actual_fuel <= this.setpointsdata[3].minvalue) {
 							fuel = 0;
-						} else if (actual_fuel >= 100) {
+						} else if (actual_fuel >= this.setpointsdata[3].maxvalue) {
 							fuel = 100;
 						} else {
 							fuel = actual_fuel;
 						}
 						var fullabels = JSON.parse('{' + this.fuellabel + '}');
 						var fulcolors = JSON.parse('{' + this.fuelcolors + '}');
-						/*
-						loadpowerlabel;
-						loadpowercolors;
-						coolantlabel;
-						coolantcolors;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
+						
 						let fuelgauge = new Gauge(jQuery('.fuelgauge'), {
 
 							values: fullabels,
@@ -518,17 +475,17 @@ export class UnitdetailsPage {
 						let loadfactor = 0;
 
 						let actual_loadfactor = this.loadpower;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						if (actual_loadfactor > 0) {
-							loadfactor = ((actual_loadfactor) / 60) * 100;
+						if (actual_loadfactor > this.setpointsdata[4].minvalue) {
+							loadfactor = ((actual_loadfactor) / this.setpointsdata[4].maxvalue) * 100;
 						} else {
 							loadfactor = 0;
 						}
 
 
 
-						if (actual_loadfactor <= 0) {
+						if (actual_loadfactor <= this.setpointsdata[4].minvalue) {
 							loadfactor = 0;
-						} else if (actual_loadfactor >= 60) {
+						} else if (actual_loadfactor >= this.setpointsdata[4].maxvalue) {
 							loadfactor = 100;
 						} else {
 							loadfactor = actual_loadfactor;
@@ -537,14 +494,7 @@ export class UnitdetailsPage {
 
 						var loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
 						var loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
-						/*
-						
-						coolantlabel;
-						coolantcolors;
-						oilpressuerlabel;
-						oilpressuercolors;
-						batteryvoltlabel;
-						batteryvoltcolors;*/
+					
 						let loadpowergauge = new Gauge(jQuery('.loadpowergauge'), {
 
 							values: loadpowerlabels,
@@ -559,7 +509,7 @@ export class UnitdetailsPage {
 						// Load Factor
 
 
-						
+
 
 
 
@@ -661,7 +611,7 @@ export class UnitdetailsPage {
 
 							}
 							if (enval == res[i].maxvalue) {
-								enval = sval; 
+								enval = sval;
 							}
 							/*this.rangesdata.push({
 								startValue: enval,
@@ -839,517 +789,7 @@ export class UnitdetailsPage {
 
 						});
 
-						/*
-
-						// 1 Linear Graph For Coolant Temp
-						
-
-
-						jQuery('#coolanttemp').jqLinearGauge({
-							orientation: 'horizontal',
-							background: '#fff',
-							border: {
-								padding: 5,
-								lineWidth: 0,
-								strokeStyle: '#76786A'
-							},
-							tooltips: {
-								disabled: false,
-								highlighting: true
-							},
-							animation: false,
-							scales: [
-								{
-									minimum: 0,
-									maximum: 120,
-									labels: {
-										offset: 0.15
-									},
-									majorTickMarks: {
-										length: 0,
-										offset: 1,
-										lineWidth: 2
-									},
-									minorTickMarks: {
-										length: 0,
-										visible: false,
-										interval: 2,
-										offset: 1,
-										lineWidth: 2
-									},
-									customTickMarks: coolantbarlabels,//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
-									ranges: [
-										{
-											startValue: 0,
-											endValue: 20,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: ctgradient1
-										},
-										{
-											startValue: 20,
-											endValue: 97,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: ctgradient2
-										},
-										{
-											startValue: 97,
-											endValue: 105,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: ctgradient3
-										},
-										{
-											startValue: 105,
-											endValue: 120,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: ctgradient4
-										}
-									],
-									needles: [
-										{
-											type: 'pointer',
-											value: this.coolanttemp,
-											fillStyle: ctneedleGradient,
-											innerOffset: 0.50,
-											outerOffset: 1.00
-										}
-									]
-								}
-							]
-
-						});
-
-
-						jQuery('#coolanttemp').bind('tooltipFormat', function (e, data) {
-
-							var tooltip = '<b>Element: ' + data.elementType + '</b> ' + '<br />';
-
-							switch (data.elementType) {
-
-								case 'needle':
-									tooltip += 'Value: ' + data.value;
-									break;
-								case 'range':
-									tooltip += 'Start Value: ' + data.startValue + '<br/>End Value: ' + data.endValue;
-							}
-
-							return tooltip;
-						});
-						// 1 Linear Graph For Coolant Temp
-
-						let oilpressurelabel_0 = 0; //localStorage.getItem("oilpressurelabel_0");
-						let oilpressurelabel_1 = 1.0; //localStorage.getItem("oilpressurelabel_1");
-						let oilpressurelabel_2 = 1.3; //localStorage.getItem("oilpressurelabel_2");
-						let oilpressurelabel_3 = 10; //localStorage.getItem("oilpressurelabel_3");
-						let oilpressurelabel_4 = '' //localStorage.getItem("oilpressurelabel_4");
-						let oilpressurecolor_0 = '#df0000';//localStorage.getItem("oilpressurecolor_0");
-						let oilpressurecolor_1 = '#ffca00';// localStorage.getItem("oilpressurecolor_1");
-						let oilpressurecolor_2 = '#00FF50';//localStorage.getItem("oilpressurecolor_2");
-						let oilpressurecolor_3 = '#00FF50'; //localStorage.getItem("oilpressurecolor_3");
-						let oilpressurecolor_4 = '' //localStorage.getItem("oilpressurecolor_4");
-						// 2 Linear Graph For Oil Pressure
-
-						var oilpressurebarlabels = this.oilperssuerbarlabels.split(",");
-						var gradient1 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: oilpressurecolor_0 },
-							{ offset: 1, color: oilpressurecolor_0 }]
-						};
-
-						var gradient2 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: oilpressurecolor_1 },
-							{ offset: 1, color: oilpressurecolor_1 }]
-						};
-
-						var gradient3 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: oilpressurecolor_2 },
-							{ offset: 1, color: oilpressurecolor_2 }]
-						};
-
-						var needleGradient = {
-							type: 'linearGradient',
-							x0: 0,
-							y0: 0.5,
-							x1: 1,
-							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#4F6169' },
-							{ offset: 1, color: '#252E32' }]
-						};
-
-
-						jQuery('#oilpressure').jqLinearGauge({
-							orientation: 'horizontal',
-							background: '#fff',
-							border: {
-								padding: 0,
-								lineWidth: 0,
-								strokeStyle: '#76786A'
-							},
-							tooltips: {
-								disabled: false,
-								highlighting: true
-							},
-							animation: false,
-							scales: [
-								{
-									minimum: 0,
-									maximum: 10,
-									labels: {
-										offset: 2.15,
-										font: '0.7em'
-									},
-									majorTickMarks: {
-										length: 0,
-										visible: true,
-										interval: 15,
-										offset: 1,
-										lineWidth: 1
-									},
-									minorTickMarks: {
-										length: 0,
-										visible: true,
-										interval: 5,
-										offset: 1,
-										lineWidth: 1
-									},
-									customTickMarks: oilpressurebarlabels,// [oilpressurelabel_0, oilpressurelabel_1, oilpressurelabel_2, oilpressurelabel_3],
-									ranges: [
-										{
-											startValue: 0,
-											endValue: 1,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient1
-										},
-										{
-											startValue: 1,
-											endValue: 1.5,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient2
-										},
-										{
-											startValue: 1.5,
-											endValue: 10,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient3
-										}
-									],
-									needles: [
-										{
-											type: 'pointer',
-											value: this.oilpressure,
-											fillStyle: needleGradient,
-											innerOffset: 0.50,
-											outerOffset: 1.00
-										}
-									]
-								}
-							]
-
-						});
-
-
-						jQuery('#oilpressure').bind('tooltipFormat', function (e, data) {
-
-							var tooltip = '<b>Element: ' + data.elementType + '</b> ' + '<br />';
-
-							switch (data.elementType) {
-
-								case 'needle':
-									tooltip += 'Value: ' + data.value;
-									break;
-								case 'range':
-									tooltip += 'Start Value: ' + data.startValue + '<br/>End Value: ' + data.endValue;
-							}
-
-							return tooltip;
-						});
-						// 2 Linear Graph For Oil Pressure
-
-						let loadpowerfactorlabel_0 = 0; //localStorage.getItem("loadpowerfactorlabel_0");
-						let loadpowerfactorlabel_1 = 1.0; //localStorage.getItem("loadpowerfactorlabel_1");
-						let loadpowerfactorcolor_0 = '#00FF50'; //localStorage.getItem("loadpowerfactorcolor_0");
-						let loadpowerfactorcolor_1 = '#00FF50'; //localStorage.getItem("loadpowerfactorcolor_1");
-						let loadpowerfactorcolor_2 = ''; //localStorage.getItem("loadpowerfactorcolor_2");
-						let loadpowerfactorcolor_3 = ''; //localStorage.getItem("loadpowerfactorcolor_3");
-						let loadpowerfactorcolor_4 = ''; //localStorage.getItem("loadpowerfactorcolor_4");
-						// 3 Linear Graph For Load Power Factor
-
-
-						var lpgradient1 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: loadpowerfactorcolor_0 },
-							{ offset: 1, color: loadpowerfactorcolor_0 }]
-						};
-
-
-
-						var needleGradient = {
-							type: 'linearGradient',
-							x0: 0,
-							y0: 0.5,
-							x1: 1,
-							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#4F6169' },
-							{ offset: 1, color: '#252E32' }]
-						};
-
-
-						jQuery('#loadpowerfactor').jqLinearGauge({
-							orientation: 'horizontal',
-							background: '#fff',
-							border: {
-								padding: 5,
-								lineWidth: 0,
-								strokeStyle: '#76786A'
-							},
-							tooltips: {
-								disabled: false,
-								highlighting: true
-							},
-							animation: false,
-							scales: [
-								{
-									minimum: 0,
-									maximum: 1,
-									labels: {
-										offset: 0.15
-									},
-									majorTickMarks: {
-										length: 0,
-										offset: 1,
-										lineWidth: 2
-									},
-									minorTickMarks: {
-										length: 0,
-										visible: true,
-										interval: 2,
-										offset: 1,
-										lineWidth: 2
-									},
-									customTickMarks: [loadpowerfactorlabel_0, loadpowerfactorlabel_1],
-									ranges: [
-										{
-											startValue: 0,
-											endValue: 1.0,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: lpgradient1
-										}
-									],
-									needles: [
-										{
-											type: 'pointer',
-											value: this.loadpowerfactor,
-											fillStyle: needleGradient,
-											innerOffset: 0.50,
-											outerOffset: 1.00
-										}
-									]
-								}
-							]
-
-						});
-
-
-						jQuery('#loadpowerfactor').bind('tooltipFormat', function (e, data) {
-
-							var tooltip = '<b>Element: ' + data.elementType + '</b> ' + '<br />';
-
-							switch (data.elementType) {
-
-								case 'needle':
-									tooltip += 'Value: ' + data.value;
-									break;
-								case 'range':
-									tooltip += 'Start Value: ' + data.startValue + '<br/>End Value: ' + data.endValue;
-							}
-
-							return tooltip;
-						});
-						// 3 Linear Graph For Load Power Factor
-
-						let batteryvoltagelabel_0 = 0; //localStorage.getItem("batteryvoltagelabel_0");
-						let batteryvoltagelabel_1 = 8; //localStorage.getItem("batteryvoltagelabel_1");
-						let batteryvoltagelabel_2 = 16; ///localStorage.getItem("batteryvoltagelabel_2");
-						let batteryvoltagelabel_3 = 24; //localStorage.getItem("batteryvoltagelabel_3");
-						let batteryvoltagecolor_0 = '#ffca00'// localStorage.getItem("batteryvoltagecolor_0");
-						let batteryvoltagecolor_1 = '#00FF50' //localStorage.getItem("batteryvoltagecolor_1");
-						let batteryvoltagecolor_2 = '#ffca00' //localStorage.getItem("batteryvoltagecolor_2");
-						let batteryvoltagecolor_3 = '#00FF50';//localStorage.getItem("batteryvoltagecolor_3");
-						let batteryvoltagecolor_4 = '';//localStorage.getItem("batteryvoltagecolor_4");
-						var batteryvoltlabels = this.batteryvoltbarlabels.split(",");
-						//4 Linear Graph For Battery Voltage
-						var bvgradient1 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: batteryvoltagecolor_0 },
-							{ offset: 1, color: batteryvoltagecolor_0 }]
-						};
-
-						var bvgradient2 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: batteryvoltagecolor_1 },
-							{ offset: 1, color: batteryvoltagecolor_1 }]
-						};
-
-						var bvgradient3 = {
-							type: 'linearGradient',
-							x0: 0.5,
-							y0: 0,
-							x1: 0.5,
-							y1: 1,
-							colorStops: [{ offset: 0, color: batteryvoltagecolor_2 },
-							{ offset: 1, color: batteryvoltagecolor_2 }]
-						};
-
-						var needleGradient = {
-							type: 'linearGradient',
-							x0: 0,
-							y0: 0.5,
-							x1: 1,
-							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#4F6169' },
-							{ offset: 1, color: '#252E32' }]
-						};
-
-
-						jQuery('#batteryvoltage').jqLinearGauge({
-							orientation: 'horizontal',
-							background: '#fff',
-							border: {
-								padding: 5,
-								lineWidth: 0,
-								strokeStyle: '#76786A'
-							},
-							tooltips: {
-								disabled: false,
-								highlighting: true
-							},
-							animation: false,
-							scales: [
-								{
-									minimum: 0,
-									maximum: 24,
-									labels: {
-										offset: 0.15
-									},
-									majorTickMarks: {
-										length: 0,
-										offset: 1,
-										lineWidth: 2
-									},
-									minorTickMarks: {
-										length: 0,
-										visible: true,
-										interval: 2,
-										offset: 1,
-										lineWidth: 2
-									},
-									customTickMarks: batteryvoltlabels,//[batteryvoltagelabel_0, batteryvoltagelabel_1, batteryvoltagelabel_2, batteryvoltagelabel_3],
-									ranges: [
-										{
-											startValue: 0,
-											endValue: 8,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: bvgradient1
-										},
-										{
-											startValue: 8,
-											endValue: 16,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: bvgradient2
-										},
-										{
-											startValue: 16,
-											endValue: 24,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: bvgradient3
-										}
-									],
-									needles: [
-										{
-											type: 'pointer',
-											value: this.batteryvoltage,
-											fillStyle: needleGradient,
-											innerOffset: 0.50,
-											outerOffset: 1.00
-										}
-									]
-								}
-							]
-
-						});
-
-
-						jQuery('#batteryvoltage').bind('tooltipFormat', function (e, data) {
-
-							var tooltip = '<b>Element: ' + data.elementType + '</b> ' + '<br />';
-
-							switch (data.elementType) {
-
-								case 'needle':
-									tooltip += 'Value: ' + data.value;
-									break;
-								case 'range':
-									tooltip += 'Start Value: ' + data.startValue + '<br/>End Value: ' + data.endValue;
-							}
-
-							return tooltip;
-						});
-						// 4 Linear Graph For Battery Voltage
-						*/
-						// console.log("SETPOINTS:" + JSON.stringify(this.setpointsdata.setpoints[0]));
-						// console.log("SETPOINTS LENGTH:" + this.setpointsdata.setpoints[0].length);
-						// for (let lg = 0; lg <= this.setpointsdata.setpoints[0].length; lg++) {
-						// 	console.log(lg);
-						// 	console.log(this.setpointsdata.setpoints[0][lg]);
-
-						// }
+					
 
 					}
 
