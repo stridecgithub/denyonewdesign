@@ -186,3 +186,29 @@ The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS
 
 https://forum.ionicframework.com/t/ionic-toturial-for-building-a-release-apk/15758
 
+Gradle instructions
+Alternatives:
+Unity
+C++
+The Google services plugin for Gradle loads the google-services.json file you just downloaded. Modify your build.gradle files to use the plugin.
+
+Project-level build.gradle (<project>/build.gradle):
+
+buildscript {
+  dependencies {
+    // Add this line
+    classpath 'com.google.gms:google-services:3.2.0'
+  }
+}
+App-level build.gradle (<project>/<app-module>/build.gradle):
+
+dependencies {
+  // Add this line
+  compile 'com.google.firebase:firebase-core:11.8.0'
+}
+...
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'
+includes Analytics by default help_outline
+
+Finally, press "Sync now" in the bar that appears in the IDE:
