@@ -3,7 +3,6 @@ import { Platform,  NavController, NavParams, Events, MenuController } from 'ion
 import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-//import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { Keyboard } from '@ionic-native/keyboard';
@@ -151,10 +150,9 @@ export class LoginPage {
           localStorage.setItem("userInfoCompanyGroupName", res['staffdetails'][0].companygroup_name);
           localStorage.setItem("userInfoPhoto", res['staffdetails'][0].photo);
           localStorage.setItem("userInfoRoleId", res['staffdetails'][0].role_id);
-          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
-          console.log("firsname:" + res['staffdetails'][0].firstname)
-          console.log("Company Id:" + res['staffdetails'][0].company_id);
-          console.log("User Id:" + res['staffdetails'][0].staff_id);
+          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);  
+          console.log(JSON.stringify(res['roledata'])); 
+          localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));      
           this.createUser(res['staffdetails'][0]);
 
 
