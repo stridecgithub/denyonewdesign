@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 declare var jQuery: any;
+declare var mention:any;
 /**
  * Generated class for the ComposePage page.
  *
