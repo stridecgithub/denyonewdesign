@@ -10,7 +10,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
-//declare var jQuery: any;
+declare var jQuery: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -329,6 +329,84 @@ export class ComposePage {
       }, error => {
 
       })
+
+      jQuery("#to").mention({
+        users: [
+                                    {
+              username: 'bala',
+              name: 'Bala Murugan',			
+            },	
+
+
+            {
+              username: 'kannan',
+              name: 'Kannan Nagarathinam',			
+            },	
+
+            {
+              username: 'kannann',
+              name: 'Kannan1 Nagarathinam1',			
+            },	
+
+
+                              {
+              username: 'Lerkila',
+              name: 'Chun Hsin Ler',			
+            },	
+                              {
+              username: 'denyov2',
+              name: 'Guest Demo',			
+            },	
+                              {
+              username: 'JasonTan',
+              name: 'Jason Tan',			
+            },	
+                              {
+              username: 'Joseph',
+              name: 'Joseph Teo',			
+            },	
+                              {
+              username: 'Kent',
+              name: 'Kent Ng',			
+            },	
+                              {
+              username: 'Pto',
+              name: 'Pto Usrr',			
+            },	
+                              {
+              username: 'Sarvan',
+              name: 'Sarvan Palani',			
+            },	
+                              {
+              username: 'Sebastian',
+              name: 'Sebastian Koh',			
+            },	
+                              {
+              username: 'Sinyee',
+              name: 'Sin Yee Lee',			
+            },	
+                              {
+              username: 'sofia',
+              name: 'sofia bhuvanesh',			
+            },	
+                              {
+              username: 'Ikedha',
+              name: 'Takatoshi Ikeda',			
+            },	
+                              {
+              username: 'tst',
+              name: 'ts tst',			
+            },	
+                              {
+              username: 'Weichien',
+              name: 'Wei Chien Lim',			
+            },	
+                              {
+              username: 'Kuboyama',
+              name: 'Yasuaki Kuboyama',			
+            }	
+                      ]
+      });	
     // Atmentioned API Calls
 
 
