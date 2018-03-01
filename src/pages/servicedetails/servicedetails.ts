@@ -78,6 +78,7 @@ export class ServicedetailsPage {
   public service_resources: any;
   micro_timestamp: any;
   description: any;
+   companyId;
   public isUploadedProcessing: boolean = false;
   public isProgress = false;
   public isUploaded: boolean = true;
@@ -115,6 +116,7 @@ export class ServicedetailsPage {
     // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.next_service_date_selected = 0;
     this.isFuture = 0;
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.uploadcount = 10;
     let datey = new Date();
     this.currentyear = datey.getFullYear();
@@ -395,7 +397,7 @@ export class ServicedetailsPage {
          type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
          headers1: any = new Headers({ 'Content-Type': type }),
          options1: any = new RequestOptions({ headers: headers }),
-         url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+         url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId+ "&login=" + this.unitDetailData.userId;
        console.log(url1);
        this.http.get(url1, options1)
      
@@ -595,7 +597,7 @@ export class ServicedetailsPage {
          description: string = this.form.controls["long"].value,
          photos: object = this.addedImgLists;*/
 
-let ervice_remark=$(".service_remark").val();
+let service_remark=$(".service_remark").val();
       let
         //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,

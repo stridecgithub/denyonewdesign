@@ -316,7 +316,7 @@ export class NotificationSettingsPage {
 
     })
   console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-  jQuery(".description").mention({
+  jQuery(".alarmhashtags").mention({
     users: this.atmentioneddata
   });
   

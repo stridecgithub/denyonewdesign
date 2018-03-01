@@ -529,7 +529,7 @@ export class AddhocPage {
       if (this.hrvalue > 12) {
         ampmstr = 'PM';
       }
-      this.service_remark = $(".service_remark").val();
+      let service_remark = $(".service_remark").val();
       // serviced_date = this.serviced_date.split("T")[0];
       // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
       let timevalue = this.hrvalue + ":" + minvalue + ":00";
