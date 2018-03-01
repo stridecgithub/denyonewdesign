@@ -70,7 +70,7 @@
                 <ion-label stacked>Description</ion-label>
                
               </ion-item>
-               <textarea style="width:91%;
+               <!-- <textarea style="width:91%;
                background-color: #f8f8f8;
                border-bottom: 1px solid #dedede;
                 height: 71px;
@@ -80,11 +80,17 @@
                 margin: 0 auto;
     			display: table;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
                           onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="description"
-                          [(ngModel)]="description"></textarea>
+                          [(ngModel)]="description"></textarea> -->
+                          <div class="unit-form-group" style="background-color: #f8f8f8;">
+                            <div class="inner-div" style="background-color: #f8f8f8;">
+                              <ion-list style="position:relative;">
+                                   <textarea formControlName="description" [(ngModel)]="description" type="text" class="description" value="" name="description" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                              </ion-list>
+                      
+                            </div>
+                          </div>
         
-        
-                          <!-- <input type="text" id="attention" value="" name="alarmnotificationlist"> -->
-            </ion-list>
+                          </ion-list>
           </div>
 
 

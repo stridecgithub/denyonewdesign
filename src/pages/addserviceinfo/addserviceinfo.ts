@@ -127,7 +127,7 @@ export class AddserviceinfoPage {
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
     this.unitDetailData.serviced_by = localStorage.getItem("userInfoName");
-
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.form = formBuilder.group({
       serviced_datetime: [''],
       service_subject: ['', Validators.required],
@@ -250,70 +250,119 @@ export class AddserviceinfoPage {
           source: this.atmentioneddata
         });*/
 
-        jQuery("#attention").mention({
-          users: [
-                                      {
-                username: 'bala',
-                name: 'Bala Murugan',			
-              },	
-                                {
-                username: 'Lerkila',
-                name: 'Chun Hsin Ler',			
-              },	
-                                {
-                username: 'denyov2',
-                name: 'Guest Demo',			
-              },	
-                                {
-                username: 'JasonTan',
-                name: 'Jason Tan',			
-              },	
-                                {
-                username: 'Joseph',
-                name: 'Joseph Teo',			
-              },	
-                                {
-                username: 'Kent',
-                name: 'Kent Ng',			
-              },	
-                                {
-                username: 'Pto',
-                name: 'Pto Usrr',			
-              },	
-                                {
-                username: 'Sarvan',
-                name: 'Sarvan Palani',			
-              },	
-                                {
-                username: 'Sebastian',
-                name: 'Sebastian Koh',			
-              },	
-                                {
-                username: 'Sinyee',
-                name: 'Sin Yee Lee',			
-              },	
-                                {
-                username: 'sofia',
-                name: 'sofia bhuvanesh',			
-              },	
-                                {
-                username: 'Ikedha',
-                name: 'Takatoshi Ikeda',			
-              },	
-                                {
-                username: 'tst',
-                name: 'ts tst',			
-              },	
-                                {
-                username: 'Weichien',
-                name: 'Wei Chien Lim',			
-              },	
-                                {
-                username: 'Kuboyama',
-                name: 'Yasuaki Kuboyama',			
-              }	
-                        ]
-        });	
+
+        // Atmentioned API Calls
+    let body: string = '',
+    //body: string = "key=delete&recordID=" + recordID,
+    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    headers: any = new Headers({ 'Content-Type': type }),
+    options: any = new RequestOptions({ headers: headers }),
+    url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+  console.log(url);
+  this.http.get(url, options)
+
+  // let body: string = param,
+
+  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+  //   headers: any = new Headers({ 'Content-Type': type }),
+  //   options: any = new RequestOptions({ headers: headers }),
+  //   url: any = urlstring;
+  console.log("Message sending API" + url + "?" + body);
+
+  this.http.post(url, body, options)
+
+    .subscribe(data => {
+      let res;
+      // If the request was successful notify the user
+      if (data.status === 200) {
+       // this.atmentioneddata = data.json();
+        res = data.json();
+        console.log(data.json().staffs);
+
+        if (res.staffs.length > 0) {
+          for (let staff in res.staffs) {
+            this.atmentioneddata.push({
+              username: res.staffs[staff].username,
+              name: res.staffs[staff].name,
+            });
+          }
+        }
+        // Otherwise let 'em know anyway
+      } else {
+        this.conf.sendNotification('Something went wrong!');
+      }
+    }, error => {
+
+    })
+  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+  jQuery(".description").mention({
+    users: this.atmentioneddata
+  });
+
+        // jQuery("#attention").mention({
+        //   users: [
+        //                               {
+        //         username: 'bala',
+        //         name: 'Bala Murugan',			
+        //       },	
+        //                         {
+        //         username: 'Lerkila',
+        //         name: 'Chun Hsin Ler',			
+        //       },	
+        //                         {
+        //         username: 'denyov2',
+        //         name: 'Guest Demo',			
+        //       },	
+        //                         {
+        //         username: 'JasonTan',
+        //         name: 'Jason Tan',			
+        //       },	
+        //                         {
+        //         username: 'Joseph',
+        //         name: 'Joseph Teo',			
+        //       },	
+        //                         {
+        //         username: 'Kent',
+        //         name: 'Kent Ng',			
+        //       },	
+        //                         {
+        //         username: 'Pto',
+        //         name: 'Pto Usrr',			
+        //       },	
+        //                         {
+        //         username: 'Sarvan',
+        //         name: 'Sarvan Palani',			
+        //       },	
+        //                         {
+        //         username: 'Sebastian',
+        //         name: 'Sebastian Koh',			
+        //       },	
+        //                         {
+        //         username: 'Sinyee',
+        //         name: 'Sin Yee Lee',			
+        //       },	
+        //                         {
+        //         username: 'sofia',
+        //         name: 'sofia bhuvanesh',			
+        //       },	
+        //                         {
+        //         username: 'Ikedha',
+        //         name: 'Takatoshi Ikeda',			
+        //       },	
+        //                         {
+        //         username: 'tst',
+        //         name: 'ts tst',			
+        //       },	
+        //                         {
+        //         username: 'Weichien',
+        //         name: 'Wei Chien Lim',			
+        //       },	
+        //                         {
+        //         username: 'Kuboyama',
+        //         name: 'Yasuaki Kuboyama',			
+        //       }	
+        //                 ]
+        // });	
   }
 
 
@@ -559,7 +608,7 @@ export class AddserviceinfoPage {
         let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
           serviced_by: string = this.unitDetailData.userId,
           service_subject: string = this.form.controls["service_subject"].value;
-        let description = $('#to').val();
+        let description = $('.description').val();
         // console.log(description);
         // console.log("serviced_datetime:" + serviced_datetime);
 

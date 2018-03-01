@@ -11,7 +11,7 @@ import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 declare var jQuery: any;
-declare var mention:any;
+declare var mention: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -93,7 +93,7 @@ export class ComposePage {
       subject: ['', Validators.required],
       composemessagecontent: ['', Validators.required],
       copytome: [''],
-      to: ['']
+      to: ['', Validators.required]
 
     });
     this.getPrority(0);
@@ -299,115 +299,52 @@ export class ComposePage {
       }
     }
     // Atmentioned API Calls
-    let
+    let body: string = '',
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=" + this.companyId + "&userId=" + this.userId;
+      url: any = this.apiServiceURL + "/messagehashtags?companyId=" + this.companyId + "&loginid=" + this.userId;
     console.log(url);
     this.http.get(url, options)
+
+    // let body: string = param,
+
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url + "?" + body);
+
+    this.http.post(url, body, options)
+
       .subscribe(data => {
+        let res;
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          // jQuery('#to').tagEditor({
-          //   autocomplete: {
-          //     delay: 0,
-          //     position: { collision: 'flip' },
-          //     source: this.atmentioneddata,
-          //     delimiter: ',;'
-          //   },
-          //   forceLowercase: false
-          // });
+         // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        }
-        // Otherwise let 'em know anyway
-        else {
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
+          }
+          // Otherwise let 'em know anyway
+        } else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
 
       })
-
-      jQuery("#to").mention({
-        users: [
-                                    {
-              username: 'bala',
-              name: 'Bala Murugan',			
-            },	
-
-
-            {
-              username: 'kannan',
-              name: 'Kannan Nagarathinam',			
-            },	
-
-            {
-              username: 'kannann',
-              name: 'Kannan1 Nagarathinam1',			
-            },	
-
-
-                              {
-              username: 'Lerkila',
-              name: 'Chun Hsin Ler',			
-            },	
-                              {
-              username: 'denyov2',
-              name: 'Guest Demo',			
-            },	
-                              {
-              username: 'JasonTan',
-              name: 'Jason Tan',			
-            },	
-                              {
-              username: 'Joseph',
-              name: 'Joseph Teo',			
-            },	
-                              {
-              username: 'Kent',
-              name: 'Kent Ng',			
-            },	
-                              {
-              username: 'Pto',
-              name: 'Pto Usrr',			
-            },	
-                              {
-              username: 'Sarvan',
-              name: 'Sarvan Palani',			
-            },	
-                              {
-              username: 'Sebastian',
-              name: 'Sebastian Koh',			
-            },	
-                              {
-              username: 'Sinyee',
-              name: 'Sin Yee Lee',			
-            },	
-                              {
-              username: 'sofia',
-              name: 'sofia bhuvanesh',			
-            },	
-                              {
-              username: 'Ikedha',
-              name: 'Takatoshi Ikeda',			
-            },	
-                              {
-              username: 'tst',
-              name: 'ts tst',			
-            },	
-                              {
-              username: 'Weichien',
-              name: 'Wei Chien Lim',			
-            },	
-                              {
-              username: 'Kuboyama',
-              name: 'Yasuaki Kuboyama',			
-            }	
-                      ]
-      });	
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".to").mention({
+      users: this.atmentioneddata
+    });
     // Atmentioned API Calls
 
 
@@ -564,15 +501,15 @@ export class ComposePage {
   // When form submitting the below function calling
   saveEntry() {
 
-    // let to = jQuery('#to').tagEditor('getTags')[0].tags;
+    // let to = jQuery('.to').tagEditor('getTags')[0].tags;
     // console.log(to.length);
     // if (to.length == 0) {
     //   this.conf.sendNotification(`To address required`);
     //   return false;
     // }
-
+    let to = $('.to').val();
     if (this.isUploadedProcessing == false) {
-      let to: string = this.form.controls["to"].value,
+      let //to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
@@ -618,7 +555,7 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-      let to = $("#to").val();
+      let to = $(".to").val();
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
@@ -816,7 +753,7 @@ export class ComposePage {
         let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
-        
+
         console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
         let imgSrc;
         if (this.messageid == undefined) {
@@ -960,7 +897,7 @@ export class ComposePage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-         // this.conf.sendNotification(`File was successfully deleted`);
+          // this.conf.sendNotification(`File was successfully deleted`);
           //this.doImageResources(service_id);
           this.conf.sendNotification(data.json().msg[0]['result']);
           this.doAttachmentResources(this.micro_timestamp);
