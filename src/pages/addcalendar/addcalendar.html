@@ -113,13 +113,21 @@
 
         <ion-item class="no-border">
           <ion-label stacked>Description</ion-label>
-          <!--ion-textarea type="text" name="to" id="to" class="suggest form-control" class="form-control" rows="8" [disabled]="readOnly"
-            formControlName="event_notes" [(ngModel)]="event_notes" style="height: 100px;
-    width: 281px;"></ion-textarea-->
+        
         </ion-item>
-        <textarea style="width:91%;margin-left:4%;background-color:#f8f8f8;border-bottom:1px solid #cccccc;height:55px;border-left:none;border-right:none;border-top:none;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
+        <!-- <textarea style="width:91%;margin-left:4%;background-color:#f8f8f8;border-bottom:1px solid #cccccc;height:55px;border-left:none;border-right:none;border-top:none;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
           onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
-          [(ngModel)]="event_notes"></textarea>
+          [(ngModel)]="event_notes"></textarea> -->
+
+
+          <div class="unit-form-group" style="background-color: #f8f8f8;">
+            <div class="inner-div" style="background-color: #f8f8f8;">
+              <ion-list style="position:relative;">
+                   <textarea formControlName="event_notes" [(ngModel)]="event_notes" type="text" class="event_notes" value="" name="event_notes" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+              </ion-list>
+      
+            </div>
+          </div> 
 
       </ion-list>
     </div>

@@ -71,13 +71,25 @@
           <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
 
         </ion-item>
-        <textarea style="width: 91%;
+        <!-- <textarea style="width: 91%;
        margin-left: 4%;
        background-color: #f8f8f8;
        border: 1px solid #cccccc;
        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
           onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="service_remark"
-          [(ngModel)]="service_remark"></textarea>
+          [(ngModel)]="service_remark"></textarea> -->
+
+
+          
+          <div class="unit-form-group" style="background-color: #f8f8f8;">
+            <div class="inner-div" style="background-color: #f8f8f8;">
+              <ion-list style="position:relative;">
+                   <textarea formControlName="service_remark" [(ngModel)]="service_remark" type="text" class="service_remark" value="" name="service_remark" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+              </ion-list>
+      
+            </div>
+          </div>
+
 
 
       </ion-list>

@@ -8,6 +8,8 @@ import { CalendarPage } from '../calendar/calendar';
 import { Config } from '../../config/config';
 import { DatePicker } from '@ionic-native/date-picker';
 import * as moment from 'moment';
+declare var jQuery: any;
+declare var mention: any;
 /**
  * Generated class for the AddcompanygroupPage page.
  *

@@ -62,32 +62,26 @@
     font-size: 12px;
     margin-top: 15px;
 ">Remarks</div>
-          <textarea style="height: 70px;
+          <!-- <textarea style="height: 70px;
     width: 100%;
     margin-left: 2px;
     margin-top: 2px;border: 0px;
     background-color: #f8f8f8;" type="text" (keyup)=address1get($event.target.value); name="to" id="to" class="sugges" onkeyup="sptions(event);address1get(this.value)"
             onblur="sptionshide();address1get(this.value)" class="form-control" rows="8" [disabled]="readOnly" formControlName="remark"
-            [(ngModel)]="remark"></textarea>
+            [(ngModel)]="remark"></textarea> -->
+
+            <div class="unit-form-group" style="background-color: #f8f8f8;">
+              <div class="inner-div" style="background-color: #f8f8f8;">
+                <ion-list style="position:relative;">
+                     <textarea formControlName="remark" [(ngModel)]="remark" type="text" class="remark" value="" name="remark" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                </ion-list>
+        
+              </div>
+            </div> 
         </div>
 
        
 
-
-        <!-- <div class="inner-div">
-          <div  class="txt-area" style="
-    color: gray;
-    font-size: 12px;
-    margin-top: 15px;
-">Remark</div>
-          <textarea style="height: 70px;
-    width: 100%;
-    margin-left: 2px;
-    margin-top: 2px;border: 0px;
-    background-color: #f8f8f8;" type="text" name="remark" id="remark" rows="8" [disabled]="readOnly" formControlName="assigned_to"
-            [(ngModel)]="remark"></textarea>
-
-        </div> -->
 
 
 

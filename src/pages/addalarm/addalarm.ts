@@ -9,6 +9,7 @@ import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { TrendlinePage } from '../trendline/trendline';
 import * as moment from 'moment';
 declare var jQuery: any;
+declare var mention: any;
 /**
  * Generated class for the AddalarmPage page.
  *
@@ -63,6 +64,7 @@ export class AddalarmPage {
   mindate;
   alarm_assgined_to;
   alarm_remark;
+  
   public atmentioneddata = [];
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
@@ -204,37 +206,86 @@ export class AddalarmPage {
 
 
     // Atmentioned API Calls
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
-      options1: any = new RequestOptions({ headers: headers }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyid + "&userId=" + this.userId;
-    console.log(url);
-    this.http.get(url1, options1)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
+    // let
+    //   //body: string = "key=delete&recordID=" + recordID,
+    //   type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers1: any = new Headers({ 'Content-Type': type }),
+    //   options1: any = new RequestOptions({ headers: headers }),
+    //   url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyid + "&userId=" + this.userId;
+    // console.log(url);
+    // this.http.get(url1, options1)
+    //   .subscribe(data => {
+    //     // If the request was successful notify the user
+    //     if (data.status === 200) {
+    //       this.atmentioneddata = data.json();
+    //       console.log(this.atmentioneddata);
 
-          // jQuery('#assigned_to').tagEditor({
-          //   autocomplete: {
-          //     delay: 0,
-          //     position: { collision: 'flip' },
-          //     source: this.atmentioneddata,
-          //     delimiter: ',;'
-          //   },
-          //   forceLowercase: false
-          // });
+    //       // jQuery('#assigned_to').tagEditor({
+    //       //   autocomplete: {
+    //       //     delay: 0,
+    //       //     position: { collision: 'flip' },
+    //       //     source: this.atmentioneddata,
+    //       //     delimiter: ',;'
+    //       //   },
+    //       //   forceLowercase: false
+    //       // });
+    //     }
+    //     // Otherwise let 'em know anyway
+    //     else {
+    //       this.conf.sendNotification('Something went wrong!');
+    //     }
+    //   }, error => {
+
+    //   })
+
+
+    let body1: string = '',
+    //body: string = "key=delete&recordID=" + recordID,
+    type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    headers1: any = new Headers({ 'Content-Type': type }),
+    options1: any = new RequestOptions({ headers: headers }),
+    url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyid + "&login=" + this.unitDetailData.userId;
+  console.log(url1);
+  this.http.get(url1, options1)
+
+  // let body: string = param,
+
+  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+  //   headers: any = new Headers({ 'Content-Type': type }),
+  //   options: any = new RequestOptions({ headers: headers }),
+  //   url: any = urlstring;
+  console.log("Message sending API" + url1+ "?" + body1);
+
+  this.http.post(url1, body1, options1)
+
+    .subscribe(data => {
+      let res;
+      // If the request was successful notify the user
+      if (data.status === 200) {
+       // this.atmentioneddata = data.json();
+        res = data.json();
+        console.log(data.json().staffs);
+
+        if (res.staffs.length > 0) {
+          for (let staff in res.staffs) {
+            this.atmentioneddata.push({
+              username: res.staffs[staff].username,
+              name: res.staffs[staff].name,
+            });
+          }
         }
         // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
+      } else {
+        this.conf.sendNotification('Something went wrong!');
+      }
+    }, error => {
 
-      })
+    })
+  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+  jQuery(".remark").mention({
+    users: this.atmentioneddata
+  });
+
     // Atmentioned API Calls
   }
 
@@ -287,7 +338,7 @@ export class AddalarmPage {
     let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
       assigned_to: string = this.form.controls["assigned_to"].value;
     //this.remark = this.form.controls["remark"].value;
-    this.remark = $("#to").val();;
+    this.remark = $(".remark").val();
     alarm_assigned_date = alarm_assigned_date.split("T")[0]
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();

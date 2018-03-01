@@ -13,6 +13,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 declare var jQuery: any;
+declare var mention: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -273,26 +274,74 @@ export class AddcommentsinfoPage {
     }
 
     // Atmentioned API Calls
-    let
+    // let
+    //   //body: string = "key=delete&recordID=" + recordID,
+    //   type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers1: any = new Headers({ 'Content-Type': type }),
+    //   options1: any = new RequestOptions({ headers: headers }),
+    //   url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
+    // console.log(url);
+    // this.http.get(url1, options1)
+    //   .subscribe(data => {
+    //     // If the request was successful notify the user
+    //     if (data.status === 200) {
+    //       this.atmentioneddata = data.json();
+    //     }
+    //     // Otherwise let 'em know anyway
+    //     else {
+    //       this.conf.sendNotification('Something went wrong!');
+    //     }
+    //   }, error => {
+
+    //   })
+
+    let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type }),
       options1: any = new RequestOptions({ headers: headers }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
-    console.log(url);
+      url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+    console.log(url1);
     this.http.get(url1, options1)
+
+    // let body: string = param,
+
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url1 + "?" + body1);
+
+    this.http.post(url1, body1, options1)
+
       .subscribe(data => {
+        let res;
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.atmentioneddata = data.json();
-        }
-        // Otherwise let 'em know anyway
-        else {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
+
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
+          }
+          // Otherwise let 'em know anyway
+        } else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
 
       })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".remark").mention({
+      users: this.atmentioneddata
+    });
+
     // Atmentioned API Calls
   }
   maxDateStr() {
@@ -380,7 +429,7 @@ export class AddcommentsinfoPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/commentupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-       // this.isSubmitted = true;
+        // this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
@@ -413,7 +462,7 @@ export class AddcommentsinfoPage {
         }
         this.progress += 5;
         if (this.progress == 100) {
-         // this.isSubmitted = false;
+          // this.isSubmitted = false;
         }
         this.isProgress = false;
         this.isUploadedProcessing = false;
@@ -448,9 +497,9 @@ export class AddcommentsinfoPage {
     } else {
       console.log(this.form.controls);
       if (this.isUploadedProcessing == false) {
-       
 
-        let comments: string = this.form.controls["comment_remark"].value,
+        let comments = $(".comment_remark").val();
+        let //comments: string = this.form.controls["comment_remark"].value,
           comment_subject: string = this.form.controls["comment_subject"].value;
         if (this.isEdited) {
           this.updateEntry(comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
@@ -823,8 +872,8 @@ export class AddcommentsinfoPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-        // this.conf.sendNotification(`File was successfully deleted`);
-        this.conf.sendNotification(data.json().msg[0].result);
+          // this.conf.sendNotification(`File was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {
@@ -892,7 +941,7 @@ export class AddcommentsinfoPage {
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
@@ -923,7 +972,7 @@ export class AddcommentsinfoPage {
               destinationType: this.camera.DestinationType.FILE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
 
             this.camera.getPicture(options).then((uri) => {

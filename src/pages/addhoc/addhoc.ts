@@ -14,6 +14,7 @@ import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import * as moment from 'moment';
 declare var jQuery: any;
+declare var mention: any;
 /**
  * Generated class for the addhocPage page.
  *
@@ -277,39 +278,88 @@ export class AddhocPage {
     }
 
     // Atmentioned API Calls
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
-      options1: any = new RequestOptions({ headers: headers }),
-      url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
-    console.log(url);
-    this.http.get(url1, options1)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          // console.log(this.atmentioneddata);
-          // jQuery('#service_remark').tagEditor({
-          //   autocomplete: {
-          //     delay: 0,
-          //     position: { collision: 'flip' },
-          //     source: this.atmentioneddata,
-          //     delimiter: ',;'
-          //   },
-          //   forceLowercase: false
-          // });
+    // let
+    //   //body: string = "key=delete&recordID=" + recordID,
+    //   type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers1: any = new Headers({ 'Content-Type': type }),
+    //   options1: any = new RequestOptions({ headers: headers }),
+    //   url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
+    // console.log(url);
+    // this.http.get(url1, options1)
+    //   .subscribe(data => {
+    //     // If the request was successful notify the user
+    //     if (data.status === 200) {
+    //       this.atmentioneddata = data.json();
+    //       // console.log(this.atmentioneddata);
+    //       // jQuery('#service_remark').tagEditor({
+    //       //   autocomplete: {
+    //       //     delay: 0,
+    //       //     position: { collision: 'flip' },
+    //       //     source: this.atmentioneddata,
+    //       //     delimiter: ',;'
+    //       //   },
+    //       //   forceLowercase: false
+    //       // });
 
-          // jQuery('#service_remark').tagEditor('addTag',  this.NP.get("record").service_remark,true);
+    //       // jQuery('#service_remark').tagEditor('addTag',  this.NP.get("record").service_remark,true);
 
+    //     }
+    //     // Otherwise let 'em know anyway
+    //     else {
+    //       this.conf.sendNotification('Something went wrong!');
+    //     }
+    //   }, error => {
+
+    //   })
+
+    let body1: string = '',
+    //body: string = "key=delete&recordID=" + recordID,
+    type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    headers1: any = new Headers({ 'Content-Type': type }),
+    options1: any = new RequestOptions({ headers: headers }),
+    url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+  console.log(url1);
+  this.http.get(url1, options1)
+
+  // let body: string = param,
+
+  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+  //   headers: any = new Headers({ 'Content-Type': type }),
+  //   options: any = new RequestOptions({ headers: headers }),
+  //   url: any = urlstring;
+  console.log("Message sending API" + url1+ "?" + body1);
+
+  this.http.post(url1, body1, options1)
+
+    .subscribe(data => {
+      let res;
+      // If the request was successful notify the user
+      if (data.status === 200) {
+       // this.atmentioneddata = data.json();
+        res = data.json();
+        console.log(data.json().staffs);
+
+        if (res.staffs.length > 0) {
+          for (let staff in res.staffs) {
+            this.atmentioneddata.push({
+              username: res.staffs[staff].username,
+              name: res.staffs[staff].name,
+            });
+          }
         }
         // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
+      } else {
+        this.conf.sendNotification('Something went wrong!');
+      }
+    }, error => {
 
-      })
+    })
+  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+  jQuery(".service_remark").mention({
+    users: this.atmentioneddata
+  });
+
+      
     // Atmentioned API Calls
   }
   maxDateStr() {
@@ -457,7 +507,7 @@ export class AddhocPage {
     console.log(this.form.controls);
     if (this.isUploadedProcessing == false) {
       let serviced_date: string = this.form.controls["serviced_date"].value,
-        service_remark: string = this.form.controls["service_remark"].value,
+        //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
@@ -479,6 +529,7 @@ export class AddhocPage {
       if (this.hrvalue > 12) {
         ampmstr = 'PM';
       }
+      this.service_remark = $(".service_remark").val();
       // serviced_date = this.serviced_date.split("T")[0];
       // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
       let timevalue = this.hrvalue + ":" + minvalue + ":00";
@@ -501,7 +552,8 @@ export class AddhocPage {
   // for the record data
   createEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    service_remark = localStorage.getItem("atMentionResult");
+    //service_remark = localStorage.getItem("atMentionResult");
+    service_remark = $(".service_remark");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
