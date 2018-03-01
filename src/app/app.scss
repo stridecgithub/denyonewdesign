@@ -798,8 +798,8 @@ page-forgotpassword.ion-page > ion-content .scroll-content {
     margin-bottom: 0;
 }
 .typeahead.dropdown-menu {
-	left: 0;
-    top: 28px;
+	left: 0!important;
+    top: 28px!important;
     z-index: 1000;
     list-style: none;
     margin: 0;

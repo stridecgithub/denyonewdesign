@@ -5,6 +5,8 @@ ion-content .scroll-content {
   .edit-alarm-top {
     p {
       margin-bottom: 0;
+	  margin-top: 0 !important;
+      line-height: 16px !important;
     }
     .time {
       margin-top: 0;
@@ -37,7 +39,7 @@ ion-content .scroll-content {
   }
 
   .save-btn {
-    padding: 20px;
+    padding: 20px 40px;
     button {
       background-color: color($app-brand-colors, azure-radiance);
       border-radius: 0;
@@ -52,10 +54,11 @@ ion-content .scroll-content {
  	 margin: 0 15px 0 0;
   }
   .switch ion-col h1 {
-  	margin-bottom: 2px;
+  	margin-bottom: 0;
   }
   .edit-alarm-top {
 	padding:15px 0 0 15px;
+	border-bottom: 1px solid #d6d6d6;
   }
   .edit-alarm-top .time {
    margin-top: 27px;

@@ -2,18 +2,33 @@ page-alarmlogdetails {
 ion-content .scroll-content {
     margin-bottom: 0;
 }
+.log-info {
+	border-bottom: 1px solid #b8b8b8;
+	color: #9d9d9d;
+}
+.edit-alarm-form {
+	border-bottom: 1px solid #b8b8b8;
+}
+.switch ion-col p {
+    margin-bottom: 0;
+    margin-top: 0 !important;
+    line-height: 16px !important;
+}
   .switch .time {
     float: right;
-    margin:0px 0px 0 0;
+    margin:16px 10px 0 0;
     color: #424242;
     font-size: 12px;
 }
+.label-title {
+	color: #9d9d9d;
+}
 .alarm-log-row{
-padding-left: 13px;
+	padding-left: 15px;
+	padding-right: 15px;
     padding-bottom: 0px;
-    border-bottom: 1px solid lightgray;
     padding-top: 20px;
-    background-color: #efefef;
+    background-color: #f8f8f8;
 }
   .event-head {
     margin-bottom: 10px;

@@ -29,7 +29,7 @@
     <img alt="" src="assets/imgs/warning-pic@2x.png" *ngIf="alarm_priority=='2'">
     <ion-row>
       <ion-col col-12>
-        <h1>{{alarm_name}}</h1>
+        <h1 style="margin-bottom:0;">{{alarm_name}}</h1>
         <p>{{unitDetailData.unitname}}<br> {{unitDetailData.projectname}}
         </p>
         <div class="time">
@@ -39,9 +39,9 @@
     </ion-row>
   </div>
 
-  <ion-row style="border-bottom: 1px solid #848484; padding: 0px 10px;">
+  <ion-row style="border-bottom: 1px solid #b8b8b8; padding: 0px 10px;">
     <ion-col>
-      <h4 style="font-size: 16px">Alarm Assignment</h4>
+      <h4 style="font-size: 16px;margin-bottom: 3px;">Alarm Assignment</h4>
     </ion-col>
   </ion-row>
 
@@ -52,18 +52,21 @@
 
 
     <div class="alarm-log-row">
-      <div class="label-title"><b>Date:</b></div><br> {{alarm_assigned_date_mobileview}}
+      <div class="label-title"><b>Date:</b></div><br> 
+      <div class="log-info">{{alarm_assigned_date_mobileview}}</div>
     </div>
 
 
     <div class="alarm-log-row">
-      <div class="label-title"><b>Assigned to:</b></div><br> {{alarm_assginedto_name}} {{alarm_assginedto_hashtag}}
+      <div class="label-title"><b>Assigned to:</b></div><br> 
+      <div class="log-info">{{alarm_assginedto_name}} {{alarm_assginedto_hashtag}}</div>
     </div>
 
 
 
-    <div class="alarm-log-row">
-      <div class="label-title"><b> Remarks:</b></div><br> {{alarm_remark}}
+    <div class="alarm-log-row" style="padding-bottom:20px;">
+      <div class="label-title"><b> Remarks:</b></div><br> 
+      <div class="log-info">{{alarm_remark}}</div>
     </div>
 
 

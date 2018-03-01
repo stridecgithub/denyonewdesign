@@ -13,8 +13,12 @@ display:block;
 height:50px!important;
 }
 textarea {
-min-height:200px;
-margin-top:30px;
+min-height:70px;
+margin-top:0px;
+}
+.inner-div ion-label {
+	margin-right: 0;
+    margin-bottom: 0;
 }
   .button-inner{
     text-transform:capitalize
@@ -68,7 +72,7 @@ margin-top:30px;
     border:1px solid #ccc;
   }
   .save-btn {
-    padding: 20px;
+    padding: 20px 40px;
     button {
       background-color: color($app-brand-colors, azure-radiance);
       border-radius: 0;

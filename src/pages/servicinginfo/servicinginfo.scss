@@ -4,6 +4,12 @@ page-servicinginfo {
     margin-bottom: 0;
 }
 
+.new-service .lst {
+    margin-bottom: 0;
+    border-bottom: 1px solid #d6d6d6;
+    margin-top: 0;
+}
+
 	span{
 		font-size:14px;
 	}
@@ -57,11 +63,9 @@ page-servicinginfo {
   	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 1px solid #d6d6d6;
+				border-bottom: 0px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;
-				border-top: 1px solid #d6d6d6;
-	  			border-bottom: 0px solid #d6d6d6;
 			  		padding-bottom: 5px;
 			  	.p1{
 			  		overflow: hidden;
@@ -162,7 +166,7 @@ page-servicinginfo {
   	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 2px solid #d6d6d6;
+				border-bottom: 1px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;
 
@@ -188,7 +192,7 @@ page-servicinginfo {
 	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 2px solid #d6d6d6;
+				border-bottom: 1px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;	  	
 			  	.p2{
@@ -211,7 +215,7 @@ page-servicinginfo {
 	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 2px solid #d6d6d6;
+				border-bottom: 1px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;	  	
 			  	.p3{
