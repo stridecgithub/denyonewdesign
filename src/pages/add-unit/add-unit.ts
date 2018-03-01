@@ -16,7 +16,6 @@ import { DashboardPage } from '../dashboard/dashboard';
  * Ionic pages and navigation.
  */
 
-
 @Component({
   selector: 'page-add-unit',
   templateUrl: 'add-unit.html',

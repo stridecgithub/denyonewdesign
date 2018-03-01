@@ -764,11 +764,14 @@ margin-bottom: 0;
     left: 50% !important;
     transform: translate(-50%, -50%)!important;
 }
+
 /*.ion-page > ion-content {
+.ion-page > ion-content {
 	height: -moz-calc(100% - 58px);
     height: -webkit-calc(100% - 58px);
     height: calc(100% - 58px);
 }
+
 */
 ion-content .scroll-content {
 	margin-bottom: 55px;
@@ -821,4 +824,28 @@ page-forgotpassword.ion-page > ion-content .scroll-content {
 .typeahead.dropdown-menu li a {
     color: #666666;
     text-decoration: none;
+page-add-unit.ion-page > ion-content,
+page-notification-settings.ion-page > ion-content,
+page-servicedetails.ion-page > ion-content,
+page-servicing-details.ion-page > ion-content,
+page-servicinginfo.ion-page > ion-content,
+page-commentsinfo.ion-page > ion-content,
+page-addalarm.ion-page > ion-content,
+page-trendline.ion-page > ion-content,
+page-enginedetail.ion-page > ion-content,
+page-enginedetailview.ion-page > ion-content,
+page-notification.ion-page > ion-content,
+page-commentdetails.ion-page > ion-content,
+page-event-details-service.ion-page > ion-content,
+page-event-details.ion-page > ion-content,
+page-messagedetail.ion-page > ion-content,
+page-message-detail-view.ion-page > ion-content,
+page-addorgchartone.ion-page > ion-content,
+page-addcalendar.ion-page > ion-content,
+page-reports.ion-page > ion-content,
+page-reportviewtable.ion-page > ion-content,
+page-login.ion-page > ion-content,
+page-forgotpassword.ion-page > ion-content { 
+    height: 100%;
+}
 }

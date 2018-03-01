@@ -82,7 +82,7 @@
     "@ionic/app-scripts": "^3.1.7",
     "@ionic/cli-plugin-proxy": "1.4.6",
     "@types/jquery": "^3.2.6",
-    "typescript": "2.3.4"
+    "typescript": "^2.4.0"
   },
   "description": "An Ionic project",
   "cordova": {
