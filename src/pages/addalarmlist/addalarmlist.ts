@@ -7,7 +7,6 @@ import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
-import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { ModalPage } from '../modal/modal';
 /**
@@ -295,15 +294,5 @@ export class AddalarmlistPage {
   notification() {
    this.navCtrl.setRoot(NotificationPage);
   }
-  redirectToUser() {
-   this.navCtrl.setRoot(UnitsPage);
-  }
-
-  redirectCalendar() {
-   this.navCtrl.setRoot(CalendarPage);
-  }
-
-  redirectToSettings() {
-   this.navCtrl.setRoot(OrgchartPage);
-  }
+  
 }

@@ -6,10 +6,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { AddunitgroupPage } from '../addunitgroup/addunitgroup';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
-import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
 ///import { LoadingController } from 'ionic-angular';
 
 /**

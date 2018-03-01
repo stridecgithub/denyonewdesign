@@ -5,11 +5,8 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import { Http, Headers, RequestOptions } from '@angular/http';
 //import { HTTP } from '@ionic-native/http';
 import * as $ from 'jquery';
-import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
-import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 
 @Component({

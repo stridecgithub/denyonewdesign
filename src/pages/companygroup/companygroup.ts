@@ -4,17 +4,9 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
 import { LoadingController } from 'ionic-angular';
-import { DashboardPage } from '../dashboard/dashboard';
-import { UserPage } from '../user/user';
-import { UnitgroupPage } from '../unitgroup/unitgroup';
-import { RolePage } from '../role/role';
 import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
 import { CompanydetailPage } from '../companydetail/companydetail';
-import { OrgchartPage} from '../orgchart/orgchart';
 
 import { Config } from '../../config/config';
 /**

@@ -8,14 +8,14 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import 'rxjs/add/operator/map';
 import { UserPage } from '../user/user';
-import { UnitgroupPage } from '../unitgroup/unitgroup';
-import { RolePage } from '../role/role';
-import { OrgchartPage } from '../orgchart/orgchart';
+//import { UnitgroupPage } from '../unitgroup/unitgroup';
+//import { RolePage } from '../role/role';
+//import { OrgchartPage } from '../orgchart/orgchart';
 import { MyaccountPage } from '../myaccount/myaccount';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
+//import { ReportsPage } from '../reports/reports';
+//import { CalendarPage } from '../calendar/calendar';
 import { Config } from '../../config/config';
 /**
  * Generated class for the AddcompanygroupPage page.

@@ -11,8 +11,6 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import * as moment from 'moment';
 /**

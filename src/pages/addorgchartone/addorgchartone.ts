@@ -7,14 +7,12 @@ import { OrgchartPage } from '../orgchart/orgchart';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitsPage } from '../units/units';
+//import { MyaccountPage } from '../myaccount/myaccount';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
-import { DashboardPage } from '../dashboard/dashboard';
+//import { DashboardPage } from '../dashboard/dashboard';
 //import { TabsPage } from "../tabs/tabs";
 
 /**

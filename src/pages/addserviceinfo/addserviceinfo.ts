@@ -10,8 +10,6 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { FileChooser } from '@ionic-native/file-chooser';
 import * as moment from 'moment';
@@ -937,17 +935,7 @@ export class AddserviceinfoPage {
   notification() {
     this.navCtrl.setRoot(NotificationPage);
   }
-  redirectToUser() {
-    this.navCtrl.setRoot(UnitsPage);
-  }
-
-  redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
-  }
-
-  redirectToSettings() {
-    this.navCtrl.setRoot(OrgchartPage);
-  }
+ 
 
 
   showConfirm() {
