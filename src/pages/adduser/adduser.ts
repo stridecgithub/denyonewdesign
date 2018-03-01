@@ -42,7 +42,7 @@ export class AdduserPage {
   public notcount: any;
   public borderbottomredvalidation: any;
   public contact: any;
-  public primary: any;
+ // public primary: any;
   public userId: any;
   public responseResultCountry: any;
   progress: number;
@@ -97,7 +97,7 @@ export class AdduserPage {
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
       "contact": ["", Validators.required],
-      "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+      //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
 
@@ -109,7 +109,7 @@ export class AdduserPage {
       "job_position": ["", Validators.required],
       "company_group": ["", Validators.required],
       "report_to": [""]
-    });
+    }, { validator: this.matchingPasswords('password', 're_password') });
     this.userId = localStorage.getItem("userInfoId");
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.getJsonCountryListData();
@@ -118,6 +118,18 @@ export class AdduserPage {
     this.getCompanyGroupListData();
   }
 
+  matchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
+    console.log('A');
+    return (group: FormGroup) => {
+      console.log('B');
+      let passwordInput = group.controls[passwordKey];
+      let passwordConfirmationInput = group.controls[passwordConfirmationKey];
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        console.log('C');
+        return passwordConfirmationInput.setErrors({ notEquivalent: true })
+      }
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddcompanygroupPage');
     this.pageLoad();
@@ -204,9 +216,10 @@ export class AdduserPage {
       this.contact = editItem.contact_number;
       this.username = editItem.username;
       if (this.contact != undefined) {
-        let contactSplitSpace = this.contact.split(" ");
-        this.primary = contactSplitSpace[0];
-        this.contact = contactSplitSpace[1];
+        //let contactSplitSpace = this.contact.split(" ");
+       // this.primary = contactSplitSpace[0];
+       // this.contact = contactSplitSpace[1];
+        this.contact = this.contact;
       }
       this.useriddisabled = true;
     }
@@ -241,9 +254,10 @@ export class AdduserPage {
           this.contact = info[key].contact;
           this.photo = info[key].photo;
           if (this.contact != '') {
-            let contactSplitSpace = this.contact.split(" ");
-            this.primary = contactSplitSpace[0];
-            this.contact = contactSplitSpace[1];
+           // let contactSplitSpace = this.contact.split(" ");
+           // this.primary = contactSplitSpace[0];
+            //this.contact = contactSplitSpace[1];
+            this.contact = this.contact;
           }
 
           console.log("First Name for User Account:" + this.first_name);
@@ -259,8 +273,9 @@ export class AdduserPage {
 
           if (this.contact != '') {
             let contactSplitSpace = this.contact.split(" ");
-            this.primary = contactSplitSpace[0];
-            this.contact = contactSplitSpace[1];
+            //this.primary = contactSplitSpace[0];
+            //this.contact = contactSplitSpace[1];
+            this.contact = this.contact;
           }
 
 
@@ -308,11 +323,11 @@ export class AdduserPage {
     this.country = item.country;
     this.contact = item.contact_number;
     console.log("Contact Number" + item.contact_number);
-    if (this.contact != '') {
-      let contactSplitSpace = this.contact.split(" ");
-      this.primary = contactSplitSpace[0];
-      this.contact = contactSplitSpace[1];
-    }
+    // if (this.contact != '') {
+    //   let contactSplitSpace = this.contact.split(" ");
+    //   this.primary = contactSplitSpace[0];
+    //   this.contact = contactSplitSpace[1];
+    // }
 
 
     this.photo = item.photo;
@@ -581,7 +596,7 @@ export class AdduserPage {
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
       contact: string = this.form.controls["contact"].value,
-      primary: string = this.form.controls["primary"].value,
+     // primary: string = this.form.controls["primary"].value,
       role: string = this.form.controls["role"].value,
       username: string = this.form.controls["username"].value,
       password: string = this.form.controls["password"].value,
@@ -590,7 +605,8 @@ export class AdduserPage {
       company_group: string = this.form.controls["company_group"].value,
       job_position: string = this.form.controls["job_position"].value;
 
-    contact = primary + " " + contact;
+    //contact = primary + " " + contact;
+    contact = contact;
     console.log(contact);
     /*if (this.addedImgLists) {
       this.isUploadedProcessing = true;

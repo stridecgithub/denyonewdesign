@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import {  NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { ComposePage } from "../compose/compose";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { NotificationPage } from '../notification/notification';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 
-@IonicPage()
+
 @Component({
   selector: 'page-messages',
   templateUrl: 'messages.html',

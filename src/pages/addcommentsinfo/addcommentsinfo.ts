@@ -505,7 +505,9 @@ export class AddcommentsinfoPage {
           this.comments = '';
           this.addedImgLists = [];
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Comments was successfully added`);
+          //this.conf.sendNotification(`Comments was successfully added`);
+          this.conf.sendNotification(data.json().msg[0].result);
+
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.push(CommentsinfoPage, {
             record: this.NP.get("record")
@@ -565,7 +567,8 @@ export class AddcommentsinfoPage {
           this.comments = '';
           this.addedImgLists = [];
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Comments was successfully updated`);
+          //this.conf.sendNotification(`Comments was successfully updated`);
+          this.conf.sendNotification(data.json().msg[0].result);
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.push(CommentsinfoPage, {
             record: this.NP.get("record")
@@ -820,7 +823,8 @@ export class AddcommentsinfoPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+        // this.conf.sendNotification(`File was successfully deleted`);
+        this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {

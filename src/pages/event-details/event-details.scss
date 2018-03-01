@@ -1,5 +1,18 @@
 page-event-details {
 
+  .span-warning {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    /*background-color: orange;*/
+    margin-right: 5px;
+  }
+  
+	ion-content .scroll-content {
+		margin-bottom: 0;
+	}
+
   .switchevent{
     border-bottom: 0px solid #d6d6d6;
     overflow: hidden;

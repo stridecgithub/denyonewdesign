@@ -1,9 +1,9 @@
 ///<<<<<<< HEAD
 //import { Component } from '@angular/core';
-//import { IonicPage, NavController, NavParams } from 'ionic-angular';
+//import {  NavController, NavParams } from 'ionic-angular';
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
-import { IonicPage, Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
+import { Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
@@ -64,7 +64,7 @@ interface CalendarControl {
 }
 /*=======
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 
 >>>>>>> ui*/
 /**
@@ -74,7 +74,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-calendar',
   templateUrl: 'calendar.html',
@@ -164,7 +164,6 @@ export class CalendarPage {
       this.currentMonth = this.currentMonth;
     }
     this.currentYear = currentDate.getFullYear();
-    this.userId = localStorage.getItem("userInfoId");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.EVENTVIEWACCESS = localStorage.getItem("CALENDAR_EVENTS_VIEW");
@@ -766,6 +765,7 @@ export class CalendarPage {
             type: 'event',
             event_type: 'E',
             allDay: true,
+            event_added_by:this.eventIdentify[i]['event_added_by'],
             icon: 'clock',
             class: 'event',
             iconStyle: { color: 'green' },
@@ -986,13 +986,16 @@ export class CalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           if (deltype == 'Event') {
-            this.conf.sendNotification(`Event was successfully deleted`);
+            //this.conf.sendNotification(`Event was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
           if (deltype == 'Service') {
-            this.conf.sendNotification(`Service was successfully deleted`);
+            // this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
           if (deltype == 'Alarm') {
-            this.conf.sendNotification(`Alarm was successfully deleted`);
+            // this.conf.sendNotification(`Alarm was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
         }
         // Otherwise let 'em know anyway
@@ -1213,7 +1216,7 @@ export class CalendarPage {
         event_addedby_name: this.eventIdentify[i]['event_addedby_name'],
         formatted_datetime: this.eventIdentify[i]['formatted_datetime'],
         event_time_new: this.eventIdentify[i]['service_scheduled_time'],
-
+        event_added_by:this.eventIdentify[i]['event_added_by'],
         event_type: 'E',
         icon: 'alarm', // Icon of the alert. This is compulsory when using the 
         // calendar on small screens, as the name of the event will
@@ -1454,7 +1457,8 @@ export class CalendarPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Service was successfully deleted`);
+         // this.conf.sendNotification(`Service was successfully deleted`);
+         this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
@@ -1478,7 +1482,7 @@ export class CalendarPage {
           type: event_type,
           service_id: item.event_id
         });
-    } 
+    }
     if (event_type == 'E') {
       event_type = 'event';
       this.navCtrl.setRoot(AddcalendarPage,
@@ -1509,7 +1513,7 @@ export class CalendarPage {
       }
     }
     else {
-      this.conf.sendNotification("Already Assigned");
+      this.conf.sendNotification("Alarm already assigned");
     }
   }
 
@@ -1548,7 +1552,8 @@ export class CalendarPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Event was successfully deleted`);
+          //this.conf.sendNotification(`Event was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 import { CommentreplyPage } from '../commentreply/commentreply';
 
@@ -10,7 +10,7 @@ import { CommentreplyPage } from '../commentreply/commentreply';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-commentview',
   templateUrl: 'commentview.html',

@@ -3,7 +3,6 @@ import {  NavController, ToastController, AlertController, NavParams } from 'ion
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
-import { ViewcompanygroupPage } from '../viewcompanygroup/viewcompanygroup';
 import { LoadingController } from 'ionic-angular';
 import { DashboardPage } from '../dashboard/dashboard';
 import { UserPage } from '../user/user';
@@ -204,12 +203,7 @@ export class CompanygroupPage {
         record: item,
         act: act
       });
-    } else {
-      this.nav.setRoot(ViewcompanygroupPage, {
-        record: item,
-        act: act
-      });
-    }
+    } 
   }
 
 

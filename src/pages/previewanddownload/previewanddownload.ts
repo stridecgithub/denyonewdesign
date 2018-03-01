@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import {  NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ServicingDetailsPage } from '../servicing-details/servicing-details';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 
@@ -16,7 +16,7 @@ import { CommentdetailsPage } from "../commentdetails/commentdetails";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-previewanddownload',
   templateUrl: 'previewanddownload.html',

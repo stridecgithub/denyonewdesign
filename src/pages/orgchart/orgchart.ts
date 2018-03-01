@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
+import { ViewController, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
@@ -16,7 +16,7 @@ import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-@IonicPage()
+
 @Component({
   selector: 'page-orgchart',
   templateUrl: 'orgchart.html',
@@ -68,7 +68,7 @@ export class OrgchartPage {
   iframeContent: any;
   public profilePhoto;
   footerBar: number = 4;
-  constructor(private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
+  constructor(public viewCtrl: ViewController, private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public navParams: NavParams) {
     //this.width = 1;
     //this.height = 150";
@@ -91,7 +91,12 @@ export class OrgchartPage {
     }
     //Authorization Get Value
 
-
+    platform.registerBackButtonAction(() => {
+      console.log(this.previous);
+      this.viewCtrl.dismiss();
+      this.previous();
+      // this.navCtrl.setRoot(DashboardPage);
+    });
 
 
     this.VIEWACCESS = localStorage.getItem("SETTINGS_ORGCHART_VIEW");
@@ -246,8 +251,9 @@ export class OrgchartPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          // this.conf.sendNotification(`Non-user was successfully deleted`);
 
-          this.conf.sendNotification(`Orgchart was successfully deleted`);
           this.parents = [];
           this.doOrgChart();
         }
@@ -317,10 +323,10 @@ export class OrgchartPage {
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
 
-    this.doOrgChart();
+    //this.doOrgChart();
 
 
-    console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
+    // console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
   }
   ionViewDidLoad() {
     this.pageLoad();
@@ -329,18 +335,18 @@ export class OrgchartPage {
     this.pageLoad();
   }
   doOrgChart() {
-    //this.conf.presentLoading(1);
+    this.conf.presentLoading(1);
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1&id=" + this.userId;
+      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
     console.log(url);
     // console.log(body);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-        // this.conf.presentLoading(0);
+        this.conf.presentLoading(0);
         // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
         res = data.json();
         this.totalCount = res.totalCount;
@@ -386,6 +392,7 @@ export class OrgchartPage {
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
+    this.viewCtrl.dismiss();
   }
   doEdit(item, act) {
     if (act == 'edit') {

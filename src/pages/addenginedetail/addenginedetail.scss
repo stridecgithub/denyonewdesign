@@ -1,11 +1,26 @@
 
  page-addenginedetail {  
+ ion-textarea{
+		height: 60px; 
+	}
     .input{
-        border: 1px solid #ededed;
+        border-bottom: 1px solid #b8b8b8;
         // line-height: 15px;
         // padding-top: 3px;
         // padding-bottom: 3px;
     }
+	.add-unit-gp {
+		background: #f8f8f8;
+		margin: 0;
+		
+	}
+	.item-md {
+		padding-left:0;
+		background: #f8f8f8;
+	}
+	.unit-sapce {
+		padding:0 16px;
+	}
       .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
         border-bottom-color: #F8F8F8;
           -webkit-box-shadow: inset 0 -1px 0 0 #F8F8F8;

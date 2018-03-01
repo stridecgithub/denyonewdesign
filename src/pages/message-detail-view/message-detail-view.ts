@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -15,7 +15,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-message-detail-view',
   templateUrl: 'message-detail-view.html',
@@ -46,6 +46,7 @@ export class MessageDetailViewPage {
   micro_timestamp;
   public isCompose;
   isReply;
+  priority_image;
   to;
   addedImgLists = [];
   copytome;
@@ -208,22 +209,26 @@ export class MessageDetailViewPage {
   }
 
   selectEntry(item) {
+    this.priority_image='';
     console.log(JSON.stringify(item));
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
 
+    this.priority_image = item.priority_image;
     this.messageid = item.message_id;
     this.priority_highclass = '';
     this.priority_lowclass = '';
     if (item.message_priority == "2") {
       this.priority_highclass = "border-high";
-    } else {
-      this.priority_highclass = "";
     }
     if (item.message_priority == "1") {
       this.priority_lowclass = "border-low";
+    } 
+
+    if (item.message_priority == "0") {
+      this.priority_lowclass = "";
     } else {
       this.priority_lowclass = "";
     }
@@ -464,7 +469,8 @@ export class MessageDetailViewPage {
         }
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification('Favorite updated successfully');
+          //this.conf.sendNotification('Favorite updated successfully');
+          this.conf.sendNotification(data.json().msg[0]['result']);
           // this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
@@ -500,8 +506,9 @@ export class MessageDetailViewPage {
         }
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification('Favorite updated successfully');
+        //  this.conf.sendNotification('Favorite updated successfully');
           // this.navCtrl.setRoot(MessagesPage);
+          this.conf.sendNotification(data.json().msg[0]['result']);
         }
         // Otherwise let 'em know anyway
         else {
@@ -699,8 +706,9 @@ export class MessageDetailViewPage {
         if (data.status === 200) {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Message sending successfully`);
+          //this.conf.sendNotification(`Message sending successfully`);
 
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.addedImgLists = [];
           this.to = '';
           this.copytome = 0;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 import { EventeditPage } from '../eventedit/eventedit';
 /**
@@ -9,7 +9,7 @@ import { EventeditPage } from '../eventedit/eventedit';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-eventview',
   templateUrl: 'eventview.html',

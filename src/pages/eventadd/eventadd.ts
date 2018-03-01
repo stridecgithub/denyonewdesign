@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { EventviewPage } from '../eventview/eventview';
 
 /**
@@ -9,7 +9,7 @@ import { EventviewPage } from '../eventview/eventview';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-eventadd',
   templateUrl: 'eventadd.html',

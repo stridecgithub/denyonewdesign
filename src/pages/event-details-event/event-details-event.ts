@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -15,7 +15,6 @@ import { NotificationPage } from '../notification/notification';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-event-details-event',
   templateUrl: 'event-details-event.html',
@@ -210,7 +209,8 @@ export class EventDetailsEventPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Event was successfully deleted`);
+          //this.conf.sendNotification(`Event was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway

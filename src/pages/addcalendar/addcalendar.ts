@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -43,7 +43,7 @@ export class AddcalendarPage {
   public month1: any;
   public date1: any;
   public event_title: any;
-
+  futuredatemsg;
   public alldayeventvalue: boolean = false;
   public isSubmitted: boolean = false;
   public alldayevent: boolean = true;
@@ -86,12 +86,12 @@ export class AddcalendarPage {
   private permissionMessage: string = "";
   public networkType: string;
   //tabBarElement: any;
-  constructor(private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
+  constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
     this.event_type = 'Event';
-    this.locationstr = "Deployed";
+    this.locationstr = "";
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
@@ -264,7 +264,9 @@ export class AddcalendarPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    //this.event_date=localStorage.getItem("sdate");
+    this.event_date=localStorage.getItem("sdate");
+    this.event_end_date=localStorage.getItem("sdate");
+   // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
     if (this.NP.get("item")) {
@@ -872,7 +874,9 @@ export class AddcalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Company group: ${type_name} was successfully deleted`);
+        //  console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
+         // this.conf.sendNotification(`Company group was successfully deleted`);
+         this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {
@@ -919,12 +923,14 @@ export class AddcalendarPage {
       event_end_date = '';
     }
     if (event_end_date != '') {
-      if (event_end_date >= event_date) {
+      let event_date_valid = event_date.split("T")[0];
+      let event_end_date_valid = event_end_date.split("T")[0];
+      if (event_date_valid >= event_end_date_valid) {
         console.log('Positive');
       } else {
         if (type_name != 'Service') {
-          console.log("event date start" + event_date);
-          console.log("event date end" + event_end_date)
+          console.log("event date start" + event_date_valid);
+          console.log("event date end" + event_end_date_valid)
           console.log(type_name);
           this.conf.sendNotification('End date should be after start date');
           return false;
@@ -1050,7 +1056,9 @@ export class AddcalendarPage {
     this.event_end_date = event_date.split("T")[0];
   }
 
-  futureDateValidation(formvalue) {
+  CalendarfutureDateValidation(formvalue) {
+    console.log("A");
+    this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
     let mn = date.getMonth() + 1;
@@ -1069,11 +1077,28 @@ export class AddcalendarPage {
     let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-
+      console.log("B");
     } else {
+
+      this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
+      console.log("C");
+
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
+    console.log(this.futuredatemsg);
+    if (this.futuredatemsg != '') {
+      this.showAlert('', 'Please select current date or future date.')
+    }
+
+  }
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
 

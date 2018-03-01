@@ -359,8 +359,8 @@ export class NotificationPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-
-          this.conf.sendNotification(`Services info was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          //this.conf.sendNotification(`Services info was successfully deleted`);
         }
         // Otherwise let 'em know anyway
         else {

@@ -158,10 +158,10 @@
     </ion-row>
     <ion-row>
       <ion-col col-4>
-        <h2>{{fromdate}}</h2>
+        <h2>{{fromdatedisplay}}</h2>
       </ion-col>
       <ion-col col-4>
-        <h2>{{todate}}</h2>
+        <h2>{{todatedisplay}}</h2>
       </ion-col>
       <ion-col col-4>
         <h2>{{timeframe}}</h2>
@@ -192,5 +192,7 @@
   <div class="table-view" *ngIf="graphview>0">
     <iframe width="1000px" height="500" [src]="url" frameborder="0"></iframe>
   </div>
-  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>

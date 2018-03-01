@@ -6,7 +6,6 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
-import { AlarmlistdetailPage } from '../alarmlistdetail/alarmlistdetail';
 import { AddalarmlistPage } from '../addalarmlist/addalarmlist';
 import { OrgchartPage } from '../orgchart/orgchart'
 import { Config } from '../../config/config';
@@ -292,16 +291,7 @@ export class AlarmPage {
   }
 
 
-  details(item, act) {
-    if (act == 'edit') {
-      this.navCtrl.setRoot(AlarmlistdetailPage, {
-        record: item,
-        act: act,
-        from: 'alarm'
-      });
-      return false;
-    }
-  }
+ 
   doEdit(item, act) {
     // let unitid = this.NP.get("record");
 
@@ -333,7 +323,7 @@ export class AlarmPage {
         }
         else {
           if (this.userId != '1') {
-            this.conf.sendNotification("Already Assigned");
+            this.conf.sendNotification("Alarm already assigned");
           }
         }
       }

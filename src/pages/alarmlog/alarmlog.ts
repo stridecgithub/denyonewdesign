@@ -4,7 +4,6 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddalarmPage } from '../addalarm/addalarm';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
-import { AlarmdetailsPage } from '../alarmdetails/alarmdetails';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
@@ -330,20 +329,12 @@ export class AlarmlogPage {
         }
       }
       else {
-        this.conf.sendNotification("Already Assigned");
+        this.conf.sendNotification("Alarm already assigned");
       }
     }
   }
 
-  details(item, act) {
-    if (act == 'edit') {
-      this.navCtrl.setRoot(AlarmdetailsPage, {
-        record: item,
-        act: act
-      });
-      return false;
-    }
-  }
+
   notification() {
     this.navCtrl.setRoot(NotificationPage);
   }

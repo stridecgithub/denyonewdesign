@@ -933,11 +933,15 @@
               </ion-grid>
       
               <ion-item *ngIf="hideActionButton">
-                <button ion-button color="primary" text-center block [disabled]="!form.valid ||  isSubmitted">Save</button>
+                <button style="width:81%;margin:0 auto;"   ion-button color="primary" text-center block [disabled]="!form.valid ||  isSubmitted">Save</button>
               </ion-item>
       
             </ion-list>
           </form>
         </div>
-        <progress-bar [progress]="footerBar"></progress-bar>
+        
   </ion-content>
+  
+  <ion-footer>
+  	<progress-bar [progress]="footerBar"></progress-bar>
+  </ion-footer>

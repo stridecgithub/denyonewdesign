@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events,ModalController } from 'ionic-angular';
+import {  NavController, NavParams, AlertController, Events,ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -13,7 +13,7 @@ import { ModalPage } from '../modal/modal';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-units',
   templateUrl: 'units.html',
@@ -260,7 +260,8 @@ export class UnitsPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.conf.sendNotification(`Units was successfully deleted`);
+          //this.conf.sendNotification(`Units was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
@@ -305,9 +306,11 @@ export class UnitsPage {
         if (data.status === 200) {
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavourited successfully");
+            //this.conf.sendNotification("Unfavourited successfully");
+            this.conf.sendNotification(data.json().msg[0]['result']);
           } else {
-            this.conf.sendNotification("Favourite successfully");
+            this.conf.sendNotification(data.json().msg[0]['result']);
+            //this.conf.sendNotification("Favourite successfully");
           }
         }
 
@@ -356,21 +359,7 @@ export class UnitsPage {
           this.totalCount = 0;
         }
 
-        // If the request was successful notify the user
-        // if (data.status === 200) {
-        //   console.log("Kannan:" + res.favorite);
-        //   if (res.favorite == 0) {
-        //     this.conf.sendNotification("Unfavorited successfully");
-        //   } else {
-        //     this.conf.sendNotification("Favorited successfully");
-        //   }
-
-
-        // }
-        // Otherwise let 'em know anyway
-        // else {
-        //   this.conf.sendNotification('Something went wrong!');
-        // }
+       
       }, error => {
         console.log(error);// + "\n" + error;
       });
@@ -562,7 +551,8 @@ export class UnitsPage {
 
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Dashboard view action successfully updated`);
+          //this.conf.sendNotification(`Dashboard view action successfully updated`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();

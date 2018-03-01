@@ -1,5 +1,10 @@
 page-compose{
-
+ion-content .scroll-content {
+		margin-bottom: 0;
+	}
+.right-header-btns button {
+	box-shadow: none;
+}
   .subx{
     top:120px!important;
   }
@@ -76,7 +81,7 @@ color: #c71717;
     }
   }
   textarea {
-    height: 115px;
+    /*height: 115px;*/
   }
 
   .attached-img {

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, Events, MenuController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, Events, MenuController } from 'ionic-angular';
 import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
-//import { TabsPage } from "../tabs/tabs";
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
-import { TimerProgress } from '../timerprogress/timerprogress';
 import { Keyboard } from '@ionic-native/keyboard';
 declare var jQuery: any;
 /*declare var triggeredAutocomplete: any;*/
@@ -17,7 +15,7 @@ declare var jQuery: any;
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -152,10 +150,9 @@ export class LoginPage {
           localStorage.setItem("userInfoCompanyGroupName", res['staffdetails'][0].companygroup_name);
           localStorage.setItem("userInfoPhoto", res['staffdetails'][0].photo);
           localStorage.setItem("userInfoRoleId", res['staffdetails'][0].role_id);
-          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
-          console.log("firsname:" + res['staffdetails'][0].firstname)
-          console.log("Company Id:" + res['staffdetails'][0].company_id);
-          console.log("User Id:" + res['staffdetails'][0].staff_id);
+          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);  
+          console.log(JSON.stringify(res['roledata'])); 
+          localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));      
           this.createUser(res['staffdetails'][0]);
 
 
@@ -184,8 +181,6 @@ export class LoginPage {
   doMove() {
     this.navCtrl.push(ForgotpasswordPage);
   }
-  doProgress() {
-    this.navCtrl.push(TimerProgress);
-  }
+  
 
 }

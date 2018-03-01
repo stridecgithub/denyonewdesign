@@ -110,7 +110,7 @@
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_datetime_formatted}}
                 </div>
-                <span *ngIf="upcomintitem.service_created_name!='null'">Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                <span *ngIf="upcomintitem.serviced_created_name!='null'">Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag}} </span>
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
 
@@ -159,30 +159,7 @@
           </ion-item>
 
 
-          <!-- <ion-item class="slide" *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div style="border-radius:0%" class="p1">
-              <img style="border-radius:0%" src="assets/imgs/warning@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
-              <img style="border-radius:0%" src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='1'">
-              <img style="border-radius:0%" src="assets/imgs/error@2x.png" width="20" alt="" *ngIf="upcomintitem.alarm_priority=='0'">
-
-
-
-
-              <div class="check">
-                <h3>
-                  <b>{{upcomintitem.alarm_name}}</b>
-                </h3>
-                <div class="D&T" style="font-size:14px">
-                  {{upcomintitem.alarm_received_date}}
-                </div>
-                <span *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
-                <br>
-                <span>Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
-
-
-              </div>
-            </div>
-          </ion-item> -->
+        
 
 <!--  && upcomintitem.alarm_assigned_by!='' -->
           <ion-item *ngIf="upcomintitem.event_type=='OA'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
@@ -202,7 +179,7 @@
                   <div class="D&T" style="font-size:14px;padding-left:13px">
                     {{upcomintitem.alarm_received_date}}
                   </div>
-                  <span style="padding-left:13px" *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                  <span style="padding-left:13px" *ngIf="upcomintitem.serviced_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
                   <br>
                   <span style="padding-left:13px">Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
 
@@ -229,7 +206,7 @@
                   <div class="D&T" style="font-size:14px;padding-left:13px">
                     {{upcomintitem.alarm_received_date}}
                   </div>
-                  <span style="padding-left:13px" *ngIf="upcomintitem.service_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
+                  <span style="padding-left:13px" *ngIf="upcomintitem.serviced_created_name!='null'">Assigned by:{{upcomintitem.alarm_assigned_by}} {{upcomintitem.serviced_created_name_hastag}} </span>
                   <br>
                   <span style="padding-left:13px">Assigned to: {{upcomintitem.alarm_assigned_to}} </span>
 
@@ -243,7 +220,7 @@
 
 
           <ion-item-options side="right" class="list-item-options">
-            <button *ngIf="upcomintitem.event_type!='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='S'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>
@@ -255,6 +232,15 @@
 
 
 
+            <button *ngIf="upcomintitem.event_type=='S' && upcomintitem.serviced_by==0"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+              <img width="25" src="assets/imgs/edit@2x.png">
+              <br>Edit
+            </button>
+
+
+
+            
+          
 
 
             <button ion-button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA'" class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
@@ -284,5 +270,7 @@
     </div>
 
   </div>
-  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>

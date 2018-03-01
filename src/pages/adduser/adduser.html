@@ -241,14 +241,23 @@
         <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
       </div> -->
 
-      <div class="contactinfo">
+      <!-- <div class="contactinfo">
         <ion-label stacked>Contact Number
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
         <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" type="text" formControlName="primary" (keyup)="getPrimaryContact($event)"
           [(ngModel)]="primary" style="width:19%;float:left;"></ion-input>
         <ion-input [disabled]="readOnly" type="text" formControlName="contact" [(ngModel)]="contact" style="width:79%;float:right;"></ion-input>
-      </div>
+      </div> -->
+
+
+      <ion-item>
+        <ion-label stacked>Contact Number
+          <span class="mandatory" *ngIf="hideActionButton"> *</span>
+        </ion-label>
+        <ion-input type="text" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
+      </ion-item>
+
 
 
 
@@ -326,7 +335,7 @@
           <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item style="background-color:#fff;" class="last-btn">
+      <ion-item style="background-color:#fff;border-top:1px solid #d6d6d6;padding-top:20px;" class="last-btn">
         <button ion-button color="primary" text-center block [disabled]="!form.valid" style="max-width:88%;margin:0 auto;">Save</button>
       </ion-item>
     </ion-list>
@@ -335,5 +344,7 @@
   </form>
   <br>
   <br>
-  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>

@@ -36,15 +36,22 @@
 
         <ion-item>
           <ion-label stacked>Name</ion-label>
-          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_1" [(ngModel)]="contact_name_1"></ion-input>
+          <ion-input type="text" formControlName="contact_name_1" [(ngModel)]="contact_name_1"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <!-- <ion-item>
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation}}" [disabled]="readOnly" (keyup)="getPrimaryContact($event)" type="text" formControlName="primary"
             [(ngModel)]="primary" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_1" [(ngModel)]="contact_number_1" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
+        </ion-item> -->
+
+
+        <ion-item>
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_1" [(ngModel)]="contact_number_1"></ion-input>
         </ion-item>
+
 
         <!-- <div class="remove" *ngIf="cont2">
             <button (click)="doRemoveContact(2)">
@@ -53,18 +60,25 @@
           </div> -->
         <ion-item *ngIf="cont2">
           <ion-label stacked>Name</ion-label>
-          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_2" [(ngModel)]="contact_name_2"
-            (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_2" [(ngModel)]="contact_name_2"
+          (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
         </ion-item>
-
-        <ion-item *ngIf="cont2">
+<!--(keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)" -->
+        <!-- <ion-item *ngIf="cont2">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation2}}" [disabled]="readOnly" (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"
             type="text" formControlName="primary_2" [(ngModel)]="primary_2" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_2" (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"
             [(ngModel)]="contact_number_2" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
 
+        </ion-item> -->
+
+
+        <ion-item *ngIf="cont2">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_2" [(ngModel)]="contact_number_2"  (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
         </ion-item>
+
 
         <!-- <div class="remove" *ngIf="cont3">
             <button (click)="doRemoveContact(3)">
@@ -73,18 +87,25 @@
           </div> -->
         <ion-item *ngIf="cont3">
           <ion-label stacked>Name</ion-label>
-          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_3" [(ngModel)]="contact_name_3"
-            (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_3" [(ngModel)]="contact_name_3"
+          (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
         </ion-item>
-
-        <ion-item *ngIf="cont3">
+        <!--(keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"-->
+        <!-- <ion-item *ngIf="cont3">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation3}}" [disabled]="readOnly" (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"
             type="text" formControlName="primary_3" [(ngModel)]="primary_3" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_3" (keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"
             [(ngModel)]="contact_number_3" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
 
+        </ion-item> -->
+
+
+        <ion-item *ngIf="cont3">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_3" [(ngModel)]="contact_number_3"  (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
         </ion-item>
+
 
         <!-- <div class="remove" *ngIf="cont4">
             <button (click)="doRemoveContact(4)">
@@ -94,18 +115,25 @@
 
         <ion-item *ngIf="cont4">
           <ion-label stacked>Name</ion-label>
-          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_4" [(ngModel)]="contact_name_4"
-            (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_4" [(ngModel)]="contact_name_4"
+          (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
         </ion-item>
-
-        <ion-item *ngIf="cont4">
+<!--  (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"-- >
+        <!-- <ion-item *ngIf="cont4">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation4}}" [disabled]="readOnly" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
             type="text" formControlName="primary_4" [(ngModel)]="primary_4" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
-          <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_4" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
+          <ion-input [disabled]="readOnly" type="text" formControlName="c" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
             [(ngModel)]="contact_number_4" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
 
+        </ion-item> -->
+
+        <ion-item *ngIf="cont4">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_4" [(ngModel)]="contact_number_4"  (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
         </ion-item>
+
+
         <!-- <div class="remove" *ngIf="cont5">
           <button (click)="doRemoveContact(5,item)">
             <ion-icon name="close"></ion-icon>
@@ -114,18 +142,25 @@
 
         <ion-item *ngIf="cont5">
           <ion-label stacked>Name</ion-label>
-          <ion-input style="border: 1px solid #cccccc;padding:2px" type="text" formControlName="contact_name_5" [(ngModel)]="contact_name_5"
-            (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_5" [(ngModel)]="contact_name_5"
+          (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
         </ion-item>
-
-        <ion-item *ngIf="cont5">
+        <!--(keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"-->
+        <!-- <ion-item *ngIf="cont5">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation5}}" [disabled]="readOnly" (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"
             type="text" formControlName="primary_5" [(ngModel)]="primary_5" style="width: 15%;     left: -132px;     top: 7px;     position: relative; padding: 2px;"></ion-input>
           <ion-input [disabled]="readOnly" type="text" formControlName="contact_number_5" (keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"
             [(ngModel)]="contact_number_5" style="width: 83%;     float: right;     border: 1px solid #cccccc;     position: relative;     left: 27px;     top: -34px;     padding: 2px;"></ion-input>
 
+        </ion-item> -->
+
+
+        <ion-item *ngIf="cont5">
+          <ion-label stacked>Contact Number</ion-label>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_5" [(ngModel)]="contact_number_5" (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
         </ion-item>
+
 
 
       </ion-list>

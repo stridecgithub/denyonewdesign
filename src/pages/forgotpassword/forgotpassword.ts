@@ -106,7 +106,8 @@ export class ForgotpasswordPage {
               if (res.msg[0].Error > 0) {
                 this.conf.sendNotification(res.msg[0].result);
               } else {
-                this.conf.sendNotification('Forgot password has been sending your registered email id.');
+                this.conf.sendNotification(res.msg[0].result);
+               // this.conf.sendNotification('Forgot password has been sending your registered email id.');
                 this.nav.setRoot(LoginPage);
               }
           }

@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-      <ion-list>
+      <ion-list style="margin-bottom:20px;">
 
 
         <ion-item>
@@ -67,12 +67,12 @@
 
 
 
-        <ion-item class="dati"  *ngIf="servicedatetimefield">
+        <ion-item class="dati" *ngIf="servicedatetimefield">
           <ion-label stacked>Date & Time</ion-label>
-          <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
+          <ion-datetime (ionChange)="CalendarfutureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
             class="next-service-cal-icon" min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
         </ion-item>
-
+        
 
         <ion-item *ngIf="alldayeventhide">
           <ion-label stacked style="color: #999">All-day Event</ion-label>
@@ -111,23 +111,19 @@
 
 
 
-        <ion-item>
+        <ion-item class="no-border">
           <ion-label stacked>Description</ion-label>
           <!--ion-textarea type="text" name="to" id="to" class="suggest form-control" class="form-control" rows="8" [disabled]="readOnly"
             formControlName="event_notes" [(ngModel)]="event_notes" style="height: 100px;
     width: 281px;"></ion-textarea-->
         </ion-item>
-        <textarea style="width: 91%;
-        margin-left: 4%;
-        background-color: #f8f8f8;
-        border: 1px solid #cccccc;
-        height: 71px;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
+        <textarea style="width:91%;margin-left:4%;background-color:#f8f8f8;border-bottom:1px solid #cccccc;height:55px;border-left:none;border-right:none;border-top:none;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to"
           onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="event_notes"
           [(ngModel)]="event_notes"></textarea>
 
       </ion-list>
     </div>
-
+    <!-- <div class="error">{{futuredatemsg}}</div> -->
     <div class="save-btn">
       <button ion-button color="primary" text-center block [disabled]="!form.valid  || isSubmitted">Save</button>
 

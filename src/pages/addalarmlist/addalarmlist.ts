@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform,ModalController } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { AlarmlistdetailPage } from '../alarmlistdetail/alarmlistdetail';
 import { AlarmPage } from '../alarm/alarm';
 import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
@@ -265,7 +264,9 @@ export class AddalarmlistPage {
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;
-            this.conf.sendNotification(`successfully Assigned`);
+            console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
+            //this.conf.sendNotification(`Successfully assigned`);
+            this.conf.sendNotification(data.json().msg[0].result);
             localStorage.setItem("userPhotoFile", "");
             
             if (this.NP.get("record") == 'alarm') {
@@ -289,20 +290,7 @@ export class AddalarmlistPage {
   }
 
   previous() {
-    if (this.NP.get("from") == 'alarm') {
-     this.navCtrl.setRoot(AlarmlistdetailPage,
-        {
-          record: this.NP.get("record")
-        });
-    }
-    else if (this.NP.get("from") == 'comment') {
-     this.navCtrl.setRoot(CommentsinfoPage);
-    } else {
-     this.navCtrl.setRoot(AlarmlistdetailPage,
-        {
-          record: this.NP.get("record")
-        });
-    }
+ 
   }
   notification() {
    this.navCtrl.setRoot(NotificationPage);

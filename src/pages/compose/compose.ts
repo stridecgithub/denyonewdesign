@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { AlertController, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -10,7 +10,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
-//declare var jQuery: any;
+declare var jQuery: any;
+declare var mention: any;
 /**
  * Generated class for the ComposePage page.
  *
@@ -18,7 +19,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-compose',
   templateUrl: 'compose.html',
@@ -74,7 +75,7 @@ export class ComposePage {
   composemessagecontent;
   subject;
   to;
- // tabBarElement: any;
+  // tabBarElement: any;
   isopenorclose = 1;
   close = 0;
   open = 1;
@@ -92,9 +93,10 @@ export class ComposePage {
       subject: ['', Validators.required],
       composemessagecontent: ['', Validators.required],
       copytome: [''],
-      to: ['']
+      to: ['', Validators.required]
 
     });
+    this.getPrority(0);
     this.apiServiceURL = conf.apiBaseURL();
     this.message_priority = 0;
     this.nowuploading = 0;
@@ -138,7 +140,7 @@ export class ComposePage {
   }
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    console.log("Message Id"+messageid);
+    console.log("Message Id" + messageid);
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
@@ -156,10 +158,13 @@ export class ComposePage {
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');
     this.doAttachmentResources(this.micro_timestamp);
-    console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
-    this.messageid = this.navParams.get("record").message_id;
+    if (this.navParams.get("record") != undefined) {
+      console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
+      this.messageid = this.navParams.get("record").message_id;
+      this.replyall = this.navParams.get("record").replyall;
+    }
     this.act = this.navParams.get("action");
-    this.replyall = this.navParams.get("record").replyall;
+
     console.log("REply all:" + this.replyall);
     console.log("Action" + this.act);
     this.choice = this.navParams.get("from");
@@ -294,37 +299,52 @@ export class ComposePage {
       }
     }
     // Atmentioned API Calls
-    let
+    let body: string = '',
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=" + this.companyId + "&userId=" + this.userId;
+      url: any = this.apiServiceURL + "/messagehashtags?companyId=" + this.companyId + "&loginid=" + this.userId;
     console.log(url);
     this.http.get(url, options)
+
+    // let body: string = param,
+
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url + "?" + body);
+
+    this.http.post(url, body, options)
+
       .subscribe(data => {
+        let res;
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.atmentioneddata = data.json();
-          console.log(this.atmentioneddata);
-          // jQuery('#to').tagEditor({
-          //   autocomplete: {
-          //     delay: 0,
-          //     position: { collision: 'flip' },
-          //     source: this.atmentioneddata,
-          //     delimiter: ',;'
-          //   },
-          //   forceLowercase: false
-          // });
+         // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        }
-        // Otherwise let 'em know anyway
-        else {
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
+          }
+          // Otherwise let 'em know anyway
+        } else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
 
       })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".to").mention({
+      users: this.atmentioneddata
+    });
     // Atmentioned API Calls
 
 
@@ -454,7 +474,7 @@ export class ComposePage {
   }
 
   selectEntry(item) {
-    
+
     console.log(JSON.stringify(item));
     //if (this.nowuploading == 0) {
     this.totalFileSize = item.totalfilesize;
@@ -481,15 +501,15 @@ export class ComposePage {
   // When form submitting the below function calling
   saveEntry() {
 
-    // let to = jQuery('#to').tagEditor('getTags')[0].tags;
+    // let to = jQuery('.to').tagEditor('getTags')[0].tags;
     // console.log(to.length);
     // if (to.length == 0) {
     //   this.conf.sendNotification(`To address required`);
     //   return false;
     // }
-
+    let to = $('.to').val();
     if (this.isUploadedProcessing == false) {
-      let to: string = this.form.controls["to"].value,
+      let //to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
@@ -535,14 +555,14 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-      let to = $("#to").val();
+      let to = $(".to").val();
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent +
-        "&copytome=" + copytome +
+        "&composemessagecontent='" + composemessagecontent.toString() +
+        "'&copytome=" + copytome +
         "&submit=" + isrepfor +
         "&forwardmsgid=" + this.messageid +
         "&subject=" + subject;
@@ -553,8 +573,8 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent +
-        "&copytome=" + copytome +
+        "&composemessagecontent='" + composemessagecontent.toString() +
+        "'&copytome=" + copytome +
         "&subject=" + subject;
       urlstring = this.apiServiceURL + "/messages/store";
     }
@@ -577,6 +597,10 @@ export class ComposePage {
           //localStorage.setItem("atMentionResult", '');
           // this.navCtrl.setRoot(MessagesPage);
           // return false;
+
+          this.conf.sendNotification(data.json().msg[0]['result']);
+          this.navCtrl.setRoot(MessagesPage);
+
         }
         // Otherwise let 'em know anyway
         else {
@@ -585,9 +609,8 @@ export class ComposePage {
       });
     localStorage.setItem("microtime", "");
     // localStorage.setItem("atMentionResult", '');
-    this.conf.sendNotification(`Message sending successfully`);
+    //this.conf.sendNotification(`Message sending successfully`);
 
-    this.navCtrl.setRoot(MessagesPage);
   }
   fileChooser(micro_timestamp) {
 
@@ -730,6 +753,7 @@ export class ComposePage {
         let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
+
         console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
         let imgSrc;
         if (this.messageid == undefined) {
@@ -787,23 +811,25 @@ export class ComposePage {
   getPrority(val) {
     console.log("getPrority function calling:-" + val);
 
-    this.priority_highclass = '0';
-    this.priority_lowclass = '0';
+
     if (val == "2") {
-      // this.priority_highclass = "1";
+      console.log('val A:' + val);
       this.activelow = "0";
       this.activehigh = "1";
       this.normallow = "0";
       this.activenormal = "1";
-    }
-    if (val == "1") {
-      this.priority_lowclass = "1";
-
+    } else if (val == "1") {
+      console.log('val B:' + val);
       this.activelow = "1";
       this.activehigh = "0";
       this.normallow = "1";
       this.activenormal = "0";
-
+    } else {
+      console.log('val C:' + val);
+      this.activelow = "0";
+      this.activehigh = "0";
+      this.normallow = "0";
+      this.activenormal = "0";
     }
 
 
@@ -871,8 +897,9 @@ export class ComposePage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`File was successfully deleted`);
+          // this.conf.sendNotification(`File was successfully deleted`);
           //this.doImageResources(service_id);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.doAttachmentResources(this.micro_timestamp);
         }
         // Otherwise let 'em know anyway

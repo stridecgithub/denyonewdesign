@@ -86,7 +86,7 @@ export class EditprofilesteponePage {
       "job_position": ["", Validators.required],
       "company_id": ["", Validators.required],
       "report_to": ["", Validators.required],
-      "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+      //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
     });
     this.userId = localStorage.getItem("userInfoId");
@@ -150,9 +150,10 @@ export class EditprofilesteponePage {
         this.photo = res.settings[0].photo_filename;
         localStorage.setItem("photofromgallery", this.photo);
         if (this.contact != undefined) {
-          let contactSplitSpace = this.contact.split(" ");
-          this.primary = contactSplitSpace[0];
-          this.contact = contactSplitSpace[1];
+          // let contactSplitSpace = this.contact.split(" ");
+          // this.primary = contactSplitSpace[0];
+          // this.contact = contactSplitSpace[1];
+          this.contact = this.contact;
         }
 
         this.email = res.settings[0].email;
@@ -163,9 +164,10 @@ export class EditprofilesteponePage {
         this.country = res.settings[0].country_id;
         this.company_id = res.settings[0].company_id;
         this.report_to = res.settings[0].report_to;
-        if (this.company_id > 0) {
-          this.getUserListData(this.company_id);
-        }
+        console.log("this.report_to "+this.report_to );
+        //if (this.company_id > 0) {
+          this.getUserListData();
+       // }
 
         this.job_position = res.settings[0].job_position;
 
@@ -307,7 +309,8 @@ export class EditprofilesteponePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          this.conf.sendNotification(`Company group: ${first_name} was successfully deleted`);
+          //this.conf.sendNotification(`Company group was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
         }
         // Otherwise let 'em know anyway
         else {
@@ -338,13 +341,14 @@ export class EditprofilesteponePage {
         password: string = this.form.controls["password"].value,
         email: string = this.form.controls["email"].value,
         contact: string = this.form.controls["contact"].value,
-        primary: string = this.form.controls["primary"].value,
+       // primary: string = this.form.controls["primary"].value,
         //country: string = this.form.controls["country"].value,
         hashtag: string = this.form.controls["hashtag"].value,
         job_position: string = this.form.controls["job_position"].value,
         company_id: string = this.form.controls["company_id"].value,
         report_to: string = this.form.controls["report_to"].value;
-      contact = primary + " " + contact;
+      //contact = primary + " " + contact;
+      contact = contact;
       console.log("Contact Concatenate" + contact);
       console.log(this.form.controls);
       console.log("this.isUploadedProcessing" + this.isUploadedProcessing);
@@ -600,13 +604,13 @@ export class EditprofilesteponePage {
 
   }
 
-  getUserListData(companyid) {
+  getUserListData() {
     if (this.isEdited == true) {
-      this.userId = this.recordID;
+      //this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)
@@ -620,6 +624,7 @@ export class EditprofilesteponePage {
           else {
             this.len = res.TotalCount;
           }
+          console.log("this.len:"+this.len)
           console.log("length" + res.TotalCount);
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
@@ -631,7 +636,7 @@ export class EditprofilesteponePage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
       console.log("Report To API:" + url)
       this.http.get(url, options)

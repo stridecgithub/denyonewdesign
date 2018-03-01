@@ -49,7 +49,8 @@
 
         <span class="initial"  [ngStyle]="{'background-color': '#' + unitgroup.colorcode}">{{unitgroup.cname}}</span>
     
-
+        <div class="date-time">{{unitgroup.createdOn}}</div>
+      
         <button (click)="favorite(unitgroup.unitgroup_id)" class="{{unitgroup.favoriteindication}}" style="float: right ;width:30px;height:30px;background-color:#ffffff"></button>
         <div class="group-info">
           <h2>
@@ -83,8 +84,10 @@
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitgroupAllLists.length!=0">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>
 
 <!-- <ion-header style="
     background-color: #00569F;" color="bluedark">

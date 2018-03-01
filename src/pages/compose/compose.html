@@ -9,7 +9,7 @@
     <ion-title>Compose</ion-title>
     <div class="right-header-btns">
       <button class="send" (click)="saveEntry()" ion-button color="primary" text-center block [disabled]="!form.valid || isSubmitted">
-        <img width="21px" src="assets/imgs/plane@2x.png" alt="">
+        <img style="margin-top:0;" width="21px" src="assets/imgs/plane@2x.png" alt="">
       </button>
     </div>
   </ion-toolbar>
@@ -26,24 +26,8 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;">
-
-        <ion-list>
-          <ion-item style="background-color: #f8f8f8;">
-            <textarea style="width: 388px;
-    position: absolute;
-    top: 0px;
-    border: 0px;
-    background-color: #f8f8f8;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control"
-              onkeyup="message(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="to"
-              [(ngModel)]="to" row="10"></textarea>
-
-            <!-- <textarea style="width: 388px;
-      position: absolute;
-     top: 0px;
-     border: 0px;
-     background-color: #f8f8f8;" name="to" id="to" class="to" formControlName="to" [(ngModel)]="to" row="10"></textarea> -->
-
-          </ion-item>
+        <ion-list style="position:relative;">
+             <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="alarmnotificationlist" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;">
         </ion-list>
 
       </div>
@@ -54,10 +38,7 @@
         <ion-checkbox formControlName="copytome" [(ngModel)]="copytome"></ion-checkbox>
       </ion-item>
 
-      <!-- <ion-icon ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
-      font-size: 27px;
-      left: 73%;
-      top: 2%;position:absolute"></ion-icon> -->
+     
       <div style="
       font-size: 27px;
       left: 83%;
@@ -95,10 +76,7 @@
 
 
 
-      <!-- <ion-icon ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
-      font-size: 27px;
-      left: 85%;
-      top: 2%;position:absolute"></ion-icon> -->
+
 
       <ion-item>
         <ion-label stacked>Subject</ion-label>
@@ -107,13 +85,13 @@
 
       <ion-item>
         <ion-label stacked>Message</ion-label>
-        <ion-textarea id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
+        <ion-textarea rows="20" id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
       </ion-item>
 
 
       <div style="position: absolute;
     right: 2%;
-    top: 43%;">
+    top: 24%;">
         <button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded">
           <!-- <ion-icon name="attach"></ion-icon> Attach -->
           <img class="icon-size-one" src="assets/imgs/attach_icon.png">   Attach</button>
@@ -146,7 +124,7 @@
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>
 
-        <button (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
+        <button  *ngIf="act=='reply' && act=='forward' && act=='replytoall'"  (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
             <ion-icon name="download"></ion-icon>
           </button>
       </div>

@@ -42,6 +42,7 @@
 <ion-content>
  <!-- <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(iframeContent)"></div> -->
  <iframe width="100%"  height="500" [src]="iframeContent" frameborder="0"></iframe>
- <progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
-
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>

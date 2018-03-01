@@ -57,10 +57,10 @@
   <div class="info">
     <img class="grl" *ngIf="senderphoto!=''" src="{{senderphoto}}" width="28" height="28">
     <img class="grl" *ngIf="senderphoto==''" src="{{apiServiceURL}}/images/default.png" width="28" height="28" alt="No Photo">
-   
+
     <div class="msg-info">
       <div class="user-name">{{sendername}}</div>
-      <div class="p"  *ngIf="receiver_id!=''">to {{receiver_id}}</div>
+      <div class="p" *ngIf="receiver_id!=''">to {{receiver_id}}</div>
       <div class="time-date">{{message_date_mobileview}}</div>
     </div>
     <div class="list-icon">
@@ -79,18 +79,26 @@
       <button (click)="doDetail(detailItem,addedImgLists[i],'MessagedetailPage',from,favstatus,message_readstatus,messageid)">
         <img src="assets/imgs/dots.png" width="25">
       </button>
-      <ion-icon  *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
+      <!-- <ion-icon  *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)" style="
       left:90%;
       top: 16%;
       position: absolute;"></ion-icon>
       <ion-icon  *ngIf="priority_highclass!=''"  ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
       left: 90%;
       top: 16%;
-      position: absolute;"></ion-icon>
-      <div class="frwd-rply"  *ngIf="openpop>0">
+      position: absolute;"></ion-icon> -->
+      <img *ngIf="priority_image!=''" src="assets/imgs/{{priority_image}}" style="background-size: 82%;
+      width: 34px;
+      height: 34px;
+      position: absolute;
+      margin-left: 6%;
+      margin-top: 30px;">
+
+
+      <div class="frwd-rply" *ngIf="openpop>0">
         <button (click)="action(detailItem,'reply',from)" style="text-align:left">Reply</button>
-        <button (click)="action(detailItem,'replytoall',from)"  style="text-align:left">Reply to all</button>
-        <button (click)="action(detailItem,'forward',from)"  style="text-align:left">Forward</button>
+        <button (click)="action(detailItem,'replytoall',from)" style="text-align:left">Reply to all</button>
+        <button (click)="action(detailItem,'forward',from)" style="text-align:left">Forward</button>
       </div>
     </div>
   </div>
@@ -99,7 +107,7 @@
     <div class="subject-item">{{messages_body_html}}</div>
   </div>
 
-  <div class="attachment"  *ngIf="addedImgLists.length>0">
+  <div class="attachment" *ngIf="addedImgLists.length>0">
     <div class="attach" (click)="toggle(isopenorclose)">
       <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
       <button>

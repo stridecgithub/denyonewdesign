@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform,  NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -14,7 +14,6 @@ import { NotificationPage } from '../notification/notification';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-event-details',
   templateUrl: 'event-details.html',
@@ -75,6 +74,7 @@ export class EventDetailsPage {
           this.projectname = data.json().alarms[0].projectname;
           this.location = data.json().alarms[0].location;
           this.alarm_color_code = data.json().alarms[0].alarm_color_code;
+          console.log(this.alarm_color_code);
           this.alarm_priority = data.json().alarms[0].alarm_priority;
           this.item = data.json().alarms[0];
           console.log(JSON.stringify(this.item));
@@ -99,7 +99,7 @@ export class EventDetailsPage {
       }
     }
     else {
-      this.conf.sendNotification("Already Assigned");
+      this.conf.sendNotification("Alarm already assigned");
     }
   }
   previous() {

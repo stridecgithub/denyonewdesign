@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -10,7 +10,7 @@ import { EventDetailsServicePage } from '../event-details-service/event-details-
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 import { ModalPage } from '../modal/modal';
-
+import { ServicedetailsPage } from "../servicedetails/servicedetails";
 /**
  * Generated class for the CommentsinfoPage page.
  *
@@ -18,7 +18,8 @@ import { ModalPage } from '../modal/modal';
  * Ionic pages and navCtrligation.
  */
 
-@IonicPage() @Component({
+
+@Component({
   selector: 'page-commentsinfo',
   templateUrl: 'commentsinfo.html',
   providers: [Config]
@@ -331,19 +332,34 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 's') {
-      this.navCtrl.setRoot(ServicingDetailsPage, {
-        record: item,
+      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //   record: item,
        
-        from: 'commentinfo',
+      //   from: 'commentinfo',
+      // });
+
+      this.navCtrl.setRoot(ServicedetailsPage, {
+        record: item,
+        act: 'Edit',
+        from: 'commentinfo'
       });
+
+      
     }
 
     if (type.toLowerCase() == 'r') {
-      this.navCtrl.setRoot(ServicingDetailsPage, {
+      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //   record: item,
+      //   act: 'Edit',
+      //   from: 'commentinfo',
+      // });
+
+      this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
-        from: 'commentinfo',
+        from: 'commentinfo'
       });
+  
     }
 
 
@@ -358,7 +374,7 @@ export class CommentsinfoPage {
         });
       }
       else {
-        this.conf.sendNotification("Already Assigned");
+        this.conf.sendNotification("Alarm already assigned");
       }
     }
     /*
@@ -489,7 +505,8 @@ export class CommentsinfoPage {
           // If the request was successful notify the user
           if (data.status === 200) {
 
-            this.conf.sendNotification(`Comments was successfully deleted`);
+           // this.conf.sendNotification(`Comments was successfully deleted`);
+           this.conf.sendNotification(data.json().msg[0]['result']);
           }
           // Otherwise let 'em know anyway
           else {
@@ -510,8 +527,8 @@ export class CommentsinfoPage {
         .subscribe(data => {
           // If the request was successful notify the user
           if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
+           // this.conf.sendNotification(`Service was successfully deleted`);
           }
           // Otherwise let 'em know anyway
           else {
@@ -533,8 +550,8 @@ export class CommentsinfoPage {
         .subscribe(data => {
           // If the request was successful notify the user
           if (data.status === 200) {
-
-            this.conf.sendNotification(`Service was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
+            //this.conf.sendNotification(`Service was successfully deleted`);
           }
           // Otherwise let 'em know anyway
           else {

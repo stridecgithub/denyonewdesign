@@ -106,10 +106,10 @@
 
       <ion-list>
         <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists">
-          <ion-item>
-            <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}"  (click)="doAction(unit,'detail',unit.unit_id)">{{unit.companygroup_name}}</span>
-            <span class="status" ngClass="{{unit.genstatus}}"  (click)="doAction(unit,'detail',unit.unit_id)"></span> {{unit.unitname}}
-            <div class="list-desc"  (click)="doAction(unit,'detail',unit.unit_id)">{{unit.projectname}}</div>
+          <ion-item  (click)="doAction(unit,'detail',unit.unit_id)">
+            <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
+            <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.unitname}}
+            <div class="list-desc">{{unit.projectname}}</div>
             <div class="list-favorite">
               <!-- <button style="text-align:right;" (click)="presentModal(unit)">
                   <img class="icon-size" src="assets/imgs/map.png">
@@ -145,5 +145,8 @@
 </ion-infinite-scroll>
 
 
-<progress-bar [progress]="footerBar"></progress-bar>
 </ion-content>
+<ion-footer>
+<progress-bar [progress]="footerBar"></progress-bar>
+</ion-footer>
+

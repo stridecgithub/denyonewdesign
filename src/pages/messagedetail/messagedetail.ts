@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, IonicPage, NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -17,7 +17,7 @@ import { stringify } from '@angular/compiler/src/util';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-messagedetail',
   templateUrl: 'messagedetail.html',
@@ -70,6 +70,7 @@ export class MessagedetailPage {
   openpop = 0;
   delete_icon_only = '1';
   message_readstatus;
+  priority_image
   favstatus: any; // 0 is unfavorite 1 is favorite
   // For Messages
   constructor(private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
@@ -227,7 +228,7 @@ export class MessagedetailPage {
   }
 */
   selectEntry(item) {
-
+    this.priority_image='';
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
       "&message_id=" + item.message_id + "&frompage=inbox",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -250,15 +251,19 @@ export class MessagedetailPage {
         }
       });
     console.log(JSON.stringify(item));
+    this.priority_image='';
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
     this.messageid = item.message_id;
+    this.priority_image = item.priority_image;
+    
     this.replyall = item.replyall;
     console.log('replyall' + this.replyall);
     this.priority_highclass = '';
     this.priority_lowclass = '';
+    console.log("item.message_priority"+item.message_priority )
     if (item.message_priority == "2") {
       this.priority_highclass = "border-high";
     } else {
@@ -269,6 +274,14 @@ export class MessagedetailPage {
     } else {
       this.priority_lowclass = "";
     }
+
+    if (item.message_priority == "0") {
+      this.priority_lowclass = "";
+    } else {
+      this.priority_lowclass = "";
+    }
+
+    console.log("this.priority_lowclass:-"+this.priority_lowclass);
 
     this.favstatus = this.navParams.get('favstatus');
     this.message_readstatus = this.navParams.get('message_readstatus');
@@ -498,7 +511,8 @@ export class MessagedetailPage {
         }
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification('Favorite updated successfully');
+          this.conf.sendNotification(data.json().msg.result);
+         // this.conf.sendNotification('Favorite updated successfully');
           // this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
@@ -534,7 +548,8 @@ export class MessagedetailPage {
         }
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification('Favorite updated successfully');
+          this.conf.sendNotification(data.json().msg.result);
+         // this.conf.sendNotification('Favorite updated successfully');
           // this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
@@ -733,8 +748,8 @@ export class MessagedetailPage {
         if (data.status === 200) {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
-          this.conf.sendNotification(`Message sending successfully`);
-
+        //  this.conf.sendNotification(`Message sending successfully`);
+        this.conf.sendNotification(data.json().msg[0]['result']);
 
           this.addedImgLists = [];
           this.to = '';

@@ -1,5 +1,19 @@
-
 page-unitdetails {
+.b-gauge__label {
+	font-size: 0.7em;
+}
+.sel-big {
+	margin: -15px auto 10px;
+    font-size: 17px;
+    width: 100%;
+    max-width: 53%;
+	top: inherit;
+    left: inherit;
+	position: relative;
+}
+.select-md .select-icon .select-icon-inner {
+	margin-top: -6px;
+}
 .select-text {
 	font-weight: 600;
 }

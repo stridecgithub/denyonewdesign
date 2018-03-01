@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import {  NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -28,7 +28,7 @@ import { CommentreplyPage } from '../commentreply/commentreply';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-eventsandcomments',
   templateUrl: 'eventsandcomments.html',
@@ -283,7 +283,8 @@ export class EventsandcommentsPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Units was successfully deleted`);
+          //this.conf.sendNotification(`Units was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
@@ -374,9 +375,11 @@ export class EventsandcommentsPage {
         if (data.status === 200) {
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavorited successfully");
+           // this.conf.sendNotification("Unfavorited successfully");
+           this.conf.sendNotification(res.msg[0]['result']);
           } else {
-            this.conf.sendNotification("Favorited successfully");
+           // this.conf.sendNotification("Favorited successfully");
+           this.conf.sendNotification(res.msg[0]['result']);
           }
 
 
@@ -973,7 +976,8 @@ export class EventsandcommentsPage {
 
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.sendNotification(`Dashboard hide action successfully updated`);
+         // this.conf.sendNotification(`Dashboard hide action successfully updated`);
+         this.conf.sendNotification(data.json().msg[0]['result']);
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();

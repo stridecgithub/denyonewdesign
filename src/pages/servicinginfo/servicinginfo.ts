@@ -475,7 +475,8 @@ export class ServicinginfoPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-          this.conf.sendNotification(`Service details deleted successfully`);
+         // this.conf.sendNotification(`Service details deleted successfully`);
+         this.conf.sendNotification(data.json().msg[0]['result']);
           if (from == 'upcoming') {
             this.upcomingData.startindex = 0;
             this.upcomingAllLists = [];
@@ -619,16 +620,16 @@ export class ServicinginfoPage {
 
         if (res.services.length > 0) {
           for (let serviceData in res.services) {
-            // this.historyAllLists = res.services;
+             this.historyAllLists = res.services;
 
-            this.historyAllLists.push({
+           /* this.historyAllLists.push({
               "user_photo": res.services[serviceData].user_photo,
               "service_subject": res.services[serviceData].service_subject,
               "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
-              "service_created_name": res.services[serviceData].service_created_name,
-              "service_created_name_hastag": res.services[serviceData].service_created_name_hastag != undefined ? "(" + res.services[serviceData].service_created_name_hastag + ")" : '',
+              "serviced_created_name": res.services[serviceData].serviced_created_name,
+              "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag_withinclosedbracket != undefined ? res.services[serviceData].serviced_created_name_hastag_withinclosedbracket : '',
               "serviced_by_name": res.services[serviceData].serviced_by_name,
-              "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag != undefined ? "(" + res.services[serviceData].serviced_by_name_hastag + ")" : '',
+              "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag_withinclosedbracket != undefined ?   res.services[serviceData].serviced_by_name_hastag_withinclosedbracket  : '',
               "is_denyo_support": res.services[serviceData].is_denyo_support,
               "is_request": res.services[serviceData].is_request,
               "service_remark": res.services[serviceData].service_remark,
@@ -643,7 +644,7 @@ export class ServicinginfoPage {
               "service_status": res.services[serviceData].service_status,
               "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
               "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
-            });
+            });*/
           }
 
           this.totalCounthistory = res.totalCounthistory;
