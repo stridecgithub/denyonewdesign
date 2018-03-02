@@ -519,7 +519,7 @@ export class AddcommentsinfoPage {
   // for the record data
   createEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-    comments = localStorage.getItem("atMentionResult");
+   // comments = localStorage.getItem("atMentionResult");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -583,9 +583,9 @@ export class AddcommentsinfoPage {
   // for the record data
   updateEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-    if (localStorage.getItem("atMentionResult") != '') {
-      comments = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   comments = localStorage.getItem("atMentionResult");
+    // }
     if (this.service_priority == undefined) {
       this.service_priority = 0;
     }

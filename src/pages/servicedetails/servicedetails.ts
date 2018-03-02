@@ -380,7 +380,7 @@ export class ServicedetailsPage {
           }, error => {
     
           })
-          jQuery('#description').triggeredAutocomplete({
+          jQuery('.description').triggeredAutocomplete({
             hidden: '#hidden_inputbox',
             source: this.atmentioneddata
           });
@@ -606,6 +606,8 @@ export class ServicedetailsPage {
 
       let service_remark = jQuery(".service_remark").val();
       let description = jQuery(".description").val();
+      console.log("Service service_remark:"+service_remark);
+      console.log("Service Description:"+description);
       let
         //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
@@ -632,9 +634,9 @@ export class ServicedetailsPage {
 
 
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }

@@ -689,7 +689,7 @@ export class AdduserPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       // url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"comapnyid="+this.companyId;
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId;
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=";
     let res;
     this.http.get(url, options)
       .subscribe(data => {
