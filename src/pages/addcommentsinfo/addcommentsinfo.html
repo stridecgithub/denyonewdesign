@@ -33,22 +33,18 @@
     </ion-row>
   
     <div class="servicing-details-form">
-      <ion-list style="margin-bottom: 0">
-  
-        <ion-item style="border: none">
+      <ion-list style="margin-bottom:0">
+        <ion-item style="border:none;margin:0 auto;display:table;width:92%;padding:0;">
           <ion-label stacked>Subject</ion-label>
-          <ion-input type="text" formControlName="comment_subject" [(ngModel)]="comment_subject"></ion-input>   </ion-item>
+          <ion-input style="border-bottom:1px solid #dedede;margin-right:0;margin-bottom:0px;" type="text" formControlName="comment_subject" [(ngModel)]="comment_subject"></ion-input>   </ion-item>
       </ion-list>
     </div>
   
     <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
       <ion-list style="margin-bottom: 0">
-  
-  
-        <ion-item style="border: none">
+        <ion-item style="border: none;" class="no-line">
           <ion-label stacked>Remark</ion-label>
           <!--ion-textarea style="border-bottom: 1px solid #dedede"></ion-textarea-->
-         
         </ion-item>
          <!-- <textarea  style="width: 91%;
          margin-left: 4%;
@@ -62,7 +58,7 @@
                     <div class="unit-form-group" style="background-color: #f8f8f8;">
                       <div class="inner-div" style="background-color: #f8f8f8;">
                         <ion-list style="position:relative;">
-                             <textarea formControlName="comment_remark" [(ngModel)]="comment_remark" type="text" class="comment_remark" value="" name="comment_remark" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                             <textarea formControlName="comment_remark" [(ngModel)]="comment_remark" type="text" class="comment_remark" value="" name="comment_remark" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
                         </ion-list>
                 
                       </div>
@@ -70,7 +66,7 @@
       </ion-list>
     </div>
   
-    <ion-row class="attachment-row" style="border-bottom: none; padding-left: 5px; border-top: none">
+    <ion-row class="attachment-row" style="border-bottom: none; padding-left:10px;padding-right:10px; border-top: none">
       <ion-col class="col" col-12>
         <h6 style="margin-bottom: 0; margin-top: 0">Attachments</h6>
       </ion-col>
@@ -79,7 +75,7 @@
     <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
           <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
   
-    <ion-row class="attachment-row" style="border-top: none"  *ngIf="addedServiceImgLists.length==0">
+    <ion-row class="attachment-row" style="border-top: none;padding-left:10px;padding-right:10px;"  *ngIf="addedServiceImgLists.length==0">
       <ion-col class="col" col-12 style="padding: 10px 5px">
         <button  (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
       </ion-col>

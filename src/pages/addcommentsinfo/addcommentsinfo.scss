@@ -3,6 +3,9 @@ page-addcommentsinfo {
  	ion-content .scroll-content {
 		margin-bottom: 0;
 	}
+	.no-line .item-inner {
+		border-bottom: none!important;
+	}
     .servicing-details-heading {
         padding: 10px 5px 5px 5px;
         h4 {
@@ -13,8 +16,9 @@ page-addcommentsinfo {
       .servicing-details-form {
         background: #F8F8F8;
         border-top: 1px solid #dedede;
-        border-bottom: 1px solid #dedede;
-        padding-bottom: 1px;
+        border-bottom: 0px solid #dedede;
+    	padding-bottom: 0;
+    	overflow: hidden;
         ion-item {
           background-color: transparent;
           padding: 0 15px;
@@ -100,7 +104,7 @@ page-addcommentsinfo {
     
       }
       .save-btn {
-        padding: 20px;
+        padding: 20px 40px;
         button {
           background-color: color($app-brand-colors, azure-radiance);
           border-radius: 0;

@@ -14,7 +14,7 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content> 
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
     <ion-row style="background-color: #f8f8f8;">
       <ion-col class="col" col-12 style="background-color: #f8f8f8;">
@@ -26,6 +26,14 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;">
+      
+      <div class="container">
+          <div class="backdrop">
+            <div class="highlights"></div>
+          </div>
+          <textarea></textarea>
+      </div>
+      
         <ion-list style="position:relative;">
              <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="alarmnotificationlist" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;">
         </ion-list>
