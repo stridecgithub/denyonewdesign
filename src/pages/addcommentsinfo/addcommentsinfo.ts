@@ -393,7 +393,7 @@ export class AddcommentsinfoPage {
             for (let staff in res.staffs) {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
-                name: res.staffs[staff].name,
+                name:res.staffs[staff].name,
               });
             }
           }
