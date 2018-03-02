@@ -38,9 +38,7 @@
           <ion-label stacked>Subject</ion-label>
           <ion-input style="border-bottom:1px solid #dedede;margin-right:0;margin-bottom:0px;" type="text" formControlName="comment_subject" [(ngModel)]="comment_subject"></ion-input>   </ion-item>
       </ion-list>
-    </div>
   
-    <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
       <ion-list style="margin-bottom: 0">
         <ion-item style="border: none;" class="no-line">
           <ion-label stacked>Remark</ion-label>
@@ -58,13 +56,23 @@
                     <div class="unit-form-group" style="background-color: #f8f8f8;">
                       <div class="inner-div" style="background-color: #f8f8f8;">
                         <ion-list style="position:relative;">
-                             <textarea formControlName="comment_remark" [(ngModel)]="comment_remark" type="text" class="comment_remark" value="" name="comment_remark" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                        
+                        <div class="container">
+                          <div class="backdrop">
+                            <div class="highlights"></div>
+                          </div>
+                          <textarea formControlName="comment_remark" [(ngModel)]="comment_remark" type="text" class="comment_remark" value="" name="comment_remark"></textarea>
+                        </div>
+                        
+                             
+                             
+                             
+                             
                         </ion-list>
                 
                       </div>
                     </div>
       </ion-list>
-    </div>
   
     <ion-row class="attachment-row" style="border-bottom: none; padding-left:10px;padding-right:10px; border-top: none">
       <ion-col class="col" col-12>
@@ -94,7 +102,7 @@
         <button (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>
       </ion-col>
     </ion-row>
-  
+  </div>
   
    
   
