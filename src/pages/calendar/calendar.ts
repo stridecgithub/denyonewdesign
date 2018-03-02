@@ -153,6 +153,7 @@ export class CalendarPage {
   constructor(private conf: Config, public platform: Platform, private dragulaService: DragulaService, public navCtrl: NavController,
     private calendarElement: ElementRef,
     public events: Events, private http: Http, public alertCtrl: AlertController) {
+    localStorage.setItem("sdate", "");
     console.log("Weekdays console.log" + this.weekDays);
     let currentDate = new Date();
     this.currentDataHighlights = '';
@@ -202,6 +203,7 @@ export class CalendarPage {
 
   }
   ionViewDidLoad() {
+    localStorage.setItem("sdate", "");
     this.doNotifiyCount();
     console.log('ionViewDidLoad  CalendarPage');
   }
@@ -765,7 +767,7 @@ export class CalendarPage {
             type: 'event',
             event_type: 'E',
             allDay: true,
-            event_added_by:this.eventIdentify[i]['event_added_by'],
+            event_added_by: this.eventIdentify[i]['event_added_by'],
             icon: 'clock',
             class: 'event',
             iconStyle: { color: 'green' },
@@ -1216,7 +1218,7 @@ export class CalendarPage {
         event_addedby_name: this.eventIdentify[i]['event_addedby_name'],
         formatted_datetime: this.eventIdentify[i]['formatted_datetime'],
         event_time_new: this.eventIdentify[i]['service_scheduled_time'],
-        event_added_by:this.eventIdentify[i]['event_added_by'],
+        event_added_by: this.eventIdentify[i]['event_added_by'],
         event_type: 'E',
         icon: 'alarm', // Icon of the alert. This is compulsory when using the 
         // calendar on small screens, as the name of the event will
@@ -1457,8 +1459,8 @@ export class CalendarPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-         // this.conf.sendNotification(`Service was successfully deleted`);
-         this.conf.sendNotification(data.json().msg[0]['result']);
+          // this.conf.sendNotification(`Service was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
