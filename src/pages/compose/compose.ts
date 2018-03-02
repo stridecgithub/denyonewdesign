@@ -156,9 +156,7 @@ export class ComposePage {
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
 	
-	
-	
-	
+		
 
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');
@@ -255,7 +253,7 @@ export class ComposePage {
           this.subject = this.navParams.get("record").messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
-          //$("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
+          //jQuery("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
         }
 
         this.isReply = 1;

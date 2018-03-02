@@ -15,6 +15,7 @@ import { Config } from '../../config/config';
 declare var jQuery: any;
 declare var mention: any;
 
+
 /**
  * Generated class for the addhocPage page.
  *
@@ -151,8 +152,6 @@ export class AddcommentsinfoPage {
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
 	
-
-
     let already = localStorage.getItem("microtime");
     if (already != undefined && already != 'undefined' && already != '') {
       this.micro_timestamp = already;
