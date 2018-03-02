@@ -26,16 +26,19 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;">
-        <ion-list style="position:relative;">
-             <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="alarmnotificationlist" style="width:90%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;">
-        </ion-list>
-
+      
+      <div class="container">
+      <div class="backdrop">
+        <div class="highlights"></div>
+      </div>
+      <input formControlName="to" [(ngModel)]="to" type="text" class="to men" value="" name="alarmnotificationlist" />
+    </div>
       </div>
     </div>
     <ion-list class="msg-compose" style="position:relative">
       <ion-item class="email-copy" style="width: 59%;">
         <ion-label>Email copy to myself</ion-label>
-        <ion-checkbox formControlName="copytome" [(ngModel)]="copytome"></ion-checkbox>
+        <ion-checkbox formControlName="copytome" [(ngModel)]="copytome" style="margin-right:10px;"></ion-checkbox>
       </ion-item>
 
      
@@ -78,12 +81,12 @@
 
 
 
-      <ion-item>
+      <ion-item style="padding-left:0;margin:0 auto;display:table;width:90%;">
         <ion-label stacked>Subject</ion-label>
         <ion-input type="text" formControlName="subject" [(ngModel)]="subject"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item style="padding-left:0;margin:0 auto;display:table;width:90%;">
         <ion-label stacked>Message</ion-label>
         <ion-textarea rows="20" id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
       </ion-item>
