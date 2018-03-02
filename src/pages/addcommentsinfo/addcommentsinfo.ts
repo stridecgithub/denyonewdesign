@@ -56,6 +56,7 @@ export class AddcommentsinfoPage {
   public minmn;
   public mindt;
   pageTitle;
+
   public comment_remark: any;
   public msgcount: any;
   public notcount: any;
@@ -298,8 +299,8 @@ export class AddcommentsinfoPage {
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
-      options1: any = new RequestOptions({ headers: headers }),
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
     console.log(url1);
     this.http.get(url1, options1)
@@ -338,7 +339,7 @@ export class AddcommentsinfoPage {
 
       })
     console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-    jQuery(".remark").mention({
+    jQuery(".comment_remark").mention({
       users: this.atmentioneddata
     });
 

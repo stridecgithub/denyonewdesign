@@ -46,7 +46,7 @@ export class ServicedetailsPage {
   public mm: any;
   public mn: any;
   public serviced_by: any;
-  atmentioneddata: any;
+  atmentioneddata = [];
   //public serviced_date: any;
   serviced_date: String = new Date().toISOString();
   public serviced_time: any;

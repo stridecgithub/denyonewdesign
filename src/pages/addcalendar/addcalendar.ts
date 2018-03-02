@@ -87,6 +87,7 @@ export class AddcalendarPage {
   private apiServiceURL: string = "";
   private permissionMessage: string = "";
   public networkType: string;
+  atmentioneddata = [];
   //tabBarElement: any;
   constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
@@ -266,9 +267,9 @@ export class AddcalendarPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    this.event_date=localStorage.getItem("sdate");
-    this.event_end_date=localStorage.getItem("sdate");
-   // this.serviced_datetime=localStorage.getItem("sdate");
+    this.event_date = localStorage.getItem("sdate");
+    this.event_end_date = localStorage.getItem("sdate");
+    // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
     if (this.NP.get("item")) {
@@ -393,6 +394,54 @@ export class AddcalendarPage {
     localStorage.setItem("fromModule", "AddcalendarPage");
 
 
+    let body1: string = '',
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type1 }),
+      options1: any = new RequestOptions({ headers: headers1 }),
+      url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.userId;
+    console.log(url1);
+    this.http.get(url1, options1)
+
+    // let body: string = param,
+
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url1 + "?" + body1);
+
+    this.http.post(url1, body1, options1)
+
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
+
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
+          }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".event_notes").mention({
+      users: this.atmentioneddata
+    });
+
+    // Atmentioned API Calls
 
 
   }
@@ -654,10 +703,10 @@ export class AddcalendarPage {
     this.isSubmitted = true;
 
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
-
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
+    service_remark=jQuery(".event_notes");
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -685,7 +734,7 @@ export class AddcalendarPage {
             this.conf.sendNotification(res.msg[0].result);
           } else {
             this.conf.sendNotification(res.msg[0].result);
-            localStorage.setItem("atMentionResult", '');
+            // localStorage.setItem("atMentionResult", '');
             this.navCtrl.setRoot(CalendarPage);
           }
         }
@@ -709,9 +758,9 @@ export class AddcalendarPage {
 
   updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
     this.isSubmitted = true;
 
     let timesplit_start = event_time.split(":");
@@ -821,6 +870,7 @@ export class AddcalendarPage {
     } else {
       field = "&event_title=" + event_subject;
     }
+    service_remark=jQuery(".event_notes");
     event_unitid = this.event_unitid;
     let body: string = "is_mobile=1&event_type="
       + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&event_remark=" + service_remark + "&ses_login_id=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
@@ -876,9 +926,9 @@ export class AddcalendarPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-        //  console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
-         // this.conf.sendNotification(`Company group was successfully deleted`);
-         this.conf.sendNotification(data.json().msg[0].result);
+          //  console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
+          // this.conf.sendNotification(`Company group was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {
