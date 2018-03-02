@@ -18,6 +18,7 @@ declare var $container: any;
 declare var $backdrop: any;
 declare var $highlights: any;
 declare var $textarea: any;
+
 /**
  * Generated class for the addhocPage page.
  *
@@ -154,10 +155,10 @@ export class AddcommentsinfoPage {
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
 	
-	var $container = $('.container');
-	var $backdrop = $('.backdrop');
-	var $highlights = $('.highlights');
-	var $textarea = $('textarea');
+	var $container = jQuery('.container');
+	var $backdrop = jQuery('.backdrop');
+	var $highlights = jQuery('.highlights');
+	var $textarea = jQuery('textarea');
 	
 	
 	// yeah, browser sniffing sucks, but there are browser-specific quirks to handle that are not a matter of feature detection

@@ -160,10 +160,10 @@ export class ComposePage {
     //this.tabBarElement.style.display = 'none';
 	
 	
-	var $container = $('.container');
-	var $backdrop = $('.backdrop');
-	var $highlights = $('.highlights');
-	var $textarea = $('input[type=text].men');
+	var $container = jQuery('.container');
+	var $backdrop = jQuery('.backdrop');
+	var $highlights = jQuery('.highlights');
+	var $textarea = jQuery('input[type=text].men');
 	
 	
 	// yeah, browser sniffing sucks, but there are browser-specific quirks to handle that are not a matter of feature detection
@@ -318,7 +318,7 @@ export class ComposePage {
           this.subject = this.navParams.get("record").messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
-          //$("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
+          //jQuery("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
         }
 
         this.isReply = 1;
