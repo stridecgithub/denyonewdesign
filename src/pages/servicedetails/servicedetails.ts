@@ -604,8 +604,8 @@ export class ServicedetailsPage {
          description: string = this.form.controls["long"].value,
          photos: object = this.addedImgLists;*/
 
-      let service_remark = $(".service_remark").val();
-      let description = $(".description").val();
+      let service_remark = jQuery(".service_remark").val();
+      let description = jQuery(".description").val();
       let
         //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,

@@ -7,7 +7,7 @@ import { MessagesPage } from '../messages/messages';
 //import { CalendarPage } from '../calendar/calendar';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+//import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsEventPage } from '../event-details-event/event-details-event';
 //import { AddUnitPage } from "../add-unit/add-unit";
@@ -33,7 +33,7 @@ import { LoginPage } from '../login/login';
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
-  providers: [Push, LocalNotifications, Config]
+  providers: [ LocalNotifications, Config]//Push,
 })
 
 export class DashboardPage {
@@ -79,7 +79,8 @@ export class DashboardPage {
   page;
   alert: any;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, private push: Push, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  //, private push: Push
+  constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     this.page = this.navCtrl.getActive().name;
 

@@ -499,7 +499,7 @@ export class AddcommentsinfoPage {
       console.log(this.form.controls);
       if (this.isUploadedProcessing == false) {
 
-        let comments = $(".comment_remark").val();
+        let comments = jQuery(".comment_remark").val();
         let //comments: string = this.form.controls["comment_remark"].value,
           comment_subject: string = this.form.controls["comment_subject"].value;
         if (this.isEdited) {

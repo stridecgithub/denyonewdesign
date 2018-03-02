@@ -606,7 +606,7 @@ export class AddserviceinfoPage {
         let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
           serviced_by: string = this.unitDetailData.userId,
           service_subject: string = this.form.controls["service_subject"].value;
-        let description = $('.description').val();
+        let description = jQuery('.description').val();
         // console.log(description);
         // console.log("serviced_datetime:" + serviced_datetime);
 

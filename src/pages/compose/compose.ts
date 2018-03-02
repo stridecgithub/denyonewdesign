@@ -213,10 +213,7 @@ export class ComposePage {
 
 
       if (this.act == 'replytoall') {
-        // $("#composemessagecontent").text("<p></p><p></p>");
-
-
-        // $("#composemessagecontent").css({ "background-color": "yellow", "font-size": "200%" });
+        
         console.log("goto replytoall");
         //this.reply(this.navParams.get("record").messages_body);
         this.priority_highclass = '';
@@ -238,22 +235,9 @@ export class ComposePage {
           console.log("TO A" + this.navParams.get("record").message_priority);
           this.subject = this.messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
-          // $("#composemessagecontent").html("<p><br><br></p>"+this.composemessagecontent);
-
-
-          // $('#composemessagecontent').blur(function () {
-          //   var val = $("#composemessagecontent").val();
-          //   $("#composemessagecontent").val('');
-          //   setTimeout(function () { $("#composemessagecontent").val(val); }, 20);
-          // });
+          
         }
         else {
-
-          // $('#composemessagecontent').blur(function () {
-          //   var val = $("#composemessagecontent").val();
-          //   $("#composemessagecontent").val('');
-          //   setTimeout(function () { $("#composemessagecontent").val(val); }, 20);
-          // });
 
           this.isReply = 0;
           console.log("B:Get Reply All Users:" + this.navParams.get("record").replyall);
@@ -507,7 +491,7 @@ export class ComposePage {
     //   this.conf.sendNotification(`To address required`);
     //   return false;
     // }
-    let to = $('.to').val();
+    let to = jQuery('.to').val();
     if (this.isUploadedProcessing == false) {
       let //to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
@@ -555,7 +539,7 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-      let to = $(".to").val();
+      let to = jQuery(".to").val();
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
