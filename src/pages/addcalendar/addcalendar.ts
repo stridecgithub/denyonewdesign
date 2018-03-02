@@ -267,8 +267,13 @@ export class AddcalendarPage {
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    this.event_date = localStorage.getItem("sdate");
-    this.event_end_date = localStorage.getItem("sdate");
+    if (localStorage.getItem("sdate") != '') {
+      this.event_date = localStorage.getItem("sdate");
+      this.event_end_date = localStorage.getItem("sdate");
+    } else {
+      this.event_date = moment().format();
+      this.event_end_date = moment().format();
+    }
     // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
@@ -706,7 +711,7 @@ export class AddcalendarPage {
     // if (localStorage.getItem("atMentionResult") != '') {
     //   service_remark = localStorage.getItem("atMentionResult");
     // }
-    service_remark=jQuery(".event_notes");
+    service_remark = jQuery(".event_notes");
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -870,7 +875,7 @@ export class AddcalendarPage {
     } else {
       field = "&event_title=" + event_subject;
     }
-    service_remark=jQuery(".event_notes");
+    service_remark = jQuery(".event_notes");
     event_unitid = this.event_unitid;
     let body: string = "is_mobile=1&event_type="
       + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&event_remark=" + service_remark + "&ses_login_id=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
@@ -1073,7 +1078,7 @@ export class AddcalendarPage {
         console.log('Got date: ', this.event_date);
       },
       err => console.log('Error occurred while getting date: ', err)
-      );
+    );
   }
   previous() {
     this.navCtrl.setRoot(CalendarPage);
