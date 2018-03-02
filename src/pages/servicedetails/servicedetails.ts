@@ -46,7 +46,7 @@ export class ServicedetailsPage {
   public mm: any;
   public mn: any;
   public serviced_by: any;
-  atmentioneddata: any;
+  atmentioneddata = [];
   //public serviced_date: any;
   serviced_date: String = new Date().toISOString();
   public serviced_time: any;
@@ -78,7 +78,7 @@ export class ServicedetailsPage {
   public service_resources: any;
   micro_timestamp: any;
   description: any;
-   companyId;
+  companyId;
   public isUploadedProcessing: boolean = false;
   public isProgress = false;
   public isUploaded: boolean = true;
@@ -380,7 +380,7 @@ export class ServicedetailsPage {
           }, error => {
     
           })
-          jQuery('#description').triggeredAutocomplete({
+          jQuery('.description').triggeredAutocomplete({
             hidden: '#hidden_inputbox',
             source: this.atmentioneddata
           });
@@ -392,52 +392,59 @@ export class ServicedetailsPage {
           */
 
 
-         let body1: string = '',
-         //body: string = "key=delete&recordID=" + recordID,
-         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-         headers1: any = new Headers({ 'Content-Type': type }),
-         options1: any = new RequestOptions({ headers: headers }),
-         url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId+ "&login=" + this.unitDetailData.userId;
-       console.log(url1);
-       this.http.get(url1, options1)
-     
-       // let body: string = param,
-     
-       //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-       //   headers: any = new Headers({ 'Content-Type': type }),
-       //   options: any = new RequestOptions({ headers: headers }),
-       //   url: any = urlstring;
-       console.log("Message sending API" + url1+ "?" + body1);
-     
-       this.http.post(url1, body1, options1)
-     
-         .subscribe(data => {
-           let res;
-           // If the request was successful notify the user
-           if (data.status === 200) {
-            // this.atmentioneddata = data.json();
-             res = data.json();
-             console.log(data.json().staffs);
-     
-             if (res.staffs.length > 0) {
-               for (let staff in res.staffs) {
-                 this.atmentioneddata.push({
-                   username: res.staffs[staff].username,
-                   name: res.staffs[staff].name,
-                 });
-               }
-             }
-             // Otherwise let 'em know anyway
-           } else {
-             this.conf.sendNotification('Something went wrong!');
-           }
-         }, error => {
-     
-         })
-       console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-       jQuery(".service_remark").mention({
-         users: this.atmentioneddata
-       });
+    let body1: string = '',
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+    console.log(url1);
+    this.http.get(url1, options1)
+
+    // let body: string = param,
+
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url1 + "?" + body1);
+
+    this.http.post(url1, body1, options1)
+
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
+
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
+          }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".service_remark").mention({
+      users: this.atmentioneddata
+    });
+
+
+    jQuery(".description").mention({
+      users: this.atmentioneddata
+    });
+
+
 
     // Atmentioned API Calls
 
@@ -597,14 +604,17 @@ export class ServicedetailsPage {
          description: string = this.form.controls["long"].value,
          photos: object = this.addedImgLists;*/
 
-let service_remark=$(".service_remark").val();
+      let service_remark = jQuery(".service_remark").val();
+      let description = jQuery(".description").val();
+      console.log("Service service_remark:"+service_remark);
+      console.log("Service Description:"+description);
       let
         //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-        description: string = this.form.controls["description"].value,
+        //  description: string = this.form.controls["description"].value,
         service_subject: string = this.form.controls["service_subject"].value;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
       // service_scheduled_date = "2018-02-16T02:45:00";
@@ -624,9 +634,9 @@ let service_remark=$(".service_remark").val();
 
 
 
-    if (localStorage.getItem("atMentionResult") != '') {
-      service_remark = localStorage.getItem("atMentionResult");
-    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }

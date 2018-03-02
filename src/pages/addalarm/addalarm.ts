@@ -338,7 +338,7 @@ export class AddalarmPage {
     let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
       assigned_to: string = this.form.controls["assigned_to"].value;
     //this.remark = this.form.controls["remark"].value;
-    this.remark = $(".remark").val();
+    this.remark = jQuery(".remark").val();
     alarm_assigned_date = alarm_assigned_date.split("T")[0]
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();

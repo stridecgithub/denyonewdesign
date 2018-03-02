@@ -529,7 +529,7 @@ export class AddhocPage {
       if (this.hrvalue > 12) {
         ampmstr = 'PM';
       }
-      let service_remark = $(".service_remark").val();
+      let service_remark = jQuery(".service_remark").val();
       // serviced_date = this.serviced_date.split("T")[0];
       // let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
       let timevalue = this.hrvalue + ":" + minvalue + ":00";
@@ -553,7 +553,7 @@ export class AddhocPage {
   createEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
     //service_remark = localStorage.getItem("atMentionResult");
-    service_remark = $(".service_remark");
+    service_remark = jQuery(".service_remark");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }

@@ -21,6 +21,7 @@ import { EventeditPage } from '../eventedit/eventedit';
 import { EventaddPage } from '../eventadd/eventadd';
 import { CommentaddPage } from '../commentadd/commentadd';
 import { CommentreplyPage } from '../commentreply/commentreply';
+declare var jQuery: any;
 /**
  * Generated class for the DashboardPage page.
  *

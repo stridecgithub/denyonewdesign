@@ -57,9 +57,17 @@
         <div class="inner-div">
           <ion-item style="border: none"> -->
             <ion-label stacked>Description</ion-label>
-            <ion-textarea formControlName="description" [(ngModel)]="description" id="description"></ion-textarea>
+            <!-- <textarea formControlName="description" [(ngModel)]="description" id="description" name="" class="description"></textarea>
+           -->
           </ion-item>
-
+          <div class="unit-form-group" style="background-color: #f8f8f8;">
+            <div class="inner-div" style="background-color: #f8f8f8;">
+              <ion-list style="position:relative;">
+                   <textarea formControlName="description" [(ngModel)]="description" type="text" class="description" value="" name="service_remark" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+              </ion-list>
+      
+            </div>
+          </div>   
          
         
 

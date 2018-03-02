@@ -686,8 +686,8 @@ export class NotificationSettingsPage {
     //   this.alarmhashtags = localStorage.getItem("atMentionResult");
     // }
 
-    this.alarmhashtags = $(".alarmhashtags").val();
-    console.log("#to value" + $("#to").val());
+    this.alarmhashtags = jQuery(".alarmhashtags").val();
+    console.log("#to value" + jQuery("#to").val());
     console.log(this.isEdited);
     if (this.isEdited > 0) {
       let body: string = "is_mobile=1&unit_id=" + this.isEdited +

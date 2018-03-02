@@ -396,7 +396,8 @@ export class UnitgroupPage {
               colorcode: res.unitgroups[unitgroup].colorcode,
               colorcodeindication: colorcode,
               favoriteindication: favorite,
-              cname: cname
+              cname: cname,
+              createdOn: res.unitgroups[unitgroup].createdOn,
             });
           }
           //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
