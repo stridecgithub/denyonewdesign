@@ -610,6 +610,8 @@ export class ComposePage {
     localStorage.setItem("microtime", "");
     // localStorage.setItem("atMentionResult", '');
     //this.conf.sendNotification(`Message sending successfully`);
+	
+	
 
   }
   fileChooser(micro_timestamp) {

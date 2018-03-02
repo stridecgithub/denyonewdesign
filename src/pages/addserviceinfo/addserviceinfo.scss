@@ -1,9 +1,11 @@
 page-addserviceinfo {
 
-  ion-content .scroll-content {
+ion-content .scroll-content {
     margin-bottom: 0;
 }
-
+.inner-div {
+    border-bottom: 0px solid #488aff;
+}
 .user-img {
   margin: 0 0 7px;
   text-align: center;
