@@ -56,13 +56,6 @@
             <div [ngStyle]="{'color':  upcomintitem.duedatecolor}" class="p1" (click)="servicedetailsView(upcomintitem,'view','upcoming')">
               <img *ngIf="upcomintitem.user_photo!=''" src="{{upcomintitem.user_photo}}">
               <div class="check">
-                <!--h3><b>{{upcomintitem.service_subject}}</b></h3>
-                <div class="D&T"  style="font-size:14px">
-                  {{upcomintitem.serviced_scheduled_display}}
-                </div>
-                <span>created by:{{upcomintitem.serviced_created_name}}({{upcomintitem.serviced_created_name_hastag}})</span>
--->
-
                 <h3>
                   <b>{{upcomintitem.service_subject}}</b>
                 </h3>

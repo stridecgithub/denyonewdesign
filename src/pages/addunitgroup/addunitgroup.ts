@@ -49,7 +49,7 @@ export class AddunitgroupPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-
+  colorcode;
   constructor(public nav: NavController, public popoverCtrl: PopoverController,
     public http: Http,
     public NP: NavParams,
@@ -64,6 +64,7 @@ export class AddunitgroupPage {
 
     this.userId = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
+   
   }
 
   // ionViewDidLoad() {
@@ -97,74 +98,77 @@ export class AddunitgroupPage {
       //this.ccode = "FBE983";
       this.isEdited = false;
       this.pageTitle = 'Add Unit Group';
+      this.colorcode = '9013fe';
+      this.ccode = '9013fe';
     }
   }
   selectEntry(item) {
     this.cname = item.unitgroup_name;
     this.remark = item.remark;
     this.ccode = item.colorcode;
+    this.colorcode = item.colorcode;
     this.nccode = this.ccode;
-    console.log(JSON.stringify(this.NP.get("record")));
-    if (this.ccode == "DAADFE") {
-      document.getElementById("DAADFE").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "DAADFE";
-    }
-    if (this.ccode == "FBE983") {
-      document.getElementById("FBE983").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "FBE983";
-    }
-    if (this.ccode == "5584EE") {
-      document.getElementById("5584EE").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "5584EE";
-    }
-    if (this.ccode == "A4BDFD") {
-      document.getElementById("A4BDFD").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "A4BDFD";
-    }
-    if (this.ccode == "47D6DC") {
-      document.getElementById("47D6DC").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "47D6DC";
-    }
-    if (this.ccode == "7AE7BE") {
-      document.getElementById("7AE7BE").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "7AE7BE";
-    }
-    if (this.ccode == "FBD75C") {
-      document.getElementById("FBD75C").classList.add("border-need");
-      this.ccode = "FBD75C";
-      // console.log("Hi");
-    }
-    if (this.ccode == "FFB878") {
-      document.getElementById("FFB878").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "FFB878";
-    }
-    if (this.ccode == "FF877C") {
-      document.getElementById("FF877C").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "FF877C";
-    }
-    if (this.ccode == "DC2128") {
-      document.getElementById("DC2128").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "DC2128";
-    }
-    if (this.ccode == "E1E1E1") {
-      document.getElementById("E1E1E1").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "E1E1E1";
-    }
-    if (this.ccode == "51B749") {
-      document.getElementById("51B749").classList.add("border-need");
-      // console.log("Hi");
-      this.ccode = "51B749";
-    }
+    // console.log(JSON.stringify(this.NP.get("record")));
+    // if (this.ccode == "DAADFE") {
+    //   document.getElementById("DAADFE").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "DAADFE";
+    // }
+    // if (this.ccode == "FBE983") {
+    //   document.getElementById("FBE983").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "FBE983";
+    // }
+    // if (this.ccode == "5584EE") {
+    //   document.getElementById("5584EE").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "5584EE";
+    // }
+    // if (this.ccode == "A4BDFD") {
+    //   document.getElementById("A4BDFD").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "A4BDFD";
+    // }
+    // if (this.ccode == "47D6DC") {
+    //   document.getElementById("47D6DC").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "47D6DC";
+    // }
+    // if (this.ccode == "7AE7BE") {
+    //   document.getElementById("7AE7BE").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "7AE7BE";
+    // }
+    // if (this.ccode == "FBD75C") {
+    //   document.getElementById("FBD75C").classList.add("border-need");
+    //   this.ccode = "FBD75C";
+    //   // console.log("Hi");
+    // }
+    // if (this.ccode == "FFB878") {
+    //   document.getElementById("FFB878").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "FFB878";
+    // }
+    // if (this.ccode == "FF877C") {
+    //   document.getElementById("FF877C").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "FF877C";
+    // }
+    // if (this.ccode == "DC2128") {
+    //   document.getElementById("DC2128").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "DC2128";
+    // }
+    // if (this.ccode == "E1E1E1") {
+    //   document.getElementById("E1E1E1").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "E1E1E1";
+    // }
+    // if (this.ccode == "51B749") {
+    //   document.getElementById("51B749").classList.add("border-need");
+    //   // console.log("Hi");
+    //   this.ccode = "51B749";
+    // }
     this.recordID = item.unitgroup_id;
   }
   saveEntry() {
@@ -301,7 +305,7 @@ export class AddunitgroupPage {
 
 
 
- chooseColor() {
+  chooseColor() {
     /* Vinoth i have commented some line for error. pleae before code push without incomplete
     let confirm = this.alertCtrl.create({
       title: 'Select Color',
@@ -331,16 +335,29 @@ export class AddunitgroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  
-  
-  openPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverchoosecolorPage, {}, {cssClass: 'contact-popover'});
+
+
+  openPopover(myEvent,colorcode) {
+    let popover = this.popoverCtrl.create(PopoverchoosecolorPage, {'colorcode':colorcode}, { cssClass: 'contact-popover' });
     popover.present({
       ev: myEvent
     });
+    popover.onWillDismiss(data => {
+      console.log(JSON.stringify(data));
+      if (data != null) {
+        console.log(data);
+        this.colorcode = data
+        this.ccode = data;
+        if (data.length == 1) {
+          // this.doDelete(data);
+        } else {
+          // this.doEdit(data, 'edit');
+        }
+      }
+    });
   }
-  
-  
+
+
 
 }
 

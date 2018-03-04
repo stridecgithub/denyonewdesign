@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from "../pages/login/login";
 /* For Notification */
-//import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { TabsPage } from "../pages/tabs/tabs";
 import { Config } from '../config/config';
@@ -57,7 +57,7 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
@@ -136,7 +136,6 @@ export class MyApp {
     }, 100);
 
 
-    this.getGuageData();
     keyboard.disableScroll(true);
     keyboard.hideKeyboardAccessoryBar(true);
 
@@ -198,306 +197,9 @@ events.subscribe('user:created', (user, time) => {
   //this.firstname=user[0].firstname;
   //this.lastname=user[0].firstname;
 });
-  }
-
-getGuageData() {/*
-    let
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/gaugedetails";
-    console.log(url);
-    this.http.get(url, options)
-      .subscribe((data) => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          console.log("Gauge Data calling....");
-          console.log(JSON.stringify(data.json()));
-          if (data.json().setpoints[0].code == 'VOLT1') {
-            let voltagelabelsplitcomma = data.json().setpoints[0].labels.split(",");
-            let voltagecolorsplitcomma = data.json().setpoints[0].colors.split(",");
-            let outvoltagelabel = '';
-            let outvoltagecolor = '';
-            for (let lbl = 0; lbl < voltagelabelsplitcomma.length; lbl++) {
-              let voltagelabelsplitcolon = voltagelabelsplitcomma[lbl].split(':');
-              let label = voltagelabelsplitcolon[0];
-              let labelvlu = voltagelabelsplitcolon[1];
-              outvoltagelabel += label + ":'" + labelvlu + "'" + ",";
-              //localStorage.setItem("voltagelabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < voltagecolorsplitcomma.length; clr++) {
-              let voltagecolorsplitcolon = voltagecolorsplitcomma[clr].split(':');
-              let color = voltagecolorsplitcolon[0];
-              let colorvlu = voltagecolorsplitcolon[1];
-              outvoltagecolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("voltagecolor_" + clr, colorvlu);
-            }
-          }
-
-          if (data.json().setpoints[1].code == 'CURRENT1') {
-            let currentlabelsplitcomma = data.json().setpoints[1].labels.split(",");
-            let currentcolorsplitcomma = data.json().setpoints[1].colors.split(",");
-            let outcurrentlabel = '';
-            let outcurrentcolor = '';
-            for (let lbl = 0; lbl < currentlabelsplitcomma.length; lbl++) {
-              let currentlabelsplitcolon = currentlabelsplitcomma[lbl].split(':');
-              let label = currentlabelsplitcolon[0];
-              let labelvlu = currentlabelsplitcolon[1];
-              outcurrentlabel += label + ":'" + labelvlu + "'" + ",";
-              // localStorage.setItem("currentlabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < currentcolorsplitcomma.length; clr++) {
-              let currentcolorsplitcolon = currentcolorsplitcomma[clr].split(':');
-              let color = currentcolorsplitcolon[0];
-              let colorvlu = currentcolorsplitcolon[1];
-              outcurrentcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("currentcolor_" + clr, colorvlu);
-            }
-          }
-
-
-          if (data.json().setpoints[2].code == 'FREQ') {
-            let freqlabelsplitcomma = data.json().setpoints[2].labels.split(",");
-            let freqcolorsplitcomma = data.json().setpoints[2].colors.split(",");
-            let outfreqlabel = '';
-            let outfreqcolor = '';
-            for (let lbl = 0; lbl < freqlabelsplitcomma.length; lbl++) {
-              let freqlabelsplitcolon = freqlabelsplitcomma[lbl].split(':');
-              let label = freqlabelsplitcolon[0];
-              let labelvlu = freqlabelsplitcolon[1];
-              outfreqlabel += label + ":'" + labelvlu + "'" + ",";
-              //localStorage.setItem("freqlabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < freqcolorsplitcomma.length; clr++) {
-              let freqcolorsplitcolon = freqcolorsplitcomma[clr].split(':');
-              let color = freqcolorsplitcolon[0];
-              let colorvlu = freqcolorsplitcolon[1];
-              outfreqcolor += color + ":'" + colorvlu + "'" + ",";
-              // localStorage.setItem("freqcolor_" + clr, colorvlu);
-            }
-          }
-
-          if (data.json().setpoints[3].code == 'ENGINESPEED') {
-            let enginespeedlabelsplitcomma = data.json().setpoints[3].labels.split(",");
-            let enginespeedcolorsplitcomma = data.json().setpoints[3].colors.split(",");
-            let outenginespeedlabel = '';
-            let outenginespeedcolor = '';
-            for (let lbl = 0; lbl < enginespeedlabelsplitcomma.length; lbl++) {
-              let enginespeedlabelsplitcolon = enginespeedlabelsplitcomma[lbl].split(':');
-              let label = enginespeedlabelsplitcolon[0];
-              let labelvlu = enginespeedlabelsplitcolon[1];
-              outenginespeedlabel += label + ":'" + labelvlu + "'" + ",";
-              // localStorage.setItem("enginespeedlabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < enginespeedcolorsplitcomma.length; clr++) {
-              let enginespeedcolorsplitcolon = enginespeedcolorsplitcomma[clr].split(':');
-              let color = enginespeedcolorsplitcolon[0];
-              let colorvlu = enginespeedcolorsplitcolon[1];
-              outenginespeedcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("enginespeedcolor_" + clr, colorvlu);
-            }
-          }
-
-          if (data.json().setpoints[4].code == 'FUELLEVEL') {
-            let fuellevellabelsplitcomma = data.json().setpoints[4].labels.split(",");
-            let fuellevelcolorsplitcomma = data.json().setpoints[4].colors.split(",");
-            let outfuellevellabel = '';
-            let outfuellevelcolor = '';
-            for (let lbl = 0; lbl < fuellevellabelsplitcomma.length; lbl++) {
-              let fuellevellabelsplitcolon = fuellevellabelsplitcomma[lbl].split(':');
-              let label = fuellevellabelsplitcolon[0];
-              let labelvlu = fuellevellabelsplitcolon[1];
-              outfuellevellabel += label + ":'" + labelvlu + "'" + ",";
-              //localStorage.setItem("fuellevellabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < fuellevelcolorsplitcomma.length; clr++) {
-              let fuellevelcolorsplitcolon = fuellevelcolorsplitcomma[clr].split(':');
-              let color = fuellevelcolorsplitcolon[0];
-              let colorvlu = fuellevelcolorsplitcolon[1];
-              outfuellevelcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("fuellevelcolor_" + clr, colorvlu);
-            }
-          }
-
-          if (data.json().setpoints[5].code == 'LOADPOWER') {
-            let loadfactorlabelsplitcomma = data.json().setpoints[5].labels.split(",");
-            let loadfactorcolorsplitcomma = data.json().setpoints[5].colors.split(",");
-            let outloadfactorlabel = '';
-            let outloadfactorcolor = '';
-            for (let lbl = 0; lbl < loadfactorlabelsplitcomma.length; lbl++) {
-              let loadfactorlabelsplitcolon = loadfactorlabelsplitcomma[lbl].split(':');
-              let label = loadfactorlabelsplitcolon[0];
-              let labelvlu = loadfactorlabelsplitcolon[1];
-              outloadfactorlabel += label + ":'" + labelvlu + "'" + ",";
-              //localStorage.setItem("loadfactorlabel_" + lbl, labelvlu);
-            }
-            for (let clr = 0; clr < loadfactorcolorsplitcomma.length; clr++) {
-              let loadfactorcolorsplitcolon = loadfactorcolorsplitcomma[clr].split(':');
-              let color = loadfactorcolorsplitcolon[0];
-              let colorvlu = loadfactorcolorsplitcolon[1];
-              outloadfactorcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("loadfactorcolor_" + clr, colorvlu);
-            }
-          }
-
-
-          if (data.json().setpoints[6].code == 'COLLANTTEMP') {
-            console.log("Coolant Temp color:" + data.json().setpoints[6].code);
-            console.log("Label:" + data.json().setpoints[6].labels);
-            let coolanttemplabelsplitcomma = data.json().setpoints[6].labels.split(",");
-            let coolanttempcolorsplitcomma = data.json().setpoints[6].colors.split(",");
-            let outcoolanttemplabel = '';
-            let outcoolanttempcolor = '';
-            for (let lbl = 0; lbl < coolanttemplabelsplitcomma.length; lbl++) {
-              let label = coolanttemplabelsplitcomma[lbl];
-              outcoolanttemplabel += label + ",";
-              //localStorage.setItem("coolanttemplabel_" + lbl, label);
-            }
-            for (let clr = 0; clr < coolanttempcolorsplitcomma.length; clr++) {
-              let coolanttempcolorsplitcolon = coolanttempcolorsplitcomma[clr].split(':');
-              let color = coolanttempcolorsplitcolon[0];
-              let colorvlu = coolanttempcolorsplitcolon[1];
-              outcoolanttempcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("coolanttempcolor_" + clr, colorvlu);
-            }
-          }
-
-
-          if (data.json().setpoints[7].code == 'OILPRESSURE') {
-            let oilpressurelabelsplitcomma = data.json().setpoints[7].labels.split(",");
-            let oilpressurecolorsplitcomma = data.json().setpoints[7].colors.split(",");
-            let outoilpressurelabel = '';
-            let outoilpressurecolor = '';
-            for (let lbl = 0; lbl < oilpressurelabelsplitcomma.length; lbl++) {
-              let label = oilpressurelabelsplitcomma[lbl];
-              outoilpressurelabel += label + ",";
-              //localStorage.setItem("oilpressurelabel_" + lbl, label);
-            }
-            for (let clr = 0; clr < oilpressurecolorsplitcomma.length; clr++) {
-              let oilpressurecolorsplitcolon = oilpressurecolorsplitcomma[clr].split(':');
-              let color = oilpressurecolorsplitcolon[0];
-              let colorvlu = oilpressurecolorsplitcolon[1];
-              outoilpressurecolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("oilpressurecolor_" + clr, colorvlu);
-            }
-          }
-
-
-          if (data.json().setpoints[8].code == 'LOADPOWERFACTOR') {
-            let loadpowerfactorlabelsplitcomma = data.json().setpoints[8].labels.split(",");
-            let loadpowerfactorcolorsplitcomma = data.json().setpoints[8].colors.split(",");
-            let outloadpowerfactorlabel = '';
-            let outloadpowerfactorcolor = '';
-            for (let lbl = 0; lbl < loadpowerfactorlabelsplitcomma.length; lbl++) {
-              let label = loadpowerfactorlabelsplitcomma[lbl];
-              outloadpowerfactorlabel += label + ",";
-              // localStorage.setItem("loadpowerfactorlabel_" + lbl, label);
-            }
-            for (let clr = 0; clr < loadpowerfactorcolorsplitcomma.length; clr++) {
-              let loadpowerfactorcolorsplitcolon = loadpowerfactorcolorsplitcomma[clr].split(':');
-              let color = loadpowerfactorcolorsplitcolon[0];
-              let colorvlu = loadpowerfactorcolorsplitcolon[1];
-              outloadpowerfactorcolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("loadpowerfactorcolor_" + clr, colorvlu);
-            }
-          }
-
-
-
-          if (data.json().setpoints[9].code == 'BATTERYVOLTAGE') {
-            let batteryvoltagelabelsplitcomma = data.json().setpoints[9].labels.split(",");
-            let batteryvoltagecolorsplitcomma = data.json().setpoints[9].colors.split(",");
-            let outbatteryvoltagelabel = '';
-            let outbatteryvoltagecolor = '';
-            for (let lbl = 0; lbl < batteryvoltagelabelsplitcomma.length; lbl++) {
-              let label = batteryvoltagelabelsplitcomma[lbl];
-              outbatteryvoltagelabel += label + ",";
-              //localStorage.setItem("batteryvoltagelabel_" + lbl, label);
-            }
-            for (let clr = 0; clr < batteryvoltagecolorsplitcomma.length; clr++) {
-              let batteryvoltagecolorsplitcolon = batteryvoltagecolorsplitcomma[clr].split(':');
-              let color = batteryvoltagecolorsplitcolon[0];
-              let colorvlu = batteryvoltagecolorsplitcolon[1];
-              outbatteryvoltagecolor += color + ":'" + colorvlu + "'" + ",";
-              //localStorage.setItem("batteryvoltagecolor_" + clr, colorvlu);
-            }
-          }
-
-
-
-        }
-        // Otherwise let 'em know anyway
-        else {
-          console.log("Something went wrong!");
-        }
-      }, error => {
-
-      });
-*/
+  
 }
 openPage(page) {
-  /*
-  // page.color = 'danger';
-
-  for (let p of this.pages) {
-    console.log(p.title);
-    console.log(page.title);
-    if (p.title == page.title && p.title != 'Logout' && page.title != 'Logout') {
-      console.log("A");
-      p.color = 'light';//danger
-    } else {
-      console.log("B");
-      p.color = 'light';
-    }
-  }
-  if (page.title == 'Logout') {
-    this.menuActive = 'menuactive-logout';
-    this.events.publish('menu:created', 'logout', Date.now());
-    this.logout();// Service api moblogout/1
-
-  }
-  else if (page.title == 'Message') {
-    this.menuActive = 'menuactive-messages';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'messages', Date.now());
-    this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 3 });
-  }
-  else if (page.title == 'Calendar') {
-    this.menuActive = 'menuactive-calendar';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'calendar', Date.now());
-    this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 2 });
-  } else if (page.title == 'Dashboard') {
-    this.menuActive = 'menuactive-dashboard';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'dashboard', Date.now());
-    this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 0 });
-  } else if (page.title == 'Units') {
-    this.menuActive = 'menuactive-units';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'units', Date.now());
-    this.navCtrlCtrl.setRoot(TabsPage, { tabIndex: 1 });
-  } else if (page.title == 'Settings') {
-    this.menuActive = 'menuactive-settings';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'settings', Date.now());
-    this.navCtrlCtrl.setRoot(MyaccountPage);
-    //this.navCtrlCtrl.setRoot(AttentionPage);
-  } else if (page.title == 'Reports') {
-    this.menuActive = 'menuactive-reports';
-    this.menuCtrl.close();
-    this.events.publish('menu:created', 'reports', Date.now());
-    this.navCtrlCtrl.setRoot(AttentionPage);
-  } else if (page.component == 'UnitgroupPage') {
-    this.navCtrlCtrl.setRoot(UnitgroupPage);
-  }
-  this.events.subscribe('menu:created', (menu, time) => {
-    this.menuSelection = menu;
-  });
-  */
-
-
-
   if (page.component == 'UnitsPage') {
     this.menuActive = 'menuactive-units';
     this.menuCtrl.close();
@@ -642,43 +344,43 @@ onEnter() {
 }
 
 initPushNotification() {
-  // to check if we have permission
-  // this.push.hasPermission()
-  //   .then((res: any) => {
+ // to check if we have permission
+  this.push.hasPermission()
+    .then((res: any) => {
 
-  //     if (res.isEnabled) {
-  //       console.log('We have permission to send push notifications');
-  //     } else {
-  //       console.log('We do not have permission to send push notifications');
-  //     }
+      if (res.isEnabled) {
+        console.log('We have permission to send push notifications');
+      } else {
+        console.log('We do not have permission to send push notifications');
+      }
 
-  //   });
+    });
 
-  // to initialize push notifications
+  //to initialize push notifications
 
-  // const options: PushOptions = {
-  //   android: {},
-  //   ios: {
-  //     alert: 'true',
-  //     badge: true,
-  //     sound: 'true'
-  //   },
-  //   windows: {}
-  // };
-
-
+  const options: PushOptions = {
+    android: {},
+    ios: {
+      alert: 'true',
+      badge: true,
+      sound: 'true'
+    },
+    windows: {}
+  };
 
 
-  // const pushObject: PushObject = this.push.init(options);
-  // pushObject.on('registration').subscribe((registration: any) => {
 
-  //   console.log('Device registered', registration);
-  //   console.log('Device Json registered', JSON.stringify(registration));
-  //   localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
-  // }
-  // );
 
-  // pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+  const pushObject: PushObject = this.push.init(options);
+  pushObject.on('registration').subscribe((registration: any) => {
+
+    console.log('Device registered', registration);
+    console.log('Device Json registered', JSON.stringify(registration));
+    localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
+  }
+  );
+
+  pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 
 
 }

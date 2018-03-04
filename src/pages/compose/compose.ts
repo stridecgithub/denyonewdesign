@@ -494,21 +494,16 @@ export class ComposePage {
     //   this.conf.sendNotification(`To address required`);
     //   return false;
     // }
-    let to = jQuery('.to').val();
+   
     if (this.isUploadedProcessing == false) {
       let //to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
-      console.log("serviced_datetime:" + to);
-      console.log("copytome:" + copytome);
-      console.log("messages_subject:" + subject);
+    
+  
 
-      console.log("Attached image for file for reply and forward" + JSON.stringify(this.attachedFileLists));
-      console.log("Image Data" + JSON.stringify(this.addedImgLists));
-      console.log("To Final:" + to);
-
-      this.createEntry(this.micro_timestamp, to, copytome, composemessagecontent, subject);
+      this.createEntry(this.micro_timestamp, copytome, composemessagecontent, subject);
 
     }
 
@@ -520,16 +515,17 @@ export class ComposePage {
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
 
-  createEntry(micro_timestamp, to, copytome, composemessagecontent, subject) {
+  createEntry(micro_timestamp,  copytome, composemessagecontent, subject) {
+    let to = jQuery(".to").val();
     this.isSubmitted = true;
     if (copytome == true) {
       copytome = '1';
     }
-    if (this.replyforward == 0) {
-      if (localStorage.getItem("atMentionResult") != '') {
-        to = localStorage.getItem("atMentionResult");
-      }
-    }
+    // if (this.replyforward == 0) {
+    //   if (localStorage.getItem("atMentionResult") != '') {
+    //     to = localStorage.getItem("atMentionResult");
+    //   }
+    // }
     let param;
     let urlstring;
     console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
@@ -542,14 +538,14 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-      let to = jQuery(".to").val();
+   
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent='" + composemessagecontent.toString() +
-        "'&copytome=" + copytome +
+        "&composemessagecontent=" + composemessagecontent.toString() +
+        "&copytome=" + copytome +
         "&submit=" + isrepfor +
         "&forwardmsgid=" + this.messageid +
         "&subject=" + subject;
@@ -560,8 +556,8 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent='" + composemessagecontent.toString() +
-        "'&copytome=" + copytome +
+        "&composemessagecontent=" + composemessagecontent.toString() +
+        "&copytome=" + copytome +
         "&subject=" + subject;
       urlstring = this.apiServiceURL + "/messages/store";
     }

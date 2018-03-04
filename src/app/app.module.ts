@@ -99,6 +99,7 @@ import { PopoverchoosecolorPage } from '../pages/popoverchoosecolor/popoverchoos
 import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 @NgModule({
   declarations: [    
     ProgressBarComponent,
@@ -299,6 +300,7 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
     SplashScreen,
     NativeStorage,
     Network,
+    Push,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider
   ]
