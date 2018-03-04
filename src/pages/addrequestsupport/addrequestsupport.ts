@@ -50,7 +50,6 @@ export class AddrequestsupportPage {
   item: any;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   form: FormGroup;
   public addedAttachList;
@@ -98,7 +97,6 @@ export class AddrequestsupportPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {

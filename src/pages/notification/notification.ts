@@ -45,7 +45,6 @@ export class NotificationPage {
   public loginas: any;
   public loadingMoreDataContent: string;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
   constructor(private conf: Config, public platform: Platform, private sanitizer: DomSanitizer, public http: Http,
@@ -54,7 +53,6 @@ export class NotificationPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {

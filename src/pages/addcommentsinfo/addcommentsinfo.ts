@@ -74,7 +74,6 @@ export class AddcommentsinfoPage {
   item: any;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   form: FormGroup;
   public addedAttachList;
@@ -138,7 +137,6 @@ export class AddcommentsinfoPage {
     console.log("Default date is" + this.serviced_date);
 
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');

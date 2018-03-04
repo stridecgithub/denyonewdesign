@@ -77,7 +77,6 @@ export class AddserviceinfoPage {
   item: any;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   form: FormGroup;
   public addedAttachList;
@@ -156,7 +155,6 @@ export class AddserviceinfoPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.registerBackButtonAction(() => {

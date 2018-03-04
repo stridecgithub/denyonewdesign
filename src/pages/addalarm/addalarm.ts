@@ -56,7 +56,6 @@ export class AddalarmPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   item;
   //tabBarElement: any;
@@ -74,7 +73,6 @@ export class AddalarmPage {
     this.alarm_assigned_date = moment().format();
     this.mindate = moment().format();
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules

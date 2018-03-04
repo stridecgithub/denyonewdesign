@@ -40,7 +40,6 @@ export class ForgotpasswordPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
 
   constructor(private conf: Config, public platform: Platform, public nav: NavController,
@@ -59,7 +58,6 @@ export class ForgotpasswordPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {

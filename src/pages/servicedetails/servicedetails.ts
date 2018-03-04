@@ -85,7 +85,6 @@ export class ServicedetailsPage {
   item: any;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   form: FormGroup;
   next_service_date_selected;
@@ -184,7 +183,6 @@ export class ServicedetailsPage {
     console.log("Default date is" + this.serviced_date);
 
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
 
     this.platform.registerBackButtonAction(() => {

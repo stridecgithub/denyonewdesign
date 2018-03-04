@@ -4,16 +4,16 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddrolePage } from '../addrole/addrole';
 import { LoadingController } from 'ionic-angular';
-import { UserPage } from '../user/user';
+//import { UserPage } from '../user/user';
 import { MyaccountPage } from '../myaccount/myaccount';
-import { DashboardPage } from '../dashboard/dashboard';
+//import { DashboardPage } from '../dashboard/dashboard';
 import { UnitgroupPage } from '../unitgroup/unitgroup';
-import { UnitsPage } from '../units/units';
-import { CompanygroupPage } from '../companygroup/companygroup';
+//import { UnitsPage } from '../units/units';
+//import { CompanygroupPage } from '../companygroup/companygroup';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage } from '../orgchart/orgchart';
+//import { ReportsPage } from '../reports/reports';
+//import { CalendarPage } from '../calendar/calendar';
+//import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 /**
  * Generated class for the AddrolePage page.
@@ -30,8 +30,7 @@ export class RolePage {
   footerBar: number = 0;
   public pageTitle: string;
   public loginas: any;
-  private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-  public VIEWACCESS: any;
+   public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;

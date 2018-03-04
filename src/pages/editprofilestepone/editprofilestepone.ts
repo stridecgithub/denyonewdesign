@@ -65,7 +65,6 @@ export class EditprofilesteponePage {
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public responseResultCountry: any;
   constructor(private conf: Config, public platform: Platform, public nav: NavController,
@@ -92,7 +91,6 @@ export class EditprofilesteponePage {
     this.userId = localStorage.getItem("userInfoId");
     console.log(this.userId);
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {

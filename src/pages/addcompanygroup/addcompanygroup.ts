@@ -4,15 +4,15 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { CompanygroupPage } from '../companygroup/companygroup';
 import 'rxjs/add/operator/map';
-import { UserPage } from '../user/user';
-import { UnitgroupPage } from '../unitgroup/unitgroup';
-import { RolePage } from '../role/role';
-import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitsPage } from '../units/units';
+//import { UserPage } from '../user/user';
+//import { UnitgroupPage } from '../unitgroup/unitgroup';
+//import { RolePage } from '../role/role';
+//import { MyaccountPage } from '../myaccount/myaccount';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+//import { ReportsPage } from '../reports/reports';
+//import { CalendarPage } from '../calendar/calendar';
+//import { OrgchartPage} from '../orgchart/orgchart';
 /**
  * Generated class for the AddcompanygroupPage page.
  *

@@ -33,7 +33,6 @@ export class OrgchartPage {
   public devicewidth;
   public deviceheight;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
   pet: string = "ALL";
@@ -107,7 +106,6 @@ export class OrgchartPage {
 
     //Authorization Get Value
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.networkType = '';
     this.platform.ready().then(() => {

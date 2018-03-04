@@ -72,7 +72,6 @@ export class UnitdetailsPage {
 	tabview1: any;
 	tabview2: any;
 	private apiServiceURL: string = "";
-	private permissionMessage: string = "";
 	public networkType: string;
 	volt1;
 	volt2;
@@ -159,9 +158,7 @@ export class UnitdetailsPage {
 	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
-		//this.l1l2l3voltagelablel = 'L1-L2';
-		//this.l1l2l3currentlablel = 'L1';
-		this.permissionMessage = conf.rolePermissionMsg();
+		
 		this.apiServiceURL = conf.apiBaseURL();
 		this.timerswitch = 1;
 		this.controlleroffmode = '';

@@ -63,7 +63,6 @@ export class CommentsinfoPage {
   public addedImgLists = [];
   public loadingMoreDataContent: string;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
   public sortLblTxt: string = 'Comment';
@@ -81,7 +80,6 @@ export class CommentsinfoPage {
     console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.DELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {
       this.previous();

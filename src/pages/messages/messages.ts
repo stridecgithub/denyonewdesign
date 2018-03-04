@@ -37,7 +37,6 @@ export class MessagesPage {
   public addedImgLists = [];
   public attachedFileLists = [];
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   private popoverThemeJSIonic: any;
   public networkType: string;
   public composemessagecontent: any;

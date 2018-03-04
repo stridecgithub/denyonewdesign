@@ -74,7 +74,6 @@ export class ServicinginfoPage {
   public loginas: any;
   public loadingMoreDataContent: string;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCountUpcoming;
   public totalCounthistory;
@@ -96,7 +95,6 @@ export class ServicinginfoPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
 
 

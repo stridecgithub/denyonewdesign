@@ -10,10 +10,10 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { EditprofilesteponePage } from '../editprofilestepone/editprofilestepone';
 import { DashboardPage } from '../dashboard/dashboard';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
+//import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage } from '../orgchart/orgchart';
-import { CompanygroupPage } from '../companygroup/companygroup';
-import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
+//import { CompanygroupPage } from '../companygroup/companygroup';
+//import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 import { Config } from '../../config/config';
 import { ChangepasswordPage } from '../changepassword/changepassword';
 
@@ -52,7 +52,6 @@ export class MyaccountPage {
   public EDITACCESS: any;
   public DELETEACCESS: any;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   company_group;
   firstname;
@@ -76,7 +75,6 @@ export class MyaccountPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
 
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.photo =   this.apiServiceURL + "/images/default.png"
     this.platform.ready().then(() => {

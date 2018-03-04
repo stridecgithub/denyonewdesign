@@ -85,7 +85,6 @@ export class AddcalendarPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   atmentioneddata = [];
   //tabBarElement: any;
@@ -234,7 +233,6 @@ export class AddcalendarPage {
     console.log("Bottom UTC Format Current Date:" + this.event_date);
 
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem
 

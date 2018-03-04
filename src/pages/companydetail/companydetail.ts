@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
 import { LoadingController } from 'ionic-angular';
-import { UserPage } from '../user/user';
+//import { UserPage } from '../user/user';
 import { NotificationPage } from '../notification/notification';
 
 import { CompanygroupPage } from '../companygroup/companygroup';
@@ -25,8 +25,7 @@ export class CompanydetailPage {
   public loginas: any;
   public Role;
   public totalunit;
-  private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-   public VIEWACCESS: any;
+    public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;

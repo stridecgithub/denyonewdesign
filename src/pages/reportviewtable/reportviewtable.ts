@@ -203,7 +203,8 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-            // this.download(2);
+            this.download(1);
+            this.download(2);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
@@ -259,86 +260,86 @@ export class ReportviewtablePage {
 
         // For Getting Unit Details in Graph
         let body: string = "is_mobile=1" +
-        "&selunit=" + this.NP.get("selunit") +
-        "&seltimeframe=" + this.NP.get("seltimeframe") +
-        "&seltemplate=" + this.NP.get("seltemplate") +
-        "&from=" + this.NP.get("from") +
-        "&to=" + this.NP.get("to") +
-        "&exportto=" + this.NP.get("exportto") +
-        "&seltype=" + seltype +
-        "&action=" + action +
-        "&loginid=" + this.userid +
-        "&companyid=" + this.companyid,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
           "&seltemplate=" + this.NP.get("seltemplate") +
           "&from=" + this.NP.get("from") +
           "&to=" + this.NP.get("to") +
-          "&exportto=table"+
+          "&exportto=" + this.NP.get("exportto") +
           "&seltype=" + seltype +
           "&action=" + action +
           "&loginid=" + this.userid +
-          "&companyid=" + this.companyid;
+          "&companyid=" + this.companyid,
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
+            "&selunit=" + this.NP.get("selunit") +
+            "&seltimeframe=" + this.NP.get("seltimeframe") +
+            "&seltemplate=" + this.NP.get("seltemplate") +
+            "&from=" + this.NP.get("from") +
+            "&to=" + this.NP.get("to") +
+            "&exportto=table" +
+            "&seltype=" + seltype +
+            "&action=" + action +
+            "&loginid=" + this.userid +
+            "&companyid=" + this.companyid;
 
-      console.log("Report submit url is:-" + url);
-      let res;
-      this.presentLoading(1);
-      //this.http.post(url, body, options)
-      this.http.get(url, options)
-        ///this.http.post(url, body, options)
-        .subscribe((data) => {
+        console.log("Report submit url is:-" + url);
+        let res;
+        this.presentLoading(1);
+        //this.http.post(url, body, options)
+        this.http.get(url, options)
+          ///this.http.post(url, body, options)
+          .subscribe((data) => {
 
-          // If the request was successful notify the user
-          res = data.json();
-          console.log("Report Preview Success Response:-" + JSON.stringify(res));
-          if (seltypeBtn == '1') {
-            this.success = 1;
-            this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
-          }
-          if (res.totalcount > 0) {
-            // this.download(2);
-            this.headLists = res.templatedata;
-            this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
+            // If the request was successful notify the user
+            res = data.json();
+            console.log("Report Preview Success Response:-" + JSON.stringify(res));
+            if (seltypeBtn == '1') {
+              this.success = 1;
+              this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+            }
+            if (res.totalcount > 0) {
+              // this.download(2);
+              this.headLists = res.templatedata;
+              this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
-            this.posts = res.mobilehistorydata[0];
-            // this.keys = Object.keys(this.posts);
-           // this.reportAllLists = res.reportdata;
-            this.totalcount = res.totalcount;
+              this.posts = res.mobilehistorydata[0];
+              // this.keys = Object.keys(this.posts);
+              // this.reportAllLists = res.reportdata;
+              this.totalcount = res.totalcount;
 
-            this.location = res.unitdata[0].location;
-            this.unitname = res.unitdata[0].unitname;
-            this.projectname = res.unitdata[0].projectname;
-            this.controllerid = res.unitdata[0].controllerid;
-            this.alarmnotificationto = res.unitdata[0].alarmnotificationto;
-            this.alarmhashtags = res.unitdata[0].alarmhashtags;
-            this.neaplateno = res.unitdata[0].neaplateno;
-            this.serialnumber = res.unitdata[0].serialnumber;
-            this.nextservicedate = res.nextservicedate;
-            this.contactnames = res.contactnames;
-            this.contactnumbers = res.contactnumbers
-            this.fromdatedisplay = res.fromdate;
-            this.todatedisplay = res.todate;
-            this.timeframe = res.timeframe;
-            this.generatormodel = res.generatormodel;
-            this.unitgroupname = res.unitgroupname;
-          } else {
-            this.totalcount = 0;
-          }
+              this.location = res.unitdata[0].location;
+              this.unitname = res.unitdata[0].unitname;
+              this.projectname = res.unitdata[0].projectname;
+              this.controllerid = res.unitdata[0].controllerid;
+              this.alarmnotificationto = res.unitdata[0].alarmnotificationto;
+              this.alarmhashtags = res.unitdata[0].alarmhashtags;
+              this.neaplateno = res.unitdata[0].neaplateno;
+              this.serialnumber = res.unitdata[0].serialnumber;
+              this.nextservicedate = res.nextservicedate;
+              this.contactnames = res.contactnames;
+              this.contactnumbers = res.contactnumbers
+              this.fromdatedisplay = res.fromdate;
+              this.todatedisplay = res.todate;
+              this.timeframe = res.timeframe;
+              this.generatormodel = res.generatormodel;
+              this.unitgroupname = res.unitgroupname;
+            } else {
+              this.totalcount = 0;
+            }
 
-          if (data.status === 200) {
+            if (data.status === 200) {
 
-          }
-          // Otherwise let 'em know anyway
-          else {
+            }
+            // Otherwise let 'em know anyway
+            else {
 
-          }
+            }
 
-          this.noentrymsg = 'No report entries found';
-        });
+            this.noentrymsg = 'No report entries found';
+          });
         // For Gettting Unit Details in Graph
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
@@ -427,11 +428,13 @@ export class ReportviewtablePage {
         let uri;
         if (val == 1) {
           uri = res.pdf;
+          this.pdfDownloadLink = uri;
         } else {
           uri = res.csv;
+          this.csvDownloadLink = uri;
         }
         console.log("Uploaded and generated success file is:" + uri);
-        this.csvDownloadLink = uri;
+        //this.downloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
         let pdfPathURL = this.apiServiceURL;
@@ -440,7 +443,7 @@ export class ReportviewtablePage {
 
         if (val == 2) {
           pdfFile = 'report_' + new Date().toISOString() + '.csv';
-          pdfFile =pdfFile.replace("-","_");
+          pdfFile = pdfFile.replace("-", "_");
         }
 
         // if (val == 1) {
@@ -452,11 +455,11 @@ export class ReportviewtablePage {
           }
           console.log("val:" + val);
           if (val == 1) {
-            this.document.viewDocument(entry.toURL(), 'application/pdf', options);
+            // this.document.viewDocument(entry.toURL(), 'application/pdf', options);
           } else {
-            this.fileOpener.open(this.file.dataDirectory + pdfFile, 'application/excel')
-              .then(() => console.log('File is opened'))
-              .catch(e => console.log('Error openening file', e));
+            // this.fileOpener.open(this.file.dataDirectory + pdfFile, 'application/excel')
+            //   .then(() => console.log('File is opened'))
+            //   .catch(e => console.log('Error openening file', e));
           }
 
           this.pdfdownloadview = 0;

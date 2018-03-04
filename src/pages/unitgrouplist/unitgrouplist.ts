@@ -4,18 +4,18 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddunitsonePage } from '../addunitsone/addunitsone';
 import { LoadingController } from 'ionic-angular';
-import { DashboardPage } from '../dashboard/dashboard';
-import { UserPage } from '../user/user';
-import { MyaccountPage } from '../myaccount/myaccount';
+//import { DashboardPage } from '../dashboard/dashboard';
+//import { UserPage } from '../user/user';
+//import { MyaccountPage } from '../myaccount/myaccount';
 import { UnitgroupPage } from '../unitgroup/unitgroup';
-import { CompanygroupPage } from '../companygroup/companygroup';
-import { RolePage } from '../role/role';
+//import { CompanygroupPage } from '../companygroup/companygroup';
+//mport { RolePage } from '../role/role';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage } from '../orgchart/orgchart';
-import { UnitsPage } from '../units/units';
+//import { ReportsPage } from '../reports/reports';
+//import { CalendarPage } from '../calendar/calendar';
+//import { OrgchartPage } from '../orgchart/orgchart';
+//import { UnitsPage } from '../units/units';
 
 /**
  * Generated class for the Unitgrouplist page.
@@ -33,8 +33,7 @@ export class Unitgrouplist {
   public loginas: any;
   public pageTitle: string;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-  public VIEWACCESS: any;
+    public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;

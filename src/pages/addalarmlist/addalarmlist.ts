@@ -54,7 +54,6 @@ export class AddalarmlistPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
 
   constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public navCtrl: NavController,
@@ -62,7 +61,6 @@ export class AddalarmlistPage {
     public NP: NavParams,
     public fb: FormBuilder) {
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
@@ -93,7 +91,6 @@ export class AddalarmlistPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
 
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
 
   }

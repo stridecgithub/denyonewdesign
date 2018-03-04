@@ -5,16 +5,16 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddunitgroupPage } from '../addunitgroup/addunitgroup';
 import { LoadingController } from 'ionic-angular';
 import { DashboardPage } from '../dashboard/dashboard';
-import { UserPage } from '../user/user';
+//import { UserPage } from '../user/user';
 import { CompanygroupPage } from '../companygroup/companygroup';
-import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitsPage } from '../units/units';
-import { RolePage } from '../role/role';
+//import { MyaccountPage } from '../myaccount/myaccount';
+//import { UnitsPage } from '../units/units';
+//import { RolePage } from '../role/role';
 import { NotificationPage } from '../notification/notification';
-import { ReportsPage } from '../reports/reports';
-import { CalendarPage } from '../calendar/calendar';
+//import { ReportsPage } from '../reports/reports';
+//import { CalendarPage } from '../calendar/calendar';
 import { Unitgrouplist } from '../unitgrouplist/unitgrouplist';
-import { OrgchartPage } from '../orgchart/orgchart';
+//import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 /**
  * Generated class for the UnitgroupPage page.
@@ -33,8 +33,7 @@ export class UnitgroupPage {
   public loginas: any;
   public msgcount: any;
   public notcount: any;
-  private permissionMessage: string = "Permission denied for access this page. Please contact your administrator";
-  private apiServiceURL: string = "";
+    private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
   public sortLblTxt: string = 'Date';

@@ -25,7 +25,6 @@ export class EnginedetailviewPage {
   public unitid: any;
   public htmlContent;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
   pet: string = "ALL";
@@ -61,7 +60,6 @@ export class EnginedetailviewPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.unitid = localStorage.getItem("unitId");
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {
       this.previous();

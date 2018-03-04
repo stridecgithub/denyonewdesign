@@ -7,7 +7,7 @@ import { MessagesPage } from '../messages/messages';
 //import { CalendarPage } from '../calendar/calendar';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 
-//import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsEventPage } from '../event-details-event/event-details-event';
 //import { AddUnitPage } from "../add-unit/add-unit";
@@ -33,7 +33,7 @@ import { LoginPage } from '../login/login';
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
-  providers: [ LocalNotifications, Config]//Push,
+  providers: [ Push,LocalNotifications, Config]//
 })
 
 export class DashboardPage {
@@ -79,8 +79,8 @@ export class DashboardPage {
   page;
   alert: any;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-  //, private push: Push
-  constructor(public modalCtrl: ModalController, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  //
+  constructor(public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     this.page = this.navCtrl.getActive().name;
 
@@ -1231,125 +1231,125 @@ export class DashboardPage {
     console.log('E');
   }
   initPushNotification() {
-  //   // to check if we have permission
-  //   this.push.hasPermission()
-  //     .then((res: any) => {
+    // to check if we have permission
+    this.push.hasPermission()
+      .then((res: any) => {
 
-  //       if (res.isEnabled) {
-  //         console.log('We have permission to send push notifications');
-  //       } else {
-  //         console.log('We do not have permission to send push notifications');
-  //       }
+        if (res.isEnabled) {
+          console.log('We have permission to send push notifications');
+        } else {
+          console.log('We do not have permission to send push notifications');
+        }
 
-  //     });
+      });
 
-  //   // to initialize push notifications
+    // to initialize push notifications
 
-  //   const options: PushOptions = {
-  //     android: {},
-  //     ios: {
-  //       alert: 'true',
-  //       badge: true,
-  //       sound: 'true'
-  //     },
-  //     windows: {}
-  //   };
-
-
-  //   const pushObject: PushObject = this.push.init(options);
-  //   pushObject.on('notification').subscribe((notification: any) => {
-  //     console.log('Received a new notification in tab page', notification);
-  //     console.log(notification.additionalData.arrayval.type);
-  //     this.pushnotifycount = 0;
-  //     if (notification.additionalData.arrayval.type == 'M') {
-  //       console.log("A:" + this.pushnotifycount);
-  //       this.pushnotifycount = this.pushnotifycount + 1;
-  //       console.log("B:" + this.pushnotifycount);
-  //       //this.msgcount = this.msgcount + this.pushnotifycount;
-  //       console.log("C:" + this.msgcount);
-  //     }
-
-  //     this.schedule(notification, this.msgcount);
-  //   }
-  //   );
-
-  //   pushObject.on('registration').subscribe((registration: any) => {
-
-  //     console.log('Device registered', registration);
-  //     console.log('Device Json registered', JSON.stringify(registration));
-  //     localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
-  //   }
-  //   );
-
-  //   pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+    const options: PushOptions = {
+      android: {},
+      ios: {
+        alert: 'true',
+        badge: true,
+        sound: 'true'
+      },
+      windows: {}
+    };
 
 
-  // }
-  // public schedule(notification, cnt) {
-  //   //if (this.userId > 0) {
-  //   //this.msgcount = cnt;
-  //   console.log("D:" + JSON.stringify(notification));
-  //   this.localNotifications.schedule({
-  //     title: notification.title,
-  //     text: notification.message,
-  //     at: new Date(new Date()),
-  //     sound: null
-  //   });
+    const pushObject: PushObject = this.push.init(options);
+    pushObject.on('notification').subscribe((notification: any) => {
+      console.log('Received a new notification in tab page', notification);
+      console.log(notification.additionalData.arrayval.type);
+      this.pushnotifycount = 0;
+      if (notification.additionalData.arrayval.type == 'M') {
+        console.log("A:" + this.pushnotifycount);
+        this.pushnotifycount = this.pushnotifycount + 1;
+        console.log("B:" + this.pushnotifycount);
+        //this.msgcount = this.msgcount + this.pushnotifycount;
+        console.log("C:" + this.msgcount);
+      }
 
-  //   localStorage.setItem("navtype", notification.additionalData.arrayval.type);
-  //   localStorage.setItem("navtid", notification.additionalData.arrayval.id);
+      this.schedule(notification, this.msgcount);
+    }
+    );
 
-  //   this.localNotifications.on("click", (notification, state) => {
-  //     console.log("Local notification clicked...");
-  //     console.log("1" + notification);
-  //     console.log("2" + state);
-  //     console.log("3" + JSON.stringify(notification));
-  //     console.log("4" + JSON.stringify(state));
-  //     let navids = localStorage.getItem("navtid");
-  //     let navtypes = localStorage.getItem("navtype");
-  //     console.log(navids);
-  //     console.log(navtypes);
+    pushObject.on('registration').subscribe((registration: any) => {
 
-  //     if (navtypes == 'M') {
-  //       this.navCtrl.setRoot(MessageDetailViewPage, {
-  //         event_id: navids,
-  //         from: 'push'
-  //       });
-  //     }
-  //     else if (navtypes == 'OA') {
-  //       this.navCtrl.setRoot(EventDetailsPage, {
-  //         event_id: navids,
-  //         from: 'Push'
-  //       });
-  //     } else if (navtypes == 'A') {
-  //       this.navCtrl.setRoot(EventDetailsPage, {
-  //         event_id: navids,
-  //         from: 'Push'
-  //       });
-  //       localStorage.setItem("fromModule", "AlarmdetailsPage");
-  //     } else if (navtypes == 'C') {
-  //       this.navCtrl.setRoot(CommentdetailsPage, {
-  //         event_id: navids,
-  //         from: 'Push'
-  //       });
-  //       localStorage.setItem("fromModule", "CommentdetailsPage");
-  //     } else if (navtypes == 'E') {
-  //       this.navCtrl.setRoot(EventDetailsEventPage, {
-  //         event_id: navids,
-  //         from: 'Push',
-  //       });
-  //       localStorage.setItem("fromModule", "CalendardetailPage");
-  //     } else if (navtypes == 'S') {
-  //       this.navCtrl.setRoot(EventDetailsServicePage, {
-  //         event_id: navids,
-  //         from: 'Push'
-  //       });
-  //       localStorage.setItem("fromModule", "ServicedetailsPage");
-  //     }
+      console.log('Device registered', registration);
+      console.log('Device Json registered', JSON.stringify(registration));
+      localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
+    }
+    );
 
-  //   });
+    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
 
-  //   //}
+
+  }
+  public schedule(notification, cnt) {
+    //if (this.userId > 0) {
+    //this.msgcount = cnt;
+    console.log("D:" + JSON.stringify(notification));
+    this.localNotifications.schedule({
+      title: notification.title,
+      text: notification.message,
+      at: new Date(new Date()),
+      sound: null
+    });
+
+    localStorage.setItem("navtype", notification.additionalData.arrayval.type);
+    localStorage.setItem("navtid", notification.additionalData.arrayval.id);
+
+    this.localNotifications.on("click", (notification, state) => {
+      console.log("Local notification clicked...");
+      console.log("1" + notification);
+      console.log("2" + state);
+      console.log("3" + JSON.stringify(notification));
+      console.log("4" + JSON.stringify(state));
+      let navids = localStorage.getItem("navtid");
+      let navtypes = localStorage.getItem("navtype");
+      console.log(navids);
+      console.log(navtypes);
+
+      if (navtypes == 'M') {
+        this.navCtrl.setRoot(MessageDetailViewPage, {
+          event_id: navids,
+          from: 'push'
+        });
+      }
+      else if (navtypes == 'OA') {
+        this.navCtrl.setRoot(EventDetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+      } else if (navtypes == 'A') {
+        this.navCtrl.setRoot(EventDetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "AlarmdetailsPage");
+      } else if (navtypes == 'C') {
+        this.navCtrl.setRoot(CommentdetailsPage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "CommentdetailsPage");
+      } else if (navtypes == 'E') {
+        this.navCtrl.setRoot(EventDetailsEventPage, {
+          event_id: navids,
+          from: 'Push',
+        });
+        localStorage.setItem("fromModule", "CalendardetailPage");
+      } else if (navtypes == 'S') {
+        this.navCtrl.setRoot(EventDetailsServicePage, {
+          event_id: navids,
+          from: 'Push'
+        });
+        localStorage.setItem("fromModule", "ServicedetailsPage");
+      }
+
+    });
+
+    //}
    }
 }
 

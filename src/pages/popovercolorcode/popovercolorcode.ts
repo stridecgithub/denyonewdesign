@@ -16,8 +16,6 @@ import { Config } from '../../config/config';
   
 })
 export class PopovercolorcodePage {
-  //private apiServiceURL: string = "";
-  //private permissionMessage: string = "";
   apiServiceURLHTML:any;
   public networkType: string;
   public photo: any;

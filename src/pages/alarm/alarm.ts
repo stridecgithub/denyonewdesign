@@ -35,7 +35,6 @@ export class AlarmPage {
   public loginas: any;
   footerBar: number = 1;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public totalCount;
   pet: string = "ALL";
@@ -75,7 +74,6 @@ export class AlarmPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {
       this.previous();

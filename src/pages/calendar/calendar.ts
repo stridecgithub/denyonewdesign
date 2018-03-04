@@ -140,7 +140,6 @@ export class CalendarPage {
   sizeClassChanged: boolean;
   sizeClass: string;
   private apiServiceURL: string = "";
-  private permissionMessage: string = "";
   public networkType: string;
   public msgcount: any;
   public notcount: any;
@@ -187,7 +186,6 @@ export class CalendarPage {
       this.onDrop(value.slice(1));
     });
     this.networkType = '';
-    this.permissionMessage = conf.rolePermissionMsg();
     this.apiServiceURL = conf.apiBaseURL();
     this.calEvents = [];
 
