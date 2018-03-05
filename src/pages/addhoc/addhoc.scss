@@ -2,7 +2,10 @@ page-addhoc {
 
   ion-content .scroll-content {
     margin-bottom: 0;
-}
+  }
+	.list-md .item-block .item-inner {
+		border-bottom: 0px solid #dedede;
+	}
   .servicing-details-heading {
     padding: 10px 5px 5px 5px;
     h4 {

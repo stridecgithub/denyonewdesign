@@ -149,6 +149,10 @@ page-servicinginfo {
 		}
 	}
 	.history{
+	.lst{
+		border-bottom: 1px solid #d6d6d6;
+		margin-top: 0;
+	}
   	h1{
   		font-size: 16px;
   		background-color: #f8a70f;
@@ -166,7 +170,7 @@ page-servicinginfo {
   	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 1px solid #d6d6d6;
+				border-bottom: 0px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;
 
@@ -192,7 +196,7 @@ page-servicinginfo {
 	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 1px solid #d6d6d6;
+				border-bottom: 0px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;	  	
 			  	.p2{
@@ -215,7 +219,7 @@ page-servicinginfo {
 	.lst{
 		margin-bottom: 0;
 		.brd{
-				border-bottom: 1px solid #d6d6d6;
+				border-bottom: 0px solid #d6d6d6;
 	  	.slide{
 	  		padding: 0;	  	
 			  	.p3{
