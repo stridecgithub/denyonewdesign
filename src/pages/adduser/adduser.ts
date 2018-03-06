@@ -11,8 +11,8 @@ import { UserPage } from '../user/user';
 //import { UnitgroupPage } from '../unitgroup/unitgroup';
 //import { RolePage } from '../role/role';
 //import { OrgchartPage } from '../orgchart/orgchart';
-import { MyaccountPage } from '../myaccount/myaccount';
-import { UnitsPage } from '../units/units';
+//import { MyaccountPage } from '../myaccount/myaccount';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 //import { ReportsPage } from '../reports/reports';
 //import { CalendarPage } from '../calendar/calendar';
@@ -177,7 +177,7 @@ export class AdduserPage {
       });
   }
   pageLoad() {
-    let companyid = '';
+  //  let companyid = '';
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -272,7 +272,7 @@ export class AdduserPage {
           this.photo = info[0].photo;
 
           if (this.contact != '') {
-            let contactSplitSpace = this.contact.split(" ");
+            //let contactSplitSpace = this.contact.split(" ");
             //this.primary = contactSplitSpace[0];
             //this.contact = contactSplitSpace[1];
             this.contact = this.contact;

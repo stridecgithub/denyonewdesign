@@ -7,7 +7,7 @@ import { LoadingController } from 'ionic-angular';
 //import { UserPage } from '../user/user';
 import { MyaccountPage } from '../myaccount/myaccount';
 //import { DashboardPage } from '../dashboard/dashboard';
-import { UnitgroupPage } from '../unitgroup/unitgroup';
+//import { UnitgroupPage } from '../unitgroup/unitgroup';
 //import { UnitsPage } from '../units/units';
 //import { CompanygroupPage } from '../companygroup/companygroup';
 import { NotificationPage } from '../notification/notification';

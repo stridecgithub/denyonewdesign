@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import { NotificationPage } from '../notification/notification';
 //import { ReportsPage } from '../reports/reports';
 //import { CalendarPage } from '../calendar/calendar';
-import { OrgchartPage} from '../orgchart/orgchart';
+//import { OrgchartPage} from '../orgchart/orgchart';
 /**
  * Generated class for the AddRolePage page.
  *

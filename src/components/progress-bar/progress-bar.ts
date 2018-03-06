@@ -26,7 +26,7 @@ export class ProgressBarComponent {
   page;
   private apiServiceURL: string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams, private conf: Config, public http: Http, public events: Events) {
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.dashboardhighlight = 0;
     this.unitshighlight = 0;

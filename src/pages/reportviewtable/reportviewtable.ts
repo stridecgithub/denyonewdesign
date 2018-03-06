@@ -2,20 +2,20 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, Platform, AlertController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { MyaccountPage } from '../myaccount/myaccount';
-import { CompanygroupPage } from '../companygroup/companygroup';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { RolePage } from '../role/role';
-import { DashboardPage } from '../dashboard/dashboard';
-import { UnitsPage } from '../units/units';
+//import { MyaccountPage } from '../myaccount/myaccount';
+//import { CompanygroupPage } from '../companygroup/companygroup';
+import { FormGroup,  FormBuilder } from '@angular/forms';
+//import { RolePage } from '../role/role';
+//import { DashboardPage } from '../dashboard/dashboard';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
+//import { CalendarPage } from '../calendar/calendar';
 import { DatePicker } from '@ionic-native/date-picker';
 import { ReportsPage } from '../reports/reports';
-import { OrgchartPage } from '../orgchart/orgchart';
+//import { OrgchartPage } from '../orgchart/orgchart';
 import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
 import { FileOpener } from '@ionic-native/file-opener';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as papa from 'papaparse';
@@ -82,7 +82,7 @@ export class ReportviewtablePage {
   url;
   storageDirectory: string = '';
   public buttonClicked: boolean = false;
-  constructor(private platform: Platform, private alertCtrl: AlertController, private document: DocumentViewer, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, private fileOpener: FileOpener, private datePicker: DatePicker, public NP: NavParams,
+  constructor( private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Reports Preview & Download';
     //this.readCsvData();
@@ -161,7 +161,7 @@ export class ReportviewtablePage {
       console.log("Block A");
       let info = this.NP.get("selunit");
       console.log(JSON.stringify(info));
-      let body: string = "is_mobile=1" +
+      let /*body: string = "is_mobile=1" +
         "&selunit=" + this.NP.get("selunit") +
         "&seltimeframe=" + this.NP.get("seltimeframe") +
         "&seltemplate=" + this.NP.get("seltemplate") +
@@ -171,7 +171,7 @@ export class ReportviewtablePage {
         "&seltype=" + seltype +
         "&action=" + action +
         "&loginid=" + this.userid +
-        "&companyid=" + this.companyid,
+        "&companyid=" + this.companyid,*/
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
@@ -259,7 +259,7 @@ export class ReportviewtablePage {
       } else {
 
         // For Getting Unit Details in Graph
-        let body: string = "is_mobile=1" +
+        let /*body: string = "is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
           "&seltemplate=" + this.NP.get("seltemplate") +
@@ -269,7 +269,7 @@ export class ReportviewtablePage {
           "&seltype=" + seltype +
           "&action=" + action +
           "&loginid=" + this.userid +
-          "&companyid=" + this.companyid,
+          "&companyid=" + this.companyid,*/
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
@@ -388,7 +388,7 @@ export class ReportviewtablePage {
     //this.buttonClicked = true;
     console.log("PDF Download");
     // PDF Viewer Calling      
-    let body: string = "is_mobile=1" +
+    let /*body: string = "is_mobile=1" +
       "&selunit=" + this.NP.get("selunit") +
       "&seltimeframe=" + this.NP.get("seltimeframe") +
       "&seltemplate=" + this.NP.get("seltemplate") +
@@ -398,7 +398,7 @@ export class ReportviewtablePage {
       "&seltype=" + val +
       "&action=view" +
       "&loginid=" + this.userid +
-      "&companyid=" + this.companyid,
+      "&companyid=" + this.companyid,*/
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -437,7 +437,7 @@ export class ReportviewtablePage {
         //this.downloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
-        let pdfPathURL = this.apiServiceURL;
+       // let pdfPathURL = this.apiServiceURL;
         this.csvurl = uri;
         // this.pdfDownloadLink = url;
 
@@ -450,9 +450,9 @@ export class ReportviewtablePage {
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
           console.log('download complete: ' + entry.toURL());
-          const options: DocumentViewerOptions = {
-            title: url
-          }
+          // const options: DocumentViewerOptions = {
+          //   title: url
+          // }
           console.log("val:" + val);
           if (val == 1) {
             // this.document.viewDocument(entry.toURL(), 'application/pdf', options);
@@ -525,29 +525,7 @@ export class ReportviewtablePage {
     //this.readCsvData();
     //http://denyoappv2.stridecdev.com/report.csv
   }
-  private readCsvData() {
-    // this.http.get('http://denyoappv2.stridecdev.com/report.csv')
-    //   .subscribe(
-    //   data => {
-    //     console.log(JSON.stringify(data));
-    //     this.extractData(data);
-    //   },
-    //   err => this.handleError(err)
-    //   );
-
-    let //body: string = "loginid=" + this.userId,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/report.csv";
-    this.http.get(url, options)
-      .subscribe((data) => {
-        console.log("CSV response Success:" + JSON.stringify(data.json()));
-        this.extractData(data);
-
-      });
-
-  }
+ 
 
   private extractData(res) {
     let csvData = res['_body'] || '';
@@ -558,9 +536,7 @@ export class ReportviewtablePage {
     parsedData.splice(0, 1);
     this.csvData = parsedData;
   }
-  private handleError(err) {
-    console.log('something went wrong: ', err);
-  }
+
 
   trackByFn(index: any, item: any) {
     return index;

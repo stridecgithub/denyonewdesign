@@ -7,9 +7,9 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import { CompanygroupPage } from '../companygroup/companygroup';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 //import { RolePage } from '../role/role';
-import { DashboardPage } from '../dashboard/dashboard';
+//import { DashboardPage } from '../dashboard/dashboard';
 //import { UnitsPage } from '../units/units';
-import { NotificationPage } from '../notification/notification';
+//import { NotificationPage } from '../notification/notification';
 //import { CalendarPage } from '../calendar/calendar';
 import { DatePicker } from '@ionic-native/date-picker';
 import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
@@ -105,7 +105,7 @@ export class RequestdenyoPage {
   }
 
   getNextDate(val) {
-    let date;
+   // let date;
     this.datePicker.show({
       date: new Date(), mode: 'date',
       doneButtonColor: '#F2F3F4',
