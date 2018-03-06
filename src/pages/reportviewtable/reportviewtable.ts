@@ -249,6 +249,8 @@ export class ReportviewtablePage {
       // PDF
 
     } else if (this.graphview > 0) {
+
+      this.buttonClicked = false;
       console.log("Block C");
 
       if (seltypeBtn == '1') {
