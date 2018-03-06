@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, Events, MenuController } from 'ionic-angular';
+import { Platform, NavController, NavParams, Events, MenuController } from 'ionic-angular';
 import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -114,13 +114,13 @@ export class LoginPage {
   gotoDashboard(username, password) {
     let device_token = localStorage.getItem("deviceTokenForPushNotification");
     let res;
-    console.log("dev token:"+device_token)
+    console.log("dev token:" + device_token)
     if (device_token == 'null') {
-      console.log("A"+device_token)
+      console.log("A" + device_token)
       device_token = '';
     }
     if (device_token == null) {
-       console.log("B"+device_token)
+      console.log("B" + device_token)
       device_token = '';
     }
     let body: string = "username=" + username +
@@ -150,21 +150,22 @@ export class LoginPage {
           localStorage.setItem("userInfoCompanyGroupName", res['staffdetails'][0].companygroup_name);
           localStorage.setItem("userInfoPhoto", res['staffdetails'][0].photo);
           localStorage.setItem("userInfoRoleId", res['staffdetails'][0].role_id);
-          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);  
-          console.log(JSON.stringify(res['roledata'])); 
-          localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));      
+          localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
+          localStorage.setItem("leftmenu", JSON.stringify(res['leftmenu']));
+          localStorage.setItem("footermenu", res['footermenu']);
+          console.log(JSON.stringify(res['roledata']));
+          localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));
           this.createUser(res['staffdetails'][0]);
-
-
           this.nativeStorage.setItem('menuItem', { profilePhoto: res['staffdetails'][0].photo, firstname: res['staffdetails'][0].firstname, lastname: res['staffdetails'][0].lastname, companyGroupName: res['staffdetails'][0].companygroup_name })
             .then(
             () => console.log('Stored item!'),
             error => console.error('Error storing item', error)
             );
-            this.events.publish('menu:created', 'dashboard', Date.now());
+          this.events.publish('menu:created', 'dashboard', Date.now());
           this.navCtrl.setRoot(DashboardPage, {
             companyId: res['staffdetails'][0].company_id,
             userId: res['staffdetails'][0].staff_id,
+            footermenu: res['footermenu'],
           });
         }
 
@@ -181,6 +182,6 @@ export class LoginPage {
   doMove() {
     this.navCtrl.push(ForgotpasswordPage);
   }
-  
+
 
 }

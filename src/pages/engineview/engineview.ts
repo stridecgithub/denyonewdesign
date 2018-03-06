@@ -15,7 +15,7 @@ import { Config } from '../../config/config';
 })
 export class EngineviewPage {
   public pageTitle: string;
- footerBar: number = 1;
+  footerBar: number = 1;
   public item = [];
   public msgcount: any;
   public notcount: any;
@@ -43,10 +43,10 @@ export class EngineviewPage {
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
   }
 

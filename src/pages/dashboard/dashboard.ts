@@ -13,7 +13,9 @@ import { EventDetailsEventPage } from '../event-details-event/event-details-even
 //import { AddUnitPage } from "../add-unit/add-unit";
 //import { AlarmLogPage } from "../alarm-log/alarm-log";
 //import { UnitDetailsPage } from '../unit-details/unit-details';
-import { EventDetailsServicePage } from '../event-details-service/event-details-service';
+//import { EventDetailsServicePage } from '../event-details-service/event-details-service';
+import { ServicingDetailsPage } from '../servicing-details/servicing-details';
+
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { ModalPage } from '../modal/modal';
@@ -33,11 +35,12 @@ import { LoginPage } from '../login/login';
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
-  providers: [ Push,LocalNotifications, Config]//
+  providers: [Push, LocalNotifications, Config]//
 })
 
 export class DashboardPage {
-  footerBar: number = 0;
+  //footerBar: number = 0;
+  footerBar:any;
   tabIndexVal;
   @ViewChild('map') mapElement: ElementRef;
   public map: any;
@@ -84,8 +87,19 @@ export class DashboardPage {
 
     this.page = this.navCtrl.getActive().name;
 
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-
+    //this.footerBar="0,"+footermenuacc;
+    this.footerBar="0";
+    //let footerBar=this.footerBar.split(",");
+    console.log("Final Footer Menu access:" + this.footerBar);
     this.platform.ready().then(() => {
       this.tabIndexVal = localStorage.getItem("tabIndex");
       this.platform.registerBackButtonAction(() => {
@@ -1340,7 +1354,7 @@ export class DashboardPage {
         });
         localStorage.setItem("fromModule", "CalendardetailPage");
       } else if (navtypes == 'S') {
-        this.navCtrl.setRoot(EventDetailsServicePage, {
+        this.navCtrl.setRoot(ServicingDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
@@ -1350,6 +1364,6 @@ export class DashboardPage {
     });
 
     //}
-   }
+  }
 }
 
