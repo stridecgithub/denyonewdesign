@@ -303,6 +303,14 @@ export class MyApp {
     localStorage.setItem("userInfoPhoto", "");
     localStorage.setItem("leftmenu", "");
     localStorage.setItem("footermenu", '');
+
+    localStorage.setItem("DASHBOARD_MAP_VIEW", '');
+
+
+    localStorage.setItem("DASHBOARD_UNITS_VIEW", '');
+    localStorage.setItem("DASHBOARD_UNITS_EDIT", '');
+    localStorage.setItem("DASHBOARD_UNITS_HIDE", '');
+
     this.events.unsubscribe('user:created', null);
 
     /*this.storage.clear().then(()=>{

@@ -24,6 +24,7 @@ import { AddUnitPage } from "../add-unit/add-unit";
 import { Network } from '@ionic-native/network';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { LoginPage } from '../login/login';
+declare var jQuery: any;
 /**
  * Generated class for the DashboardPage page.
  *
@@ -40,7 +41,7 @@ import { LoginPage } from '../login/login';
 
 export class DashboardPage {
   //footerBar: number = 0;
-  footerBar:any;
+  footerBar: any;
   tabIndexVal;
   @ViewChild('map') mapElement: ElementRef;
   public map: any;
@@ -78,15 +79,18 @@ export class DashboardPage {
   lastname;
   companyGroupName;
   dashboardhighlight;
+  rolePermissionMsg;
   pushnotifycount;
   page;
   alert: any;
+  segmenttabshow;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
   //
+  public MAPVIEWACCESS: any;
+  public UNITVIEWACCESS: any;
   constructor(public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
-
-    this.page = this.navCtrl.getActive().name;
-
+   
+    
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');
     let footermenuacc;
@@ -97,7 +101,7 @@ export class DashboardPage {
     }
 
     //this.footerBar="0,"+footermenuacc;
-    this.footerBar="0";
+    this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     console.log("Final Footer Menu access:" + this.footerBar);
     this.platform.ready().then(() => {
@@ -213,32 +217,55 @@ export class DashboardPage {
     // this.disconnected.unsubscribe();
   }
   ionViewDidEnter() {
+
+    this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
+    this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
     localStorage.setItem("tabIndex", "0");
     this.tabIndexVal = localStorage.getItem("tabIndex");
-    // this.network.onConnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.network.onDisconnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.connected = this.network.onConnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
-    // this.disconnected = this.network.onDisconnect().subscribe(data => {
-    //   console.log(data)
-    //   this.displayNetworkUpdate(data.type);
-    // }, error => console.error(error));
-
+    let mapView = document.getElementById('mapView');
+    let listView = document.getElementById('listView');
+   
+    if (this.UNITVIEWACCESS == 1 &&this.MAPVIEWACCESS == 0) {
+      console.log("X");
+      jQuery('#maptab').hide();
+      jQuery('#unittab').show();
+      mapView.style.display = 'none';
+      listView.style.display = 'block';
+      this.rolePermissionMsg='';
+      this.segmenttabshow=0;
+    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 0) {
+      console.log("Y");
+      jQuery('#maptab').hide();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'none';
+      listView.style.display = 'none';
+      this.rolePermissionMsg=this.conf.rolePermissionMsg();
+      this.segmenttabshow=0;
+    }else if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 1) {
+      console.log("YSQL");
+      jQuery('#maptab').show();
+      jQuery('#unittab').show();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.rolePermissionMsg='';
+      this.segmenttabshow=1;
+    }else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 1) {
+      this.rolePermissionMsg='';
+      console.log("Q");
+      jQuery('#maptab').show();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.segmenttabshow=0;
+    } 
 
   }
 
   ionViewDidLoad() {
+
+    this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
+    this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
+
     localStorage.setItem("tabIndex", "0");
     this.tabIndexVal = localStorage.getItem("tabIndex");
     console.log('dashboardselected' + this.navParams.get('dashboardselected'));
@@ -295,6 +322,39 @@ export class DashboardPage {
         this.initMap();
       });
     }
+    if (this.UNITVIEWACCESS == 1 &&this.MAPVIEWACCESS == 0) {
+      console.log("X");
+      jQuery('#maptab').hide();
+      jQuery('#unittab').show();
+      mapView.style.display = 'none';
+      listView.style.display = 'block';
+      this.rolePermissionMsg='';
+      this.segmenttabshow=0;
+    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 0) {
+      console.log("Y");
+      jQuery('#maptab').hide();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'none';
+      listView.style.display = 'none';
+      this.rolePermissionMsg=this.conf.rolePermissionMsg();
+      this.segmenttabshow=0;
+    }else if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 1) {
+      console.log("YSQL");
+      jQuery('#maptab').show();
+      jQuery('#unittab').show();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.rolePermissionMsg='';
+      this.segmenttabshow=1;
+    }else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 1) {
+      this.rolePermissionMsg='';
+      console.log("Q");
+      jQuery('#maptab').show();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.segmenttabshow=0;
+    } 
   }
 
   doNotifiyCount() {

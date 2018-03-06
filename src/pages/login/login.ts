@@ -164,19 +164,14 @@ export class LoginPage {
               // 1 - Parent Module Dashboard
               if (roleparseData[rle]['page_name'] == '8' && roleparseData[rle]['module_name'] == '1') {
                 localStorage.setItem("DASHBOARD_MAP_VIEW", '1');
-                localStorage.setItem("DASHBOARD_MAP_CREATE", '1');
-                localStorage.setItem("DASHBOARD_MAP_EDIT", '1');
-                localStorage.setItem("DASHBOARD_MAP_DELETE", '1');
-                localStorage.setItem("DASHBOARD_MAP_HIDE", '1');
+
               }
 
               // 12 - Child Module Unit
               // 1 - Parent Module Dashboard
               if (roleparseData[rle]['page_name'] == '12' && roleparseData[rle]['module_name'] == '1') {
                 localStorage.setItem("DASHBOARD_UNITS_VIEW", '1');
-                localStorage.setItem("DASHBOARD_UNITS_CREATE", '1');
                 localStorage.setItem("DASHBOARD_UNITS_EDIT", '1');
-                localStorage.setItem("DASHBOARD_UNITS_DELETE", '1');
                 localStorage.setItem("DASHBOARD_UNITS_HIDE", '1');
               }
 
@@ -280,21 +275,16 @@ export class LoginPage {
 
               // 1 - Parent Module Dashboard
               if (roleparseData[rle]['page_name'] == '8' && roleparseData[rle]['module_name'] == '1') {
+                console.log('Kannan for roles');
                 localStorage.setItem("DASHBOARD_MAP_VIEW", roleparseData[rle]['view_action']);
-                localStorage.setItem("DASHBOARD_MAP_CREATE", roleparseData[rle]['create_action']);
-                localStorage.setItem("DASHBOARD_MAP_EDIT", roleparseData[rle]['edit_action']);
-                localStorage.setItem("DASHBOARD_MAP_DELETE", roleparseData[rle]['delete_action']);
-                localStorage.setItem("DASHBOARD_MAP_HIDE", roleparseData[rle]['hide_action']);
               }
 
               // 12 - Child Module Unit
               // 1 - Parent Module Dashboard
               if (roleparseData[rle]['page_name'] == '12' && roleparseData[rle]['module_name'] == '1') {
                 localStorage.setItem("DASHBOARD_UNITS_VIEW", roleparseData[rle]['view_action']);
-                localStorage.setItem("DASHBOARD_UNITS_CREATE", roleparseData[rle]['create_action']);
-                localStorage.setItem("DASHBOARD_UNITS_EDIT", roleparseData[rle]['edit_action']);
-                localStorage.setItem("DASHBOARD_UNITS_DELETE", roleparseData[rle]['delete_action']);
-                localStorage.setItem("DASHBOARD_UNITS_HIDE", roleparseData[rle]['hide_action']);
+                 localStorage.setItem("DASHBOARD_UNITS_EDIT", roleparseData[rle]['edit_action']);
+                 localStorage.setItem("DASHBOARD_UNITS_HIDE", roleparseData[rle]['hide_action']);
               }
 
               // 1 - Child Module My Account
