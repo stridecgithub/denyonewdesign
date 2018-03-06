@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform,ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform, ModalController } from 'ionic-angular';
 import { AddserviceinfoPage } from '../addserviceinfo/addserviceinfo';
 import { UnitsPage } from '../units/units';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -80,8 +80,8 @@ export class ServicinginfoPage {
   public profilePhoto;
   public sortLblTxt: string = 'Date';
   //tabBarElement: any;
-  footerBar: number = 1;
-  constructor(public modalCtrl: ModalController,private conf: Config, public platform: Platform, public http: Http,
+  public footerBar = [];
+  constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Servicing Info';
     this.loginas = localStorage.getItem("userInfoName");
@@ -110,12 +110,100 @@ export class ServicinginfoPage {
       this.previous();
     });
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
+
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
+
+
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+    // Footer Menu Access - End
   }
 
   ionViewWillLeave() {
     //this.tabBarElement.style.display = 'flex';
   }
-  
+
   ionViewDidLoad() {
     // this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad ServicinginfoPage');
@@ -274,7 +362,7 @@ export class ServicinginfoPage {
         console.log("1" + res.services.length);
         console.log("2" + res.services);
         if (res.services.length > 0) {
-           this.upcomingAllLists = res.services;
+          this.upcomingAllLists = res.services;
           /*if (res.services.length > 0) {
             for (let serviceData in res.services) {
               this.upcomingAllLists.push({
@@ -473,8 +561,8 @@ export class ServicinginfoPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-         // this.conf.sendNotification(`Service details deleted successfully`);
-         this.conf.sendNotification(data.json().msg[0]['result']);
+          // this.conf.sendNotification(`Service details deleted successfully`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
           if (from == 'upcoming') {
             this.upcomingData.startindex = 0;
             this.upcomingAllLists = [];
@@ -618,31 +706,31 @@ export class ServicinginfoPage {
 
         if (res.services.length > 0) {
           for (let serviceData in res.services) {
-             this.historyAllLists = res.services;
+            this.historyAllLists = res.services;
 
-           /* this.historyAllLists.push({
-              "user_photo": res.services[serviceData].user_photo,
-              "service_subject": res.services[serviceData].service_subject,
-              "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
-              "serviced_created_name": res.services[serviceData].serviced_created_name,
-              "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag_withinclosedbracket != undefined ? res.services[serviceData].serviced_created_name_hastag_withinclosedbracket : '',
-              "serviced_by_name": res.services[serviceData].serviced_by_name,
-              "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag_withinclosedbracket != undefined ?   res.services[serviceData].serviced_by_name_hastag_withinclosedbracket  : '',
-              "is_denyo_support": res.services[serviceData].is_denyo_support,
-              "is_request": res.services[serviceData].is_request,
-              "service_remark": res.services[serviceData].service_remark,
-              "service_description": res.services[serviceData].service_description,
-              "service_resources": res.services[serviceData].service_resources,
-              "service_unitid": res.services[serviceData].service_unitid,
-              "service_id": res.services[serviceData].service_id,
-              "serviced_schduled_date": res.services[serviceData].serviced_schduled_date,
-              "service_scheduled_time_format": res.services[serviceData].service_scheduled_time_format,
-              "next_service_date": res.services[serviceData].next_service_date,
-              "next_service_date_selected": res.services[serviceData].next_service_date_selected,
-              "service_status": res.services[serviceData].service_status,
-              "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
-              "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
-            });*/
+            /* this.historyAllLists.push({
+               "user_photo": res.services[serviceData].user_photo,
+               "service_subject": res.services[serviceData].service_subject,
+               "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
+               "serviced_created_name": res.services[serviceData].serviced_created_name,
+               "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag_withinclosedbracket != undefined ? res.services[serviceData].serviced_created_name_hastag_withinclosedbracket : '',
+               "serviced_by_name": res.services[serviceData].serviced_by_name,
+               "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag_withinclosedbracket != undefined ?   res.services[serviceData].serviced_by_name_hastag_withinclosedbracket  : '',
+               "is_denyo_support": res.services[serviceData].is_denyo_support,
+               "is_request": res.services[serviceData].is_request,
+               "service_remark": res.services[serviceData].service_remark,
+               "service_description": res.services[serviceData].service_description,
+               "service_resources": res.services[serviceData].service_resources,
+               "service_unitid": res.services[serviceData].service_unitid,
+               "service_id": res.services[serviceData].service_id,
+               "serviced_schduled_date": res.services[serviceData].serviced_schduled_date,
+               "service_scheduled_time_format": res.services[serviceData].service_scheduled_time_format,
+               "next_service_date": res.services[serviceData].next_service_date,
+               "next_service_date_selected": res.services[serviceData].next_service_date_selected,
+               "service_status": res.services[serviceData].service_status,
+               "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
+               "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
+             });*/
           }
 
           this.totalCounthistory = res.totalCounthistory;

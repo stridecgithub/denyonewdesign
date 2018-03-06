@@ -2,14 +2,28 @@
 
 <div class="custom-tab">
 
-    <a class="" (click)="goto('DashboardPage')" *ngIf="progress!=0">
-        <!--aria-selected="true"-->
-        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
-        <span class="">Dashboard</span>
+
+
+    <!-- <a class="" *ngFor="let footeritem of progress; let i = index" [attr.data-index]="i">     
+        <ion-icon  (click)="goto(footeritem.pageComponent)"  class="icon icon-md ion-md-help"  *ngIf="footeritem.active!=0"></ion-icon>
+        <span class="">{{footeritem.title}}</span>
+    </a> -->
+
+
+    <a class="" *ngFor="let footeritem of progress; let i = index" [attr.data-index]="i" [ngStyle]="{'border-top': '2px solid '+footeritem.colorcode,'color': footeritem.colorcode, 'font-size': '24px', 'font-weight': 'bold' , 'padding': '0', ' background': 'assets/imgs/tab-units-icon-active@2x.png','border-top': '2px solid'+ footeritem.colorcode,'display':footeritem.footerdisplay}">
+        <ion-icon (click)="goto(footeritem.pageComponent)" class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
+        <span class="">{{footeritem.title}}</span>
     </a>
 
-    <a class="" (click)="goto('DashboardPage')" *ngIf="progress==0" aria-selected="true">
-        <!--aria-selected="true"-->
+
+
+
+    <!-- <a class="" (click)="goto('DashboardPage')" *ngIf="progress!=0">     
+        <ion-icon class="icon icon-md ion-md-help"></ion-icon>
+        <span class="">Dashboard - {{progress}}</span>
+    </a>
+
+    <a class="" (click)="goto('DashboardPage')" *ngIf="progress==0" aria-selected="true">       
         <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
         <span class="">Dashboard</span>
     </a>
@@ -63,7 +77,7 @@
     <a class="" (click)="goto('OrgchartPage')" aria-selected="true" *ngIf="progress==4">
         <ion-icon class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
         <span class="">Org Chart</span>
-    </a>
+    </a> -->
 
 </div>
 

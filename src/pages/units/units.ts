@@ -1,5 +1,5 @@
-import { Component,} from '@angular/core';
-import {  NavController, NavParams, AlertController, Events,ModalController } from 'ionic-angular';
+import { Component, } from '@angular/core';
+import { NavController, NavParams, AlertController, Events, ModalController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -21,7 +21,8 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-  footerBar: number = 1;
+  
+  public footerBar = [];
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";
@@ -50,7 +51,7 @@ export class UnitsPage {
   public notcount: any;
   public profilePhoto;
   tabIndexVal;
-  constructor(public modalCtrl: ModalController,public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -60,10 +61,111 @@ export class UnitsPage {
     }
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.tabIndexVal = localStorage.getItem("tabIndex");
+
+
+  // Footer Menu Access - Start
+  let footeraccessstorage = localStorage.getItem("footermenu");
+  let footeraccessparams = this.navParams.get('footermenu');
+  let footermenuacc;
+  if (footeraccessparams != undefined) {
+    footermenuacc = footeraccessparams;
+  } else {
+    footermenuacc = footeraccessstorage;
+  }
+
+  console.log("Footer Menu Access abc:-" + footermenuacc);
+  // this.footerBar="0,"+footermenuacc;
+
+  let footermenusplitcomma = footermenuacc.split(",");
+  let dashboardAccess = footermenusplitcomma[0];
+  let unitAccess = footermenusplitcomma[1];
+  let calendarAccess = footermenusplitcomma[2];
+  let messageAccess = footermenusplitcomma[3];
+  let orgchartAccess = footermenusplitcomma[4];
+
+  console.log("Footer Menu Access for Dashboard" + dashboardAccess);
+  console.log("Footer Menu Access for Dashboard" + unitAccess);
+  console.log("Footer Menu Access for Calendar" + calendarAccess);
+  console.log("Footer Menu Access for Messagees" + messageAccess);
+  console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+  let dashboarddisplay;
+  if (dashboardAccess == 1) {
+    dashboarddisplay = '';
+  } else {
+    dashboarddisplay = 'none';
+  }
+  this.footerBar.push({
+    title: 'Dashboard',
+    active: true,
+    colorcode: "rgba(60, 60, 60, 0.7)",
+    footerdisplay: dashboarddisplay,
+    pageComponent: 'DashboardPage'
+  });
+  let unitdisplay;
+  if (unitAccess == 1) {
+    unitdisplay = '';
+  } else {
+    unitdisplay = 'none';
+  }
+  this.footerBar.push({
+    title: 'Units',
+    active: false,
+    colorcode: "#488aff",
+    footerdisplay: unitdisplay,
+    pageComponent: 'UnitsPage'
+  });
+  let calendardisplay;
+  if (calendarAccess == 1) {
+    calendardisplay = '';
+  } else {
+    calendardisplay = 'none';
+  }
+
+  this.footerBar.push({
+    title: 'Calendar',
+    active: false,
+    colorcode: "rgba(60, 60, 60, 0.7)",
+    footerdisplay: calendardisplay,
+    pageComponent: 'CalendarPage'
+  });
+  let messagedisplay;
+  if (messageAccess == 1) {
+    messagedisplay = '';
+  } else {
+    messagedisplay = 'none';
+  }
+  this.footerBar.push({
+    title: 'Message',
+    active: false,
+    colorcode: "rgba(60, 60, 60, 0.7)",
+    footerdisplay: messagedisplay,
+    pageComponent: 'MessagePage'
+  });
+  let orgchartdisplay;
+  if (orgchartAccess == 1) {
+    orgchartdisplay = '';
+  } else {
+    orgchartdisplay = 'none';
+  }
+  this.footerBar.push({
+    title: 'Org Chart',
+    active: false,
+    footerdisplay: orgchartdisplay,
+    colorcode: "rgba(60, 60, 60, 0.7)",
+    pageComponent: 'OrgchartPage'
+  });
+
+  console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
+  //this.footerBar = "0";
+  //let footerBar=this.footerBar.split(",");
+  console.log("Final Footer Menu access:" + this.footerBar);
+
+  // Footer Menu Access - End
+
   }
 
   ionViewWillEnter() {
-   
+
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
     //this.tabBarElement.style.display = 'flex';
@@ -74,7 +176,7 @@ export class UnitsPage {
     modal.present();
   }
   ionViewDidLoad() {
-   
+
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
     //console.log("Page Name"+this.navCtrl.getActive().name);
@@ -359,7 +461,7 @@ export class UnitsPage {
           this.totalCount = 0;
         }
 
-       
+
       }, error => {
         console.log(error);// + "\n" + error;
       });

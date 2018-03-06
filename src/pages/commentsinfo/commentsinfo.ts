@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController ,ModalController} from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -49,7 +49,7 @@ export class CommentsinfoPage {
     addedImgLists2: '',
     colorcodeindications: ''
   }
-  footerBar: number = 1;
+  public footerBar = [];
   public userId: any;
   public reportAllLists = [];
   public loginas: any;
@@ -66,7 +66,7 @@ export class CommentsinfoPage {
   public networkType: string;
   public totalCount;
   public sortLblTxt: string = 'Comment';
-  constructor( public modalCtrl: ModalController,private platform: Platform, private conf: Config, public http: Http,
+  constructor(public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Comments';
     this.loginas = localStorage.getItem("userInfoName");
@@ -84,6 +84,95 @@ export class CommentsinfoPage {
     this.platform.registerBackButtonAction(() => {
       this.previous();
     });
+
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
+
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
+
+
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+    // Footer Menu Access - End
   }
 
   ionViewDidLoad() {
@@ -106,26 +195,26 @@ export class CommentsinfoPage {
 
 
   doServiceView(event_id, event_type, eventdata) {
-   this.navCtrl.setRoot(ServicingDetailsPage, {
-       event_id: event_id,
-       event_type: event_type,
-       eventdata: eventdata,
-       from: 'commentinfo',
-       record: eventdata,
-       act: 'View'
-     });
+    this.navCtrl.setRoot(ServicingDetailsPage, {
+      event_id: event_id,
+      event_type: event_type,
+      eventdata: eventdata,
+      from: 'commentinfo',
+      record: eventdata,
+      act: 'View'
+    });
   }
 
   doCommentView(event_id, event_type, eventdata) {
     console.log("Event Id" + event_id);
-     console.log("event_type" + event_type);
-     console.log("eventdata" + JSON.stringify(eventdata));
-     this.navCtrl.setRoot(CommentdetailsPage, {
-       event_id: event_id,
-       event_type: event_type,
-       eventdata: eventdata,
-       from: 'commentinfo'
-     });
+    console.log("event_type" + event_type);
+    console.log("eventdata" + JSON.stringify(eventdata));
+    this.navCtrl.setRoot(CommentdetailsPage, {
+      event_id: event_id,
+      event_type: event_type,
+      eventdata: eventdata,
+      from: 'commentinfo'
+    });
   }
 
 
@@ -332,7 +421,7 @@ export class CommentsinfoPage {
     if (type.toLowerCase() == 's') {
       // this.navCtrl.setRoot(ServicingDetailsPage, {
       //   record: item,
-       
+
       //   from: 'commentinfo',
       // });
 
@@ -342,7 +431,7 @@ export class CommentsinfoPage {
         from: 'commentinfo'
       });
 
-      
+
     }
 
     if (type.toLowerCase() == 'r') {
@@ -357,7 +446,7 @@ export class CommentsinfoPage {
         act: 'Edit',
         from: 'commentinfo'
       });
-  
+
     }
 
 
@@ -503,8 +592,8 @@ export class CommentsinfoPage {
           // If the request was successful notify the user
           if (data.status === 200) {
 
-           // this.conf.sendNotification(`Comments was successfully deleted`);
-           this.conf.sendNotification(data.json().msg[0]['result']);
+            // this.conf.sendNotification(`Comments was successfully deleted`);
+            this.conf.sendNotification(data.json().msg[0]['result']);
           }
           // Otherwise let 'em know anyway
           else {
@@ -526,7 +615,7 @@ export class CommentsinfoPage {
           // If the request was successful notify the user
           if (data.status === 200) {
             this.conf.sendNotification(data.json().msg[0]['result']);
-           // this.conf.sendNotification(`Service was successfully deleted`);
+            // this.conf.sendNotification(`Service was successfully deleted`);
           }
           // Otherwise let 'em know anyway
           else {
@@ -597,7 +686,7 @@ export class CommentsinfoPage {
                 this.sortLblTxt = 'Comment';
               } else if (data == 'name') {
                 this.sortLblTxt = 'Name';
-              } 
+              }
               this.reportData.startindex = 0;
               this.reportAllLists = [];
               this.doService();
@@ -618,7 +707,7 @@ export class CommentsinfoPage {
                 this.sortLblTxt = 'Comment';
               } else if (data == 'name') {
                 this.sortLblTxt = 'Name';
-              } 
+              }
               this.reportData.startindex = 0;
               this.reportAllLists = [];
               this.doService();

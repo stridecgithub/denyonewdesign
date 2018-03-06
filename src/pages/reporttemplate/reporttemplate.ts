@@ -35,18 +35,18 @@ export class ReporttemplatePage {
   public reporttemplate;
   public msgcount: any;
   public notcount: any;
-  
-footerBar: number = 0;
+
+  public footerBar = [];
   pet: string = "ALL";
   public reportData: any =
-  {
-    status: '',
-    sort: 'unitgroup_id',
-    sortascdesc: 'asc',
-    startindex: 0,
-    results: 8
-  }
-  public reporttemplateAllLists = [];  
+    {
+      status: '',
+      sort: 'unitgroup_id',
+      sortascdesc: 'asc',
+      startindex: 0,
+      results: 8
+    }
+  public reporttemplateAllLists = [];
   profilePhoto;
   constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
@@ -63,13 +63,112 @@ footerBar: number = 0;
     this.pageTitle = 'Report Template';
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
+
+
+    // this.footerBar="0,"+footermenuacc;
+
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
+
+
+
+
+
+
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "#488aff",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+
+
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+
+    // Footer Menu Access - End
+
   }
-  
+
 
 
   onSegmentChanged(val) {
@@ -98,9 +197,9 @@ footerBar: number = 0;
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
-   
-      this.doReport();
-    
+
+    this.doReport();
+
   }
 
   doRefresh(refresher) {
@@ -251,11 +350,11 @@ footerBar: number = 0;
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  
-  reportdetail(templatename,templatedata) {
-    this.nav.setRoot(ReporttemplatedetailPage,{templatename:templatename,templatedata:templatedata});
+
+  reportdetail(templatename, templatedata) {
+    this.nav.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
   }
- 
+
 
 }
 
