@@ -25,7 +25,7 @@ export class CompanygroupPage {
   public pageTitle: string;
   public loginas: any;
   public Role;
-    public VIEWACCESS: any;
+   
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
@@ -57,14 +57,10 @@ export class CompanygroupPage {
     this.loginas = localStorage.getItem("userInfoName");
      this.companyId = localStorage.getItem("userInfoCompanyId");
       this.Role = localStorage.getItem("userInfoRoleId");
-       this.VIEWACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_VIEW");
-    console.log("Role Authority for Unit Listing View:"+this.VIEWACCESS );
-    this.CREATEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_CREATE");
-    console.log("Role Authority for Unit Listing Create:"+this.CREATEACCESS );
-    this.EDITACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_EDIT");
-    console.log("Role Authority for Unit Listing Edit:"+this.EDITACCESS )
-    this.DELETEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_DELETE");
-    console.log("Role Authority for Unit Listing Delete:"+this.DELETEACCESS )
+     
+    this.CREATEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_CREATE");   
+    this.EDITACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_EDIT");    
+    this.DELETEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_DELETE");   
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if(this.profilePhoto == '' || this.profilePhoto == 'null') {

@@ -59,7 +59,7 @@ export class UnitdetailsPage {
 	needlevalue;
 	batteryvoltbarlabels;
 	oilperssuerbarlabels;
-
+	rolePermissionMsg;
 	oilpressuerlabel;
 	oilpressuercolors;
 	batteryvoltlabel;
@@ -95,6 +95,10 @@ export class UnitdetailsPage {
 	stopbtn;
 	public startbtnenable: boolean = false;
 	public stopbtnenable: boolean = false;
+	public alarmviewenable: boolean = false;
+	public serviceviewenable: boolean = false;
+	public commentviewenable: boolean = false;
+	public engineviewenable: boolean = false;
 	alarmstatus;
 	voltguagelabel;
 	voltguagecolors;
@@ -155,10 +159,43 @@ export class UnitdetailsPage {
 	l1l2l3currentlablel;
 	currentselection;
 	genkey;
+	public COMMENTVIEWACCESS: any;
+	public SERVICEVIEWACCESS: any;
+	public ALARMVIEWACCESS: any;
+	public ENGINEDETAILVIEWACCESS: any;
 	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
-		
+
+		this.ENGINEDETAILVIEWACCESS = localStorage.getItem("UNITS_ENGINEMODEL_VIEW");
+		if (this.ENGINEDETAILVIEWACCESS == 1) {
+			this.engineviewenable = false;
+		} else {
+			this.engineviewenable = true;
+		}
+
+
+		this.COMMENTVIEWACCESS = localStorage.getItem("UNITS_COMMENTS_VIEW");
+		if (this.COMMENTVIEWACCESS == 1) {
+			this.commentviewenable = false;
+		} else {
+			this.commentviewenable = true;
+		}
+		this.SERVICEVIEWACCESS = localStorage.getItem("UNITS_SERVICINGINFO_VIEW");
+
+		if (this.SERVICEVIEWACCESS == 1) {
+			this.serviceviewenable = false;
+		} else {
+			this.serviceviewenable = true;
+		}
+
+		this.ALARMVIEWACCESS = localStorage.getItem("UNITS_ALARM_VIEW");
+		if (this.ALARMVIEWACCESS == 1) {
+			this.alarmviewenable = false;
+		} else {
+			this.alarmviewenable = true;
+		}
+
 		this.apiServiceURL = conf.apiBaseURL();
 		this.timerswitch = 1;
 		this.controlleroffmode = '';
@@ -183,88 +220,88 @@ export class UnitdetailsPage {
 		let footeraccessparams = this.navParams.get('footermenu');
 		let footermenuacc;
 		if (footeraccessparams != undefined) {
-		  footermenuacc = footeraccessparams;
+			footermenuacc = footeraccessparams;
 		} else {
-		  footermenuacc = footeraccessstorage;
+			footermenuacc = footeraccessstorage;
 		}
-	  
+
 		let footermenusplitcomma = footermenuacc.split(",");
 		let dashboardAccess = footermenusplitcomma[0];
 		let unitAccess = footermenusplitcomma[1];
 		let calendarAccess = footermenusplitcomma[2];
 		let messageAccess = footermenusplitcomma[3];
 		let orgchartAccess = footermenusplitcomma[4];
-	  
-		
+
+
 		let dashboarddisplay;
 		if (dashboardAccess == 1) {
-		  dashboarddisplay = '';
+			dashboarddisplay = '';
 		} else {
-		  dashboarddisplay = 'none';
+			dashboarddisplay = 'none';
 		}
 		this.footerBar.push({
-		  title: 'Dashboard',
-		  active: true,
-		  colorcode: "rgba(60, 60, 60, 0.7)",
-		  footerdisplay: dashboarddisplay,
-		  pageComponent: 'DashboardPage'
+			title: 'Dashboard',
+			active: true,
+			colorcode: "rgba(60, 60, 60, 0.7)",
+			footerdisplay: dashboarddisplay,
+			pageComponent: 'DashboardPage'
 		});
 		let unitdisplay;
 		if (unitAccess == 1) {
-		  unitdisplay = '';
+			unitdisplay = '';
 		} else {
-		  unitdisplay = 'none';
+			unitdisplay = 'none';
 		}
 		this.footerBar.push({
-		  title: 'Units',
-		  active: false,
-		  colorcode: "#488aff",
-		  footerdisplay: unitdisplay,
-		  pageComponent: 'UnitsPage'
+			title: 'Units',
+			active: false,
+			colorcode: "#488aff",
+			footerdisplay: unitdisplay,
+			pageComponent: 'UnitsPage'
 		});
 		let calendardisplay;
 		if (calendarAccess == 1) {
-		  calendardisplay = '';
+			calendardisplay = '';
 		} else {
-		  calendardisplay = 'none';
+			calendardisplay = 'none';
 		}
-	  
+
 		this.footerBar.push({
-		  title: 'Calendar',
-		  active: false,
-		  colorcode: "rgba(60, 60, 60, 0.7)",
-		  footerdisplay: calendardisplay,
-		  pageComponent: 'CalendarPage'
+			title: 'Calendar',
+			active: false,
+			colorcode: "rgba(60, 60, 60, 0.7)",
+			footerdisplay: calendardisplay,
+			pageComponent: 'CalendarPage'
 		});
 		let messagedisplay;
 		if (messageAccess == 1) {
-		  messagedisplay = '';
+			messagedisplay = '';
 		} else {
-		  messagedisplay = 'none';
+			messagedisplay = 'none';
 		}
 		this.footerBar.push({
-		  title: 'Message',
-		  active: false,
-		  colorcode: "rgba(60, 60, 60, 0.7)",
-		  footerdisplay: messagedisplay,
-		  pageComponent: 'MessagePage'
+			title: 'Message',
+			active: false,
+			colorcode: "rgba(60, 60, 60, 0.7)",
+			footerdisplay: messagedisplay,
+			pageComponent: 'MessagePage'
 		});
 		let orgchartdisplay;
 		if (orgchartAccess == 1) {
-		  orgchartdisplay = '';
+			orgchartdisplay = '';
 		} else {
-		  orgchartdisplay = 'none';
+			orgchartdisplay = 'none';
 		}
 		this.footerBar.push({
-		  title: 'Org Chart',
-		  active: false,
-		  footerdisplay: orgchartdisplay,
-		  colorcode: "rgba(60, 60, 60, 0.7)",
-		  pageComponent: 'OrgchartPage'
+			title: 'Org Chart',
+			active: false,
+			footerdisplay: orgchartdisplay,
+			colorcode: "rgba(60, 60, 60, 0.7)",
+			pageComponent: 'OrgchartPage'
 		});
 		//this.footerBar = "0";
 		//let footerBar=this.footerBar.split(",");
-	  
+
 		// Footer Menu Access - End
 	}
 	// ngOnInit() {
@@ -402,13 +439,13 @@ export class UnitdetailsPage {
 						// 	voltage = 0;
 						// }
 
-						let diff=this.setpointsdata[0].maxvalue-this.setpointsdata[0].minvalue;
+						let diff = this.setpointsdata[0].maxvalue - this.setpointsdata[0].minvalue;
 						if (actual_voltage < this.setpointsdata[0].minvalue)
 							voltage = 0;
 						else if (actual_voltage > this.setpointsdata[0].maxvalue)
 							voltage = 100;
 						else
-							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) /  diff) * 100;
+							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / diff) * 100;
 
 						console.log("Voltage Pecentage:" + voltage);
 						let voltguagelabel = this.voltguagelabel;
@@ -434,7 +471,7 @@ export class UnitdetailsPage {
 
 						if (actual_current <= this.setpointsdata[1].minvalue) {
 							current = 0;
-						} else if (actual_current >=this.setpointsdata[1].maxvalue) {
+						} else if (actual_current >= this.setpointsdata[1].maxvalue) {
 							current = 100;
 						} else {
 							current = actual_current;
@@ -443,7 +480,7 @@ export class UnitdetailsPage {
 
 						var cntlabels = JSON.parse('{' + this.currentlabel + '}');
 						var cntcolors = JSON.parse('{' + this.currentcolors + '}');
-						
+
 						let currentgauge = new Gauge(jQuery('.currentgauge'), {
 
 							values: cntlabels,
@@ -468,20 +505,20 @@ export class UnitdetailsPage {
 							frequency = 0;
 						}*/
 
-						let difffreq=this.setpointsdata[2].maxvalue-this.setpointsdata[2].minvalue;
+						let difffreq = this.setpointsdata[2].maxvalue - this.setpointsdata[2].minvalue;
 						if (actual_frequency < this.setpointsdata[2].minvalue)
 							frequency = 0;
 						else if (actual_frequency > this.setpointsdata[2].maxvalue)
 							frequency = 100;
 						else
-							frequency = (((actual_frequency -this.setpointsdata[2].minvalue) / difffreq) * 100);
+							frequency = (((actual_frequency - this.setpointsdata[2].minvalue) / difffreq) * 100);
 
 
 
 
 						var frqlabels = JSON.parse('{' + this.frequencylabel + '}');
 						var frqcolors = JSON.parse('{' + this.frequencycolors + '}');
-						
+
 						let frequencygauge = new Gauge(jQuery('.frequencygauge'), {
 
 							values: frqlabels,
@@ -497,7 +534,7 @@ export class UnitdetailsPage {
 
 						// Engine Speed
 						let enginespeed = 0;
-						let diffengine=this.setpointsdata[3].maxvalue-this.setpointsdata[3].minvalue;
+						let diffengine = this.setpointsdata[3].maxvalue - this.setpointsdata[3].minvalue;
 						let actual_enginespeed = this.enginespeed;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
 						if (actual_enginespeed < this.setpointsdata[3].minvalue) {
 							enginespeed = 0;
@@ -512,7 +549,7 @@ export class UnitdetailsPage {
 
 						var engspeedlabels = JSON.parse('{' + this.enginespeedlabel + '}');
 						var engspeedcolors = JSON.parse('{' + this.enginespeedcolors + '}');
-						
+
 						let enginespeedgauge = new Gauge(jQuery('.enginespeedgauge'), {
 
 							values: engspeedlabels,
@@ -540,7 +577,7 @@ export class UnitdetailsPage {
 						}
 						var fullabels = JSON.parse('{' + this.fuellabel + '}');
 						var fulcolors = JSON.parse('{' + this.fuelcolors + '}');
-						
+
 						let fuelgauge = new Gauge(jQuery('.fuelgauge'), {
 
 							values: fullabels,
@@ -578,7 +615,7 @@ export class UnitdetailsPage {
 
 						var loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
 						var loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
-					
+
 						let loadpowergauge = new Gauge(jQuery('.loadpowergauge'), {
 
 							values: loadpowerlabels,
@@ -652,7 +689,7 @@ export class UnitdetailsPage {
 							//
 							console.log("Lables Length:" + labels.length);
 							for (var x = 0; x < labels.length; x++) {
-								console.log("Xav"+x);
+								console.log("Xav" + x);
 								if (x == 0) {
 									sval = 0;
 									enval = labels[x];
@@ -692,13 +729,13 @@ export class UnitdetailsPage {
 											outerStartOffset: 0.70,
 												outerEndOffset: 0.70,
 													fillStyle: gradient3*/
-								
+
 
 							}
 							if (enval == res[i].maxvalue) {
 								enval = sval;
 							}
-							
+
 							this.rangesdata.push({
 								startValue: enval,
 								endValue: res[i].maxvalue,
@@ -734,7 +771,7 @@ export class UnitdetailsPage {
 							console.log("Needle value:" + this.needlevalue);
 							console.log("Join:" + labels.join(","));
 							console.log("JASON PARSE:" + JSON.parse('[' + labels + ']'));
-							
+
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -767,7 +804,7 @@ export class UnitdetailsPage {
 											offset: 1,
 											lineWidth: 2
 										},
-										customTickMarks:  JSON.parse('[' + labels + ']'),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+										customTickMarks: JSON.parse('[' + labels + ']'),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
 										ranges:
 											// {"startValue":0,"endValue":8,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient2"},
 											// {"startValue":8,"endValue":15,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient3"}
@@ -868,7 +905,7 @@ export class UnitdetailsPage {
 
 						});
 
-					
+
 
 					}
 
@@ -1349,79 +1386,86 @@ export class UnitdetailsPage {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
 	}
-	servicingInfo(unitId) {
-		// if (this.timerswitch > 0) {
-		// 	this.subscription.unsubscribe();
-		// }
+	servicingInfo(unitId, access) {
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('SERVICING INFO', this.rolePermissionMsg)
+		} else {
+			let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
+				"&unitid=" + this.unitDetailData.unit_id,
+				type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+				headers: any = new Headers({ 'Content-Type': type }),
+				options: any = new RequestOptions({ headers: headers }),
+				url: any = this.apiServiceURL + "/removeservicecount";
+			console.log(url);
+			console.log(body);
 
-		// this.subscription.unsubscribe(x => {
-		// 	this.unitstimervalue(0);
-		// });
+			this.http.post(url, body, options)
+				.subscribe((data) => {
+					if (data.status === 200) {
+						console.log("Service count successfully removed");
+					}
+					// Otherwise let 'em know anyway
+					else {
+						console.log("Something went wrong!");
+					}
+				}, error => {
+					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+				});
 
 
-		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
-			"&unitid=" + this.unitDetailData.unit_id,
-			type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-			headers: any = new Headers({ 'Content-Type': type }),
-			options: any = new RequestOptions({ headers: headers }),
-			url: any = this.apiServiceURL + "/removeservicecount";
-		console.log(url);
-		console.log(body);
-
-		this.http.post(url, body, options)
-			.subscribe((data) => {
-				if (data.status === 200) {
-					console.log("Service count successfully removed");
-				}
-				// Otherwise let 'em know anyway
-				else {
-					console.log("Something went wrong!");
-				}
-			}, error => {
-				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+			this.navCtrl.setRoot(ServicinginfoPage, {
+				record: this.NP.get("record")
 			});
-
-
-		this.navCtrl.setRoot(ServicinginfoPage, {
-			record: this.NP.get("record")
-		});
+		}
 	}
 	alamInfo() {
-		this.navCtrl.setRoot(AlarmPage, {
-			record: this.NP.get("record")
-		});
-	}
-	commentsInfo(unitId) {
-		//this.navCtrl.setRoot(MenuPage);
 
-		let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
-			"&unitid=" + unitId,
-			type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-			headers: any = new Headers({ 'Content-Type': type }),
-			options: any = new RequestOptions({ headers: headers }),
-			url: any = this.apiServiceURL + "/removecommentcount";
-		console.log(url);
-		console.log(body);
-
-		this.http.post(url, body, options)
-			.subscribe((data) => {
-
-				// If the request was successful notify the user
-				if (data.status === 200) {
-					console.log("Comment count successfully removed");
-
-				}
-				// Otherwise let 'em know anyway
-				else {
-					console.log("Something went wrong!");
-				}
-			}, error => {
-				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+		if (this.alarmviewenable == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('ALARM LOG', this.rolePermissionMsg)
+		} else {
+			this.navCtrl.setRoot(AlarmPage, {
+				record: this.NP.get("record")
 			});
+		}
+	}
+	commentsInfo(unitId, access) {
+		console.log(access);
+		//this.navCtrl.setRoot(MenuPage);
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('EVENTS/COMMENTS', this.rolePermissionMsg)
+		} else {
+			let body: string = "is_mobile=1&userid=" + this.unitDetailData.userId +
+				"&unitid=" + unitId,
+				type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+				headers: any = new Headers({ 'Content-Type': type }),
+				options: any = new RequestOptions({ headers: headers }),
+				url: any = this.apiServiceURL + "/removecommentcount";
+			console.log(url);
+			console.log(body);
 
-		this.navCtrl.setRoot(CommentsinfoPage, {
-			record: this.NP.get("record")
-		});
+			this.http.post(url, body, options)
+				.subscribe((data) => {
+
+					// If the request was successful notify the user
+					if (data.status === 200) {
+						console.log("Comment count successfully removed");
+
+					}
+					// Otherwise let 'em know anyway
+					else {
+						console.log("Something went wrong!");
+					}
+				}, error => {
+					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+				});
+
+			this.navCtrl.setRoot(CommentsinfoPage, {
+				record: this.NP.get("record")
+			});
+		}
 	}
 
 
@@ -1460,21 +1504,33 @@ export class UnitdetailsPage {
 
 	}
 
-	alarm() {
+	alarm(access) {
 		// if (this.timerswitch > 0) {
 		// 	this.subscription.unsubscribe();
 		// }
-		this.navCtrl.setRoot(AlarmlogPage, {
-			record: this.NP.get("record")
-		});
+
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('ALARM', this.rolePermissionMsg)
+		} else {
+			this.navCtrl.setRoot(AlarmlogPage, {
+				record: this.NP.get("record")
+			});
+		}
 	}
-	enginedetail() {
+	enginedetail(access) {
+		console.log(access);
 		// if (this.timerswitch > 0) {
 		// 	this.subscription.unsubscribe();
 		// }
-		this.navCtrl.setRoot(EnginedetailviewPage, {
-			record: this.NP.get("record")
-		});
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('ENGINE DETAIL', this.rolePermissionMsg)
+		} else {
+			this.navCtrl.setRoot(EnginedetailviewPage, {
+				record: this.NP.get("record")
+			});
+		}
 		//this.navCtrl.setRoot(MenuPage);
 	}
 	previous() {

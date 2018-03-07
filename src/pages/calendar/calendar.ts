@@ -108,17 +108,16 @@ export class CalendarPage {
   public totalCountEventDateWise: any;
   noeventtitle: any;
   highlightdots: any;
-  public EVENTVIEWACCESS: any;
-  public EVENTCREATEACCESS: any;
-  public EVENTEDITACCESS: any;
+  public EVENTVIEWACCESS: any; 
   public EVENTDELETEACCESS: any;
   public ALARMVIEWACCESS: any;
   public ALARMDELETEACCESS: any;
   public SERVICEVIEWACCESS: any;
-  public SERVICECREATEACCESS: any;
+  public EVENTEDITACCESS: any;
+  public SERVICEEDITACCESS: any;
+  public ALARMEDITACCESS: any;  
   public month: any;
   public date: any;
-  public SERVICEEDITACCESS: any;
   public SERVICEDELETEACCESS: any;
   public eventIdentify = [];
   public serviceIdentify = [];
@@ -168,16 +167,15 @@ export class CalendarPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.EVENTVIEWACCESS = localStorage.getItem("CALENDAR_EVENTS_VIEW");
-    this.EVENTCREATEACCESS = localStorage.getItem("CALENDAR_EVENTS_CREATE");
+    this.SERVICEEDITACCESS = localStorage.getItem("CALENDAR_SERVICES_EDIT");
     this.EVENTEDITACCESS = localStorage.getItem("CALENDAR_EVENTS_EDIT");
     this.EVENTDELETEACCESS = localStorage.getItem("CALENDAR_EVENTS_DELETE");
-    this.ALARMVIEWACCESS = localStorage.getItem("UNITS_ALARM_VIEW");
-    this.ALARMDELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
-
-    this.SERVICEVIEWACCESS = localStorage.getItem("UNITS_SERVICINGINFO_VIEW");
-    this.SERVICECREATEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_CREATE");
-    this.SERVICEEDITACCESS = localStorage.getItem("UNITS_SERVICINGINFO_EDIT");
-    this.SERVICEDELETEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_DELETE");
+    this.ALARMVIEWACCESS = localStorage.getItem("CALENDAR_ALARM_VIEW");
+    this.ALARMDELETEACCESS = localStorage.getItem("CALENDAR_ALARM_DELETE");
+    this.ALARMEDITACCESS = localStorage.getItem("CALENDAR_ALARM_EDIT");
+    this.SERVICEVIEWACCESS = localStorage.getItem("CALENDAR_SERVICES_VIEW");
+    this.SERVICEDELETEACCESS = localStorage.getItem("CALENDAR_SERVICES_DELETE");
+ 
     dragulaService.drag.subscribe((value) => {
       console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));

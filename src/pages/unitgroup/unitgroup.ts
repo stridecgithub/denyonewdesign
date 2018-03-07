@@ -33,7 +33,10 @@ export class UnitgroupPage {
   public loginas: any;
   public msgcount: any;
   public notcount: any;
-    private apiServiceURL: string = "";
+  public CREATEACCESS: any;
+  public EDITACCESS: any;
+  public DELETEACCESS: any;
+  private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
   public sortLblTxt: string = 'Date';
@@ -65,95 +68,95 @@ export class UnitgroupPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    
- // Footer Menu Access - Start
-  let footeraccessstorage = localStorage.getItem("footermenu");
-  let footeraccessparams = this.navParams.get('footermenu');
-  let footermenuacc;
-  if (footeraccessparams != undefined) {
-    footermenuacc = footeraccessparams;
-  } else {
-    footermenuacc = footeraccessstorage;
-  }
 
-  let footermenusplitcomma = footermenuacc.split(",");
-  let dashboardAccess = footermenusplitcomma[0];
-  let unitAccess = footermenusplitcomma[1];
-  let calendarAccess = footermenusplitcomma[2];
-  let messageAccess = footermenusplitcomma[3];
-  let orgchartAccess = footermenusplitcomma[4];
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-  
-  let dashboarddisplay;
-  if (dashboardAccess == 1) {
-    dashboarddisplay = '';
-  } else {
-    dashboarddisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Dashboard',
-    active: true,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: dashboarddisplay,
-    pageComponent: 'DashboardPage'
-  });
-  let unitdisplay;
-  if (unitAccess == 1) {
-    unitdisplay = '';
-  } else {
-    unitdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Units',
-    active: false,
-    colorcode: "#488aff",
-    footerdisplay: unitdisplay,
-    pageComponent: 'UnitsPage'
-  });
-  let calendardisplay;
-  if (calendarAccess == 1) {
-    calendardisplay = '';
-  } else {
-    calendardisplay = 'none';
-  }
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
-  this.footerBar.push({
-    title: 'Calendar',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: calendardisplay,
-    pageComponent: 'CalendarPage'
-  });
-  let messagedisplay;
-  if (messageAccess == 1) {
-    messagedisplay = '';
-  } else {
-    messagedisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Message',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: messagedisplay,
-    pageComponent: 'MessagePage'
-  });
-  let orgchartdisplay;
-  if (orgchartAccess == 1) {
-    orgchartdisplay = '';
-  } else {
-    orgchartdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Org Chart',
-    active: false,
-    footerdisplay: orgchartdisplay,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    pageComponent: 'OrgchartPage'
-  });
-  //this.footerBar = "0";
-  //let footerBar=this.footerBar.split(",");
 
-  // Footer Menu Access - End
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+    // Footer Menu Access - End
   }
 
 
@@ -172,6 +175,9 @@ export class UnitgroupPage {
     //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
+    this.CREATEACCESS = localStorage.getItem("UNITS_UNITGROUP_CREATE");
+    this.EDITACCESS = localStorage.getItem("UNITS_UNITGROUP_EDIT");
+    this.DELETEACCESS = localStorage.getItem("UNITS_UNITGROUP_DELETE");
     //this.tabBarElement.style.display = 'none';
     console.log('ionViewDidLoad UnitgroupPage');
     let //body: string = "loginid=" + this.userId,
@@ -515,9 +521,9 @@ export class UnitgroupPage {
   notification() {
     this.nav.setRoot(NotificationPage);
   }
-  view(id, colorcode, cname, favoriteindication,unitgroup_name,totalunits,remark,createdOn) {
+  view(id, colorcode, cname, favoriteindication, unitgroup_name, totalunits, remark, createdOn) {
     //  localStorage.setItem("uid", id);
-    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication,'unitgroup_name':unitgroup_name,'totalunits':totalunits,'remark':remark,'createdOn':createdOn });
+    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication, 'unitgroup_name': unitgroup_name, 'totalunits': totalunits, 'remark': remark, 'createdOn': createdOn });
   }
 
   doSort() {
@@ -576,7 +582,7 @@ export class UnitgroupPage {
                 this.sortLblTxt = 'Favourites';
               } else if (data == 'unitgroup_name') {
                 this.sortLblTxt = 'Unit Group';
-              }else if (data == 'date') {
+              } else if (data == 'date') {
                 this.sortLblTxt = 'Date';
               }
               this.reportData.startindex = 0;

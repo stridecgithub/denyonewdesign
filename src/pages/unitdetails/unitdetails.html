@@ -59,8 +59,8 @@
             />
             <img style="margin-top: 10px;" *ngIf="alarmstatus==0" (click)="alamInfo(unitDetailData)" src="assets/imgs/alarm.gif" />
             <span (click)="alamInfo(unitDetailData)">ALARM</span>
-            <button *ngIf="alarmstatus>0" (click)="overviewAction(genkey,unitDetailData.controllerid,'fault-reset')">FAULT RESET</button>
-            <button *ngIf="alarmstatus==0">FAULT RESET</button>
+            <button [disabled]="alarmviewenable" *ngIf="alarmstatus>0" (click)="overviewAction(genkey,unitDetailData.controllerid,'fault-reset')">FAULT RESET</button>
+            <button [disabled]="alarmviewenable" *ngIf="alarmstatus==0">FAULT RESET</button>
 
           </div>
         </ion-col>
@@ -480,7 +480,7 @@
       <ion-row>
         <ion-col class="col pad-left" col-12>
           <div class="bottom-row bot-row1">
-            <button (click)="servicingInfo(unitDetailData)">SERVICING INFO
+            <button (click)="servicingInfo(unitDetailData,serviceviewenable)">SERVICING INFO
               <span *ngIf="serviceCount>0" style="position: absolute;
               position: absolute;
     top: 7px;
@@ -497,15 +497,15 @@
     left: 44%;
     font-weight: bold;">{{serviceCount}}</span>
             </button>
-            <button (click)="alarm()">ALARM LOG</button>
+            <button (click)="alarm(alarmviewenable)">ALARM LOG</button>
           </div>
         </ion-col>
       </ion-row>
-
+     
       <ion-row>
         <ion-col class="col pad-left" col-12>
           <div class="bottom-row bot-row2">
-            <button (click)="commentsInfo(unitDetailData.unit_id)">EVENTS/COMMENTS
+            <button   (click)="commentsInfo(unitDetailData.unit_id,commentviewenable)">EVENTS/COMMENTS
               <span *ngIf="commentCount>0" style="position: absolute;
                 top: 7px;
                 right: 2px;
@@ -521,7 +521,7 @@
                 left: 44%;
                 font-weight: bold;">{{commentCount}}</span>
             </button>
-            <button (click)="enginedetail()">ENGINE DETAIL</button>
+            <button (click)="enginedetail(engineviewenable)">ENGINE DETAIL</button>
           </div>
         </ion-col>
       </ion-row>

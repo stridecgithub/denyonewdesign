@@ -51,7 +51,6 @@ export class OrgchartPage {
   public colorListArr: any;
   public userId: any;
   public companyId: any;
-  public VIEWACCESS: any;
   public CREATEACCESS: any;
   public tap: number = 600;
   timeout: any;
@@ -67,7 +66,7 @@ export class OrgchartPage {
 
   iframeContent: any;
   public profilePhoto;
- 
+
   constructor(public viewCtrl: ViewController, private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public navParams: NavParams) {
     //this.width = 1;
@@ -92,15 +91,12 @@ export class OrgchartPage {
     //Authorization Get Value
 
     platform.registerBackButtonAction(() => {
-      console.log(this.previous);
-      this.viewCtrl.dismiss();
       this.previous();
       // this.navCtrl.setRoot(DashboardPage);
     });
 
 
-    this.VIEWACCESS = localStorage.getItem("SETTINGS_ORGCHART_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
+
     this.CREATEACCESS = localStorage.getItem("SETTINGS_ORGCHART_CREATE");
     console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
 
@@ -127,104 +123,104 @@ export class OrgchartPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-     // Footer Menu Access - Start
-     let footeraccessstorage = localStorage.getItem("footermenu");
-     let footeraccessparams = this.navParams.get('footermenu');
-     let footermenuacc;
-     if (footeraccessparams != undefined) {
-       footermenuacc = footeraccessparams;
-     } else {
-       footermenuacc = footeraccessstorage;
-     }
- 
-     console.log("Footer Menu Access abc:-" + footermenuacc);
-     // this.footerBar="0,"+footermenuacc;
- 
-     let footermenusplitcomma = footermenuacc.split(",");
-     let dashboardAccess = footermenusplitcomma[0];
-     let unitAccess = footermenusplitcomma[1];
-     let calendarAccess = footermenusplitcomma[2];
-     let messageAccess = footermenusplitcomma[3];
-     let orgchartAccess = footermenusplitcomma[4];
- 
-     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-     console.log("Footer Menu Access for Dashboard" + unitAccess);
-     console.log("Footer Menu Access for Calendar" + calendarAccess);
-     console.log("Footer Menu Access for Messagees" + messageAccess);
-     console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-     let dashboarddisplay;
-     if (dashboardAccess == 1) {
-       dashboarddisplay = '';
-     } else {
-       dashboarddisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Dashboard',
-       active: true,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: dashboarddisplay,
-       pageComponent: 'DashboardPage'
-     });
-     let unitdisplay;
-     if (unitAccess == 1) {
-       unitdisplay = '';
-     } else {
-       unitdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Units',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: unitdisplay,
-       pageComponent: 'UnitsPage'
-     });
-     let calendardisplay;
-     if (calendarAccess == 1) {
-       calendardisplay = '';
-     } else {
-       calendardisplay = 'none';
-     }
- 
-     this.footerBar.push({
-       title: 'Calendar',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: calendardisplay,
-       pageComponent: 'CalendarPage'
-     });
-     let messagedisplay;
-     if (messageAccess == 1) {
-       messagedisplay = '';
-     } else {
-       messagedisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Message',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: messagedisplay,
-       pageComponent: 'MessagePage'
-     });
-     let orgchartdisplay;
-     if (orgchartAccess == 1) {
-       orgchartdisplay = '';
-     } else {
-       orgchartdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Org Chart',
-       active: false,
-       footerdisplay: orgchartdisplay,
-       colorcode: "#488aff",
-       pageComponent: 'OrgchartPage'
-     });
- 
-     console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-     //this.footerBar = "0";
-     //let footerBar=this.footerBar.split(",");
-     console.log("Final Footer Menu access:" + this.footerBar);
- 
-     // Footer Menu Access - End
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
+
+    console.log("Footer Menu Access abc:-" + footermenuacc);
+    // this.footerBar="0,"+footermenuacc;
+
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
+
+    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
+    console.log("Footer Menu Access for Dashboard" + unitAccess);
+    console.log("Footer Menu Access for Calendar" + calendarAccess);
+    console.log("Footer Menu Access for Messagees" + messageAccess);
+    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "#488aff",
+      pageComponent: 'OrgchartPage'
+    });
+
+    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+    console.log("Final Footer Menu access:" + this.footerBar);
+
+    // Footer Menu Access - End
   }
 
 
@@ -316,6 +312,8 @@ export class OrgchartPage {
         } else {
           this.doEdit(data, 'edit');
         }
+      }else{
+        this.previous();
       }
     });
   }
@@ -472,9 +470,9 @@ export class OrgchartPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=orgchart";
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=orgchart";
     let res;
-    console.log("BALA"+url);
+    console.log("BALA" + url);
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -492,7 +490,7 @@ export class OrgchartPage {
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);
-    this.viewCtrl.dismiss();
+
   }
   doEdit(item, act) {
     if (act == 'edit') {

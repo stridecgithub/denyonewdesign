@@ -54,10 +54,10 @@ export class CommentsinfoPage {
   public reportAllLists = [];
   public loginas: any;
   public udetails: any;
-  public VIEWACCESS: any;
-  public CREATEACCESS: any;
-  public EDITACCESS: any;
-  public DELETEACCESS: any;
+ 
+  public COMMENTCREATEACCESS: any;
+  public COMMENTEDITACCESS: any;
+  public COMMENTDELETEACCESS: any;
   public comments: any;
   public service_subject: any;
   public addedImgLists = [];
@@ -72,14 +72,10 @@ export class CommentsinfoPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.udetails = localStorage.getItem("unitdetails");
-    this.VIEWACCESS = localStorage.getItem("UNITS_COMMENTS_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
-    this.CREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
-    this.EDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
-    this.DELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
+   
+    this.COMMENTCREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
+    this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
+    this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {
       this.previous();

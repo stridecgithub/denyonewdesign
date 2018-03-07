@@ -27,8 +27,7 @@ export class UserPage {
   public pageTitle: string;
   private apiServiceURL: string = "";
   public totalCount;
-  pet: string = "ALL";
-  public VIEWACCESS: any;
+  pet: string = "ALL";  
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
@@ -55,14 +54,10 @@ export class UserPage {
     this.pageTitle = 'Users';
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
-    this.VIEWACCESS = localStorage.getItem("SETTINGS_USERLIST_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
+   
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERLIST_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
     this.EDITACCESS = localStorage.getItem("SETTINGS_USERLIST_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS)
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERLIST_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS)
 
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");

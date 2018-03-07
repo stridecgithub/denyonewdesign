@@ -59,7 +59,7 @@
 
     <!-- service p1 -->
     <div class="new-service">
-      <h1 (click)="doAdd()">New Comment</h1>
+      <h1 (click)="doAdd()"  *ngIf="COMMENTCREATEACCESS==1">New Comment</h1>
 
       <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}
         <ion-icon name="arrow-down" *ngIf="sortLblTxt === Comment"></ion-icon>
@@ -225,7 +225,7 @@
               <br>Edit
             </button>
 
-            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C' && COMMENTEDITACCESS==1" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>
@@ -249,7 +249,7 @@
             </button>
 
 
-            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'  && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA'" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C'  && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA' && COMMENTDELETEACCESS==1" ion-button class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

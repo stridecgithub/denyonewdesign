@@ -126,13 +126,13 @@
           </ion-item>
           <ion-item-options side="right" class="list-item-options">
 
-            <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)">
+            <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)" *ngIf="UNITEDITACCESS==1">
               <img width="25" src="assets/imgs/edit@2x.png">Edit
             </button>
             <!--button ion-button class="remove-btn" (click)="doConfirm(unit.unit_id,item)">
               <ion-icon name="trash" style="font-size:26px"></ion-icon>Remove
             </button-->
-            <button ion-button class="read-btn" (click)="hideondash(unit.viewonid)">
+            <button ion-button class="read-btn" (click)="hideondash(unit.viewonid)" *ngIf="UNITHIDEACCESS==1">
               <img width="25" src="assets/imgs/remove@2x.png">Remove
             </button>
           </ion-item-options>

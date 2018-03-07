@@ -191,7 +191,7 @@
       <div id="event-list" *ngIf="onLoad==false">
         <ion-list>
           <ion-item-sliding #item class="list-item" *ngFor="let eventitem of calEvents">
-            <ion-item *ngIf="eventitem.event_type=='E'" (click)="doEventView(eventitem.event_id,eventitem.event_type,calendaritem)">
+            <ion-item *ngIf="eventitem.event_type=='E' && EVENTVIEWACCESS==1" (click)="doEventView(eventitem.event_id,eventitem.event_type,calendaritem)">
 
               <div class="event-time" *ngIf="eventitem.event_time==''">
                 N/A
@@ -216,7 +216,7 @@
             </ion-item>
 
 
-            <ion-item (click)="doServiceView(eventitem.event_id,eventitem.event_type,eventitem)" *ngIf="eventitem.event_type=='S'">
+            <ion-item (click)="doServiceView(eventitem.event_id,eventitem.event_type,eventitem)" *ngIf="eventitem.event_type=='S' && SERVICEVIEWACCESS=='1'">
 
 
 
@@ -249,7 +249,7 @@
 
               </div>
             </ion-item>
-            <ion-item *ngIf="eventitem.event_type=='A'" (click)="doCalendarView(eventitem.event_id,eventitem.event_type)">
+            <ion-item *ngIf="eventitem.event_type=='A' && ALARMVIEWACCESS=='1'" (click)="doCalendarView(eventitem.event_id,eventitem.event_type)">
               <div class="event-time">
                 {{eventitem.alarm_time}}
 
@@ -265,18 +265,34 @@
             </ion-item>
 
             <ion-item-options side="right" class="list-item-options">
-                <button *ngIf="eventitem.event_type=='E'  && eventitem.event_added_by==userId" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
+                <button *ngIf="eventitem.event_type=='E'  && eventitem.event_added_by==userId && EVENTEDITACCESS=='1'" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
                   <img width="25" src="assets/imgs/edit@2x.png">Edit
                 </button>
-                <button  *ngIf="eventitem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(eventitem,'edit')">
+                <button  *ngIf="eventitem.event_type=='A' && ALARMEDITACCESS=='1'"  ion-button class="edit-btn"(click)="doEditAlarm(eventitem,'edit')">
                     <img width="25" src="assets/imgs/edit@2x.png">Edit
                   </button>
-                <button *ngIf="eventitem.event_type=='S'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
+
+                  <button  *ngIf="eventitem.event_type=='OA' && ALARMEDITACCESS=='1'"  ion-button class="edit-btn"(click)="doEditAlarm(eventitem,'edit')">
+                    <img width="25" src="assets/imgs/edit@2x.png">Edit
+                  </button>
+
+                <button *ngIf="eventitem.event_type=='S' && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
                   <ion-icon name="trash"></ion-icon>Delete
                 </button>  
-                <button *ngIf="eventitem.event_type=='E' && eventitem.event_added_by==userId" ion-button class="del-btn" (click)="doEventDelete(eventitem)">
+                <button *ngIf="eventitem.event_type=='E' && eventitem.event_added_by==userId  && EVENTDELETEACCESS=='1'" ion-button class="del-btn" (click)="doEventDelete(eventitem)">
                     <ion-icon name="trash"></ion-icon>Delete
                   </button> 
+
+                  <button *ngIf="eventitem.event_type=='A' && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(eventitem)">
+                    <ion-icon name="trash"></ion-icon>Delete
+                  </button> 
+
+
+                  <button *ngIf="eventitem.event_type=='OA' && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(eventitem)">
+                    <ion-icon name="trash"></ion-icon>Delete
+                  </button> 
+
+
               </ion-item-options>
 
             </ion-item-sliding>
@@ -299,7 +315,7 @@
 
 
 
-            <ion-item *ngIf="calendaritem.event_type=='E'" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
+            <ion-item *ngIf="calendaritem.event_type=='E'  && EVENTVIEWACCESS==1" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
 
               <div class="event-time" *ngIf="calendaritem.event_time==''">
                 N/A
@@ -322,7 +338,7 @@
             </ion-item>
 
 
-            <ion-item *ngIf="calendaritem.event_type=='S'" (click)="doServiceView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
+            <ion-item *ngIf="calendaritem.event_type=='S' && SERVICEVIEWACCESS=='1'" (click)="doServiceView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
 
 
 
@@ -345,7 +361,7 @@
                 </div> -->
               </div>
             </ion-item>
-            <ion-item *ngIf="calendaritem.event_type=='A'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
+            <ion-item *ngIf="calendaritem.event_type=='A'  && ALARMVIEWACCESS=='1'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
               <div class="event-time">
                 {{calendaritem.alarm_time}}
               </div>
@@ -365,20 +381,33 @@
             </ion-item>
            
             <ion-item-options side="right" class="list-item-options">
-              <button *ngIf="calendaritem.event_type=='E'  && calendaritem.event_added_by==userId" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
+              <button *ngIf="calendaritem.event_type=='E'  && calendaritem.event_added_by==userId  && EVENTEDITACCESS=='1'" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
-              <button  *ngIf="calendaritem.event_type=='A'"  ion-button class="edit-btn"(click)="doEditAlarm(calendaritem,'edit')">
+              <button  *ngIf="calendaritem.event_type=='A' && ALARMEDITACCESS=='1'"  ion-button class="edit-btn"(click)="doEditAlarm(calendaritem,'edit')">
                   <img width="25" src="assets/imgs/edit@2x.png">Edit
                 </button>
-              <button *ngIf="calendaritem.event_type=='S'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
+                <button  *ngIf="calendaritem.event_type=='OA' && ALARMEDITACCESS=='1'"  ion-button class="edit-btn"(click)="doEditAlarm(calendaritem,'edit')">
+                  <img width="25" src="assets/imgs/edit@2x.png">Edit
+                </button>
+              <button *ngIf="calendaritem.event_type=='S' && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
 
-              <button *ngIf="calendaritem.event_type=='E' && calendaritem.event_added_by==userId" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">
+              <button *ngIf="calendaritem.event_type=='E' && calendaritem.event_added_by==userId && EVENTDELETEACCESS=='1'" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">
                   <ion-icon name="trash"></ion-icon>Delete
                 </button>
               
+
+                <button *ngIf="calendaritem.event_type=='A'  && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(calendaritem)">
+                  <ion-icon name="trash"></ion-icon>Delete
+                </button> 
+
+
+                <button *ngIf="calendaritem.event_type=='OA'  && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(calendaritem)">
+                  <ion-icon name="trash"></ion-icon>Delete
+                </button> 
+
 
             </ion-item-options>
           </ion-item-sliding>

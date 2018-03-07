@@ -27,7 +27,6 @@ export class ReporttemplatePage {
   private apiServiceURL: string = "";
   public templatenamehash;
   public templatenamecomm;
-  public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
@@ -51,15 +50,10 @@ export class ReporttemplatePage {
   constructor(public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.loginas = localStorage.getItem("userInfoName");
-    this.userId = localStorage.getItem("userInfoId");
-    this.VIEWACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
-    this.CREATEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
-    this.EDITACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
-    this.DELETEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
+    this.userId = localStorage.getItem("userInfoId");    
+    this.CREATEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_CREATE");    
+    this.EDITACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_EDIT");   
+    this.DELETEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_DELETE");    
     this.pageTitle = 'Report Template';
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");

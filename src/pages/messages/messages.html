@@ -24,20 +24,20 @@
 
 <ion-content>
 
-  <div>
+  <div  *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs">
-      <ion-segment-button value="inboxView" (click)="inb()">
+      <ion-segment-button value="inboxView" (click)="inb()" id="inboxView">
         Inbox
       </ion-segment-button>
-      <ion-segment-button value="sentView" (click)="snd()">
+      <ion-segment-button value="sentView" (click)="snd()" id="sentView">
         Sent
       </ion-segment-button>
     </ion-segment>
   </div>
-
+  <div class="error" *ngIf="rolePermissionMsg != ''">{{rolePermissionMsg}}</div>
   <div [ngSwitch]="tabs">
 
-    <div *ngSwitchCase="'inboxView'">
+    <div *ngSwitchCase="'inboxView'" id="inboxblock">
       <button class="sort-btn" *ngIf="totalCount>0" (click)="doSort()">
         {{sortLblTxt}}
         <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
@@ -91,7 +91,7 @@
             </button>
 
 
-            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')">
+            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')"  *ngIf="MESSAGEINBOXDELETEACCESS==1">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -103,11 +103,11 @@
         </ion-infinite-scroll>
 
       </ion-list>
-      <button class="create-msg" (click)="compose()">
+      <button class="create-msg" (click)="compose()"  *ngIf="MESSAGEINBOXCREATEACCESS==1" >
         <ion-icon name="create"></ion-icon>
       </button>
     </div>
-    <div *ngSwitchCase="'sentView'">
+    <div *ngSwitchCase="'sentView'"  id="sendblock">
       <button class="sort-btn" *ngIf="totalCountSend>0" (click)="doSortSendItem()">
         {{sortLblSendTxt}}
         <ion-icon name="arrow-down" *ngIf="sendData.sortascdesc === 'desc'"></ion-icon>
@@ -143,7 +143,7 @@
               <ion-icon name="mail"></ion-icon>
               Read
             </button-->
-            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')">
+            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')"  *ngIf="MESSAGESENTDELETEACCESS==1">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

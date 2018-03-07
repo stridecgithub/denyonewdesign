@@ -100,8 +100,11 @@ import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
+
+import { PermissionPage } from '../pages/permission/permission';
 @NgModule({
   declarations: [    
+    PermissionPage,
     ProgressBarComponent,
     ReporttemplatedetailPage,
     Unitgrouplist,
@@ -208,6 +211,7 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push';
     })],
   bootstrap: [IonicApp],
   entryComponents: [
+    PermissionPage,
     ProgressBarComponent,
     ReporttemplatedetailPage,
     Unitgrouplist,

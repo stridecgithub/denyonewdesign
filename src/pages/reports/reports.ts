@@ -64,7 +64,7 @@ export class ReportsPage {
   seltemplate;
   public tableradiochk: boolean = true;
   public graphradiochk: boolean = false;
-
+  public CREATEACCESS;
 
   /* public start_date = '2017-08-02';
   public end_date = '2017-08-02';
@@ -194,7 +194,8 @@ export class ReportsPage {
     
 
     // Footer Menu Access - End
-
+   
+    this.CREATEACCESS = localStorage.getItem("REPORTS_REPORTS_CREATE");
   }
 
   showConfirm() {

@@ -88,10 +88,18 @@ export class AddcalendarPage {
   public networkType: string;
   atmentioneddata = [];
   //tabBarElement: any;
+  public SERVICECREATEACCESS: any;
+ 
+  public EVENTCREATEACCESS: any;
+
   constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
+    this.SERVICECREATEACCESS = localStorage.getItem("CALENDAR_SERVICES_CREATE");
+   
+    this.EVENTCREATEACCESS = localStorage.getItem("CALENDAR_EVENTS_CREATE");
+   
     this.event_type = 'Event';
     this.locationstr = "";
     this.mindate = moment().format();
@@ -317,34 +325,6 @@ export class AddcalendarPage {
             console.log("eventdetailbyid Response Success:" + JSON.stringify(data.json()));
             console.log("Event Details:" + data.json().eventslist[0]);
             this.selectEntry(data.json().eventslist[0], this.NP.get("type"));
-            // this.eventitem = data.json().eventslist[0];
-            // this.eventTitle = data.json().eventslist[0].event_title;
-            // this.event_dot_color = data.json().eventslist[0].event_dot_color;
-            // this.evenDate = data.json().eventslist[0].formatted_event_date;
-            // this.location = data.json().eventslist[0].event_location;
-            // this.event_remark = data.json().eventslist[0].event_remark;
-            // let event_alldayevent = data.json().eventslist[0].event_alldayevent;
-            // if (event_alldayevent == 0) {
-            //   this.event_time = data.json().eventslist[0].event_time;
-            // } else {
-            //   this.event_time = "- " + data.json().eventslist[0].formatted_event_end_date;
-            // }
-            // console.log("A:" + data.json().eventslist[0].event_end_time);
-
-
-            // let evttime;
-            // if (data.json().eventslist[0].event_end_time == null) {
-            //   evttime = '';
-            // }
-            // if (data.json().eventslist[0].event_end_time == null) {
-            //   evttime = '';
-            // }
-            // if (event_alldayevent == 0) {
-            //   if (evttime != '') {
-            //     this.event_end_time = "-" + data.json().eventslist[0].formatted_event_end_date + " " + data.json().eventslist[0].event_end_time;
-            //   }
-            // }
-
 
           }, error => {
 
@@ -354,33 +334,44 @@ export class AddcalendarPage {
         this.selectEntry(this.NP.get("item"), this.NP.get("type"));
       }
       this.isEdited = true;
-
       this.pageTitle = 'Update Event';
       this.readOnly = false;
       this.hideActionButton = true;
       if (this.NP.get("type").toLowerCase() == 'event') {
-        this.responseResultType.push({
-          id: '1',
-          type_name: 'Event',
-        }
-        );
+
+
+       
+          this.responseResultType.push({
+            id: '1',
+            type_name: 'Event',
+          }
+          );
+       
       }
       else {
-        this.responseResultType.push({
-          id: '2',
-          type_name: 'Service',
-        }
-        );
+       
+          this.responseResultType.push({
+            id: '2',
+            type_name: 'Service',
+          }
+          );
+        
       }
     }
     else {
-      this.responseResultType.push({
-        id: '1',
-        type_name: 'Service',
-      }, {
+
+      if (this.SERVICECREATEACCESS == 1) {
+        this.responseResultType.push({
+          id: '1',
+          type_name: 'Service',
+        });
+      }
+      if (this.EVENTCREATEACCESS == 1) {
+        this.responseResultType.push({
           id: '2',
           type_name: 'Event'
         });
+      }
       this.isEdited = false;
       this.pageTitle = "Add New";
     }
@@ -1076,7 +1067,7 @@ export class AddcalendarPage {
         console.log('Got date: ', this.event_date);
       },
       err => console.log('Error occurred while getting date: ', err)
-    );
+      );
   }
   previous() {
     this.navCtrl.setRoot(CalendarPage);

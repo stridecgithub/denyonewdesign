@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { ComposePage } from "../compose/compose";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { NotificationPage } from '../notification/notification';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
-
+declare var jQuery: any;
 
 @Component({
   selector: 'page-messages',
@@ -32,6 +32,7 @@ export class MessagesPage {
   public act: any;
   public sendact: any;
   public inboxact: any;
+  rolePermissionMsg;
   public priority_lowclass: any;
   public priority_highclass: any;
   public addedImgListsArray = [];
@@ -119,124 +120,126 @@ export class MessagesPage {
   public hideActionButton = true;
   public sortLblTxt: string = 'Date Received';
   public sortLblSendTxt: string = 'Date Sent';
-
+  segmenttabshow;
   testRadioOpen: boolean;
   testRadioResult;
- // tabBarElement;
+  // tabBarElement;
   public profilePhoto;
   constructor(public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.inb();
-
-
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     this.doNotifiyCount();
 
-     // Footer Menu Access - Start
-     let footeraccessstorage = localStorage.getItem("footermenu");
-     let footeraccessparams = this.navParams.get('footermenu');
-     let footermenuacc;
-     if (footeraccessparams != undefined) {
-       footermenuacc = footeraccessparams;
-     } else {
-       footermenuacc = footeraccessstorage;
-     }
- 
-     console.log("Footer Menu Access abc:-" + footermenuacc);
-     // this.footerBar="0,"+footermenuacc;
- 
-     let footermenusplitcomma = footermenuacc.split(",");
-     let dashboardAccess = footermenusplitcomma[0];
-     let unitAccess = footermenusplitcomma[1];
-     let calendarAccess = footermenusplitcomma[2];
-     let messageAccess = footermenusplitcomma[3];
-     let orgchartAccess = footermenusplitcomma[4];
- 
-     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-     console.log("Footer Menu Access for Dashboard" + unitAccess);
-     console.log("Footer Menu Access for Calendar" + calendarAccess);
-     console.log("Footer Menu Access for Messagees" + messageAccess);
-     console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-     let dashboarddisplay;
-     if (dashboardAccess == 1) {
-       dashboarddisplay = '';
-     } else {
-       dashboarddisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Dashboard',
-       active: true,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: dashboarddisplay,
-       pageComponent: 'DashboardPage'
-     });
-     let unitdisplay;
-     if (unitAccess == 1) {
-       unitdisplay = '';
-     } else {
-       unitdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Units',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: unitdisplay,
-       pageComponent: 'UnitsPage'
-     });
-     let calendardisplay;
-     if (calendarAccess == 1) {
-       calendardisplay = '';
-     } else {
-       calendardisplay = 'none';
-     }
- 
-     this.footerBar.push({
-       title: 'Calendar',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: calendardisplay,
-       pageComponent: 'CalendarPage'
-     });
-     let messagedisplay;
-     if (messageAccess == 1) {
-       messagedisplay = '';
-     } else {
-       messagedisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Message',
-       active: false,
-       colorcode: "#488aff",
-       footerdisplay: messagedisplay,
-       pageComponent: 'MessagePage'
-     });
-     let orgchartdisplay;
-     if (orgchartAccess == 1) {
-       orgchartdisplay = '';
-     } else {
-       orgchartdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Org Chart',
-       active: false,
-       footerdisplay: orgchartdisplay,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       pageComponent: 'OrgchartPage'
-     });
- 
-     console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-     //this.footerBar = "0";
-     //let footerBar=this.footerBar.split(",");
-     console.log("Final Footer Menu access:" + this.footerBar);
- 
-     // Footer Menu Access - End
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
+
+    console.log("Footer Menu Access abc:-" + footermenuacc);
+    // this.footerBar="0,"+footermenuacc;
+
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
+
+    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
+    console.log("Footer Menu Access for Dashboard" + unitAccess);
+    console.log("Footer Menu Access for Calendar" + calendarAccess);
+    console.log("Footer Menu Access for Messagees" + messageAccess);
+    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+
+    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+    console.log("Final Footer Menu access:" + this.footerBar);
+
+    // Footer Menu Access - End
+
+
+   
+
   }
 
 
@@ -263,6 +266,18 @@ export class MessagesPage {
 
 
   ionViewDidLoad() {
+     // Authority for message send
+     this.MESSAGESENTVIEWACCESS = localStorage.getItem("MESSAGES_SENT_VIEW");
+     this.MESSAGESENTCREATEACCESS = localStorage.getItem("MESSAGES_SENT_CREATE");
+     this.MESSAGESENTEDITACCESS = localStorage.getItem("MESSAGES_SENT_EDIT");
+     this.MESSAGESENTDELETEACCESS = localStorage.getItem("MESSAGES_SENT_DELETE");
+     // Authority for message send
+     // Authority for message inbox
+     this.MESSAGEINBOXVIEWACCESS = localStorage.getItem("MESSAGES_INBOX_VIEW");
+     this.MESSAGEINBOXCREATEACCESS = localStorage.getItem("MESSAGES_INBOX_CREATE");
+     this.MESSAGEINBOXEDITACCESS = localStorage.getItem("MESSAGES_INBOX_EDIT");
+     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
+     // Authority for message inbox
     console.log("Tab" + this.navParams.get("fromtab"));
     if (this.navParams.get("fromtab") != undefined) {
       this.tabs = this.navParams.get("fromtab");
@@ -275,6 +290,101 @@ export class MessagesPage {
       Object.keys(elements).map((key) => {
         elements[key].style.display = 'flex';
       });
+    }
+    if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
+      this.tabs = 'inboxView';
+      console.log('A');
+      jQuery('#inboxView').show();
+      jQuery('#sentView').show();
+      jQuery('#inboxblock').show();
+      jQuery('#sendblock').show();
+      this.segmenttabshow = 1;
+      this.rolePermissionMsg = '';
+     
+    } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
+      this.tabs = 'inboxView';
+      console.log('B');
+      jQuery('#inboxView').show();
+      jQuery('#sentView').hide();
+      jQuery('#inboxblock').show();
+      jQuery('#sendblock').hide();
+      this.segmenttabshow = 0;
+      this.rolePermissionMsg = '';
+    
+    } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
+      this.tabs = 'sentView';
+      console.log('C');
+      jQuery('#inboxView').hide();
+      jQuery('#sentView').show();
+      jQuery('#inboxblock').hide();
+      jQuery('#sendblock').show();
+      this.segmenttabshow = 1;
+      this.rolePermissionMsg = '';
+      this.snd();
+     
+    } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
+      console.log('D');
+      jQuery('#inboxView').hide();
+      jQuery('#sentView').hide();
+      jQuery('#inboxblock').hide();
+      jQuery('#sendblock').hide();
+      this.segmenttabshow = 0;
+      this.rolePermissionMsg = this.conf.rolePermissionMsg();
+    }
+
+
+  }
+
+  ionViewDidEnter() {
+     // Authority for message send
+     this.MESSAGESENTVIEWACCESS = localStorage.getItem("MESSAGES_SENT_VIEW");
+     this.MESSAGESENTCREATEACCESS = localStorage.getItem("MESSAGES_SENT_CREATE");
+     this.MESSAGESENTEDITACCESS = localStorage.getItem("MESSAGES_SENT_EDIT");
+     this.MESSAGESENTDELETEACCESS = localStorage.getItem("MESSAGES_SENT_DELETE");
+     // Authority for message send
+     // Authority for message inbox
+     this.MESSAGEINBOXVIEWACCESS = localStorage.getItem("MESSAGES_INBOX_VIEW");
+     this.MESSAGEINBOXCREATEACCESS = localStorage.getItem("MESSAGES_INBOX_CREATE");
+     this.MESSAGEINBOXEDITACCESS = localStorage.getItem("MESSAGES_INBOX_EDIT");
+     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
+     // Authority for message inbox
+     console.log("this.MESSAGESENTVIEWACCESS"+this.MESSAGESENTVIEWACCESS);
+     console.log("this.MESSAGEINBOXVIEWACCESS"+this.MESSAGEINBOXVIEWACCESS);
+    if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
+      console.log('A');
+      this.tabs = 'inboxView';
+      jQuery('#inboxView').show();
+      jQuery('#sentView').show();
+      jQuery('#inboxblock').show();
+      jQuery('#sendblock').show();
+      this.segmenttabshow = 1;
+      this.rolePermissionMsg = '';     
+    } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
+      console.log('B');
+      this.tabs = 'inboxView';
+      jQuery('#inboxView').show();
+      jQuery('#sentView').hide();
+      jQuery('#inboxblock').show();
+      jQuery('#sendblock').hide();
+      this.segmenttabshow = 0;
+      this.rolePermissionMsg = '';     
+    } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
+      console.log('C');
+      this.tabs = 'sentView';
+      jQuery('#inboxView').hide();
+      jQuery('#sentView').show();
+      jQuery('#inboxblock').hide();
+      jQuery('#sendblock').show();
+      this.segmenttabshow = 1;
+      this.rolePermissionMsg = '';     
+    } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
+      console.log('D');
+      jQuery('#inboxView').hide();
+      jQuery('#sentView').hide();
+      jQuery('#inboxblock').hide();
+      jQuery('#sendblock').hide();
+      this.segmenttabshow = 0;
+      this.rolePermissionMsg = this.conf.rolePermissionMsg();
     }
   }
   compose() {
@@ -747,11 +857,11 @@ export class MessagesPage {
         // If the request was successful notify the user
         if (data.status === 200) {
 
-         /* if (res.favorite == 0) {
-            this.conf.sendNotification("Unfavorited successfully");
-          } else {
-            this.conf.sendNotification("Favorited successfully");
-          }*/
+          /* if (res.favorite == 0) {
+             this.conf.sendNotification("Unfavorited successfully");
+           } else {
+             this.conf.sendNotification("Favorited successfully");
+           }*/
           this.conf.sendNotification(data.json().msg.result);
           this.inboxData.startindex = 0;
           this.doInbox();

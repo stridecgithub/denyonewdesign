@@ -39,7 +39,7 @@ declare var jQuery: any;
   providers: [Push, LocalNotifications, Config]//
 })
 
-export class DashboardPage { 
+export class DashboardPage {
 
   public footerBar = [];
 
@@ -89,6 +89,10 @@ export class DashboardPage {
   //
   public MAPVIEWACCESS: any;
   public UNITVIEWACCESS: any;
+  public UNITEDITACCESS: any;
+  public UNITHIDEACCESS: any;
+
+  previousPage;
   constructor(public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     // Footer Menu Access - Start
@@ -190,6 +194,8 @@ export class DashboardPage {
 
     // Footer Menu Access - End
     this.platform.ready().then(() => {
+      this.previousPage = this.navCtrl.getActive().name;
+      console.log('Currant Pagename' + this.previousPage);
       this.tabIndexVal = localStorage.getItem("tabIndex");
       this.platform.registerBackButtonAction(() => {
         let userId = localStorage.getItem("userInfoId");
@@ -255,6 +261,8 @@ export class DashboardPage {
        }
        console.log("Dashboard- Menu Closed");
      });*/
+
+
   }
 
   presentModal(unit) {
@@ -302,7 +310,8 @@ export class DashboardPage {
     // this.disconnected.unsubscribe();
   }
   ionViewDidEnter() {
-
+    this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
+    this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
     this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
     localStorage.setItem("tabIndex", "0");
@@ -347,7 +356,8 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
-
+    this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
+    this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
     this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
 

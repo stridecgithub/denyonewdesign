@@ -8,7 +8,7 @@
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
-         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -23,16 +23,16 @@
     <div class="alarm-title">
       <div class="list-favorite">
         <button>
-                <ion-icon name="star-outline"
-                          *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
-                <ion-icon name="star" class="favorite"
-                          *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
-              </button>
+          <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
+          <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
+        </button>
       </div>
-      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span> <b>{{this.unitDetailData.unitname}}</b>
+      <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
+      <b>{{this.unitDetailData.unitname}}</b>
     </div>
     <div class="alarm-info">
-      {{unitDetailData.projectname }}<br>
+      {{unitDetailData.projectname }}
+      <br>
       <strong>Deployed Location:</strong> {{unitDetailData.location }}
       <!-- <button class="map-btn" style="text-align:right;"  (click)="presentModal(unitDetailData)">
            
@@ -63,7 +63,8 @@
           <ion-row>
             <ion-col col-12>
               <h1 style="white-space: normal;">{{alarmitem.alarm_name}}</h1>
-              <p>Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}} <br> Assigned to: {{alarmitem.alarm_assginedto_name}} {{alarmitem.alarm_assginedto_hashtag}} </p>
+              <p>Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}}
+                <br> Assigned to: {{alarmitem.alarm_assginedto_name}} {{alarmitem.alarm_assginedto_hashtag}} </p>
               <div class="date">
                 {{alarmitem.alarm_received_date_mobileview}}
               </div>
@@ -72,9 +73,10 @@
         </div>
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
-        <button ion-button class="edit-btn" (click)="doEdit(alarmitem,'edit')">
-              <img width="25" src="assets/imgs/edit@2x.png"><br>Edit
-            </button>
+        <button ion-button class="edit-btn" (click)="doEdit(alarmitem,'edit')" *ngIf="EDITACCESS==1">
+          <img width="25" src="assets/imgs/edit@2x.png">
+          <br>Edit
+        </button>
       </ion-item-options>
     </ion-item-sliding>
 
@@ -85,5 +87,5 @@
   </ion-list>
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>

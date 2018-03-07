@@ -30,7 +30,7 @@
   </ion-header>
 <ion-content>
 
-  <button class="add-unit-btn" (click)="doAdd()">
+  <button class="add-unit-btn" (click)="doAdd()"  *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Role</button>
   <div class="error" *ngIf="totalCount==0">No role entries found</div>
 
@@ -43,10 +43,10 @@
           <h2>{{roleitem.role_name}}</h2>     
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
-        <button ion-button class="edit-btn" (click)="doEdit(roleitem,'edit')">
+        <button ion-button class="edit-btn" (click)="doEdit(roleitem,'edit')"  *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
-        <button ion-button class="del-btn" (click)="doConfirm(roleitem.role_id,roleitem)">
+        <button ion-button class="del-btn" (click)="doConfirm(roleitem.role_id,roleitem)"  *ngIf="DELETEACCESS==1">
           <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>

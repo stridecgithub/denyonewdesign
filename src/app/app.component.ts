@@ -269,7 +269,7 @@ export class MyApp {
     }
     else if (page.component == 'MapdemoPage') {
       //this.navCtrl.setRoot(MapdemoPage);
-    } else if (page.component == 'GeneratormodelmanagementPage') {
+    } else if (page.component == 'EnginemodelPage') {
       this.navCtrl.setRoot(EnginedetailPage);
     } else if (page.title == 'Settings') {
       /* this.menuActive = 'menuactive-settings';
@@ -303,13 +303,93 @@ export class MyApp {
     localStorage.setItem("userInfoPhoto", "");
     localStorage.setItem("leftmenu", "");
     localStorage.setItem("footermenu", '');
+    /*
+        localStorage.setItem("DASHBOARD_MAP_VIEW", '');
+    
+    
+        localStorage.setItem("DASHBOARD_UNITS_VIEW", '');
+        localStorage.setItem("DASHBOARD_UNITS_EDIT", '');
+        localStorage.setItem("DASHBOARD_UNITS_HIDE", '');
+    
+    
+    
+        localStorage.setItem("UNITS_LISTING_VIEW", "");
+        localStorage.setItem("UNITS_LISTING_CREATE", "");
+        localStorage.setItem("UNITS_LISTING_EDIT", "");
+        localStorage.setItem("UNITS_LISTING_DELETE", "");
+    
+    
+        localStorage.setItem("CALENDAR_EVENTS_VIEW", "");
+        localStorage.setItem("CALENDAR_EVENTS_CREATE", "");
+        localStorage.setItem("CALENDAR_EVENTS_EDIT", "");
+        localStorage.setItem("CALENDAR_EVENTS_DELETE", "");
+        localStorage.setItem("UNITS_ALARM_VIEW", "");
+        localStorage.setItem("UNITS_ALARM_DELETE", "");
+    
+        localStorage.setItem("UNITS_SERVICINGINFO_VIEW", "");
+        localStorage.setItem("UNITS_SERVICINGINFO_CREATE", "");
+        localStorage.setItem("UNITS_SERVICINGINFO_EDIT", "");
+        localStorage.setItem("UNITS_SERVICINGINFO_DELETE", "");
+    
+    
+    
+        // Authority for message send
+        localStorage.setItem("MESSAGE_SENT_VIEW", "");
+        localStorage.setItem("MESSAGE_SENT_CREATE", "");
+        localStorage.setItem("MESSAGE_SENT_EDIT", "");
+        localStorage.setItem("MESSAGE_SENT_DELETE", "");
+        // Authority for message send
+        // Authority for message inbox
+        localStorage.setItem("MESSAGE_INBOX_VIEW", "");
+        localStorage.setItem("MESSAGE_INBOX_CREATE", "");
+        localStorage.setItem("MESSAGE_INBOX_EDIT", "");
+        localStorage.setItem("MESSAGE_INBOX_DELETE", "");
+        // Authority for message inbox
+    */
 
-    localStorage.setItem("DASHBOARD_MAP_VIEW", '');
+
+    let roleData = localStorage.getItem("roleactionpermissiondata");
+    let roleparseData = JSON.parse(roleData);
+    console.log("Logout Loop Length is:" + roleparseData.length);
+    for (let rle = 0; rle < roleparseData.length; rle++) {
+      let splitvalue = roleparseData[rle].toString().split(",");
+      console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
+      let firstvaluesplit = splitvalue[0].split(":");
+      let secondvaluesplit = splitvalue[1].split(":");
+      let thirdvaluesplit = splitvalue[2].split(":");
+      let fourthvaluesplit = splitvalue[3].split(":");
+      let fivthvaluesplit = splitvalue[4].split(":");
 
 
-    localStorage.setItem("DASHBOARD_UNITS_VIEW", '');
-    localStorage.setItem("DASHBOARD_UNITS_EDIT", '');
-    localStorage.setItem("DASHBOARD_UNITS_HIDE", '');
+      let firstvaluename = firstvaluesplit[0];
+      let firstvaluedata = firstvaluesplit[1];
+      console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
+      localStorage.setItem(firstvaluename.toUpperCase(), "");
+
+
+      let secondvaluename = secondvaluesplit[0];
+      let secondvaluedata = secondvaluesplit[1];
+      console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
+      localStorage.setItem(secondvaluename.toUpperCase(), "");
+
+
+      let thirdvaluename = thirdvaluesplit[0];
+      let thirdvaluedata = thirdvaluesplit[1];
+      console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
+      localStorage.setItem(thirdvaluename.toUpperCase(), "");
+
+
+      let fourthvaluename = fourthvaluesplit[0];
+      let fourthvaluedata = fourthvaluesplit[1];
+      console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
+      localStorage.setItem(fourthvaluename.toUpperCase(), "");
+
+
+      let fivthvaluename = fivthvaluesplit[0];
+      let fivthvaluedata = fivthvaluesplit[1];
+      console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
+      localStorage.setItem(fivthvaluename.toUpperCase(), "");
+    }
 
     this.events.unsubscribe('user:created', null);
 

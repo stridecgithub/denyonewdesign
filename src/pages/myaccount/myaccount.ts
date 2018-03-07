@@ -16,7 +16,7 @@ import { OrgchartPage } from '../orgchart/orgchart';
 //import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 import { Config } from '../../config/config';
 import { ChangepasswordPage } from '../changepassword/changepassword';
-
+import { PermissionPage } from '../../pages/permission/permission';
 /**
  * Generated class for the MyaccountPage page.
  *
@@ -47,10 +47,9 @@ export class MyaccountPage {
   public userId: any;
   public item: any;
   public VIEWACCESS: any;
-  public CREATEACCESS: any;
   public companyId: any;
   public EDITACCESS: any;
-  public DELETEACCESS: any;
+  
   private apiServiceURL: string = "";
   public networkType: string;
   company_group;
@@ -65,13 +64,13 @@ export class MyaccountPage {
     
     this.userId = localStorage.getItem("userInfoId");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
+    if(this.VIEWACCESS==0){
+      this.navCtrl.setRoot(PermissionPage, {});
+    
+    }
     console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
-    this.CREATEACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
     this.EDITACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS)
-    this.DELETEACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
+    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.companyId = localStorage.getItem("userInfoCompanyId");
 
     this.networkType = '';

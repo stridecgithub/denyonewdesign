@@ -22,7 +22,7 @@
 
 
 <ion-content>
-  <button class="add-unit-btn" (click)="doAdd()">
+  <button class="add-unit-btn" (click)="doAdd()"   *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit</button>
   <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
 
@@ -57,10 +57,10 @@
           <ion-icon name="add" style="font-size:26px"></ion-icon>Pin
         </button>
 
-        <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)">
+        <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)"   *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
-        <button ion-button class="del-btn" (click)="doConfirm(unit.unit_id,item)">
+        <button ion-button class="del-btn" (click)="doConfirm(unit.unit_id,item)"   *ngIf="DELETEACCESS==1">
           <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>

@@ -28,7 +28,7 @@
 </ion-header>
 <ion-content>
 
-  <button class="add-unit-btn" (click)="doAdd()">
+  <button class="add-unit-btn" (click)="doAdd()" *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New User</button>
   <div class="error" *ngIf="totalCount==0">No user entries found</div>
 
@@ -41,7 +41,7 @@
 
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let user of userAllLists">
-      <ion-item (click)="doAction(user,'detail',user.user_id)"   *ngIf="user.staff_id!='1'">
+      <ion-item *ngIf="user.staff_id!='1'">
 
         <h5 style="padding-top:3px">
           <b>User ID:</b>{{user.username}}</h5>
@@ -54,10 +54,10 @@
 
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
-        <button ion-button class="edit-btn" (click)="doEdit(user,'edit')">
+        <button ion-button class="edit-btn" (click)="doEdit(user,'edit')" *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
-        <button ion-button class="del-btn" (click)="doConfirm(user.staff_id,user)">
+        <button ion-button class="del-btn" (click)="doConfirm(user.staff_id,user)" *ngIf="DELETEACCESS==1">
           <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>
@@ -68,5 +68,5 @@
   </ion-infinite-scroll>
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>

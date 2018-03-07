@@ -50,6 +50,9 @@ export class UnitsPage {
   public msgcount: any;
   public notcount: any;
   public profilePhoto;
+  public CREATEACCESS: any;
+  public EDITACCESS: any;
+  public DELETEACCESS: any;
   tabIndexVal;
   constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
@@ -61,8 +64,12 @@ export class UnitsPage {
     }
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.tabIndexVal = localStorage.getItem("tabIndex");
+    this.CREATEACCESS = localStorage.getItem("UNITS_LISTING_CREATE");
+    this.EDITACCESS = localStorage.getItem("UNITS_LISTING_EDIT");
+    this.DELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");;
 
 
+    
   // Footer Menu Access - Start
   let footeraccessstorage = localStorage.getItem("footermenu");
   let footeraccessparams = this.navParams.get('footermenu');

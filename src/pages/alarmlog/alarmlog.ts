@@ -52,7 +52,6 @@ export class AlarmlogPage {
   public colorListArr: any;
   public userId: any;
   public unit_id: any;
-  public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
@@ -64,14 +63,9 @@ export class AlarmlogPage {
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
-    this.VIEWACCESS = localStorage.getItem("UNITS_ALARM_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
     this.CREATEACCESS = localStorage.getItem("UNITS_ALARM_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
     this.EDITACCESS = localStorage.getItem("UNITS_ALARM_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
     this.platform.registerBackButtonAction(() => {

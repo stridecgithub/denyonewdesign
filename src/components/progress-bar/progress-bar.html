@@ -10,7 +10,7 @@
     </a> -->
 
 
-    <a class="" *ngFor="let footeritem of progress; let i = index" [attr.data-index]="i" [ngStyle]="{'border-top': '2px solid '+footeritem.colorcode,'color': footeritem.colorcode, 'font-size': '24px', 'font-weight': 'bold' , 'padding': '0', ' background': 'assets/imgs/tab-units-icon-active@2x.png','border-top': '2px solid'+ footeritem.colorcode,'display':footeritem.footerdisplay}">
+    <a class="" *ngFor="let footeritem of progress; let i = index" [attr.data-index]="i" [ngStyle]="{'border-top': '2px solid '+footeritem.colorcode,'color': footeritem.colorcode, 'font-size': '24px', 'font-weight': 'bold' , 'padding': '0', ' background': 'assets/imgs/tab-units-icon-active@2x.png','border-top': '2px solid'+ footeritem.colorcode}">
         <ion-icon (click)="goto(footeritem.pageComponent)" class="icon icon-md ion-md-help" aria-selected="true"></ion-icon>
         <i class="chat-count" *ngIf="msgcount>0 && footeritem.title=='Message'">{{msgcount}}</i>
         <span class="">{{footeritem.title}}</span>

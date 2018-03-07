@@ -34,8 +34,6 @@ export class ServicinginfoPage {
   public msgcount: any;
   public notcount: any;
   public photo: any;
-
-  public VIEWACCESS: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
@@ -86,14 +84,9 @@ export class ServicinginfoPage {
     this.pageTitle = 'Servicing Info';
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
-    this.VIEWACCESS = localStorage.getItem("UNITS_SERVICINGINFO_VIEW");
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
     this.CREATEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
     this.EDITACCESS = localStorage.getItem("UNITS_SERVICINGINFO_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.DELETEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
 

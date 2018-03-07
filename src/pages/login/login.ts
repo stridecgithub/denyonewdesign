@@ -155,10 +155,52 @@ export class LoginPage {
           localStorage.setItem("footermenu", res['footermenu']);
           console.log(JSON.stringify(res['roledata']));
           localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));
-
+          localStorage.setItem("roleactionpermissiondata", JSON.stringify(res['roleactionpermissiondata']));
 
           let roleData = localStorage.getItem("RolePermissionData");
           let roleparseData = JSON.parse(roleData);
+
+          console.log("Loop Length is:" + res['roleactionpermissiondata'].length);
+          for (let rle = 0; rle < res['roleactionpermissiondata'].length; rle++) {
+            let splitvalue = res['roleactionpermissiondata'][rle].toString().split(",");
+            console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
+            let firstvaluesplit = splitvalue[0].split(":");
+            let secondvaluesplit = splitvalue[1].split(":");
+            let thirdvaluesplit = splitvalue[2].split(":");
+            let fourthvaluesplit = splitvalue[3].split(":");
+            let fivthvaluesplit = splitvalue[4].split(":");
+
+
+            let firstvaluename = firstvaluesplit[0];
+            let firstvaluedata = firstvaluesplit[1];
+            console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
+            localStorage.setItem(firstvaluename.toUpperCase(), firstvaluedata);
+
+
+            let secondvaluename = secondvaluesplit[0];
+            let secondvaluedata = secondvaluesplit[1];
+            console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
+            localStorage.setItem(secondvaluename.toUpperCase(), secondvaluedata);
+
+
+            let thirdvaluename = thirdvaluesplit[0];
+            let thirdvaluedata = thirdvaluesplit[1];
+            console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
+            localStorage.setItem(thirdvaluename.toUpperCase(), thirdvaluedata);
+
+
+            let fourthvaluename = fourthvaluesplit[0];
+            let fourthvaluedata = fourthvaluesplit[1];
+            console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
+            localStorage.setItem(fourthvaluename.toUpperCase(), fourthvaluedata);
+
+
+            let fivthvaluename = fivthvaluesplit[0];
+            let fivthvaluedata = fivthvaluesplit[1];
+            console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
+            localStorage.setItem(fivthvaluename.toUpperCase(), fivthvaluedata);
+          }
+          /*
           for (let rle = 0; rle < roleparseData.length; rle++) {                    // 8 - Child Module Map
             if (res['staffdetails'][0].staff_id == '1') {
               // 1 - Parent Module Dashboard
@@ -383,7 +425,7 @@ export class LoginPage {
 
               }
             }
-          }
+          }*/
           this.createUser(res['staffdetails'][0]);
           this.nativeStorage.setItem('menuItem', { profilePhoto: res['staffdetails'][0].photo, firstname: res['staffdetails'][0].firstname, lastname: res['staffdetails'][0].lastname, companyGroupName: res['staffdetails'][0].companygroup_name })
             .then(

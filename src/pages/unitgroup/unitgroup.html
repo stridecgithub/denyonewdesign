@@ -29,7 +29,7 @@
 </ion-header>
 <ion-content>
 
-    <button class="add-unit-btn" (click)="doAdd()">
+    <button class="add-unit-btn" (click)="doAdd()"  *ngIf="CREATEACCESS==1">
         <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit Group</button>
       <div class="error" *ngIf="unitgroupAllLists.length==0">No unit group entries found</div>
     
@@ -72,10 +72,10 @@
       </ion-item>
       
       <ion-item-options side="right" class="list-item-options">
-        <button ion-button class="edit-btn"  (click)="doEdit(unitgroup,'edit')">
+        <button ion-button class="edit-btn"  (click)="doEdit(unitgroup,'edit')"  *ngIf="EDITACCESS==1">
             <img width="25" src="assets/imgs/edit@2x.png">Edit
           </button>
-          <button ion-button class="del-btn" (click)="doConfirm(unitgroup.unitgroup_id,unitgroup)">
+          <button ion-button class="del-btn" (click)="doConfirm(unitgroup.unitgroup_id,unitgroup)"  *ngIf="DELETEACCESS==1">
             <ion-icon name="trash"></ion-icon>Delete
           </button>
       </ion-item-options>

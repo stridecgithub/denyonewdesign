@@ -25,13 +25,16 @@ import { Config } from '../../config/config';
 })
 export class EnginedetailPage {
   public pageTitle: string;
-  public footerBar= [];
+  public footerBar = [];
   public loginas: any;
   private apiServiceURL: string = "";
   public totalCount;
   public msgcount: any;
   public notcount: any;
   pet: string = "ALL";
+  public CREATEACCESS: any;
+  public EDITACCESS: any;
+  public DELETEACCESS: any;
   public reportData: any =
     {
       status: '',
@@ -54,107 +57,112 @@ export class EnginedetailPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
     // Footer Menu Access - Start
-  let footeraccessstorage = localStorage.getItem("footermenu");
-  let footeraccessparams = this.NP.get('footermenu');
-  let footermenuacc;
-  if (footeraccessparams != undefined) {
-    footermenuacc = footeraccessparams;
-  } else {
-    footermenuacc = footeraccessstorage;
-  }
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.NP.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-  let footermenusplitcomma = footermenuacc.split(",");
-  let dashboardAccess = footermenusplitcomma[0];
-  let unitAccess = footermenusplitcomma[1];
-  let calendarAccess = footermenusplitcomma[2];
-  let messageAccess = footermenusplitcomma[3];
-  let orgchartAccess = footermenusplitcomma[4];
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
-  
-  let dashboarddisplay;
-  if (dashboardAccess == 1) {
-    dashboarddisplay = '';
-  } else {
-    dashboarddisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Dashboard',
-    active: true,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: dashboarddisplay,
-    pageComponent: 'DashboardPage'
-  });
-  let unitdisplay;
-  if (unitAccess == 1) {
-    unitdisplay = '';
-  } else {
-    unitdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Units',
-    active: false,
-    colorcode: "#488aff",
-    footerdisplay: unitdisplay,
-    pageComponent: 'UnitsPage'
-  });
-  let calendardisplay;
-  if (calendarAccess == 1) {
-    calendardisplay = '';
-  } else {
-    calendardisplay = 'none';
-  }
 
-  this.footerBar.push({
-    title: 'Calendar',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: calendardisplay,
-    pageComponent: 'CalendarPage'
-  });
-  let messagedisplay;
-  if (messageAccess == 1) {
-    messagedisplay = '';
-  } else {
-    messagedisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Message',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: messagedisplay,
-    pageComponent: 'MessagePage'
-  });
-  let orgchartdisplay;
-  if (orgchartAccess == 1) {
-    orgchartdisplay = '';
-  } else {
-    orgchartdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Org Chart',
-    active: false,
-    footerdisplay: orgchartdisplay,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    pageComponent: 'OrgchartPage'
-  });
-  //this.footerBar = "0";
-  //let footerBar=this.footerBar.split(",");
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
 
-  // Footer Menu Access - End
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+    // Footer Menu Access - End
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EnginedetailPage');
+    this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
+    this.EDITACCESS = localStorage.getItem("UNITS_ENGINEMODEL_EDIT");
+    this.DELETEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_DELETE");
   }
   ionViewWillEnter() {
-
+    this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
+    this.EDITACCESS = localStorage.getItem("UNITS_ENGINEMODEL_EDIT");
+    this.DELETEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_DELETE");
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
