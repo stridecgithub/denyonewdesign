@@ -278,7 +278,7 @@ export class NotificationSettingsPage {
     type: string = "application/x-www-form-urlencoded; charset=UTF-8",
     headers: any = new Headers({ 'Content-Type': type }),
     options: any = new RequestOptions({ headers: headers }),
-    url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.userId;
+    url: any = this.apiServiceURL + "/alarmhashtags?companyid=" + this.companyId + "&login=" + this.userId;
   console.log(url);
   this.http.get(url, options)
 
