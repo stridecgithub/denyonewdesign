@@ -14,7 +14,7 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content> 
+<ion-content>
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
     <ion-row style="background-color: #f8f8f8;">
       <ion-col class="col" col-12 style="background-color: #f8f8f8;">
@@ -26,7 +26,8 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;position:relative;">
-      <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="to" style="background:none;border:none;" />
+        <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="to" style="background:none;border:none;"
+        />
       </div>
     </div>
     <ion-list class="msg-compose" style="position:relative">
@@ -35,7 +36,7 @@
         <ion-checkbox formControlName="copytome" [(ngModel)]="copytome" style="margin-right:10px;"></ion-checkbox>
       </ion-item>
 
-     
+
       <div style="
       font-size: 27px;
       left: 83%;
@@ -88,10 +89,10 @@
 
       <div style="position: absolute;
     right: 2%;
-    top: 24%;">
+    top: 24%;" *ngIf="act!='reply' && act!='replytoall'">
         <button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded">
           <!-- <ion-icon name="attach"></ion-icon> Attach -->
-          <img class="icon-size-one" src="assets/imgs/attach_icon.png">   Attach</button>
+          <img class="icon-size-one" src="assets/imgs/attach_icon.png"> Attach</button>
       </div>
 
       <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
@@ -116,14 +117,14 @@
         <!-- i value {{i}}
         index value {{index}}
         existing image count {{existingimagecount}} -->
-        <button (click)="doRemoveResouce(imageitem)"  *ngIf="act!='reply' && act!='forward' && act!='replytoall'" >
+        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward' && act!='replytoall'">
           <!-- *ngIf="act!='reply' && act!='forward'" -->
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>
 
-        <button  *ngIf="act=='reply' && act=='forward' && act=='replytoall'"  (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
-            <ion-icon name="download"></ion-icon>
-          </button>
+        <button *ngIf="act=='reply' && act=='forward' && act=='replytoall'" (click)="preview(addedImgLists[i],'MessagedetailPage','compose',favstatus,message_readstatus,messageid)">
+          <ion-icon name="download"></ion-icon>
+        </button>
       </div>
     </div>
   </div>

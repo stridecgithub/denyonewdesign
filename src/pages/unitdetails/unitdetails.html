@@ -234,11 +234,11 @@
     <div class="buttons">
       <ion-row>
         <ion-col col-12>
-          <div class="edit" (click)="doAction(unitDetailData,'edit',unitDetailData.unit_id,'unitdetail')">
+          <div class="edit"   (click)="doAction(unitDetailData,'edit',unitDetailData.unit_id,'unitdetail',uniteditable)">
             <ion-icon name="create"></ion-icon>
             <span>Edit</span>
           </div>
-          <div class="delete" (click)="doConfirm(unitDetailData.unit_id)">
+          <div class="delete" (click)="doConfirm(unitDetailData.unit_id,unitdeletable)">
             <ion-icon name="trash"></ion-icon>
             <span>Delete</span>
           </div>

@@ -171,8 +171,8 @@ export class AlarmlogPage {
       record: item
     });
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AlarmlogPage');
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter1 AlarmlogPage');
 
     localStorage.setItem("fromModule", "AlarmlogPage");
     // UnitDetails Api Call		

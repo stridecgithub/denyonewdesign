@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "7125886423",
+    "firebase_url": "https://denyo-remote-monitoring-79799.firebaseio.com",
+    "project_id": "denyo-remote-monitoring-79799",
+    "storage_bucket": "denyo-remote-monitoring-79799.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7125886423:android:363eb6b9df252043",
+        "android_client_info": {
+          "package_name": "com.denyo.remotemonitoringsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7125886423-1o8g309vhlh2ak53mjmnmm21m5n8unbn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsiUJHVUDuZeqV41FmPvuLgNzaAVyBpV0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

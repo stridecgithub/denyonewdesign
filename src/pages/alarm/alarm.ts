@@ -167,8 +167,8 @@ export class AlarmPage {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AlarmPage');
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter1 AlarmPage');
     localStorage.setItem("fromModule", "AlarmPage");
     /*let editItem = this.NP.get("record");
 

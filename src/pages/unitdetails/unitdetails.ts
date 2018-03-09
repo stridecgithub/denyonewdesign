@@ -59,6 +59,7 @@ export class UnitdetailsPage {
 	needlevalue;
 	batteryvoltbarlabels;
 	oilperssuerbarlabels;
+	loadpowerfactorneedlevalue;
 	rolePermissionMsg;
 	oilpressuerlabel;
 	oilpressuercolors;
@@ -99,6 +100,9 @@ export class UnitdetailsPage {
 	public serviceviewenable: boolean = false;
 	public commentviewenable: boolean = false;
 	public engineviewenable: boolean = false;
+	public uniteditable: boolean = false;
+	public unitdeletable: boolean = false;
+
 	alarmstatus;
 	voltguagelabel;
 	voltguagecolors;
@@ -163,11 +167,30 @@ export class UnitdetailsPage {
 	public SERVICEVIEWACCESS: any;
 	public ALARMVIEWACCESS: any;
 	public ENGINEDETAILVIEWACCESS: any;
+	public UNITEDITACCESS: any;
+	public UNITDELETEACCESS: any;
 	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
 
 		this.ENGINEDETAILVIEWACCESS = localStorage.getItem("UNITS_ENGINEMODEL_VIEW");
+		this.UNITEDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
+
+		if (this.UNITEDITACCESS == 1) {
+			this.uniteditable = false;
+		} else {
+			this.uniteditable = true;
+		}
+
+		this.UNITDELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");
+
+		if (this.UNITDELETEACCESS == 1) {
+			this.unitdeletable = false;
+		} else {
+			this.unitdeletable = true;
+		}
+
+
 		if (this.ENGINEDETAILVIEWACCESS == 1) {
 			this.engineviewenable = false;
 		} else {
@@ -423,7 +446,15 @@ export class UnitdetailsPage {
 
 								this.coolanttemp = data.json().coolanttemp;
 								this.oilpressure = data.json().oilpressure;
+
 								this.loadpowerfactor = data.json().loadpowerfactor;
+								if (data.json().loadpowerfactor >= 1) {
+									this.loadpowerfactorneedlevalue = 1;
+
+								} else {
+									this.loadpowerfactorneedlevalue = data.json().loadpowerfactor;
+								}
+								console.log("Load factor needle value:"+this.loadpowerfactorneedlevalue);
 								this.batteryvoltage = data.json().batteryvoltage;
 
 							}, error => {
@@ -753,7 +784,14 @@ export class UnitdetailsPage {
 							}
 							if (code == "oilpressure") {
 								console.log("this.oilpressure" + this.oilpressure)
-								this.needlevalue = this.oilpressure;
+
+
+								if (this.oilpressure >= 10) {
+									this.needlevalue = 100;
+								} else {
+									this.needlevalue = this.oilpressure * 10;
+								}
+								console.log("Oil Pressure needle value:" + this.needlevalue);
 							}
 							if (code == "batteryvolt") {
 								console.log("this.batteryvoltage" + this.batteryvoltage)
@@ -864,7 +902,7 @@ export class UnitdetailsPage {
 							scales: [
 								{
 									minimum: 0,
-									maximum: 1.0,
+									maximum: 1,
 									labels: {
 										offset: 0.15
 									},
@@ -884,7 +922,7 @@ export class UnitdetailsPage {
 									ranges: [
 										{
 											startValue: 0,
-											endValue: 1.0,
+											endValue: 1,
 											innerOffset: 0.46,
 											outerStartOffset: 0.70,
 											outerEndOffset: 0.70,
@@ -894,7 +932,7 @@ export class UnitdetailsPage {
 									needles: [
 										{
 											type: 'pointer',
-											value: this.loadpowerfactor,
+											value: this.loadpowerfactorneedlevalue,
 											fillStyle: needleGradient,
 											innerOffset: 0.50,
 											outerOffset: 1.00
@@ -989,6 +1027,7 @@ export class UnitdetailsPage {
 		this.coolanttemp = 0;
 		this.oilpressure = 0;
 		this.loadpowerfactor = 0;
+		this.loadpowerfactorneedlevalue=0;
 		this.batteryvoltage = 0;
 		this.selectedvoltage = 0;
 		this.selectedcurrent = 0;
@@ -1565,23 +1604,29 @@ export class UnitdetailsPage {
 	/* @doConfirm called for alert dialog box **/
 
 	/******************************************/
-	doConfirm(id) {
-		console.log("Deleted Id" + id);
-		let confirm = this.alertCtrl.create({
-			message: 'Are you sure you want to delete this unit?',
-			buttons: [{
-				text: 'Yes',
-				handler: () => {
-					this.deleteEntry(id);
-				}
-			},
-			{
-				text: 'No',
-				handler: () => {
-				}
-			}]
-		});
-		confirm.present();
+	doConfirm(id, access) {
+
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('DELETE', this.rolePermissionMsg)
+		} else {
+			console.log("Deleted Id" + id);
+			let confirm = this.alertCtrl.create({
+				message: 'Are you sure you want to delete this unit?',
+				buttons: [{
+					text: 'Yes',
+					handler: () => {
+						this.deleteEntry(id);
+					}
+				},
+				{
+					text: 'No',
+					handler: () => {
+					}
+				}]
+			});
+			confirm.present();
+		}
 	}
 
 	// Remove an existing record that has been selected in the page's HTML form
@@ -1656,15 +1701,21 @@ export class UnitdetailsPage {
 				// this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
 	}
-	doAction(item, act, unitId, from) {
-		console.log("Item From Do Action:" + JSON.stringify(item));
-		this.navCtrl.setRoot(AddUnitPage, {
-			record: item,
-			act: act,
-			unitId: unitId,
-			from: from
-		});
-		return false;
+	doAction(item, act, unitId, from, access) {
+
+		if (access == true) {
+			this.rolePermissionMsg = this.conf.rolePermissionMsg();
+			this.showAlert('EDIT', this.rolePermissionMsg)
+		} else {
+			console.log("Item From Do Action:" + JSON.stringify(item));
+			this.navCtrl.setRoot(AddUnitPage, {
+				record: item,
+				act: act,
+				unitId: unitId,
+				from: from
+			});
+			return false;
+		}
 	}
 
 	selectVoltage(voltage) {
