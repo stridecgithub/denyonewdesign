@@ -64,8 +64,8 @@ export class UnitsPage {
     }
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.tabIndexVal = localStorage.getItem("tabIndex");
-    this.CREATEACCESS = localStorage.getItem("UNITS_LISTING_CREATE");
-    this.EDITACCESS = localStorage.getItem("UNITS_LISTING_EDIT");
+    this.CREATEACCESS = localStorage.getItem("UNITS_UNITSLISTING_CREATE");
+    this.EDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");
 
 

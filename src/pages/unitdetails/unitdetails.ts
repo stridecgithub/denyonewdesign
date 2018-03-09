@@ -174,7 +174,7 @@ export class UnitdetailsPage {
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
 
 		this.ENGINEDETAILVIEWACCESS = localStorage.getItem("UNITS_ENGINEMODEL_VIEW");
-		this.UNITEDITACCESS = localStorage.getItem("UNITS_LISTING_EDIT");
+		this.UNITEDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
 
 		if (this.UNITEDITACCESS == 1) {
 			this.uniteditable = false;
