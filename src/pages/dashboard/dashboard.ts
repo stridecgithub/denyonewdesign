@@ -688,10 +688,10 @@ export class DashboardPage {
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavorited successfully");
-            this.conf.sendNotification(res.msg[0]['result']);
+            this.conf.sendNotification(res.msg['result']);
           } else {
             //this.conf.sendNotification("Favourite successfully");
-            this.conf.sendNotification(res.msg[0]['result']);
+            this.conf.sendNotification(res.msg['result']);
           }
 
 
@@ -1069,7 +1069,7 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 11
+      zoom: 8
     }
 
 
@@ -1151,11 +1151,11 @@ export class DashboardPage {
     // Automatically center the map fitting all markers on the screen
     this.map.fitBounds(bounds);
 
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    // let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-    //   this.setZoom(8);
-    //   google.maps.event.removeListener(boundsListener);
-    // });
+   // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
+      this.setZoom(8);
+      google.maps.event.removeListener(boundsListener);
+    });
 
 
   }
@@ -1414,8 +1414,14 @@ export class DashboardPage {
 
     // to initialize push notifications
 
+  
     const options: PushOptions = {
-      android: {},
+      android: {
+        senderID: '7125886423',
+        forceShow: false,
+        vibrate: true,
+        sound: 'true'
+      },
       ios: {
         alert: 'true',
         badge: true,
@@ -1423,7 +1429,6 @@ export class DashboardPage {
       },
       windows: {}
     };
-
 
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('notification').subscribe((notification: any) => {

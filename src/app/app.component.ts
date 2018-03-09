@@ -459,8 +459,14 @@ export class MyApp {
 
     //to initialize push notifications
 
+ 
     const options: PushOptions = {
-      android: {},
+      android: {
+        senderID: '7125886423',
+        forceShow: false,
+        vibrate: true,
+        sound: 'true'
+      },
       ios: {
         alert: 'true',
         badge: true,

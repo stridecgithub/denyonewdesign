@@ -858,16 +858,17 @@ export class AddcalendarPage {
     /* if (localStorage.getItem("atMentionResult") != '') {
        service_remark = localStorage.getItem("atMentionResult");
      }*/
+     service_remark = jQuery(".event_notes").val();
     let field;
     if (type_name == 'Service') {
-      field = "&event_title=" + event_subject;
+      field = "&event_title=" + event_subject+"&service_remark=" + service_remark;
     } else {
-      field = "&event_title=" + event_subject;
+      field = "&event_title=" + event_subject+"&service_remark=" + service_remark;
     }
-    service_remark = jQuery(".event_notes").val();
+    //"&event_remark=" + service_remark +
     event_unitid = this.event_unitid;
     let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&event_remark=" + service_remark + "&ses_login_id=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
+      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location +  "&ses_login_id=" + createdby + "&event_added_by=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),

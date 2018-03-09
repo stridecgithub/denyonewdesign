@@ -293,6 +293,10 @@
                   </button> 
 
 
+
+                  <button *ngIf="eventitem.event_type=='S' && SERVICEEDITACCESS=='1'" ion-button class="edit-btn" (click)="doCalendarEdit(eventitem)">
+                    <ion-icon name="trash"></ion-icon>Edit
+                  </button>
               </ion-item-options>
 
             </ion-item-sliding>
@@ -392,6 +396,10 @@
                 </button>
               <button *ngIf="calendaritem.event_type=='S' && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
                 <ion-icon name="trash"></ion-icon>Delete
+              </button>
+
+              <button *ngIf="calendaritem.event_type=='S' && SERVICEEDITACCESS=='1'" ion-button class="edit-btn" (click)="doCalendarEdit(calendaritem)">
+                <ion-icon name="trash"></ion-icon>Edit
               </button>
 
               <button *ngIf="calendaritem.event_type=='E' && calendaritem.event_added_by==userId && EVENTDELETEACCESS=='1'" ion-button class="del-btn" (click)="doEventDelete(calendaritem)">

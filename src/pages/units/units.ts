@@ -21,7 +21,7 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-  
+
   public footerBar = [];
   public alarms: string = "0";
   public warningcount: string = "0";
@@ -66,108 +66,108 @@ export class UnitsPage {
     this.tabIndexVal = localStorage.getItem("tabIndex");
     this.CREATEACCESS = localStorage.getItem("UNITS_LISTING_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_LISTING_EDIT");
-    this.DELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");;
+    this.DELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");
 
 
-    
-  // Footer Menu Access - Start
-  let footeraccessstorage = localStorage.getItem("footermenu");
-  let footeraccessparams = this.navParams.get('footermenu');
-  let footermenuacc;
-  if (footeraccessparams != undefined) {
-    footermenuacc = footeraccessparams;
-  } else {
-    footermenuacc = footeraccessstorage;
-  }
 
-  console.log("Footer Menu Access abc:-" + footermenuacc);
-  // this.footerBar="0,"+footermenuacc;
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-  let footermenusplitcomma = footermenuacc.split(",");
-  let dashboardAccess = footermenusplitcomma[0];
-  let unitAccess = footermenusplitcomma[1];
-  let calendarAccess = footermenusplitcomma[2];
-  let messageAccess = footermenusplitcomma[3];
-  let orgchartAccess = footermenusplitcomma[4];
+    console.log("Footer Menu Access abc:-" + footermenuacc);
+    // this.footerBar="0,"+footermenuacc;
 
-  console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-  console.log("Footer Menu Access for Dashboard" + unitAccess);
-  console.log("Footer Menu Access for Calendar" + calendarAccess);
-  console.log("Footer Menu Access for Messagees" + messageAccess);
-  console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-  let dashboarddisplay;
-  if (dashboardAccess == 1) {
-    dashboarddisplay = '';
-  } else {
-    dashboarddisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Dashboard',
-    active: true,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: dashboarddisplay,
-    pageComponent: 'DashboardPage'
-  });
-  let unitdisplay;
-  if (unitAccess == 1) {
-    unitdisplay = '';
-  } else {
-    unitdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Units',
-    active: false,
-    colorcode: "#488aff",
-    footerdisplay: unitdisplay,
-    pageComponent: 'UnitsPage'
-  });
-  let calendardisplay;
-  if (calendarAccess == 1) {
-    calendardisplay = '';
-  } else {
-    calendardisplay = 'none';
-  }
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
-  this.footerBar.push({
-    title: 'Calendar',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: calendardisplay,
-    pageComponent: 'CalendarPage'
-  });
-  let messagedisplay;
-  if (messageAccess == 1) {
-    messagedisplay = '';
-  } else {
-    messagedisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Message',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: messagedisplay,
-    pageComponent: 'MessagePage'
-  });
-  let orgchartdisplay;
-  if (orgchartAccess == 1) {
-    orgchartdisplay = '';
-  } else {
-    orgchartdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Org Chart',
-    active: false,
-    footerdisplay: orgchartdisplay,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    pageComponent: 'OrgchartPage'
-  });
+    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
+    console.log("Footer Menu Access for Dashboard" + unitAccess);
+    console.log("Footer Menu Access for Calendar" + calendarAccess);
+    console.log("Footer Menu Access for Messagees" + messageAccess);
+    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
 
-  console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-  //this.footerBar = "0";
-  //let footerBar=this.footerBar.split(",");
-  console.log("Final Footer Menu access:" + this.footerBar);
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
 
-  // Footer Menu Access - End
+    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+    console.log("Final Footer Menu access:" + this.footerBar);
+
+    // Footer Menu Access - End
 
   }
 
@@ -413,12 +413,13 @@ export class UnitsPage {
         //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
+          console.log(JSON.stringify(res));
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavourited successfully");
-            this.conf.sendNotification(data.json().msg[0]['result']);
+            this.conf.sendNotification(data.json().msg['result']);
           } else {
-            this.conf.sendNotification(data.json().msg[0]['result']);
+            this.conf.sendNotification(data.json().msg['result']);
             //this.conf.sendNotification("Favourite successfully");
           }
         }
