@@ -17,7 +17,7 @@ import { DashboardPage } from '../dashboard/dashboard';
  * Ionic pages and navigation.
  */
 declare var jQuery: any;
-declare var mention:any;
+declare var mention: any;
 
 @Component({
   selector: 'page-notification-settings',
@@ -92,15 +92,17 @@ export class NotificationSettingsPage {
     this.form = fb.group({
       "alarmhashtags": [""],
       "contact_name_1": ["", Validators.required],
-      'contact_number_1': ["", Validators.required],
+      //'contact_number_1': ["", Validators.required],
+      "contact_number_1": ['', Validators.compose([Validators.required, Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_2": [""],
-      'contact_number_2': [""],
+      "contact_number_2": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_3": [""],
-      'contact_number_3': [""],
+      "contact_number_3": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_4": [""],
-      'contact_number_4': [""],
+      "contact_number_4": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_5": [""],
-      'contact_number_5': [""],
+      "contact_number_5": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+
       /* "primary": [""],
        "primary_2": [""],
        "primary_3": [""],
@@ -261,7 +263,7 @@ export class NotificationSettingsPage {
     //     if (data.status === 200) {
     //       this.atmentioneddata = data.json();
     //       console.log(this.atmentioneddata);
-         
+
     //     }
 
 
@@ -274,52 +276,52 @@ export class NotificationSettingsPage {
     //   })
 
     let body: string = '',
-    //body: string = "key=delete&recordID=" + recordID,
-    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    headers: any = new Headers({ 'Content-Type': type }),
-    options: any = new RequestOptions({ headers: headers }),
-    url: any = this.apiServiceURL + "/alarmhashtags?companyid=" + this.companyId + "&login=" + this.userId;
-  console.log(url);
-  this.http.get(url, options)
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/alarmhashtags?companyid=" + this.companyId + "&login=" + this.userId;
+    console.log(url);
+    this.http.get(url, options)
 
-  // let body: string = param,
+    // let body: string = param,
 
-  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-  //   headers: any = new Headers({ 'Content-Type': type }),
-  //   options: any = new RequestOptions({ headers: headers }),
-  //   url: any = urlstring;
-  console.log("Message sending API" + url + "?" + body);
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url + "?" + body);
 
-  this.http.post(url, body, options)
+    this.http.post(url, body, options)
 
-    .subscribe(data => {
-      let res;
-      // If the request was successful notify the user
-      if (data.status === 200) {
-       // this.atmentioneddata = data.json();
-        res = data.json();
-        console.log(data.json().staffs);
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        if (res.staffs.length > 0) {
-          for (let staff in res.staffs) {
-            this.atmentioneddata.push({
-              username: res.staffs[staff].username,
-              name: res.staffs[staff].name,
-            });
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+              });
+            }
           }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
         }
-        // Otherwise let 'em know anyway
-      } else {
-        this.conf.sendNotification('Something went wrong!');
-      }
-    }, error => {
+      }, error => {
 
-    })
-  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-  jQuery(".alarmhashtags").mention({
-    users: this.atmentioneddata
-  });
-  
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".alarmhashtags").mention({
+      users: this.atmentioneddata
+    });
+
     // Atmentioned API Calls
   }
   getPrimaryContact(ev) {

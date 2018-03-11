@@ -108,14 +108,14 @@ export class CalendarPage {
   public totalCountEventDateWise: any;
   noeventtitle: any;
   highlightdots: any;
-  public EVENTVIEWACCESS: any; 
+  public EVENTVIEWACCESS: any;
   public EVENTDELETEACCESS: any;
   public ALARMVIEWACCESS: any;
   public ALARMDELETEACCESS: any;
   public SERVICEVIEWACCESS: any;
   public EVENTEDITACCESS: any;
   public SERVICEEDITACCESS: any;
-  public ALARMEDITACCESS: any;  
+  public ALARMEDITACCESS: any;
   public month: any;
   public date: any;
   public SERVICEDELETEACCESS: any;
@@ -175,7 +175,7 @@ export class CalendarPage {
     this.ALARMEDITACCESS = localStorage.getItem("CALENDAR_ALARM_EDIT");
     this.SERVICEVIEWACCESS = localStorage.getItem("CALENDAR_SERVICES_VIEW");
     this.SERVICEDELETEACCESS = localStorage.getItem("CALENDAR_SERVICES_DELETE");
- 
+
     dragulaService.drag.subscribe((value) => {
       console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));
@@ -916,6 +916,7 @@ export class CalendarPage {
             unitname: this.serviceIdentify[j]['unitname'],
             projectname: this.serviceIdentify[j]['unit_project_name'],
             event_unitid: this.serviceIdentify[j]['service_unitid'],
+            event_added_by: this.serviceIdentify[j]['event_added_by'],
             type: 'event',
             allDay: true,
             icon: 'camera',
@@ -1350,6 +1351,7 @@ export class CalendarPage {
         projectname: this.serviceIdentify[j]['unit_project_name'],
         event_date: this.serviceIdentify[j]['next_service_date'],
         event_time: this.serviceIdentify[j]['serviced_time'],
+        event_added_by: this.serviceIdentify[j]['event_added_by'],
         event_remark: rem_desc,
         event_location: this.serviceIdentify[j]['service_location'],
         event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],

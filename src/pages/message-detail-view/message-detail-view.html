@@ -36,22 +36,21 @@
 
 
     <div class="list-icon">
-      <!-- <ion-icon *ngIf="priority_lowclass!=''" ngClass="{{priority_lowclass}}" name="md-arrow-round-down" (click)="getPrority(1)"
-        style="
-        left: 90%;
-        top: 20%;
-        position: absolute;"></ion-icon>
-      <ion-icon *ngIf="priority_highclass!=''" ngClass="{{priority_highclass}}" name="md-flag" (click)="getPrority(2)" style="
-        left: 90%;
-        top: 20%;
-        position: absolute;"></ion-icon> -->
+      <div style="font-size: 27px;
+      left: 90%;
+      top: 9%;
+      position: absolute;" *ngIf="activelow==1">
+        <img src="assets/imgs/arrow_active_low.png" style="max-width:52%;">
+      </div>  
 
-        <img *ngIf="priority_image!=''" src="assets/imgs/{{priority_image}}" style="background-size: 82%;
-        width: 34px;
-        height: 34px;
-        position: absolute;
-        margin-left: 0%;
-        margin-top: 72px;">
+
+
+      <div style="font-size: 27px;
+      left: 90%;
+      top: 9%;
+      position: absolute;" *ngIf="activehigh==1">
+        <img src="assets/imgs/flag_active_high.png" class="icon-size-three">
+      </div>
 
       <button class="profile">
         <ion-icon name="star" *ngIf="is_favorite==1" style="font-size: 30px;color: orange;"></ion-icon>
@@ -68,7 +67,7 @@
     <div class="subject-item">{{messages_body_html}}</div>
   </div>
 
-  <div class="attachment" *ngIf="addedImgLists.length>0">
+  <div class="attachment" *ngIf="addedImgLists.length>0 && is_reply=='0'">
     <div class="attach" (click)="toggle(isopenorclose)">
       <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
       <button>

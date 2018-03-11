@@ -27,18 +27,21 @@ export class PopoverPage {
   public cn: any;
   public email: any;
   public itemDataDelete = [];
+  public itemDatahashtag = [];
+  
 
   public EDITACCESS: any;
   public DELETEACCESS: any;
   constructor(private conf: Config, public platform: Platform, public viewCtrl: ViewController, public NP: NavParams, public NavController: NavController) {
     this.itemData = this.NP.get("item");
     console.log(JSON.stringify(this.itemData));
-    this.itemDataDelete.push({ staff_id: this.itemData.staff_id });
+    this.itemDataDelete.push({hashtag:  '', staff_id: this.itemData.staff_id,'act':'delete' });
     this.photo = this.itemData.photo;
     this.firstname = this.itemData.firstname;
     this.lastname = this.itemData.lastname;
     this.job_position = this.itemData.job_position;
     this.ht = this.itemData.personalhashtag;
+    this.itemDatahashtag.push({ hashtag:  this.ht,staff_id: '','act':'hashtag' });
     this.email = this.itemData.email;
     this.cn = this.itemData.contact_number;
     this.EDITACCESS = localStorage.getItem("SETTINGS_ORGCHART_EDIT");

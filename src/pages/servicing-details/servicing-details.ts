@@ -43,6 +43,7 @@ export class ServicingDetailsPage {
   next_service_date_mobileview;
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
+  item;
   //tabBarElement: any;
   service_time;
   hoursadd24hourformat;
@@ -59,11 +60,11 @@ export class ServicingDetailsPage {
   ionViewDidLoad() {
 
 
+    if (this.navParams.get("from") == 'Push') {
+      if (this.navParams.get("event_id")) {
 
-    if (this.navParams.get("event_id")) {
+        //{"msg":{"result":"success"},"servicedetail":[{"service_id":"79","service_unitid":"66","serviced_by":"115","created_by":"115","service_dot_color":"#0066ff","service_dot_label":"service","service_formatted_date":"Tue, 06 Mar 2018 09:53 PM","service_subject":"Ad-hoc Service","service_remark":"this is a test remarks field @denyov2","is_denyo_support":"0","service_priority":"0","description":null,"service_scheduled_date":"2018-03-06","serviced_datetime":"2018-03-06T21:53:31","next_service_date":"","next_service_date_mobileview":"","next_service_date_selected":"","is_request":"0","time_ago":"47 minutes ago","current_datetime":"07 Mar 2018","serviced_created_name":"Bala","serviced_created_name_hastag":"(@bala)","user_photo":"http://denyoappv2.stridecdev.com/staffphotos/20180213160050_123_Tulips.jpg","serviced_by_name":"Bala","serviced_by_name_hastag":"(@bala)","serviced_by_name_hastag_withinclosedbracket":"(@bala)","service_resources":"","unitname":"Ind001","projectname":"India project","location":"Indian","latitude":"20.593684","longtitude":"78.96288","colorcode":"FF877C"}]}
 
-      //{"msg":{"result":"success"},"servicedetail":[{"service_id":"79","service_unitid":"66","serviced_by":"115","created_by":"115","service_dot_color":"#0066ff","service_dot_label":"service","service_formatted_date":"Tue, 06 Mar 2018 09:53 PM","service_subject":"Ad-hoc Service","service_remark":"this is a test remarks field @denyov2","is_denyo_support":"0","service_priority":"0","description":null,"service_scheduled_date":"2018-03-06","serviced_datetime":"2018-03-06T21:53:31","next_service_date":"","next_service_date_mobileview":"","next_service_date_selected":"","is_request":"0","time_ago":"47 minutes ago","current_datetime":"07 Mar 2018","serviced_created_name":"Bala","serviced_created_name_hastag":"(@bala)","user_photo":"http://denyoappv2.stridecdev.com/staffphotos/20180213160050_123_Tulips.jpg","serviced_by_name":"Bala","serviced_by_name_hastag":"(@bala)","serviced_by_name_hastag_withinclosedbracket":"(@bala)","service_resources":"","unitname":"Ind001","projectname":"India project","location":"Indian","latitude":"20.593684","longtitude":"78.96288","colorcode":"FF877C"}]}
-      if (this.navParams.get("from") == 'Push') {
         let eventType = this.navParams.get("event_type");
         console.log("Event Type:" + eventType);
 
@@ -77,15 +78,15 @@ export class ServicingDetailsPage {
         this.http.post(url1, body, options1)
           .subscribe((data) => {
             console.log(JSON.stringify(data.json()))
-            //this.item = data.json().servicedetail[0];
+            this.item = data.json().servicedetail[0];
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
             console.log("JSON for service detail" + JSON.stringify(data.json().servicedetail[0]));
             this.service_subject = data.json().servicedetail[0].service_subject;
-            this.user_photo= data.json().servicedetail[0].user_photo;
+            this.user_photo = data.json().servicedetail[0].user_photo;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
             this.service_remark = data.json().servicedetail[0].service_remark;
-            this.serviced_created_name=data.json().servicedetail[0].serviced_created_name;
-            this.serviced_created_name_hastag=data.json().servicedetail[0].serviced_created_name_hastag;
+            this.serviced_created_name = data.json().servicedetail[0].serviced_created_name;
+            this.serviced_created_name_hastag = data.json().servicedetail[0].serviced_created_name_hastag;
             this.service_description = data.json().servicedetail[0].description;
             this.next_service_date_mobileview = data.json().servicedetail[0].next_service_date_mobileview;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_scheduled_time;
@@ -202,7 +203,11 @@ export class ServicingDetailsPage {
       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.navParams.get("record")
       });
-    } else {
+    } else if (this.navParams.get("from") == 'Push') {
+      this.navCtrl.setRoot(ServicinginfoPage, {
+        record:this.item
+      });
+    }else {
       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.navParams.get("record")
       });

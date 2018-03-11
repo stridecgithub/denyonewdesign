@@ -334,7 +334,7 @@ export class ServicinginfoPage {
       this.upcomingData.sort = "comapny";
     }
     let editItem = this.NP.get("record");
-
+    console.log("Record item" + this.NP.get("record"));
     if (this.NP.get("record").unit_id != undefined && this.NP.get("record").unit_id != 'undefined') {
       this.unit_id = editItem.unit_id;
     } else {

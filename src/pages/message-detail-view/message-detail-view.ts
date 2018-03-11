@@ -41,6 +41,8 @@ export class MessageDetailViewPage {
   public service_resources;
   priority_highclass = '';
   priority_lowclass = '';
+  private activelow: string = "0";
+  private activehigh: string = "0";
   // For Messages
   isUploadedProcessing;
   micro_timestamp;
@@ -61,6 +63,7 @@ export class MessageDetailViewPage {
   totalCount;
   totalFileSize = 0;
   from;
+  is_reply;
   //tabBarElement: any;
   isopenorclose = 1;
   close = 0;
@@ -217,7 +220,15 @@ export class MessageDetailViewPage {
     this.messages_body_html = item.message_body_html;
 
     this.priority_image = item.priority_image;
+    if(this.priority_image=='arrow_active_low.png'){
+      this.getPrority(1);
+    }
+    if(this.priority_image=='arrow_active_high.png'){
+      this.getPrority(2);
+    }
     this.messageid = item.message_id;
+    this.is_reply = item.isreply;
+    console.log("Is Reply:-"+item.isreply);
     this.priority_highclass = '';
     this.priority_lowclass = '';
     if (item.message_priority == "2") {
@@ -730,6 +741,31 @@ export class MessageDetailViewPage {
       message_readstatus: message_readstatus,
       messageid: messageid
     });
+  }
+
+  getPrority(val) {
+    console.log("getPrority function calling:-" + val);
+
+
+    if (val == "2") {
+      console.log('val A:' + val);
+      this.activelow = "0";
+      this.activehigh = "1";
+      
+    } else if (val == "1") {
+      console.log('val B:' + val);
+      this.activelow = "1";
+      this.activehigh = "0";
+      
+    } else {
+      console.log('val C:' + val);
+      this.activelow = "0";
+      this.activehigh = "0";
+      
+    }
+
+
+    this.message_priority = val
   }
 }
 

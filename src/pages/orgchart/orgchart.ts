@@ -9,6 +9,7 @@ import { PopoverPage } from '../popover/popover';
 import { Config } from '../../config/config';
 import { DashboardPage } from "../dashboard/dashboard";
 import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
+import { ComposePage } from "../compose/compose";
 
 /**
  * Generated class for the UnitgroupPage page.
@@ -306,16 +307,31 @@ export class OrgchartPage {
     });
     popover.onWillDismiss(data => {
       console.log(JSON.stringify(data));
+     
+      //console.log("Hashtag:"+data[0].hashtag);
+    
+     // console.log("Act:"+data[0].act);
+     
       if (data != null) {
         if (data.length == 1) {
-          this.doDelete(data);
-        } else {
+          if (data[0].act == 'delete') {
+            this.doDelete(data);
+          } else if (data[0].act == 'hashtag') {
+            this.doCompose(data[0].hashtag);
+          } 
+        }else{
           this.doEdit(data, 'edit');
         }
-      }else{
+
+
+      } else {
         this.previous();
       }
     });
+  }
+  doCompose(to) {
+
+    this.navCtrl.setRoot(ComposePage, { 'to': to });
   }
   doDelete(item) {
     console.log("Deleted Id" + item[0].staff_id);

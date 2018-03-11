@@ -85,7 +85,7 @@
             </div>
           </ion-item>
           <ion-item-options side="right" class="list-item-options">
-            <button *ngIf="upcomintitem.serviced_by==0 && EDITACCESS==1" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.service_id)">
+            <button *ngIf="upcomintitem.serviced_by==0 && EDITACCESS==1 && upcomintitem.duration!=1" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.service_id)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>

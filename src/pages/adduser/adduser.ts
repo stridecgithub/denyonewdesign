@@ -96,7 +96,7 @@ export class AdduserPage {
       "first_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
-      "contact": ["", Validators.required],
+      "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
