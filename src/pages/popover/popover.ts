@@ -60,7 +60,7 @@ export class PopoverPage {
   }
   mail() {
     /*console.log("HELLO"+this.email);
-     this.navCtrl.setRoot(EmailPage, {
+      this.navCtrl.setRoot(EmailPage, {
       recordemail:this.email
      
      

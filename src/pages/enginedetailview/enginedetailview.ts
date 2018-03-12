@@ -19,7 +19,7 @@ import { ModalPage } from '../modal/modal';
   providers: [Config]
 })
 export class EnginedetailviewPage {
-  public footerBar= [];
+  public footerBar = [];
   public pageTitle: string;
   public loginas: any;
   public unitid: any;
@@ -52,7 +52,7 @@ export class EnginedetailviewPage {
   iframeContent: any;
   public msgcount: any;
   public notcount: any;
-  
+
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");
@@ -61,97 +61,100 @@ export class EnginedetailviewPage {
     this.unitid = localStorage.getItem("unitId");
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
+    platform.registerBackButtonAction(() => {
+       this.navCtrl.setRoot(UnitdetailsPage, {
+        record: this.navParams.get("record"),
+        tabs: 'dataView'
+      });
     });
     // Footer Menu Access - Start
-  let footeraccessstorage = localStorage.getItem("footermenu");
-  let footeraccessparams = this.navParams.get('footermenu');
-  let footermenuacc;
-  if (footeraccessparams != undefined) {
-    footermenuacc = footeraccessparams;
-  } else {
-    footermenuacc = footeraccessstorage;
-  }
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-  let footermenusplitcomma = footermenuacc.split(",");
-  let dashboardAccess = footermenusplitcomma[0];
-  let unitAccess = footermenusplitcomma[1];
-  let calendarAccess = footermenusplitcomma[2];
-  let messageAccess = footermenusplitcomma[3];
-  let orgchartAccess = footermenusplitcomma[4];
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
-  
-  let dashboarddisplay;
-  if (dashboardAccess == 1) {
-    dashboarddisplay = '';
-  } else {
-    dashboarddisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Dashboard',
-    active: true,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: dashboarddisplay,
-    pageComponent: 'DashboardPage'
-  });
-  let unitdisplay;
-  if (unitAccess == 1) {
-    unitdisplay = '';
-  } else {
-    unitdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Units',
-    active: false,
-    colorcode: "#488aff",
-    footerdisplay: unitdisplay,
-    pageComponent: 'UnitsPage'
-  });
-  let calendardisplay;
-  if (calendarAccess == 1) {
-    calendardisplay = '';
-  } else {
-    calendardisplay = 'none';
-  }
 
-  this.footerBar.push({
-    title: 'Calendar',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: calendardisplay,
-    pageComponent: 'CalendarPage'
-  });
-  let messagedisplay;
-  if (messageAccess == 1) {
-    messagedisplay = '';
-  } else {
-    messagedisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Message',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: messagedisplay,
-    pageComponent: 'MessagePage'
-  });
-  let orgchartdisplay;
-  if (orgchartAccess == 1) {
-    orgchartdisplay = '';
-  } else {
-    orgchartdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Org Chart',
-    active: false,
-    footerdisplay: orgchartdisplay,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    pageComponent: 'OrgchartPage'
-  });
-  //this.footerBar = "0";
-  //let footerBar=this.footerBar.split(",");
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
 
-  // Footer Menu Access - End
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+    // Footer Menu Access - End
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));
@@ -261,12 +264,12 @@ export class EnginedetailviewPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
   previous() {
-    this.navCtrl.setRoot(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });

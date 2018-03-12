@@ -43,8 +43,8 @@ export class UserPage {
     {
       status: '',
 
-      sort: 'firstname',
-      sortascdesc: 'asc',
+      sort: 'user_id',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 50
     }
@@ -263,11 +263,11 @@ export class UserPage {
   }
 
   doAdd() {
-    this.nav.setRoot(AdduserPage);
+     this.nav.setRoot(AdduserPage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AdduserPage, {
+       this.nav.setRoot(AdduserPage, {
         record: item,
         act: act
       });
@@ -392,10 +392,10 @@ export class UserPage {
   }
 
   previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
   doSort() {
     let prompt = this.alertCtrl.create({

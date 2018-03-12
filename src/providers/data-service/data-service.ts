@@ -11,7 +11,7 @@ import { Http, Response } from "@angular/http";
 export class DataServiceProvider {
 
   constructor(public http: Http) {
-    console.log('Hello DataServiceProvider Provider');
+   // console.log('Hello DataServiceProvider Provider');
   }
 
   getMenus() {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {  NavController, NavParams } from 'ionic-angular';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 import { CommentreplyPage } from '../commentreply/commentreply';
-
+import { Config } from '../../config/config';
 /**
  * Generated class for the CommentviewPage page.
  *
@@ -17,7 +17,7 @@ import { CommentreplyPage } from '../commentreply/commentreply';
 })
 export class CommentviewPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private conf: Config,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -25,10 +25,10 @@ export class CommentviewPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(EventsandcommentsPage);
+     this.navCtrl.setRoot(EventsandcommentsPage);
   }
   commentreply() {
-    this.navCtrl.setRoot(CommentreplyPage);
+     this.navCtrl.setRoot(CommentreplyPage);
   }
 
 }

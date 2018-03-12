@@ -24,10 +24,10 @@ export class EventviewPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(EventsandcommentsPage);
+     this.navCtrl.setRoot(EventsandcommentsPage);
   }
 
   eventedit() {
-    this.navCtrl.setRoot(EventeditPage);
+     this.navCtrl.setRoot(EventeditPage);
   }
 }

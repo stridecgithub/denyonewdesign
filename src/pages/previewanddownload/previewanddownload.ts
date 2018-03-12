@@ -61,21 +61,21 @@ export class PreviewanddownloadPage {
   previous(frompage) {
     console.log("From page for previous:" + frompage);
     // if (this.navParams.get("record") == undefined) {
-    //   this.navCtrl.setRoot(CalendarPage, {});
+    //    this.navCtrl.setRoot(CalendarPage, {});
     //   return false;
     // }
     if (frompage == 'ServicingDetailsPage') {
-      this.navCtrl.setRoot(ServicingDetailsPage, {
+       this.navCtrl.setRoot(ServicingDetailsPage, {
         record: this.navParams.get("record")
       });
     } else if (frompage == 'CommentdetailsPage') {
-      this.navCtrl.setRoot(CommentdetailsPage, {
+       this.navCtrl.setRoot(CommentdetailsPage, {
         event_id: this.navParams.get("event_id"),
         from: 'commentinfo'
       });
     } else if (frompage == 'MessagedetailPage') {
       console.log("this.navParams.get('messageid')"+this.navParams.get("messageid"));
-      this.navCtrl.setRoot(MessagedetailPage, {
+       this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get("record"),
         from: this.navParams.get("from"),
         favstatus: this.navParams.get("favstatus"),

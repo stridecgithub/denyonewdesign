@@ -328,7 +328,7 @@ export class Unitgrouplist {
   }
 
   doAdd() {
-    this.nav.setRoot(AddunitsonePage);
+     this.nav.setRoot(AddunitsonePage);
   }
   getCheckBoxValue(item, val) {
     /*console.log("Available data" + val);
@@ -387,7 +387,7 @@ console.log(JSON.stringify(this.selectedAction));*/
         this.sendNotification("Please select Atleast One Unit")
       }
       else {
-        this.nav.setRoot(UnitdetailsPage, {
+         this.nav.setRoot(UnitdetailsPage, {
           record: this.detailvalue
         });
         return false;
@@ -416,7 +416,7 @@ console.log(JSON.stringify(this.selectedAction));*/
             this.reportData.startindex = 0;
             this.reportData.sort = "unit_id";
             /// this.doUnit();
-            this.nav.setRoot(this.nav.getActive().component);
+             this.nav.setRoot(this.nav.getActive().component);
           }
           // Otherwise let 'em know anyway
           else {
@@ -427,7 +427,7 @@ console.log(JSON.stringify(this.selectedAction));*/
   }
   doEdit(item, act, unitId) {
     if (act == 'edit') {
-      this.nav.setRoot(AddunitsonePage, {
+       this.nav.setRoot(AddunitsonePage, {
         record: item,
         act: act
       });
@@ -444,7 +444,7 @@ console.log(JSON.stringify(this.selectedAction));*/
       localStorage.setItem("unitlng", item.lng);
 
 
-      this.nav.setRoot(UnitdetailsPage, {
+       this.nav.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
@@ -570,7 +570,7 @@ console.log(JSON.stringify(this.selectedAction));*/
   }
 
   previous() {
-    this.nav.setRoot(UnitgroupPage);
+     this.nav.setRoot(UnitgroupPage);
   }
   favorite(unit_id) {
     this.reportData.startindex = 0;
@@ -648,7 +648,7 @@ console.log(JSON.stringify(this.selectedAction));*/
   }
 
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 
 

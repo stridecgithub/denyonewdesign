@@ -38,9 +38,7 @@ export class TrendlinePage {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platfom.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   ionViewWillLeave() {
@@ -120,12 +118,12 @@ presentModal(unit) {
   previous() {
     console.log("From Page" + this.navParams.get("from"));
     if (this.navParams.get("from") == 'alarmlog') {
-      this.navCtrl.setRoot(AlarmlogPage, {
+       this.navCtrl.setRoot(AlarmlogPage, {
         record: this.navParams.get("record"),
         from: 'trendline',
       });
     } else {
-      this.navCtrl.setRoot(AlarmPage, {
+       this.navCtrl.setRoot(AlarmPage, {
         record: this.navParams.get("record"),
         from: 'trendline',
       });

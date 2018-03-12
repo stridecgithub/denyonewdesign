@@ -41,9 +41,7 @@ export class EventDetailsPage {
 
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+  
   }
 
   ionViewWillLeave() {
@@ -90,7 +88,7 @@ export class EventDetailsPage {
     console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
-        this.navCtrl.setRoot(AddalarmPage, {
+         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -104,14 +102,14 @@ export class EventDetailsPage {
   }
   previous() {
     if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(CommentsinfoPage, {
+       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item,
         from: 'alarm'
       });
     } else if (this.NP.get("from") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
+       this.navCtrl.setRoot(NotificationPage);
     } else {
-      this.navCtrl.setRoot(CalendarPage);
+       this.navCtrl.setRoot(CalendarPage);
     }
   }
 }

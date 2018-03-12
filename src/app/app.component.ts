@@ -1,5 +1,5 @@
-import { Component, ViewChild, Output, EventEmitter, Input, HostListener, ElementRef, } from '@angular/core';
-import { Platform, NavController, MenuController, Events } from 'ionic-angular';
+import { Component, ViewChild, Output, EventEmitter, Input, HostListener, ElementRef } from '@angular/core';
+import { Platform, NavController, MenuController, Events, AlertController, NavParams } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from "../pages/login/login";
@@ -15,6 +15,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import {Storage} from '@ionic/storage';
 import { MyaccountPage } from "../pages/myaccount/myaccount";
 import { Keyboard } from '@ionic-native/keyboard';
+import { AddUnitPage } from '../pages/add-unit/add-unit';
 import { DataServiceProvider } from '../providers/data-service/data-service';
 import { CompanygroupPage } from '../pages/companygroup/companygroup';
 import { UnitgroupPage } from '../pages/unitgroup/unitgroup';
@@ -31,6 +32,7 @@ import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
 import { Network } from '@ionic-native/network';
+import { UnitdetailsPage } from '../pages/unitdetails/unitdetails';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 @Component({
@@ -53,11 +55,13 @@ export class MyApp {
   private apiServiceURL: string = "";
   menuSelection;
   @ViewChild('content') navCtrl: NavController;
+  @ViewChild('content') navParams: NavParams;
   showLevel1 = null;
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
-
-  constructor(private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  alert: any;
+  previousPage;
+  constructor(private network: Network, public alertCtrl: AlertController, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, public platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
     let leftmenu = localStorage.getItem("leftmenu");
@@ -102,7 +106,7 @@ export class MyApp {
         //this.initPushNotification();
       }
       statusBar.styleDefault();
-      splashScreen.hide();
+      
 
       this.parentMenue = ['units', 'dashboard'];
       this.childMenu = ["units-enginemodelmanagement", "units-unit"]
@@ -126,8 +130,8 @@ export class MyApp {
       } else {
         this.events.subscribe('user:created', (user, time) => {
           // user and time are the same arguments passed in `events.publish(user, time)`
-          console.log('Welcome', user, 'at', time);
-          console.log("First Name:" + user.firstname);
+          //console.log('Welcome', user, 'at', time);
+          //console.log("First Name:" + user.firstname);
           this.firstname = user.firstname;
           this.lastname = user.lastname;
           console.log("User info from event created" + JSON.stringify(user));
@@ -144,7 +148,7 @@ export class MyApp {
       statusBar.styleDefault();
       setTimeout(() => {
         splashScreen.hide();
-      }, 100);
+      }, 50);
 
 
       keyboard.disableScroll(true);
@@ -182,6 +186,106 @@ export class MyApp {
       // stop connect watch
       connectSubscription.unsubscribe();
       // Connection Checking
+
+
+      platform.registerBackButtonAction(() => {
+
+        let userId = localStorage.getItem("userInfoId");
+        this.previousPage = this.navCtrl.getActive().name;
+        // this.showAlertExist(this.previousPage);
+        if (this.previousPage == 'DashboardPage') {
+          if (this.navCtrl.canGoBack()) {
+            console.log('4:canGoBack if');
+            this.navCtrl.pop();
+          } else {
+            console.log('5:canGoBack else');
+            if (this.alert) {
+              this.alert.dismiss();
+              this.alert = null;
+            } else {
+              this.showAlertExist(this.previousPage);
+            }
+          }
+        } else if (this.previousPage == 'UnitsPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddUnitPage') {
+           this.navCtrl.setRoot(UnitsPage);
+        } else if (this.previousPage == 'UnitdetailsPage') {
+           this.navCtrl.setRoot(UnitsPage);
+        } else if (this.previousPage == 'NotificationSettingsPage') {
+           this.navCtrl.setRoot(AddUnitPage);
+        } else if (this.previousPage == 'CalendarPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddcalendarPage') {
+           this.navCtrl.setRoot(CalendarPage);
+        } else if (this.previousPage == 'MessagesPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'ComposePage') {
+           this.navCtrl.setRoot(MessagesPage);
+        } else if (this.previousPage == 'OrgchartPage') {
+          this.popoverclose();
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddorgchartonePage') {
+           this.navCtrl.setRoot(OrgchartPage);
+        } else if (this.previousPage == 'UnitgroupPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'Unitgrouplist') {
+           this.navCtrl.setRoot(UnitgroupPage);
+        } else if (this.previousPage == 'EnginedetailPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddenginedetailPage') {
+           this.navCtrl.setRoot(EnginedetailPage);
+        } else if (this.previousPage == 'EngineviewPage') {
+           this.navCtrl.setRoot(EnginedetailPage);
+        } else if (this.previousPage == 'ReportsPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'ReportsPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'ReportviewtablePage') {
+           this.navCtrl.setRoot(ReportsPage);
+        } else if (this.previousPage == 'MyaccountPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'EditprofilesteponePage') {
+           this.navCtrl.setRoot(MyaccountPage);
+        } else if (this.previousPage == 'UserPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'UserPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AdduserPage') {
+           this.navCtrl.setRoot(UserPage);
+        } else if (this.previousPage == 'CompanygroupPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddcompanygroupPage') {
+           this.navCtrl.setRoot(CompanygroupPage);
+        } else if (this.previousPage == 'AddcompanygroupPage') {
+           this.navCtrl.setRoot(CompanygroupPage);
+        } else if (this.previousPage == 'CompanydetailPage') {
+           this.navCtrl.setRoot(CompanygroupPage);
+        } else if (this.previousPage == 'RolePage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'AddrolePage') {
+           this.navCtrl.setRoot(RolePage);
+        } else if (this.previousPage == 'ReporttemplatePage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'ReporttemplatePage') {
+           this.navCtrl.setRoot(DashboardPage);
+        } else if (this.previousPage == 'ReporttemplatedetailPage') {
+           this.navCtrl.setRoot(ReporttemplatePage);
+        } else if (this.previousPage == 'AddreporttemplatePage') {
+           this.navCtrl.setRoot(ReporttemplatePage);
+        } else if (this.previousPage == 'NotificationPage') {
+           this.navCtrl.setRoot(DashboardPage);
+        }
+
+        console.log(this.previousPage);
+        if (userId == '') {
+          console.log("User id logged out");
+           this.navCtrl.setRoot(LoginPage);
+        }
+        console.log('3:registerBackButtonAction');
+
+      });
+
     });
     this.events.publish('menu:created', 'dashboard', Date.now());
     // this.pages = [
@@ -204,85 +308,112 @@ export class MyApp {
     // ];
     events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
+      //console.log('Welcome', user, 'at', time);
       //this.firstname=user[0].firstname;
       //this.lastname=user[0].firstname;
     });
 
+  }
+
+  showAlertExist(pagename) {
+    this.alert = this.alertCtrl.create({
+      title: pagename + "-" + 'Exit?',
+      message: 'Do you want to exit the app?',// from the page' + pagename + '?'
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alert = null;
+          }
+        },
+        {
+          text: 'Exit',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+  popoverclose() {
+    console.log("Popover Function Calling...")
+    jQuery(".popover-content").hide();
   }
   openPage(page) {
     if (page.component == 'UnitslistingPage') {
       this.menuActive = 'menuactive-units';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'units', Date.now());
-      this.navCtrl.setRoot(UnitsPage, { tabIndex: 1 });
+       this.navCtrl.setRoot(UnitsPage, { tabIndex: 1 });
     } else if (page.component == 'UnitgroupPage') {
-      this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });
+       this.navCtrl.setRoot(UnitgroupPage, { tabIndex: 1 });
     } else if (page.component == 'MyaccountPage') {
-      this.navCtrl.setRoot(MyaccountPage);
+       this.navCtrl.setRoot(MyaccountPage);
     } else if (page.component == 'UserlistPage') {
-      this.navCtrl.setRoot(UserPage);
+       this.navCtrl.setRoot(UserPage);
     } else if (page.component == 'CompanygroupPage') {
-      this.navCtrl.setRoot(CompanygroupPage, { tabIndex: 1 });
+       this.navCtrl.setRoot(CompanygroupPage, { tabIndex: 1 });
     } else if (page.component == 'UserrolePage') {
-      this.navCtrl.setRoot(RolePage);
+       this.navCtrl.setRoot(RolePage);
     } else if (page.component == 'ReporttemplatePage') {
-      this.navCtrl.setRoot(ReporttemplatePage);
+       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
-      this.navCtrl.setRoot(OrgchartPage, { tabIndex: 4 });
+       this.navCtrl.setRoot(OrgchartPage, { tabIndex: 4 });
     } else if (page.component == 'EventsandcommentsPage') {
-      this.navCtrl.setRoot(EventsandcommentsPage);
+       this.navCtrl.setRoot(EventsandcommentsPage);
     } else if (page.title == 'Messages') {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'messages', Date.now());
-      this.navCtrl.setRoot(MessagesPage, { tabIndex: 3 });
+       this.navCtrl.setRoot(MessagesPage, { tabIndex: 3 });
     } else if (page.title == 'Logout') {
       this.menuActive = 'menuactive-logout';
       this.events.publish('menu:created', 'logout', Date.now());
       this.logout();// Service api moblogout/1
     } else if (page.title == 'Dashboard') {
       // this.menuCtrl.close();
-      // this.navCtrl.setRoot(DashboardPage);
+      //  this.navCtrl.setRoot(DashboardPage);
 
       this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'dashboard', Date.now());
-      this.navCtrl.setRoot(DashboardPage, { tabIndex: 0 });
+       this.navCtrl.setRoot(DashboardPage, { tabIndex: 0 });
 
     } else if (page.title == 'Reports') {
       this.menuActive = 'menuactive-reports';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'reports', Date.now());
-      this.navCtrl.setRoot(ReportsPage);
+       this.navCtrl.setRoot(ReportsPage);
     } else if (page.title == 'Calendar') {
       this.menuActive = 'menuactive-calendar';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'calendar', Date.now());
-      this.navCtrl.setRoot(CalendarPage, { tabIndex: 2 });
+       this.navCtrl.setRoot(CalendarPage, { tabIndex: 2 });
     } else if (page.title == 'Reports') {
       this.menuCtrl.close();
-      this.navCtrl.setRoot(ReportsPage);
+       this.navCtrl.setRoot(ReportsPage);
     } else if (page.title == 'Alarm') {
       this.menuCtrl.close();
-      //this.navCtrl.setRoot(AlarmPage);
+      // this.navCtrl.setRoot(AlarmPage);
     }
     else if (page.component == 'MapdemoPage') {
-      //this.navCtrl.setRoot(MapdemoPage);
+      // this.navCtrl.setRoot(MapdemoPage);
     } else if (page.component == 'EnginemodelPage') {
-      this.navCtrl.setRoot(EnginedetailPage);
+       this.navCtrl.setRoot(EnginedetailPage);
     } else if (page.title == 'Settings') {
       /* this.menuActive = 'menuactive-settings';
        this.menuCtrl.close();
        this.events.publish('menu:created', 'settings', Date.now());
-       this.navCtrl.setRoot(MyaccountPage);*/
+        this.navCtrl.setRoot(MyaccountPage);*/
       //this.navCtrlCtrl.setRoot(AttentionPage);
     } else if (page.component == 'AddorgchartonePage') {
       /* this.menuActive = 'menuactive-settings';
        this.menuCtrl.close();
        this.events.publish('menu:created', 'settings', Date.now());
-       this.navCtrl.setRoot(MyaccountPage);*/
-      this.navCtrl.setRoot(AddorgchartonePage);
+        this.navCtrl.setRoot(MyaccountPage);*/
+       this.navCtrl.setRoot(AddorgchartonePage);
     }
 
 
@@ -415,7 +546,7 @@ export class MyApp {
 
     //this.events.publish('user:created', user, Date.now());
 
-    this.navCtrl.setRoot(LoginPage);
+     this.navCtrl.setRoot(LoginPage);
   }
   @HostListener('keydown', ['$event'])
   keyEvent(event) {
@@ -459,7 +590,7 @@ export class MyApp {
 
     //to initialize push notifications
 
- 
+
     const options: PushOptions = {
       android: {
         senderID: '7125886423',
@@ -481,8 +612,8 @@ export class MyApp {
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('registration').subscribe((registration: any) => {
 
-      console.log('Device registered', registration);
-      console.log('Device Json registered', JSON.stringify(registration));
+     /// console.log('Device registered', registration);
+      ////console.log('Device Json registered', JSON.stringify(registration));
       localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
     }
     );
@@ -512,8 +643,8 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
-      console.log("First Name:" + user.firstname);
+      //console.log('Welcome', user, 'at', time);
+      //console.log("First Name:" + user.firstname);
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       console.log("User info from event created" + JSON.stringify(user));
@@ -543,7 +674,7 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
+     // console.log('Welcome', user, 'at', time);
       console.log("First Name:" + user.firstname);
       this.firstname = user.firstname;
       this.lastname = user.lastname;

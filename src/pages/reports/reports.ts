@@ -17,6 +17,7 @@ import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
 
+import { Config } from '../../config/config';
 import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 
 import * as moment from 'moment';
@@ -71,7 +72,7 @@ export class ReportsPage {
 */
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
+  constructor(private conf: Config,private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController) {
     this.pageTitle = 'Reports';
     this.mindate = moment().format();
@@ -264,16 +265,16 @@ export class ReportsPage {
         let monthstr = date.getMonth() + parseInt("1");
         if (val == '1') {
           this.from = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
-          console.log('From date: ', this.from);
+          
           this.start_date = this.from;
         }
         if (val == '2') {
           this.to = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
-          console.log('To date: ', this.to);
+         
           this.end_date = this.to;
         }
       },
-      err => console.log('Error occurred while getting date: ', err)
+      err => console.log('Error occurred while getting date: '+ err)
       );
 
     /*if (val == '1') {
@@ -341,7 +342,7 @@ export class ReportsPage {
     }
 
 
-    this.nav.setRoot(ReportviewtablePage, {
+     this.nav.setRoot(ReportviewtablePage, {
       selunit: selunit,
       seltemplate: seltemplate,
       seltimeframe: seltimeframe,
@@ -433,20 +434,20 @@ export class ReportsPage {
   }
 
   previous() {
-    this.navCtrl.setRoot(DashboardPage);
+     this.navCtrl.setRoot(DashboardPage);
   }
 
   viewreport() {
-    this.navCtrl.setRoot(RequestdenyoPage);
+     this.navCtrl.setRoot(RequestdenyoPage);
   }
 
   viewreportpage() {
-    this.navCtrl.setRoot(ReportviewPage);
+     this.navCtrl.setRoot(ReportviewPage);
   }
 
 
   evecomments() {
-    this.navCtrl.setRoot(EventsandcommentsPage);
+     this.navCtrl.setRoot(EventsandcommentsPage);
   }
 
   filToDate(start_date) {

@@ -8,7 +8,6 @@ import { LoginPage } from "../pages/login/login";
 import { DashboardPage } from "../pages/dashboard/dashboard";
 import { NotificationPage } from "../pages/notification/notification";
 import { MessagesPage } from "../pages/messages/messages";
-import { MessagePage } from "../pages/message/message";
 import { ComposePage } from "../pages/compose/compose";
 import { HttpModule } from '@angular/http';
 import { AddcalendarPage } from "../pages/addcalendar/addcalendar";
@@ -133,7 +132,6 @@ import { PermissionPage } from '../pages/permission/permission';
     DashboardPage,
     NotificationPage,
     MessagesPage,
-    MessagePage,
     ComposePage,
     CalendarPage,
     AddcalendarPage,
@@ -252,7 +250,6 @@ import { PermissionPage } from '../pages/permission/permission';
     OrgchartPage,
     ReportsPage,
     ComposePage,
-    MessagePage,
     MessagedetailPage,
     UnitdetailsPage,
     UnitDetailsPage,

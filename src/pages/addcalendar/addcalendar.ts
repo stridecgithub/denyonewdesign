@@ -252,9 +252,7 @@ export class AddcalendarPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
     this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
+
     });
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
@@ -279,9 +277,9 @@ export class AddcalendarPage {
       console.log("Storage event date:" + this.event_date);
       this.event_end_date = localStorage.getItem("sdate");
       console.log("Storage event event_end_date:" + this.event_end_date);
-      this.storagetime=moment().format().split("T");
-      console.log("Storage Time:"+this.storagetime);
-      this.serviced_datetime = localStorage.getItem("sdate")+"T"+this.storagetime.substring(0,4);
+      this.storagetime = moment().format().split("T")[1];
+      console.log("Storage Time:" + this.storagetime);
+      this.serviced_datetime = localStorage.getItem("sdate") + "T" + this.storagetime.substring(0, 5);
       console.log("Storage event serviced_datetime:" + this.serviced_datetime);
     } else {
       this.event_date = moment().format();
@@ -645,6 +643,117 @@ export class AddcalendarPage {
   createEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
     //let updatedby = createdby;
 
+  
+    let timesplit_start = event_time.split(":");
+    let hrvalue_start = timesplit_start[0];
+    let minvalue_start = timesplit_start[1];
+    let ampmstr_start = 'AM';
+    if (hrvalue_start > 12) {
+      hrvalue_start = hrvalue_start - 12;
+      hrvalue_start = hrvalue_start < 10 ? "0" + hrvalue_start : hrvalue_start;
+      ampmstr_start = 'PM';
+    }
+    if (hrvalue_start != '') {
+      event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
+    } else {
+      let date = new Date();
+      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+      this.hours = hours < 10 ? "0" + hours : hours;
+      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      event_time = this.hours + ":" + minutes + " " + am_pm;
+    }
+
+
+    let timesplit_end = event_end_time.split(":");
+    let hrvalue_end = timesplit_end[0];
+    let minvalue_end = timesplit_end[1];
+    let ampmstr_end = 'AM';
+    if (hrvalue_end > 12) {
+      hrvalue_end = hrvalue_end - 12;
+      hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
+      ampmstr_end = 'PM';
+    }
+    if (hrvalue_end != '') {
+      event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
+    } else {
+      let date = new Date();
+      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
+      this.hours = hours < 10 ? "0" + hours : hours;
+      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      event_end_time = this.hours + ":" + minutes + " " + am_pm;
+    }
+
+   
+    this.isSubmitted = true;
+
+
+    if (alldayevent == 1) {
+      event_time = '';
+      event_end_time = '';
+    }
+    service_remark = jQuery(".event_notes").val();
+    let field;
+    if (type_name == 'Service') {
+      field = "&event_title=" + event_subject;
+    } else {
+      field = "&event_title=" + event_subject;
+    }
+    let body: string = "is_mobile=1&event_type="
+      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + service_remark + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/eventstorev2";
+
+    //http://denyoappv2.stridecdev.com/eventstorev2?is_mobile=1&event_type=Event&event_title=testing&event_location=madurai&event_date=2017-12-12&event_time=12%20AM&event_added_by=1&service_remark=testing%20remarks&event_alldayevent=1&event_end_date=2017-12-25&event_end_time=12%20AM
+    console.log(url + "?" + body);
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        let res = data.json();
+        console.log(JSON.stringify(data.json()));
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          console.log("Msg Results:-" + res.msg[0].result);
+          this.hideForm = true;
+          if (res.msg[0].result > 0) {
+            this.conf.sendNotification(res.msg[0].result);
+          } else {
+            this.conf.sendNotification(res.msg[0].result);
+            // localStorage.setItem("atMentionResult", '');
+             this.navCtrl.setRoot(CalendarPage);
+          }
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.conf.sendNotification('Something went wrong!');
+        }
+      }, error => {
+        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+      });
+  }
+
+
+
+  // Update an existing record that has been edited in the page's HTML form
+  // Use angular's http post method to submit the record data
+  // to our remote PHP script (note the body variable we have created which
+  // supplies a variable of key with a value of update followed by the key/value pairs
+  // for the record data
+
+
+  updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
+    if (alldayevent == 1) {
+      event_time = '';
+      event_end_time = '';
+    }
+    // if (localStorage.getItem("atMentionResult") != '') {
+    //   service_remark = localStorage.getItem("atMentionResult");
+    // }
+    this.isSubmitted = true;
 
     let timesplit_start = event_time.split(":");
     let hrvalue_start = timesplit_start[0];
@@ -690,186 +799,9 @@ export class AddcalendarPage {
     }
 
     if (alldayevent == 1) {
-      //event_time='';
-      //event_end_time ='';
+      event_time = '';
+      event_end_time = '';
     }
-    // let timesplit_end = event_end_time.split(":");
-    // let hrvalue_end = timesplit_end[0];
-    // let minvalue_end = timesplit_end[1];
-    // let ampmstr_end = 'AM';
-    // if (hrvalue_end > 12) {
-    //   hrvalue_end = hrvalue_end - 12;
-    //   ampmstr_end = 'PM';
-    // }
-    // if (hrvalue_end != '') {
-    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
-    // } else {
-    //   event_end_time = '';
-    // }
-    this.isSubmitted = true;
-
-
-    // if (localStorage.getItem("atMentionResult") != '') {
-    //   service_remark = localStorage.getItem("atMentionResult");
-    // }
-    service_remark = jQuery(".event_notes").val();
-    let field;
-    if (type_name == 'Service') {
-      field = "&event_title=" + event_subject;
-    } else {
-      field = "&event_title=" + event_subject;
-    }
-    let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + service_remark + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/eventstorev2";
-
-    //http://denyoappv2.stridecdev.com/eventstorev2?is_mobile=1&event_type=Event&event_title=testing&event_location=madurai&event_date=2017-12-12&event_time=12%20AM&event_added_by=1&service_remark=testing%20remarks&event_alldayevent=1&event_end_date=2017-12-25&event_end_time=12%20AM
-    console.log(url + "?" + body);
-    this.http.post(url, body, options)
-      .subscribe((data) => {
-        let res = data.json();
-        console.log(JSON.stringify(data.json()));
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
-          this.hideForm = true;
-          if (res.msg[0].result > 0) {
-            this.conf.sendNotification(res.msg[0].result);
-          } else {
-            this.conf.sendNotification(res.msg[0].result);
-            // localStorage.setItem("atMentionResult", '');
-            this.navCtrl.setRoot(CalendarPage);
-          }
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-      });
-  }
-
-
-
-  // Update an existing record that has been edited in the page's HTML form
-  // Use angular's http post method to submit the record data
-  // to our remote PHP script (note the body variable we have created which
-  // supplies a variable of key with a value of update followed by the key/value pairs
-  // for the record data
-
-
-  updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
-
-    // if (localStorage.getItem("atMentionResult") != '') {
-    //   service_remark = localStorage.getItem("atMentionResult");
-    // }
-    this.isSubmitted = true;
-
-    let timesplit_start = event_time.split(":");
-    let hrvalue_start = timesplit_start[0];
-    let minvalue_start = timesplit_start[1];
-    let ampmstr_start = 'AM';
-    if (hrvalue_start > 12) {
-      hrvalue_start = hrvalue_start - 12;
-      hrvalue_start = hrvalue_start < 10 ? "0" + hrvalue_start : hrvalue_start;
-      ampmstr_start = 'PM';
-    }
-    if (hrvalue_start != '') {
-      event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
-    } else {
-      let date = new Date();
-      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
-      this.hours = hours < 10 ? "0" + hours : hours;
-      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      event_time = this.hours + ":" + minutes + " " + am_pm;
-    }
-
-
-    let timesplit_end = event_end_time.split(":");
-    let hrvalue_end = timesplit_end[0];
-    let minvalue_end = timesplit_end[1];
-    let ampmstr_end = 'AM';
-    if (hrvalue_end > 12) {
-      hrvalue_end = hrvalue_end - 12;
-      hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
-      ampmstr_end = 'PM';
-    }
-    if (hrvalue_end != '') {
-      event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
-    } else {
-      let date = new Date();
-      let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-      let am_pm = date.getHours() >= 12 ? "PM" : "AM";
-      this.hours = hours < 10 ? "0" + hours : hours;
-      let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      event_end_time = this.hours + ":" + minutes + " " + am_pm;
-    }
-
-    // let timesplit_start = event_time.split(":");
-    // let hrvalue_start = timesplit_start[0];
-    // let minvalue_start = timesplit_start[1];
-    // let ampmstr_start = 'AM';
-    // if (hrvalue_start > 12) {
-    //   hrvalue_start = hrvalue_start - 12;
-    //   ampmstr_start = 'PM';
-    // }
-    // if (hrvalue_start != '') {
-    //   event_time = hrvalue_start + ":" + minvalue_start + " " + ampmstr_start;
-    // } else {
-    //   let date = new Date();
-    //   let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    //   let am_pm = date.getHours() >= 12 ? "PM" : "AM";
-    //   this.hours = hours < 10 ? "0" + hours : hours;
-    //   let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-    //   let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-    //   event_time = this.hours + ":" + minutes + " " + am_pm;
-    // }
-
-
-    // let timesplit_end = event_end_time.split(":");
-    // let hrvalue_end = timesplit_end[0];
-    // let minvalue_end = timesplit_end[1];
-    // let ampmstr_end = 'AM';
-    // if (hrvalue_end > 12) {
-    //   hrvalue_end = hrvalue_end - 12;
-    //   hrvalue_end = hrvalue_end < 10 ? "0" + hrvalue_end : hrvalue_end;
-    //   ampmstr_end = 'PM';
-    // }
-    // if (hrvalue_end != '') {
-    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
-    // } else {
-    //   let date = new Date();
-    //   let hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-    //   let am_pm = date.getHours() >= 12 ? "PM" : "AM";
-    //   this.hours = hours < 10 ? "0" + hours : hours;
-    //   let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-    //   let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-    //   event_end_time = this.hours + ":" + minutes + " " + am_pm;
-    // }
-
-    // let timesplit_end = event_end_time.split(":");
-    // let hrvalue_end = timesplit_end[0];
-    // let minvalue_end = timesplit_end[1];
-    // let ampmstr_end = 'AM';
-    // if (hrvalue_end > 12) {
-    //   hrvalue_end = hrvalue_end - 12;
-    //   ampmstr_end = 'PM';
-    // }
-    // if (hrvalue_end != '') {
-    //   event_end_time = hrvalue_end + ":" + minvalue_end + " " + ampmstr_end;
-    // } else {
-    //   event_end_time = '';
-    // }
-    /* if (localStorage.getItem("atMentionResult") != '') {
-       service_remark = localStorage.getItem("atMentionResult");
-     }*/
     service_remark = jQuery(".event_notes").val();
     let field;
     if (type_name == 'Service') {
@@ -899,7 +831,7 @@ export class AddcalendarPage {
             localStorage.setItem("atMentionResult", '');
           } else {
             this.conf.sendNotification(res.msg[0].result);
-            this.navCtrl.setRoot(CalendarPage);
+             this.navCtrl.setRoot(CalendarPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -966,9 +898,7 @@ export class AddcalendarPage {
       event_end_time: string = this.form.controls["event_end_time"].value,
       event_location: string = this.form.controls["event_location"].value,
       service_remark: string = this.form.controls["event_notes"].value,
-      serviced_datetime: string = this.form.controls["serviced_datetime"].value
-
-      ;
+      serviced_datetime: string = this.form.controls["serviced_datetime"].value;
     this.alldayeventvalue = this.form.controls["alldayevent"].value;
 
     console.log("alldayevent toggle value" + this.alldayeventvalue);
@@ -992,7 +922,7 @@ export class AddcalendarPage {
       console.log("end date is:" + enddate);
       console.log("start date parse is:" + Date.parse(startdate));
       console.log("end date parse is:" + Date.parse(enddate));
-      if ((Date.parse(startdate))> Date.parse(enddate) ) {
+      if ((Date.parse(startdate)) > Date.parse(enddate)) {
         if (type_name != 'Service') {
           this.conf.sendNotification('End date should be after start date');
           return false;
@@ -1083,16 +1013,16 @@ export class AddcalendarPage {
         console.log('Got date: ', this.event_date);
       },
       err => console.log('Error occurred while getting date: ', err)
-    );
+      );
   }
   previous() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
 
   alldayeenttoggle(event, val) {

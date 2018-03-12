@@ -308,12 +308,12 @@ export class PiclocationPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
   messages() {
-    this.navCtrl.setRoot(MessagesPage);
+     this.navCtrl.setRoot(MessagesPage);
   }
 
   // Favorite Action

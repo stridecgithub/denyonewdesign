@@ -39,7 +39,7 @@ export class UnitsPage {
   public reportData: any =
     {
       status: '',
-      sort: 'favorite',
+      sort: 'unit_id',
       sortascdesc: 'desc',
       startindex: 0,
       results: 8
@@ -389,7 +389,7 @@ export class UnitsPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
@@ -557,7 +557,7 @@ export class UnitsPage {
   doAction(item, act, unitId) {
 
     if (act == 'edit') {
-      this.navCtrl.setRoot(AddUnitPage, {
+       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
         act: act,
         unitId: unitId
@@ -609,7 +609,7 @@ export class UnitsPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
-      this.navCtrl.setRoot(UnitdetailsPage, {
+       this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
@@ -628,7 +628,7 @@ export class UnitsPage {
     localStorage.setItem("controllerid", '');
     localStorage.setItem("models_id", '');
     localStorage.setItem("neaplateno", '');
-    this.navCtrl.setRoot(AddUnitPage);
+     this.navCtrl.setRoot(AddUnitPage);
   }
   viewondash(id) {
     let confirm = this.alertCtrl.create({

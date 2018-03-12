@@ -28,7 +28,7 @@ export class UnitDetailsPage {
 
   // Goto Alarm Log page
   gotoAlrmLog() {
-    //this.navCtrl.setRoot(AlarmLogPage);
+    // this.navCtrl.setRoot(AlarmLogPage);
   }
 
 }

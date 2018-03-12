@@ -45,6 +45,7 @@ export class AddUnitPage {
   public serial_number;
   contacts;
   pageTitle;
+  unitid;
   public locationedit: boolean = false;
   //tabBarElement: any;
   constructor(private nativeGeocoder: NativeGeocoder, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
@@ -69,9 +70,7 @@ export class AddUnitPage {
     this.getUnitGroupListData();
     this.getJsonModelListData();
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+
   }
 
   ionViewWillLeave() {
@@ -103,6 +102,7 @@ export class AddUnitPage {
     let previousData = localStorage.getItem("addUnitFormOneValue");
     if (this.navParams.get("unitId")) {
       this.isEdited = true;
+      this.unitid = this.navParams.get("unitId");
       this.geninfo(this.navParams.get("record"));
       this.pageTitle = 'Update';
     } else {
@@ -186,7 +186,7 @@ export class AddUnitPage {
               contacts: this.contacts
             });
             localStorage.setItem("addUnitFormOneValue", JSON.stringify(this.userInfo));
-            this.navCtrl.setRoot(NotificationSettingsPage, {
+             this.navCtrl.setRoot(NotificationSettingsPage, {
               accountInfo: this.userInfo,
               record: this.navParams.get("record"),
               from: this.navParams.get("from"),
@@ -200,14 +200,14 @@ export class AddUnitPage {
         }
       });
     // If Controller Id Check Unique
-    //this.navCtrl.setRoot(NotificationSettingsPage);
+    // this.navCtrl.setRoot(NotificationSettingsPage);
   }
   previous() {
 
     if (this.navParams.get("from") == 'dashboard') {
-      this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
+       this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
     } else {
-      this.navCtrl.setRoot(UnitsPage, {
+       this.navCtrl.setRoot(UnitsPage, {
 
       });
     }
@@ -264,7 +264,7 @@ export class AddUnitPage {
 
   }
 
-  getGps() {
+  getGps(unitid) {/*
     let locationSplit = this.location.split(",");
     for (let i = 0; i < locationSplit.length; i++) {
       if (i == 0) {
@@ -283,11 +283,31 @@ export class AddUnitPage {
             this.conf.sendNotification(error);
           });
       }
-    }
+    }*/
+
+
+    let res,
+      body: string = "",
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1";
+    this.http.post(url, body, options)
+      .subscribe(data => {
+
+
+        res = data.json();
+        console.log(JSON.stringify(res));
+        this.lat = res.latitude;
+        this.lang = res.longtitude;
+
+      }, error => {
+      });
+
   }
 
   getmaplocation() {
-    this.navCtrl.setRoot(PiclocationPage, {
+     this.navCtrl.setRoot(PiclocationPage, {
     });
   }
 }

@@ -65,7 +65,7 @@ export class MyaccountPage {
     this.userId = localStorage.getItem("userInfoId");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
     if(this.VIEWACCESS==0){
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
     
     }
     console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
@@ -76,11 +76,7 @@ export class MyaccountPage {
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
     this.photo =   this.apiServiceURL + "/images/default.png"
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
-    });
+    
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');
@@ -251,28 +247,28 @@ export class MyaccountPage {
       });
   }
   doEdit(userid, act) {
-    this.nav.setRoot(EditprofilesteponePage, {
+     this.nav.setRoot(EditprofilesteponePage, {
       userId: userid,
       act: act
     });
   }
   
   changepassword(){
-		this.nav.setRoot(ChangepasswordPage);
+		 this.nav.setRoot(ChangepasswordPage);
 	}
 
 
   viewOrgChart() {
-    this.nav.setRoot(OrgchartPage, {
+     this.nav.setRoot(OrgchartPage, {
       companyId: this.companyId
     });
   }
   previous() {
-    this.nav.setRoot(DashboardPage);
+     this.nav.setRoot(DashboardPage);
   }
 
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 
 }

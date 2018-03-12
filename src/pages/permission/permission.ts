@@ -123,6 +123,6 @@ export class PermissionPage {
     console.log('ionViewDidLoad PermissionPage');
   }
   previous() {
-    this.navCtrl.setRoot(DashboardPage);
+     this.navCtrl.setRoot(DashboardPage);
   }
 }

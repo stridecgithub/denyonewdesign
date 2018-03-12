@@ -64,10 +64,7 @@ export class NotificationPage {
 
 
 
-    platform.registerBackButtonAction(() => {
-      console.log(this.previousPage);
-      this.previous();
-    });
+    
 
   }
 
@@ -109,7 +106,7 @@ export class NotificationPage {
 
 
     if (nottype == 'M') {
-      this.navCtrl.setRoot(MessagedetailPage, {
+       this.navCtrl.setRoot(MessagedetailPage, {
         record: item,
         frompage: 'notification',
         event_id: item.table_id,
@@ -118,21 +115,21 @@ export class NotificationPage {
       return false;
 
     } else if (nottype == 'OA') {
-      this.navCtrl.setRoot(EventDetailsPage, {
+       this.navCtrl.setRoot(EventDetailsPage, {
         record: item,
         from: 'notification',
         event_id: item.table_id
       });
       return false;
     } else if (nottype == 'A') {
-      this.navCtrl.setRoot(EventDetailsPage, {
+       this.navCtrl.setRoot(EventDetailsPage, {
         record: item,
         from: 'notification',
         event_id: item.table_id
       });
       return false;
     } else if (nottype == 'C') {
-      this.navCtrl.setRoot(CommentdetailsPage, {
+       this.navCtrl.setRoot(CommentdetailsPage, {
         record: item,
         from: 'notification',
         event_id: item.table_id
@@ -140,14 +137,14 @@ export class NotificationPage {
       return false;
 
     } else if (nottype == 'E') {
-      this.navCtrl.setRoot(EventDetailsEventPage, {
+       this.navCtrl.setRoot(EventDetailsEventPage, {
         record: item,
         from: 'notification',
         event_id: item.table_id
       });
       return false;
     } else if (nottype == 'S') {
-      this.navCtrl.setRoot(EventDetailsServicePage, {
+       this.navCtrl.setRoot(EventDetailsServicePage, {
         record: item,
         from: 'notification',
         event_id: item.table_id
@@ -299,7 +296,7 @@ export class NotificationPage {
 
   doAdd() {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddserviceinfoPage, {
+     this.navCtrl.setRoot(AddserviceinfoPage, {
       record: this.NP.get("record"),
       act: 'Add'
     });
@@ -308,7 +305,7 @@ export class NotificationPage {
 
   doRequest() {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddrequestsupportPage, {
+     this.navCtrl.setRoot(AddrequestsupportPage, {
       record: this.NP.get("record"),
       act: 'Add'
     });
@@ -318,7 +315,7 @@ export class NotificationPage {
 
   doEdit(item, act) {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddserviceinfoPage, {
+     this.navCtrl.setRoot(AddserviceinfoPage, {
       record: item,
       act: 'Edit'
     });
@@ -374,17 +371,17 @@ export class NotificationPage {
 
   previous() {
     if (this.previousPage == 'UnitsPage') {
-      this.navCtrl.setRoot(UnitsPage);
+       this.navCtrl.setRoot(UnitsPage);
     } else if (this.previousPage == 'CalendarPage') {
-      this.navCtrl.setRoot(CalendarPage);
+       this.navCtrl.setRoot(CalendarPage);
     } else if (this.previousPage == 'MessagesPage') {
-      this.navCtrl.setRoot(MessagesPage);
+       this.navCtrl.setRoot(MessagesPage);
     } else if (this.previousPage == 'OrgchartPage') {
-      this.navCtrl.setRoot(OrgchartPage);
+       this.navCtrl.setRoot(OrgchartPage);
     } else if (this.previousPage == 'DashboardPage') {
-      this.navCtrl.setRoot(DashboardPage);
+       this.navCtrl.setRoot(DashboardPage);
     } else {
-      this.navCtrl.setRoot(DashboardPage);
+       this.navCtrl.setRoot(DashboardPage);
     }
   }
 

@@ -43,9 +43,7 @@ export class EventDetailsEventPage {
     if (this.NP.get("from") != 'Push') {
      /// this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   ionViewWillLeave() {
@@ -109,7 +107,7 @@ export class EventDetailsEventPage {
 
   }
   doEdit(item, act) {
-    this.navCtrl.setRoot(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -148,7 +146,7 @@ export class EventDetailsEventPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -160,13 +158,13 @@ export class EventDetailsEventPage {
   }
   previous() {
     if (this.NP.get("from") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
+       this.navCtrl.setRoot(NotificationPage);
     } else {
-      this.navCtrl.setRoot(CalendarPage);
+       this.navCtrl.setRoot(CalendarPage);
     }
   }
   addCalendar(item) {
-    this.navCtrl.setRoot(AddcalendarPage,
+     this.navCtrl.setRoot(AddcalendarPage,
       {
         from: 'event-detail-event',
         item: item,
@@ -211,7 +209,7 @@ export class EventDetailsEventPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Event was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {

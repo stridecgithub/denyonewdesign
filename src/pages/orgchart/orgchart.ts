@@ -91,11 +91,7 @@ export class OrgchartPage {
     }
     //Authorization Get Value
 
-    platform.registerBackButtonAction(() => {
-      this.previous();
-      // this.navCtrl.setRoot(DashboardPage);
-    });
-
+    
 
 
     this.CREATEACCESS = localStorage.getItem("SETTINGS_ORGCHART_CREATE");
@@ -325,13 +321,13 @@ export class OrgchartPage {
 
 
       } else {
-        this.previous();
+       // this.previous();
       }
     });
   }
   doCompose(to) {
 
-    this.navCtrl.setRoot(ComposePage, { 'to': to });
+     this.navCtrl.setRoot(ComposePage, { 'to': to });
   }
   doDelete(item) {
     console.log("Deleted Id" + item[0].staff_id);
@@ -479,7 +475,7 @@ export class OrgchartPage {
   }
 
   /*previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }*/
 
   getCompanyGroupListData() {
@@ -502,15 +498,15 @@ export class OrgchartPage {
 
 
   doAdd() {
-    this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
+     this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
   }
   previous() {
-    this.navCtrl.setRoot(DashboardPage);
+     this.navCtrl.setRoot(DashboardPage);
 
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.navCtrl.setRoot(AddorgchartonePage, {
+       this.navCtrl.setRoot(AddorgchartonePage, {
         record: item,
         act: act,
         'companyId': this.companyId
@@ -518,23 +514,23 @@ export class OrgchartPage {
     }
   }
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-    this.navCtrl.setRoot(UnitsPage);
+     this.navCtrl.setRoot(UnitsPage);
   }
 
   redirectToMessage() {
-    //this.nav.setRoot(EmailPage);
+    // this.nav.setRoot(EmailPage);
   }
   redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
   redirectToMaps() {
-    //this.nav.setRoot(MapsPage);
+    // this.nav.setRoot(MapsPage);
   }
   redirectToSettings() {
-    //this.navCtrl.setRoot(OrgchartPage);
+    // this.navCtrl.setRoot(OrgchartPage);
   }
 }
 

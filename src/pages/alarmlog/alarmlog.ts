@@ -68,10 +68,7 @@ export class AlarmlogPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
-
+  
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');
@@ -160,6 +157,14 @@ export class AlarmlogPage {
     //let footerBar=this.footerBar.split(",");
 
     // Footer Menu Access - End
+
+    platform.registerBackButtonAction(() => {
+       this.navCtrl.setRoot(UnitdetailsPage, {
+        record: this.navParams.get("record"),
+        tabs: 'overView'
+      });
+    });
+    
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));
@@ -167,7 +172,7 @@ export class AlarmlogPage {
     modal.present();
   }
   doAlarmLogDetail(item) {
-    this.navCtrl.setRoot(AlarmlogdetailsPage, {
+     this.navCtrl.setRoot(AlarmlogdetailsPage, {
       record: item
     });
   }
@@ -384,7 +389,7 @@ export class AlarmlogPage {
   }
 
   previous() {
-    this.navCtrl.setRoot(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });
@@ -392,7 +397,7 @@ export class AlarmlogPage {
   doEdit(item, act) {
 
     if (this.userId == '1') {
-      this.navCtrl.setRoot(AddalarmPage, {
+       this.navCtrl.setRoot(AddalarmPage, {
         record: item,
         act: act,
         from: 'alarmlog',
@@ -401,7 +406,7 @@ export class AlarmlogPage {
     } else {
       if (item.alarm_assginedby_name == '') {
         if (act == 'edit') {
-          this.navCtrl.setRoot(AddalarmPage, {
+           this.navCtrl.setRoot(AddalarmPage, {
             record: item,
             act: act,
             from: 'alarmlog',
@@ -417,18 +422,18 @@ export class AlarmlogPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-    this.navCtrl.setRoot(UnitsPage);
+     this.navCtrl.setRoot(UnitsPage);
   }
 
   redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
 
   redirectToSettings() {
-    this.navCtrl.setRoot(OrgchartPage);
+     this.navCtrl.setRoot(OrgchartPage);
   }
   doSortAlarmLog() {
     let prompt = this.alertCtrl.create({

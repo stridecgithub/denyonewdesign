@@ -92,9 +92,7 @@ export class AddhocPage {
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+    
     this.next_service_date_selected = 0;
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.isFuture = 0;
@@ -644,7 +642,7 @@ export class AddhocPage {
           }*/
          // this.conf.sendNotification(`Servicing info was successfully added`);
          this.conf.sendNotification(data.json().msg[0].result);
-          this.navCtrl.setRoot(ServicinginfoPage, {
+           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
             unitid: this.service_unitid
           });
@@ -797,15 +795,15 @@ export class AddhocPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
     else if (this.NP.get("from") == 'comment') {
-      // this.navCtrl.setRoot(CommentsinfoPage);
+      //  this.navCtrl.setRoot(CommentsinfoPage);
     }
     else {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -939,7 +937,7 @@ export class AddhocPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 

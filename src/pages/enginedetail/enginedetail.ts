@@ -38,8 +38,8 @@ export class EnginedetailPage {
   public reportData: any =
     {
       status: '',
-      sort: 'unitgroup_id',
-      sortascdesc: 'asc',
+      sort: 'model_id',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 8
     }
@@ -226,10 +226,10 @@ export class EnginedetailPage {
     this.presentLoading(0);
   }
   previous() {
-    this.nav.setRoot(DashboardPage);
+     this.nav.setRoot(DashboardPage);
   }
   doAdd() {
-    this.nav.setRoot(AddenginedetailPage);
+     this.nav.setRoot(AddenginedetailPage);
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
@@ -310,7 +310,7 @@ export class EnginedetailPage {
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AddenginedetailPage, {
+       this.nav.setRoot(AddenginedetailPage, {
         record: item,
         act: act
       });
@@ -318,7 +318,7 @@ export class EnginedetailPage {
   }
   doView(item, act) {
     if (act == 'detail') {
-      this.nav.setRoot(EngineviewPage, {
+       this.nav.setRoot(EngineviewPage, {
         record: item
       });
       return false;
@@ -326,7 +326,7 @@ export class EnginedetailPage {
   }
 
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 
 }

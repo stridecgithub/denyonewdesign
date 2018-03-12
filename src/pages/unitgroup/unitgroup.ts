@@ -43,7 +43,7 @@ export class UnitgroupPage {
   public reportData: any =
     {
       status: '',
-      sort: 'date',
+      sort: 'unitgroup_id',
       sortascdesc: 'desc',
       startindex: 0,
       results: 50
@@ -332,14 +332,14 @@ export class UnitgroupPage {
     }
   }
   doAdd() {
-    this.nav.setRoot(AddunitgroupPage);
+     this.nav.setRoot(AddunitgroupPage);
   }
   previous() {
-    this.nav.setRoot(DashboardPage);
+     this.nav.setRoot(DashboardPage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AddunitgroupPage, {
+       this.nav.setRoot(AddunitgroupPage, {
         record: item,
         act: act
       });
@@ -519,11 +519,11 @@ export class UnitgroupPage {
   }
 
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
   view(id, colorcode, cname, favoriteindication, unitgroup_name, totalunits, remark, createdOn) {
     //  localStorage.setItem("uid", id);
-    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication, 'unitgroup_name': unitgroup_name, 'totalunits': totalunits, 'remark': remark, 'createdOn': createdOn });
+     this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication, 'unitgroup_name': unitgroup_name, 'totalunits': totalunits, 'remark': remark, 'createdOn': createdOn });
   }
 
   doSort() {

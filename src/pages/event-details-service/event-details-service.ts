@@ -54,9 +54,7 @@ export class EventDetailsServicePage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   ionViewWillLeave() {
@@ -134,7 +132,7 @@ export class EventDetailsServicePage {
 
   }
   doEdit(item, act) {
-    this.navCtrl.setRoot(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -173,7 +171,7 @@ export class EventDetailsServicePage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -185,32 +183,32 @@ export class EventDetailsServicePage {
   }
   previous() {
     if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(CommentsinfoPage, {
+       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item,
         from: 'service'
       });
     } else if (this.NP.get("from") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
+       this.navCtrl.setRoot(NotificationPage);
     } else {
-      this.navCtrl.setRoot(CalendarPage);
+       this.navCtrl.setRoot(CalendarPage);
     }
   }
   addCalendar(item) {
 
     if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(ServicedetailsPage,
+       this.navCtrl.setRoot(ServicedetailsPage,
         {
           record: item,
           type: 'service'
         });
     } else if (this.NP.get("from") == 'push') {
-      this.navCtrl.setRoot(ServicedetailsPage,
+       this.navCtrl.setRoot(ServicedetailsPage,
         {
           record: item,
           type: 'service'
         });
     } else {
-      this.navCtrl.setRoot(AddcalendarPage,
+       this.navCtrl.setRoot(AddcalendarPage,
         {
           from: 'event-detail-service',
           item: item,
@@ -254,12 +252,12 @@ export class EventDetailsServicePage {
          // this.conf.sendNotification(`Service was successfully deleted`);
          this.conf.sendNotification(data.json().msg[0]['result']);
           if (this.NP.get("from") == 'commentinfo') {
-            this.navCtrl.setRoot(CommentsinfoPage, {
+             this.navCtrl.setRoot(CommentsinfoPage, {
               record: this.item,
               from: 'service'
             });
           } else {
-            this.navCtrl.setRoot(CalendarPage);
+             this.navCtrl.setRoot(CalendarPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -271,7 +269,7 @@ export class EventDetailsServicePage {
   }
 
   preview(imagedata, from) {
-    this.navCtrl.setRoot(PreviewanddownloadPage, {
+     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get("record"),
       frompage: from

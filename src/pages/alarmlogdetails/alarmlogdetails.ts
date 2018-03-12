@@ -53,9 +53,7 @@ export class AlarmlogdetailsPage {
 
     });
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-     this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+    
   }
   //{"alarm_id":"1","alarm_name":"Emergency Stop","alarm_assginedby_name":"Guest 1 Demo","alarm_assginedto_name":"Chun Hsin Ler","alarm_priority":"1","alarm_received_date":"05 Dec 2017 03:43PM","alarm_received_time":"03:43 PM","alarm_remark":"please check what is the problem. Thank."}
   ionViewWillLeave() {
@@ -135,7 +133,7 @@ export class AlarmlogdetailsPage {
 
   }
   previous() {
-    this.navCtrl.setRoot(AlarmlogPage, {
+     this.navCtrl.setRoot(AlarmlogPage, {
       record: this.navParams.get("record"),
       from: 'addalarm',
     });

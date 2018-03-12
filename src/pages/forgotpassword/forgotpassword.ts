@@ -13,8 +13,7 @@ import { Config } from '../../config/config';
 
 @Component({
   selector: 'page-forgotpassword',
-  templateUrl: 'forgotpassword.html',
-  providers: [Config]
+  templateUrl: 'forgotpassword.html'
 })
 export class ForgotpasswordPage {
   public loginas: any;
@@ -59,18 +58,7 @@ export class ForgotpasswordPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
-      
-      let isNet = localStorage.getItem("isNet");
-      if (isNet == 'offline') {
-        this.networkType = this.conf.networkErrMsg();
-      } else {
-        this.networkType = '';
-      }
-    });
+   
   }
 
 
@@ -85,7 +73,7 @@ export class ForgotpasswordPage {
     } else {
       let uname: string = this.form.controls["uname"].value,
         email: string = this.form.controls["email"].value;
-      console.log(uname, email);
+     
       let body: string = "is_mobile=1&username=" + uname + "&useremail=" + email,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
@@ -100,13 +88,13 @@ export class ForgotpasswordPage {
             console.log("Msg Results:-" + res.msg[0].result);
             this.hideForm = true;         
               //this.conf.sendNotification('Forgot password has been sending your registered email id.');           
-              //this.nav.push(LoginPage);
+              // this.nav.setRoot(LoginPage);
               if (res.msg[0].Error > 0) {
                 this.conf.sendNotification(res.msg[0].result);
               } else {
                 this.conf.sendNotification(res.msg[0].result);
                // this.conf.sendNotification('Forgot password has been sending your registered email id.');
-                this.nav.setRoot(LoginPage);
+                 this.nav.setRoot(LoginPage);
               }
           }
           // Otherwise let 'em know anyway
@@ -120,6 +108,6 @@ export class ForgotpasswordPage {
   }
 
   previous() {
-    this.nav.push(LoginPage);
+     this.nav.setRoot(LoginPage);
   }
 }

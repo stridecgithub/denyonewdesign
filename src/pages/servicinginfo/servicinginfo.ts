@@ -81,6 +81,14 @@ export class ServicinginfoPage {
   public footerBar = [];
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
+
+    platform.registerBackButtonAction(() => {
+       this.navCtrl.setRoot(UnitdetailsPage, {
+        record: this.navParams.get("record"),
+        tabs: 'overView'
+      });
+    });
+
     this.pageTitle = 'Servicing Info';
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -99,9 +107,7 @@ export class ServicinginfoPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
@@ -404,17 +410,17 @@ export class ServicinginfoPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   previous() {
-    this.navCtrl.setRoot(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });
   }
 
   redirectToUnits() {
-    this.navCtrl.setRoot(UnitsPage);
+     this.navCtrl.setRoot(UnitsPage);
   }
 
 
@@ -424,7 +430,7 @@ export class ServicinginfoPage {
     this.service_remark = '';
     this.addedServiceImgLists = [];
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddserviceinfoPage, {
+     this.navCtrl.setRoot(AddserviceinfoPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -437,7 +443,7 @@ export class ServicinginfoPage {
     this.service_remark = '';
     this.addedImgLists = [];
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddrequestsupportPage, {
+     this.navCtrl.setRoot(AddrequestsupportPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -449,7 +455,7 @@ export class ServicinginfoPage {
   doEdit(item, act) {
     /* if (item.event_type.toLowerCase() == 's') {
        localStorage.setItem("microtime", "");
-       this.navCtrl.setRoot(AddserviceinfoPage, {
+        this.navCtrl.setRoot(AddserviceinfoPage, {
          record: item,
          act: 'Edit',
          from: 'service'
@@ -458,7 +464,7 @@ export class ServicinginfoPage {
      else {
        this.conf.sendNotification("Not Applicable!!!")
      }*/
-    this.navCtrl.setRoot(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -468,7 +474,7 @@ export class ServicinginfoPage {
   }
   servicedetailsView(item, act, from) {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(ServicingDetailsPage, {
+     this.navCtrl.setRoot(ServicingDetailsPage, {
       record: item,
       act: 'View',
       from: from
@@ -586,11 +592,11 @@ export class ServicinginfoPage {
   }
 
   redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
 
   redirectToSettings() {
-    this.navCtrl.setRoot(OrgchartPage);
+     this.navCtrl.setRoot(OrgchartPage);
   }
 
   doSortUpcomingService() {
@@ -663,7 +669,7 @@ export class ServicinginfoPage {
   }
   doAddHoc() {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddhocPage, {
+     this.navCtrl.setRoot(AddhocPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id

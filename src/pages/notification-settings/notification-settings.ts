@@ -87,21 +87,29 @@ export class NotificationSettingsPage {
   contactnumber;
   companyId;
   constructor(
-    public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, private conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+    public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, public conf: Config, public navCtrl: NavController, public navParams: NavParams) {
     this.isSubmitted = false;
     this.form = fb.group({
       "alarmhashtags": [""],
-      "contact_name_1": ["", Validators.required],
-      //'contact_number_1': ["", Validators.required],
-      "contact_number_1": ['', Validators.compose([Validators.required, Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact_name_1": ["", Validators.required],    
+      "contact_number_1": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
+      //"contact_number_1": ['', Validators.compose([Validators.required, Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_2": [""],
-      "contact_number_2": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact_number_2": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
+     
+     // "contact_number_2": [''],
       "contact_name_3": [""],
-      "contact_number_3": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact_number_3": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
+     
+     // "contact_number_3": [''],
       "contact_name_4": [""],
-      "contact_number_4": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact_number_4": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
+     
+      //"contact_number_4": [''],
       "contact_name_5": [""],
-      "contact_number_5": ['', Validators.compose([ Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact_number_5": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
+     
+      //"contact_number_5": [''],
 
       /* "primary": [""],
        "primary_2": [""],
@@ -131,9 +139,7 @@ export class NotificationSettingsPage {
       this.contactnumber = this.previousFormData[0]['contactnumber'];
       let previousData = localStorage.getItem("addUnitFormOneValue");
       console.log(previousData);
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
+     
     }
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -724,19 +730,19 @@ export class NotificationSettingsPage {
             localStorage.setItem("addUnitFormOneValue", "");
             this.conf.sendNotificationTimer(`Units was successfully updated`);
             if (this.navParams.get("from") == 'unitdetail') {
-              this.navCtrl.setRoot(UnitdetailsPage, {
+               this.navCtrl.setRoot(UnitdetailsPage, {
                 record: this.navParams.get("record"),
                 tabs: 'gensetView'
               });
             } else if (this.navParams.get("from") == 'dashboard') {
 
-              this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
-              // this.navCtrl.setRoot(DashboardPage, {
+               this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
+              //  this.navCtrl.setRoot(DashboardPage, {
               //   record: this.navParams.get("record"),
               //   tabs: 'listView'
               // });
             } else {
-              this.navCtrl.setRoot(UnitsPage);
+               this.navCtrl.setRoot(UnitsPage);
             }
 
           }
@@ -778,7 +784,7 @@ export class NotificationSettingsPage {
             localStorage.setItem("addUnitFormOneValue", "");
             //this.conf.sendNotificationTimer(`Units created was successfully added`);
             this.conf.sendNotification(data.json().msg[0]['result']);
-            this.navCtrl.setRoot(UnitsPage);
+             this.navCtrl.setRoot(UnitsPage);
           }
           // Otherwise let 'em know anyway
           else {
@@ -860,7 +866,7 @@ export class NotificationSettingsPage {
 
   previous() {
     if (this.isEdited > 0) {
-      this.navCtrl.setRoot(AddUnitPage, {
+       this.navCtrl.setRoot(AddUnitPage, {
         accountInfo: this.navParams.get("accountInfo"),
         record: this.navParams.get("record"),
         from: this.navParams.get("from"),
@@ -869,7 +875,7 @@ export class NotificationSettingsPage {
       });
       this.isEdited = true;
     } else {
-      this.navCtrl.setRoot(AddUnitPage, {
+       this.navCtrl.setRoot(AddUnitPage, {
         accountInfo: this.navParams.get("accountInfo"),
         record: this.navParams.get("record"),
         from: this.navParams.get("from"),

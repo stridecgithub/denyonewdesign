@@ -24,7 +24,7 @@ export class CommentreplyPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(CommentviewPage);
+     this.navCtrl.setRoot(CommentviewPage);
   }
 
 }

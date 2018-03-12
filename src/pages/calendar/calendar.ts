@@ -1011,7 +1011,7 @@ export class CalendarPage {
   }
 
   doAdd() {
-    this.navCtrl.setRoot(AddcalendarPage);
+     this.navCtrl.setRoot(AddcalendarPage);
   }
 
   doCalendarDelete(item, action) {
@@ -1037,27 +1037,27 @@ export class CalendarPage {
     confirm.present();
   }
   doCalendarEdit(item, type) {
-    this.navCtrl.setRoot(AddcalendarPage, {
+     this.navCtrl.setRoot(AddcalendarPage, {
       item: item,
       type: type
     });
   }
 
   doCalendarView(event_id, event_type) {
-    this.navCtrl.setRoot(EventDetailsPage, {
+     this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type
     });
   }
   doServiceView(event_id, event_type, eventdata) {
-    this.navCtrl.setRoot(EventDetailsServicePage, {
+     this.navCtrl.setRoot(EventDetailsServicePage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata
     });
   }
   doEventView(event_id, event_type, eventdata) {
-    this.navCtrl.setRoot(EventDetailsEventPage, {
+     this.navCtrl.setRoot(EventDetailsEventPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata
@@ -1506,7 +1506,7 @@ export class CalendarPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   doNotifiyCount() {
     // Notification count
@@ -1561,7 +1561,7 @@ export class CalendarPage {
         if (data.status === 200) {
           // this.conf.sendNotification(`Service was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -1576,7 +1576,7 @@ export class CalendarPage {
     console.log(event_type);
     if (event_type == 'S') {
       event_type = 'service';
-      this.navCtrl.setRoot(AddcalendarPage,
+       this.navCtrl.setRoot(AddcalendarPage,
         {
           from: 'event-detail-service',
           item: item,
@@ -1587,7 +1587,7 @@ export class CalendarPage {
     }
     if (event_type == 'E') {
       event_type = 'event';
-      this.navCtrl.setRoot(AddcalendarPage,
+       this.navCtrl.setRoot(AddcalendarPage,
         {
           from: 'event-detail-service',
           item: item,
@@ -1606,7 +1606,7 @@ export class CalendarPage {
     console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
-        this.navCtrl.setRoot(AddalarmPage, {
+         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -1656,7 +1656,7 @@ export class CalendarPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Event was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {

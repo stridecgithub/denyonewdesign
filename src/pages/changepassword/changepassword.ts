@@ -64,7 +64,7 @@ export class ChangepasswordPage {
           } else {
            // this.conf.sendNotification('New password has been updated successfully.');
            this.conf.sendNotification(res.msg[0].result);
-            this.navCtrl.setRoot(MyaccountPage);
+             this.navCtrl.setRoot(MyaccountPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -76,7 +76,7 @@ export class ChangepasswordPage {
   }
 
   previous() {
-    this.navCtrl.setRoot(MyaccountPage);
+     this.navCtrl.setRoot(MyaccountPage);
   }
 
   comparepassword(confirmpassword, newpassword) {

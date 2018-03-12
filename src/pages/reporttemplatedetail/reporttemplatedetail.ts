@@ -144,6 +144,6 @@ export class ReporttemplatedetailPage {
     // }
   }
   previous() {
-    this.navCtrl.setRoot(ReporttemplatePage);
+     this.navCtrl.setRoot(ReporttemplatePage);
   }
 }

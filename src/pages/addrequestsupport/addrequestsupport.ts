@@ -98,11 +98,7 @@ export class AddrequestsupportPage {
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
-    });
+   
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
@@ -391,7 +387,7 @@ export class AddrequestsupportPage {
           localStorage.setItem("microtime", "");
           //this.conf.sendNotification(`Servicing info was successfully added`);
           this.conf.sendNotification(data.json().msg[0].result);
-          this.nav.push(ServicinginfoPage, {
+           this.nav.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -562,7 +558,7 @@ export class AddrequestsupportPage {
       });
   }
   previous() {
-    this.nav.push(ServicinginfoPage, {
+     this.nav.setRoot(ServicinginfoPage, {
       record: this.NP.get("record")
     });
   }

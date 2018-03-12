@@ -89,12 +89,10 @@ export class MessageDetailViewPage {
     }
     this.close = 1;
     this.open = 0;
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
   action(item, action, from) {
-    this.navCtrl.setRoot(ComposePage, {
+     this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
       from: from
@@ -349,7 +347,7 @@ export class MessageDetailViewPage {
   }
   previous() {
     if (this.navParams.get('from') == 'push') {
-      this.navCtrl.setRoot(MessagedetailPage, {
+       this.navCtrl.setRoot(MessagedetailPage, {
         event_id: this.messageid,
         from: 'push',
         favstatus: this.navParams.get("favstatus"),
@@ -357,7 +355,7 @@ export class MessageDetailViewPage {
       });
 
     } else {
-      this.navCtrl.setRoot(MessagedetailPage, {
+       this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get('item'),
         act: this.navParams.get('act'),
         from: this.from,
@@ -482,7 +480,7 @@ export class MessageDetailViewPage {
         if (data.status === 200) {
           //this.conf.sendNotification('Favorite updated successfully');
           this.conf.sendNotification(data.json().msg[0]['result']);
-          // this.navCtrl.setRoot(MessagesPage);
+          //  this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -518,7 +516,7 @@ export class MessageDetailViewPage {
         // If the request was successful notify the user
         if (data.status === 200) {
         //  this.conf.sendNotification('Favorite updated successfully');
-          // this.navCtrl.setRoot(MessagesPage);
+          //  this.navCtrl.setRoot(MessagesPage);
           this.conf.sendNotification(data.json().msg[0]['result']);
         }
         // Otherwise let 'em know anyway
@@ -576,7 +574,7 @@ export class MessageDetailViewPage {
           console.log('Enter');
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
-            this.navCtrl.setRoot(MessagesPage);
+             this.navCtrl.setRoot(MessagesPage);
           }
 
         }
@@ -732,7 +730,7 @@ export class MessageDetailViewPage {
       });
   }
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    this.navCtrl.setRoot(PreviewanddownloadPage, {
+     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,

@@ -192,7 +192,7 @@ export class RequestdenyoPage {
     }
 
 
-    this.nav.setRoot(ReportviewtablePage, {
+     this.nav.setRoot(ReportviewtablePage, {
       selunit: selunit,
       seltemplate: seltemplate,
       seltimeframe: seltimeframe,
@@ -262,7 +262,7 @@ export class RequestdenyoPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(ReportsPage);
+     this.navCtrl.setRoot(ReportsPage);
   }
   
   

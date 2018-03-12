@@ -147,7 +147,7 @@ export class ComposePage {
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
     console.log("Message Id" + messageid);
-    this.navCtrl.setRoot(PreviewanddownloadPage, {
+     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -549,7 +549,7 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent.toString() +
+        "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
         "&copytome=" + copytome +
         "&submit=" + isrepfor +
         "&forwardmsgid=" + this.messageid +
@@ -561,7 +561,7 @@ export class ComposePage {
         "&microtime=" + micro_timestamp +
         "&loginid=" + this.userId +
         "&to=" + to +
-        "&composemessagecontent=" + composemessagecontent.toString() +
+        "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
         "&copytome=" + copytome +
         "&subject=" + subject;
       urlstring = this.apiServiceURL + "/messages/store";
@@ -583,11 +583,11 @@ export class ComposePage {
           localStorage.setItem("microtime", "");
           // this.conf.sendNotification(`Message sending successfully`);
           //localStorage.setItem("atMentionResult", '');
-          // this.navCtrl.setRoot(MessagesPage);
+          //  this.navCtrl.setRoot(MessagesPage);
           // return false;
 
           this.conf.sendNotification(data.json().msg[0]['result']);
-          this.navCtrl.setRoot(MessagesPage);
+           this.navCtrl.setRoot(MessagesPage);
 
         }
         // Otherwise let 'em know anyway
@@ -629,6 +629,7 @@ export class ComposePage {
               correctOrientation: true
             }
             this.camera.getPicture(options).then((imageURI) => {
+              //alert(imageURI);
               localStorage.setItem("receiptAttachPath", imageURI);
               console.log(imageURI);
               this.fileTrans(imageURI, micro_timestamp);
@@ -663,7 +664,7 @@ export class ComposePage {
 
 
             this.camera.getPicture(options).then((uri) => {
-              console.log(uri);
+              //alert(uri);
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -682,6 +683,7 @@ export class ComposePage {
             this.filechooser.open()
               .then(
                 uri => {
+                  //alert(uri);
                   console.log(uri);
                   this.fileTrans(uri, micro_timestamp);
                   this.addedAttachList = uri;
@@ -796,7 +798,7 @@ export class ComposePage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   getPrority(val) {
     console.log("getPrority function calling:-" + val);
@@ -868,7 +870,7 @@ export class ComposePage {
   }
 
   previous() {
-    this.navCtrl.setRoot(MessagesPage);
+     this.navCtrl.setRoot(MessagesPage);
   }
   // Remove an existing record that has been selected in the page's HTML form
   // Use angular's http post method to submit the record data

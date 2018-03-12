@@ -96,7 +96,11 @@ export class Config {
 
     monthdateyearformat(datestr) {
         let splithypen = datestr.split("-");//Y-m-d
-        return splithypen[1]+"-"+splithypen[2]+"-"+splithypen[0];
+        return splithypen[1] + "-" + splithypen[2] + "-" + splithypen[0];
+    }
+
+   consolePrint(print) {
+       // console.log(print)
     }
 
 }

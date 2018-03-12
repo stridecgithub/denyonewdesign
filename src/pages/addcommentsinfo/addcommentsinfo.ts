@@ -14,7 +14,7 @@ import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 declare var jQuery: any;
 declare var mention: any;
-
+import * as moment from 'moment';
 
 /**
  * Generated class for the addhocPage page.
@@ -140,16 +140,14 @@ export class AddcommentsinfoPage {
     this.apiServiceURL = conf.apiBaseURL();
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+
   }
   ionViewWillLeave() {
     //this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
-	
+
     let already = localStorage.getItem("microtime");
     if (already != undefined && already != 'undefined' && already != '') {
       this.micro_timestamp = already;
@@ -327,7 +325,7 @@ export class AddcommentsinfoPage {
             for (let staff in res.staffs) {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
-                name:res.staffs[staff].name,
+                name: res.staffs[staff].name,
               });
             }
           }
@@ -492,6 +490,13 @@ export class AddcommentsinfoPage {
   }
 
   saveEntry() {
+
+    var date = new Date();
+    let comment_date = moment().format();
+    let cmddte = comment_date.split("T")[0];
+    let cmdtme = comment_date.split("T")[1].substring(0, 5);
+    console.log(cmddte + " " + cmdtme);
+    comment_date = cmddte + " " + cmdtme;
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
@@ -503,10 +508,10 @@ export class AddcommentsinfoPage {
         let //comments: string = this.form.controls["comment_remark"].value,
           comment_subject: string = this.form.controls["comment_subject"].value;
         if (this.isEdited) {
-          this.updateEntry(comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
+          this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
         }
         else {
-          this.createEntry(comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
+          this.createEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
         }
       }
     }
@@ -517,9 +522,9 @@ export class AddcommentsinfoPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
-  createEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
+  createEntry(comment_date, comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
-   // comments = localStorage.getItem("atMentionResult");
+    // comments = localStorage.getItem("atMentionResult");
     if (this.service_priority == undefined) {
       this.service_priority = '0';
     }
@@ -533,6 +538,7 @@ export class AddcommentsinfoPage {
       "&comment_by=" + this.unitDetailData.userId +
       "&comment_subject=" + comment_subject +
       "&micro_timestamp=" + micro_timestamp +
+      "&comment_date=" + comment_date +
       "&uploadInfo=" + JSON.stringify(this.addedImgLists),
       //"&contact_number=" + this.contact_number +
       //"&contact_name=" + this.contact_name +
@@ -559,7 +565,7 @@ export class AddcommentsinfoPage {
           this.conf.sendNotification(data.json().msg[0].result);
 
           localStorage.setItem("atMentionResult", '');
-          this.navCtrl.push(CommentsinfoPage, {
+          this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -581,7 +587,7 @@ export class AddcommentsinfoPage {
   // to our remote PHP script (note the body variable we have created which
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
-  updateEntry(comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
+  updateEntry(comment_date, comments, comment_subject, addedImgLists, remarkget, micro_timestamp) {
     this.isSubmitted = true;
     // if (localStorage.getItem("atMentionResult") != '') {
     //   comments = localStorage.getItem("atMentionResult");
@@ -592,13 +598,15 @@ export class AddcommentsinfoPage {
     if (this.service_priority == 'undefined') {
       this.service_priority = 0;
     }
+
     let body: string = "is_mobile=1" +
       "&comment_remark=" + comments +
       "&comment_id=" + this.recordID +
       "&comment_priority=" + this.service_priority +
       "&comment_unit_id=" + this.comment_unitid +
       "&comment_by=" + this.unitDetailData.userId +
-      "&comment_subject=" + comment_subject +
+      "&comment_by=" + this.unitDetailData.userId +
+      "&comment_date=" + comment_date +
       "&micro_timestamp=" + micro_timestamp +
       "&uploadInfo=" + JSON.stringify(this.addedImgLists),
 
@@ -620,7 +628,7 @@ export class AddcommentsinfoPage {
           //this.conf.sendNotification(`Comments was successfully updated`);
           this.conf.sendNotification(data.json().msg[0].result);
           localStorage.setItem("atMentionResult", '');
-          this.navCtrl.push(CommentsinfoPage, {
+          this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -754,7 +762,7 @@ export class AddcommentsinfoPage {
 
 
   previous() {
-    this.navCtrl.push(CommentsinfoPage, {
+    this.navCtrl.setRoot(CommentsinfoPage, {
       record: this.NP.get("record")
     });
   }
