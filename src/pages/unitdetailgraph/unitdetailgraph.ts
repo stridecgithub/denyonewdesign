@@ -39,9 +39,7 @@ export class UnitdetailgraphPage {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platfom.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));
@@ -152,7 +150,7 @@ export class UnitdetailgraphPage {
     // Unit Details API Call
   }
   previous() {
-    this.navCtrl.setRoot(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.navParams.get("record"),
       tabs: 'dataView'
     });

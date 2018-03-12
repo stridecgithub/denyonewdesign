@@ -234,9 +234,7 @@ export class UnitdetailsPage {
 			this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
 		}
 
-		this.platform.registerBackButtonAction(() => {
-			this.previous();
-		});
+		
 
 		// Footer Menu Access - Start
 		let footeraccessstorage = localStorage.getItem("footermenu");
@@ -1468,7 +1466,7 @@ if(code=='oilpressure'){
 				});
 
 
-			this.navCtrl.setRoot(ServicinginfoPage, {
+			 this.navCtrl.setRoot(ServicinginfoPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1479,14 +1477,14 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ALARM LOG', this.rolePermissionMsg)
 		} else {
-			this.navCtrl.setRoot(AlarmPage, {
+			 this.navCtrl.setRoot(AlarmPage, {
 				record: this.NP.get("record")
 			});
 		}
 	}
 	commentsInfo(unitId, access) {
 		console.log(access);
-		//this.navCtrl.setRoot(MenuPage);
+		// this.navCtrl.setRoot(MenuPage);
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EVENTS/COMMENTS', this.rolePermissionMsg)
@@ -1516,7 +1514,7 @@ if(code=='oilpressure'){
 					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 				});
 
-			this.navCtrl.setRoot(CommentsinfoPage, {
+			 this.navCtrl.setRoot(CommentsinfoPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1567,7 +1565,7 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ALARM', this.rolePermissionMsg)
 		} else {
-			this.navCtrl.setRoot(AlarmlogPage, {
+			 this.navCtrl.setRoot(AlarmlogPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1581,21 +1579,21 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ENGINE DETAIL', this.rolePermissionMsg)
 		} else {
-			this.navCtrl.setRoot(EnginedetailviewPage, {
+			 this.navCtrl.setRoot(EnginedetailviewPage, {
 				record: this.NP.get("record")
 			});
 		}
-		//this.navCtrl.setRoot(MenuPage);
+		// this.navCtrl.setRoot(MenuPage);
 	}
 	previous() {
 		// if (this.timerswitch > 0) {
 		// 	this.subscription.unsubscribe();
 		// }
-		this.navCtrl.setRoot(UnitsPage);
+		 this.navCtrl.setRoot(UnitsPage);
 	}
 	notification() {
 		//this.subscription.unsubscribe();
-		this.navCtrl.setRoot(NotificationPage);
+		 this.navCtrl.setRoot(NotificationPage);
 	}
 
 
@@ -1610,7 +1608,7 @@ if(code=='oilpressure'){
 	viewunit() {
 		//this.subscription.unsubscribe();
 		/*
-			this.navCtrl.setRoot(ViewunitsPage, {
+			 this.navCtrl.setRoot(ViewunitsPage, {
 				record: this.NP.get("record")
 			});*/
 	}
@@ -1664,7 +1662,7 @@ if(code=='oilpressure'){
 
 					//this.conf.sendNotification(`Units was successfully deleted`);
 					this.conf.sendNotification(data.json().msg[0]['result']);
-					this.navCtrl.setRoot(UnitsPage);
+					 this.navCtrl.setRoot(UnitsPage);
 				}
 				// Otherwise let 'em know anyway
 				else {
@@ -1723,7 +1721,7 @@ if(code=='oilpressure'){
 			this.showAlert('EDIT', this.rolePermissionMsg)
 		} else {
 			console.log("Item From Do Action:" + JSON.stringify(item));
-			this.navCtrl.setRoot(AddUnitPage, {
+			 this.navCtrl.setRoot(AddUnitPage, {
 				record: item,
 				act: act,
 				unitId: unitId,
@@ -1770,7 +1768,7 @@ if(code=='oilpressure'){
 	}
 	showgraph(unit_id, graphname) {
 
-		this.navCtrl.setRoot(UnitdetailgraphPage, {
+		 this.navCtrl.setRoot(UnitdetailgraphPage, {
 			unit_id: unit_id,
 			graphname: graphname
 		});

@@ -92,13 +92,11 @@ export class MessagedetailPage {
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.close = 1;
     this.open = 0;
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
   action(item, action, from, replyall) {
     localStorage.setItem("microtime", '');
-    this.navCtrl.setRoot(ComposePage, {
+     this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
       from: from,
@@ -398,14 +396,14 @@ export class MessagedetailPage {
 
   previous() {
     if (this.navParams.get("frompage") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
+       this.navCtrl.setRoot(NotificationPage);
     } else {
       if (this.from == 'send') {
-        this.navCtrl.setRoot(MessagesPage, {
+         this.navCtrl.setRoot(MessagesPage, {
           fromtab: 'sentView'
         });
       } else {
-        this.navCtrl.setRoot(MessagesPage, {
+         this.navCtrl.setRoot(MessagesPage, {
           fromtab: 'inboxView'
         });
       }
@@ -527,7 +525,7 @@ export class MessagedetailPage {
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
          // this.conf.sendNotification('Favorite updated successfully');
-          // this.navCtrl.setRoot(MessagesPage);
+          //  this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -564,7 +562,7 @@ export class MessagedetailPage {
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
          // this.conf.sendNotification('Favorite updated successfully');
-          // this.navCtrl.setRoot(MessagesPage);
+          //  this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -621,7 +619,7 @@ export class MessagedetailPage {
           console.log('Enter');
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
-            this.navCtrl.setRoot(MessagesPage);
+             this.navCtrl.setRoot(MessagesPage);
           }
 
         }
@@ -777,7 +775,7 @@ export class MessagedetailPage {
       });
   }
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    this.navCtrl.setRoot(PreviewanddownloadPage, {
+     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -790,7 +788,7 @@ export class MessagedetailPage {
 
   doDetail(item, imagedata, frompage, from, favstatus, message_readstatus, messageid) {
     console.log(JSON.stringify(item));
-    this.navCtrl.setRoot(MessageDetailViewPage, {
+     this.navCtrl.setRoot(MessageDetailViewPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,

@@ -44,7 +44,7 @@ export class CompanygroupPage {
   {
     status: '',
     sort: 'companygroup_id',
-    sortascdesc: 'asc',
+    sortascdesc: 'desc',
     startindex: 0,
     results: 50
   }
@@ -276,17 +276,17 @@ export class CompanygroupPage {
   }
 
   doAdd() {
-    this.nav.setRoot(AddcompanygroupPage);
+     this.nav.setRoot(AddcompanygroupPage);
   }
   detail(item)
   {
-     this.nav.setRoot(CompanydetailPage, {
+      this.nav.setRoot(CompanydetailPage, {
        record: item       
       });
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AddcompanygroupPage, {
+       this.nav.setRoot(AddcompanygroupPage, {
         record: item,
         act: act
       });
@@ -432,10 +432,10 @@ export class CompanygroupPage {
 
  
   previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
   doSort() {
     let prompt = this.alertCtrl.create({

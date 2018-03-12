@@ -42,7 +42,7 @@ export class AdduserPage {
   public notcount: any;
   public borderbottomredvalidation: any;
   public contact: any;
- // public primary: any;
+  // public primary: any;
   public userId: any;
   public responseResultCountry: any;
   progress: number;
@@ -96,7 +96,13 @@ export class AdduserPage {
       "first_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
-      "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
+
+
+      // ^[0-9\-\+\s\(\)]*$
+
+
+      // "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
@@ -127,7 +133,7 @@ export class AdduserPage {
       footermenuacc = footeraccessstorage;
     }
 
-    
+
     // this.footerBar="0,"+footermenuacc;
 
     let footermenusplitcomma = footermenuacc.split(",");
@@ -137,11 +143,11 @@ export class AdduserPage {
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
 
-    
-    
-    
-   
-    
+
+
+
+
+
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
@@ -209,29 +215,29 @@ export class AdduserPage {
       pageComponent: 'OrgchartPage'
     });
 
-    
+
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-    
+
 
     // Footer Menu Access - End
 
   }
 
   matchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
-    console.log('A');
+    this.conf.consolePrint('A');
     return (group: FormGroup) => {
-      console.log('B');
+      this.conf.consolePrint('B');
       let passwordInput = group.controls[passwordKey];
       let passwordConfirmationInput = group.controls[passwordConfirmationKey];
       if (passwordInput.value !== passwordConfirmationInput.value) {
-        console.log('C');
+        this.conf.consolePrint('C');
         return passwordConfirmationInput.setErrors({ notEquivalent: true })
       }
     }
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddcompanygroupPage');
+    this.conf.consolePrint('ionViewDidLoad AddcompanygroupPage');
     this.pageLoad();
 
   }
@@ -253,7 +259,7 @@ export class AdduserPage {
       .subscribe(data => {
         res = data.json();
         this.responseResultRole = res.roles;
-        console.log(JSON.stringify(this.responseResultRole));
+        this.conf.consolePrint(JSON.stringify(this.responseResultRole));
         if (this.responseResultRole.length > 0) {
           for (let role in this.responseResultRole) {
 
@@ -277,26 +283,26 @@ export class AdduserPage {
       });
   }
   pageLoad() {
-  //  let companyid = '';
+    //  let companyid = '';
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+    this.conf.consolePrint(url);
+    // this.conf.consolePrint(body);
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+        this.conf.consolePrint("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
 
-    console.log(JSON.stringify(this.NP.get("record")));
+    this.conf.consolePrint(JSON.stringify(this.NP.get("record")));
     if (this.NP.get("record")) {
-      console.log("Add User:" + JSON.stringify(this.NP.get("record")));
+      this.conf.consolePrint("Add User:" + JSON.stringify(this.NP.get("record")));
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit User';
@@ -305,7 +311,7 @@ export class AdduserPage {
       if (this.NP.get("record").photo) {
         if (this.NP.get("record").photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
-          console.log(this.addedImgLists);
+          this.conf.consolePrint(this.addedImgLists);
         }
       }
       let editItem = this.NP.get("record");
@@ -317,8 +323,8 @@ export class AdduserPage {
       this.username = editItem.username;
       if (this.contact != undefined) {
         //let contactSplitSpace = this.contact.split(" ");
-       // this.primary = contactSplitSpace[0];
-       // this.contact = contactSplitSpace[1];
+        // this.primary = contactSplitSpace[0];
+        // this.contact = contactSplitSpace[1];
         this.contact = this.contact;
       }
       this.useriddisabled = true;
@@ -332,21 +338,21 @@ export class AdduserPage {
       let info = this.NP.get("uservalue");
       this.pageTitle = 'Edit User';
       //var objects = JSON.parse(info);
-      console.log("JSON.stringify:" + JSON.stringify(info));
-      console.log("Length:" + info.length);
-      console.log('A');
+      this.conf.consolePrint("JSON.stringify:" + JSON.stringify(info));
+      this.conf.consolePrint("Length:" + info.length);
+      this.conf.consolePrint('A');
       for (var key in info) {
-        console.log('B');
+        this.conf.consolePrint('B');
         let keyindex;
         if (this.NP.get("record")) {
           keyindex = 0;
         } else {
           keyindex = 1;
         }
-        console.log("Key:" + key);
-        console.log("Key Index:" + keyindex);
+        this.conf.consolePrint("Key:" + key);
+        this.conf.consolePrint("Key Index:" + keyindex);
         if (key == keyindex) {
-          console.log('Key' + key);
+          this.conf.consolePrint('Key' + key);
           this.first_name = info[key].first_name;
           this.last_name = info[key].last_name;
           this.email = info[key].email;
@@ -354,16 +360,16 @@ export class AdduserPage {
           this.contact = info[key].contact;
           this.photo = info[key].photo;
           if (this.contact != '') {
-           // let contactSplitSpace = this.contact.split(" ");
-           // this.primary = contactSplitSpace[0];
+            // let contactSplitSpace = this.contact.split(" ");
+            // this.primary = contactSplitSpace[0];
             //this.contact = contactSplitSpace[1];
             this.contact = this.contact;
           }
 
-          console.log("First Name for User Account:" + this.first_name);
-          //console.log(JSON.stringify(this));
+          this.conf.consolePrint("First Name for User Account:" + this.first_name);
+          //this.conf.consolePrint(JSON.stringify(this));
         } else {
-          console.log('Key' + key);
+          this.conf.consolePrint('Key' + key);
           this.first_name = info[0].first_name;
           this.last_name = info[0].last_name;
           this.email = info[0].email;
@@ -379,19 +385,19 @@ export class AdduserPage {
           }
 
 
-          console.log("First Name for User Account:" + this.first_name);
+          this.conf.consolePrint("First Name for User Account:" + this.first_name);
         }
         /* this.userInfo.push({
            info
          });
-         console.log("User Information:" + JSON.stringify(this.userInfo));
+         this.conf.consolePrint("User Information:" + JSON.stringify(this.userInfo));
          */
       }
 
       if (this.NP.get("uservalue")[0].photo) {
         if (this.NP.get("uservalue")[0].photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
-          console.log(this.addedImgLists);
+          this.conf.consolePrint(this.addedImgLists);
         }
       }
     }
@@ -403,13 +409,13 @@ export class AdduserPage {
   }
 
   getPrimaryContact(ev) {
-    console.log(ev.target.value);
+    this.conf.consolePrint(ev.target.value);
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      console.log('Reached five characters above');
+      this.conf.consolePrint('Reached five characters above');
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      console.log('Reached five characters below');
+      this.conf.consolePrint('Reached five characters below');
       this.borderbottomredvalidation = '';
     }
   }
@@ -422,7 +428,7 @@ export class AdduserPage {
     this.email = item.email;
     this.country = item.country;
     this.contact = item.contact_number;
-    console.log("Contact Number" + item.contact_number);
+    this.conf.consolePrint("Contact Number" + item.contact_number);
     // if (this.contact != '') {
     //   let contactSplitSpace = this.contact.split(" ");
     //   this.primary = contactSplitSpace[0];
@@ -433,7 +439,7 @@ export class AdduserPage {
     this.photo = item.photo;
     localStorage.setItem("photofromgallery", this.photo);
     this.recordID = item.staff_id;
-    console.log(this.recordID);
+    this.conf.consolePrint(this.recordID);
 
     this.username = item.username;
     this.password = item.password;
@@ -442,8 +448,8 @@ export class AdduserPage {
     this.role = item.role_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
-    console.log(this.company_group);
-    console.log(item.report_to);
+    this.conf.consolePrint(this.company_group);
+    this.conf.consolePrint(item.report_to);
     this.report_to = item.report_to;
     this.getUserListData();
 
@@ -468,34 +474,34 @@ export class AdduserPage {
 
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        console.log(JSON.stringify(data.json()));
+        this.conf.consolePrint(JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("create" + data.json().msg[0].Error);
-          console.log('1');
+          this.conf.consolePrint("create" + data.json().msg[0].Error);
+          this.conf.consolePrint('1');
           if (data.json().msg[0].Error > 0) {
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
             this.sendNotification(data.json().message);
-            console.log("create" + data.json().msg[0].Error);
-            console.log('2');
+            this.conf.consolePrint("create" + data.json().msg[0].Error);
+            this.conf.consolePrint('2');
             let uploadfromgallery = localStorage.getItem("photofromgallery");
 
             if (uploadfromgallery != undefined) {
-              console.log('A');
+              this.conf.consolePrint('A');
               this.photo = uploadfromgallery;
             }
             if (this.photo == undefined) {
-              console.log('B');
+              this.conf.consolePrint('B');
               this.photo = '';
             }
             if (this.photo == 'undefined') {
-              console.log('C');
+              this.conf.consolePrint('C');
               this.photo = '';
             }
             if (this.photo == '') {
-              console.log('D');
+              this.conf.consolePrint('D');
               this.photo = '';
             }
             contact = contact.replace("+", "%2B");
@@ -518,12 +524,12 @@ export class AdduserPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/store";
-            console.log(url);
-            console.log(body);
+            this.conf.consolePrint(url);
+            this.conf.consolePrint(body);
 
             this.http.post(url, body, options)
               .subscribe((data) => {
-                console.log("Response Success:" + JSON.stringify(data.json()));
+                this.conf.consolePrint("Response Success:" + JSON.stringify(data.json()));
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -568,19 +574,19 @@ export class AdduserPage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-      console.log('A');
+      this.conf.consolePrint('A');
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-      console.log('B');
+      this.conf.consolePrint('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-      console.log('C');
+      this.conf.consolePrint('C');
       this.photo = '';
     }
     if (this.photo == '') {
-      console.log('D');
+      this.conf.consolePrint('D');
       this.photo = '';
     }
 
@@ -592,10 +598,10 @@ export class AdduserPage {
       url1: any = this.apiServiceURL + "/checkusername";
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        console.log(JSON.stringify(data.json()));
+        this.conf.consolePrint(JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("update" + data.json().msg[0].Error);
+          this.conf.consolePrint("update" + data.json().msg[0].Error);
           if (data.json().msg[0].Error > 0) {
             //this.userInfo=[];
             this.sendNotification(data.json().msg[0].result);
@@ -623,11 +629,11 @@ export class AdduserPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/update";
-            console.log(url);
-            console.log(body);
+            this.conf.consolePrint(url);
+            this.conf.consolePrint(body);
             this.http.post(url, body, options)
               .subscribe(data => {
-                console.log(data);
+                this.conf.consolePrint(data);
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -696,7 +702,7 @@ export class AdduserPage {
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
       contact: string = this.form.controls["contact"].value,
-     // primary: string = this.form.controls["primary"].value,
+      // primary: string = this.form.controls["primary"].value,
       role: string = this.form.controls["role"].value,
       username: string = this.form.controls["username"].value,
       password: string = this.form.controls["password"].value,
@@ -707,7 +713,7 @@ export class AdduserPage {
 
     //contact = primary + " " + contact;
     contact = contact;
-    console.log(contact);
+    this.conf.consolePrint(contact);
     /*if (this.addedImgLists) {
       this.isUploadedProcessing = true;
     }*/
@@ -789,7 +795,7 @@ export class AdduserPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       // url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"comapnyid="+this.companyId;
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=";
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
     this.http.get(url, options)
       .subscribe(data => {
@@ -809,11 +815,11 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-      console.log("Report To API:" + url)
+      this.conf.consolePrint("Report To API:" + url)
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-          console.log(JSON.stringify(res));
+          this.conf.consolePrint(JSON.stringify(res));
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
@@ -821,7 +827,7 @@ export class AdduserPage {
           else {
             this.len = res.TotalCount;
           }
-          console.log("length" + res.TotalCount);
+          this.conf.consolePrint("length" + res.TotalCount);
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -834,13 +840,13 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-      console.log("Report To API:" + url)
+      this.conf.consolePrint("Report To API:" + url)
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-          console.log("length" + res.TotalCount);
+          this.conf.consolePrint("length" + res.TotalCount);
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -855,7 +861,7 @@ export class AdduserPage {
   }
 
   onSegmentChanged() {
-    console.log("ID" + this.company_group);
+    this.conf.consolePrint("ID" + this.company_group);
     this.getUserListData();
   }
   fileChooser() {
@@ -889,7 +895,7 @@ export class AdduserPage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-              console.log(imageURI);
+              this.conf.consolePrint(imageURI);
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -904,7 +910,7 @@ export class AdduserPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
+            this.conf.consolePrint('Camera clicked');
             // const options: CameraOptions = {
             //   quality: 25,
             //   destinationType: this.camera.DestinationType.FILE_URI,
@@ -925,7 +931,7 @@ export class AdduserPage {
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
-              console.log(uri);
+              this.conf.consolePrint(uri);
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -941,7 +947,7 @@ export class AdduserPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            this.conf.consolePrint('Cancel clicked');
           }
         }
       ]
@@ -955,8 +961,8 @@ export class AdduserPage {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let currentName = path.replace(/^.*[\\\/]/, '');
     this.photo = fileName;
-    console.log("currentName File Name is:" + currentName);
-    console.log("fileName File Name is:" + fileName);
+    this.conf.consolePrint("currentName File Name is:" + currentName);
+    this.conf.consolePrint("fileName File Name is:" + fileName);
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -976,20 +982,20 @@ export class AdduserPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-        console.log(JSON.stringify(data));
+        this.conf.consolePrint(JSON.stringify(data));
         localStorage.setItem("userPhotoFile", "");
-        console.log("UPLOAD SUCCESS:" + data.response);
+        this.conf.consolePrint("UPLOAD SUCCESS:" + data.response);
 
-        console.log("File Name:" + JSON.parse(data.response).name);
+        this.conf.consolePrint("File Name:" + JSON.parse(data.response).name);
 
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
+        this.conf.consolePrint("Upload Success Push" + JSON.stringify(this.userInfo));
 
-        console.log("Upload Success File Name" + this.userInfo[0].photo.name);
+        this.conf.consolePrint("Upload Success File Name" + this.userInfo[0].photo.name);
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
@@ -1006,11 +1012,11 @@ export class AdduserPage {
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
         //  this.conf.sendNotification(`User profile successfully updated`);
-        //this.nav.push(MyaccountPage);
+        // this.nav.setRoot(MyaccountPage);
 
       }, (err) => {
         //loading.dismiss();
-        console.log("Upload Error:");
+        this.conf.consolePrint("Upload Error:");
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }

@@ -163,11 +163,11 @@ export class EngineviewPage {
 
   }
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
   previous() {
-    this.navCtrl.setRoot(EnginedetailPage);
+     this.navCtrl.setRoot(EnginedetailPage);
   }
 }

@@ -69,10 +69,7 @@ export class AlarmPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
-
+    
     // Footer Menu Access - Start
   let footeraccessstorage = localStorage.getItem("footermenu");
   let footeraccessparams = this.navParams.get('footermenu');
@@ -161,6 +158,14 @@ export class AlarmPage {
   //let footerBar=this.footerBar.split(",");
 
   // Footer Menu Access - End
+
+  platform.registerBackButtonAction(() => {
+     this.navCtrl.setRoot(UnitdetailsPage, {
+      record: this.navParams.get("record"),
+      tabs: 'overView'
+    });
+  });
+
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));
@@ -380,7 +385,7 @@ export class AlarmPage {
     if (act == 'edit') {
 
       if (this.userId == '1') {
-        this.navCtrl.setRoot(AddalarmPage, {
+         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -388,13 +393,13 @@ export class AlarmPage {
         });
       } else {
         if (item.alarm_assginedby_name == '' && this.userId != '1') {
-          /*this.navCtrl.setRoot(AddalarmlistPage, {
+          /* this.navCtrl.setRoot(AddalarmlistPage, {
             record: item,
             act: act,
             from: 'alarm',
             unitid: unitid
           });*/
-          this.navCtrl.setRoot(AddalarmPage, {
+           this.navCtrl.setRoot(AddalarmPage, {
             record: item,
             act: act,
             from: 'alarm',
@@ -416,7 +421,7 @@ export class AlarmPage {
   }
 
   doAlarmLogDetail(item) {
-    this.navCtrl.setRoot(AlarmlogdetailsPage, {
+     this.navCtrl.setRoot(AlarmlogdetailsPage, {
       record: item
     });
   }
@@ -484,7 +489,7 @@ export class AlarmPage {
     prompt.present();
   }
   previous() {
-    this.navCtrl.setRoot(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'overView'
     });
@@ -493,23 +498,23 @@ export class AlarmPage {
     // let modal = this.modalCtrl.create(TrendlinePage, { alarmid: alarmid, record: item });
     // modal.present();
 
-    this.navCtrl.setRoot(TrendlinePage, {
+     this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid, record: item
     });
 
   }
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-    this.navCtrl.setRoot(UnitsPage);
+     this.navCtrl.setRoot(UnitsPage);
   }
 
   redirectCalendar() {
-    this.navCtrl.setRoot(CalendarPage);
+     this.navCtrl.setRoot(CalendarPage);
   }
   redirectToSettings() {
-    this.navCtrl.setRoot(OrgchartPage);
+     this.navCtrl.setRoot(OrgchartPage);
   }
 
 }

@@ -41,7 +41,7 @@ export class ReporttemplatePage {
     {
       status: '',
       sort: 'unitgroup_id',
-      sortascdesc: 'asc',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 8
     }
@@ -281,7 +281,7 @@ export class ReporttemplatePage {
     notification.present();
   }
   doAdd(availableheading) {
-    this.nav.setRoot(AddreporttemplatePage, {
+     this.nav.setRoot(AddreporttemplatePage, {
       availableheading: availableheading
     });
   }
@@ -329,7 +329,7 @@ export class ReporttemplatePage {
   }
   doEdit(item, act, availableheading) {
     if (act == 'edit') {
-      this.nav.setRoot(AddreporttemplatePage, {
+       this.nav.setRoot(AddreporttemplatePage, {
         record: item,
         act: act,
         availableheading: availableheading
@@ -339,14 +339,14 @@ export class ReporttemplatePage {
 
 
   previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 
   reportdetail(templatename, templatedata) {
-    this.nav.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
+     this.nav.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
   }
 
 

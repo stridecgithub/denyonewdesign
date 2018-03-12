@@ -103,9 +103,7 @@ export class AddalarmPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
 
@@ -368,9 +366,9 @@ export class AddalarmPage {
             localStorage.setItem("userPhotoFile", "");
            // localStorage.setItem("atMentionResult", '');
             if (this.NP.get("from") == 'alarm') {
-              this.navCtrl.setRoot(AlarmPage);
+               this.navCtrl.setRoot(AlarmPage);
             } else {
-              this.navCtrl.setRoot(AlarmlogPage);
+               this.navCtrl.setRoot(AlarmlogPage);
             }
           }
           // Otherwise let 'em know anyway
@@ -394,32 +392,32 @@ export class AddalarmPage {
   previous() {
     console.log("From is:" + this.NP.get("from"));
     if (this.NP.get("from") == 'alarm') {
-      this.navCtrl.setRoot(AlarmPage,
+       this.navCtrl.setRoot(AlarmPage,
         {
           record: this.NP.get("record")
         });
     }
     else if (this.NP.get("from") == 'alarmlog') {
-      this.navCtrl.setRoot(AlarmlogPage,
+       this.navCtrl.setRoot(AlarmlogPage,
         {
           record: this.NP.get("record")
         });
     } else if (this.NP.get("from") == 'comment') {
-      this.navCtrl.setRoot(CommentsinfoPage);
+       this.navCtrl.setRoot(CommentsinfoPage);
     } else if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(CommentsinfoPage);
+       this.navCtrl.setRoot(CommentsinfoPage);
     } else {
 
     }
     console.log(this.navCtrl.getActive().name);
-    /* this.navCtrl.setRoot(AlarmPage, {
+    /*  this.navCtrl.setRoot(AlarmPage, {
        record: this.NP.get("record"),
        from: 'addalarm',
      });*/
   }
 
   trendlineInfo(alarmid, item) {
-    this.navCtrl.setRoot(TrendlinePage, {
+     this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid,
       record: item,
       from: this.NP.get("from")

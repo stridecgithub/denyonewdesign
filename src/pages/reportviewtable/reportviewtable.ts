@@ -300,7 +300,7 @@ export class ReportviewtablePage {
           console.log("Report Preview Success Response:-" + JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
-            this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
             this.download(1);
@@ -400,7 +400,7 @@ export class ReportviewtablePage {
             console.log("Report Preview Success Response:-" + JSON.stringify(res));
             if (seltypeBtn == '1') {
               this.success = 1;
-              this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
             }
             if (res.totalcount > 0) {
               // this.download(2);
@@ -472,11 +472,11 @@ export class ReportviewtablePage {
     }
   }
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
   previous() {
-    this.navCtrl.setRoot(ReportsPage, {
+     this.navCtrl.setRoot(ReportsPage, {
       selunit: this.NP.get("selunit"),
       seltemplate: this.NP.get("seltemplate"),
       seltimeframe: this.NP.get("seltimeframe"),

@@ -246,11 +246,11 @@ export class RolePage {
 
 
   doAdd() {
-    this.nav.setRoot(AddrolePage);
+     this.nav.setRoot(AddrolePage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AddrolePage, {
+       this.nav.setRoot(AddrolePage, {
         record: item,
         act: act
       });
@@ -373,10 +373,10 @@ export class RolePage {
     }
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
   previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }
 
 }

@@ -1157,7 +1157,7 @@ export class AddrolePage {
           } else {
             //this.sendNotification(data.json().message);
             this.sendNotification(`Role  was successfully added`);
-            this.navCtrl.setRoot(RolePage);
+             this.navCtrl.setRoot(RolePage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1193,7 +1193,7 @@ export class AddrolePage {
           } else {
             //this.sendNotification(data.json().message);
             this.sendNotification(`Role  was successfully updated`);
-            this.navCtrl.setRoot(RolePage);
+             this.navCtrl.setRoot(RolePage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1536,12 +1536,12 @@ export class AddrolePage {
     notification.present();
   }
   previous() {
-    this.navCtrl.setRoot(RolePage);
+     this.navCtrl.setRoot(RolePage);
   }
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
  
 

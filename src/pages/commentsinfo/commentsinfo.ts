@@ -33,8 +33,8 @@ export class CommentsinfoPage {
   public reportData: any =
     {
       status: '',
-      sort: 'comment',
-      sortascdesc: 'asc',
+      sort: 'comment_id',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 50
     }
@@ -54,7 +54,7 @@ export class CommentsinfoPage {
   public reportAllLists = [];
   public loginas: any;
   public udetails: any;
- 
+
   public COMMENTCREATEACCESS: any;
   public COMMENTEDITACCESS: any;
   public COMMENTDELETEACCESS: any;
@@ -68,18 +68,24 @@ export class CommentsinfoPage {
   public sortLblTxt: string = 'Comment';
   constructor(public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
+
+    platform.registerBackButtonAction(() => {
+       this.navCtrl.setRoot(UnitdetailsPage, {
+        record: this.navParams.get("record"),
+        tabs: 'overView'
+      });
+    });
+
     this.pageTitle = 'Comments';
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.udetails = localStorage.getItem("unitdetails");
-   
+
     this.COMMENTCREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
     this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
     this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+
 
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
@@ -181,7 +187,7 @@ export class CommentsinfoPage {
     modal.present();
   }
   doAlarmView(event_id, event_type) {
-    this.navCtrl.setRoot(EventDetailsPage, {
+     this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       from: 'commentinfo'
@@ -191,7 +197,7 @@ export class CommentsinfoPage {
 
 
   doServiceView(event_id, event_type, eventdata) {
-    this.navCtrl.setRoot(ServicingDetailsPage, {
+     this.navCtrl.setRoot(ServicingDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata,
@@ -205,7 +211,7 @@ export class CommentsinfoPage {
     console.log("Event Id" + event_id);
     console.log("event_type" + event_type);
     console.log("eventdata" + JSON.stringify(eventdata));
-    this.navCtrl.setRoot(CommentdetailsPage, {
+     this.navCtrl.setRoot(CommentdetailsPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata,
@@ -381,7 +387,7 @@ export class CommentsinfoPage {
 
   previous() {
 
-    this.navCtrl.push(UnitdetailsPage, {
+     this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });
@@ -392,7 +398,7 @@ export class CommentsinfoPage {
     this.comments = '';
     this.addedImgLists = [];
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(AddcommentsinfoPage, {
+     this.navCtrl.setRoot(AddcommentsinfoPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -407,7 +413,7 @@ export class CommentsinfoPage {
     if (type.toLowerCase() == 'c') {
       console.log("comment")
       localStorage.setItem("microtime", "");
-      this.navCtrl.setRoot(AddcommentsinfoPage, {
+       this.navCtrl.setRoot(AddcommentsinfoPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -415,13 +421,13 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 's') {
-      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //  this.navCtrl.setRoot(ServicingDetailsPage, {
       //   record: item,
 
       //   from: 'commentinfo',
       // });
 
-      this.navCtrl.setRoot(ServicedetailsPage, {
+       this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -431,13 +437,13 @@ export class CommentsinfoPage {
     }
 
     if (type.toLowerCase() == 'r') {
-      // this.navCtrl.setRoot(ServicingDetailsPage, {
+      //  this.navCtrl.setRoot(ServicingDetailsPage, {
       //   record: item,
       //   act: 'Edit',
       //   from: 'commentinfo',
       // });
 
-      this.navCtrl.setRoot(ServicedetailsPage, {
+       this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -450,7 +456,7 @@ export class CommentsinfoPage {
       console.log("Alarm")
       // localStorage.setItem("microtime", "");
       if (item.alarm_assigned_to == '') {
-        this.navCtrl.setRoot(AddalarmPage, {
+         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'commentinfo',
@@ -473,14 +479,14 @@ export class CommentsinfoPage {
   console.log(type);
   if (type.toLowerCase() == 'c') {
     localStorage.setItem("microtime", "");
-    this.navCtrl.push(CommentdetailsPage, {
+     this.navCtrl.setRoot(CommentdetailsPage, {
       record: item,
       act: 'Edit'
     });
   }
  if (type.toLowerCase() == 's') {
     localStorage.setItem("microtime", "");
-    this.navCtrl.push(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from:'comment'
@@ -488,7 +494,7 @@ export class CommentsinfoPage {
   }
   if (type.toLowerCase() == 'r') {
     localStorage.setItem("microtime", "");
-    this.navCtrl.push(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from:'comment'
@@ -496,7 +502,7 @@ export class CommentsinfoPage {
   }
   if(type.toLowerCase()=='a')
   {
-    this.navCtrl.push(AlarmlistdetailPage, {
+     this.navCtrl.setRoot(AlarmlistdetailPage, {
       record: item,
       act: act,
       from:'comment'

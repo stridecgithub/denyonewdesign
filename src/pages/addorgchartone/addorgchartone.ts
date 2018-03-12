@@ -82,7 +82,8 @@ export class AddorgchartonePage {
       "first_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
-      "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
+      //"contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
      // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
@@ -234,7 +235,7 @@ export class AddorgchartonePage {
           this.sendNotification(data.json().msg[0].result);
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
-          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
+           this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {
@@ -293,7 +294,7 @@ export class AddorgchartonePage {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
           this.sendNotification(data.json().msg[0].result);
-          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
+           this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {
@@ -363,10 +364,10 @@ export class AddorgchartonePage {
     notification.present();
   }
   previous() {
-    this.nav.setRoot(OrgchartPage);
+     this.nav.setRoot(OrgchartPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 
   getCompanyGroupListData() {
@@ -582,7 +583,7 @@ export class AddorgchartonePage {
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
         //  this.conf.sendNotification(`User profile successfully updated`);
-        //this.nav.push(MyaccountPage);
+        // this.nav.setRoot(MyaccountPage);
 
       }, (err) => {
         //loading.dismiss();

@@ -266,13 +266,13 @@ export class AddalarmlistPage {
             localStorage.setItem("userPhotoFile", "");
             
             if (this.NP.get("record") == 'alarm') {
-             this.navCtrl.setRoot(AlarmPage,
+              this.navCtrl.setRoot(AlarmPage,
                 {
                   record: this.NP.get("record")
                 });
             }
             else {
-             this.navCtrl.setRoot(CommentsinfoPage);
+              this.navCtrl.setRoot(CommentsinfoPage);
             }
           }
           // Otherwise let 'em know anyway
@@ -289,7 +289,7 @@ export class AddalarmlistPage {
  
   }
   notification() {
-   this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   
 }

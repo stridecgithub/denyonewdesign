@@ -45,67 +45,32 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-
-
-    // Atmentioned API Calls
-    /* let
-       //body: string = "key=delete&recordID=" + recordID,
-       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-       headers: any = new Headers({ 'Content-Type': type }),
-       options: any = new RequestOptions({ headers: headers }),
-       url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=message&companyId=1&userId=1";
-     console.log(url);
-     this.http.get(url, options)
-       .subscribe(data => {
-         // If the request was successful notify the user
-         if (data.status === 200) {
-           this.atmentioneddata = data.json();
-           console.log(this.atmentioneddata);
-           jQuery('#inputbox').triggeredAutocomplete({
-             hidden: '#hidden_inputbox',
-             source: this.atmentioneddata
-           });
-         }
-         // Otherwise let 'em know anyway
-         else {
-           this.conf.sendNotification('Something went wrong!');
-         }
-       }, error => {
- 
-       })
-       */
-    // Atmentioned API Calls
-
-
-
-
-
-    console.log('ionViewDidLoad LoginPage');
+    this.conf.consolePrint('ionViewDidLoad LoginPage');
 
     this.userId = localStorage.getItem("userInfoId");
-    console.log("login.ts userid:" + this.userId);
+    this.conf.consolePrint("login.ts userid:" + this.userId);
     if (this.userId == 'undefined') {
       this.userId = '';
-      console.log("login.ts  A");
+      this.conf.consolePrint("login.ts  A");
     }
     if (this.userId == 'null') {
       this.userId = '';
-      console.log("login.ts B");
+      this.conf.consolePrint("login.ts B");
     }
     if (this.userId == null) {
       this.userId = '';
-      console.log("login.ts C");
+      this.conf.consolePrint("login.ts C");
     }
     if (this.userId == undefined) {
       this.userId = '';
-      console.log("login.ts D");
+      this.conf.consolePrint("login.ts D");
     }
-    console.log("Finally" + this.userId);
+    this.conf.consolePrint("Finally" + this.userId);
     if (this.userId > 0) {
-      console.log("login.ts E");
-      console.log("login.ts  User id logged out action from dashboard.ts");
+      this.conf.consolePrint("login.ts E");
+      this.conf.consolePrint("login.ts  User id logged out action from dashboard.ts");
       this.events.publish('menu:created', 'dashboard', Date.now());
-      this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
+       this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
     }
 
   }
@@ -114,13 +79,13 @@ export class LoginPage {
   gotoDashboard(username, password) {
     let device_token = localStorage.getItem("deviceTokenForPushNotification");
     let res;
-    console.log("dev token:" + device_token)
+    this.conf.consolePrint("dev token:" + device_token)
     if (device_token == 'null') {
-      console.log("A" + device_token)
+      this.conf.consolePrint("A" + device_token)
       device_token = '';
     }
     if (device_token == null) {
-      console.log("B" + device_token)
+      this.conf.consolePrint("B" + device_token)
       device_token = '';
     }
     let body: string = "username=" + username +
@@ -131,11 +96,11 @@ export class LoginPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/checklogin";
-    console.log(url + '?' + body);
+    this.conf.consolePrint(url + '?' + body);
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
+        this.conf.consolePrint(JSON.stringify(res));
         if (res.msg[0]['Error'] > 0) {
           this.conf.sendNotification(res.msg[0]['result']);
           return false;
@@ -153,17 +118,17 @@ export class LoginPage {
           localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
           localStorage.setItem("leftmenu", JSON.stringify(res['leftmenu']));
           localStorage.setItem("footermenu", res['footermenu']);
-          console.log(JSON.stringify(res['roledata']));
+          this.conf.consolePrint(JSON.stringify(res['roledata']));
           localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));
           localStorage.setItem("roleactionpermissiondata", JSON.stringify(res['roleactionpermissiondata']));
 
           let roleData = localStorage.getItem("RolePermissionData");
           let roleparseData = JSON.parse(roleData);
 
-          console.log("Loop Length is:" + res['roleactionpermissiondata'].length);
+          this.conf.consolePrint("Loop Length is:" + res['roleactionpermissiondata'].length);
           for (let rle = 0; rle < res['roleactionpermissiondata'].length; rle++) {
             let splitvalue = res['roleactionpermissiondata'][rle].toString().split(",");
-            console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
+            this.conf.consolePrint(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
             let firstvaluesplit = splitvalue[0].split(":");
             let secondvaluesplit = splitvalue[1].split(":");
             let thirdvaluesplit = splitvalue[2].split(":");
@@ -173,31 +138,31 @@ export class LoginPage {
 
             let firstvaluename = firstvaluesplit[0];
             let firstvaluedata = firstvaluesplit[1];
-            console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
+            this.conf.consolePrint("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
             localStorage.setItem(firstvaluename.toUpperCase(), firstvaluedata);
 
 
             let secondvaluename = secondvaluesplit[0];
             let secondvaluedata = secondvaluesplit[1];
-            console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
+            this.conf.consolePrint("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
             localStorage.setItem(secondvaluename.toUpperCase(), secondvaluedata);
 
 
             let thirdvaluename = thirdvaluesplit[0];
             let thirdvaluedata = thirdvaluesplit[1];
-            console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
+            this.conf.consolePrint("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
             localStorage.setItem(thirdvaluename.toUpperCase(), thirdvaluedata);
 
 
             let fourthvaluename = fourthvaluesplit[0];
             let fourthvaluedata = fourthvaluesplit[1];
-            console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
+            this.conf.consolePrint("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
             localStorage.setItem(fourthvaluename.toUpperCase(), fourthvaluedata);
 
 
             let fivthvaluename = fivthvaluesplit[0];
             let fivthvaluedata = fivthvaluesplit[1];
-            console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
+            this.conf.consolePrint("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
             localStorage.setItem(fivthvaluename.toUpperCase(), fivthvaluedata);
           }
           /*
@@ -317,7 +282,7 @@ export class LoginPage {
 
               // 1 - Parent Module Dashboard
               if (roleparseData[rle]['page_name'] == '8' && roleparseData[rle]['module_name'] == '1') {
-                console.log('Kannan for roles');
+                this.conf.consolePrint('Kannan for roles');
                 localStorage.setItem("DASHBOARD_MAP_VIEW", roleparseData[rle]['view_action']);
               }
 
@@ -429,11 +394,11 @@ export class LoginPage {
           this.createUser(res['staffdetails'][0]);
           this.nativeStorage.setItem('menuItem', { profilePhoto: res['staffdetails'][0].photo, firstname: res['staffdetails'][0].firstname, lastname: res['staffdetails'][0].lastname, companyGroupName: res['staffdetails'][0].companygroup_name })
             .then(
-            () => console.log('Stored item!'),
+            () => this.conf.consolePrint('Stored item!'),
             error => console.error('Error storing item', error)
             );
           this.events.publish('menu:created', 'dashboard', Date.now());
-          this.navCtrl.setRoot(DashboardPage, {
+           this.navCtrl.setRoot(DashboardPage, {
             companyId: res['staffdetails'][0].company_id,
             userId: res['staffdetails'][0].staff_id,
             footermenu: res['footermenu'],
@@ -442,16 +407,16 @@ export class LoginPage {
 
       },
       error => {
-        console.log("\n" + error);
+        this.conf.consolePrint("\n" + error);
       });
   }
   createUser(user) {
-    console.log('User created!' + console.log(user))
+    this.conf.consolePrint('User created!' + this.conf.consolePrint(user))
     this.events.publish('user:created', user, Date.now());
   }
 
   doMove() {
-    this.navCtrl.push(ForgotpasswordPage);
+     this.navCtrl.setRoot(ForgotpasswordPage);
   }
 
 

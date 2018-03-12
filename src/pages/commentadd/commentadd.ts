@@ -24,7 +24,7 @@ export class CommentaddPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(CommentviewPage);
+     this.navCtrl.setRoot(CommentviewPage);
   }
 
 }

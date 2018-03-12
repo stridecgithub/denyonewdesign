@@ -129,7 +129,7 @@ export class EventsandcommentsPage {
     } else {
       this.events.subscribe('user:created', (user, time) => {
         // user and time are the same arguments passed in `events.publish(user, time)`
-        console.log('Welcome', user, 'at', time);
+       
         console.log("Company Id:" + user.company_id);
         this.companyId = user.company_id;
         this.userId = user.staff_id
@@ -304,12 +304,12 @@ export class EventsandcommentsPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
   messages() {
-    this.navCtrl.setRoot(MessagesPage);
+     this.navCtrl.setRoot(MessagesPage);
   }
 
   // Favorite Action
@@ -439,7 +439,7 @@ export class EventsandcommentsPage {
         // JSON data
         let res = data.json();
         console.log("Total Count:" + res.totalCount);
-        console.log(res, res.trippedcount);
+       
 
         if (res.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
@@ -993,7 +993,7 @@ export class EventsandcommentsPage {
   }
   doAction(item, act, unitId) {
     if (act == 'edit') {
-      this.navCtrl.setRoot(AddUnitPage, {
+       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
         act: act,
         unitId: unitId,
@@ -1046,12 +1046,12 @@ export class EventsandcommentsPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
-      this.navCtrl.setRoot(UnitdetailsPage, {
+       this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
     } else {
-      /* this.navCtrl.setRoot(ViewcompanygroupPage, {
+      /*  this.navCtrl.setRoot(ViewcompanygroupPage, {
          record: item,
          act: act
        });
@@ -1059,7 +1059,7 @@ export class EventsandcommentsPage {
     }
   }
   pushTesting() {
-    this.navCtrl.setRoot(MessageDetailViewPage, {
+     this.navCtrl.setRoot(MessageDetailViewPage, {
       event_id: 10,
       from: 'push'
     });
@@ -1084,26 +1084,26 @@ export class EventsandcommentsPage {
   }
 
   previous() {
-    this.navCtrl.setRoot(ReportsPage);
+     this.navCtrl.setRoot(ReportsPage);
   }
 
   eventview() {
-    this.navCtrl.setRoot(EventviewPage);
+     this.navCtrl.setRoot(EventviewPage);
   }
 
   commentview() {
-    this.navCtrl.setRoot(CommentviewPage);
+     this.navCtrl.setRoot(CommentviewPage);
   }
   eventedit() {
-  	this.navCtrl.setRoot(EventeditPage);
+  	 this.navCtrl.setRoot(EventeditPage);
   }
   eventadd() {
-    this.navCtrl.setRoot(EventaddPage);
+     this.navCtrl.setRoot(EventaddPage);
   }
   commentadd() {
-    this.navCtrl.setRoot(CommentaddPage);
+     this.navCtrl.setRoot(CommentaddPage);
   }
   replycomment() {
-    this.navCtrl.setRoot(CommentreplyPage);
+     this.navCtrl.setRoot(CommentreplyPage);
   }
 }

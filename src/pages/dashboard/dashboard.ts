@@ -63,7 +63,7 @@ export class DashboardPage {
   public reportData: any =
     {
       status: '',
-      sort: 'favorite',
+      sort: 'unit_id',
       sortascdesc: 'desc',
       startindex: 0,
       results: 8
@@ -197,26 +197,7 @@ export class DashboardPage {
       this.previousPage = this.navCtrl.getActive().name;
       console.log('Currant Pagename' + this.previousPage);
       this.tabIndexVal = localStorage.getItem("tabIndex");
-      this.platform.registerBackButtonAction(() => {
-        let userId = localStorage.getItem("userInfoId");
-        if (userId == '') {
-          console.log("User id logged out");
-          this.navCtrl.setRoot(LoginPage);
-        }
-        console.log('3:registerBackButtonAction');
-        if (this.navCtrl.canGoBack()) {
-          console.log('4:canGoBack if');
-          this.navCtrl.pop();
-        } else {
-          console.log('5:canGoBack else');
-          if (this.alert) {
-            this.alert.dismiss();
-            this.alert = null;
-          } else {
-            this.showAlertExist();
-          }
-        }
-      });
+      
       this.initPushNotification();
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -270,28 +251,7 @@ export class DashboardPage {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
-  showAlertExist() {
-    this.alert = this.alertCtrl.create({
-      title: 'Exit?',
-      message: 'Do you want to exit the app?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.alert = null;
-          }
-        },
-        {
-          text: 'Exit',
-          handler: () => {
-            this.platform.exitApp();
-          }
-        }
-      ]
-    });
-    this.alert.present();
-  }
+  
 
 
   displayNetworkUpdate(connectionState: string) {
@@ -425,7 +385,7 @@ export class DashboardPage {
     } else {
       this.events.subscribe('user:created', (user, time) => {
         // user and time are the same arguments passed in `events.publish(user, time)`
-        console.log('Welcome', user, 'at', time);
+        
         console.log("Company Id:" + user.company_id);
         this.companyId = user.company_id;
         this.userId = user.staff_id
@@ -633,12 +593,12 @@ export class DashboardPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
 
   messages() {
-    this.navCtrl.setRoot(MessagesPage);
+     this.navCtrl.setRoot(MessagesPage);
   }
 
   // Favorite Action
@@ -769,7 +729,7 @@ export class DashboardPage {
         let res = data.json();
         console.log("Total Count:" + res.totalCount);
         this.totalCount = res.totalCount;
-        console.log(res, res.trippedcount);
+       
 
         if (res.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
@@ -1328,7 +1288,7 @@ export class DashboardPage {
   }
   doAction(item, act, unitId) {
     if (act == 'edit') {
-      this.navCtrl.setRoot(AddUnitPage, {
+       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
         act: act,
         unitId: unitId,
@@ -1381,12 +1341,12 @@ export class DashboardPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
-      this.navCtrl.setRoot(UnitdetailsPage, {
+       this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
     } else {
-      /* this.navCtrl.setRoot(ViewcompanygroupPage, {
+      /*  this.navCtrl.setRoot(ViewcompanygroupPage, {
          record: item,
          act: act
        });
@@ -1394,7 +1354,7 @@ export class DashboardPage {
     }
   }
   pushTesting() {
-    this.navCtrl.setRoot(MessageDetailViewPage, {
+     this.navCtrl.setRoot(MessageDetailViewPage, {
       event_id: 10,
       from: 'push'
     });
@@ -1450,7 +1410,7 @@ export class DashboardPage {
 
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('notification').subscribe((notification: any) => {
-      console.log('Received a new notification in tab page', notification);
+     
       console.log(notification.additionalData.arrayval.type);
       this.pushnotifycount = 0;
       if (notification.additionalData.arrayval.type == 'M') {
@@ -1467,8 +1427,7 @@ export class DashboardPage {
 
     pushObject.on('registration').subscribe((registration: any) => {
 
-      console.log('Device registered', registration);
-      console.log('Device Json registered', JSON.stringify(registration));
+    
       localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
     }
     );
@@ -1503,36 +1462,36 @@ export class DashboardPage {
       console.log(navtypes);
 
       if (navtypes == 'M') {
-        this.navCtrl.setRoot(MessageDetailViewPage, {
+         this.navCtrl.setRoot(MessageDetailViewPage, {
           event_id: navids,
           from: 'push'
         });
       }
       else if (navtypes == 'OA') {
-        this.navCtrl.setRoot(EventDetailsPage, {
+         this.navCtrl.setRoot(EventDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
       } else if (navtypes == 'A') {
-        this.navCtrl.setRoot(EventDetailsPage, {
+         this.navCtrl.setRoot(EventDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
         localStorage.setItem("fromModule", "AlarmdetailsPage");
       } else if (navtypes == 'C') {
-        this.navCtrl.setRoot(CommentdetailsPage, {
+         this.navCtrl.setRoot(CommentdetailsPage, {
           event_id: navids,
           from: 'Push'
         });
         localStorage.setItem("fromModule", "CommentdetailsPage");
       } else if (navtypes == 'E') {
-        this.navCtrl.setRoot(EventDetailsEventPage, {
+         this.navCtrl.setRoot(EventDetailsEventPage, {
           event_id: navids,
           from: 'Push',
         });
         localStorage.setItem("fromModule", "CalendardetailPage");
       } else if (navtypes == 'S') {
-        this.navCtrl.setRoot(ServicingDetailsPage, {
+         this.navCtrl.setRoot(ServicingDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
@@ -1545,8 +1504,8 @@ export class DashboardPage {
   }
 
   pushNavigationTeseting() {
-    this.navCtrl.setRoot(ServicingDetailsPage, {
-      event_id:49,
+     this.navCtrl.setRoot(ServicingDetailsPage, {
+      event_id:72,
       from: 'Push'
     });
   }

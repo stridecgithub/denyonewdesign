@@ -185,9 +185,7 @@ export class ServicedetailsPage {
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
 
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   maxDateStr() {
@@ -744,11 +742,11 @@ export class ServicedetailsPage {
           localStorage.setItem("atMentionResult", '');
 
           if (this.NP.get("from") == 'commentinfo') {
-            this.navCtrl.setRoot(CommentsinfoPage, {
+             this.navCtrl.setRoot(CommentsinfoPage, {
               record: this.NP.get("record")
             });
           } else {
-            this.navCtrl.setRoot(ServicinginfoPage, {
+             this.navCtrl.setRoot(ServicinginfoPage, {
               record: this.NP.get("record")
             });
           }
@@ -820,7 +818,7 @@ export class ServicedetailsPage {
 
           this.conf.sendNotification(data.json().msg[0]['result']);
           localStorage.setItem("atMentionResult", '');
-          this.navCtrl.setRoot(ServicinginfoPage, {
+           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -950,17 +948,17 @@ export class ServicedetailsPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
     else if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(CommentsinfoPage, {
+       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.NP.get("record")
       });
     }
     else {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -1205,10 +1203,10 @@ export class ServicedetailsPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-    this.navCtrl.setRoot(UnitsPage);
+     this.navCtrl.setRoot(UnitsPage);
   }
 
 

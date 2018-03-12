@@ -30,6 +30,6 @@ export class ReportviewPage {
     console.log('ionViewDidLoad ReportviewPage');
   }
   previous() {
-    this.navCtrl.setRoot(ReportsPage);
+     this.navCtrl.setRoot(ReportsPage);
   }
 }

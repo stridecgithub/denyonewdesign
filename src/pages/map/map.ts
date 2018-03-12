@@ -4,7 +4,7 @@ import {  Platform } from 'ionic-angular';
 
 
 declare var google: any;
-
+import { Config } from '../../config/config';
 
 @Component({
   selector: 'page-map',
@@ -13,7 +13,7 @@ declare var google: any;
 export class MapPage {
   public mapData = [];
   @ViewChild('mapCanvas') mapElement: ElementRef;
-  constructor( public platform: Platform) {
+  constructor(private conf: Config, public platform: Platform) {
   }
 
   ionViewDidLoad() {

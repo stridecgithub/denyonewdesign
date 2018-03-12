@@ -83,51 +83,51 @@ export class ProgressBarComponent {
     console.log("Footer Menu Access for Messagees" + messageAccess);
     console.log("Footer Menu Access for Org Chart" + orgchartAccess);
     if (dashboardAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else if (unitAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else if (calendarAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else if (messageAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else if (orgchartAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
+       this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else {
       if (page == 'DashboardPage') {
         this.dashboardhighlight = 1;
         this.events.publish('menu:created', 'dashboard', Date.now());
         this.tabSelection(0);
-        this.navCtrl.setRoot(DashboardPage, { dashboardselected: this.dashboardhighlight });
+         this.navCtrl.setRoot(DashboardPage, { dashboardselected: this.dashboardhighlight });
         return false;
       }
       if (page == 'UnitsPage') {
         this.unitshighlight = 1;
         this.events.publish('menu:created', 'units', Date.now());
         this.tabSelection(1);
-        this.navCtrl.setRoot(UnitsPage, { dashboardselected: this.dashboardhighlight });
+         this.navCtrl.setRoot(UnitsPage, { dashboardselected: this.dashboardhighlight });
       }
       if (page == 'CalendarPage') {
         this.calendarhighlight = 1;
         this.tabSelection(2);
         this.events.publish('menu:created', 'calendar', Date.now());
-        this.navCtrl.setRoot(CalendarPage), { dashboardselected: this.dashboardhighlight };
+         this.navCtrl.setRoot(CalendarPage), { dashboardselected: this.dashboardhighlight };
       }
       if (page == 'MessagePage') {
         this.tabSelection(3);
         this.events.publish('menu:created', 'message', Date.now());
         this.messagehighlight = 1;
-        this.navCtrl.setRoot(MessagesPage, { dashboardselected: this.dashboardhighlight });
+         this.navCtrl.setRoot(MessagesPage, { dashboardselected: this.dashboardhighlight });
       }
       if (page == 'OrgchartPage') {
         this.tabSelection(4);
         this.events.publish('menu:created', 'orgchart', Date.now());
         this.orgcharthighlight = 1;
-        this.navCtrl.setRoot(OrgchartPage, { dashboardselected: this.dashboardhighlight });
+         this.navCtrl.setRoot(OrgchartPage, { dashboardselected: this.dashboardhighlight });
       }
       console.log(this.dashboardhighlight);
       console.log(this.unitshighlight);

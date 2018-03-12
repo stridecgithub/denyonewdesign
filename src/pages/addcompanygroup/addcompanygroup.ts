@@ -66,7 +66,8 @@ export class AddcompanygroupPage {
     this.form = fb.group({
       "companygroup_name": ["", Validators.required],
       "country": ["", Validators.required],
-      "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
+     // "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
      // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       "address": [""]
     });
@@ -1252,7 +1253,7 @@ export class AddcompanygroupPage {
               this.sendNotification(res.msg[0].result);
             } else {
               this.sendNotification(res.msg[0].result);
-              this.nav.setRoot(CompanygroupPage);
+               this.nav.setRoot(CompanygroupPage);
             }
           }
         }
@@ -1293,7 +1294,7 @@ export class AddcompanygroupPage {
             this.sendNotification(res.msg[0].result);
           } else {
             this.sendNotification(res.msg[0].result);
-            this.nav.setRoot(CompanygroupPage);
+             this.nav.setRoot(CompanygroupPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1399,9 +1400,9 @@ export class AddcompanygroupPage {
 
   }
   previous() {
-    this.nav.setRoot(CompanygroupPage);
+     this.nav.setRoot(CompanygroupPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
 }

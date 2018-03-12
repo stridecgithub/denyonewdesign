@@ -86,8 +86,8 @@ export class EditprofilesteponePage {
       "company_id": ["", Validators.required],
       "report_to": ["", Validators.required],
       //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
-      'contact': ['', Validators.compose([Validators.required,  Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],///(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i
-    
+     // 'contact': ['', Validators.compose([Validators.required,  Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],///(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i
+     "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
     
     
@@ -96,12 +96,7 @@ export class EditprofilesteponePage {
     console.log(this.userId);
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.previous();
-      });
-    });
-
+   
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.NP.get('footermenu');
@@ -375,11 +370,11 @@ export class EditprofilesteponePage {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
           // this.conf.sendNotification(`User profile successfully updated`);
-          //this.nav.setRoot(MyaccountPage);
+          // this.nav.setRoot(MyaccountPage);
           //}
 
           this.conf.sendNotification(data.json().msg['result']);
-          this.nav.setRoot(MyaccountPage);
+           this.nav.setRoot(MyaccountPage);
 
         }
         // Otherwise let 'em know anyway
@@ -520,7 +515,7 @@ export class EditprofilesteponePage {
   }
 
   previous() {
-    this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(MyaccountPage);
   }
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
@@ -578,7 +573,7 @@ export class EditprofilesteponePage {
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
         //  this.conf.sendNotification(`User profile successfully updated`);
-        //this.nav.push(MyaccountPage);
+        // this.nav.setRoot(MyaccountPage);
 
       }, (err) => {
         //loading.dismiss();

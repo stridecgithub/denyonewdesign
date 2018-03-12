@@ -50,7 +50,7 @@
 
         <ion-item>
           <ion-label stacked>Date & Time</ion-label>
-          <ion-datetime min="{{currentyear}}" max="3000" formControlName="service_scheduled_date"  (ionChange)="futureDateValidation(service_scheduled_date)" [(ngModel)]="service_scheduled_date"  pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY h:mm A"
+          <ion-datetime min="{{currentyear}}" max="3000" formControlName="service_scheduled_date"  (ionChange)="futureDateValidation(service_scheduled_date)" [(ngModel)]="service_scheduled_date"  pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY, h:mm A"
           class="cal-icon"></ion-datetime>
         </ion-item>
 

@@ -301,10 +301,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
             console.log("Msg Results:-" + res.msg[0].result);
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
-              this.nav.setRoot(ReporttemplatePage);
+               this.nav.setRoot(ReporttemplatePage);
             } else {
               this.sendNotification(res.msg[0].result);
-              this.nav.setRoot(ReporttemplatePage);
+               this.nav.setRoot(ReporttemplatePage);
             }
           }
           // Otherwise let 'em know anyway
@@ -348,10 +348,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
             console.log("Msg Results:-" + res.msg[0].result);
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
-              this.nav.setRoot(ReporttemplatePage);
+               this.nav.setRoot(ReporttemplatePage);
             } else {
               this.sendNotification(res.msg[0].result);
-              this.nav.setRoot(ReporttemplatePage);
+               this.nav.setRoot(ReporttemplatePage);
             }
           }
           // Otherwise let 'em know anyway
@@ -369,10 +369,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
     notification.present();
   }
   previous() {
-    this.nav.setRoot(ReporttemplatePage);
+     this.nav.setRoot(ReporttemplatePage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
  
 }

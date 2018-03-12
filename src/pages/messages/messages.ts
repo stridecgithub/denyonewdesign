@@ -389,7 +389,7 @@ export class MessagesPage {
   }
   compose() {
     localStorage.setItem("microtime", "");
-    this.navCtrl.setRoot(ComposePage);
+     this.navCtrl.setRoot(ComposePage);
   }
   readAction(messageid, item, act, from) {
     localStorage.setItem("microtime", '');
@@ -406,7 +406,7 @@ export class MessagesPage {
       return false;
     } else {
 
-      this.navCtrl.setRoot(MessagedetailPage, {
+       this.navCtrl.setRoot(MessagedetailPage, {
         item: item,
         act: act,
         from: from
@@ -672,7 +672,7 @@ export class MessagesPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
 
   doSort() {

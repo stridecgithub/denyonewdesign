@@ -51,9 +51,7 @@ export class CommentdetailsPage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   ionViewWillLeave() {
@@ -125,7 +123,7 @@ export class CommentdetailsPage {
 
   }
   doEdit(item, act) {
-    this.navCtrl.setRoot(ServicedetailsPage, {
+     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -164,7 +162,7 @@ export class CommentdetailsPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.navCtrl.setRoot(CalendarPage);
+           this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -176,17 +174,17 @@ export class CommentdetailsPage {
   }
   previous() {
     if (this.NP.get("from") == 'commentinfo') {
-      this.navCtrl.setRoot(CommentsinfoPage, {
+       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item
       });
     } else if (this.NP.get("from") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
+       this.navCtrl.setRoot(NotificationPage);
     } else if (this.NP.get("from") == 'Push') {
-      this.navCtrl.setRoot(CommentsinfoPage, {
+       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item
       });
     } else {
-      this.navCtrl.setRoot(CalendarPage);
+       this.navCtrl.setRoot(CalendarPage);
     }
   }
   addCalendar(item) {
@@ -194,7 +192,7 @@ export class CommentdetailsPage {
     //if (this.NP.get("from") != 'Push') {
     // this.tabBarElement.style.display = 'none';
     //}
-    this.navCtrl.setRoot(AddcommentsinfoPage,
+     this.navCtrl.setRoot(AddcommentsinfoPage,
       {
         record: item,
         type: 'comment'
@@ -235,7 +233,7 @@ export class CommentdetailsPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Comment was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-          this.navCtrl.setRoot(CommentsinfoPage, {
+           this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.item
           });
         }
@@ -248,7 +246,7 @@ export class CommentdetailsPage {
   }
 
   preview(imagedata, from) {
-    this.navCtrl.setRoot(PreviewanddownloadPage, {
+     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       event_id: this.NP.get("event_id"),
       frompage: from

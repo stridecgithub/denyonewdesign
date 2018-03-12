@@ -207,7 +207,7 @@ ionViewWillEnter() {
 edit()
 {
 let comid=this.NP.get("record");
- this.nav.setRoot(AddcompanygroupPage, {
+  this.nav.setRoot(AddcompanygroupPage, {
         record:comid
       
       });
@@ -272,7 +272,7 @@ delete()
 
 
 this.sendNotification(`Congratulations the company group name was successfully deleted`);
-this.nav.setRoot(CompanygroupPage);
+ this.nav.setRoot(CompanygroupPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -288,10 +288,10 @@ this.nav.setRoot(CompanygroupPage);
     notification.present();
   }
  previous() {
-    this.nav.setRoot(CompanygroupPage);
+     this.nav.setRoot(CompanygroupPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+     this.nav.setRoot(NotificationPage);
   }
  
 }

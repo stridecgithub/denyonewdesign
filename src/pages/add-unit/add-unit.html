@@ -114,9 +114,9 @@
       </div>
 
       <p *ngIf="isEdited">
-        <a href="#" (click)="getGps()">Use GPS Location</a>
+        <a href="#" (click)="getGps(unitid)">Use GPS Location</a>
         <br>
-        <span *ngIf="lat!=''">GPS Location: {{location}}</span>
+        <span *ngIf="lat!=''">GPS Location:<!-- {{location}}--></span>
         <br>
         <span *ngIf="lat!=''">(Latitude: {{lat}}, Longitude: {{lang}})</span>
       </p>

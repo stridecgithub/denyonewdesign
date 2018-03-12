@@ -157,9 +157,7 @@ export class AddserviceinfoPage {
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
     // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.platform.registerBackButtonAction(() => {
-      this.previous();
-    });
+   
   }
 
   maxDateStr() {
@@ -713,7 +711,7 @@ export class AddserviceinfoPage {
           //}
          // this.conf.sendNotification(`New service scheduled added successfully`);
          this.conf.sendNotification(res.msg[0]['result']);
-          this.navCtrl.setRoot(ServicinginfoPage, {
+           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -770,15 +768,15 @@ export class AddserviceinfoPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
     else if (this.NP.get("from") == 'comment') {
-      //this.navCtrl.setRoot(CommentsinfoPage);
+      // this.navCtrl.setRoot(CommentsinfoPage);
     }
     else {
-      this.navCtrl.setRoot(ServicinginfoPage, {
+       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -931,7 +929,7 @@ export class AddserviceinfoPage {
 
 
   notification() {
-    this.navCtrl.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
  
 

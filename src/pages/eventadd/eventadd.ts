@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {  NavController, NavParams } from 'ionic-angular';
 import { EventviewPage } from '../eventview/eventview';
-
+import { Config } from '../../config/config';
 /**
  * Generated class for the EventaddPage page.
  *
@@ -16,7 +16,7 @@ import { EventviewPage } from '../eventview/eventview';
 })
 export class EventaddPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private conf: Config,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -24,7 +24,7 @@ export class EventaddPage {
   }
   
   previous() {
-    this.navCtrl.setRoot(EventviewPage);
+     this.navCtrl.setRoot(EventviewPage);
   }
 
 }
