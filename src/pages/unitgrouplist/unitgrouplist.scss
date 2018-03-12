@@ -1,5 +1,9 @@
 
 page-unitgrouplist {
+  .info {
+   border-bottom: 0px solid #d6d6d6; 
+  }
+  /*
 	.group-info {
 		float:left;
 		width:69%;
@@ -36,7 +40,7 @@ page-unitgrouplist {
     }
 	.list-favorite {
         margin-top: -69px;
-		/*margin-top:-15px;*/
+	
 	}
 	.list-item .item-inner .label-md{
 		margin: 15px 0 10px 0;
@@ -44,6 +48,107 @@ page-unitgrouplist {
     .separator-line{
         border-bottom: #979797 2px solid;
         padding:4px;
-    }
+    }*/
+
+    .list-favorite {
+      float: right;
+    padding-right: 0px;
+    margin-top: 0px;
+}
+	ion-content .scroll-content {
+		margin-bottom: 0;
+	}
+
+	.border-low{
+		border:0px solid #009ACD!important;
+		color: #D8D8D8;
+		background:url(../assets/imgs/flag_normal_high.png) no-repeat;
+		background-size: 82%;
+		width:30px;
+		height:34px;
+		font-size:0;
+		 }  
+		 .border-high{
+		border:0px solid #009ACD!important;
+		color: #c71717;
+		background:url(../assets/imgs/arrow_active_high.png) no-repeat;
+		background-size: 82%;
+		width:30px;
+		height:34px;
+		font-size:0;
+		 }
+
+		 .subject h1 {
+			margin-top: 15px;
+			font-size: 17px;
+			font-weight:600;
+			tex-transform: capitalize;
+		 }
+		 
+		 .info {
+		 	margin-top:0;
+		 }
+		 .subject-item {
+		 	font-weight:400;
+ 			color: #6d6c6c;
+ 			font-size: 13px;
+		 }
+		 .info .list-icon button img {
+		 	margin-left: -16px;
+			padding-right: 0;
+		 }
+		 
+		 .attachment {
+			border-bottom: 1px solid #d6d6d6;
+			color: #6f6f6f;
+			background: #f8f8f8;
+			margin: 0px -17px 0 -17px;
+			padding: 0 18px;
+		}
+		.attachment .file h1 {
+			font-size: 15px;
+ 		}
+		.attachment .file h2 {
+			font-size: 14px;
+			font-weight: 300;
+		}
+		
+		.attachment .attach button ion-icon {
+			border: solid #717171;
+			  border-width: 0 2px 2px 0;
+			  display: inline-block;
+			  padding: 4px;
+			  transform: rotate(45deg);
+			  -webkit-transform-origin-x: rotate(45deg);
+			  -webkit-transform: rotate(45deg);
+			  -moz-transform: rotate(45deg);
+			  -ms-transform: rotate(45deg);
+			  -o-transform: rotate(45deg);
+			  margin-top: -4px;
+				position: inherit;
+				width: 10px;
+				height: 10px;
+		}
+		.ion-md-arrow-dropdown:before {
+			font-size:0;
+		}
+		.ion-md-arrow-dropup:before {
+			font-size:0;
+		}
+		
+		.attachment .attach button ion-icon.ion-md-arrow-dropup {
+			transform: rotate(90deg);
+			-webkit-transform-origin-x: rotate(225deg);
+			-webkit-transform: rotate(225deg);
+			-moz-transform: rotate(225deg);
+			-ms-transform: rotate(225deg);
+			-o-transform: rotate(225deg);
+		}
+		
+		.attachment .file button ion-icon {
+			top: -1px;
+			right: 0px;
+		}
+
   }
   

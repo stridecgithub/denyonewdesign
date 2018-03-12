@@ -87,9 +87,10 @@ export class AddcalendarPage {
   private apiServiceURL: string = "";
   public networkType: string;
   atmentioneddata = [];
+  storagetime;
   //tabBarElement: any;
   public SERVICECREATEACCESS: any;
- 
+
   public EVENTCREATEACCESS: any;
 
   constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
@@ -97,9 +98,9 @@ export class AddcalendarPage {
     public NP: NavParams,
     public fb: FormBuilder) {
     this.SERVICECREATEACCESS = localStorage.getItem("CALENDAR_SERVICES_CREATE");
-   
+
     this.EVENTCREATEACCESS = localStorage.getItem("CALENDAR_EVENTS_CREATE");
-   
+
     this.event_type = 'Event';
     this.locationstr = "";
     this.mindate = moment().format();
@@ -122,7 +123,7 @@ export class AddcalendarPage {
 
     });
     this.disunit = false;
-    this.serviced_datetime = moment().format(); // 2018-01-16T23:08:57+05:30
+    //this.serviced_datetime = moment().format(); // 2018-01-16T23:08:57+05:30
     console.log(this.serviced_datetime);
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -275,14 +276,25 @@ export class AddcalendarPage {
       });
     if (localStorage.getItem("sdate") != '') {
       this.event_date = localStorage.getItem("sdate");
+      console.log("Storage event date:" + this.event_date);
       this.event_end_date = localStorage.getItem("sdate");
+      console.log("Storage event event_end_date:" + this.event_end_date);
+      this.storagetime=moment().format().split("T");
+      console.log("Storage Time:"+this.storagetime);
+      this.serviced_datetime = localStorage.getItem("sdate")+"T"+this.storagetime.substring(0,4);
+      console.log("Storage event serviced_datetime:" + this.serviced_datetime);
     } else {
       this.event_date = moment().format();
+      console.log("Storage event date:" + this.event_date);
       this.event_end_date = moment().format();
+      console.log("Storage event event_end_date:" + this.event_end_date);
+      this.serviced_datetime = moment().format();
+      console.log("Storage event serviced_datetime:" + this.serviced_datetime);
     }
     // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
+    console.log("Item:" + this.NP.get("item"));
     if (this.NP.get("item")) {
 
       console.log("Kannan");
@@ -340,22 +352,22 @@ export class AddcalendarPage {
       if (this.NP.get("type").toLowerCase() == 'event') {
 
 
-       
-          this.responseResultType.push({
-            id: '1',
-            type_name: 'Event',
-          }
-          );
-       
+
+        this.responseResultType.push({
+          id: '1',
+          type_name: 'Event',
+        }
+        );
+
       }
       else {
-       
-          this.responseResultType.push({
-            id: '2',
-            type_name: 'Service',
-          }
-          );
-        
+
+        this.responseResultType.push({
+          id: '2',
+          type_name: 'Service',
+        }
+        );
+
       }
     }
     else {
@@ -858,17 +870,17 @@ export class AddcalendarPage {
     /* if (localStorage.getItem("atMentionResult") != '') {
        service_remark = localStorage.getItem("atMentionResult");
      }*/
-     service_remark = jQuery(".event_notes").val();
+    service_remark = jQuery(".event_notes").val();
     let field;
     if (type_name == 'Service') {
-      field = "&event_title=" + event_subject+"&service_remark=" + service_remark;
+      field = "&event_title=" + event_subject + "&service_remark=" + service_remark;
     } else {
-      field = "&event_title=" + event_subject+"&service_remark=" + service_remark;
+      field = "&event_title=" + event_subject + "&service_remark=" + service_remark;
     }
     //"&event_remark=" + service_remark +
     event_unitid = this.event_unitid;
     let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location +  "&ses_login_id=" + createdby + "&event_added_by=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
+      + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&ses_login_id=" + createdby + "&event_added_by=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -972,13 +984,16 @@ export class AddcalendarPage {
     if (event_end_date != '') {
       let event_date_valid = event_date.split("T")[0];
       let event_end_date_valid = event_end_date.split("T")[0];
-      if (event_date_valid >= event_end_date_valid) {
-        console.log('Positive');
-      } else {
+      console.log("start date is:" + event_date_valid);
+      console.log("end date is:" + event_end_date_valid);
+      let startdate = this.conf.monthdateyearformat(event_date_valid);
+      let enddate = this.conf.monthdateyearformat(event_end_date_valid);
+      console.log("start date is:" + startdate);
+      console.log("end date is:" + enddate);
+      console.log("start date parse is:" + Date.parse(startdate));
+      console.log("end date parse is:" + Date.parse(enddate));
+      if ((Date.parse(startdate))> Date.parse(enddate) ) {
         if (type_name != 'Service') {
-          console.log("event date start" + event_date_valid);
-          console.log("event date end" + event_end_date_valid)
-          console.log(type_name);
           this.conf.sendNotification('End date should be after start date');
           return false;
         }
@@ -1068,7 +1083,7 @@ export class AddcalendarPage {
         console.log('Got date: ', this.event_date);
       },
       err => console.log('Error occurred while getting date: ', err)
-      );
+    );
   }
   previous() {
     this.navCtrl.setRoot(CalendarPage);

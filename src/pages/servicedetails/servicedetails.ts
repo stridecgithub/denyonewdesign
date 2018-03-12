@@ -135,7 +135,7 @@ export class ServicedetailsPage {
 
     this.form = formBuilder.group({
       profilePic: [''],
-      service_remark: ['', Validators.required],
+      service_remark: [''],
       service_subject: ['', Validators.required],
       serviced_by: [''],
       next_service_date: [''],
@@ -604,8 +604,14 @@ export class ServicedetailsPage {
 
       let service_remark = jQuery(".service_remark").val();
       let description = jQuery(".description").val();
-      console.log("Service service_remark:"+service_remark);
-      console.log("Service Description:"+description);
+      console.log("Service service_remark:" + service_remark);
+      console.log("Service Description:" + description);
+      if (status == 1) {
+        if (service_remark == '') {
+          this.conf.sendNotification("Service remark is required");
+          return false;
+        }
+      }
       let
         //service_remark: string = this.form.controls["service_remark"].value,
         next_service_date: string = this.form.controls["next_service_date"].value,
@@ -932,7 +938,7 @@ export class ServicedetailsPage {
         }
       },
       err => console.log('Error occurred while getting date: ', err)
-      );
+    );
   }
   address1get(hashtag) {
     console.log(hashtag);

@@ -89,7 +89,7 @@
 
       <div style="position: absolute;
     right: 2%;
-    top: 24%;" *ngIf="act!='reply' && act!='replytoall'">
+    top: 24%;">
         <button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded">
           <!-- <ion-icon name="attach"></ion-icon> Attach -->
           <img class="icon-size-one" src="assets/imgs/attach_icon.png"> Attach</button>
@@ -101,7 +101,7 @@
   </form>
 
 
-  <div style="padding-left: 8px;" class="attachment" *ngIf="addedImgLists.length>0">
+  <div style="padding-left: 8px;" class="attachment" *ngIf="addedImgLists.length>0  && act!='reply' && act!='replytoall'">
     <div class="attach" (click)="toggle(isopenorclose)">
       <!--<h1 *ngIf="messageid==0">{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>-->
       <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>

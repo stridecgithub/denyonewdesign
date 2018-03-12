@@ -8,33 +8,36 @@
 <ion-content padding class="ion-content" *ngIf="networkType!=''">
 
 </ion-content>
-<ion-content class="pop"  *ngIf="networkType==''">
-   <div style="text-align:center;">
-  <img src="{{apiServiceURLHTML}}/staffphotos/{{photo}}" *ngIf="photo!=''">
-  <img src="{{apiServiceURLHTML}}/images/default.png" *ngIf="photo==''">
-   </div>
-  
+<ion-content class="pop" *ngIf="networkType==''">
+  <div style="text-align:center;">
+    <img src="{{apiServiceURLHTML}}/staffphotos/{{photo}}" *ngIf="photo!=''">
+    <img src="{{apiServiceURLHTML}}/images/default.png" *ngIf="photo==''">
+  </div>
+
   <div style="text-align:center;font-weight:bold">
     {{firstname}} {{lastname}}
   </div>
- 
+
   <div style="text-align:center">
     {{job_position}}
   </div>
-  
-  <div style="text-align:center">
-    <b>Hashtag:</b><br>
-    {{ht}}
+
+  <div style="text-align:center">   
+      <b>Hashtag:</b>    
+    <br>  <a href="#" (click)="close(itemDatahashtag)">{{ht}}</a>
   </div>
-  <div  style="text-align:center">
-    <b >Email:</b><br>
+  <div style="text-align:center">
+    <b>Email:</b>
+    <br>
     <a data-rel="external" href="mailto:{{email}}">{{email}}</a>
   </div>
-   <div style="text-align:center">
-    <b>Contact Number:</b><br> <a href="tel: {{cn}}">{{cn}}</a>
+  <div style="text-align:center">
+    <b>Contact Number:</b>
+    <br>
+    <a href="tel: {{cn}}">{{cn}}</a>
   </div>
   <div class="algn-center">
-  <button (click)="close(itemData)" style="background-color:green;color:white;" *ngIf="EDITACCESS==1">Edit User</button>
-  <button (click)="close(itemDataDelete)" style="background-color:red;color:white;" *ngIf="DELETEACCESS==1">Delete User</button>
+    <button (click)="close(itemData)" style="background-color:green;color:white;" *ngIf="EDITACCESS==1">Edit User</button>
+    <button (click)="close(itemDataDelete)" style="background-color:red;color:white;" *ngIf="DELETEACCESS==1">Delete User</button>
   </div>
 </ion-content>

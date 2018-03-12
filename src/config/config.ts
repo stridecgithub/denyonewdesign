@@ -90,8 +90,13 @@ export class Config {
     toTitleCase(str) {
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
     }
-    showfooter(){
+    showfooter() {
         return '<div class="custom-tab"><a class="" href="#" aria-selected="true"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Dashboard</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Units</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Calendar</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Message</span></a><a class="" href="#"><ion-icon class="icon icon-md ion-md-help"></ion-icon><span class="">Org Chart</span></a></div>';
+    }
+
+    monthdateyearformat(datestr) {
+        let splithypen = datestr.split("-");//Y-m-d
+        return splithypen[1]+"-"+splithypen[2]+"-"+splithypen[0];
     }
 
 }

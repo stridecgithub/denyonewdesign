@@ -66,7 +66,7 @@ export class AddcompanygroupPage {
     this.form = fb.group({
       "companygroup_name": ["", Validators.required],
       "country": ["", Validators.required],
-      "contact": ["", Validators.required],
+      "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
      // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       "address": [""]
     });

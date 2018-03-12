@@ -220,9 +220,9 @@
 
 
           <ion-item-options side="right" class="list-item-options">
-            <button *ngIf="upcomintitem.event_type!='C' && upcomintitem.event_type!='S'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+            <button *ngIf="upcomintitem.event_type!='R' && upcomintitem.event_type!='C' && upcomintitem.event_type!='S'" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
-              <br>Edit
+              <br>Edit 
             </button>
 
             <button *ngIf="upcomintitem.duration!=1 && upcomintitem.event_type=='C' && COMMENTEDITACCESS==1" ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
@@ -233,6 +233,11 @@
 
 
             <button *ngIf="upcomintitem.event_type=='S' && upcomintitem.serviced_by==0"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
+              <img width="25" src="assets/imgs/edit@2x.png">
+              <br>Edit
+            </button>
+
+            <button *ngIf="upcomintitem.event_type=='R' && upcomintitem.serviced_by==0"  ion-button class="edit-btn" (click)="doEdit(upcomintitem,'edit',upcomintitem.event_type)">
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { NotificationSettingsPage } from "../notification-settings/notification-settings";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -217,7 +217,7 @@ export class AddUnitPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=";
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
     console.log("URL" + url);
     this.http.get(url, options)
@@ -278,7 +278,10 @@ export class AddUnitPage {
             this.lang = this.lang.substring(0, 10);
           }
           )
-          .catch((error: any) => console.log(error));
+          .catch((error: any) => {
+            console.log(error);
+            this.conf.sendNotification(error);
+          });
       }
     }
   }

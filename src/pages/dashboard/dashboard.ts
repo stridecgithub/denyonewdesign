@@ -310,6 +310,15 @@ export class DashboardPage {
     // this.disconnected.unsubscribe();
   }
   ionViewDidEnter() {
+    this.network.onConnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
+
+    this.network.onDisconnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
@@ -356,6 +365,15 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
+    this.network.onConnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
+
+    this.network.onDisconnect().subscribe(data => {
+      console.log(data)
+      this.displayNetworkUpdate(data.type);
+    }, error => console.error(error));
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
@@ -1069,7 +1087,7 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 8
+      zoom: 3
     }
 
 
@@ -1151,9 +1169,9 @@ export class DashboardPage {
     // Automatically center the map fitting all markers on the screen
     this.map.fitBounds(bounds);
 
-   // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-      this.setZoom(8);
+      this.setZoom(3);
       google.maps.event.removeListener(boundsListener);
     });
 
@@ -1414,7 +1432,7 @@ export class DashboardPage {
 
     // to initialize push notifications
 
-  
+
     const options: PushOptions = {
       android: {
         senderID: '7125886423',
@@ -1524,6 +1542,13 @@ export class DashboardPage {
     });
 
     //}
+  }
+
+  pushNavigationTeseting() {
+    this.navCtrl.setRoot(ServicingDetailsPage, {
+      event_id:49,
+      from: 'Push'
+    });
   }
 }
 

@@ -122,6 +122,11 @@ export class ComposePage {
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.close = 1;
     this.open = 0;
+    if (this.navParams.get('to') != undefined) {
+      this.to = this.navParams.get('to');
+    }
+
+
   }
   toggle(isopenorclose) {
     console.log(isopenorclose);
@@ -155,8 +160,8 @@ export class ComposePage {
 
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
-	
-		
+
+
 
     this.copytome = 0;
     console.log('ionViewDidLoad ComposePage');
@@ -216,7 +221,7 @@ export class ComposePage {
 
 
       if (this.act == 'replytoall') {
-        
+
         console.log("goto replytoall");
         //this.reply(this.navParams.get("record").messages_body);
         this.priority_highclass = '';
@@ -238,7 +243,7 @@ export class ComposePage {
           console.log("TO A" + this.navParams.get("record").message_priority);
           this.subject = this.messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
-          
+
         }
         else {
 
@@ -309,7 +314,7 @@ export class ComposePage {
         let res;
         // If the request was successful notify the user
         if (data.status === 200) {
-         // this.atmentioneddata = data.json();
+          // this.atmentioneddata = data.json();
           res = data.json();
           console.log(data.json().staffs);
 
@@ -494,14 +499,14 @@ export class ComposePage {
     //   this.conf.sendNotification(`To address required`);
     //   return false;
     // }
-   
+
     if (this.isUploadedProcessing == false) {
       let //to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
         subject: string = this.form.controls["subject"].value;
-    
-  
+
+
 
       this.createEntry(this.micro_timestamp, copytome, composemessagecontent, subject);
 
@@ -515,7 +520,7 @@ export class ComposePage {
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
 
-  createEntry(micro_timestamp,  copytome, composemessagecontent, subject) {
+  createEntry(micro_timestamp, copytome, composemessagecontent, subject) {
     let to = jQuery(".to").val();
     this.isSubmitted = true;
     if (copytome == true) {
@@ -538,7 +543,7 @@ export class ComposePage {
       } else {
         isrepfor = 'forward';
       }
-   
+
       param = "is_mobile=1" +
         "&important=" + this.message_priority +
         "&microtime=" + micro_timestamp +
@@ -593,8 +598,8 @@ export class ComposePage {
     localStorage.setItem("microtime", "");
     // localStorage.setItem("atMentionResult", '');
     //this.conf.sendNotification(`Message sending successfully`);
-	
-	
+
+
 
   }
   fileChooser(micro_timestamp) {
@@ -676,11 +681,11 @@ export class ComposePage {
             this.isUploadedProcessing = true;
             this.filechooser.open()
               .then(
-              uri => {
-                console.log(uri);
-                this.fileTrans(uri, micro_timestamp);
-                this.addedAttachList = uri;
-              }
+                uri => {
+                  console.log(uri);
+                  this.fileTrans(uri, micro_timestamp);
+                  this.addedAttachList = uri;
+                }
 
               )
               .catch(e => console.log(e));

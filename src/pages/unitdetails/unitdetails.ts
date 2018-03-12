@@ -454,7 +454,7 @@ export class UnitdetailsPage {
 								} else {
 									this.loadpowerfactorneedlevalue = data.json().loadpowerfactor;
 								}
-								console.log("Load factor needle value:"+this.loadpowerfactorneedlevalue);
+								console.log("Load factor needle value:" + this.loadpowerfactorneedlevalue);
 								this.batteryvoltage = data.json().batteryvoltage;
 
 							}, error => {
@@ -766,15 +766,28 @@ export class UnitdetailsPage {
 							if (enval == res[i].maxvalue) {
 								enval = sval;
 							}
+							
+if(code=='oilpressure'){
 
-							this.rangesdata.push({
-								startValue: enval,
-								endValue: res[i].maxvalue,
-								innerOffset: 0.46,
-								outerStartOffset: 0.70,
-								outerEndOffset: 0.70,
-								fillStyle: '#df0000'
-							})
+	this.rangesdata.push({
+		startValue: enval,
+		endValue: res[i].maxvalue,
+		innerOffset: 0.46,
+		outerStartOffset: 0.70,
+		outerEndOffset: 0.70,
+		fillStyle: '#00FF50'
+	})
+}else{
+
+	this.rangesdata.push({
+		startValue: enval,
+		endValue: res[i].maxvalue,
+		innerOffset: 0.46,
+		outerStartOffset: 0.70,
+		outerEndOffset: 0.70,
+		fillStyle: '#df0000'
+	})
+}
 
 							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
 
@@ -787,9 +800,11 @@ export class UnitdetailsPage {
 
 
 								if (this.oilpressure >= 10) {
-									this.needlevalue = 100;
+									this.needlevalue = 10;
+								} else if (this.oilpressure <= 0) {
+									this.needlevalue = 0;
 								} else {
-									this.needlevalue = this.oilpressure * 10;
+									this.needlevalue = this.oilpressure;
 								}
 								console.log("Oil Pressure needle value:" + this.needlevalue);
 							}
@@ -1027,7 +1042,7 @@ export class UnitdetailsPage {
 		this.coolanttemp = 0;
 		this.oilpressure = 0;
 		this.loadpowerfactor = 0;
-		this.loadpowerfactorneedlevalue=0;
+		this.loadpowerfactorneedlevalue = 0;
 		this.batteryvoltage = 0;
 		this.selectedvoltage = 0;
 		this.selectedcurrent = 0;

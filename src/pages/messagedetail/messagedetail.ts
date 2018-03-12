@@ -63,6 +63,7 @@ export class MessagedetailPage {
   totalCount;
   totalFileSize = 0;
   from;
+  is_reply;
   //tabBarElement: any;
   isopenorclose = 1;
   close = 0;
@@ -70,9 +71,12 @@ export class MessagedetailPage {
   openpop = 0;
   delete_icon_only = '1';
   message_readstatus;
-  priority_image
+  priority_image;
   favstatus: any; // 0 is unfavorite 1 is favorite
   // For Messages
+  private activelow: string = "0";
+  private activehigh: string = "0";
+ 
   constructor(private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
@@ -257,8 +261,18 @@ export class MessagedetailPage {
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
     this.messageid = item.message_id;
+    this.is_reply = item.isreply;
+    console.log("Is Reply:-"+this.is_reply);
     this.priority_image = item.priority_image;
     
+    if(this.priority_image=='arrow_active_low.png'){
+      this.getPrority(1);
+    }
+    if(this.priority_image=='arrow_active_high.png'){
+      this.getPrority(2);
+    }
+
+
     this.replyall = item.replyall;
     console.log('replyall' + this.replyall);
     this.priority_highclass = '';
@@ -801,5 +815,26 @@ export class MessagedetailPage {
         this.action(detailItem, data, from, this.replyall);
       }
     });
+  }
+
+  getPrority(val) {
+    console.log("getPrority function calling:-" + val);
+
+
+    if (val == "2") {
+      console.log('val A:' + val);
+      this.activelow = "0";
+      this.activehigh = "1";
+    } else if (val == "1") {
+      console.log('val B:' + val);
+      this.activelow = "1";
+      this.activehigh = "0";
+    } else {
+      console.log('val C:' + val);
+      this.activelow = "0";
+      this.activehigh = "0";}
+
+
+    this.message_priority = val
   }
 }

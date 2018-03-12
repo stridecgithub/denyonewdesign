@@ -24,9 +24,9 @@
 
 <ion-content>
 
- 
 
-  <div  *ngIf="segmenttabshow>0">
+
+  <div *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs" (ionChange)="segmentChanged($event)">
       <ion-segment-button id="maptab" value="mapView" (click)="loadMap(unitsPopups)">
         Map View
@@ -144,8 +144,9 @@
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitAllLists.length!=0">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
-
+  <!-- <button ion-button class="read-btn" (click)="pushNavigationTeseting()">
+    <img width="25" src="assets/imgs/remove@2x.png">Push Navigation Testing...
+  </button> -->
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>
