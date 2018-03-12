@@ -279,9 +279,9 @@ export class AddcalendarPage {
       console.log("Storage event date:" + this.event_date);
       this.event_end_date = localStorage.getItem("sdate");
       console.log("Storage event event_end_date:" + this.event_end_date);
-      this.storagetime=moment().format().split("T");
+      this.storagetime=moment().format().split("T")[1];
       console.log("Storage Time:"+this.storagetime);
-      this.serviced_datetime = localStorage.getItem("sdate")+"T"+this.storagetime.substring(0,4);
+      this.serviced_datetime = localStorage.getItem("sdate")+"T"+this.storagetime.substring(0,5);
       console.log("Storage event serviced_datetime:" + this.serviced_datetime);
     } else {
       this.event_date = moment().format();

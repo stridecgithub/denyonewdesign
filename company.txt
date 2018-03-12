@@ -1,0 +1,227 @@
+app@stridec.com
+91448023a!
+
+
+
+Official Mail ID:
+URL : https://www.zoho.com/mail/login.html
+Email: kannan@webneo.in
+Password: kannan2017
+
+Git Credential
+https://github.com/stridecgithub/denyoapp.git
+stridecgithub
+91448023a
+
+
+
+
+https://github.com/stridecgithub/drms.git
+stridecgithub
+91448023a
+
+
+
+        <variable name="SENDER_ID" value="334728922535" />
+
+Denoy App
+
+http://denyoappv2.stridecdev.com/phpmyadmin/
+Username: denyoappv2
+Password: RfS4aE4Wxq2daL0D
+http://denyoappv2.stridecdev.com/
+SFTP
+username: denyoappv2
+password: 1x7n0uHUgqafoiv
+
+ <!-- <ion-list>
+          <ion-label stacked>Select Color Code*</ion-label>
+          <button class="chosecolor" (click)="openPopover($event)"><span style="background:#9013fe;width:30px;height:30px;float:left;"></span></button>
+        </ion-list> -->
+
+Admin Control:-
+http://denyoworking.stridecdev.com/
+denyoadmin
+newnew
+
+Google Map API Key:-
+AIzaSyDfS2jzPISy01wPd_5kVXM7WCnudJGLTxo 
+
+
+
+
+target=android-26
+android.library.reference.1=CordovaLib
+cordova.system.library.1=com.android.support:support-v4:24.1.1+
+cordova.system.library.2=com.android.support:support-v4:+
+#ordova.system.library.3=com.android.support:support-v4:+
+#cordova.system.library.4=com.android.support:support-v13:26.+
+cordova.system.library.4=me.leolin:ShortcutBadger:1.1.17@aar
+cordova.system.library.5=com.google.firebase:firebase-messaging:11.6.2
+cordova.gradle.include.1=phonegap-plugin-push/denyoremotemonitoringsystem-push.gradle
+cordova.gradle.include.2=cordova-plugin-badge/denyoremotemonitoringsystem-badge.gradle
+cordova.system.library.7=com.android.support:support-v4:26.+
+cordova.gradle.include.3=cordova-plugin-local-notification/denyoremotemonitoringsystem-localnotification.gradle
+https://www.djamware.com/post/5a48517280aca7059c142972/ionic-3-angular-5-firebase-and-google-maps-location-tracking
+
+https://www.techiediaries.com/ionic-geolocation-google-maps-places-api/
+
+https://www.joshmorony.com/ionic-2-how-to-use-google-maps-geolocation-video-tutorial/
+
+
+
+https://www.jqueryscript.net/form/Facebook-like-mention-Autocomplete-Plugin-With-jQuery-mentiony.html
+
+
+
+
+ionic cordova plugin add cordova-plugin-googleplayservices
+
+
+phonegap plugin add phonegap-plugin-push --variable SENDER_ID="334728922535"
+
+
+
+ionic cordova build android --release --prod
+
+
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore denyo.jks platforms/android/build/outputs/apk/android-release-unsigned.apk Denyo-App
+
+
+
+zipalign -v 4 HelloWorld-release-unsigned.apk HelloWorld.apk
+
+ionic cordova build android --release --prod
+
+
+Step 1:-
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore denyo.jks 
+
+Step 2:-
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore denyo.jks platforms/android/build/outputs/apk/android-release-unsigned.apk Denyo-App
+
+
+Step 3:-
+zipalign -v 4 android-release-unsigned.apk denyo195.apk
+
+zipalign -v 4 android-release-unsigned103.apk denyo103.apk
+zipalign -v 4 android-release-unsigned104.apk denyo104.apk
+denyo103
+
+https://play.google.com/apps/publish/?account=5055915803126777437#PrepareReleasePlace:p=tmp.14249940175506361312.1519382697405&releaseTrackId=4699312516940724605&releaseId=4703589975129039626
+
+
+
+http://denyoappv2.stridecdev.com/api/denyo103.apk
+
+http://denyoappv2.stridecdev.com/api/denyo104.apk
+
+http://denyoappv2.stridecdev.com/api/DenyoV2_05_03_2018_ReleaseVersion195.apk
+
+http://denyoappv2.stridecdev.com/api/DenyoV2_10_03_2018_ReleaseVersion198.apk
+com.denyo.remotemonitoringsystem
+
+
+ionic.io.denyoremotemonitoringsystem
+
+
+ FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':processReleaseResources'.
+> com.android.ide.common.process.ProcessException: Failed to execute aapt
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug
+option to get more log output.
+
+BUILD FAILED
+
+Total time: 2 mins 28.317 secs
+Error: cmd: Command failed with exit code 1 Error output:
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:f
+ontVariationSettings
+ERROR: In <declare-styleable> FontFamilyFont, unable to find attribute android:t
+tcIndex
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':processReleaseResources'.
+> com.android.ide.common.process.ProcessException: Failed to execute aapt
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug
+option to get more log output.
+[ERROR] An error occurred while running cordova build android --release (exit
+        code 1).
+
+
+BUILD FAILED
+
+Total time: 1 mins 53.985 secs
+Error: cmd: Command failed with exit code 1 Error output:
+Exception in thread "png-cruncher_17" java.lang.RuntimeException: Timed out whil
+e waiting for slave aapt process, make sure the aapt execute at C:\Users\webneot
+ech\AppData\Local\Android\Sdk\build-tools\26.0.2\aapt.exe can run successfully (
+some anti-virus may block it) or try setting environment variable SLAVE_AAPT_TIM
+EOUT to a value bigger than 5 seconds
+
+
+
+Gradle instructions
+Alternatives:
+Unity
+C++
+The Google services plugin for Gradle loads the google-services.json file you just downloaded. Modify your build.gradle files to use the plugin.
+
+Project-level build.gradle (<project>/build.gradle):
+
+buildscript {
+  dependencies {
+    // Add this line
+    classpath 'com.google.gms:google-services:3.2.0'
+  }
+}
+App-level build.gradle (<project>/<app-module>/build.gradle):
+
+dependencies {
+  // Add this line
+  compile 'com.google.firebase:firebase-core:11.8.0'
+}
+...
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'
+includes Analytics by default help_outline
+
+Finally, press "Sync now" in the bar that appears in the IDE:
+
+
+
+https://forum.ionicframework.com/t/android-build-broken-after-gradle-dependencies-update-execution-failed-for-task-processdebugresources-com-android-ide-common-process-processexception-failed-to-execute-aapt/109982
+
+
+
+cordova plugin rm cordova-plugin-compat --force
+cordova platform rm android
+ionic cordova platform add android@6.3.0
+
+ionic cordova platform add android@7.0.0
+https://services.gradle.org/distributions/gradle-4.1-all.zip
+
+
+ionic cordova platform add android@7.1.0
+
+
+cordova build android -- --minSdkVersion=15
+
+
+ionic plugin add phonegap-plugin-push --variable SENDER_ID="7125886423"
