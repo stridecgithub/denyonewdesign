@@ -91,24 +91,24 @@ export class NotificationSettingsPage {
     this.isSubmitted = false;
     this.form = fb.group({
       "alarmhashtags": [""],
-      "contact_name_1": ["", Validators.required],    
+      "contact_name_1": ["", Validators.required],
       "contact_number_1": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
       //"contact_number_1": ['', Validators.compose([Validators.required, Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
       "contact_name_2": [""],
       "contact_number_2": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
-     
-     // "contact_number_2": [''],
+
+      // "contact_number_2": [''],
       "contact_name_3": [""],
       "contact_number_3": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
-     
-     // "contact_number_3": [''],
+
+      // "contact_number_3": [''],
       "contact_name_4": [""],
       "contact_number_4": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
-     
+
       //"contact_number_4": [''],
       "contact_name_5": [""],
       "contact_number_5": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/)])],
-     
+
       //"contact_number_5": [''],
 
       /* "primary": [""],
@@ -139,7 +139,7 @@ export class NotificationSettingsPage {
       this.contactnumber = this.previousFormData[0]['contactnumber'];
       let previousData = localStorage.getItem("addUnitFormOneValue");
       console.log(previousData);
-     
+
     }
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -313,6 +313,7 @@ export class NotificationSettingsPage {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
                 name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
               });
             }
           }
@@ -512,30 +513,9 @@ export class NotificationSettingsPage {
     confirm.present();
   }
   saveEntry() {
-    // this.alarmhashtags = jQuery('#alarmhashtags').tagEditor('getTags')[0].tags;
-    // console.log(this.alarmhashtags);
-    // if (this.alarmhashtags.length == 0) {
-    //   this.conf.sendNotification(`Notification list detail required`);
-    //   return false;
-    // }
     this.timezone = '2017-12-14 12:28:AM';
     let
-      // primary: string = this.form.controls["primary"].value,
       secondary: string = this.form.controls["contact_number_1"].value;
-
-    // if (this.form.controls["primary"].value == undefined) {
-    //  // primary = '';
-    // }
-    // if (this.form.controls["primary"].value == 'undefined') {
-    //   //primary = '';
-    // }
-    // if (this.form.controls["primary"].value == 'null') {
-    //   ///primary = '';
-    // }
-    // if (this.form.controls["primary"].value == null) {
-    //   //primary = '';
-    // }
-
     if (this.form.controls["contact_number_1"].value == undefined) {
       secondary = ''
     }
@@ -575,9 +555,7 @@ export class NotificationSettingsPage {
         cont2value = '';
       }
       if (cont2value != '') {
-        let contact;
-        //  contact = this.form.controls["primary_2"].value + " " + this.form.controls["contact_number_2"].value;
-        contact = this.form.controls["contact_number_2"].value;
+        let contact; contact = this.form.controls["contact_number_2"].value;
 
         if (contact != undefined) {
           console.log(contact);
@@ -693,106 +671,128 @@ export class NotificationSettingsPage {
     // if (localStorage.getItem("atMentionResult") != '') {
     //   this.alarmhashtags = localStorage.getItem("atMentionResult");
     // }
+    // Personal hashtag checking....
+    let toaddress = jQuery(".alarmhashtags").val();
+    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let body: string = param,
 
-    this.alarmhashtags = jQuery(".alarmhashtags").val();
-    console.log("#to value" + jQuery("#to").val());
-    console.log(this.isEdited);
-    if (this.isEdited > 0) {
-      let body: string = "is_mobile=1&unit_id=" + this.isEdited +
-        "&unitname=" + this.unitname +
-        "&projectname=" + this.projectname +
-        "&controllerid=" + this.controllerid +
-        "&neaplateno=" + this.neaplateno +
-        "&serial_number=" + this.serial_number +
-        "&models_id=" + this.models_id +
-        "&location=" + this.location +
-        "&createdby=" + this.userId +
-        "&updatedby=" + this.userId +
-        "&longitude=" + this.longitude +
-        "&latitude=" + this.latitude +
-        "&contactInfo=" + JSON.stringify(this.contactInfo) +
-        "&alarmnotificationto=" + this.alarmhashtags +
-        "&timezone=" + this.timezone +
-        "&companys_id=" + this.companys_id +
-        "&unitgroups_id=" + this.unitgroups_id,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+    console.log("Chkemailhashtags API" + url + "?" + body);
 
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/units/update";
-      console.log("URL:" + url + "?" + body);
-      this.http.post(url, body, options)
-        .subscribe((data) => {
-          //console.log("Response Success:" + JSON.stringify(data.json()));
-          // If the request was successful notify the user
-          if (data.status === 200) {
-            this.hideForm = true;
-            localStorage.setItem("addUnitFormOneValue", "");
-            this.conf.sendNotificationTimer(`Units was successfully updated`);
-            if (this.navParams.get("from") == 'unitdetail') {
-               this.navCtrl.setRoot(UnitdetailsPage, {
-                record: this.navParams.get("record"),
-                tabs: 'gensetView'
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+        console.log("1" + data.json().invalidusers);
+        if (data.json().invalidusers == '') {
+          this.alarmhashtags = jQuery(".alarmhashtags").val();
+          console.log("#to value" + jQuery("#to").val());
+          console.log(this.isEdited);
+          if (this.isEdited > 0) {
+            let body: string = "is_mobile=1&unit_id=" + this.isEdited +
+              "&unitname=" + this.unitname +
+              "&projectname=" + this.projectname +
+              "&controllerid=" + this.controllerid +
+              "&neaplateno=" + this.neaplateno +
+              "&serial_number=" + this.serial_number +
+              "&models_id=" + this.models_id +
+              "&location=" + this.location +
+              "&createdby=" + this.userId +
+              "&updatedby=" + this.userId +
+              "&longitude=" + this.longitude +
+              "&latitude=" + this.latitude +
+              "&contactInfo=" + JSON.stringify(this.contactInfo) +
+              "&alarmnotificationto=" + this.alarmhashtags +
+              "&timezone=" + this.timezone +
+              "&companys_id=" + this.companys_id +
+              "&unitgroups_id=" + this.unitgroups_id,
+
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/units/update";
+            console.log("URL:" + url + "?" + body);
+            this.http.post(url, body, options)
+              .subscribe((data) => {
+                //console.log("Response Success:" + JSON.stringify(data.json()));
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  localStorage.setItem("addUnitFormOneValue", "");
+                  this.conf.sendNotificationTimer(`Units was successfully updated`);
+                  if (this.navParams.get("from") == 'unitdetail') {
+                    this.navCtrl.setRoot(UnitdetailsPage, {
+                      record: this.navParams.get("record"),
+                      tabs: 'gensetView'
+                    });
+                  } else if (this.navParams.get("from") == 'dashboard') {
+
+                    this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
+                    //  this.navCtrl.setRoot(DashboardPage, {
+                    //   record: this.navParams.get("record"),
+                    //   tabs: 'listView'
+                    // });
+                  } else {
+                    this.navCtrl.setRoot(UnitsPage);
+                  }
+
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.conf.sendNotification('Something went wrong!');
+                }
+              }, error => {
               });
-            } else if (this.navParams.get("from") == 'dashboard') {
+          } else {
+            let body: string = "is_mobile=1&unitname=" + this.unitname +
+              "&projectname=" + this.projectname +
+              "&controllerid=" + this.controllerid +
+              "&neaplateno=" + this.neaplateno +
+              "&serial_number=" + this.serial_number +
+              "&models_id=" + this.models_id +
+              "&location=" + this.location +
+              "&createdby=" + this.userId +
+              "&longitude=" + this.longitude +
+              "&latitude=" + this.latitude +
+              "&updatedby=" + this.userId +
+              "&contactInfo=" + JSON.stringify(this.contactInfo) +
+              "&alarmnotificationto=" + this.alarmhashtags +
+              "&timezone=" + this.timezone +
+              "&companys_id=" + this.companys_id +
+              "&unitgroups_id=" + this.unitgroups_id,
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/units/store";
 
-               this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
-              //  this.navCtrl.setRoot(DashboardPage, {
-              //   record: this.navParams.get("record"),
-              //   tabs: 'listView'
-              // });
-            } else {
-               this.navCtrl.setRoot(UnitsPage);
-            }
+            console.log("URL:" + url + "?" + body);
+            this.http.post(url, body, options)
+              .subscribe((data) => {
+                //console.log("Response Success:" + JSON.stringify(data.json()));
+                // If the request was successful notify the user
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  localStorage.setItem("addUnitFormOneValue", "");
+                  //this.conf.sendNotificationTimer(`Units created was successfully added`);
+                  this.conf.sendNotification(data.json().msg[0]['result']);
+                  this.navCtrl.setRoot(UnitsPage);
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.conf.sendNotification('Something went wrong!');
+                }
+              }, error => {
+              });
+          }
+        } else {
+          this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          return false;
+        }
+      });
+    // Personal hashtag checking....
 
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-        });
-    } else {
-      let body: string = "is_mobile=1&unitname=" + this.unitname +
-        "&projectname=" + this.projectname +
-        "&controllerid=" + this.controllerid +
-        "&neaplateno=" + this.neaplateno +
-        "&serial_number=" + this.serial_number +
-        "&models_id=" + this.models_id +
-        "&location=" + this.location +
-        "&createdby=" + this.userId +
-        "&longitude=" + this.longitude +
-        "&latitude=" + this.latitude +
-        "&updatedby=" + this.userId +
-        "&contactInfo=" + JSON.stringify(this.contactInfo) +
-        "&alarmnotificationto=" + this.alarmhashtags +
-        "&timezone=" + this.timezone +
-        "&companys_id=" + this.companys_id +
-        "&unitgroups_id=" + this.unitgroups_id,
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/units/store";
-
-      console.log("URL:" + url + "?" + body);
-      this.http.post(url, body, options)
-        .subscribe((data) => {
-          //console.log("Response Success:" + JSON.stringify(data.json()));
-          // If the request was successful notify the user
-          if (data.status === 200) {
-            this.hideForm = true;
-            localStorage.setItem("addUnitFormOneValue", "");
-            //this.conf.sendNotificationTimer(`Units created was successfully added`);
-            this.conf.sendNotification(data.json().msg[0]['result']);
-             this.navCtrl.setRoot(UnitsPage);
-          }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-        });
-    }
 
 
   }
@@ -866,7 +866,7 @@ export class NotificationSettingsPage {
 
   previous() {
     if (this.isEdited > 0) {
-       this.navCtrl.setRoot(AddUnitPage, {
+      this.navCtrl.setRoot(AddUnitPage, {
         accountInfo: this.navParams.get("accountInfo"),
         record: this.navParams.get("record"),
         from: this.navParams.get("from"),
@@ -875,7 +875,7 @@ export class NotificationSettingsPage {
       });
       this.isEdited = true;
     } else {
-       this.navCtrl.setRoot(AddUnitPage, {
+      this.navCtrl.setRoot(AddUnitPage, {
         accountInfo: this.navParams.get("accountInfo"),
         record: this.navParams.get("record"),
         from: this.navParams.get("from"),

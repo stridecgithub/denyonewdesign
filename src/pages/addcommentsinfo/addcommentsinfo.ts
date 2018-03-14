@@ -326,6 +326,7 @@ export class AddcommentsinfoPage {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
                 name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
               });
             }
           }
@@ -507,12 +508,38 @@ export class AddcommentsinfoPage {
         let comments = jQuery(".comment_remark").val();
         let //comments: string = this.form.controls["comment_remark"].value,
           comment_subject: string = this.form.controls["comment_subject"].value;
-        if (this.isEdited) {
-          this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
-        }
-        else {
-          this.createEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
-        }
+
+
+        // Personal hashtag checking....
+        let toaddress = jQuery(".comment_remark").val();
+        let param = "toaddress=" + toaddress + "&ismobile=1";
+        let body: string = param,
+
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+        console.log("Chkemailhashtags API" + url + "?" + body);
+
+        this.http.post(url, body, options)
+          .subscribe((data) => {
+            console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+            console.log("1" + data.json().invalidusers);
+            //if (data.json().invalidusers == '') {
+              if (this.isEdited) {
+                this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
+              }
+              else {
+                this.createEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
+              }
+            // } else {
+            //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+            //   return false;
+            // }
+          });
+        // Personal hashtag checking....
+
+
       }
     }
   }
@@ -605,7 +632,7 @@ export class AddcommentsinfoPage {
       "&comment_priority=" + this.service_priority +
       "&comment_unit_id=" + this.comment_unitid +
       "&comment_by=" + this.unitDetailData.userId +
-      "&comment_by=" + this.unitDetailData.userId +
+      "&comment_subject=" + comment_subject +
       "&comment_date=" + comment_date +
       "&micro_timestamp=" + micro_timestamp +
       "&uploadInfo=" + JSON.stringify(this.addedImgLists),

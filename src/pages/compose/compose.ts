@@ -128,6 +128,13 @@ export class ComposePage {
 
 
   }
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+  }
   toggle(isopenorclose) {
     console.log(isopenorclose);
     if (isopenorclose == 1) {
@@ -147,7 +154,7 @@ export class ComposePage {
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
     console.log("Message Id" + messageid);
-     this.navCtrl.setRoot(PreviewanddownloadPage, {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -323,6 +330,7 @@ export class ComposePage {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
                 name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
               });
             }
           }
@@ -500,18 +508,35 @@ export class ComposePage {
     //   return false;
     // }
 
-    if (this.isUploadedProcessing == false) {
-      let //to: string = this.form.controls["to"].value,
-        copytome: string = this.form.controls["copytome"].value,
-        composemessagecontent: string = this.form.controls["composemessagecontent"].value,
-        subject: string = this.form.controls["subject"].value;
+   
+    // Personal hashtag checking....
+    let toaddress = jQuery(".to").val();
+    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let body: string = param,
 
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+    console.log("Chkemailhashtags API" + url + "?" + body);
 
-
-      this.createEntry(this.micro_timestamp, copytome, composemessagecontent, subject);
-
-    }
-
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+        console.log("1" + data.json().invalidusers);
+        if (data.json().invalidusers == '') {
+          if (this.isUploadedProcessing == false) {
+            let copytome: string = this.form.controls["copytome"].value,
+              composemessagecontent: string = this.form.controls["composemessagecontent"].value,
+              subject: string = this.form.controls["subject"].value;
+            this.createEntry(this.micro_timestamp, copytome, composemessagecontent, subject);
+          }
+        } else {
+          this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          return false;
+        }
+      });
+    // Personal hashtag checking....
   }
 
   // Save a new record that has been added to the page's HTML form
@@ -587,7 +612,7 @@ export class ComposePage {
           // return false;
 
           this.conf.sendNotification(data.json().msg[0]['result']);
-           this.navCtrl.setRoot(MessagesPage);
+          this.navCtrl.setRoot(MessagesPage);
 
         }
         // Otherwise let 'em know anyway
@@ -682,12 +707,12 @@ export class ComposePage {
             this.isUploadedProcessing = true;
             this.filechooser.open()
               .then(
-                uri => {
-                  //alert(uri);
-                  console.log(uri);
-                  this.fileTrans(uri, micro_timestamp);
-                  this.addedAttachList = uri;
-                }
+              uri => {
+                //alert(uri);
+                console.log(uri);
+                this.fileTrans(uri, micro_timestamp);
+                this.addedAttachList = uri;
+              }
 
               )
               .catch(e => console.log(e));
@@ -734,11 +759,11 @@ export class ComposePage {
     }
     fileTransfer.onProgress(this.onProgress);
 
-    console.log("Upload Attach URL:" + this.apiServiceURL + '/api/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize);
+    console.log("Upload Attach URL:" + this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize);
     console.log("Upload Attach Options:" + JSON.stringify(options));
 
     // fileTransfer.upload(path, this.baseURI + '/api/upload_attach.php', options)
-    fileTransfer.upload(path, this.apiServiceURL + '/api/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize, options)
+    fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize, options)
       .then((data) => {
         console.log("UPLOAD SUCCESS:" + data.response);
         this.nowuploading = 1;
@@ -781,7 +806,7 @@ export class ComposePage {
 
         this.isProgress = false;
         console.log("Upload Error:" + JSON.stringify(err));
-        this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
+        this.conf.errorNotification("Upload Error:" + JSON.stringify(err));
       })
   }
 
@@ -798,7 +823,7 @@ export class ComposePage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   getPrority(val) {
     console.log("getPrority function calling:-" + val);
@@ -870,7 +895,7 @@ export class ComposePage {
   }
 
   previous() {
-     this.navCtrl.setRoot(MessagesPage);
+    this.navCtrl.setRoot(MessagesPage);
   }
   // Remove an existing record that has been selected in the page's HTML form
   // Use angular's http post method to submit the record data

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header  (tap)="isNet()">
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
@@ -14,7 +14,7 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content  (tap)="isNet()">
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
     <ion-row style="background-color: #f8f8f8;">
       <ion-col class="col" col-12 style="background-color: #f8f8f8;">
@@ -95,8 +95,14 @@
           <img class="icon-size-one" src="assets/imgs/attach_icon.png"> Attach</button>
       </div>
 
-      <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
-      <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+
+      <div class="progress-outer" *ngIf="isProgress">
+        <div class="progress-inner" [style.width]="progress + '%'">        
+        </div>
+      </div>
+
+      <!-- <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
+      <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span> -->
     </ion-list>
   </form>
 

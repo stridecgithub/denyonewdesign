@@ -62,9 +62,15 @@ page-login {
       }
     }
   }
-  #app-version {
+  #app-version-left {
     font-size: 12px;
     color: color($app-brand-colors, dove-gray);
     padding-top: 165px;
+  }
+  #app-version-right {
+    font-size: 12px;
+    /* color: #666666; */
+    /* padding-top: 165px; */
+    float: right;
   }
 }

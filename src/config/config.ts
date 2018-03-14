@@ -46,35 +46,36 @@ export class Config {
     }
 
 
+
+    errorNotification(message): void {
+        let notification = this.toastCtrl.create({
+            message: message,
+            //showCloseButton: true,
+            //closeButtonText: "X",
+            //dismissOnPageChange: true
+            
+            duration: 3000
+        });
+        notification.present();
+    }
+    networkErrorNotification(message): void {
+        let notification = this.toastCtrl.create({
+            message: message,
+            showCloseButton: true,
+           // position: 'middle',
+            closeButtonText: "X",
+            dismissOnPageChange: true
+        });
+        notification.present();
+    }
+
     sendNotification(message): void {
         let notification = this.toastCtrl.create({
             message: message,
-            duration: 3000/*,
-            dismissOnPageChange: true*/
+            duration: 3000
         });
         notification.present();
-
-        /*
-     notification.onDidDismiss(() => {
-         console.log('Dismissed toast');
-          notification.dismiss();
-     });   */
     }
-    /*
-        sendNotification(message): void {
-            let notification = this.toastCtrl.create({
-                message: message,
-                // duration: 3000,
-                //closeButtonText:"X"
-                showCloseButton: true,
-                closeButtonText: "X",
-                dismissOnPageChange: true
-            });
-            notification.present();
-         
-        }
-        */
-
 
     timeConverter(unixtime) {
         var u = new Date(unixtime * 1000);
@@ -99,8 +100,8 @@ export class Config {
         return splithypen[1] + "-" + splithypen[2] + "-" + splithypen[0];
     }
 
-   consolePrint(print) {
-       // console.log(print)
+    consolePrint(print) {
+        // console.log(print)
     }
 
 }

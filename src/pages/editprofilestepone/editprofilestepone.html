@@ -49,11 +49,17 @@
 
     </div>
   </div>
-  <div style="text-align:center" *ngIf="isProgress">
+  <!-- <div style="text-align:center" *ngIf="isProgress">
     <span style="color:green">Profile photo uploaded. please wait</span>
     <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
     <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+  </div> -->
+
+  <div class="progress-outer" *ngIf="isProgress">
+    <div class="progress-inner" [style.width]="progress + '%'">        
+    </div>
   </div>
+  
   <div>
     <form [formGroup]="form" (ngSubmit)="saveEntry()" class="edit-profo">
       <ion-list>
@@ -99,7 +105,7 @@
           <ion-label stacked>Contact Number
             <span class="mandatory" *ngIf="hideActionButton"> *</span>
           </ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
         </ion-item>
 
         

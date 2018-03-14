@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, Platform, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -93,7 +93,7 @@ export class DashboardPage {
   public UNITHIDEACCESS: any;
 
   previousPage;
-  constructor(public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
@@ -197,7 +197,7 @@ export class DashboardPage {
       this.previousPage = this.navCtrl.getActive().name;
       console.log('Currant Pagename' + this.previousPage);
       this.tabIndexVal = localStorage.getItem("tabIndex");
-      
+
       this.initPushNotification();
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -251,8 +251,15 @@ export class DashboardPage {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
-  
 
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+
+  }
 
   displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
@@ -261,7 +268,7 @@ export class DashboardPage {
     //   duration: 3000
     // }).present();
 
-    this.conf.sendNotification(`You are now ${connectionState}`);
+    // this.conf.sendNotification(`You are now ${connectionState}`);
 
   }
   ionViewWillLeave() {
@@ -272,11 +279,13 @@ export class DashboardPage {
   ionViewDidEnter() {
     this.network.onConnect().subscribe(data => {
       console.log(data)
+      localStorage.setItem("isNet", data.type);
       this.displayNetworkUpdate(data.type);
     }, error => console.error(error));
 
     this.network.onDisconnect().subscribe(data => {
       console.log(data)
+      localStorage.setItem("isNet", data.type);
       this.displayNetworkUpdate(data.type);
     }, error => console.error(error));
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
@@ -385,7 +394,7 @@ export class DashboardPage {
     } else {
       this.events.subscribe('user:created', (user, time) => {
         // user and time are the same arguments passed in `events.publish(user, time)`
-        
+
         console.log("Company Id:" + user.company_id);
         this.companyId = user.company_id;
         this.userId = user.staff_id
@@ -593,12 +602,12 @@ export class DashboardPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
 
   messages() {
-     this.navCtrl.setRoot(MessagesPage);
+    this.navCtrl.setRoot(MessagesPage);
   }
 
   // Favorite Action
@@ -729,7 +738,7 @@ export class DashboardPage {
         let res = data.json();
         console.log("Total Count:" + res.totalCount);
         this.totalCount = res.totalCount;
-       
+
 
         if (res.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
@@ -1288,7 +1297,7 @@ export class DashboardPage {
   }
   doAction(item, act, unitId) {
     if (act == 'edit') {
-       this.navCtrl.setRoot(AddUnitPage, {
+      this.navCtrl.setRoot(AddUnitPage, {
         record: item,
         act: act,
         unitId: unitId,
@@ -1341,7 +1350,7 @@ export class DashboardPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
-       this.navCtrl.setRoot(UnitdetailsPage, {
+      this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
@@ -1354,7 +1363,7 @@ export class DashboardPage {
     }
   }
   pushTesting() {
-     this.navCtrl.setRoot(MessageDetailViewPage, {
+    this.navCtrl.setRoot(MessageDetailViewPage, {
       event_id: 10,
       from: 'push'
     });
@@ -1409,25 +1418,33 @@ export class DashboardPage {
     };
 
     const pushObject: PushObject = this.push.init(options);
-    pushObject.on('notification').subscribe((notification: any) => {
-     
-      console.log(notification.additionalData.arrayval.type);
-      this.pushnotifycount = 0;
-      if (notification.additionalData.arrayval.type == 'M') {
-        console.log("A:" + this.pushnotifycount);
-        this.pushnotifycount = this.pushnotifycount + 1;
-        console.log("B:" + this.pushnotifycount);
-        //this.msgcount = this.msgcount + this.pushnotifycount;
-        console.log("C:" + this.msgcount);
+
+
+    if (this.userId != '') {// Shut off the condition push rejected
+      pushObject.on('notification').subscribe((notification: any) => {
+        console.log(notification.additionalData.arrayval.type);
+        this.pushnotifycount = 0;
+        if (notification.additionalData.arrayval.type == 'M') {
+          console.log("A:" + this.pushnotifycount);
+          this.pushnotifycount = this.pushnotifycount + 1;
+          console.log("B:" + this.pushnotifycount);
+          //this.msgcount = this.msgcount + this.pushnotifycount;
+          console.log("C:" + this.msgcount);
+        }
+        // this.showAlert('JSON Array Value', JSON.stringify(notification));
+        if (notification.additionalData.foreground == true) {
+          // this.doConfirmRead(notification)
+          this.presentToast(notification);
+
+        } else {
+          this.pushDetail(notification);
+        }
       }
-
-      this.schedule(notification, this.msgcount);
+      );
     }
-    );
-
     pushObject.on('registration').subscribe((registration: any) => {
 
-    
+
       localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
     }
     );
@@ -1436,6 +1453,100 @@ export class DashboardPage {
 
 
   }
+
+  presentToast(notification) {
+    let toast = this.toastCtrl.create({
+      message: notification.title + "\n" + notification.message,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+      this.pushDetail(notification);
+    });
+  }
+
+
+  sampleToast(mssg) {
+    let toast = this.toastCtrl.create({
+      message: mssg,
+      duration: 130000,
+      cssClass: 'pushtoast',
+      position: 'top'
+    });
+    toast.present();
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  }
+
+  doConfirmRead(notification) {
+    let confirm = this.alertCtrl.create({
+      title: notification.title,
+      message: notification.message,
+      buttons: [{
+        text: 'View',
+        handler: () => {
+          this.pushDetail(notification);
+        }
+      },
+      {
+        text: 'Cancel',
+        handler: () => {
+        }
+      }]
+    });
+    confirm.present();
+  }
+  pushDetail(notification) {
+    if (notification.additionalData.arrayval.type == 'M') {
+      this.navCtrl.setRoot(MessageDetailViewPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'push'
+      });
+    }
+    else if (notification.additionalData.arrayval.type == 'OA') {
+      this.navCtrl.setRoot(EventDetailsPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'Push'
+      });
+    } else if (notification.additionalData.arrayval.type == 'A') {
+      this.navCtrl.setRoot(EventDetailsPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'Push'
+      });
+      localStorage.setItem("fromModule", "AlarmdetailsPage");
+    } else if (notification.additionalData.arrayval.type == 'C') {
+      this.navCtrl.setRoot(CommentdetailsPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'Push'
+      });
+      localStorage.setItem("fromModule", "CommentdetailsPage");
+    } else if (notification.additionalData.arrayval.type == 'E') {
+      this.navCtrl.setRoot(EventDetailsEventPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'Push',
+      });
+      localStorage.setItem("fromModule", "CalendardetailPage");
+    } else if (notification.additionalData.arrayval.type == 'S') {
+      this.navCtrl.setRoot(ServicingDetailsPage, {
+        event_id: notification.additionalData.arrayval.id,
+        from: 'Push'
+      });
+      localStorage.setItem("fromModule", "ServicedetailsPage");
+    }
+  }
+
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   public schedule(notification, cnt) {
     //if (this.userId > 0) {
     //this.msgcount = cnt;
@@ -1462,36 +1573,36 @@ export class DashboardPage {
       console.log(navtypes);
 
       if (navtypes == 'M') {
-         this.navCtrl.setRoot(MessageDetailViewPage, {
+        this.navCtrl.setRoot(MessageDetailViewPage, {
           event_id: navids,
           from: 'push'
         });
       }
       else if (navtypes == 'OA') {
-         this.navCtrl.setRoot(EventDetailsPage, {
+        this.navCtrl.setRoot(EventDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
       } else if (navtypes == 'A') {
-         this.navCtrl.setRoot(EventDetailsPage, {
+        this.navCtrl.setRoot(EventDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
         localStorage.setItem("fromModule", "AlarmdetailsPage");
       } else if (navtypes == 'C') {
-         this.navCtrl.setRoot(CommentdetailsPage, {
+        this.navCtrl.setRoot(CommentdetailsPage, {
           event_id: navids,
           from: 'Push'
         });
         localStorage.setItem("fromModule", "CommentdetailsPage");
       } else if (navtypes == 'E') {
-         this.navCtrl.setRoot(EventDetailsEventPage, {
+        this.navCtrl.setRoot(EventDetailsEventPage, {
           event_id: navids,
           from: 'Push',
         });
         localStorage.setItem("fromModule", "CalendardetailPage");
       } else if (navtypes == 'S') {
-         this.navCtrl.setRoot(ServicingDetailsPage, {
+        this.navCtrl.setRoot(ServicingDetailsPage, {
           event_id: navids,
           from: 'Push'
         });
@@ -1504,8 +1615,8 @@ export class DashboardPage {
   }
 
   pushNavigationTeseting() {
-     this.navCtrl.setRoot(ServicingDetailsPage, {
-      event_id:72,
+    this.navCtrl.setRoot(ServicingDetailsPage, {
+      event_id: 102,
       from: 'Push'
     });
   }

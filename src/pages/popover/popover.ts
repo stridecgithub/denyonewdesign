@@ -28,26 +28,38 @@ export class PopoverPage {
   public email: any;
   public itemDataDelete = [];
   public itemDatahashtag = [];
-  
+
 
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  companyId;
+  isOwnCompany = 0;
   constructor(private conf: Config, public platform: Platform, public viewCtrl: ViewController, public NP: NavParams, public NavController: NavController) {
     this.itemData = this.NP.get("item");
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     console.log(JSON.stringify(this.itemData));
-    this.itemDataDelete.push({hashtag:  '', staff_id: this.itemData.staff_id,'act':'delete' });
+    this.itemDataDelete.push({ hashtag: '', staff_id: this.itemData.staff_id, 'act': 'delete' });
     this.photo = this.itemData.photo;
     this.firstname = this.itemData.firstname;
     this.lastname = this.itemData.lastname;
+
+    if (this.itemData.company_id == this.companyId) {
+      this.isOwnCompany = 1;
+    }
+
+
     this.job_position = this.itemData.job_position;
     this.ht = this.itemData.personalhashtag;
-    this.itemDatahashtag.push({ hashtag:  this.ht,staff_id: '','act':'hashtag' });
+    this.itemDatahashtag.push({ hashtag: this.ht, staff_id: '', 'act': 'hashtag' });
     this.email = this.itemData.email;
     this.cn = this.itemData.contact_number;
     this.EDITACCESS = localStorage.getItem("SETTINGS_ORGCHART_EDIT");
     this.DELETEACCESS = localStorage.getItem("SETTINGS_ORGCHART_DELETE");
     this.networkType = '';
     this.apiServiceURLHTML = conf.apiBaseURL();
+    //console.log("this.companyId" + this.companyId);
+    //console.log("this.itemData.company_id" + this.itemData.company_id);
+    //console.log("this.EDITACCESS" + this.EDITACCESS)
 
   }
 

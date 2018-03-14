@@ -67,7 +67,13 @@ export class NotificationPage {
     
 
   }
-
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad NotificationPage');
     localStorage.setItem("fromModule", "NotificationPage");

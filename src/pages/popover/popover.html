@@ -37,7 +37,7 @@
     <a href="tel: {{cn}}">{{cn}}</a>
   </div>
   <div class="algn-center">
-    <button (click)="close(itemData)" style="background-color:green;color:white;" *ngIf="EDITACCESS==1">Edit User</button>
-    <button (click)="close(itemDataDelete)" style="background-color:red;color:white;" *ngIf="DELETEACCESS==1">Delete User</button>
+    <button (click)="close(itemData)" style="background-color:green;color:white;" *ngIf="EDITACCESS==1 && isOwnCompany>0">Edit User</button>
+    <button (click)="close(itemDataDelete)" style="background-color:red;color:white;" *ngIf="DELETEACCESS==1 && isOwnCompany>0">Delete User</button>
   </div>
 </ion-content>

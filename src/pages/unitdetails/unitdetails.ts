@@ -234,7 +234,7 @@ export class UnitdetailsPage {
 			this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
 		}
 
-		
+
 
 		// Footer Menu Access - Start
 		let footeraccessstorage = localStorage.getItem("footermenu");
@@ -336,7 +336,13 @@ export class UnitdetailsPage {
 		let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
 		modal.present();
 	}
-
+	isNet() {
+		let isNet = localStorage.getItem("isNet");
+		console.log("isNet" + isNet);
+		if (isNet == 'offline') {
+			this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+		}
+	}
 	ngOnDestroy() {
 		// unsubscribe here
 		this.subscription.unsubscribe();
@@ -496,14 +502,19 @@ export class UnitdetailsPage {
 						// Current
 						let current = 0;
 						let actual_current = this.selectedcurrent;
-
-
-						if (actual_current <= this.setpointsdata[1].minvalue) {
+						console.log("this.selectedcurrent:" + this.selectedcurrent);
+						console.log("Actual_current:" + actual_current);
+						console.log("Min Value:" + this.setpointsdata[1].minvalue);
+						console.log("Max Value:" + this.setpointsdata[1].maxvalue);
+						if (this.selectedcurrent == parseFloat(this.setpointsdata[1].minvalue)) {
 							current = 0;
-						} else if (actual_current >= this.setpointsdata[1].maxvalue) {
+							console.log("Curren0t:" + current);
+						} else if (this.selectedcurrent >= parseFloat(this.setpointsdata[1].maxvalue)) {
+							console.log("Current:100" + current);
 							current = 100;
 						} else {
-							current = actual_current;
+							console.log("Current:72" + current);
+							current = this.selectedcurrent;
 						}
 
 
@@ -625,22 +636,32 @@ export class UnitdetailsPage {
 						let loadfactor = 0;
 
 						let actual_loadfactor = this.loadpower;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						if (actual_loadfactor > this.setpointsdata[4].minvalue) {
-							loadfactor = ((actual_loadfactor) / this.setpointsdata[4].maxvalue) * 100;
-						} else {
+						// if (actual_loadfactor > this.setpointsdata[4].minvalue) {
+						// 	loadfactor = ((actual_loadfactor) / this.setpointsdata[4].maxvalue) * 100;
+						// } else {
+						// 	loadfactor = 0;
+						// }
+
+
+
+						// if (actual_loadfactor <= this.setpointsdata[4].minvalue) {
+						// 	loadfactor = 0;
+						// } else if (actual_loadfactor >= this.setpointsdata[4].maxvalue) {
+						// 	loadfactor = 100;
+						// } else {
+						// 	loadfactor = actual_loadfactor;
+						// }
+						let mnfactor = this.setpointsdata[4].minvalue;
+						let mxfactor = this.setpointsdata[4].maxvalue;
+						//console.log("Min loadfactor:" + mnfactor);
+						//console.log("Max loadfactor:" + mxfactor);
+						if (actual_loadfactor <= parseFloat(mnfactor)) {
 							loadfactor = 0;
-						}
-
-
-
-						if (actual_loadfactor <= this.setpointsdata[4].minvalue) {
-							loadfactor = 0;
-						} else if (actual_loadfactor >= this.setpointsdata[4].maxvalue) {
+						} else if (actual_loadfactor >= parseFloat(mxfactor)) {
 							loadfactor = 100;
 						} else {
-							loadfactor = actual_loadfactor;
+							loadfactor = this.loadpower;
 						}
-
 
 						var loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
 						var loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
@@ -764,34 +785,45 @@ export class UnitdetailsPage {
 							if (enval == res[i].maxvalue) {
 								enval = sval;
 							}
-							
-if(code=='oilpressure'){
 
-	this.rangesdata.push({
-		startValue: enval,
-		endValue: res[i].maxvalue,
-		innerOffset: 0.46,
-		outerStartOffset: 0.70,
-		outerEndOffset: 0.70,
-		fillStyle: '#00FF50'
-	})
-}else{
+							if (code == 'oilpressure') {
 
-	this.rangesdata.push({
-		startValue: enval,
-		endValue: res[i].maxvalue,
-		innerOffset: 0.46,
-		outerStartOffset: 0.70,
-		outerEndOffset: 0.70,
-		fillStyle: '#df0000'
-	})
-}
+								this.rangesdata.push({
+									startValue: enval,
+									endValue: res[i].maxvalue,
+									innerOffset: 0.46,
+									outerStartOffset: 0.70,
+									outerEndOffset: 0.70,
+									fillStyle: '#00FF50'
+								})
+							} else {
+
+								this.rangesdata.push({
+									startValue: enval,
+									endValue: res[i].maxvalue,
+									innerOffset: 0.46,
+									outerStartOffset: 0.70,
+									outerEndOffset: 0.70,
+									fillStyle: '#df0000'
+								})
+							}
 
 							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
 
 							if (code == "coolanttemp") {
 								console.log("this.coolanttemp" + this.coolanttemp);
 								this.needlevalue = this.coolanttemp;
+
+								if (this.coolanttemp > 120) {
+									this.needlevalue = 120;
+								} else if (this.coolanttemp <= 0) {
+									this.needlevalue = 0;
+								} else {
+									this.needlevalue = this.coolanttemp;
+								}
+
+								console.log("Oil Pressure needle value:" + this.needlevalue);
+
 							}
 							if (code == "oilpressure") {
 								console.log("this.oilpressure" + this.oilpressure)
@@ -807,8 +839,18 @@ if(code=='oilpressure'){
 								console.log("Oil Pressure needle value:" + this.needlevalue);
 							}
 							if (code == "batteryvolt") {
-								console.log("this.batteryvoltage" + this.batteryvoltage)
-								this.needlevalue = this.batteryvoltage;
+
+								if (this.batteryvoltage > 24) {
+									this.needlevalue = 24;
+								} else if (this.batteryvoltage <= 0) {
+									this.needlevalue = 0;
+								} else {
+									this.needlevalue = this.batteryvoltage;
+								}
+
+
+								console.log("this.batteryvoltage" + this.needlevalue)
+								//this.needlevalue = this.batteryvoltage;
 							}
 							// if (code == "loadpower") {
 							// 	needlevalue = this.loadpowerfactor;
@@ -1466,7 +1508,7 @@ if(code=='oilpressure'){
 				});
 
 
-			 this.navCtrl.setRoot(ServicinginfoPage, {
+			this.navCtrl.setRoot(ServicinginfoPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1477,7 +1519,7 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ALARM LOG', this.rolePermissionMsg)
 		} else {
-			 this.navCtrl.setRoot(AlarmPage, {
+			this.navCtrl.setRoot(AlarmPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1514,7 +1556,7 @@ if(code=='oilpressure'){
 					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 				});
 
-			 this.navCtrl.setRoot(CommentsinfoPage, {
+			this.navCtrl.setRoot(CommentsinfoPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1565,7 +1607,7 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ALARM', this.rolePermissionMsg)
 		} else {
-			 this.navCtrl.setRoot(AlarmlogPage, {
+			this.navCtrl.setRoot(AlarmlogPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1579,7 +1621,7 @@ if(code=='oilpressure'){
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ENGINE DETAIL', this.rolePermissionMsg)
 		} else {
-			 this.navCtrl.setRoot(EnginedetailviewPage, {
+			this.navCtrl.setRoot(EnginedetailviewPage, {
 				record: this.NP.get("record")
 			});
 		}
@@ -1589,11 +1631,11 @@ if(code=='oilpressure'){
 		// if (this.timerswitch > 0) {
 		// 	this.subscription.unsubscribe();
 		// }
-		 this.navCtrl.setRoot(UnitsPage);
+		this.navCtrl.setRoot(UnitsPage);
 	}
 	notification() {
 		//this.subscription.unsubscribe();
-		 this.navCtrl.setRoot(NotificationPage);
+		this.navCtrl.setRoot(NotificationPage);
 	}
 
 
@@ -1662,7 +1704,7 @@ if(code=='oilpressure'){
 
 					//this.conf.sendNotification(`Units was successfully deleted`);
 					this.conf.sendNotification(data.json().msg[0]['result']);
-					 this.navCtrl.setRoot(UnitsPage);
+					this.navCtrl.setRoot(UnitsPage);
 				}
 				// Otherwise let 'em know anyway
 				else {
@@ -1721,7 +1763,7 @@ if(code=='oilpressure'){
 			this.showAlert('EDIT', this.rolePermissionMsg)
 		} else {
 			console.log("Item From Do Action:" + JSON.stringify(item));
-			 this.navCtrl.setRoot(AddUnitPage, {
+			this.navCtrl.setRoot(AddUnitPage, {
 				record: item,
 				act: act,
 				unitId: unitId,
@@ -1768,7 +1810,7 @@ if(code=='oilpressure'){
 	}
 	showgraph(unit_id, graphname) {
 
-		 this.navCtrl.setRoot(UnitdetailgraphPage, {
+		this.navCtrl.setRoot(UnitdetailgraphPage, {
 			unit_id: unit_id,
 			graphname: graphname
 		});

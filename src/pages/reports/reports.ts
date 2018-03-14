@@ -198,7 +198,13 @@ export class ReportsPage {
    
     this.CREATEACCESS = localStorage.getItem("REPORTS_REPORTS_CREATE");
   }
-
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+  }
   showConfirm() {
     let confirm = this.alertCtrl.create({
       title: 'Request Granted',

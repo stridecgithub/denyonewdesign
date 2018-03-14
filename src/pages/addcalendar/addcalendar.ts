@@ -428,9 +428,15 @@ export class AddcalendarPage {
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
               this.atmentioneddata.push({
+                // username: res.staffs[staff].username,
+                // name: res.staffs[staff].name,
                 username: res.staffs[staff].username,
                 name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
               });
+
+
+
             }
           }
           // Otherwise let 'em know anyway
@@ -643,7 +649,7 @@ export class AddcalendarPage {
   createEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
     //let updatedby = createdby;
 
-  
+
     let timesplit_start = event_time.split(":");
     let hrvalue_start = timesplit_start[0];
     let minvalue_start = timesplit_start[1];
@@ -687,7 +693,7 @@ export class AddcalendarPage {
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
-   
+
     this.isSubmitted = true;
 
 
@@ -724,7 +730,7 @@ export class AddcalendarPage {
           } else {
             this.conf.sendNotification(res.msg[0].result);
             // localStorage.setItem("atMentionResult", '');
-             this.navCtrl.setRoot(CalendarPage);
+            this.navCtrl.setRoot(CalendarPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -746,10 +752,10 @@ export class AddcalendarPage {
 
 
   updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, alldayevent, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, createdby) {
-    if (alldayevent == 1) {
+    /*if (alldayevent == 1) {
       event_time = '';
       event_end_time = '';
-    }
+    }*/
     // if (localStorage.getItem("atMentionResult") != '') {
     //   service_remark = localStorage.getItem("atMentionResult");
     // }
@@ -797,11 +803,11 @@ export class AddcalendarPage {
       let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
-
-    if (alldayevent == 1) {
-      event_time = '';
-      event_end_time = '';
-    }
+    /*
+        if (alldayevent == 1) {
+          event_time = '';
+          event_end_time = '';
+        }*/
     service_remark = jQuery(".event_notes").val();
     let field;
     if (type_name == 'Service') {
@@ -831,7 +837,7 @@ export class AddcalendarPage {
             localStorage.setItem("atMentionResult", '');
           } else {
             this.conf.sendNotification(res.msg[0].result);
-             this.navCtrl.setRoot(CalendarPage);
+            this.navCtrl.setRoot(CalendarPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -940,12 +946,38 @@ export class AddcalendarPage {
 
     console.log("Final Toggle" + this.alldayeventvalue + ":" + togglevalue);
 
-    if (this.isEdited) {
-      this.updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
-    }
-    else {
-      this.createEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
-    }
+
+    // Personal hashtag checking....
+    
+    let toaddress = jQuery(".event_notes").val();
+    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let body: string = param,
+
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+    console.log("Chkemailhashtags API" + url + "?" + body);
+
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+        console.log("1" + data.json().invalidusers);
+        //if (data.json().invalidusers == '') {
+          if (this.isEdited) {
+            this.updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
+          }
+          else {
+            this.createEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
+          }
+        // } else {
+        //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+        //   return false;
+        // }
+      });
+    // Personal hashtag checking....
+
+
 
   }
 
@@ -1016,13 +1048,13 @@ export class AddcalendarPage {
       );
   }
   previous() {
-     this.navCtrl.setRoot(CalendarPage);
+    this.navCtrl.setRoot(CalendarPage);
   }
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   redirectCalendar() {
-     this.navCtrl.setRoot(CalendarPage);
+    this.navCtrl.setRoot(CalendarPage);
   }
 
   alldayeenttoggle(event, val) {

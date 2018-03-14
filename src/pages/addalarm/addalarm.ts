@@ -63,7 +63,7 @@ export class AddalarmPage {
   mindate;
   alarm_assgined_to;
   alarm_remark;
-  
+
   public atmentioneddata = [];
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
@@ -78,7 +78,7 @@ export class AddalarmPage {
     // Create form builder validation rules
     this.form = fb.group({
       "assigned_to": ["", Validators.required],
-      "remark": ["", Validators.required],     
+      "remark": ["", Validators.required],
       "assignedby": [""],
       "alarm_assigned_date": ["", Validators.required]
 
@@ -103,7 +103,7 @@ export class AddalarmPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-   
+
   }
 
 
@@ -236,51 +236,52 @@ export class AddalarmPage {
 
 
     let body1: string = '',
-    //body: string = "key=delete&recordID=" + recordID,
-    type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    headers1: any = new Headers({ 'Content-Type': type }),
-    options1: any = new RequestOptions({ headers: headers }),
-    url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyid + "&login=" + this.unitDetailData.userId;
-  console.log(url1);
-  this.http.get(url1, options1)
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyid + "&login=" + this.unitDetailData.userId;
+    console.log(url1);
+    this.http.get(url1, options1)
 
-  // let body: string = param,
+    // let body: string = param,
 
-  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-  //   headers: any = new Headers({ 'Content-Type': type }),
-  //   options: any = new RequestOptions({ headers: headers }),
-  //   url: any = urlstring;
-  console.log("Message sending API" + url1+ "?" + body1);
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url1 + "?" + body1);
 
-  this.http.post(url1, body1, options1)
+    this.http.post(url1, body1, options1)
 
-    .subscribe(data => {
-      let res;
-      // If the request was successful notify the user
-      if (data.status === 200) {
-       // this.atmentioneddata = data.json();
-        res = data.json();
-        console.log(data.json().staffs);
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        if (res.staffs.length > 0) {
-          for (let staff in res.staffs) {
-            this.atmentioneddata.push({
-              username: res.staffs[staff].username,
-              name: res.staffs[staff].name,
-            });
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
+              });
+            }
           }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
         }
-        // Otherwise let 'em know anyway
-      } else {
-        this.conf.sendNotification('Something went wrong!');
-      }
-    }, error => {
+      }, error => {
 
-    })
-  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-  jQuery(".remark").mention({
-    users: this.atmentioneddata
-  });
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".remark").mention({
+      users: this.atmentioneddata
+    });
 
     // Atmentioned API Calls
   }
@@ -330,55 +331,84 @@ export class AddalarmPage {
   }
   saveEntry() {
 
-    let isNet = localStorage.getItem("isNet");
-    let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
-      assigned_to: string = this.form.controls["assigned_to"].value;
-    //this.remark = this.form.controls["remark"].value;
-    this.remark = jQuery(".remark").val();
-    alarm_assigned_date = alarm_assigned_date.split("T")[0]
-    if (isNet == 'offline') {
-      this.networkType = this.conf.networkErrMsg();
-    } else {
-      this.networkType = '';
 
 
-      this.isSubmitted = true;
-      let body: string = "is_mobile=1&alarmid=" + this.recordID +
-        "&alarm_assigned_by=" + this.userId +
-        "&alarm_assigned_to=" + assigned_to +
-        "&alarm_remark=" + this.remark +
-        "&alarm_assigned_date=" + alarm_assigned_date,
+    // Personal hashtag checking....
+    let toaddress = jQuery(".remark").val();
+    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let body: string = param,
 
-        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/alarms/assignalarm";
-      console.log(url);
-      console.log(body);
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+    console.log("Chkemailhashtags API" + url + "?" + body);
 
-      this.http.post(url, body, options)
-        .subscribe((data) => {
-          if (data.status === 200) {
-            this.hideForm = true;
-            console.log("Alarm Assinged Reponse:" + JSON.stringify(data));
-            //this.conf.sendNotification(`Successfully assigned`);
-            this.conf.sendNotification(data.json().msg[0].result);
-            localStorage.setItem("userPhotoFile", "");
-           // localStorage.setItem("atMentionResult", '');
-            if (this.NP.get("from") == 'alarm') {
-               this.navCtrl.setRoot(AlarmPage);
-            } else {
-               this.navCtrl.setRoot(AlarmlogPage);
-            }
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+        console.log("1" + data.json().invalidusers);
+        //if (data.json().invalidusers == '') {
+
+          let isNet = localStorage.getItem("isNet");
+          let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
+            assigned_to: string = this.form.controls["assigned_to"].value;
+          //this.remark = this.form.controls["remark"].value;
+          this.remark = jQuery(".remark").val();
+          alarm_assigned_date = alarm_assigned_date.split("T")[0]
+          if (isNet == 'offline') {
+            this.networkType = this.conf.networkErrMsg();
+          } else {
+            this.networkType = '';
+
+
+            this.isSubmitted = true;
+            let body: string = "is_mobile=1&alarmid=" + this.recordID +
+              "&alarm_assigned_by=" + this.userId +
+              "&alarm_assigned_to=" + assigned_to +
+              "&alarm_remark=" + this.remark +
+              "&alarm_assigned_date=" + alarm_assigned_date,
+
+              type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + "/alarms/assignalarm";
+            console.log(url);
+            console.log(body);
+
+            this.http.post(url, body, options)
+              .subscribe((data) => {
+                if (data.status === 200) {
+                  this.hideForm = true;
+                  console.log("Alarm Assinged Reponse:" + JSON.stringify(data));
+                  //this.conf.sendNotification(`Successfully assigned`);
+                  this.conf.sendNotification(data.json().msg[0].result);
+                  localStorage.setItem("userPhotoFile", "");
+                  // localStorage.setItem("atMentionResult", '');
+                  if (this.NP.get("from") == 'alarm') {
+                    this.navCtrl.setRoot(AlarmPage);
+                  } else {
+                    this.navCtrl.setRoot(AlarmlogPage);
+                  }
+                }
+                // Otherwise let 'em know anyway
+                else {
+                  this.conf.sendNotification('Something went wrong!');
+                }
+              }, error => {
+                this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+              });
           }
-          // Otherwise let 'em know anyway
-          else {
-            this.conf.sendNotification('Something went wrong!');
-          }
-        }, error => {
-          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-        });
-    }
+
+
+        // } else {
+        //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+        //   return false;
+        // }
+      });
+    // Personal hashtag checking....
+
+
   }
 
   address1get(hashtag) {
@@ -392,20 +422,20 @@ export class AddalarmPage {
   previous() {
     console.log("From is:" + this.NP.get("from"));
     if (this.NP.get("from") == 'alarm') {
-       this.navCtrl.setRoot(AlarmPage,
+      this.navCtrl.setRoot(AlarmPage,
         {
           record: this.NP.get("record")
         });
     }
     else if (this.NP.get("from") == 'alarmlog') {
-       this.navCtrl.setRoot(AlarmlogPage,
+      this.navCtrl.setRoot(AlarmlogPage,
         {
           record: this.NP.get("record")
         });
     } else if (this.NP.get("from") == 'comment') {
-       this.navCtrl.setRoot(CommentsinfoPage);
+      this.navCtrl.setRoot(CommentsinfoPage);
     } else if (this.NP.get("from") == 'commentinfo') {
-       this.navCtrl.setRoot(CommentsinfoPage);
+      this.navCtrl.setRoot(CommentsinfoPage);
     } else {
 
     }
@@ -417,7 +447,7 @@ export class AddalarmPage {
   }
 
   trendlineInfo(alarmid, item) {
-     this.navCtrl.setRoot(TrendlinePage, {
+    this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid,
       record: item,
       from: this.NP.get("from")

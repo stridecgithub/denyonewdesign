@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header  (tap)="isNet()">
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
@@ -8,7 +8,7 @@
     <ion-title>{{unitDetailData.unitnameellipse}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content padding no-bounce>
+<ion-content padding no-bounce  (tap)="isNet()">
   <div>
     <ion-segment [(ngModel)]="tabs" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="overView">
@@ -285,7 +285,7 @@
             position: absolute;
             left: 59px;
             font-weight: bold;
-            font-size: 15px;">{{l1l2l3voltagelablel}}
+            font-size: 15px;"><!--{{l1l2l3voltagelablel}}-->
               </span>
               <div class="svg-draw">
                 <div class="voltagegauge demo2"></div>
@@ -309,7 +309,8 @@
               <span style="top: 95px;
                 position: absolute;            
                 left: 73px;font-weight: bold;
-                font-size: 15px;">{{l1l2l3currentlablel}}</span>
+                font-size: 15px;"><!--{{l1l2l3currentlablel}}-->
+              </span>
               <div class="svg-draw">
                 <div class="currentgauge demo2"></div>
                 <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" class="sel-big">

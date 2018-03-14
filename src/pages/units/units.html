@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header   (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -21,7 +21,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content   (tap)="isNet()">
   <button class="add-unit-btn" (click)="doAdd()"   *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit</button>
   <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>

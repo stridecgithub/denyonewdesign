@@ -300,6 +300,13 @@ export class CalendarPage {
     // Footer Menu Access - End
 
   }
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+  }
   ionViewDidLoad() {
     localStorage.setItem("sdate", "");
     this.doNotifiyCount();
@@ -877,7 +884,7 @@ export class CalendarPage {
             event_remark: this.eventIdentify[i]['event_remark'],
             event_addedby_name: this.eventIdentify[i]['event_addedby_name'],
             event_time_new: this.eventIdentify[i]['service_scheduled_time'],
-
+            calendar_time: this.eventIdentify[i]['created_time']
           });
         }
         this.serviceIdentify = res.services;
@@ -930,6 +937,7 @@ export class CalendarPage {
             event_location: this.serviceIdentify[j]['service_location'],
             event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
             event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
+            calendar_time: this.serviceIdentify[j]['created_time']
 
           });
 
@@ -980,7 +988,8 @@ export class CalendarPage {
             alarm_time: this.alarmIdentity[k]['alarm_time'],
             event_time_new: this.alarmIdentity[k]['service_scheduled_time'],
             alarm_priority: this.alarmIdentity[k]['alarm_priority'],
-            eventcolor: eventcolor
+            eventcolor: eventcolor,
+            calendar_time: this.alarmIdentity[k]['created_time']
 
           });
 
@@ -1011,7 +1020,7 @@ export class CalendarPage {
   }
 
   doAdd() {
-     this.navCtrl.setRoot(AddcalendarPage);
+    this.navCtrl.setRoot(AddcalendarPage);
   }
 
   doCalendarDelete(item, action) {
@@ -1037,27 +1046,27 @@ export class CalendarPage {
     confirm.present();
   }
   doCalendarEdit(item, type) {
-     this.navCtrl.setRoot(AddcalendarPage, {
+    this.navCtrl.setRoot(AddcalendarPage, {
       item: item,
       type: type
     });
   }
 
   doCalendarView(event_id, event_type) {
-     this.navCtrl.setRoot(EventDetailsPage, {
+    this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type
     });
   }
   doServiceView(event_id, event_type, eventdata) {
-     this.navCtrl.setRoot(EventDetailsServicePage, {
+    this.navCtrl.setRoot(EventDetailsServicePage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata
     });
   }
   doEventView(event_id, event_type, eventdata) {
-     this.navCtrl.setRoot(EventDetailsEventPage, {
+    this.navCtrl.setRoot(EventDetailsEventPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata
@@ -1318,6 +1327,7 @@ export class CalendarPage {
         formatted_datetime: this.eventIdentify[i]['formatted_datetime'],
         event_time_new: this.eventIdentify[i]['service_scheduled_time'],
         event_added_by: this.eventIdentify[i]['event_added_by'],
+        calendar_time: this.eventIdentify[i]['created_time'],
         event_type: 'E',
         icon: 'alarm', // Icon of the alert. This is compulsory when using the 
         // calendar on small screens, as the name of the event will
@@ -1357,7 +1367,8 @@ export class CalendarPage {
         event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
         formatted_datetime: this.serviceIdentify[j]['formatted_datetime'],
         event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
-
+      
+        calendar_time: this.serviceIdentify[j]['created_time'],
         event_type: 'S',
         icon: 'service',
         class: 'service'
@@ -1395,6 +1406,7 @@ export class CalendarPage {
         formatted_datetime: tmepm,
         event_time_new: this.alarmIdentity[k]['service_scheduled_time'],
         alarm_time: this.alarmIdentity[k]['alarm_time'],
+        calendar_time: this.alarmIdentity[k]['created_time'],
         alarm_priority: this.alarmIdentity[k]['alarm_priority'],
         eventcolor: eventcolor,
         event_type: 'A',
@@ -1506,7 +1518,7 @@ export class CalendarPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   doNotifiyCount() {
     // Notification count
@@ -1561,7 +1573,7 @@ export class CalendarPage {
         if (data.status === 200) {
           // this.conf.sendNotification(`Service was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-           this.navCtrl.setRoot(CalendarPage);
+          this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -1576,7 +1588,7 @@ export class CalendarPage {
     console.log(event_type);
     if (event_type == 'S') {
       event_type = 'service';
-       this.navCtrl.setRoot(AddcalendarPage,
+      this.navCtrl.setRoot(AddcalendarPage,
         {
           from: 'event-detail-service',
           item: item,
@@ -1587,7 +1599,7 @@ export class CalendarPage {
     }
     if (event_type == 'E') {
       event_type = 'event';
-       this.navCtrl.setRoot(AddcalendarPage,
+      this.navCtrl.setRoot(AddcalendarPage,
         {
           from: 'event-detail-service',
           item: item,
@@ -1606,7 +1618,7 @@ export class CalendarPage {
     console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
-         this.navCtrl.setRoot(AddalarmPage, {
+        this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -1656,7 +1668,7 @@ export class CalendarPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Event was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-           this.navCtrl.setRoot(CalendarPage);
+          this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {

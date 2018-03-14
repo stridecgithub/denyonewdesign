@@ -121,8 +121,14 @@
       </ion-col>
     </ion-row>
     
-    <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
-    <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
+    <!-- <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
+    <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span> -->
+
+    <div class="progress-outer" *ngIf="isProgress">
+      <div class="progress-inner" [style.width]="progress + '%'">        
+      </div>
+    </div>
+    
     <ion-row class="attachment-row" style="border-top: none" *ngIf="addedServiceImgLists.length==0">
       <ion-col class="col" col-12 style="padding: 10px 5px">
         <button (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded"><ion-icon name="add"></ion-icon></button>

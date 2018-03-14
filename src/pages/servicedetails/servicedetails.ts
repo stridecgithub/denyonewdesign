@@ -185,7 +185,7 @@ export class ServicedetailsPage {
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
 
-   
+
   }
 
   maxDateStr() {
@@ -420,6 +420,7 @@ export class ServicedetailsPage {
               this.atmentioneddata.push({
                 username: res.staffs[staff].username,
                 name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
               });
             }
           }
@@ -602,6 +603,32 @@ export class ServicedetailsPage {
 
       let service_remark = jQuery(".service_remark").val();
       let description = jQuery(".description").val();
+
+
+      // Personal hashtag checking....
+      let toaddress1 = jQuery(".description").val();
+      let param1 = "toaddress=" + toaddress1 + "&ismobile=1";
+      let body1: string = param1,
+
+        type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers1: any = new Headers({ 'Content-Type': type1 }),
+        options1: any = new RequestOptions({ headers: headers1 }),
+        url1: any = this.apiServiceURL + "/messages/chkemailhashtags";
+      console.log("Chkemailhashtags API" + url1 + "?" + body1);
+
+      this.http.post(url1, body1, options1)
+        .subscribe((data) => {
+          console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+          console.log("1" + data.json().invalidusers);
+          // if (data.json().invalidusers == '') {
+
+          // } else {
+          //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          //   return false;
+          // }
+        });
+      // Personal hashtag checking....
+
       console.log("Service service_remark:" + service_remark);
       console.log("Service Description:" + description);
       if (status == 1) {
@@ -620,7 +647,32 @@ export class ServicedetailsPage {
         service_subject: string = this.form.controls["service_subject"].value;
       console.log("service_scheduled_date and time:" + service_scheduled_date);
       // service_scheduled_date = "2018-02-16T02:45:00";
-      this.createEntry(service_scheduled_date, description, status, service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+
+
+      // Personal hashtag checking....
+      let toaddress = jQuery(".service_remark").val();
+      let param = "toaddress=" + toaddress + "&ismobile=1";
+      let body: string = param,
+
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+      console.log("Chkemailhashtags API" + url + "?" + body);
+
+      this.http.post(url, body, options)
+        .subscribe((data) => {
+          console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+          console.log("1" + data.json().invalidusers);
+         // if (data.json().invalidusers == '') {
+            this.createEntry(service_scheduled_date, description, status, service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+          // } else {
+          //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          //   return false;
+          // }
+        });
+      // Personal hashtag checking....
+
 
     }
 
@@ -742,11 +794,11 @@ export class ServicedetailsPage {
           localStorage.setItem("atMentionResult", '');
 
           if (this.NP.get("from") == 'commentinfo') {
-             this.navCtrl.setRoot(CommentsinfoPage, {
+            this.navCtrl.setRoot(CommentsinfoPage, {
               record: this.NP.get("record")
             });
           } else {
-             this.navCtrl.setRoot(ServicinginfoPage, {
+            this.navCtrl.setRoot(ServicinginfoPage, {
               record: this.NP.get("record")
             });
           }
@@ -818,7 +870,7 @@ export class ServicedetailsPage {
 
           this.conf.sendNotification(data.json().msg[0]['result']);
           localStorage.setItem("atMentionResult", '');
-           this.navCtrl.setRoot(ServicinginfoPage, {
+          this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -936,7 +988,7 @@ export class ServicedetailsPage {
         }
       },
       err => console.log('Error occurred while getting date: ', err)
-    );
+      );
   }
   address1get(hashtag) {
     console.log(hashtag);
@@ -948,17 +1000,17 @@ export class ServicedetailsPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
     else if (this.NP.get("from") == 'commentinfo') {
-       this.navCtrl.setRoot(CommentsinfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.NP.get("record")
       });
     }
     else {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -1203,10 +1255,10 @@ export class ServicedetailsPage {
 
 
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-     this.navCtrl.setRoot(UnitsPage);
+    this.navCtrl.setRoot(UnitsPage);
   }
 
 

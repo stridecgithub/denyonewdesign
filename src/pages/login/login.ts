@@ -43,6 +43,13 @@ export class LoginPage {
     // to enable menu.
     this.menuCtrl.enable(true);
   }
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    console.log("isNet" + isNet);
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+    }
+  }
 
   ionViewDidLoad() {
     this.conf.consolePrint('ionViewDidLoad LoginPage');
@@ -70,7 +77,7 @@ export class LoginPage {
       this.conf.consolePrint("login.ts E");
       this.conf.consolePrint("login.ts  User id logged out action from dashboard.ts");
       this.events.publish('menu:created', 'dashboard', Date.now());
-       this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
+      this.navCtrl.setRoot(DashboardPage, { selectedindex: 0 });
     }
 
   }
@@ -398,7 +405,7 @@ export class LoginPage {
             error => console.error('Error storing item', error)
             );
           this.events.publish('menu:created', 'dashboard', Date.now());
-           this.navCtrl.setRoot(DashboardPage, {
+          this.navCtrl.setRoot(DashboardPage, {
             companyId: res['staffdetails'][0].company_id,
             userId: res['staffdetails'][0].staff_id,
             footermenu: res['footermenu'],
@@ -416,7 +423,7 @@ export class LoginPage {
   }
 
   doMove() {
-     this.navCtrl.setRoot(ForgotpasswordPage);
+    this.navCtrl.setRoot(ForgotpasswordPage);
   }
 
 

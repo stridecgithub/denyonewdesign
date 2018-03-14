@@ -449,33 +449,6 @@ export class EditprofilesteponePage {
       console.log("Contact Concatenate" + contact);
       console.log(this.form.controls);
       console.log("this.isUploadedProcessing" + this.isUploadedProcessing);
-
-
-      // let body: string = "key=emailexist&email=" + email,
-      //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      //   headers: any = new Headers({ 'Content-Type': type }),
-      //   options: any = new RequestOptions({ headers: headers }),
-      //   url: any = this.apiServiceURL + "/api/users.php";
-
-      // this.http.post(url, body, options)
-      //   .subscribe((data) => {
-      //     console.log(JSON.stringify(data.json()));
-      //     // If the request was successful notify the user
-      //     if (data.status === 200) {
-      //       this.hideForm = true;
-      //       console.log(data.json().Error);
-      //       if (data.json().Error > 0) {
-      //         this.userInfo = []; // need this one
-      //         this.conf.sendNotification(data.json().message);
-      //         return false;
-      //       }
-      //     }
-      //     // Otherwise let 'em know anyway
-      //     else {
-      //       this.conf.sendNotification('Something went wrong!');
-      //     }
-      //   });
-
       if (this.isUploadedProcessing == false) {
         this.updateEntry(first_name, last_name, email, username, password, contact, this.userId, hashtag, job_position, company_id, report_to);
       }

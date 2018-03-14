@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header  (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -22,7 +22,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content  (tap)="isNet()">
 
   <div  *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs">

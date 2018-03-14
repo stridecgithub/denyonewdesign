@@ -1,4 +1,4 @@
-<ion-content padding  no-bounce>
+<ion-content padding no-bounce (tap)="isNet()">
 
   <!-- logo -->
   <div id="logo">
@@ -9,9 +9,9 @@
   <!-- login form -->
   <div id="login-form">
 
-      <!-- <textarea id='inputbox' style='width: 400px; height: 90px;'></textarea> -->
+    <!-- <textarea id='inputbox' style='width: 400px; height: 90px;'></textarea> -->
 
-      
+
     <ion-list>
 
       <ion-item>
@@ -37,7 +37,10 @@
   <!-- login form -->
 
   <!-- app version -->
-  <div id="app-version">Version 2.0.0</div>
+  <div id="app-version-left">Version1.0
+    <div id="app-version-right">Build 1</div>
+  </div>
+
   <!-- app version -->
 
 </ion-content>

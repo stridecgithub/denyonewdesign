@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -19,7 +19,7 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content  (tap)="isNet()">
 
   <div class="network-error" *ngIf="networkType!=''" style="position: relative;margin-top: 108%;">{{networkType}}</div>
   <!--div *ngIf="networkType==''">
@@ -193,12 +193,12 @@
           <ion-item-sliding #item class="list-item" *ngFor="let eventitem of calEvents">
             <ion-item *ngIf="eventitem.event_type=='E' && EVENTVIEWACCESS==1" (click)="doEventView(eventitem.event_id,eventitem.event_type,calendaritem)">
 
-              <div class="event-time" *ngIf="eventitem.event_time==''">
+              <div class="event-time" *ngIf="eventitem.calendar_time==''">
                 N/A
               </div>
 
-              <div class="event-time" *ngIf="eventitem.event_time!=''">
-                {{eventitem.event_time}}
+              <div class="event-time" *ngIf="eventitem.calendar_time!=''">
+                {{eventitem.calendar_time}}
               </div>
 
               <div class="event-detail eventcolor">
@@ -220,12 +220,12 @@
 
 
 
-              <div class="event-time" *ngIf="eventitem.event_time_new==''">
+              <div class="event-time" *ngIf="eventitem.calendar_time==''">
                 N/A
               </div>
 
-              <div class="event-time" *ngIf="eventitem.event_time_new!=''">
-                {{eventitem.event_time_new}}
+              <div class="event-time" *ngIf="eventitem.calendar_time!=''">
+                {{eventitem.calendar_time}}
               </div>
 
 
@@ -251,7 +251,7 @@
             </ion-item>
             <ion-item *ngIf="eventitem.event_type=='A' && ALARMVIEWACCESS=='1'" (click)="doCalendarView(eventitem.event_id,eventitem.event_type)">
               <div class="event-time">
-                {{eventitem.alarm_time}}
+                {{eventitem.calendar_time}}
 
               </div>
 
@@ -279,7 +279,7 @@
               <button *ngIf="eventitem.event_type=='S' && SERVICEEDITACCESS=='1'" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
                 <ion-icon name="trash"></ion-icon>Edit
               </button>
-              <button *ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && eventitem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)"><!--*ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && SERVICEDELETEACCESS=='1' && eventitem.event_added_by==userId" -->
+              <button *ngIf="eventitem.duration==0 && eventitem.event_type=='S' && eventitem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)"><!--*ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && SERVICEDELETEACCESS=='1' && eventitem.event_added_by==userId" -->
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
               <button *ngIf="eventitem.event_type=='E' && eventitem.event_added_by==userId  && EVENTDELETEACCESS=='1'" ion-button class="del-btn"
@@ -323,12 +323,12 @@
 
             <ion-item *ngIf="calendaritem.event_type=='E'  && EVENTVIEWACCESS==1" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
 
-              <div class="event-time" *ngIf="calendaritem.event_time==''">
+              <div class="event-time" *ngIf="calendaritem.calendar_time==''">
                 N/A
               </div>
 
-              <div class="event-time" *ngIf="calendaritem.event_time!=''">
-                {{calendaritem.event_time}}
+              <div class="event-time" *ngIf="calendaritem.calendar_time!=''">
+                {{calendaritem.calendar_time}}
               </div>
 
               <div class="event-detail eventcolor">
@@ -348,12 +348,12 @@
 
 
 
-              <div class="event-time" *ngIf="calendaritem.event_time_new==''">
+              <div class="event-time" *ngIf="calendaritem.calendar_time==''">
                 N/A
               </div>
 
-              <div class="event-time" *ngIf="calendaritem.event_time_new!=''">
-                {{calendaritem.event_time_new}}
+              <div class="event-time" *ngIf="calendaritem.calendar_time!=''">
+                {{calendaritem.calendar_time}}
               </div>
 
               <div class="event-detail servicecolor">
@@ -369,7 +369,7 @@
             </ion-item>
             <ion-item *ngIf="calendaritem.event_type=='A'  && ALARMVIEWACCESS=='1'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
               <div class="event-time">
-                {{calendaritem.alarm_time}}
+                {{calendaritem.calendar_time}}
               </div>
               <div class="event-detail" ngClass="{{calendaritem.eventcolor}}">
                 <h1>
@@ -400,7 +400,7 @@
               <button *ngIf="calendaritem.event_type=='OA' && ALARMEDITACCESS=='1'" ion-button class="edit-btn" (click)="doEditAlarm(calendaritem,'edit')">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
-              <button *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)"><!-- *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
+              <button *ngIf="calendaritem.duration==0 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)"><!-- *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
 

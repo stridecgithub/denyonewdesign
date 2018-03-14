@@ -841,3 +841,31 @@ page-compose.ion-page > ion-content .scroll-content{
     font-weight: 300;
     margin-left: 1px;
 }
+.progress-outer {
+  width: 96%;
+  margin: 10px 2%;
+  padding: 3px;
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #dcdcdc;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.progress-inner {
+  min-width: 15%;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px;
+  border-radius: 20px;
+  background-color: map-get($colors, primary);
+}
+#menu-app-version-left {
+  font-size: 12px;
+  color: goldenrod;
+  padding-top: 111px;
+}
+#menu-app-version-right {
+  font-size: 12px;
+  float: right;
+}

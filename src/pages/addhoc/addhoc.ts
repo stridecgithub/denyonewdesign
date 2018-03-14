@@ -92,7 +92,7 @@ export class AddhocPage {
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    
+
     this.next_service_date_selected = 0;
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.isFuture = 0;
@@ -309,53 +309,54 @@ export class AddhocPage {
     //   })
 
     let body1: string = '',
-    //body: string = "key=delete&recordID=" + recordID,
-    type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    headers1: any = new Headers({ 'Content-Type': type }),
-    options1: any = new RequestOptions({ headers: headers }),
-    url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-  console.log(url1);
-  this.http.get(url1, options1)
+      //body: string = "key=delete&recordID=" + recordID,
+      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers1: any = new Headers({ 'Content-Type': type }),
+      options1: any = new RequestOptions({ headers: headers }),
+      url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+    console.log(url1);
+    this.http.get(url1, options1)
 
-  // let body: string = param,
+    // let body: string = param,
 
-  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-  //   headers: any = new Headers({ 'Content-Type': type }),
-  //   options: any = new RequestOptions({ headers: headers }),
-  //   url: any = urlstring;
-  console.log("Message sending API" + url1+ "?" + body1);
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url1 + "?" + body1);
 
-  this.http.post(url1, body1, options1)
+    this.http.post(url1, body1, options1)
 
-    .subscribe(data => {
-      let res;
-      // If the request was successful notify the user
-      if (data.status === 200) {
-       // this.atmentioneddata = data.json();
-        res = data.json();
-        console.log(data.json().staffs);
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        if (res.staffs.length > 0) {
-          for (let staff in res.staffs) {
-            this.atmentioneddata.push({
-              username: res.staffs[staff].username,
-              name: res.staffs[staff].name,
-            });
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
+              });
+            }
           }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
         }
-        // Otherwise let 'em know anyway
-      } else {
-        this.conf.sendNotification('Something went wrong!');
-      }
-    }, error => {
+      }, error => {
 
-    })
-  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-  jQuery(".service_remark").mention({
-    users: this.atmentioneddata
-  });
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".service_remark").mention({
+      users: this.atmentioneddata
+    });
 
-      
+
     // Atmentioned API Calls
   }
   maxDateStr() {
@@ -535,7 +536,32 @@ export class AddhocPage {
       console.log("is_request:" + is_request);
       console.log("service_subject:" + service_subject);
       console.log("nextServiceDate:" + this.unitDetailData.nextServiceDate);
-      this.createEntry(this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+
+
+      // Personal hashtag checking....
+      let toaddress = jQuery(".service_remark").val();
+      let param = "toaddress=" + toaddress + "&ismobile=1";
+      let body: string = param,
+
+        type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+      console.log("Chkemailhashtags API" + url + "?" + body);
+
+      this.http.post(url, body, options)
+        .subscribe((data) => {
+          console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+          console.log("1" + data.json().invalidusers);
+          //if (data.json().invalidusers == '') {
+            this.createEntry(this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+          // } else {
+          //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          //   return false;
+          // }
+        });
+      // Personal hashtag checking....
+
 
     }
 
@@ -640,9 +666,9 @@ export class AddhocPage {
           if (res.msg[0]['Error'] > 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }*/
-         // this.conf.sendNotification(`Servicing info was successfully added`);
-         this.conf.sendNotification(data.json().msg[0].result);
-           this.navCtrl.setRoot(ServicinginfoPage, {
+          // this.conf.sendNotification(`Servicing info was successfully added`);
+          this.conf.sendNotification(data.json().msg[0].result);
+          this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
             unitid: this.service_unitid
           });
@@ -795,7 +821,7 @@ export class AddhocPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -803,7 +829,7 @@ export class AddhocPage {
       //  this.navCtrl.setRoot(CommentsinfoPage);
     }
     else {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -937,7 +963,7 @@ export class AddhocPage {
 
 
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
 

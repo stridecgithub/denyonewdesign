@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header  (tap)="isNet()">
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
@@ -13,7 +13,7 @@
 
 
 
-<ion-content>
+<ion-content  (tap)="isNet()">
   <div class="error" *ngIf="notificationAllLists.length==0">No entries found</div>
   <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">

@@ -1,4 +1,4 @@
-<ion-menu [content]="content"  (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
+<ion-menu [content]="content" (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
   <ion-header>
     <div class="user-img">
       <img src="{{profilePhoto}}" width="100" height="100" alt="">
@@ -20,13 +20,12 @@
     </ion-list> -->
 
     <ion-list class="left-drawer">
-      <ion-item color="gray" *ngFor="let p of pages; let i=index" text-wrap (click)="toggleLevel1('idx'+i);openPage(p)"
-        [ngClass]="{active: isLevel1Shown('idx'+i)}">
+      <ion-item color="gray" *ngFor="let p of pages; let i=index" text-wrap (click)="toggleLevel1('idx'+i);openPage(p)" [ngClass]="{active: isLevel1Shown('idx'+i)}">
         <img src="assets/imgs/menu-{{p.icon}}-icon@2x.png" width="24">{{p.title}}
         <ion-list *ngIf="isLevel1Shown('idx'+i)" style="background: none">
           <ion-item color="gray" menuClose *ngFor="let s of p.subs; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2);openPage(s)"
             [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
-            {{s.title}}     
+            {{s.title}}
           </ion-item>
         </ion-list>
       </ion-item>
@@ -37,6 +36,9 @@
 
     </ion-list>
 
+    <div id="menu-app-version-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version1.0
+      <div id="menu-app-version-right">Build 1&nbsp;&nbsp;&nbsp;&nbsp;</div>
+    </div>
   </ion-content>
 
 </ion-menu>

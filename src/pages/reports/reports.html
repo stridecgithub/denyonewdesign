@@ -37,7 +37,7 @@
 </ion-header> -->
 
 
-<ion-header>
+<ion-header  (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -53,7 +53,7 @@
 </ion-header>
 
 
-<ion-content class="ion-content">
+<ion-content class="ion-content"  (tap)="isNet()">
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
 
     <div class="edit-report">

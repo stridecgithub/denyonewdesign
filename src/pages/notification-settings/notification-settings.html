@@ -49,7 +49,7 @@
 
         <ion-item>
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact_number_1" [(ngModel)]="contact_number_1"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_1" [(ngModel)]="contact_number_1"></ion-input>
         </ion-item>
 
 
@@ -76,7 +76,7 @@
 
         <ion-item *ngIf="cont2">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact_number_2" [(ngModel)]="contact_number_2"  (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_2" [(ngModel)]="contact_number_2"  (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
         </ion-item>
 
 
@@ -103,7 +103,7 @@
 
         <ion-item *ngIf="cont3">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact_number_3" [(ngModel)]="contact_number_3"  (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_3" [(ngModel)]="contact_number_3"  (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
         </ion-item>
 
 
@@ -130,7 +130,7 @@
 
         <ion-item *ngIf="cont4">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact_number_4" [(ngModel)]="contact_number_4"  (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_4" [(ngModel)]="contact_number_4"  (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
         </ion-item>
 
 
@@ -158,7 +158,7 @@
 
         <ion-item *ngIf="cont5">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="tel" [disabled]="readOnly" formControlName="contact_number_5" [(ngModel)]="contact_number_5" (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_5" [(ngModel)]="contact_number_5" (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
         </ion-item>
 
 

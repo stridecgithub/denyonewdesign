@@ -16,7 +16,7 @@ import * as moment from 'moment';
 import 'moment-timezone';
 
 declare var jQuery: any;
-declare var mention:any;
+declare var mention: any;
 /*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the AddserviceinfoPage page.
@@ -157,7 +157,7 @@ export class AddserviceinfoPage {
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
     // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-   
+
   }
 
   maxDateStr() {
@@ -245,118 +245,54 @@ export class AddserviceinfoPage {
         });*/
 
 
-        // Atmentioned API Calls
+    // Atmentioned API Calls
     let body: string = '',
-    //body: string = "key=delete&recordID=" + recordID,
-    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    headers: any = new Headers({ 'Content-Type': type }),
-    options: any = new RequestOptions({ headers: headers }),
-    url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-  console.log(url);
-  this.http.get(url, options)
+      //body: string = "key=delete&recordID=" + recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
+    console.log(url);
+    this.http.get(url, options)
 
-  // let body: string = param,
+    // let body: string = param,
 
-  //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-  //   headers: any = new Headers({ 'Content-Type': type }),
-  //   options: any = new RequestOptions({ headers: headers }),
-  //   url: any = urlstring;
-  console.log("Message sending API" + url + "?" + body);
+    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    //   headers: any = new Headers({ 'Content-Type': type }),
+    //   options: any = new RequestOptions({ headers: headers }),
+    //   url: any = urlstring;
+    console.log("Message sending API" + url + "?" + body);
 
-  this.http.post(url, body, options)
+    this.http.post(url, body, options)
 
-    .subscribe(data => {
-      let res;
-      // If the request was successful notify the user
-      if (data.status === 200) {
-       // this.atmentioneddata = data.json();
-        res = data.json();
-        console.log(data.json().staffs);
+      .subscribe(data => {
+        let res;
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          // this.atmentioneddata = data.json();
+          res = data.json();
+          console.log(data.json().staffs);
 
-        if (res.staffs.length > 0) {
-          for (let staff in res.staffs) {
-            this.atmentioneddata.push({
-              username: res.staffs[staff].username,
-              name: res.staffs[staff].name,
-            });
+          if (res.staffs.length > 0) {
+            for (let staff in res.staffs) {
+              this.atmentioneddata.push({
+                username: res.staffs[staff].username,
+                name: res.staffs[staff].name,
+                personaltag: res.staffs[staff].username,
+              });
+            }
           }
+          // Otherwise let 'em know anyway
+        } else {
+          this.conf.sendNotification('Something went wrong!');
         }
-        // Otherwise let 'em know anyway
-      } else {
-        this.conf.sendNotification('Something went wrong!');
-      }
-    }, error => {
+      }, error => {
 
-    })
-  console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
-  jQuery(".description").mention({
-    users: this.atmentioneddata
-  });
-
-        // jQuery("#attention").mention({
-        //   users: [
-        //                               {
-        //         username: 'bala',
-        //         name: 'Bala Murugan',			
-        //       },	
-        //                         {
-        //         username: 'Lerkila',
-        //         name: 'Chun Hsin Ler',			
-        //       },	
-        //                         {
-        //         username: 'denyov2',
-        //         name: 'Guest Demo',			
-        //       },	
-        //                         {
-        //         username: 'JasonTan',
-        //         name: 'Jason Tan',			
-        //       },	
-        //                         {
-        //         username: 'Joseph',
-        //         name: 'Joseph Teo',			
-        //       },	
-        //                         {
-        //         username: 'Kent',
-        //         name: 'Kent Ng',			
-        //       },	
-        //                         {
-        //         username: 'Pto',
-        //         name: 'Pto Usrr',			
-        //       },	
-        //                         {
-        //         username: 'Sarvan',
-        //         name: 'Sarvan Palani',			
-        //       },	
-        //                         {
-        //         username: 'Sebastian',
-        //         name: 'Sebastian Koh',			
-        //       },	
-        //                         {
-        //         username: 'Sinyee',
-        //         name: 'Sin Yee Lee',			
-        //       },	
-        //                         {
-        //         username: 'sofia',
-        //         name: 'sofia bhuvanesh',			
-        //       },	
-        //                         {
-        //         username: 'Ikedha',
-        //         name: 'Takatoshi Ikeda',			
-        //       },	
-        //                         {
-        //         username: 'tst',
-        //         name: 'ts tst',			
-        //       },	
-        //                         {
-        //         username: 'Weichien',
-        //         name: 'Wei Chien Lim',			
-        //       },	
-        //                         {
-        //         username: 'Kuboyama',
-        //         name: 'Yasuaki Kuboyama',			
-        //       }	
-        //                 ]
-        // });	
+      })
+    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+    jQuery(".description").mention({
+      users: this.atmentioneddata
+    });	
   }
 
 
@@ -603,36 +539,31 @@ export class AddserviceinfoPage {
           serviced_by: string = this.unitDetailData.userId,
           service_subject: string = this.form.controls["service_subject"].value;
         let description = jQuery('.description').val();
-        // console.log(description);
-        // console.log("serviced_datetime:" + serviced_datetime);
 
-        // if (serviced_datetime == undefined) {
-        //   this.serviced_datetime = moment().format();
-        //   console.log("Default date is" + this.serviced_datetime);
-        // } else {
-        //   this.serviced_datetime = serviced_datetime;
-        // }
-        // let datesplit = this.serviced_datetime.split("T")[1];
-        // let timesplit = datesplit.split(":");
-        // this.hrvalue = timesplit[0];
-        // let minvalue = timesplit[1];
-        // let ampmstr = 'AM';
-        // if (this.hrvalue > 12) {
-        //   ampmstr = 'PM';
-        // } else {
+        // Personal hashtag checking....
+        let toaddress = jQuery(".description").val();
+        let param = "toaddress=" + toaddress + "&ismobile=1";
+        let body: string = param,
 
-        // }
-        //serviced_datetime = this.serviced_datetime.split("T")[0];
-        //let timevalue = this.hrvalue + ":" + minvalue + " " + ampmstr;
-        // let timevalue = this.hrvalue + ":" + minvalue + ":00";
-        // console.log(timevalue);
-        //let d = new Date();
-        //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
-        //updateEntry(description, serviced_datetime, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
+          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+          headers: any = new Headers({ 'Content-Type': type }),
+          options: any = new RequestOptions({ headers: headers }),
+          url: any = this.apiServiceURL + "/messages/chkemailhashtags";
+        console.log("Chkemailhashtags API" + url + "?" + body);
 
+        this.http.post(url, body, options)
+          .subscribe((data) => {
+            console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
+            console.log("1" + data.json().invalidusers);
+           // if (data.json().invalidusers == '') {
+              this.createEntry(description, serviced_datetime, serviced_by, service_subject);
+            // } else {
+            //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+            //   return false;
+            // }
+          });
+        // Personal hashtag checking....
 
-
-        this.createEntry(description, serviced_datetime, serviced_by, service_subject);
 
       }
     }
@@ -709,9 +640,9 @@ export class AddserviceinfoPage {
           //if (res.msg[0]['Error'] > 0) {
           // this.conf.sendNotification(res.msg[0]['result']);
           //}
-         // this.conf.sendNotification(`New service scheduled added successfully`);
-         this.conf.sendNotification(res.msg[0]['result']);
-           this.navCtrl.setRoot(ServicinginfoPage, {
+          // this.conf.sendNotification(`New service scheduled added successfully`);
+          this.conf.sendNotification(res.msg[0]['result']);
+          this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -768,7 +699,7 @@ export class AddserviceinfoPage {
   previous() {
     this.addedServiceImgLists = [];
     if (this.NP.get("from") == 'service') {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -776,7 +707,7 @@ export class AddserviceinfoPage {
       // this.navCtrl.setRoot(CommentsinfoPage);
     }
     else {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.NP.get("record")
       });
     }
@@ -915,8 +846,8 @@ export class AddserviceinfoPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-         // this.conf.sendNotification(`File was successfully deleted`);
-         this.conf.sendNotification(data.json().msg[0].result);
+          // this.conf.sendNotification(`File was successfully deleted`);
+          this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
         else {
@@ -929,9 +860,9 @@ export class AddserviceinfoPage {
 
 
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
- 
+
 
 
   showConfirm() {

@@ -127,13 +127,13 @@ $app-brand-colors: (
     font-size: 19px;
 }
 
-.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child{
+/*.item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child{
   border-bottom-color:#ffffff;
 
   border-bottom-color: #ffffff;
     -webkit-box-shadow: inset 0 -1px 0 0 #ffffff;
     box-shadow: inset 0 -1px 0 0 #ffffff;
-}
+}*/
 
 .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
   border-bottom-color:#ffffff;
@@ -141,3 +141,25 @@ $app-brand-colors: (
     -webkit-box-shadow: inset 0 -1px 0 0 #ffffff;
     box-shadow: inset 0 -1px 0 0 #ffffff;
 }
+  .pushtoast {
+    .toast-wrapper {
+      background-color: #488aff;
+      opacity: 0.8;
+      border-radius: 5px;
+      
+    }
+    .toast-message {
+      background-color: #488aff;
+      font-size: 3.0rem;
+      color: white;
+    }
+
+    .toast-md .toast-message {
+      font-size: 1.5rem;
+      color: #fff;
+      padding: 19px 16px 17px;
+      border-radius: 5px;
+      background-color: #AAAAAA;
+  }
+
+  }
