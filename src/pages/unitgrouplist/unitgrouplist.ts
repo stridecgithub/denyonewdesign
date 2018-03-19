@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddunitsonePage } from '../addunitsone/addunitsone';
@@ -54,7 +54,7 @@ export class Unitgrouplist {
   createdOn;
   colorcode; cname; favoriteindication; unitgroup_name; totalunits
   //Authorization Declaration
-  public footerBar = [];
+ footerBar: number = 1;
   //Authorization Declaration
   public reportData: any =
     {
@@ -66,9 +66,16 @@ export class Unitgrouplist {
     }
   public reportAllLists = [];
   unitgroup;
-  constructor(public http: Http, public nav: NavController,
+  constructor(public platform:Platform,public http: Http, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
-    this.pageTitle = 'Units';
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.nav.setRoot(UnitgroupPage);
+        });
+      });
+  
+    
+      this.pageTitle = 'Units';
     this.str = '';
     this.loginas = localStorage.getItem("userInfoName");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -117,6 +124,7 @@ export class Unitgrouplist {
   } else {
     dashboarddisplay = 'none';
   }
+   /*
   this.footerBar.push({
     title: 'Dashboard',
     active: true,
@@ -130,7 +138,7 @@ export class Unitgrouplist {
   } else {
     unitdisplay = 'none';
   }
-  this.footerBar.push({
+ this.footerBar.push({
     title: 'Units',
     active: false,
     colorcode: "#488aff",
@@ -179,7 +187,7 @@ export class Unitgrouplist {
   });
   //this.footerBar = "0";
   //let footerBar=this.footerBar.split(",");
-
+*/
   // Footer Menu Access - End
   }
 

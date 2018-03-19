@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Platform } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { CompanygroupPage } from '../companygroup/companygroup';
@@ -25,7 +25,8 @@ import { NotificationPage } from '../notification/notification';
 })
 export class AddcompanygroupPage {
   // Define FormBuilder /model properties
-  public footerBar = [];
+ 
+  footerBar: number = 0;
   public loginas: any;
   public form: FormGroup;
   public companygroup_name: any;
@@ -60,7 +61,12 @@ export class AddcompanygroupPage {
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,public platform:Platform) {
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.nav.setRoot(CompanygroupPage);
+        });
+      });
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -105,6 +111,7 @@ export class AddcompanygroupPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -170,7 +177,7 @@ export class AddcompanygroupPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     
-
+*/
     // Footer Menu Access - End
 
   }

@@ -13,7 +13,7 @@ import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { EventDetailsServicePage } from '../../pages/event-details-service/event-details-service';
 import { EventDetailsEventPage } from '../../pages/event-details-event/event-details-event';
 import { NotificationPage } from '../notification/notification';
-
+import { PermissionPage } from '../permission/permission';
 import { AddcalendarPage } from '../../pages/addcalendar/addcalendar';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { Config } from '../../config/config';
@@ -82,8 +82,7 @@ import {  NavController, NavParams } from 'ionic-angular';
   providers: [DragulaService, Config]
 })
 export class CalendarPage {
-  // footerBar: number = 2;
-  public footerBar = [];
+   footerBar: number = 2;
   allselected: any;
   typeStr: any;
   serviceselected: any;
@@ -219,7 +218,9 @@ export class CalendarPage {
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-
+    if(calendarAccess==0){
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
     console.log("Footer Menu Access for Dashboard" + unitAccess);
     console.log("Footer Menu Access for Calendar" + calendarAccess);
@@ -231,6 +232,7 @@ export class CalendarPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -258,7 +260,7 @@ export class CalendarPage {
       calendardisplay = 'none';
     }
 
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Calendar',
       active: false,
       colorcode: "#488aff",
@@ -296,7 +298,7 @@ export class CalendarPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     console.log("Final Footer Menu access:" + this.footerBar);
-
+*/
     // Footer Menu Access - End
 
   }

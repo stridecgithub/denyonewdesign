@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { AlertController, NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -86,8 +86,14 @@ export class ComposePage {
   replyall;
   constructor(private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
+
     private transfer: FileTransfer,
-    private ngZone: NgZone) {
+    private ngZone: NgZone, public platform: Platform) {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(MessagesPage);
+      });
+    });
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.totalFileSizeExisting = 0;
     this.form = formBuilder.group({
@@ -508,10 +514,10 @@ export class ComposePage {
     //   return false;
     // }
 
-   
+
     // Personal hashtag checking....
     let toaddress = jQuery(".to").val();
-    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let param = "toaddress=" + toaddress + "&ismobile=1&type=textbox";
     let body: string = param,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -729,6 +735,16 @@ export class ComposePage {
     });
     actionSheet.present();
   }
+
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   fileTrans(path, micro_timestamp) {
     this.isSubmitted = true;
     console.log("Path:" + path);
@@ -759,13 +775,13 @@ export class ComposePage {
     }
     fileTransfer.onProgress(this.onProgress);
 
-    console.log("Upload Attach URL:" + this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize);
-    console.log("Upload Attach Options:" + JSON.stringify(options));
+    //this.showAlert("Uplod path for upload_attach:", this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n);
 
     // fileTransfer.upload(path, this.baseURI + '/api/upload_attach.php', options)
-    fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize, options)
+    fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n, options)
       .then((data) => {
         console.log("UPLOAD SUCCESS:" + data.response);
+        //this.showAlert("UPLOAD SUCCESS:", data.response);
         this.nowuploading = 1;
         let successData = JSON.parse(data.response);
         this.isSubmitted = false;

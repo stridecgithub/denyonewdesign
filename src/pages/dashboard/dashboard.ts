@@ -4,18 +4,11 @@ import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { MessagesPage } from '../messages/messages';
-//import { CalendarPage } from '../calendar/calendar';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
-
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { EventDetailsPage } from '../event-details/event-details';
 import { EventDetailsEventPage } from '../event-details-event/event-details-event';
-//import { AddUnitPage } from "../add-unit/add-unit";
-//import { AlarmLogPage } from "../alarm-log/alarm-log";
-//import { UnitDetailsPage } from '../unit-details/unit-details';
-//import { EventDetailsServicePage } from '../event-details-service/event-details-service';
 import { ServicingDetailsPage } from '../servicing-details/servicing-details';
-
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { ModalPage } from '../modal/modal';
@@ -24,15 +17,13 @@ import { AddUnitPage } from "../add-unit/add-unit";
 import { Network } from '@ionic-native/network';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { LoginPage } from '../login/login';
-declare var jQuery: any;
+import { PermissionPage } from '../permission/permission';
 /**
  * Generated class for the DashboardPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
-
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
@@ -40,9 +31,7 @@ declare var jQuery: any;
 })
 
 export class DashboardPage {
-
-  public footerBar = [];
-
+  footerBar: number = 0;
   tabIndexVal;
   @ViewChild('map') mapElement: ElementRef;
   public map: any;
@@ -104,29 +93,22 @@ export class DashboardPage {
     } else {
       footermenuacc = footeraccessstorage;
     }
-
-    console.log("Footer Menu Access abc:-" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
-
     let footermenusplitcomma = footermenuacc.split(",");
     let dashboardAccess = footermenusplitcomma[0];
     let unitAccess = footermenusplitcomma[1];
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+    if(dashboardAccess==0){
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "#488aff",
@@ -186,18 +168,26 @@ export class DashboardPage {
       colorcode: "rgba(60, 60, 60, 0.7)",
       pageComponent: 'OrgchartPage'
     });
-
-    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    console.log("Final Footer Menu access:" + this.footerBar);
+*/
 
     // Footer Menu Access - End
     this.platform.ready().then(() => {
-      this.previousPage = this.navCtrl.getActive().name;
-      console.log('Currant Pagename' + this.previousPage);
-      this.tabIndexVal = localStorage.getItem("tabIndex");
 
+      this.platform.registerBackButtonAction(() => {
+        if (this.navCtrl.canGoBack()) {
+          this.navCtrl.pop();
+        } else {
+          if (this.alert) {
+            this.alert.dismiss();
+            this.alert = null;
+          } else {
+            this.showAlertExist();
+          }
+        }
+      });
+
+      this.previousPage = this.navCtrl.getActive().name;
+      this.tabIndexVal = localStorage.getItem("tabIndex");
       this.initPushNotification();
     });
     this.apiServiceURL = conf.apiBaseURL();
@@ -217,37 +207,10 @@ export class DashboardPage {
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
-    /* events.subscribe('menu:opened', () => {
-       this.firstname = localStorage.getItem("userInfoName");
-       this.lastname = localStorage.getItem("userInfoLastName");
-       this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
-       this.profilePhoto = localStorage.getItem("userInfoPhoto");
-       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
-         this.profilePhoto = this.apiServiceURL + "/images/default.png";
-       } else {
-         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-       }
-       console.log("Dashboard- Menu Opened");
-     });
- 
-     events.subscribe('menu:closed', () => {
-       this.firstname = localStorage.getItem("userInfoName");
-       this.lastname = localStorage.getItem("userInfoLastName");
-       this.companyGroupName = localStorage.getItem("userInfoCompanyGroupName");
-       this.profilePhoto = localStorage.getItem("userInfoPhoto");
-       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
-         this.profilePhoto = this.apiServiceURL + "/images/default.png";
-       } else {
-         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
-       }
-       console.log("Dashboard- Menu Closed");
-     });*/
-
-
+    this.totalCount = 0;
   }
 
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -263,86 +226,12 @@ export class DashboardPage {
 
   displayNetworkUpdate(connectionState: string) {
     let networkType = this.network.type;
-    // this.toast.create({
-    //   message: `You are now ${connectionState} via ${networkType}`,
-    //   duration: 3000
-    // }).present();
-
-    // this.conf.sendNotification(`You are now ${connectionState}`);
-
   }
   ionViewWillLeave() {
     this.tabIndexVal = localStorage.getItem("tabIndex");
-    // this.connected.unsubscribe();
-    // this.disconnected.unsubscribe();
   }
-  ionViewDidEnter() {
-    this.network.onConnect().subscribe(data => {
-      console.log(data)
-      localStorage.setItem("isNet", data.type);
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
-
-    this.network.onDisconnect().subscribe(data => {
-      console.log(data)
-      localStorage.setItem("isNet", data.type);
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
-    this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
-    this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
-    this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
-    this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
-    localStorage.setItem("tabIndex", "0");
-    this.tabIndexVal = localStorage.getItem("tabIndex");
-    let mapView = document.getElementById('mapView');
-    let listView = document.getElementById('listView');
-
-    if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 0) {
-      console.log("X");
-      jQuery('#maptab').hide();
-      jQuery('#unittab').show();
-      mapView.style.display = 'none';
-      listView.style.display = 'block';
-      this.rolePermissionMsg = '';
-      this.segmenttabshow = 0;
-    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 0) {
-      console.log("Y");
-      jQuery('#maptab').hide();
-      jQuery('#unittab').hide();
-      mapView.style.display = 'none';
-      listView.style.display = 'none';
-      this.rolePermissionMsg = this.conf.rolePermissionMsg();
-      this.segmenttabshow = 0;
-    } else if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 1) {
-      console.log("YSQL");
-      jQuery('#maptab').show();
-      jQuery('#unittab').show();
-      mapView.style.display = 'block';
-      listView.style.display = 'none';
-      this.rolePermissionMsg = '';
-      this.segmenttabshow = 1;
-    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 1) {
-      this.rolePermissionMsg = '';
-      console.log("Q");
-      jQuery('#maptab').show();
-      jQuery('#unittab').hide();
-      mapView.style.display = 'block';
-      listView.style.display = 'none';
-      this.segmenttabshow = 0;
-    }
-
-  }
-
   ionViewDidLoad() {
-    this.network.onConnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
-
-    this.network.onDisconnect().subscribe(data => {
-      console.log(data)
-      this.displayNetworkUpdate(data.type);
-    }, error => console.error(error));
+    this.totalCount = 0;
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
@@ -350,7 +239,6 @@ export class DashboardPage {
 
     localStorage.setItem("tabIndex", "0");
     this.tabIndexVal = localStorage.getItem("tabIndex");
-    console.log('dashboardselected' + this.navParams.get('dashboardselected'));
     this.dashboardhighlight = this.navParams.get('dashboardselected');
 
 
@@ -358,7 +246,6 @@ export class DashboardPage {
     this.conf.showfooter();
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
-    console.log(this.navParams.get("tabs"));
     if (this.navParams.get("tabs") != undefined) {
       if (this.navParams.get("tabs") == 'mapView') {
         mapView.style.display = 'block';
@@ -378,11 +265,100 @@ export class DashboardPage {
     }
     if (this.userId == 'null') {
       this.userId = '';
-      console.log("ionViewDidLoad B");
     }
     if (this.userId == null) {
       this.userId = '';
-      console.log("ionViewDidLoadC");
+    }
+    if (this.userId != "") {
+      this.companyId = localStorage.getItem("userInfoCompanyId");
+      this.userId = localStorage.getItem("userInfoId");
+
+    } else {
+      this.events.subscribe('user:created', (user, time) => {
+        // user and time are the same arguments passed in `events.publish(user, time)`
+
+
+        this.companyId = user.company_id;
+        this.userId = user.staff_id
+
+      });
+    }
+    if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 0) {
+
+      jQuery('#maptab').hide();
+      jQuery('#unittab').show();
+      mapView.style.display = 'none';
+      listView.style.display = 'block';
+      this.rolePermissionMsg = '';
+      this.segmenttabshow = 0;
+    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 0) {
+
+      jQuery('#maptab').hide();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'none';
+      listView.style.display = 'none';
+      this.rolePermissionMsg = this.conf.rolePermissionMsg();
+      this.segmenttabshow = 0;
+    } else if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 1) {
+
+      jQuery('#maptab').show();
+      jQuery('#unittab').show();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.rolePermissionMsg = '';
+      this.segmenttabshow = 1;
+    } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 1) {
+      this.rolePermissionMsg = '';
+
+      jQuery('#maptab').show();
+      jQuery('#unittab').hide();
+      mapView.style.display = 'block';
+      listView.style.display = 'none';
+      this.segmenttabshow = 0;
+    }
+  }
+
+
+  ionViewDidEnter() {
+    this.totalCount = 0;
+    this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
+    this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
+    this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
+    this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
+
+    localStorage.setItem("tabIndex", "0");
+    this.tabIndexVal = localStorage.getItem("tabIndex");
+    this.dashboardhighlight = this.navParams.get('dashboardselected');
+
+
+
+    this.conf.showfooter();
+    let mapView = document.getElementById('mapView');
+    let listView = document.getElementById('listView');
+    if (this.navParams.get("tabs") != undefined) {
+      if (this.navParams.get("tabs") == 'mapView') {
+        mapView.style.display = 'block';
+        listView.style.display = 'none';
+      } else {
+        mapView.style.display = 'none';
+        listView.style.display = 'block';
+      }
+    }
+    this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.userId = localStorage.getItem("userInfoId");
+    if (this.userId == 'undefined') {
+      this.userId = '';
+    }
+    if (this.userId == undefined) {
+      this.userId = '';
+    }
+    if (this.userId == 'null') {
+      this.userId = '';
+
+    }
+    if (this.userId == null) {
+      this.userId = '';
+
     }
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -393,9 +369,6 @@ export class DashboardPage {
       this.initMap();
     } else {
       this.events.subscribe('user:created', (user, time) => {
-        // user and time are the same arguments passed in `events.publish(user, time)`
-
-        console.log("Company Id:" + user.company_id);
         this.companyId = user.company_id;
         this.userId = user.staff_id
         this.doUnit();
@@ -405,7 +378,6 @@ export class DashboardPage {
       });
     }
     if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 0) {
-      console.log("X");
       jQuery('#maptab').hide();
       jQuery('#unittab').show();
       mapView.style.display = 'none';
@@ -413,7 +385,6 @@ export class DashboardPage {
       this.rolePermissionMsg = '';
       this.segmenttabshow = 0;
     } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 0) {
-      console.log("Y");
       jQuery('#maptab').hide();
       jQuery('#unittab').hide();
       mapView.style.display = 'none';
@@ -421,7 +392,6 @@ export class DashboardPage {
       this.rolePermissionMsg = this.conf.rolePermissionMsg();
       this.segmenttabshow = 0;
     } else if (this.UNITVIEWACCESS == 1 && this.MAPVIEWACCESS == 1) {
-      console.log("YSQL");
       jQuery('#maptab').show();
       jQuery('#unittab').show();
       mapView.style.display = 'block';
@@ -430,7 +400,6 @@ export class DashboardPage {
       this.segmenttabshow = 1;
     } else if (this.UNITVIEWACCESS == 0 && this.MAPVIEWACCESS == 1) {
       this.rolePermissionMsg = '';
-      console.log("Q");
       jQuery('#maptab').show();
       jQuery('#unittab').hide();
       mapView.style.display = 'block';
@@ -438,7 +407,6 @@ export class DashboardPage {
       this.segmenttabshow = 0;
     }
   }
-
   doNotifiyCount() {
     // Notification count
     let
@@ -446,7 +414,6 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log("Notifycount URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -477,14 +444,10 @@ export class DashboardPage {
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
 
     let res;
-    console.log("Dashboard List URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        // console.log(JSON.stringify(res));
-        // console.log("1" + res.units.length);
-        // console.log("2" + res.units);
         if (res.totalCount > 0) {
 
           for (let unit in res.units) {
@@ -497,8 +460,6 @@ export class DashboardPage {
             } else {
               cname = '';
             }
-            // console.log("Favorite is:" + res.units[unit].favorite);
-
             this.unitAllLists.push({
               unit_id: res.units[unit].unit_id,
               unitname: res.units[unit].unitname,
@@ -523,14 +484,12 @@ export class DashboardPage {
               viewonid: res.units[unit].viewonid
             });
           }
-          // console.log("Kannan12345fdsfs" + JSON.stringify(this.unitAllLists));
+
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
-        // console.log("Total Record:" + this.totalCount);
-
       }, error => {
         console.log("Error" + JSON.stringify(error));
       });
@@ -600,7 +559,6 @@ export class DashboardPage {
 
   // List page navigate to notification list
   notification() {
-    console.log('Will go notification list page');
     // Navigate the notification list page
     this.navCtrl.setRoot(NotificationPage);
   }
@@ -620,11 +578,8 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setdashboardfavorite";
-    console.log(url);
-    console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
         let res = data.json();
 
 
@@ -639,7 +594,7 @@ export class DashboardPage {
             } else {
               cname = '';
             }
-            console.log("Favorite is:" + res.units[unit].favorite);
+
             this.unitAllLists.push({
               unit_id: res.units[unit].unit_id,
               unitname: res.units[unit].unitname,
@@ -672,7 +627,6 @@ export class DashboardPage {
 
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavorited successfully");
             this.conf.sendNotification(res.msg['result']);
@@ -700,9 +654,6 @@ export class DashboardPage {
   segmentChanged(e) {
     this.doUnit();
     this.initMap();
-    console.log("Segment changed:" + e.target);
-    //console.log("Tabs value:"+tabsvalue)
-    //console.log("Segment changed json stringify:"+JSON.stringify(e));
 
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
@@ -729,14 +680,13 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=8&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
 
-    console.log("InitMap:" + url);
+
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
 
         // JSON data
         let res = data.json();
-        console.log("Total Count:" + res.totalCount);
         this.totalCount = res.totalCount;
 
 
@@ -754,46 +704,41 @@ export class DashboardPage {
           this.offlinecount = '0';
         }
 
-        console.log("res units:" + res.units);
+
         if (res.units == undefined) {
-          console.log("A");
           this.defaultUnitAllLists.push({
             unitname: '',
             longtitude: '103.70307100000002',
             latitude: '1.3249773'
           })
-          console.log("Load Maps" + JSON.stringify(this.defaultUnitAllLists));
           // Load G Map
           this.loadMap(this.defaultUnitAllLists, 0);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == 'undefined') {
-          console.log("B");
+
           this.defaultUnitAllLists.push({
             unitname: '',
             longtitude: '103.70307100000002',
             latitude: '1.3249773'
           })
-          console.log("Load Maps" + JSON.stringify(this.defaultUnitAllLists));
           // Load G Map
           this.loadMap(this.defaultUnitAllLists, 0);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == '') {
-          console.log("C");
           this.defaultUnitAllLists.push({
             unitname: '',
             longtitude: '103.70307100000002',
             latitude: '1.3249773'
           })
-          console.log("Load Maps" + JSON.stringify(this.defaultUnitAllLists));
           // Load G Map
           this.loadMap(this.defaultUnitAllLists, 0);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else {
 
-          console.log("D");
+
           // Load G Map
           this.loadMap(res.units, 1);
           // Units popups
@@ -1056,7 +1001,7 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 3
+      zoom:11
     }
 
 
@@ -1081,8 +1026,6 @@ export class DashboardPage {
         bounds.extend(latLng);
 
         let iconDisplay;
-        console.log('units:' + unitsavail);
-        console.log("Gen Status for marker icon:" + markers[i].genstatus);
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
@@ -1140,7 +1083,7 @@ export class DashboardPage {
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-      this.setZoom(3);
+      this.setZoom(11);
       google.maps.event.removeListener(boundsListener);
     });
 
@@ -1202,8 +1145,6 @@ export class DashboardPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -1422,14 +1363,12 @@ export class DashboardPage {
 
     if (this.userId != '') {// Shut off the condition push rejected
       pushObject.on('notification').subscribe((notification: any) => {
-        console.log(notification.additionalData.arrayval.type);
+
         this.pushnotifycount = 0;
         if (notification.additionalData.arrayval.type == 'M') {
-          console.log("A:" + this.pushnotifycount);
+
           this.pushnotifycount = this.pushnotifycount + 1;
-          console.log("B:" + this.pushnotifycount);
-          //this.msgcount = this.msgcount + this.pushnotifycount;
-          console.log("C:" + this.msgcount);
+
         }
         // this.showAlert('JSON Array Value', JSON.stringify(notification));
         if (notification.additionalData.foreground == true) {
@@ -1615,10 +1554,41 @@ export class DashboardPage {
   }
 
   pushNavigationTeseting() {
+    /*
     this.navCtrl.setRoot(ServicingDetailsPage, {
-      event_id: 102,
+      event_id: 520,
       from: 'Push'
     });
+    */
+    this.navCtrl.setRoot(EventDetailsPage, {
+      event_id: 521,
+      from: 'Push'
+    });
+
   }
+
+  showAlertExist() {
+    this.alert = this.alertCtrl.create({
+      title: 'Exit?',
+      message: 'Do you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alert = null;
+          }
+        },
+        {
+          text: 'Exit',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+
 }
 

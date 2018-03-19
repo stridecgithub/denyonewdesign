@@ -49,7 +49,7 @@ export class CommentsinfoPage {
     addedImgLists2: '',
     colorcodeindications: ''
   }
-  public footerBar = [];
+  footerBar: number = 1;
   public userId: any;
   public reportAllLists = [];
   public loginas: any;
@@ -69,12 +69,15 @@ export class CommentsinfoPage {
   constructor(public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
 
-    platform.registerBackButtonAction(() => {
-       this.navCtrl.setRoot(UnitdetailsPage, {
-        record: this.navParams.get("record"),
-        tabs: 'overView'
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(UnitdetailsPage, {
+          record: this.NP.get("record"),
+          tabs: 'dataView'
+        });
       });
     });
+
 
     this.pageTitle = 'Comments';
     this.loginas = localStorage.getItem("userInfoName");
@@ -111,6 +114,7 @@ export class CommentsinfoPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -173,7 +177,7 @@ export class CommentsinfoPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
 
@@ -187,7 +191,7 @@ export class CommentsinfoPage {
     modal.present();
   }
   doAlarmView(event_id, event_type) {
-     this.navCtrl.setRoot(EventDetailsPage, {
+    this.navCtrl.setRoot(EventDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       from: 'commentinfo'
@@ -197,7 +201,7 @@ export class CommentsinfoPage {
 
 
   doServiceView(event_id, event_type, eventdata) {
-     this.navCtrl.setRoot(ServicingDetailsPage, {
+    this.navCtrl.setRoot(ServicingDetailsPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata,
@@ -211,7 +215,7 @@ export class CommentsinfoPage {
     console.log("Event Id" + event_id);
     console.log("event_type" + event_type);
     console.log("eventdata" + JSON.stringify(eventdata));
-     this.navCtrl.setRoot(CommentdetailsPage, {
+    this.navCtrl.setRoot(CommentdetailsPage, {
       event_id: event_id,
       event_type: event_type,
       eventdata: eventdata,
@@ -387,7 +391,7 @@ export class CommentsinfoPage {
 
   previous() {
 
-     this.navCtrl.setRoot(UnitdetailsPage, {
+    this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });
@@ -398,7 +402,7 @@ export class CommentsinfoPage {
     this.comments = '';
     this.addedImgLists = [];
     localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(AddcommentsinfoPage, {
+    this.navCtrl.setRoot(AddcommentsinfoPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -413,7 +417,7 @@ export class CommentsinfoPage {
     if (type.toLowerCase() == 'c') {
       console.log("comment")
       localStorage.setItem("microtime", "");
-       this.navCtrl.setRoot(AddcommentsinfoPage, {
+      this.navCtrl.setRoot(AddcommentsinfoPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -427,7 +431,7 @@ export class CommentsinfoPage {
       //   from: 'commentinfo',
       // });
 
-       this.navCtrl.setRoot(ServicedetailsPage, {
+      this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -443,7 +447,7 @@ export class CommentsinfoPage {
       //   from: 'commentinfo',
       // });
 
-       this.navCtrl.setRoot(ServicedetailsPage, {
+      this.navCtrl.setRoot(ServicedetailsPage, {
         record: item,
         act: 'Edit',
         from: 'commentinfo'
@@ -456,7 +460,7 @@ export class CommentsinfoPage {
       console.log("Alarm")
       // localStorage.setItem("microtime", "");
       if (item.alarm_assigned_to == '') {
-         this.navCtrl.setRoot(AddalarmPage, {
+        this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'commentinfo',

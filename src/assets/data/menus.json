@@ -11,7 +11,7 @@
         "subs": [
             {
                 "title": "Unit Listing",
-                "component": "UnitsPage"
+                "component": "UnitslistingPage"
             },
             {
                 "title": "Unit Group",
@@ -19,7 +19,7 @@
             },
             {
                 "title": "Engine Model",
-                "component": "EnginedetailPage"
+                "component": "EnginemodelPage"
             }
         ]
     },
@@ -29,7 +29,7 @@
         "color":"gray"
     },
     {
-        "title": "Message",
+        "title": "Messages",
         "icon": "messages",
         "color":"gray"
     },
@@ -50,7 +50,7 @@
             },
             {
                 "title": "User List",
-                "component": "UserPage"
+                "component": "UserlistPage"
             },
             {
                 "title": "Company Group",
@@ -58,7 +58,7 @@
             },
             {
                 "title": "User Role",
-                "component": "RolePage"
+                "component": "UserrolePage"
             },
             {
                 "title": "Report Template",

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { LoadingController } from 'ionic-angular';
@@ -25,7 +25,7 @@ import { Config } from '../../config/config';
 })
 export class EnginedetailPage {
   public pageTitle: string;
-  public footerBar = [];
+  footerBar: number = 1;
   public loginas: any;
   private apiServiceURL: string = "";
   public totalCount;
@@ -49,9 +49,16 @@ export class EnginedetailPage {
   public userId: any;
   public companyId;
   public profilePhoto;
-  constructor(public http: Http, private conf: Config, public nav: NavController,
+  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public NP: NavParams, public loadingCtrl: LoadingController) {
-    this.apiServiceURL = conf.apiBaseURL();
+   
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.nav.setRoot(DashboardPage);
+        });
+      });
+
+      this.apiServiceURL = conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -87,7 +94,7 @@ export class EnginedetailPage {
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "rgba(60, 60, 60, 0.7)",
@@ -149,7 +156,7 @@ export class EnginedetailPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
 
@@ -226,10 +233,10 @@ export class EnginedetailPage {
     this.presentLoading(0);
   }
   previous() {
-     this.nav.setRoot(DashboardPage);
+    this.nav.setRoot(DashboardPage);
   }
   doAdd() {
-     this.nav.setRoot(AddenginedetailPage);
+    this.nav.setRoot(AddenginedetailPage);
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
@@ -310,7 +317,7 @@ export class EnginedetailPage {
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.nav.setRoot(AddenginedetailPage, {
+      this.nav.setRoot(AddenginedetailPage, {
         record: item,
         act: act
       });
@@ -318,7 +325,7 @@ export class EnginedetailPage {
   }
   doView(item, act) {
     if (act == 'detail') {
-       this.nav.setRoot(EngineviewPage, {
+      this.nav.setRoot(EngineviewPage, {
         record: item
       });
       return false;
@@ -326,7 +333,7 @@ export class EnginedetailPage {
   }
 
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
 
 }

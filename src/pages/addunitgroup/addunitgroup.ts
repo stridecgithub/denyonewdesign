@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, PopoverController, Platform} from 'ionic-angular';
+import { NavController, NavParams, ToastController, PopoverController, Platform } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { UserPage } from '../user/user';
@@ -35,7 +35,8 @@ export class AddunitgroupPage {
   public nccode: any;
   public userId: any;
   public responseResultCountry: any;
-  public footerBar = [];
+ 
+  footerBar: number = 1;
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
@@ -56,11 +57,12 @@ export class AddunitgroupPage {
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
 
-    platform.registerBackButtonAction(() => {
-     // this.popoverclose();
-           this.nav.setRoot(UnitgroupPage);
-    });
-   
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {         
+          this.nav.setRoot(UnitgroupPage);
+        });
+      });
+
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -94,69 +96,69 @@ export class AddunitgroupPage {
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
+    /* this.footerBar.push({
+       title: 'Dashboard',
+       active: true,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       footerdisplay: dashboarddisplay,
+       pageComponent: 'DashboardPage'
+     });
+     let unitdisplay;
+     if (unitAccess == 1) {
+       unitdisplay = '';
+     } else {
+       unitdisplay = 'none';
+     }
+     this.footerBar.push({
+       title: 'Units',
+       active: false,
+       colorcode: "#488aff",
+       footerdisplay: unitdisplay,
+       pageComponent: 'UnitsPage'
+     });
+     let calendardisplay;
+     if (calendarAccess == 1) {
+       calendardisplay = '';
+     } else {
+       calendardisplay = 'none';
+     }
+ 
+     this.footerBar.push({
+       title: 'Calendar',
+       active: false,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       footerdisplay: calendardisplay,
+       pageComponent: 'CalendarPage'
+     });
+     let messagedisplay;
+     if (messageAccess == 1) {
+       messagedisplay = '';
+     } else {
+       messagedisplay = 'none';
+     }
+     this.footerBar.push({
+       title: 'Message',
+       active: false,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       footerdisplay: messagedisplay,
+       pageComponent: 'MessagePage'
+     });
+     let orgchartdisplay;
+     if (orgchartAccess == 1) {
+       orgchartdisplay = '';
+     } else {
+       orgchartdisplay = 'none';
+     }
+     this.footerBar.push({
+       title: 'Org Chart',
+       active: false,
+       footerdisplay: orgchartdisplay,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       pageComponent: 'OrgchartPage'
+     });
+     //this.footerBar = "0";
+     //let footerBar=this.footerBar.split(",");
+ */
     // Footer Menu Access - End
   }
   popoverclose() {
@@ -244,7 +246,7 @@ export class AddunitgroupPage {
             return false;
           } else {
             this.sendNotification(res.msg[0].result);
-             this.nav.setRoot(UnitgroupPage);
+            this.nav.setRoot(UnitgroupPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -278,7 +280,7 @@ export class AddunitgroupPage {
           } else {
             console.log('2');
             this.sendNotification(res.msg[0].result);
-             this.nav.setRoot(UnitgroupPage);
+            this.nav.setRoot(UnitgroupPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -361,11 +363,11 @@ export class AddunitgroupPage {
 
 
   previous() {
-     this.nav.setRoot(UnitgroupPage);
+    this.nav.setRoot(UnitgroupPage);
   }
 
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
 
 

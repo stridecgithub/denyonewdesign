@@ -34,11 +34,27 @@ export class TrendlinePage {
   }
   private apiServiceURL: string = "";
 
-  constructor( public modalCtrl: ModalController,public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+  constructor( public modalCtrl: ModalController,public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-   
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        console.log("From Page" + this.navParams.get("from"));
+        if (this.navParams.get("from") == 'alarmlog') {
+           this.navCtrl.setRoot(AlarmlogPage, {
+            record: this.navParams.get("record"),
+            from: 'trendline',
+          });
+        } else {
+           this.navCtrl.setRoot(AlarmPage, {
+            record: this.navParams.get("record"),
+            from: 'trendline',
+          });
+        }
+      });
+    });
+
   }
 
   ionViewWillLeave() {

@@ -78,6 +78,26 @@ export class MessagedetailPage {
   private activehigh: string = "0";
  
   constructor(private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+    
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.navParams.get("frompage") == 'notification') {
+          this.navCtrl.setRoot(NotificationPage);
+       } else {
+         if (this.from == 'send') {
+            this.navCtrl.setRoot(MessagesPage, {
+             fromtab: 'sentView'
+           });
+         } else {
+            this.navCtrl.setRoot(MessagesPage, {
+             fromtab: 'inboxView'
+           });
+         }
+   
+       }
+      });
+    });
+
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");

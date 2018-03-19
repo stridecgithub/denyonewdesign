@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams ,Platform} from 'ionic-angular';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 
 /**
@@ -18,7 +18,16 @@ export class ReporttemplatedetailPage {
   public templatename;
   public availableheading = [];
   public footerBar=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(ReporttemplatePage);
+      });
+    });
+    
+
+  
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');

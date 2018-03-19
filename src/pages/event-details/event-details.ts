@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams } from 'ionic-angular';
+import { Platform, NavController, NavParams } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -33,15 +33,28 @@ export class EventDetailsPage {
   alarm_color_code;
   item;
   alarm_priority;
- // tabBarElement: any;
+  // tabBarElement: any;
   frompage;
   private apiServiceURL: string = "";
   constructor(private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
 
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.NP.get("from") == 'commentinfo') {
+          this.navCtrl.setRoot(CommentsinfoPage, {
+            record: this.item,
+            from: 'alarm'
+          });
+        } else if (this.NP.get("from") == 'notification') {
+          this.navCtrl.setRoot(NotificationPage);
+        } else {
+          this.navCtrl.setRoot(CalendarPage);
+        }
+      });
+    });
 
-  
   }
 
   ionViewWillLeave() {
@@ -53,7 +66,7 @@ export class EventDetailsPage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement.style.display = 'none';
     }
-    console.log("From Page:"+this.frompage);
+    console.log("From Page:" + this.frompage);
     this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
       let body: string = "alarmid=" + this.NP.get("event_id"),
@@ -76,6 +89,21 @@ export class EventDetailsPage {
           this.alarm_priority = data.json().alarms[0].alarm_priority;
           this.item = data.json().alarms[0];
           console.log(JSON.stringify(this.item));
+
+
+          let fls = this.eventTitle.includes('Fls');
+          let wrn = this.eventTitle.includes('Wrn');         
+          this.alarm_priority = data.json().alarms[0].alarm_priority;
+          console.log(fls);
+          if (fls > 0) {
+            this.alarm_priority = 3;
+            this.alarm_color_code='#c4c4c4';
+          }
+          if (wrn > 0) {
+            this.alarm_priority = 2;
+          }
+
+
         }, error => {
 
         });
@@ -88,7 +116,7 @@ export class EventDetailsPage {
     console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
-         this.navCtrl.setRoot(AddalarmPage, {
+        this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -102,14 +130,14 @@ export class EventDetailsPage {
   }
   previous() {
     if (this.NP.get("from") == 'commentinfo') {
-       this.navCtrl.setRoot(CommentsinfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item,
         from: 'alarm'
       });
     } else if (this.NP.get("from") == 'notification') {
-       this.navCtrl.setRoot(NotificationPage);
+      this.navCtrl.setRoot(NotificationPage);
     } else {
-       this.navCtrl.setRoot(CalendarPage);
+      this.navCtrl.setRoot(CalendarPage);
     }
   }
 }

@@ -32,7 +32,8 @@ export class AlarmPage {
   public DELETEACCESS: any;
   public pageTitle: string;
   public loginas: any;
-  public footerBar= [];
+  
+  footerBar: number = 1;
   private apiServiceURL: string = "";
   public networkType: string;
   public totalCount;
@@ -62,6 +63,16 @@ export class AlarmPage {
   public sortLblTxt: string = 'Date';
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
+
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {         
+          this.navCtrl.setRoot(UnitdetailsPage, {
+            record: this.NP.get("record"),
+            tabs: 'overView'
+          });
+        });
+      });
+
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.CREATEACCESS = localStorage.getItem("UNITS_ALARM_CREATE");
@@ -69,102 +80,104 @@ export class AlarmPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    
+
     // Footer Menu Access - Start
-  let footeraccessstorage = localStorage.getItem("footermenu");
-  let footeraccessparams = this.navParams.get('footermenu');
-  let footermenuacc;
-  if (footeraccessparams != undefined) {
-    footermenuacc = footeraccessparams;
-  } else {
-    footermenuacc = footeraccessstorage;
-  }
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.navParams.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
-  let footermenusplitcomma = footermenuacc.split(",");
-  let dashboardAccess = footermenusplitcomma[0];
-  let unitAccess = footermenusplitcomma[1];
-  let calendarAccess = footermenusplitcomma[2];
-  let messageAccess = footermenusplitcomma[3];
-  let orgchartAccess = footermenusplitcomma[4];
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
-  
-  let dashboarddisplay;
-  if (dashboardAccess == 1) {
-    dashboarddisplay = '';
-  } else {
-    dashboarddisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Dashboard',
-    active: true,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: dashboarddisplay,
-    pageComponent: 'DashboardPage'
-  });
-  let unitdisplay;
-  if (unitAccess == 1) {
-    unitdisplay = '';
-  } else {
-    unitdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Units',
-    active: false,
-    colorcode: "#488aff",
-    footerdisplay: unitdisplay,
-    pageComponent: 'UnitsPage'
-  });
-  let calendardisplay;
-  if (calendarAccess == 1) {
-    calendardisplay = '';
-  } else {
-    calendardisplay = 'none';
-  }
 
-  this.footerBar.push({
-    title: 'Calendar',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: calendardisplay,
-    pageComponent: 'CalendarPage'
-  });
-  let messagedisplay;
-  if (messageAccess == 1) {
-    messagedisplay = '';
-  } else {
-    messagedisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Message',
-    active: false,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    footerdisplay: messagedisplay,
-    pageComponent: 'MessagePage'
-  });
-  let orgchartdisplay;
-  if (orgchartAccess == 1) {
-    orgchartdisplay = '';
-  } else {
-    orgchartdisplay = 'none';
-  }
-  this.footerBar.push({
-    title: 'Org Chart',
-    active: false,
-    footerdisplay: orgchartdisplay,
-    colorcode: "rgba(60, 60, 60, 0.7)",
-    pageComponent: 'OrgchartPage'
-  });
-  //this.footerBar = "0";
-  //let footerBar=this.footerBar.split(",");
-
-  // Footer Menu Access - End
-
-  platform.registerBackButtonAction(() => {
-     this.navCtrl.setRoot(UnitdetailsPage, {
-      record: this.navParams.get("record"),
-      tabs: 'overView'
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+      /* 
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
     });
-  });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+
+  this.footerBar.push({
+       title: 'Units',
+       active: false,
+       colorcode: "#488aff",
+       footerdisplay: unitdisplay,
+       pageComponent: 'UnitsPage'
+     });
+     let calendardisplay;
+     if (calendarAccess == 1) {
+       calendardisplay = '';
+     } else {
+       calendardisplay = 'none';
+     }
+ 
+     this.footerBar.push({
+       title: 'Calendar',
+       active: false,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       footerdisplay: calendardisplay,
+       pageComponent: 'CalendarPage'
+     });
+     let messagedisplay;
+     if (messageAccess == 1) {
+       messagedisplay = '';
+     } else {
+       messagedisplay = 'none';
+     }
+     this.footerBar.push({
+       title: 'Message',
+       active: false,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       footerdisplay: messagedisplay,
+       pageComponent: 'MessagePage'
+     });
+     let orgchartdisplay;
+     if (orgchartAccess == 1) {
+       orgchartdisplay = '';
+     } else {
+       orgchartdisplay = 'none';
+     }
+     this.footerBar.push({
+       title: 'Org Chart',
+       active: false,
+       footerdisplay: orgchartdisplay,
+       colorcode: "rgba(60, 60, 60, 0.7)",
+       pageComponent: 'OrgchartPage'
+     });
+     //this.footerBar = "0";
+     //let footerBar=this.footerBar.split(",");
+ */
+    // Footer Menu Access - End
+
+    platform.registerBackButtonAction(() => {
+      this.navCtrl.setRoot(UnitdetailsPage, {
+        record: this.navParams.get("record"),
+        tabs: 'overView'
+      });
+    });
 
   }
   presentModal(unit) {
@@ -323,6 +336,17 @@ export class AlarmPage {
           for (let alarm in res.alarms) {
 
 
+            let fls = res.alarms[alarm].alarm_name.includes('Fls');
+            let wrn = res.alarms[alarm].alarm_name.includes('Wrn');
+            let alarm_priority;
+            alarm_priority = res.alarms[alarm].alarm_priority
+            console.log(fls);
+            if (fls > 0) {
+              alarm_priority = 3;
+            }
+            if (wrn > 0) {
+              alarm_priority = 2;
+            }
 
             this.reportAllLists.push({
               alarm_id: res.alarms[alarm].alarm_id,
@@ -330,7 +354,7 @@ export class AlarmPage {
               alarm_name: res.alarms[alarm].alarm_name,
               alarm_assginedby_name: res.alarms[alarm].alarm_assginedby_name,
               alarm_assginedto_name: res.alarms[alarm].alarm_assginedto_name,
-              alarm_priority: res.alarms[alarm].alarm_priority,
+              alarm_priority: alarm_priority,
               alarm_received_date: res.alarms[alarm].alarm_received_date,
               alarm_received_time: res.alarms[alarm].alarm_received_time,
               alarm_assgined_to: res.alarms[alarm].alarm_assgined_to,
@@ -377,7 +401,7 @@ export class AlarmPage {
   }
 
 
- 
+
   doEdit(item, act) {
     // let unitid = this.NP.get("record");
 
@@ -385,7 +409,7 @@ export class AlarmPage {
     if (act == 'edit') {
 
       if (this.userId == '1') {
-         this.navCtrl.setRoot(AddalarmPage, {
+        this.navCtrl.setRoot(AddalarmPage, {
           record: item,
           act: act,
           from: 'alarm',
@@ -399,7 +423,7 @@ export class AlarmPage {
             from: 'alarm',
             unitid: unitid
           });*/
-           this.navCtrl.setRoot(AddalarmPage, {
+          this.navCtrl.setRoot(AddalarmPage, {
             record: item,
             act: act,
             from: 'alarm',
@@ -421,7 +445,7 @@ export class AlarmPage {
   }
 
   doAlarmLogDetail(item) {
-     this.navCtrl.setRoot(AlarmlogdetailsPage, {
+    this.navCtrl.setRoot(AlarmlogdetailsPage, {
       record: item
     });
   }
@@ -489,7 +513,7 @@ export class AlarmPage {
     prompt.present();
   }
   previous() {
-     this.navCtrl.setRoot(UnitdetailsPage, {
+    this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'overView'
     });
@@ -498,23 +522,23 @@ export class AlarmPage {
     // let modal = this.modalCtrl.create(TrendlinePage, { alarmid: alarmid, record: item });
     // modal.present();
 
-     this.navCtrl.setRoot(TrendlinePage, {
+    this.navCtrl.setRoot(TrendlinePage, {
       alarmid: alarmid, record: item
     });
 
   }
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-     this.navCtrl.setRoot(UnitsPage);
+    this.navCtrl.setRoot(UnitsPage);
   }
 
   redirectCalendar() {
-     this.navCtrl.setRoot(CalendarPage);
+    this.navCtrl.setRoot(CalendarPage);
   }
   redirectToSettings() {
-     this.navCtrl.setRoot(OrgchartPage);
+    this.navCtrl.setRoot(OrgchartPage);
   }
 
 }

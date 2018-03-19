@@ -70,6 +70,30 @@ export class AddalarmPage {
     public NP: NavParams,
     public fb: FormBuilder) {
 
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.NP.get("from") == 'alarm') {
+          this.navCtrl.setRoot(AlarmPage,
+            {
+              record: this.NP.get("record")
+            });
+        }
+        else if (this.NP.get("from") == 'alarmlog') {
+          this.navCtrl.setRoot(AlarmlogPage,
+            {
+              record: this.NP.get("record")
+            });
+        } else if (this.NP.get("from") == 'comment') {
+          this.navCtrl.setRoot(CommentsinfoPage);
+        } else if (this.NP.get("from") == 'commentinfo') {
+          this.navCtrl.setRoot(CommentsinfoPage);
+        } else {
+
+        }
+        console.log(this.navCtrl.getActive().name);
+      });
+    });
+
     this.alarm_assigned_date = moment().format();
     this.mindate = moment().format();
     this.networkType = '';
@@ -335,7 +359,7 @@ export class AddalarmPage {
 
     // Personal hashtag checking....
     let toaddress = jQuery(".remark").val();
-    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
     let body: string = param,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -348,7 +372,7 @@ export class AddalarmPage {
       .subscribe((data) => {
         console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
         console.log("1" + data.json().invalidusers);
-        //if (data.json().invalidusers == '') {
+        if (data.json().invalidusers == '') {
 
           let isNet = localStorage.getItem("isNet");
           let alarm_assigned_date: string = this.form.controls["alarm_assigned_date"].value,
@@ -401,10 +425,10 @@ export class AddalarmPage {
           }
 
 
-        // } else {
-        //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
-        //   return false;
-        // }
+        } else {
+          this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          return false;
+        }
       });
     // Personal hashtag checking....
 

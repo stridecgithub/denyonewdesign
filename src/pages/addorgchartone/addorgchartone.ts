@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -73,7 +73,14 @@ export class AddorgchartonePage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     private camera: Camera
-    , private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
+    , private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(OrgchartPage);
+      });
+    });
+
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -84,7 +91,7 @@ export class AddorgchartonePage {
       "country": ["", Validators.required],
       "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
       //"contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
-     // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+      // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       /// "email": ["", Validators.required]
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
       "job_position": ["", Validators.required],
@@ -142,9 +149,9 @@ export class AddorgchartonePage {
       this.contact = editItem.contact_number;
       console.log(this.contact);
       if (this.contact != undefined) {
-       // let contactSplitSpace = this.contact.split(" ");
-       // this.primary = contactSplitSpace[0];
-        this.contact = this.contact ;
+        // let contactSplitSpace = this.contact.split(" ");
+        // this.primary = contactSplitSpace[0];
+        this.contact = this.contact;
       }
       this.getUserListData(editItem.company_id);
     }
@@ -235,7 +242,7 @@ export class AddorgchartonePage {
           this.sendNotification(data.json().msg[0].result);
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
-           this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
+          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {
@@ -294,7 +301,7 @@ export class AddorgchartonePage {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
           this.sendNotification(data.json().msg[0].result);
-           this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
+          this.nav.setRoot(OrgchartPage, { 'companyId': company_group });
         }
         // Otherwise let 'em know anyway
         else {
@@ -325,9 +332,9 @@ export class AddorgchartonePage {
       email: string = this.form.controls["email"].value,
       country: string = this.form.controls["country"].value,
       contact: string = this.form.controls["contact"].value;
-     // primary: string = this.form.controls["primary"].value;
+    // primary: string = this.form.controls["primary"].value;
     //contact = primary + " " + contact;
-    contact =  contact;
+    contact = contact;
     console.log(contact);
     /*if (this.addedImgLists) {
       this.isUploadedProcessing = true;
@@ -363,18 +370,23 @@ export class AddorgchartonePage {
     });
     notification.present();
   }
-  previous() {
-     this.nav.setRoot(OrgchartPage);
+  previous() {   
+    this.nav.setRoot(OrgchartPage);
   }
-  notification() {
-     this.nav.setRoot(NotificationPage);
+
+  popoverclose() {
+    console.log("Popover Function Calling...")
+    jQuery(".popover-content").hide();
+  }
+  cation() {
+    this.nav.setRoot(NotificationPage);
   }
 
   getCompanyGroupListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=";
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
     console.log("getcompanies API:" + url)
     this.http.get(url, options)

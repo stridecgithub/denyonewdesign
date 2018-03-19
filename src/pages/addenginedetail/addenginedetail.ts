@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
@@ -20,7 +20,8 @@ import { Config } from '../../config/config';
   templateUrl: 'addenginedetail.html',
 })
 export class AddenginedetailPage {
-  public footerBar = [];
+  
+  footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
@@ -50,11 +51,16 @@ export class AddenginedetailPage {
   public rawhtml: any;
   public companyId;
   public form: FormGroup;
-  constructor(private conf: Config,public navCtrl: NavController,
+  constructor(private conf: Config, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,public platform:Platform) {
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.navCtrl.setRoot(EnginedetailPage);
+        });
+      });
     this.form = fb.group({
       "enginemodel": ["", Validators.required],
       "rawhtml": ["", Validators.required]
@@ -88,6 +94,7 @@ export class AddenginedetailPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -150,7 +157,7 @@ export class AddenginedetailPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
   ionViewDidLoad() {

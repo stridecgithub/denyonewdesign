@@ -337,6 +337,13 @@ export class AddrequestsupportPage {
   // for the record data
   createEntry(service_remark, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(ServicinginfoPage, {
+          record: this.NP.get("record")
+        });
+      });
+    });
 
    // let serviced_datetime = new Date().toJSON().split('T');
     var date = new Date();

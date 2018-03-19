@@ -1,11 +1,13 @@
 import { Component, } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, ModalController,Platform } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from "../add-unit/add-unit";
 import { ModalPage } from '../modal/modal';
+import { DashboardPage } from '../dashboard/dashboard';
+import { PermissionPage } from '../permission/permission';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -21,8 +23,7 @@ import { ModalPage } from '../modal/modal';
 })
 
 export class UnitsPage {
-
-  public footerBar = [];
+  footerBar: number = 1;
   public alarms: string = "0";
   public warningcount: string = "0";
   public runningcount: string = "0";
@@ -54,7 +55,7 @@ export class UnitsPage {
   public EDITACCESS: any;
   public DELETEACCESS: any;
   tabIndexVal;
-  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -66,7 +67,7 @@ export class UnitsPage {
     this.tabIndexVal = localStorage.getItem("tabIndex");
     this.CREATEACCESS = localStorage.getItem("UNITS_UNITSLISTING_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
-    this.DELETEACCESS = localStorage.getItem("UNITS_LISTING_DELETE");
+    this.DELETEACCESS = localStorage.getItem("UNITS_UNITSLISTING_DELETE");
 
 
 
@@ -89,7 +90,9 @@ export class UnitsPage {
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-
+    if(unitAccess==0){
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
     console.log("Footer Menu Access for Dashboard" + unitAccess);
     console.log("Footer Menu Access for Calendar" + calendarAccess);
@@ -101,6 +104,7 @@ export class UnitsPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -166,8 +170,15 @@ export class UnitsPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     console.log("Final Footer Menu access:" + this.footerBar);
-
+*/
     // Footer Menu Access - End
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(DashboardPage, {
+        });
+      });
+    });
 
   }
   isNet() {
@@ -396,7 +407,7 @@ export class UnitsPage {
   notification() {
     console.log('Will go notification list page');
     // Navigate the notification list page
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
 
@@ -564,7 +575,7 @@ export class UnitsPage {
   doAction(item, act, unitId) {
 
     if (act == 'edit') {
-       this.navCtrl.setRoot(AddUnitPage, {
+      this.navCtrl.setRoot(AddUnitPage, {
         record: item,
         act: act,
         unitId: unitId
@@ -616,7 +627,7 @@ export class UnitsPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
-       this.navCtrl.setRoot(UnitdetailsPage, {
+      this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
       return false;
@@ -635,7 +646,7 @@ export class UnitsPage {
     localStorage.setItem("controllerid", '');
     localStorage.setItem("models_id", '');
     localStorage.setItem("neaplateno", '');
-     this.navCtrl.setRoot(AddUnitPage);
+    this.navCtrl.setRoot(AddUnitPage);
   }
   viewondash(id) {
     let confirm = this.alertCtrl.create({

@@ -60,20 +60,20 @@ export class MyApp {
   constructor(private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
-    let leftmenu = localStorage.getItem("leftmenu");
+   
 
-    console.log("Left Menu Access1:" + leftmenu);
+  
     this.dataService.getMenus()
       .subscribe((response) => {
         console.log("Menu Loading......");
         this.menuOpened();
-        //this.pages = response;
+        this.pages = response;
 
-        let leftmenu = localStorage.getItem("leftmenu");
-        console.log("Left Menu Access1:" + leftmenu);
-        this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+        //let leftmenu = localStorage.getItem("leftmenu");
+       // console.log("Left Menu Access1:" + leftmenu);
+       // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
 
-        console.log("Menu JSON" + JSON.stringify(this.pages));
+       // console.log("Menu JSON" + JSON.stringify(this.pages));
       });
 
     /*
@@ -94,6 +94,15 @@ export class MyApp {
           );
     */
     platform.ready().then(() => {
+
+      localStorage.setItem("isNet", 'online');
+      this.network.onConnect().subscribe(data => {
+        localStorage.setItem("isNet", data.type);
+      }, error => console.error(error));
+
+      this.network.onDisconnect().subscribe(data => {
+        localStorage.setItem("isNet", data.type);
+      }, error => console.error(error));
       this.initPushNotification();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -303,51 +312,6 @@ export class MyApp {
     localStorage.setItem("userInfoPhoto", "");
     localStorage.setItem("leftmenu", "");
     localStorage.setItem("footermenu", '');
-    /*
-        localStorage.setItem("DASHBOARD_MAP_VIEW", '');
-    
-    
-        localStorage.setItem("DASHBOARD_UNITS_VIEW", '');
-        localStorage.setItem("DASHBOARD_UNITS_EDIT", '');
-        localStorage.setItem("DASHBOARD_UNITS_HIDE", '');
-    
-    
-    
-        localStorage.setItem("UNITS_LISTING_VIEW", "");
-        localStorage.setItem("UNITS_LISTING_CREATE", "");
-        localStorage.setItem("UNITS_LISTING_EDIT", "");
-        localStorage.setItem("UNITS_LISTING_DELETE", "");
-    
-    
-        localStorage.setItem("CALENDAR_EVENTS_VIEW", "");
-        localStorage.setItem("CALENDAR_EVENTS_CREATE", "");
-        localStorage.setItem("CALENDAR_EVENTS_EDIT", "");
-        localStorage.setItem("CALENDAR_EVENTS_DELETE", "");
-        localStorage.setItem("UNITS_ALARM_VIEW", "");
-        localStorage.setItem("UNITS_ALARM_DELETE", "");
-    
-        localStorage.setItem("UNITS_SERVICINGINFO_VIEW", "");
-        localStorage.setItem("UNITS_SERVICINGINFO_CREATE", "");
-        localStorage.setItem("UNITS_SERVICINGINFO_EDIT", "");
-        localStorage.setItem("UNITS_SERVICINGINFO_DELETE", "");
-    
-    
-    
-        // Authority for message send
-        localStorage.setItem("MESSAGE_SENT_VIEW", "");
-        localStorage.setItem("MESSAGE_SENT_CREATE", "");
-        localStorage.setItem("MESSAGE_SENT_EDIT", "");
-        localStorage.setItem("MESSAGE_SENT_DELETE", "");
-        // Authority for message send
-        // Authority for message inbox
-        localStorage.setItem("MESSAGE_INBOX_VIEW", "");
-        localStorage.setItem("MESSAGE_INBOX_CREATE", "");
-        localStorage.setItem("MESSAGE_INBOX_EDIT", "");
-        localStorage.setItem("MESSAGE_INBOX_DELETE", "");
-        // Authority for message inbox
-    */
-
-
     let roleData = localStorage.getItem("roleactionpermissiondata");
     let roleparseData = JSON.parse(roleData);
     console.log("Logout Loop Length is:" + roleparseData.length);
@@ -459,7 +423,7 @@ export class MyApp {
 
     //to initialize push notifications
 
- 
+
     const options: PushOptions = {
       android: {
         senderID: '7125886423',
@@ -556,9 +520,9 @@ export class MyApp {
         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
       }
 
-      let leftmenu = localStorage.getItem("leftmenu");
-      console.log("Left Menu Access1:" + leftmenu);
-      this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+     // let leftmenu = localStorage.getItem("leftmenu");
+      //console.log("Left Menu Access1:" + leftmenu);
+     // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
     });
 
     console.log("Dashboard- Menu Opened");
@@ -575,9 +539,9 @@ export class MyApp {
 
     this.events.publish('menu:opened', '');
 
-    let leftmenu = localStorage.getItem("leftmenu");
-    console.log("Left Menu Access1:" + leftmenu);
-    this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+    //let leftmenu = localStorage.getItem("leftmenu");
+    //console.log("Left Menu Access1:" + leftmenu);
+    //this.pages = JSON.parse(localStorage.getItem("leftmenu"));
   }
 
   toggleLevel1(idx) {

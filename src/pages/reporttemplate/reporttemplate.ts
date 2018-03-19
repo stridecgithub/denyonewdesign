@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddreporttemplatePage } from '../addreporttemplate/addreporttemplate';
@@ -34,8 +34,7 @@ export class ReporttemplatePage {
   public reporttemplate;
   public msgcount: any;
   public notcount: any;
-
-  public footerBar = [];
+  footerBar: number = 0;
   pet: string = "ALL";
   public reportData: any =
     {
@@ -47,9 +46,15 @@ export class ReporttemplatePage {
     }
   public reporttemplateAllLists = [];
   profilePhoto;
-  constructor(public http: Http, private conf: Config, public nav: NavController,
+  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
-    this.loginas = localStorage.getItem("userInfoName");
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.nav.setRoot(MyaccountPage);
+        });
+      });
+    
+      this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");    
     this.CREATEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_CREATE");    
     this.EDITACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_EDIT");   
@@ -93,6 +98,7 @@ export class ReporttemplatePage {
     } else {
       dashboarddisplay = 'none';
     }
+   /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -158,7 +164,7 @@ export class ReporttemplatePage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
 
-
+*/
     // Footer Menu Access - End
 
   }

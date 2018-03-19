@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController,Platform } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { RolePage } from '../role/role';
@@ -23,12 +23,14 @@ import { NotificationPage } from '../notification/notification';
 export class AddrolePage {
   // Define FormBuilder /model properties
   public loginas: any;
-  public footerBar = [];
+ 
+  footerBar: number = 1;
   public form: FormGroup;
   public role_name: any;
   public userId: any;
   public msgcount: any;
   public notcount: any;
+ 
    public isSubmitted: boolean = false;
   public roleperMissionData = [];
   // Flag to be used for checking whether we are adding/editing an entry
@@ -154,6 +156,7 @@ export class AddrolePage {
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com/";
   constructor(public navCtrl: NavController,
     public http: Http,
+    public platform:Platform,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController) {
@@ -266,6 +269,13 @@ export class AddrolePage {
       "setdeleteorg": [""]
     });
 
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(RolePage);
+      });
+    });
+
     this.userId = localStorage.getItem("userInfoId");
 
     // Footer Menu Access - Start
@@ -299,6 +309,7 @@ export class AddrolePage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -364,7 +375,7 @@ export class AddrolePage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     
-
+*/
     // Footer Menu Access - End
 
   }

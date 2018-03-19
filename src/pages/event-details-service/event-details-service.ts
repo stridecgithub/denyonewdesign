@@ -50,6 +50,22 @@ export class EventDetailsServicePage {
   eventitem;
   frompage;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+   
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.NP.get("from") == 'commentinfo') {
+          this.navCtrl.setRoot(CommentsinfoPage, {
+           record: this.item,
+           from: 'service'
+         });
+       } else if (this.NP.get("from") == 'notification') {
+          this.navCtrl.setRoot(NotificationPage);
+       } else {
+          this.navCtrl.setRoot(CalendarPage);
+       }
+      });
+    });
+
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');

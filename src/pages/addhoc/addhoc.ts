@@ -91,6 +91,27 @@ export class AddhocPage {
   companyId
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
+
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.addedServiceImgLists = [];
+        if (this.NP.get("from") == 'service') {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        }
+        else if (this.NP.get("from") == 'comment') {
+          //  this.navCtrl.setRoot(CommentsinfoPage);
+        }
+        else {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        }
+      });
+    });
+
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
     this.next_service_date_selected = 0;
@@ -540,7 +561,7 @@ export class AddhocPage {
 
       // Personal hashtag checking....
       let toaddress = jQuery(".service_remark").val();
-      let param = "toaddress=" + toaddress + "&ismobile=1";
+      let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
       let body: string = param,
 
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -553,12 +574,12 @@ export class AddhocPage {
         .subscribe((data) => {
           console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
           console.log("1" + data.json().invalidusers);
-          //if (data.json().invalidusers == '') {
+          if (data.json().invalidusers == '') {
             this.createEntry(this.serviced_date, timevalue, service_remark, next_service_date, serviced_by, this.is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
-          // } else {
-          //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
-          //   return false;
-          // }
+          } else {
+            this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+            return false;
+          }
         });
       // Personal hashtag checking....
 

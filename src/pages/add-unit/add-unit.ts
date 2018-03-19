@@ -69,7 +69,17 @@ export class AddUnitPage {
     this.getCompanyListData();
     this.getUnitGroupListData();
     this.getJsonModelListData();
-    //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.navParams.get("from") == 'dashboard') {
+          this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
+        } else {
+          this.navCtrl.setRoot(UnitsPage, {
+
+          });
+        }
+      });
+    });
 
   }
 
@@ -186,7 +196,7 @@ export class AddUnitPage {
               contacts: this.contacts
             });
             localStorage.setItem("addUnitFormOneValue", JSON.stringify(this.userInfo));
-             this.navCtrl.setRoot(NotificationSettingsPage, {
+            this.navCtrl.setRoot(NotificationSettingsPage, {
               accountInfo: this.userInfo,
               record: this.navParams.get("record"),
               from: this.navParams.get("from"),
@@ -205,9 +215,9 @@ export class AddUnitPage {
   previous() {
 
     if (this.navParams.get("from") == 'dashboard') {
-       this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
+      this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
     } else {
-       this.navCtrl.setRoot(UnitsPage, {
+      this.navCtrl.setRoot(UnitsPage, {
 
       });
     }
@@ -307,7 +317,7 @@ export class AddUnitPage {
   }
 
   getmaplocation() {
-     this.navCtrl.setRoot(PiclocationPage, {
+    this.navCtrl.setRoot(PiclocationPage, {
     });
   }
 }

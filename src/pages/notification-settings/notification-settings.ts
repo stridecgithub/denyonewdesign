@@ -88,6 +88,29 @@ export class NotificationSettingsPage {
   companyId;
   constructor(
     public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, public conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.isEdited > 0) {
+          this.navCtrl.setRoot(AddUnitPage, {
+            accountInfo: this.navParams.get("accountInfo"),
+            record: this.navParams.get("record"),
+            from: this.navParams.get("from"),
+            isEdited: this.isEdited,
+            unitId: this.navParams.get("record").unit_id
+          });
+          this.isEdited = true;
+        } else {
+          this.navCtrl.setRoot(AddUnitPage, {
+            accountInfo: this.navParams.get("accountInfo"),
+            record: this.navParams.get("record"),
+            from: this.navParams.get("from"),
+            isEdited: this.isEdited
+          });
+          this.isEdited = false;
+        }
+      });
+    });
+
     this.isSubmitted = false;
     this.form = fb.group({
       "alarmhashtags": [""],
@@ -673,7 +696,7 @@ export class NotificationSettingsPage {
     // }
     // Personal hashtag checking....
     let toaddress = jQuery(".alarmhashtags").val();
-    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
     let body: string = param,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",

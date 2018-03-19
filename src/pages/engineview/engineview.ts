@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams ,Platform} from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { Http, Headers, RequestOptions } from '@angular/http';
@@ -14,8 +14,7 @@ import { Config } from '../../config/config';
   templateUrl: 'engineview.html',
 })
 export class EngineviewPage {
-  public pageTitle: string;
-  public footerBar = [];
+  public pageTitle: string; 
   public item = [];
   public msgcount: any;
   public notcount: any;
@@ -38,7 +37,15 @@ export class EngineviewPage {
 
 
   }
-  constructor(public http: Http, private conf: Config, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
+  constructor(public platform:Platform,public http: Http, private conf: Config, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
+    
+    
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(EnginedetailPage);
+      });
+    });
+
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
     this.apiServiceURL = this.conf.apiBaseURL();
@@ -72,6 +79,7 @@ export class EngineviewPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -134,7 +142,7 @@ export class EngineviewPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
 

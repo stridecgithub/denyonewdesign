@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import {  NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
@@ -21,7 +21,7 @@ import { Config } from '../../config/config';
   providers: [Config]
 })
 export class CompanygroupPage {
-  public footerBar = [];
+  footerBar: number = 0;
   public pageTitle: string;
   public loginas: any;
   public Role;
@@ -50,9 +50,17 @@ export class CompanygroupPage {
   }
   public companygroupAllLists = [];
   profilePhoto;
-  constructor(public http: Http, private conf: Config, public nav: NavController,
+  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Company Group';
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(MyaccountPage);
+      });
+    });
+
+
     this.loadingMoreDataContent='Loading More Data';
     this.loginas = localStorage.getItem("userInfoName");
      this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -100,7 +108,7 @@ export class CompanygroupPage {
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "#488aff",
@@ -164,7 +172,7 @@ export class CompanygroupPage {
     
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-    
+    */
 
     // Footer Menu Access - End
 

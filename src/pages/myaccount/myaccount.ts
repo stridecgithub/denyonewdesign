@@ -29,7 +29,6 @@ import { PermissionPage } from '../../pages/permission/permission';
   providers: [Config]
 })
 export class MyaccountPage {
-  public footerBar = [];
   public pageTitle: string;
   public photo: any;
   public name: any;
@@ -49,7 +48,7 @@ export class MyaccountPage {
   public VIEWACCESS: any;
   public companyId: any;
   public EDITACCESS: any;
-  
+
   private apiServiceURL: string = "";
   public networkType: string;
   company_group;
@@ -59,14 +58,21 @@ export class MyaccountPage {
   contactnumber;
   //{"msg":{"result":"Success!"},"settings":[{"firstname":"Guest 1","lastname":"Demo","email":"balamurugan@webneo.in","job_position":"Country Manager","username":"denyov2","password":"newnew","country_name":"Singapore","country_id":"195","company_id":"2","role_name":"Denyo Admin","photo_filename":"20171212082607_123_DENYO LOGO_Transparent.png","contact_number":"+65 1111 2222","Account createdby":"Guest 1","Company Group":"Stridec","company_group":"Stridec"}]}
   constructor(private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(DashboardPage);
+      });
+    });
+
     this.pageTitle = 'My Account';
     this.loginas = localStorage.getItem("userInfoName");
-    
+
     this.userId = localStorage.getItem("userInfoId");
     this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
-    if(this.VIEWACCESS==0){
-       this.navCtrl.setRoot(PermissionPage, {});
-    
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+
     }
     console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
     this.EDITACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_EDIT");
@@ -75,8 +81,8 @@ export class MyaccountPage {
 
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-    this.photo =   this.apiServiceURL + "/images/default.png"
-    
+    this.photo = this.apiServiceURL + "/images/default.png"
+
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');
@@ -87,7 +93,7 @@ export class MyaccountPage {
       footermenuacc = footeraccessstorage;
     }
 
-    
+
     // this.footerBar="0,"+footermenuacc;
 
     let footermenusplitcomma = footermenuacc.split(",");
@@ -97,17 +103,18 @@ export class MyaccountPage {
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
 
-    
-    
-    
-   
-    
+
+
+
+
+
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -169,10 +176,10 @@ export class MyaccountPage {
       pageComponent: 'OrgchartPage'
     });
 
-    
+
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-    
+*/
 
     // Footer Menu Access - End
 
@@ -181,9 +188,9 @@ export class MyaccountPage {
   //[{"userid":"1","userdetailsid":"1","username":"webkannan","password":"webkannan","role":"1","hashtag":"@welcome","first_name":"Kannan","last_name":"Nagarathinam","email":"kannan@gmail.com","contact":"123456789","country":"2","photo":"1496647262537.jpg","job_position":"At prog","report_to":"0","company_group":"1","companygroup_name":"Denyo"}]
 
   ionViewDidLoad() {
-  
-  	
-  
+
+
+
     console.log('ionViewDidLoad My Account Page');
     localStorage.setItem("fromModule", "MyaccountPage");
     localStorage.setItem("userPhotoFile", '');
@@ -216,12 +223,12 @@ export class MyaccountPage {
           this.lastname = res.settings[0].lastname;
 
           console.log("A" + res.settings[0].photo_filename);
-          if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
+          if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {
             this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-             console.log('My Acccount One Photo Available....');
-          }else{
+            console.log('My Acccount One Photo Available....');
+          } else {
             this.photo = this.apiServiceURL + "/images/default.png";
-             console.log('My Acccount  One Photo Not Available....');
+            console.log('My Acccount  One Photo Not Available....');
           }
         }
         // [{ "userid": "1", "userdetailsid": "1", "username": "denyov2", "password": "e3b81d385ca4c26109dfbda28c563e2b", "firstname": "Super Admin", "lastname": "Denyo", "email": "balamurugan@webneo.in", "contact_number": "9597645985", "country_id": "99", "photo": "1496647262537.jpg", "job_position": "Country Manager", "report_to": "0", "company_id": "1", "companygroup_name": "Denyo" }]
@@ -247,28 +254,29 @@ export class MyaccountPage {
       });
   }
   doEdit(userid, act) {
-     this.nav.setRoot(EditprofilesteponePage, {
+    localStorage.setItem("photofromgallery", "");
+    this.nav.setRoot(EditprofilesteponePage, {
       userId: userid,
       act: act
     });
   }
-  
-  changepassword(){
-		 this.nav.setRoot(ChangepasswordPage);
-	}
+
+  changepassword() {
+    this.nav.setRoot(ChangepasswordPage);
+  }
 
 
   viewOrgChart() {
-     this.nav.setRoot(OrgchartPage, {
+    this.nav.setRoot(OrgchartPage, {
       companyId: this.companyId
     });
   }
   previous() {
-     this.nav.setRoot(DashboardPage);
+    this.nav.setRoot(DashboardPage);
   }
 
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
 
 }

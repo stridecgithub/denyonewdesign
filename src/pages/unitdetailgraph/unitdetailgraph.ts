@@ -35,11 +35,18 @@ export class UnitdetailgraphPage {
   private apiServiceURL: string = "";
 
   constructor(
-    public modalCtrl: ModalController, public platfom: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+    public modalCtrl: ModalController, public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-   
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(UnitdetailsPage, {
+          record: this.navParams.get("record"),
+          tabs: 'dataView'
+        });
+      });
+    });
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));

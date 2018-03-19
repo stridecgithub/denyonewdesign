@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
 /**
@@ -16,8 +16,15 @@ import { DashboardPage } from '../dashboard/dashboard';
 })
 export class PermissionPage {
   rolePermissionMsg;
-  public footerBar = [];
-  constructor(private conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+  footerBar: number = 0;
+  constructor(private conf: Config, public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(DashboardPage);
+      });
+    });
+
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.navParams.get('footermenu');
@@ -49,7 +56,7 @@ export class PermissionPage {
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "#488aff",
@@ -114,7 +121,7 @@ export class PermissionPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     console.log("Final Footer Menu access:" + this.footerBar);
-
+*/
     // Footer Menu Access - End
   }
 
@@ -123,6 +130,6 @@ export class PermissionPage {
     console.log('ionViewDidLoad PermissionPage');
   }
   previous() {
-     this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
 }

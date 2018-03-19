@@ -60,10 +60,9 @@
           </div> -->
         <ion-item *ngIf="cont2">
           <ion-label stacked>Name</ion-label>
-          <ion-input type="text" formControlName="contact_name_2" [(ngModel)]="contact_name_2"
-          (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_2" [(ngModel)]="contact_name_2" (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
         </ion-item>
-<!--(keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)" -->
+        <!--(keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)" -->
         <!-- <ion-item *ngIf="cont2">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation2}}" [disabled]="readOnly" (keyup)="getPrimaryContact2(contact_name_2,primary_2,contact_number_2)"
@@ -76,7 +75,7 @@
 
         <ion-item *ngIf="cont2">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_2" [(ngModel)]="contact_number_2"  (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_2" [(ngModel)]="contact_number_2" (keyup)="getPrimaryContact2(contact_name_2,contact_number_2)"></ion-input>
         </ion-item>
 
 
@@ -87,8 +86,7 @@
           </div> -->
         <ion-item *ngIf="cont3">
           <ion-label stacked>Name</ion-label>
-          <ion-input type="text" formControlName="contact_name_3" [(ngModel)]="contact_name_3"
-          (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_3" [(ngModel)]="contact_name_3" (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
         </ion-item>
         <!--(keyup)="getPrimaryContact3(contact_name_3,primary_3,contact_number_3)"-->
         <!-- <ion-item *ngIf="cont3">
@@ -103,7 +101,7 @@
 
         <ion-item *ngIf="cont3">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_3" [(ngModel)]="contact_number_3"  (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_3" [(ngModel)]="contact_number_3" (keyup)="getPrimaryContact3(contact_name_3,contact_number_3)"></ion-input>
         </ion-item>
 
 
@@ -115,10 +113,9 @@
 
         <ion-item *ngIf="cont4">
           <ion-label stacked>Name</ion-label>
-          <ion-input type="text" formControlName="contact_name_4" [(ngModel)]="contact_name_4"
-          (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_4" [(ngModel)]="contact_name_4" (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
         </ion-item>
-<!--  (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"-- >
+        <!--  (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"-- >
         <!-- <ion-item *ngIf="cont4">
           <ion-label stacked>Contact Number</ion-label>
           <ion-input class="{{borderbottomredvalidation4}}" [disabled]="readOnly" (keyup)="getPrimaryContact4(contact_name_4,primary_4,contact_number_4)"
@@ -130,7 +127,7 @@
 
         <ion-item *ngIf="cont4">
           <ion-label stacked>Contact Number</ion-label>
-          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_4" [(ngModel)]="contact_number_4"  (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
+          <ion-input type="text" [disabled]="readOnly" formControlName="contact_number_4" [(ngModel)]="contact_number_4" (keyup)="getPrimaryContact4(contact_name_4,contact_number_4)"></ion-input>
         </ion-item>
 
 
@@ -142,8 +139,7 @@
 
         <ion-item *ngIf="cont5">
           <ion-label stacked>Name</ion-label>
-          <ion-input type="text" formControlName="contact_name_5" [(ngModel)]="contact_name_5"
-          (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
+          <ion-input type="text" formControlName="contact_name_5" [(ngModel)]="contact_name_5" (keyup)="getPrimaryContact5(contact_name_5,contact_number_5)"></ion-input>
         </ion-item>
         <!--(keyup)="getPrimaryContact5(contact_name_5,primary_5,contact_number_5)"-->
         <!-- <ion-item *ngIf="cont5">
@@ -166,7 +162,7 @@
       </ion-list>
     </div>
 
-    <ion-row>
+    <!--<ion-row>
       <ion-col class="col" col-12>
         <h4>Notification List</h4>
       </ion-col>
@@ -175,31 +171,41 @@
       <div class="inner-div">
         <ion-list>
           <ion-item>
-            <!-- <textarea style="border: 0px;
-    background-color: #efefef;
-    width: 400px;" (keyup)=address1get($event.target.value); name="to" id="to" class="suggest form-control" onkeyup="unit(event);address1get(this.value)"
-              onblur="sptionshide();address1get(this.value)" rows="8" [disabled]="readOnly" formControlName="alarmhashtags"
-              rows="6" [(ngModel)]="alarmhashtags"></textarea> -->
+            <div class="unit-form-group" style="border-top:none;">
+              <div class="inner-div" style="margin:0;border:none;">
+                <ion-list style="position:relative;background:none;">
+                  <textarea formControlName="alarmhashtags" [(ngModel)]="alarmhashtags" type="text" class="alarmhashtags" value="" name="alarmhashtags"
+                    style="width:100%;background:none;border:none;"></textarea>
+                </ion-list>
 
-
-              
-          <div class="unit-form-group" style="border-top:none;">
-            <div class="inner-div" style="margin:0;border:none;">
-              <ion-list style="position:relative;background:none;">
-                   <textarea formControlName="alarmhashtags" [(ngModel)]="alarmhashtags" type="text" class="alarmhashtags" value="" name="alarmhashtags" style="width:100%;background:none;border:none;"></textarea>
-              </ion-list>
-      
+              </div>
             </div>
-          </div>    </ion-item>
-
-         
+          </ion-item>
         </ion-list>
       </div>
-    </div>
+    </div> -->
 
 
 
-      
+    <ion-list style="margin-bottom: 0">
+      <ion-item style="border: none;" class="no-line">
+        <ion-label stacked>Notification List</ion-label>
+
+      </ion-item>
+      <div class="unit-form-group" style="background-color: #f8f8f8;">
+        <div class="inner-div" style="background-color: #f8f8f8;">
+          <ion-list style="position:relative;">
+            <textarea formControlName="alarmhashtags" [(ngModel)]="alarmhashtags" type="text" class="alarmhashtags" value="" name="alarmhashtags"
+              style="background:none;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;width: 100%;"></textarea>
+            <!-- <input style="width:100%;height:45px;background-color: #f8f8f8;" formControlName="alarmhashtags" [(ngModel)]="alarmhashtags" type="text" class="alarmhashtags"
+              value="" name="alarmhashtags" style="background:none;border:none;" /> -->
+          </ion-list>
+        </div>
+      </div>
+    </ion-list>
+
+
+
     <div class="save-btn" *ngIf="hideActionButton">
       <button [disabled]="!form.valid || isSubmitted" (click)="saveEntry()">Save</button>
     </div>

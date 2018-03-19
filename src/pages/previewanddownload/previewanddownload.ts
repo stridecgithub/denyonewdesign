@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ServicingDetailsPage } from '../servicing-details/servicing-details';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 
@@ -28,10 +28,40 @@ export class PreviewanddownloadPage {
   frompage;
   uploadsuccess;
   storageDirectory: string = '';
-  isjpg = 0;
+  ispreview = 0;
   private apiServiceURL: string = "";
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public platform: Platform, private conf: Config, public navParams: NavParams, private transfer: FileTransfer, private file: File) {
     this.apiServiceURL = conf.apiBaseURL();
+    this.frompage = this.navParams.get("frompage");
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        console.log("From page for previous:" + this.frompage);
+        // if (this.navParams.get("record") == undefined) {
+        //    this.navCtrl.setRoot(CalendarPage, {});
+        //   return false;
+        // }
+        if (this.frompage == 'ServicingDetailsPage') {
+          this.navCtrl.setRoot(ServicingDetailsPage, {
+            record: this.navParams.get("record")
+          });
+        } else if (this.frompage == 'CommentdetailsPage') {
+          this.navCtrl.setRoot(CommentdetailsPage, {
+            event_id: this.navParams.get("event_id"),
+            from: 'commentinfo'
+          });
+        } else if (this.frompage == 'MessagedetailPage') {
+          console.log("this.navParams.get('messageid')" + this.navParams.get("messageid"));
+          this.navCtrl.setRoot(MessagedetailPage, {
+            item: this.navParams.get("record"),
+            from: this.navParams.get("from"),
+            favstatus: this.navParams.get("favstatus"),
+            message_readstatus: this.navParams.get("message_readstatus"),
+            event_id: this.navParams.get("messageid")
+          });
+        }
+      });
+    });
+
   }
 
   ionViewDidLoad() {
@@ -47,14 +77,17 @@ export class PreviewanddownloadPage {
       console.log("File Name:" + this.navParams.get("imagedata").fileName.split(".")[0]);
       console.log("Extension Name:" + this.navParams.get("imagedata").fileName.split(".")[1]);
       if (this.navParams.get("imagedata").fileName.split(".")[1] == 'jpg') {
-        this.isjpg = 1;
+        this.ispreview = 1;
+      } else if (this.navParams.get("imagedata").fileName.split(".")[1] == 'png') {
+        this.ispreview = 1;
       } else {
-        this.isjpg = 0;
+        this.ispreview = 0;
       }
-      console.log(this.isjpg);
+      console.log(this.ispreview);
       this.imagepath = this.apiServiceURL + "/attachments/" + this.navParams.get("imagedata").fileName;
+      console.log(this.imagepath);
     } else {
-      this.isjpg = 1;
+      this.ispreview = 1;
       this.imagepath = this.navParams.get("imagedata").imgSrc;
     }
   }
@@ -65,17 +98,17 @@ export class PreviewanddownloadPage {
     //   return false;
     // }
     if (frompage == 'ServicingDetailsPage') {
-       this.navCtrl.setRoot(ServicingDetailsPage, {
+      this.navCtrl.setRoot(ServicingDetailsPage, {
         record: this.navParams.get("record")
       });
     } else if (frompage == 'CommentdetailsPage') {
-       this.navCtrl.setRoot(CommentdetailsPage, {
+      this.navCtrl.setRoot(CommentdetailsPage, {
         event_id: this.navParams.get("event_id"),
         from: 'commentinfo'
       });
     } else if (frompage == 'MessagedetailPage') {
-      console.log("this.navParams.get('messageid')"+this.navParams.get("messageid"));
-       this.navCtrl.setRoot(MessagedetailPage, {
+      console.log("this.navParams.get('messageid')" + this.navParams.get("messageid"));
+      this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get("record"),
         from: this.navParams.get("from"),
         favstatus: this.navParams.get("favstatus"),

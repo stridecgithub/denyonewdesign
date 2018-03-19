@@ -35,7 +35,7 @@ import { Subscription } from "rxjs";
 export class UnitdetailsPage {
 	private tick: any;
 	private subscription: Subscription;
-	public footerBar = [];
+	footerBar: number = 1;
 	public pageTitle: string;
 	//public userId: any;
 	public item = [];
@@ -170,6 +170,12 @@ export class UnitdetailsPage {
 	public UNITEDITACCESS: any;
 	public UNITDELETEACCESS: any;
 	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
+		this.platform.ready().then(() => {
+			this.platform.registerBackButtonAction(() => {
+				this.navCtrl.setRoot(UnitsPage);
+			});
+		});
+
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
 		this.unitDetailData.userId = localStorage.getItem("userInfoId");
 
@@ -260,6 +266,7 @@ export class UnitdetailsPage {
 		} else {
 			dashboarddisplay = 'none';
 		}
+		/*
 		this.footerBar.push({
 			title: 'Dashboard',
 			active: true,
@@ -322,7 +329,7 @@ export class UnitdetailsPage {
 		});
 		//this.footerBar = "0";
 		//let footerBar=this.footerBar.split(",");
-
+*/
 		// Footer Menu Access - End
 	}
 	// ngOnInit() {
@@ -653,6 +660,12 @@ export class UnitdetailsPage {
 						// }
 						let mnfactor = this.setpointsdata[4].minvalue;
 						let mxfactor = this.setpointsdata[4].maxvalue;
+						if (mnfactor == '') {
+							mnfactor = 0;
+						}
+						if (mxfactor == '') {
+							mxfactor = 100;
+						}
 						//console.log("Min loadfactor:" + mnfactor);
 						//console.log("Max loadfactor:" + mxfactor);
 						if (actual_loadfactor <= parseFloat(mnfactor)) {
@@ -742,7 +755,10 @@ export class UnitdetailsPage {
 								console.log("Xav" + x);
 								if (x == 0) {
 									sval = 0;
+
 									enval = labels[x];
+
+
 
 								} /*else if (x == labels.length - 1) {
 									sval = labels[x];
@@ -765,6 +781,12 @@ export class UnitdetailsPage {
 								if (barchartcolors[x] == "gradient3") {
 									gradver = '#00FF50';
 								}
+								if (code == 'oilpressure') {
+									/*if(x==1){
+										enval=enval+0.7;
+									}*/
+
+								}
 								this.rangesdata.push({
 									startValue: sval,
 									endValue: enval,
@@ -774,20 +796,30 @@ export class UnitdetailsPage {
 									fillStyle: gradver
 								})
 								/*startValue: 97,
-									endValue: 105,
-										innerOffset: 0.46,
-											outerStartOffset: 0.70,
-												outerEndOffset: 0.70,
-													fillStyle: gradient3*/
+	endValue: 105,
+		innerOffset: 0.46,
+			outerStartOffset: 0.70,
+				outerEndOffset: 0.70,
+					fillStyle: gradient3*/
 
 
 							}
 							if (enval == res[i].maxvalue) {
 								enval = sval;
 							}
-
+							if (res[i].maxvalue == '') {
+								res[i].maxvalue = 100;
+							}
+							if (res[i].minvalue == '') {
+								res[i].minvalue = 0;
+							}
+							let angle=0;
 							if (code == 'oilpressure') {
-
+								console.log("labels[x]"+enval);
+								
+								if(enval > 1.1 && enval <= 1.5) {
+									angle=180;
+								}
 								this.rangesdata.push({
 									startValue: enval,
 									endValue: res[i].maxvalue,
@@ -826,6 +858,7 @@ export class UnitdetailsPage {
 
 							}
 							if (code == "oilpressure") {
+
 								console.log("this.oilpressure" + this.oilpressure)
 
 
@@ -882,8 +915,10 @@ export class UnitdetailsPage {
 									{
 										minimum: res[i].minvalue,
 										maximum: res[i].maxvalue,
+										
 										labels: {
-											offset: 0.15
+											offset: 0.15,
+											angle: angle
 										},
 										majorTickMarks: {
 											length: 0,
@@ -1368,7 +1403,7 @@ export class UnitdetailsPage {
 					options1: any = new RequestOptions({ headers: headers1 }),
 					url1: any = this.apiServiceURL + "/gaugedetails/" + this.unitDetailData.controllerid;
 
-				console.log(url1);
+				console.log("Guage Detail API:" + url1);
 				this.http.get(url1, options1)
 					.subscribe((data) => {
 						let res;

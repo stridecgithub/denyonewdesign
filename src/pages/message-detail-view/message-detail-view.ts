@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -73,6 +73,29 @@ export class MessageDetailViewPage {
   favstatus: any; // 0 is unfavorite 1 is favorite
   // For Messages
   constructor(private platform: Platform, private conf: Config, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.navParams.get('from') == 'push') {
+          this.navCtrl.setRoot(MessagedetailPage, {
+            event_id: this.messageid,
+            from: 'push',
+            favstatus: this.navParams.get("favstatus"),
+            message_readstatus: this.navParams.get("message_readstatus")
+          });
+
+        } else {
+          this.navCtrl.setRoot(MessagedetailPage, {
+            item: this.navParams.get('item'),
+            act: this.navParams.get('act'),
+            from: this.from,
+            favstatus: this.navParams.get("favstatus"),
+            message_readstatus: this.navParams.get("message_readstatus"),
+            event_id: this.navParams.get("messageid")
+          });
+        }
+      });
+    });
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -89,10 +112,10 @@ export class MessageDetailViewPage {
     }
     this.close = 1;
     this.open = 0;
-   
+
   }
   action(item, action, from) {
-     this.navCtrl.setRoot(ComposePage, {
+    this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
       from: from
@@ -113,7 +136,7 @@ export class MessageDetailViewPage {
   }
   ionViewWillLeave() {
     if (this.navParams.get("from") != 'push') {
-     // this.tabBarElement.style.display = 'flex';
+      // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
@@ -144,7 +167,7 @@ export class MessageDetailViewPage {
     } else {
       messageids = this.detailItem.message_id;
     }
-    let bodymessage: string = "messageid=" + messageids+"&loginid="+this.userId,
+    let bodymessage: string = "messageid=" + messageids + "&loginid=" + this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
@@ -210,7 +233,7 @@ export class MessageDetailViewPage {
   }
 
   selectEntry(item) {
-    this.priority_image='';
+    this.priority_image = '';
     console.log(JSON.stringify(item));
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
@@ -218,15 +241,15 @@ export class MessageDetailViewPage {
     this.messages_body_html = item.message_body_html;
 
     this.priority_image = item.priority_image;
-    if(this.priority_image=='arrow_active_low.png'){
+    if (this.priority_image == 'arrow_active_low.png') {
       this.getPrority(1);
     }
-    if(this.priority_image=='arrow_active_high.png'){
+    if (this.priority_image == 'arrow_active_high.png') {
       this.getPrority(2);
     }
     this.messageid = item.message_id;
     this.is_reply = item.isreply;
-    console.log("Is Reply:-"+item.isreply);
+    console.log("Is Reply:-" + item.isreply);
     this.priority_highclass = '';
     this.priority_lowclass = '';
     if (item.message_priority == "2") {
@@ -234,7 +257,7 @@ export class MessageDetailViewPage {
     }
     if (item.message_priority == "1") {
       this.priority_lowclass = "border-low";
-    } 
+    }
 
     if (item.message_priority == "0") {
       this.priority_lowclass = "";
@@ -347,7 +370,7 @@ export class MessageDetailViewPage {
   }
   previous() {
     if (this.navParams.get('from') == 'push') {
-       this.navCtrl.setRoot(MessagedetailPage, {
+      this.navCtrl.setRoot(MessagedetailPage, {
         event_id: this.messageid,
         from: 'push',
         favstatus: this.navParams.get("favstatus"),
@@ -355,7 +378,7 @@ export class MessageDetailViewPage {
       });
 
     } else {
-       this.navCtrl.setRoot(MessagedetailPage, {
+      this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get('item'),
         act: this.navParams.get('act'),
         from: this.from,
@@ -515,7 +538,7 @@ export class MessageDetailViewPage {
         }
         // If the request was successful notify the user
         if (data.status === 200) {
-        //  this.conf.sendNotification('Favorite updated successfully');
+          //  this.conf.sendNotification('Favorite updated successfully');
           //  this.navCtrl.setRoot(MessagesPage);
           this.conf.sendNotification(data.json().msg[0]['result']);
         }
@@ -574,7 +597,7 @@ export class MessageDetailViewPage {
           console.log('Enter');
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
-             this.navCtrl.setRoot(MessagesPage);
+            this.navCtrl.setRoot(MessagesPage);
           }
 
         }
@@ -730,7 +753,7 @@ export class MessageDetailViewPage {
       });
   }
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-     this.navCtrl.setRoot(PreviewanddownloadPage, {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -749,17 +772,17 @@ export class MessageDetailViewPage {
       console.log('val A:' + val);
       this.activelow = "0";
       this.activehigh = "1";
-      
+
     } else if (val == "1") {
       console.log('val B:' + val);
       this.activelow = "1";
       this.activehigh = "0";
-      
+
     } else {
       console.log('val C:' + val);
       this.activelow = "0";
       this.activehigh = "0";
-      
+
     }
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -35,25 +35,34 @@ export class EventDetailsEventPage {
   event_dot_color;
   item;
   service_remark;
- // tabBarElement: any;
+  // tabBarElement: any;
   eventitem;
   private apiServiceURL: string = "";
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.NP.get("from") == 'notification') {
+          this.navCtrl.setRoot(NotificationPage);
+        } else {
+          this.navCtrl.setRoot(CalendarPage);
+        }
+      });
+    });
     this.apiServiceURL = conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
-     /// this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+      /// this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-   
+
   }
 
   ionViewWillLeave() {
     if (this.NP.get("from") != 'Push') {
-     // this.tabBarElement.style.display = 'flex';
+      // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
     if (this.NP.get("from") != 'Push') {
-     // this.tabBarElement.style.display = 'none';
+      // this.tabBarElement.style.display = 'none';
     }
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
@@ -81,7 +90,7 @@ export class EventDetailsEventPage {
           if (event_alldayevent == 0) {
             this.event_time = data.json().eventslist[0].event_time;
           } else {
-            this.event_time =  "- " + data.json().eventslist[0].formatted_event_end_date;
+            this.event_time = "- " + data.json().eventslist[0].formatted_event_end_date;
           }
           console.log("A:" + data.json().eventslist[0].event_end_time);
 
@@ -107,7 +116,7 @@ export class EventDetailsEventPage {
 
   }
   doEdit(item, act) {
-     this.navCtrl.setRoot(ServicedetailsPage, {
+    this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -146,7 +155,7 @@ export class EventDetailsEventPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-           this.navCtrl.setRoot(CalendarPage);
+          this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -158,13 +167,13 @@ export class EventDetailsEventPage {
   }
   previous() {
     if (this.NP.get("from") == 'notification') {
-       this.navCtrl.setRoot(NotificationPage);
+      this.navCtrl.setRoot(NotificationPage);
     } else {
-       this.navCtrl.setRoot(CalendarPage);
+      this.navCtrl.setRoot(CalendarPage);
     }
   }
   addCalendar(item) {
-     this.navCtrl.setRoot(AddcalendarPage,
+    this.navCtrl.setRoot(AddcalendarPage,
       {
         from: 'event-detail-event',
         item: item,
@@ -209,7 +218,7 @@ export class EventDetailsEventPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Event was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-           this.navCtrl.setRoot(CalendarPage);
+          this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {

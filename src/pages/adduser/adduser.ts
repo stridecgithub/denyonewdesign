@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -31,7 +31,8 @@ import { Config } from '../../config/config';
 export class AdduserPage {
   // Define FormBuilder /model properties
   public loginas: any;
-  public footerBar = [];
+ 
+  footerBar: number = 0;
   public form: FormGroup;
   public first_name: any;
   public last_name: any;
@@ -79,6 +80,7 @@ export class AdduserPage {
   public responseResultReportTo: any;
   public responseResultRole = [];
   public responseResultRoleDropDown = [];
+  companyId;
   constructor(private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
@@ -86,7 +88,15 @@ export class AdduserPage {
     public toastCtrl: ToastController, public loadingCtrl: LoadingController, private camera: Camera
 
     , private transfer: FileTransfer,
-    private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
+    private ngZone: NgZone, public actionSheetCtrl: ActionSheetController,public platform:Platform) {
+
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {         
+          this.nav.setRoot(UserPage);
+        });
+      });
+
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     // Create form builder validation rules
@@ -154,6 +164,7 @@ export class AdduserPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -219,7 +230,7 @@ export class AdduserPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
 
-
+*/
     // Footer Menu Access - End
 
   }
@@ -252,7 +263,7 @@ export class AdduserPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/getroles";
+      url: any = this.apiServiceURL + "/getroles?companyid=" + this.companyId;
 
     let res;
     this.http.get(url, options)

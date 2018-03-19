@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddrolePage } from '../addrole/addrole';
@@ -49,12 +49,16 @@ export class RolePage {
     }
   public roleAllLists = [];
   profilePhoto;
-  constructor(public http: Http, private conf: Config,
+  constructor(public platform:Platform,public http: Http, private conf: Config,
     public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Roles';
     this.loginas = localStorage.getItem("userInfoName");
-    
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(MyaccountPage);
+      });
+    });
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERROLE_CREATE");
     this.EDITACCESS = localStorage.getItem("SETTINGS_USERROLE_EDIT");
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERROLE_DELETE");

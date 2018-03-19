@@ -82,9 +82,25 @@ export class ReportviewtablePage {
   url;
   storageDirectory: string = '';
   public buttonClicked: boolean = false;
-  constructor( private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
+  constructor( private platform:Platform,private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
-    this.pageTitle = 'Reports Preview & Download';
+   
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.navCtrl.setRoot(ReportsPage, {
+            selunit: this.NP.get("selunit"),
+            seltemplate: this.NP.get("seltemplate"),
+            seltimeframe: this.NP.get("seltimeframe"),
+            from: this.NP.get("from"),
+            to: this.NP.get("to"),
+            exportto: this.NP.get("exportto"),
+            val: this.NP.get("val")
+          });
+        });
+      });
+
+
+      this.pageTitle = 'Reports Preview & Download';
     //this.readCsvData();
     this.graphview = 0;
     this.requestsuccess = '';

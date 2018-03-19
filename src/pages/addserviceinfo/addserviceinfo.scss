@@ -68,7 +68,30 @@ ion-content .scroll-content {
     border-bottom: 1px solid #dedede!important;
 }
 .servicing-details-form {
-  background-color: #f8f8f8;
+  background: #F8F8F8;
+  border-top: 1px solid #dedede;
+  border-bottom: 0px solid #dedede;
+padding-bottom: 0;
+overflow: hidden;
+  ion-item {
+    background-color: transparent;
+    padding: 0 15px;
+    .cal-icon {
+      background: url(../assets/imgs/cal@2x.png) no-repeat right;
+      background-size: 20px auto;
+    }
+  }
+  ion-datetime {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .inner-div {
+    border-bottom: none;
+    margin: 0 15px 5px 15px;
+    ion-item {
+      padding: 0 !important;
+    }
+  }
 }
 .edit-profo {
   border-bottom: 1px solid #ccc;

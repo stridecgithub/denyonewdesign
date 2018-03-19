@@ -97,6 +97,13 @@ export class AddcalendarPage {
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(CalendarPage);
+      });
+    });
+
     this.SERVICECREATEACCESS = localStorage.getItem("CALENDAR_SERVICES_CREATE");
 
     this.EVENTCREATEACCESS = localStorage.getItem("CALENDAR_EVENTS_CREATE");
@@ -251,9 +258,7 @@ export class AddcalendarPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    this.platform.ready().then(() => {
 
-    });
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
     let //body: string = "loginid=" + this.userId,
@@ -948,9 +953,9 @@ export class AddcalendarPage {
 
 
     // Personal hashtag checking....
-    
+
     let toaddress = jQuery(".event_notes").val();
-    let param = "toaddress=" + toaddress + "&ismobile=1";
+    let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
     let body: string = param,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -963,17 +968,17 @@ export class AddcalendarPage {
       .subscribe((data) => {
         console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
         console.log("1" + data.json().invalidusers);
-        //if (data.json().invalidusers == '') {
+        if (data.json().invalidusers == '') {
           if (this.isEdited) {
             this.updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
           }
           else {
             this.createEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
           }
-        // } else {
-        //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
-        //   return false;
-        // }
+        } else {
+          this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+          return false;
+        }
       });
     // Personal hashtag checking....
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { MyaccountPage } from '../myaccount/myaccount';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -23,9 +23,13 @@ export class ChangepasswordPage {
   userId;
   constructor(private conf: Config, public navCtrl: NavController, public navParams: NavParams, public http: Http,
     public NP: NavParams,
-    public fb: FormBuilder
+    public fb: FormBuilder, public platform: Platform
   ) {
-
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(MyaccountPage);
+      });
+    });
     this.form = fb.group({
       "oldpassword": ["", Validators.required],
       "confirmpassword": ["", Validators.required],
@@ -62,9 +66,9 @@ export class ChangepasswordPage {
           if (res.msg[0].Error > 0) {
             this.conf.sendNotification(res.msg[0].result);
           } else {
-           // this.conf.sendNotification('New password has been updated successfully.');
-           this.conf.sendNotification(res.msg[0].result);
-             this.navCtrl.setRoot(MyaccountPage);
+            // this.conf.sendNotification('New password has been updated successfully.');
+            this.conf.sendNotification(res.msg[0].result);
+            this.navCtrl.setRoot(MyaccountPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -76,14 +80,14 @@ export class ChangepasswordPage {
   }
 
   previous() {
-     this.navCtrl.setRoot(MyaccountPage);
+    this.navCtrl.setRoot(MyaccountPage);
   }
 
   comparepassword(confirmpassword, newpassword) {
     console.log("Confirm Passowrd:" + confirmpassword + "-New Password:" + newpassword)
-    if(confirmpassword!=newpassword){
+    if (confirmpassword != newpassword) {
       this.isSubmitted = true;
-    }else{
+    } else {
       this.isSubmitted = false;
     }
     // this.isSubmitted = true;

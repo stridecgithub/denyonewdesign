@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -20,7 +20,7 @@ import { NotificationPage } from '../notification/notification';
   templateUrl: 'addreporttemplate.html',
 })
 export class AddreporttemplatePage {
-  public footerBar= [];
+  public footerBar = [];
   public items = [];
   public template_data = [];
   public getCheckboxData = [];
@@ -40,7 +40,15 @@ export class AddreporttemplatePage {
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController, public platform: Platform) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(ReporttemplatePage);
+      });
+    });
+
+
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -49,104 +57,104 @@ export class AddreporttemplatePage {
     });
 
     this.userId = localStorage.getItem("userInfoId");
-// Footer Menu Access - Start
-let footeraccessstorage = localStorage.getItem("footermenu");
-let footeraccessparams = this.NP.get('footermenu');
-let footermenuacc;
-if (footeraccessparams != undefined) {
-  footermenuacc = footeraccessparams;
-} else {
-  footermenuacc = footeraccessstorage;
-}
+    // Footer Menu Access - Start
+    let footeraccessstorage = localStorage.getItem("footermenu");
+    let footeraccessparams = this.NP.get('footermenu');
+    let footermenuacc;
+    if (footeraccessparams != undefined) {
+      footermenuacc = footeraccessparams;
+    } else {
+      footermenuacc = footeraccessstorage;
+    }
 
 
-// this.footerBar="0,"+footermenuacc;
+    // this.footerBar="0,"+footermenuacc;
 
-let footermenusplitcomma = footermenuacc.split(",");
-let dashboardAccess = footermenusplitcomma[0];
-let unitAccess = footermenusplitcomma[1];
-let calendarAccess = footermenusplitcomma[2];
-let messageAccess = footermenusplitcomma[3];
-let orgchartAccess = footermenusplitcomma[4];
-
-
-
+    let footermenusplitcomma = footermenuacc.split(",");
+    let dashboardAccess = footermenusplitcomma[0];
+    let unitAccess = footermenusplitcomma[1];
+    let calendarAccess = footermenusplitcomma[2];
+    let messageAccess = footermenusplitcomma[3];
+    let orgchartAccess = footermenusplitcomma[4];
 
 
 
-let dashboarddisplay;
-if (dashboardAccess == 1) {
-  dashboarddisplay = '';
-} else {
-  dashboarddisplay = 'none';
-}
-this.footerBar.push({
-  title: 'Dashboard',
-  active: true,
-  colorcode: "#488aff",
-  footerdisplay: dashboarddisplay,
-  pageComponent: 'DashboardPage'
-});
-let unitdisplay;
-if (unitAccess == 1) {
-  unitdisplay = '';
-} else {
-  unitdisplay = 'none';
-}
-this.footerBar.push({
-  title: 'Units',
-  active: false,
-  colorcode: "rgba(60, 60, 60, 0.7)",
-  footerdisplay: unitdisplay,
-  pageComponent: 'UnitsPage'
-});
-let calendardisplay;
-if (calendarAccess == 1) {
-  calendardisplay = '';
-} else {
-  calendardisplay = 'none';
-}
-
-this.footerBar.push({
-  title: 'Calendar',
-  active: false,
-  colorcode: "rgba(60, 60, 60, 0.7)",
-  footerdisplay: calendardisplay,
-  pageComponent: 'CalendarPage'
-});
-let messagedisplay;
-if (messageAccess == 1) {
-  messagedisplay = '';
-} else {
-  messagedisplay = 'none';
-}
-this.footerBar.push({
-  title: 'Message',
-  active: false,
-  colorcode: "rgba(60, 60, 60, 0.7)",
-  footerdisplay: messagedisplay,
-  pageComponent: 'MessagePage'
-});
-let orgchartdisplay;
-if (orgchartAccess == 1) {
-  orgchartdisplay = '';
-} else {
-  orgchartdisplay = 'none';
-}
-this.footerBar.push({
-  title: 'Org Chart',
-  active: false,
-  footerdisplay: orgchartdisplay,
-  colorcode: "rgba(60, 60, 60, 0.7)",
-  pageComponent: 'OrgchartPage'
-});
 
 
-//this.footerBar = "0";
-//let footerBar=this.footerBar.split(",");
+
+    let dashboarddisplay;
+    if (dashboardAccess == 1) {
+      dashboarddisplay = '';
+    } else {
+      dashboarddisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Dashboard',
+      active: true,
+      colorcode: "#488aff",
+      footerdisplay: dashboarddisplay,
+      pageComponent: 'DashboardPage'
+    });
+    let unitdisplay;
+    if (unitAccess == 1) {
+      unitdisplay = '';
+    } else {
+      unitdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Units',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
+    });
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
+    } else {
+      calendardisplay = 'none';
+    }
+
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Message',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
 
 
-// Footer Menu Access - End
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+
+
+    // Footer Menu Access - End
 
   }
   /*
@@ -158,7 +166,7 @@ console.log("Id"+id+"<==>"+item._value);
 
 console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
 }*/
-  
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddreporttemplatePage');
     if (this.NP.get("record")) {
@@ -301,10 +309,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
             console.log("Msg Results:-" + res.msg[0].result);
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
-               this.nav.setRoot(ReporttemplatePage);
+              this.nav.setRoot(ReporttemplatePage);
             } else {
               this.sendNotification(res.msg[0].result);
-               this.nav.setRoot(ReporttemplatePage);
+              this.nav.setRoot(ReporttemplatePage);
             }
           }
           // Otherwise let 'em know anyway
@@ -348,10 +356,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
             console.log("Msg Results:-" + res.msg[0].result);
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
-               this.nav.setRoot(ReporttemplatePage);
+              this.nav.setRoot(ReporttemplatePage);
             } else {
               this.sendNotification(res.msg[0].result);
-               this.nav.setRoot(ReporttemplatePage);
+              this.nav.setRoot(ReporttemplatePage);
             }
           }
           // Otherwise let 'em know anyway
@@ -369,10 +377,10 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
     notification.present();
   }
   previous() {
-     this.nav.setRoot(ReporttemplatePage);
+    this.nav.setRoot(ReporttemplatePage);
   }
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
- 
+
 }

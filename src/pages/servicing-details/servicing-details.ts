@@ -49,7 +49,23 @@ export class ServicingDetailsPage {
   hoursadd24hourformat;
   constructor(public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
-   
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        if (this.navParams.get("from") == 'commentinfo') {
+          this.navCtrl.setRoot(CommentsinfoPage, {
+            record: this.navParams.get("record")
+          });
+        } else if (this.navParams.get("from") == 'Push') {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.item
+          });
+        } else {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.navParams.get("record")
+          });
+        }
+      });
+    });
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   ionViewWillLeave() {
@@ -88,7 +104,7 @@ export class ServicingDetailsPage {
             this.service_description = data.json().servicedetail[0].description;
             this.next_service_date_mobileview = data.json().servicedetail[0].next_service_date_mobileview;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_scheduled_time;
-            this.serviced_datetime_display_format =  data.json().servicedetail[0].serviced_scheduled_display;
+            this.serviced_datetime_display_format = data.json().servicedetail[0].serviced_scheduled_display;
             // this.service_dot_color = data.json().servicedetail[0].service_dot_color;
             this.next_service_date_selected = data.json().servicedetail[0].next_service_date_selected;
 
@@ -199,22 +215,22 @@ export class ServicingDetailsPage {
   previous() {
 
     if (this.navParams.get("from") == 'commentinfo') {
-       this.navCtrl.setRoot(CommentsinfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.navParams.get("record")
       });
     } else if (this.navParams.get("from") == 'Push') {
-       this.navCtrl.setRoot(ServicinginfoPage, {
-        record:this.item
+      this.navCtrl.setRoot(ServicinginfoPage, {
+        record: this.item
       });
-    }else {
-       this.navCtrl.setRoot(ServicinginfoPage, {
+    } else {
+      this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.navParams.get("record")
       });
     }
   }
 
   preview(imagedata, from) {
-     this.navCtrl.setRoot(PreviewanddownloadPage, {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get("record"),
       frompage: from

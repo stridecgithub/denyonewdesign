@@ -39,7 +39,6 @@ export class EditprofilesteponePage {
   public hashtag: any;
   report_to;
   naDisplay;
-  public footerBar = [];
   public job_position: any;
   public company_group: any;
   progress: number;
@@ -71,6 +70,13 @@ export class EditprofilesteponePage {
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.nav.setRoot(MyaccountPage);
+      });
+    });
+
     this.loginas = localStorage.getItem("userInfoName");
     this.addedImgLists = this.apiServiceURL + "/images/default.png";
     // Create form builder validation rules
@@ -81,22 +87,22 @@ export class EditprofilesteponePage {
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "username": [""],
       "password": [""],
-     // "contact": ["", Validators.required,  Validators.pattern(/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i)],//
+      // "contact": ["", Validators.required,  Validators.pattern(/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i)],//
       "job_position": ["", Validators.required],
       "company_id": ["", Validators.required],
       "report_to": ["", Validators.required],
       //"primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
-     // 'contact': ['', Validators.compose([Validators.required,  Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],///(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i
-     "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
+      // 'contact': ['', Validators.compose([Validators.required,  Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],///(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i
+      "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])]
-    
-    
+
+
     });
     this.userId = localStorage.getItem("userInfoId");
     console.log(this.userId);
     this.networkType = '';
     this.apiServiceURL = conf.apiBaseURL();
-   
+
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
     let footeraccessparams = this.NP.get('footermenu');
@@ -107,7 +113,7 @@ export class EditprofilesteponePage {
       footermenuacc = footeraccessstorage;
     }
 
-    
+
     // this.footerBar="0,"+footermenuacc;
 
     let footermenusplitcomma = footermenuacc.split(",");
@@ -117,18 +123,18 @@ export class EditprofilesteponePage {
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
 
-    
-    
-    
-   
-    
+
+
+
+
+
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "#488aff",
@@ -192,7 +198,7 @@ export class EditprofilesteponePage {
     
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-    
+    */
 
     // Footer Menu Access - End
 
@@ -261,10 +267,10 @@ export class EditprofilesteponePage {
         this.country = res.settings[0].country_id;
         this.company_id = res.settings[0].company_id;
         this.report_to = res.settings[0].report_to;
-        console.log("this.report_to "+this.report_to );
+        console.log("this.report_to " + this.report_to);
         //if (this.company_id > 0) {
-          this.getUserListData();
-       // }
+        this.getUserListData();
+        // }
 
         this.job_position = res.settings[0].job_position;
 
@@ -374,7 +380,7 @@ export class EditprofilesteponePage {
           //}
 
           this.conf.sendNotification(data.json().msg['result']);
-           this.nav.setRoot(MyaccountPage);
+          this.nav.setRoot(MyaccountPage);
 
         }
         // Otherwise let 'em know anyway
@@ -383,7 +389,7 @@ export class EditprofilesteponePage {
         }
       });
 
-   
+
   }
 
 
@@ -438,7 +444,7 @@ export class EditprofilesteponePage {
         password: string = this.form.controls["password"].value,
         email: string = this.form.controls["email"].value,
         contact: string = this.form.controls["contact"].value,
-       // primary: string = this.form.controls["primary"].value,
+        // primary: string = this.form.controls["primary"].value,
         //country: string = this.form.controls["country"].value,
         hashtag: string = this.form.controls["hashtag"].value,
         job_position: string = this.form.controls["job_position"].value,
@@ -488,7 +494,7 @@ export class EditprofilesteponePage {
   }
 
   previous() {
-     this.nav.setRoot(MyaccountPage);
+    this.nav.setRoot(MyaccountPage);
   }
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
@@ -590,9 +596,9 @@ export class EditprofilesteponePage {
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
-            
+
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
@@ -627,7 +633,7 @@ export class EditprofilesteponePage {
               destinationType: this.camera.DestinationType.FILE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation:true
+              correctOrientation: true
             }
 
             this.camera.getPicture(options).then((uri) => {
@@ -662,7 +668,7 @@ export class EditprofilesteponePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       // url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"comapnyid="+this.companyId;
-      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId+"&pagename=";
+      url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
     this.http.get(url, options)
       .subscribe(data => {
@@ -694,7 +700,7 @@ export class EditprofilesteponePage {
           else {
             this.len = res.TotalCount;
           }
-          console.log("this.len:"+this.len)
+          console.log("this.len:" + this.len)
           console.log("length" + res.TotalCount);
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;

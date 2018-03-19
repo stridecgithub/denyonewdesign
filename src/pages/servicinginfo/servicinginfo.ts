@@ -76,18 +76,23 @@ export class ServicinginfoPage {
   public totalCountUpcoming;
   public totalCounthistory;
   public profilePhoto;
-  public sortLblTxt: string = 'Date';
-  //tabBarElement: any;
-  public footerBar = [];
+  public sortLblTxt: string = 'Date'; 
+  footerBar: number = 1;
   constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
 
-    platform.registerBackButtonAction(() => {
-       this.navCtrl.setRoot(UnitdetailsPage, {
-        record: this.navParams.get("record"),
-        tabs: 'overView'
+  
+
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(UnitdetailsPage, {
+          record: this.NP.get("record"),
+          tabs: 'dataView'
+        });
       });
     });
+
 
     this.pageTitle = 'Servicing Info';
     this.loginas = localStorage.getItem("userInfoName");
@@ -133,6 +138,7 @@ export class ServicinginfoPage {
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -195,7 +201,7 @@ export class ServicinginfoPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
 

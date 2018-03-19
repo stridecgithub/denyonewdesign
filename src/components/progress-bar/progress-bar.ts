@@ -68,7 +68,6 @@ export class ProgressBarComponent {
     }
 
     console.log("Footer Menu Access" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
 
     let footermenusplitcomma = footermenuacc.split(",");
     let dashboardAccess = footermenusplitcomma[0];
@@ -82,7 +81,7 @@ export class ProgressBarComponent {
     console.log("Footer Menu Access for Calendar" + calendarAccess);
     console.log("Footer Menu Access for Messagees" + messageAccess);
     console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-    if (dashboardAccess == 0) {
+    /*if (dashboardAccess == 0) {
        this.navCtrl.setRoot(PermissionPage, {});
       return false;
     } else if (unitAccess == 0) {
@@ -97,7 +96,7 @@ export class ProgressBarComponent {
     } else if (orgchartAccess == 0) {
        this.navCtrl.setRoot(PermissionPage, {});
       return false;
-    } else {
+    } else {*/
       if (page == 'DashboardPage') {
         this.dashboardhighlight = 1;
         this.events.publish('menu:created', 'dashboard', Date.now());
@@ -166,7 +165,7 @@ export class ProgressBarComponent {
       });
 
 
-    }
+   // }
   }
   tabSelection(val) {
     this.tabIndexVal = localStorage.getItem("tabIndex");

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddunitgroupPage } from '../addunitgroup/addunitgroup';
@@ -28,7 +28,7 @@ import { Config } from '../../config/config';
   providers: [Config]
 })
 export class UnitgroupPage {
-  public footerBar = [];
+  footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
   public msgcount: any;
@@ -54,7 +54,7 @@ export class UnitgroupPage {
   public companyId;
   public profilePhoto;
   //tabBarElement: any;
-  constructor(public http: Http, private conf: Config, public nav: NavController,
+  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.apiServiceURL = conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
@@ -67,7 +67,11 @@ export class UnitgroupPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-
+    this.platform.ready().then(() => {
+			this.platform.registerBackButtonAction(() => {
+			  this.nav.setRoot(DashboardPage);
+			});
+		});
 
     // Footer Menu Access - Start
     let footeraccessstorage = localStorage.getItem("footermenu");
@@ -93,7 +97,7 @@ export class UnitgroupPage {
     } else {
       dashboarddisplay = 'none';
     }
-    this.footerBar.push({
+    /*this.footerBar.push({
       title: 'Dashboard',
       active: true,
       colorcode: "rgba(60, 60, 60, 0.7)",
@@ -155,7 +159,7 @@ export class UnitgroupPage {
     });
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-
+*/
     // Footer Menu Access - End
   }
 
@@ -332,14 +336,14 @@ export class UnitgroupPage {
     }
   }
   doAdd() {
-     this.nav.setRoot(AddunitgroupPage);
+    this.nav.setRoot(AddunitgroupPage);
   }
   previous() {
-     this.nav.setRoot(DashboardPage);
+    this.nav.setRoot(DashboardPage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.nav.setRoot(AddunitgroupPage, {
+      this.nav.setRoot(AddunitgroupPage, {
         record: item,
         act: act
       });
@@ -519,11 +523,11 @@ export class UnitgroupPage {
   }
 
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
   view(id, colorcode, cname, favoriteindication, unitgroup_name, totalunits, remark, createdOn) {
     //  localStorage.setItem("uid", id);
-     this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication, 'unitgroup_name': unitgroup_name, 'totalunits': totalunits, 'remark': remark, 'createdOn': createdOn });
+    this.nav.setRoot(Unitgrouplist, { unitid: id, 'colorcode': colorcode, 'cname': cname, 'favoriteindication': favoriteindication, 'unitgroup_name': unitgroup_name, 'totalunits': totalunits, 'remark': remark, 'createdOn': createdOn });
   }
 
   doSort() {

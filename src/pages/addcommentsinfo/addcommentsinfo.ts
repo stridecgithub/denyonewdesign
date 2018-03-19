@@ -94,6 +94,15 @@ export class AddcommentsinfoPage {
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(CommentsinfoPage, {
+          record: this.NP.get("record")
+        });
+      });
+    });
+
+
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.isFuture = 0;
     this.uploadcount = 10;
@@ -512,7 +521,7 @@ export class AddcommentsinfoPage {
 
         // Personal hashtag checking....
         let toaddress = jQuery(".comment_remark").val();
-        let param = "toaddress=" + toaddress + "&ismobile=1";
+        let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
         let body: string = param,
 
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -525,17 +534,17 @@ export class AddcommentsinfoPage {
           .subscribe((data) => {
             console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
             console.log("1" + data.json().invalidusers);
-            //if (data.json().invalidusers == '') {
+            if (data.json().invalidusers == '') {
               if (this.isEdited) {
                 this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
               }
               else {
                 this.createEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
               }
-            // } else {
-            //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
-            //   return false;
-            // }
+            } else {
+              this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+              return false;
+            }
           });
         // Personal hashtag checking....
 

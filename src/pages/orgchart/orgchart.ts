@@ -10,7 +10,7 @@ import { Config } from '../../config/config';
 import { DashboardPage } from "../dashboard/dashboard";
 import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
 import { ComposePage } from "../compose/compose";
-
+import { PermissionPage } from '../permission/permission';
 /**
  * Generated class for the UnitgroupPage page.
  *
@@ -30,8 +30,7 @@ export class OrgchartPage {
   public pageTitle: string;
   public loginas: any;
   public htmlContent;
-  //footerBar: number = 4;
-  public footerBar = [];
+  footerBar: number = 4;
   public devicewidth;
   public deviceheight;
   private apiServiceURL: string = "";
@@ -84,6 +83,14 @@ export class OrgchartPage {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.popoverclose();
+        this.navCtrl.setRoot(DashboardPage);
+      });
+    });
+
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
@@ -91,7 +98,7 @@ export class OrgchartPage {
     }
     //Authorization Get Value
 
-    
+
 
 
     this.CREATEACCESS = localStorage.getItem("SETTINGS_ORGCHART_CREATE");
@@ -145,12 +152,16 @@ export class OrgchartPage {
     console.log("Footer Menu Access for Calendar" + calendarAccess);
     console.log("Footer Menu Access for Messagees" + messageAccess);
     console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+    if(orgchartAccess==0){
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
     } else {
       dashboarddisplay = 'none';
     }
+    /*
     this.footerBar.push({
       title: 'Dashboard',
       active: true,
@@ -216,8 +227,18 @@ export class OrgchartPage {
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
     console.log("Final Footer Menu access:" + this.footerBar);
-
+*/
     // Footer Menu Access - End
+
+
+  
+
+    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
+    console.log("Footer Menu Access for Dashboard" + unitAccess);
+    console.log("Footer Menu Access for Calendar" + calendarAccess);
+    console.log("Footer Menu Access for Messagees" + messageAccess);
+    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+
   }
 
   isNet() {
@@ -227,7 +248,10 @@ export class OrgchartPage {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
   }
-
+  popoverclose() {
+    console.log("Popover Function Calling...")
+    jQuery(".popover-content").hide();
+  }
   pinchEvent(e) {
     console.log("pinchEvent" + JSON.stringify(e))
     console.log("pinchW is" + this.pinchW);
@@ -309,31 +333,31 @@ export class OrgchartPage {
     });
     popover.onWillDismiss(data => {
       console.log(JSON.stringify(data));
-     
+
       //console.log("Hashtag:"+data[0].hashtag);
-    
-     // console.log("Act:"+data[0].act);
-     
+
+      // console.log("Act:"+data[0].act);
+
       if (data != null) {
         if (data.length == 1) {
           if (data[0].act == 'delete') {
             this.doDelete(data);
           } else if (data[0].act == 'hashtag') {
             this.doCompose(data[0].hashtag);
-          } 
-        }else{
+          }
+        } else {
           this.doEdit(data, 'edit');
         }
 
 
       } else {
-       // this.previous();
+        // this.previous();
       }
     });
   }
   doCompose(to) {
 
-     this.navCtrl.setRoot(ComposePage, { 'to': to });
+    this.navCtrl.setRoot(ComposePage, { 'to': to });
   }
   doDelete(item) {
     console.log("Deleted Id" + item[0].staff_id);
@@ -504,15 +528,17 @@ export class OrgchartPage {
 
 
   doAdd() {
-     this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
+    localStorage.setItem("photofromgallery", "");
+    this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
   }
   previous() {
-     this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
 
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.navCtrl.setRoot(AddorgchartonePage, {
+      localStorage.setItem("photofromgallery", "");
+      this.navCtrl.setRoot(AddorgchartonePage, {
         record: item,
         act: act,
         'companyId': this.companyId
@@ -520,17 +546,17 @@ export class OrgchartPage {
     }
   }
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   redirectToUser() {
-     this.navCtrl.setRoot(UnitsPage);
+    this.navCtrl.setRoot(UnitsPage);
   }
 
   redirectToMessage() {
     // this.nav.setRoot(EmailPage);
   }
   redirectCalendar() {
-     this.navCtrl.setRoot(CalendarPage);
+    this.navCtrl.setRoot(CalendarPage);
   }
   redirectToMaps() {
     // this.nav.setRoot(MapsPage);

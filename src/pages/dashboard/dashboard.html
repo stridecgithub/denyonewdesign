@@ -1,4 +1,4 @@
-<ion-header   (tap)="isNet()">
+<ion-header (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -22,7 +22,7 @@
 </ion-header>
 
 
-<ion-content  (tap)="isNet()">
+<ion-content (tap)="isNet()">
 
 
 
@@ -46,13 +46,6 @@
       <div class="popup" *ngFor="let unit of unitsPopups" id="{{unit.unit_id}}" (click)="doAction(unit,'detail',unit.unit_id)">
         <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.controllerid}} {{unit.unitname}}
         <div class="list-desc">{{unit.projectname}}</div>
-        <!-- <div class="list-favorite">
-          <button>
-            <ion-icon name="star-outline" hidden="unit.favorite"></ion-icon>
-            <ion-icon name="star" hidden="unit.favorite" class="favorite"></ion-icon>
-          </button>
-        </div> -->
-
         <div class="list-favorite">
           <button>
             <ion-icon name="star-outline" *ngIf="unit.favorite === 0 || unit.favorite === 'unfavorite'"></ion-icon>
@@ -93,7 +86,7 @@
     </div>
 
     <div id="listView" style="display: none;">
-      <!--  For Push Testing 
+      <!-- For Push Testing 
      <button ion-button class="edit-btn" (click)="pushTesting()">
           <img width="25" src="assets/imgs/edit@2x.png">Push Testing
       </button> -->
@@ -148,13 +141,14 @@
     <img width="25" src="assets/imgs/remove@2x.png">Push Navigation Testing...
   </button> -->
 
-   <!-- <button ion-button class="read-btn" (click)="sampleToast('In publishing and graphic design, lorem ipsum is a filler text or greeking commonly used to demonstrate the textual elements of a graphic document or visual presentation. Replacing meaningful content with placeholder text allows designers to design the form of the content before the content itself has been produced.
+  <!-- <button ion-button class="read-btn" (click)="sampleToast('In publishing and graphic design, lorem ipsum is a filler text or greeking commonly used to demonstrate the textual elements of a graphic document or visual presentation. Replacing meaningful content with placeholder text allows designers to design the form of the content before the content itself has been produced.
 
    The lorem ipsum text is typically a scrambled section of De finibus bonorum et malorum, a 1st-century BC Latin text by Cicero, with words altered, added, and removed to make it nonsensical, improper Latin.
    
    A variation of the ordinary lorem ipsum text has been used in typesetting since the 1960s or earlier, when it was popularized by advertisements for Letraset transfer sheets. It was introduced to the Information Age in the mid-1980s by Aldus Corporation, which employed it in graphics and word-processing templates for its desktop publishing program PageMaker.')">
     <img width="25" src="assets/imgs/remove@2x.png">Toast Button
   </button> -->
+  <!-- <a href="http://denyoappv2.stridecdev.com/exportcsv.php">Export CSV</a> -->
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>

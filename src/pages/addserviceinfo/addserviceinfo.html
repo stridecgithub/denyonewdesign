@@ -51,54 +51,51 @@
         <ion-item class="dati">
           <ion-label stacked>Date & Time</ion-label>
           <ion-datetime (ionChange)="futureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY, h:mm A"
-            class="next-service-cal-icon"  min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
-          <!-- min="{{mindate}}" -->
-
-        </ion-item>
-
-        <!-- <ion-item>
-          <ion-label stacked>Description</ion-label>
-          <ion-textarea formControlName="description" [(ngModel)]="description"></ion-textarea>
-        </ion-item> -->
+            class="next-service-cal-icon" min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
+           </ion-item>
 
 
-        <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
-            <ion-list style="margin-bottom: 0">
-        
-        
-              <ion-item style="border: none">
-                <ion-label stacked>Description</ion-label>
-               
-              </ion-item>
-               <!-- <textarea style="width:91%;
-               background-color: #f8f8f8;
-               border-bottom: 1px solid #dedede;
-                height: 71px;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                margin: 0 auto;
-    			display: table;" row="10" class="suggest form-control" (keyup)=address1get($event.target.value); name="to" id="to" 
-                          onkeyup="sptions(event);address1get(this.value)" onblur="sptionshide();address1get(this.value)" formControlName="description"
-                          [(ngModel)]="description"></textarea> -->
-                          <div class="unit-form-group" style="background-color: #f8f8f8;">
-                            <div class="inner-div" style="background-color: #f8f8f8;">
-                              <ion-list style="position:relative;margin-bottom:0;">
-                                   <textarea formControlName="description" [(ngModel)]="description" type="text" class="description" value="" name="description" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
-                              </ion-list>
-                      
-                            </div>
-                          </div>
-        
-                          </ion-list>
-          </div>
+
+        <!-- <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
+          <ion-list style="margin-bottom: 0">
+            <ion-item style="border: none">
+              <ion-label stacked>Description</ion-label>
+            </ion-item>
+            <div class="unit-form-group" style="background-color: #f8f8f8;">
+              <div class="inner-div" style="background-color: #f8f8f8;">
+                <ion-list style="position:relative;margin-bottom:0;">
+                  <textarea formControlName="description" [(ngModel)]="description" type="text" class="description" value="" name="description"
+                    style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                </ion-list>
+              </div>
+            </div>
+          </ion-list>
+        </div> -->
 
 
-       
+
 
 
       </ion-list>
     </div>
+
+
+    <ion-list style="margin-bottom: 0">
+      <ion-item style="border: none;" class="no-line">
+        <ion-label stacked>Description</ion-label>
+
+      </ion-item>
+      <div class="unit-form-group" style="background-color: #f8f8f8;">
+        <div class="inner-div" style="background-color: #f8f8f8;">
+          <ion-list style="position:relative;">
+            <textarea formControlName="description" [(ngModel)]="description" type="text" class="description" value="" name="description"
+              style="background:none;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;width: 100%;"></textarea>
+
+          </ion-list>
+        </div>
+      </div>
+    </ion-list>
+
 
     <div class="save-btn">
       <button style="width:80%;margin:0 auto;display:table;" [disabled]="!form.valid  || isSubmitted">Save</button>

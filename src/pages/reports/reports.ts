@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -73,7 +73,15 @@ export class ReportsPage {
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
   constructor(private conf: Config,private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
-    public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController) {
+    public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController,public platform:Platform) {
+
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          this.navCtrl.setRoot(DashboardPage);
+        });
+      });
+
+      
     this.pageTitle = 'Reports';
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");

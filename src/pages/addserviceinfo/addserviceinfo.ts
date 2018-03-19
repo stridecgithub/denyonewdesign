@@ -98,11 +98,24 @@ export class AddserviceinfoPage {
 
   constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-    //this.mindate = moment().format('Y-MM-DTH:mm:ss A');
-    //let momentdate = moment().format('Y-MM-DTH:mm');
-
-    //console.log("fdsffsf" + momentdate);
-    //moment().format('MMMM Do YYYY, h:mm:ss a'); // January 16th 2018, 10:40:22 pm
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.addedServiceImgLists = [];
+        if (this.NP.get("from") == 'service') {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        }
+        else if (this.NP.get("from") == 'comment') {
+          // this.navCtrl.setRoot(CommentsinfoPage);
+        }
+        else {
+          this.navCtrl.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        }
+      });
+    });
     let date = new Date();
     this.currentyear = date.getFullYear();
 
@@ -292,7 +305,7 @@ export class AddserviceinfoPage {
     console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
     jQuery(".description").mention({
       users: this.atmentioneddata
-    });	
+    });
   }
 
 
@@ -542,7 +555,7 @@ export class AddserviceinfoPage {
 
         // Personal hashtag checking....
         let toaddress = jQuery(".description").val();
-        let param = "toaddress=" + toaddress + "&ismobile=1";
+        let param = "toaddress=" + toaddress + "&ismobile=1&type=textarea";
         let body: string = param,
 
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -555,12 +568,12 @@ export class AddserviceinfoPage {
           .subscribe((data) => {
             console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
             console.log("1" + data.json().invalidusers);
-           // if (data.json().invalidusers == '') {
+            if (data.json().invalidusers == '') {
               this.createEntry(description, serviced_datetime, serviced_by, service_subject);
-            // } else {
-            //   this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
-            //   return false;
-            // }
+            } else {
+              this.conf.sendNotification(data.json().invalidusers + " are not available in the user list!");
+              return false;
+            }
           });
         // Personal hashtag checking....
 
