@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController, Platform } from 'ionic-angular';
 import { ComposePage } from "../compose/compose";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -7,6 +7,7 @@ import { NotificationPage } from '../notification/notification';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 declare var jQuery: any;
 import { PermissionPage } from '../permission/permission';
+import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-messages',
   templateUrl: 'messages.html',
@@ -37,8 +38,7 @@ export class MessagesPage {
   public addedImgListsArray = [];
   public addedImgLists = [];
   public attachedFileLists = [];
-  private apiServiceURL: string = "";
-  private popoverThemeJSIonic: any;
+  private apiServiceURL: string = ""; 
   public networkType: string;
   public composemessagecontent: any;
   progress: number;
@@ -46,9 +46,7 @@ export class MessagesPage {
   public personalhashtagreplaceat;
   public receiver_id;
   public receiver_idreplaceat;
-  public pageTitle: any;
-  pet: string = "";
-  choice: string = "inbox";
+  public pageTitle: any;  
   public recordID: any;
   public userId: any;
   public companyId: any;
@@ -124,7 +122,7 @@ export class MessagesPage {
   testRadioResult;
   // tabBarElement;
   public profilePhoto;
-  constructor(public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  constructor(public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -135,6 +133,13 @@ export class MessagesPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(DashboardPage, {
+        });
+      });
+    });
     this.doNotifiyCount();
 
     // Footer Menu Access - Start
@@ -156,7 +161,7 @@ export class MessagesPage {
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-    if(messageAccess==0){
+    if (messageAccess == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
     }
     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
@@ -170,73 +175,73 @@ export class MessagesPage {
     } else {
       dashboarddisplay = 'none';
     }
-     /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
+    /*
+   this.footerBar.push({
+     title: 'Dashboard',
+     active: true,
+     colorcode: "rgba(60, 60, 60, 0.7)",
+     footerdisplay: dashboarddisplay,
+     pageComponent: 'DashboardPage'
+   });
+   let unitdisplay;
+   if (unitAccess == 1) {
+     unitdisplay = '';
+   } else {
+     unitdisplay = 'none';
+   }
+   this.footerBar.push({
+      title: 'Units',
+      active: false,
       colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
+      footerdisplay: unitdisplay,
+      pageComponent: 'UnitsPage'
     });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
+    let calendardisplay;
+    if (calendarAccess == 1) {
+      calendardisplay = '';
     } else {
-      unitdisplay = 'none';
+      calendardisplay = 'none';
+    }
+ 
+    this.footerBar.push({
+      title: 'Calendar',
+      active: false,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      footerdisplay: calendardisplay,
+      pageComponent: 'CalendarPage'
+    });
+    let messagedisplay;
+    if (messageAccess == 1) {
+      messagedisplay = '';
+    } else {
+      messagedisplay = 'none';
     }
     this.footerBar.push({
-       title: 'Units',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: unitdisplay,
-       pageComponent: 'UnitsPage'
-     });
-     let calendardisplay;
-     if (calendarAccess == 1) {
-       calendardisplay = '';
-     } else {
-       calendardisplay = 'none';
-     }
+      title: 'Message',
+      active: false,
+      colorcode: "#488aff",
+      footerdisplay: messagedisplay,
+      pageComponent: 'MessagePage'
+    });
+    let orgchartdisplay;
+    if (orgchartAccess == 1) {
+      orgchartdisplay = '';
+    } else {
+      orgchartdisplay = 'none';
+    }
+    this.footerBar.push({
+      title: 'Org Chart',
+      active: false,
+      footerdisplay: orgchartdisplay,
+      colorcode: "rgba(60, 60, 60, 0.7)",
+      pageComponent: 'OrgchartPage'
+    });
  
-     this.footerBar.push({
-       title: 'Calendar',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: calendardisplay,
-       pageComponent: 'CalendarPage'
-     });
-     let messagedisplay;
-     if (messageAccess == 1) {
-       messagedisplay = '';
-     } else {
-       messagedisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Message',
-       active: false,
-       colorcode: "#488aff",
-       footerdisplay: messagedisplay,
-       pageComponent: 'MessagePage'
-     });
-     let orgchartdisplay;
-     if (orgchartAccess == 1) {
-       orgchartdisplay = '';
-     } else {
-       orgchartdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Org Chart',
-       active: false,
-       footerdisplay: orgchartdisplay,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       pageComponent: 'OrgchartPage'
-     });
- 
-     console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-     //this.footerBar = "0";
-     //let footerBar=this.footerBar.split(",");
-     console.log("Final Footer Menu access:" + this.footerBar);
- */
+    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
+    //this.footerBar = "0";
+    //let footerBar=this.footerBar.split(",");
+    console.log("Final Footer Menu access:" + this.footerBar);
+*/
     // Footer Menu Access - End
 
 
@@ -286,11 +291,8 @@ export class MessagesPage {
     this.MESSAGEINBOXEDITACCESS = localStorage.getItem("MESSAGES_INBOX_EDIT");
     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
     // Authority for message inbox
-    console.log("Tab" + this.navParams.get("fromtab"));
-    if (this.navParams.get("fromtab") != undefined) {
-      this.tabs = this.navParams.get("fromtab");
-      this.snd();
-    }
+
+   
     console.log('ionViewDidEnter MessagesPage');
     let elements = document.querySelectorAll(".tabbar");
 
@@ -340,7 +342,19 @@ export class MessagesPage {
       this.rolePermissionMsg = this.conf.rolePermissionMsg();
     }
 
-
+    if (this.navParams.get("fromtab") != undefined) {
+      console.log("Tab:" + this.navParams.get("fromtab"));
+      if (this.navParams.get("fromtab") == 'sentView') {
+        console.log("Send view tab active IonviewdidLoad");
+        this.tabs = 'sendView';
+        this.snd();
+      } else {
+        this.inb();
+        this.tabs = 'inboxView';
+        console.log("Inbox view tab active  IonviewdidLoad");
+      }
+      this.tabs = this.navParams.get("fromtab");     
+    }
   }
 
   ionViewDidEnter() {
@@ -394,6 +408,21 @@ export class MessagesPage {
       this.segmenttabshow = 0;
       this.rolePermissionMsg = this.conf.rolePermissionMsg();
     }
+
+    if (this.navParams.get("fromtab") != undefined) {
+      console.log("Tab:" + this.navParams.get("fromtab"));
+      if (this.navParams.get("fromtab") == 'sentView') {
+        console.log("Send view tab active IonviewdidEnter");
+        this.tabs = 'sendView';
+       // this.snd();
+      } else {
+       // this.inb();
+        this.tabs = 'inboxView';
+        console.log("Inbox view tab active IonviewdidEnter");
+      }
+      this.tabs = this.navParams.get("fromtab");     
+    }
+
   }
   compose() {
     localStorage.setItem("microtime", "");
@@ -518,42 +547,12 @@ export class MessagesPage {
         console.log("2" + res.messages);
         if (res.messages.length > 0) {
 
-          for (let messageData in res.messages) {
+         
 
             this.sendLists = res.messages;
             this.totalCount = res.totalCount;
             this.sendData.startindex += this.sendData.results;
-
-            /*
-            let receiverNameOutStr;
-            if (res.messages[messageData].receiver_name != '') {
-              let receiverNamestrArr = res.messages[messageData].receiver_name.split(" ");
-              receiverNameOutStr = receiverNamestrArr.join(",");
-              console.log(receiverNameOutStr);
-            }
-
-            this.sendLists.push({
-              "message_id": res.messages[messageData].message_id,
-              "sender_id": res.messages[messageData].sender_id,
-              "messages_subject": res.messages[messageData].messages_subject,
-              "message_body": res.messages[messageData].message_body,
-              "message_date_mobileview": res.messages[messageData].message_date_mobileview,
-              "message_date_mobileview_list": res.messages[messageData].message_date_mobileview_list,
-              "message_date": res.messages[messageData].message_date,
-              "time_ago": res.messages[messageData].time_ago,
-              "message_priority": res.messages[messageData].message_priority,
-              "personalhashtag": res.messages[messageData].personalhashtag,
-              "receiver_id": res.messages[messageData].receiver_id,
-              "receiver_name": res.messages[messageData].receiver_name,
-              "receiver_name_str": receiverNameOutStr,
-              "attachments": res.messages[messageData].attachments,
-              "recipient_photo": res.messages[messageData].recipient_photo,
-              "senderphoto": res.messages[messageData].senderphoto,
-              "messages_isfavaurite": res.messages[messageData].messages_isfavaurite,
-              "is_favorite": res.messages[messageData].messages_isfavaurite
-            })
-            */
-          }
+         
           console.log("Kannan:-" + JSON.stringify(this.sendLists));
           //this.sendLists = res.messages;
           this.totalCountSend = res.totalCount;

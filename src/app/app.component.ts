@@ -1,5 +1,5 @@
 import { Component, ViewChild, Output, EventEmitter, Input, HostListener, ElementRef, } from '@angular/core';
-import { Platform, NavController, MenuController, Events } from 'ionic-angular';
+import { Platform, NavController, MenuController, Events, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from "../pages/login/login";
@@ -57,12 +57,12 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(public alertCtrl: AlertController, private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
-   
 
-  
+
+
     this.dataService.getMenus()
       .subscribe((response) => {
         console.log("Menu Loading......");
@@ -70,10 +70,10 @@ export class MyApp {
         this.pages = response;
 
         //let leftmenu = localStorage.getItem("leftmenu");
-       // console.log("Left Menu Access1:" + leftmenu);
-       // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+        // console.log("Left Menu Access1:" + leftmenu);
+        // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
 
-       // console.log("Menu JSON" + JSON.stringify(this.pages));
+        // console.log("Menu JSON" + JSON.stringify(this.pages));
       });
 
     /*
@@ -250,10 +250,7 @@ export class MyApp {
       this.menuActive = 'menuactive-logout';
       this.events.publish('menu:created', 'logout', Date.now());
       this.logout();// Service api moblogout/1
-    } else if (page.title == 'Dashboard') {
-      // this.menuCtrl.close();
-      // this.navCtrl.setRoot(DashboardPage);
-
+    } else if (page.title == 'Dashboard') {     
       this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'dashboard', Date.now());
@@ -297,64 +294,19 @@ export class MyApp {
 
 
   }
-
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
   logout() {
-    localStorage.setItem("personalhashtag", "");
-    localStorage.setItem("fromModule", "");
-    localStorage.setItem("userInfo", "");
-    localStorage.setItem("userInfoId", "");
-    localStorage.setItem("userInfoName", "");
-    localStorage.setItem("userInfoLastName", "");
-    localStorage.setItem("userInfoEmail", "");
-    localStorage.setItem("userInfoCompanyId", "");
-    localStorage.setItem("atMentionedStorage", "");
-    localStorage.setItem("userInfoCompanyGroupName", "");
-    localStorage.setItem("userInfoPhoto", "");
-    localStorage.setItem("leftmenu", "");
-    localStorage.setItem("footermenu", '');
-    let roleData = localStorage.getItem("roleactionpermissiondata");
-    let roleparseData = JSON.parse(roleData);
-    console.log("Logout Loop Length is:" + roleparseData.length);
-    for (let rle = 0; rle < roleparseData.length; rle++) {
-      let splitvalue = roleparseData[rle].toString().split(",");
-      console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
-      let firstvaluesplit = splitvalue[0].split(":");
-      let secondvaluesplit = splitvalue[1].split(":");
-      let thirdvaluesplit = splitvalue[2].split(":");
-      let fourthvaluesplit = splitvalue[3].split(":");
-      let fivthvaluesplit = splitvalue[4].split(":");
 
-
-      let firstvaluename = firstvaluesplit[0];
-      let firstvaluedata = firstvaluesplit[1];
-      console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
-      localStorage.setItem(firstvaluename.toUpperCase(), "");
-
-
-      let secondvaluename = secondvaluesplit[0];
-      let secondvaluedata = secondvaluesplit[1];
-      console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
-      localStorage.setItem(secondvaluename.toUpperCase(), "");
-
-
-      let thirdvaluename = thirdvaluesplit[0];
-      let thirdvaluedata = thirdvaluesplit[1];
-      console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
-      localStorage.setItem(thirdvaluename.toUpperCase(), "");
-
-
-      let fourthvaluename = fourthvaluesplit[0];
-      let fourthvaluedata = fourthvaluesplit[1];
-      console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
-      localStorage.setItem(fourthvaluename.toUpperCase(), "");
-
-
-      let fivthvaluename = fivthvaluesplit[0];
-      let fivthvaluedata = fivthvaluesplit[1];
-      console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
-      localStorage.setItem(fivthvaluename.toUpperCase(), "");
-    }
-
+    this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.userId = localStorage.getItem("userInfoId");
+    console.log("User Id:" + this.userId);
     this.events.unsubscribe('user:created', null);
 
     /*this.storage.clear().then(()=>{
@@ -366,10 +318,69 @@ export class MyApp {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/moblogout/" + this.userId;
     console.log("Logout URL" + urlunit);
+
+
+    //this.showAlert('Logout Url', urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
           console.log(JSON.stringify(data.json()));
+          localStorage.setItem("personalhashtag", "");
+          localStorage.setItem("fromModule", "");
+          localStorage.setItem("userInfo", "");
+          localStorage.setItem("userInfoId", "");
+          localStorage.setItem("userInfoName", "");
+          localStorage.setItem("userInfoLastName", "");
+          localStorage.setItem("userInfoEmail", "");
+          localStorage.setItem("userInfoCompanyId", "");
+          localStorage.setItem("atMentionedStorage", "");
+          localStorage.setItem("userInfoCompanyGroupName", "");
+          localStorage.setItem("userInfoPhoto", "");
+          localStorage.setItem("leftmenu", "");
+          localStorage.setItem("footermenu", '');
+          let roleData = localStorage.getItem("roleactionpermissiondata");
+          let roleparseData = JSON.parse(roleData);
+          console.log("Logout Loop Length is:" + roleparseData.length);
+          for (let rle = 0; rle < roleparseData.length; rle++) {
+            let splitvalue = roleparseData[rle].toString().split(",");
+            console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
+            let firstvaluesplit = splitvalue[0].split(":");
+            let secondvaluesplit = splitvalue[1].split(":");
+            let thirdvaluesplit = splitvalue[2].split(":");
+            let fourthvaluesplit = splitvalue[3].split(":");
+            let fivthvaluesplit = splitvalue[4].split(":");
+
+
+            let firstvaluename = firstvaluesplit[0];
+            let firstvaluedata = firstvaluesplit[1];
+            console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
+            localStorage.setItem(firstvaluename.toUpperCase(), "");
+
+
+            let secondvaluename = secondvaluesplit[0];
+            let secondvaluedata = secondvaluesplit[1];
+            console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
+            localStorage.setItem(secondvaluename.toUpperCase(), "");
+
+
+            let thirdvaluename = thirdvaluesplit[0];
+            let thirdvaluedata = thirdvaluesplit[1];
+            console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
+            localStorage.setItem(thirdvaluename.toUpperCase(), "");
+
+
+            let fourthvaluename = fourthvaluesplit[0];
+            let fourthvaluedata = fourthvaluesplit[1];
+            console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
+            localStorage.setItem(fourthvaluename.toUpperCase(), "");
+
+
+            let fivthvaluename = fivthvaluesplit[0];
+            let fivthvaluedata = fivthvaluesplit[1];
+            console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
+            localStorage.setItem(fivthvaluename.toUpperCase(), "");
+          }
+          this.navCtrl.setRoot(LoginPage);
         }
 
       }, error => {
@@ -379,7 +390,7 @@ export class MyApp {
 
     //this.events.publish('user:created', user, Date.now());
 
-    this.navCtrl.setRoot(LoginPage);
+
   }
   @HostListener('keydown', ['$event'])
   keyEvent(event) {
@@ -520,9 +531,9 @@ export class MyApp {
         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
       }
 
-     // let leftmenu = localStorage.getItem("leftmenu");
+      // let leftmenu = localStorage.getItem("leftmenu");
       //console.log("Left Menu Access1:" + leftmenu);
-     // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+      // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
     });
 
     console.log("Dashboard- Menu Opened");

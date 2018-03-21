@@ -749,6 +749,8 @@ export class UnitdetailsPage {
 							var barchartcolors = res[i].barchartcolors.split(',');
 							var sval = 0;
 							var enval = 0;
+							console.log("MINVALUE:"+code+"="+res[i].minvalue);
+							console.log("MAXVALUE:"+code+"="+res[i].maxvalue);
 							//
 							console.log("Lables Length:" + labels.length);
 							for (var x = 0; x < labels.length; x++) {
@@ -813,12 +815,12 @@ export class UnitdetailsPage {
 							if (res[i].minvalue == '') {
 								res[i].minvalue = 0;
 							}
-							let angle=0;
+							let angle = 0;
 							if (code == 'oilpressure') {
-								console.log("labels[x]"+enval);
-								
-								if(enval > 1.1 && enval <= 1.5) {
-									angle=180;
+								console.log("labels[x]" + enval);
+
+								if (enval > 1.1 && enval <= 1.5) {
+									angle = 0;//angle = 180;
 								}
 								this.rangesdata.push({
 									startValue: enval,
@@ -894,10 +896,9 @@ export class UnitdetailsPage {
 							if (this.needlevalue == 'undefined') {
 								this.needlevalue = 0;
 							}
-							console.log("Needle value:" + this.needlevalue);
-							console.log("Join:" + labels.join(","));
-							console.log("JASON PARSE:" + JSON.parse('[' + labels + ']'));
-
+							
+							
+							
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -913,9 +914,9 @@ export class UnitdetailsPage {
 								animation: false,
 								scales: [
 									{
-										minimum: res[i].minvalue,
+										minimum: 0,
 										maximum: res[i].maxvalue,
-										
+
 										labels: {
 											offset: 0.15,
 											angle: angle

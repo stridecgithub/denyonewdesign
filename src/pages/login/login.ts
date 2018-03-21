@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, Events, MenuController } from 'ionic-angular';
+import { Platform, NavController, NavParams, Events, MenuController,AlertController } from 'ionic-angular';
 import { DashboardPage } from "../dashboard/dashboard";
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -28,7 +28,8 @@ export class LoginPage {
   public companyId: any;
   public form: FormGroup;
   public isSubmitted: boolean = false;
-  constructor( public platform: Platform, private network: Network, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
+  alert: any;
+  constructor( public platform: Platform, public alertCtrl: AlertController, private network: Network, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
     public fb: FormBuilder) {
     this.apiServiceURL = conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
@@ -39,7 +40,46 @@ export class LoginPage {
       "password": ['', Validators.required]
 
     });
-    
+    this.platform.ready().then(() => {
+
+      this.platform.registerBackButtonAction(() => {
+        if (this.navCtrl.canGoBack()) {
+          this.navCtrl.pop();
+        } else {
+          if (this.alert) {
+            this.alert.dismiss();
+            this.alert = null;
+          } else {
+            this.showAlertExist();
+          }
+        }
+      });
+     
+    });
+  }
+
+
+  showAlertExist() {
+    this.alert = this.alertCtrl.create({
+      title: 'Exit?',
+      message: 'Do you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alert = null;
+          }
+        },
+        {
+          text: 'Exit',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    this.alert.present();
   }
   ionViewDidEnter() {
     //to disable menu, or

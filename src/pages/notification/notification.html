@@ -1,8 +1,8 @@
-<ion-header  (tap)="isNet()">
+<ion-header (tap)="isNet()">
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
-         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -13,7 +13,7 @@
 
 
 
-<ion-content  (tap)="isNet()">
+<ion-content (tap)="isNet()">
   <div class="error" *ngIf="notificationAllLists.length==0">No entries found</div>
   <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
@@ -28,41 +28,20 @@
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
-          </div>
-        </div>
-      </ion-item>
-
-      <ion-item *ngIf="notify.notify_type=='OA' && notify.content!=''"  (click)="notificationdetails(notify,notify.notify_type)">
-        <div class="msg">
-          <div class="user-img">
-            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='2'">
-            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='0'">
-            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='1'">
-            <img alt="" src="assets/imgs/fls.jpg"  width="60" height="60" *ngIf="notify.priority == '3'">
-          </div>
-          <div class="msg-info">
-
-            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)" style="white-space:normal"></div>
             <div class="date-time">
-              <img src="assets/imgs/warning@2x.png" width="25" alt="" *ngIf="notify.priority=='2'">
-              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='1'"> 
-              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='0'">
-              <img alt="" src="assets/imgs/fls_small.jpg"  width="25"  *ngIf="notify.priority == '3'">
-              {{notify.timesince}}
-            </div>
+              <img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>
 
-
-      <ion-item *ngIf="notify.notify_type=='A' && notify.content!=''"  (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item *ngIf="notify.notify_type=='OA' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
-            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='2'">
-            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='1'">
-            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='0'">
-            <img alt="" src="assets/imgs/fls.jpg"  width="60" height="60" *ngIf="notify.priority == '3'">
+              <img src="{{notify.photo}}" alt="" width="60" height="60" *ngIf="notify.photo!=''">
+            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='2'  && notify.photo==''">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='0'  && notify.photo==''">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='1'  && notify.photo==''">
+            <img alt="" src="assets/imgs/fls.jpg" width="60" height="60" *ngIf="notify.priority == '3'  && notify.photo==''">
           </div>
           <div class="msg-info">
 
@@ -70,50 +49,76 @@
             <div class="date-time">
               <img src="assets/imgs/warning@2x.png" width="25" alt="" *ngIf="notify.priority=='2'">
               <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='1'">
-              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='0'">              
-              <img alt="" src="assets/imgs/fls_small.jpg"  width="25"  *ngIf="notify.priority == '3'">
-              {{notify.timesince}}
+              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='0'">
+              <img alt="" src="assets/imgs/fls_small.jpg" width="25" *ngIf="notify.priority == '3'"> {{notify.timesince}}
             </div>
           </div>
         </div>
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='C'"  (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item *ngIf="notify.notify_type=='A' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
-            <img src="{{notify.photo}}" alt="" width="60" height="60">
+            <img src="{{notify.photo}}" alt="" width="60" height="60" *ngIf="notify.photo!=''">
+            <img src="assets/imgs/warning-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='2' && notify.photo==''">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='1' && notify.photo==''">
+            <img src="assets/imgs/error-pic@2x.png" width="60" height="60" alt="" *ngIf="notify.priority=='0' && notify.photo==''">
+            <img alt="" src="assets/imgs/fls.jpg" width="60" height="60" *ngIf="notify.priority == '3' && notify.photo==''">
           </div>
           <div class="msg-info">
-            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
+
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)" style="white-space:normal"></div>
+            <div class="date-time">
+
+              <img src="assets/imgs/warning@2x.png" width="25" alt="" *ngIf="notify.priority=='2'">
+              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='1'">
+              <img src="assets/imgs/error@2x.png" width="25" alt="" *ngIf="notify.priority=='0'">
+              <img alt="" src="assets/imgs/fls_small.jpg" width="25" *ngIf="notify.priority == '3'"> {{notify.timesince}}
+            </div>
           </div>
         </div>
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='S'"  (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item class="msg" *ngIf="notify.notify_type=='C'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
+            <div class="date-time">
+              <img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='E'"  (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item class="msg" *ngIf="notify.notify_type=='S'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">
           </div>
           <div class="msg-info">
             <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
-           <span class="msg-subject">Created By:{{notify.notify_by_name}}</span>
-            <div class="date-time"><img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
+            <div class="date-time">
+              <img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
+          </div>
+        </div>
+      </ion-item>
+
+
+      <ion-item class="msg" *ngIf="notify.notify_type=='E'" (click)="notificationdetails(notify,notify.notify_type)">
+        <div class="msg">
+          <div class="user-img">
+            <img src="{{notify.photo}}" alt="" width="60" height="60">
+          </div>
+          <div class="msg-info">
+            <div class="msg-subject" [innerHTML]="sanitizer.bypassSecurityTrustHtml(notify.content)"></div>
+            <span class="msg-subject">Created By:{{notify.notify_by_name}}</span>
+            <div class="date-time">
+              <img src="assets/imgs/bubble@2x.png" width="25" alt="">{{notify.timesince}}</div>
           </div>
         </div>
       </ion-item>

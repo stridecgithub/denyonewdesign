@@ -233,7 +233,7 @@ export class NotificationPage {
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        console.log("UCS" + JSON.stringify(res))
+      
         if (res.notification != undefined) {
           if (res.notification.length > 0) {
             for (let notifications in res.notification) {
@@ -247,11 +247,15 @@ export class NotificationPage {
               // if (res.notification[notifications].id != '') {
               //   isphoto = 1;
               // }
-              let usericon
+              let usericon='';
               if (res.notification[notifications].usericon != '') {
                 usericon = this.apiServiceURL + "/staffphotos/" + res.notification[notifications].usericon;
               } else {
-                usericon = this.apiServiceURL + "/images/default.png";
+                if (res.notification[notifications].notify_type != 'OA' && res.notification[notifications].notify_type != 'A') {
+                  usericon = this.apiServiceURL + "/images/default.png";
+                }else{
+                  usericon='';
+                }
               }
               let cnt;
               if (res.notification[notifications].content == undefined) {
@@ -269,6 +273,7 @@ export class NotificationPage {
               }
               console.log("coon" + con);
               let warn_tripped_status;
+              let priority;
               if (res.notification[notifications].notify_type == 'OA') {
                 warn_tripped_status = con.split("<br>")[0];
                 if (warn_tripped_status != '') {
@@ -277,7 +282,17 @@ export class NotificationPage {
                   warn_tripped_status = '';
                 }
                 console.log("Alarm Warning Status:" + warn_tripped_status);
+                let fls = res.notification[notifications].content.includes('Fls');
+                let wrn = res.notification[notifications].content.includes('Wrn');
 
+                priority = res.notification[notifications].priority
+                console.log(fls);
+                if (fls > 0) {
+                  priority = 3;
+                }
+                if (wrn > 0) {
+                  priority = 2;
+                }
               }
               if (res.notification[notifications].notify_type == 'A') {
                 warn_tripped_status = con.split("<br>")[0];
@@ -287,20 +302,20 @@ export class NotificationPage {
                   warn_tripped_status = '';
                 }
                 console.log("Alarm Warning Status:" + warn_tripped_status);
+                let fls = res.notification[notifications].content.includes('Fls');
+                let wrn = res.notification[notifications].content.includes('Wrn');
 
+                priority = res.notification[notifications].priority
+                console.log(fls);
+                if (fls > 0) {
+                  priority = 3;
+                }
+                if (wrn > 0) {
+                  priority = 2;
+                }
               }
 
-              let fls = res.notification[notifications].content.includes('Fls');
-              let wrn = res.notification[notifications].content.includes('Wrn');
-              let priority;
-              priority = res.notification[notifications].priority
-              console.log(fls);
-              if (fls > 0) {
-                priority = 3;
-              }
-              if (wrn > 0) {
-                priority = 2;
-              }
+
 
 
               this.notificationAllLists.push({
@@ -314,10 +329,11 @@ export class NotificationPage {
                 priority: priority,
                 notify_by_name: res.notification[notifications].notify_by_name
               });
-              console.log(JSON.stringify(this.notificationAllLists));
+             
             }
             this.totalCount = res.totalCount;
             this.reportData.startindex += this.reportData.results;
+            console.log(JSON.stringify(this.notificationAllLists));
           } else {
             //this.totalCount = 0;
           }

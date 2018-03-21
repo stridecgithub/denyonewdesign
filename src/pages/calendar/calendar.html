@@ -19,7 +19,7 @@
 
 </ion-header>
 
-<ion-content  (tap)="isNet()">
+<ion-content (tap)="isNet()">
 
   <div class="network-error" *ngIf="networkType!=''" style="position: relative;margin-top: 108%;">{{networkType}}</div>
   <!--div *ngIf="networkType==''">
@@ -265,7 +265,7 @@
             </ion-item>
 
             <ion-item-options side="right" class="list-item-options">
-              <button *ngIf="eventitem.event_type=='E'   && EVENTEDITACCESS=='1'" ion-button class="edit-btn"
+              <button *ngIf="eventitem.event_type=='E'   && EVENTEDITACCESS=='1' && eventitem.event_added_by==userId" ion-button class="edit-btn"
                 (click)="addCalendar(eventitem,eventitem.event_type)">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
@@ -279,7 +279,9 @@
               <button *ngIf="eventitem.event_type=='S' && SERVICEEDITACCESS=='1'" ion-button class="edit-btn" (click)="addCalendar(eventitem,eventitem.event_type)">
                 <ion-icon name="trash"></ion-icon>Edit
               </button>
-              <button *ngIf="eventitem.duration==0 && eventitem.event_type=='S' && eventitem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(eventitem)"><!--*ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && SERVICEDELETEACCESS=='1' && eventitem.event_added_by==userId" -->
+              <button *ngIf="eventitem.duration==0 && eventitem.event_type=='S' && eventitem.event_added_by==userId && SERVICEDELETEACCESS=='1'"
+                ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
+                <!--*ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && SERVICEDELETEACCESS=='1' && eventitem.event_added_by==userId" -->
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
               <button *ngIf="eventitem.event_type=='E' && eventitem.event_added_by==userId  && EVENTDELETEACCESS=='1'" ion-button class="del-btn"
@@ -390,7 +392,7 @@
               <button *ngIf="calendaritem.event_type=='S' && SERVICEEDITACCESS=='1'" ion-button class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
                 <ion-icon name="trash"></ion-icon>Edit
               </button>
-              <button *ngIf="calendaritem.event_type=='E'  && EVENTEDITACCESS=='1'" ion-button
+              <button *ngIf="calendaritem.event_type=='E'  && EVENTEDITACCESS=='1'  && calendaritem.event_added_by==userId" ion-button
                 class="edit-btn" (click)="addCalendar(calendaritem,calendaritem.event_type)">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
@@ -400,7 +402,9 @@
               <button *ngIf="calendaritem.event_type=='OA' && ALARMEDITACCESS=='1'" ion-button class="edit-btn" (click)="doEditAlarm(calendaritem,'edit')">
                 <img width="25" src="assets/imgs/edit@2x.png">Edit
               </button>
-              <button *ngIf="calendaritem.duration==0 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'" ion-button class="del-btn" (click)="doServiceDelete(calendaritem)"><!-- *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
+              <button *ngIf="calendaritem.duration==0 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"
+                ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
+                <!-- *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
 

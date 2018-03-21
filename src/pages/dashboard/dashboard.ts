@@ -99,7 +99,7 @@ export class DashboardPage {
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-    if(dashboardAccess==0){
+    if (dashboardAccess == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
     }
     let dashboarddisplay;
@@ -994,16 +994,16 @@ export class DashboardPage {
     ];
 
     let bounds = new google.maps.LatLngBounds();
-    let latLngmapoption = new google.maps.LatLng(1.3249773, 103.70307100000002);
+    let latLngmapoption = new google.maps.LatLng(1.3239805, 103.7018489);
     // Map options
     let mapOptions = {
       styles: mapStyle,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom:11
+      zoom: 8      
     }
-
+    console.log("Map Options" + JSON.stringify(mapOptions));
 
     // Create map
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -1079,11 +1079,12 @@ export class DashboardPage {
 
     //}
     // Automatically center the map fitting all markers on the screen
-    this.map.fitBounds(bounds);
-
+    //this.map.setZoom(11);
+    //this.map.fitBounds(bounds);
+   
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-      this.setZoom(11);
+      this.setZoom(18);
       google.maps.event.removeListener(boundsListener);
     });
 

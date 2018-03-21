@@ -735,6 +735,18 @@ button.currentDataHighlights {
   right: 0;
 }
 
+.warning {
+  background: url(../assets/imgs/warning1.png) no-repeat center;
+  position: absolute;
+  z-index: 100;
+  width: 48px !important;
+  height: 5px !important;
+  display: block;
+  margin-top: 30px;
+  background-size: auto 5px;
+  right: 0;
+}
+
 .alarm_service {
   background: url(../assets/imgs/alarm_service.png) no-repeat center;
   position: absolute;
@@ -853,3 +865,10 @@ button.currentDataHighlights {
     color: color($app-brand-colors, sun);
   }
 }
+
+.flscolor {
+  &:before {
+    color: #c4c4c4;
+  }
+}
+

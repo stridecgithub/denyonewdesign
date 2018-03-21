@@ -17,6 +17,7 @@ import { PermissionPage } from '../permission/permission';
 import { AddcalendarPage } from '../../pages/addcalendar/addcalendar';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { Config } from '../../config/config';
+import { DashboardPage } from '../dashboard/dashboard';
 interface CalendarEvent {
   data?: any;
   id?: string;
@@ -82,7 +83,7 @@ import {  NavController, NavParams } from 'ionic-angular';
   providers: [DragulaService, Config]
 })
 export class CalendarPage {
-   footerBar: number = 2;
+  footerBar: number = 2;
   allselected: any;
   typeStr: any;
   serviceselected: any;
@@ -151,6 +152,14 @@ export class CalendarPage {
   constructor(private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, private dragulaService: DragulaService, public navCtrl: NavController,
     private calendarElement: ElementRef,
     public events: Events, private http: Http, public alertCtrl: AlertController) {
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(DashboardPage, {
+        });
+      });
+    });
+
     localStorage.setItem("sdate", "");
     console.log("Weekdays console.log" + this.weekDays);
     let currentDate = new Date();
@@ -218,7 +227,7 @@ export class CalendarPage {
     let calendarAccess = footermenusplitcomma[2];
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
-    if(calendarAccess==0){
+    if (calendarAccess == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
     }
     console.log("Footer Menu Access for Dashboard" + dashboardAccess);
@@ -959,13 +968,28 @@ export class CalendarPage {
 
           startTimeAlarm = new Date(yearstrk, monthstrk, datestrk, 10, 0 + startMinuteAlam);
           endTimeAlarm = new Date(yearstrk, monthstrk, datestrk, 10, 0 + endMinuteAlarm);
+
+
+          let fls = this.alarmIdentity[k]['alarm_name'].includes('Fls');
+          let wrn = this.alarmIdentity[k]['alarm_name'].includes('Wrn');
+          let alarm_priority;
+          alarm_priority = this.alarmIdentity[k]['alarm_priority']
+          console.log(fls);
+          if (fls > 0) {
+            alarm_priority = 3;
+          }
+          if (wrn > 0) {
+            alarm_priority = 2;
+          }
+
+
           let eventcolor;
-          if (this.alarmIdentity[k]['alarm_priority'] == '1')
+          if (alarm_priority == '1')
             eventcolor = 'trippedcolor';
-          if (this.alarmIdentity[k]['alarm_priority'] == '2')
+          if (alarm_priority == '2')
             eventcolor = 'warningcolor';
-          if (this.alarmIdentity[k]['alarm_priority'] == '3')
-            eventcolor = 'warningcolor';
+          if (alarm_priority == '3')
+            eventcolor = 'flscolor';
           this.calEvents.push({
             data: {},
             id: this.alarmIdentity[k]['alarm_id'],
@@ -974,6 +998,7 @@ export class CalendarPage {
             endDate: endTimeAlarm,
             event_date: this.alarmIdentity[k]['alarm_received_date'],
             name: this.alarmIdentity[k]['alarm_name'],
+            event_title: this.alarmIdentity[k]['alarm_name'],
             unitname: this.alarmIdentity[k]['unitname'],
             projectname: this.alarmIdentity[k]['unit_project_name'],
             type: 'event',
@@ -1369,7 +1394,7 @@ export class CalendarPage {
         event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
         formatted_datetime: this.serviceIdentify[j]['formatted_datetime'],
         event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
-      
+
         calendar_time: this.serviceIdentify[j]['created_time'],
         event_type: 'S',
         icon: 'service',
@@ -1385,13 +1410,26 @@ export class CalendarPage {
       //"05 Dec 2017 03:43 PM"
       // let tmepm = tme.substr(5,4) + " " + tme.substr(10, 2);
       let tmepm = tme;
+      let fls = this.alarmIdentity[k]['alarm_name'].includes('Fls');
+      let wrn = this.alarmIdentity[k]['alarm_name'].includes('Wrn');
+      let alarm_priority;
+      alarm_priority = this.alarmIdentity[k]['alarm_priority']
+      console.log(fls);
+      if (fls > 0) {
+        alarm_priority = 3;
+      }
+      if (wrn > 0) {
+        alarm_priority = 2;
+      }
+
+
       let eventcolor;
-      if (this.alarmIdentity[k]['alarm_priority'] == '1')
+      if (alarm_priority == '1')
         eventcolor = 'trippedcolor';
-      if (this.alarmIdentity[k]['alarm_priority'] == '2')
+      if (alarm_priority == '2')
         eventcolor = 'warningcolor';
-      if (this.alarmIdentity[k]['alarm_priority'] == '3')
-        eventcolor = 'warningcolor';
+      if (alarm_priority == '3')
+        eventcolor = 'flscolor';
 
       this.calendarResultEvent.push({
 

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
 //import { CompanygroupPage } from '../companygroup/companygroup';
-import { FormGroup,  FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 //import { RolePage } from '../role/role';
 //import { DashboardPage } from '../dashboard/dashboard';
 //import { UnitsPage } from '../units/units';
@@ -27,7 +27,7 @@ import * as papa from 'papaparse';
 export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
-  public footerBar=[];
+  public footerBar = [];
   csvData: any[] = [];
   headerRow: any[] = [];
   public posts = [];
@@ -82,25 +82,25 @@ export class ReportviewtablePage {
   url;
   storageDirectory: string = '';
   public buttonClicked: boolean = false;
-  constructor( private platform:Platform,private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
+  constructor(private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
-   
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          this.navCtrl.setRoot(ReportsPage, {
-            selunit: this.NP.get("selunit"),
-            seltemplate: this.NP.get("seltemplate"),
-            seltimeframe: this.NP.get("seltimeframe"),
-            from: this.NP.get("from"),
-            to: this.NP.get("to"),
-            exportto: this.NP.get("exportto"),
-            val: this.NP.get("val")
-          });
+
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(ReportsPage, {
+          selunit: this.NP.get("selunit"),
+          seltemplate: this.NP.get("seltemplate"),
+          seltimeframe: this.NP.get("seltimeframe"),
+          from: this.NP.get("from"),
+          to: this.NP.get("to"),
+          exportto: this.NP.get("exportto"),
+          val: this.NP.get("val")
         });
       });
+    });
 
 
-      this.pageTitle = 'Reports Preview & Download';
+    this.pageTitle = 'Reports Preview & Download';
     //this.readCsvData();
     this.graphview = 0;
     this.requestsuccess = '';
@@ -135,7 +135,7 @@ export class ReportviewtablePage {
       footermenuacc = footeraccessstorage;
     }
 
-    
+
     // this.footerBar="0,"+footermenuacc;
 
     let footermenusplitcomma = footermenuacc.split(",");
@@ -145,11 +145,11 @@ export class ReportviewtablePage {
     let messageAccess = footermenusplitcomma[3];
     let orgchartAccess = footermenusplitcomma[4];
 
-    
-    
-    
-   
-    
+
+
+
+
+
     let dashboarddisplay;
     if (dashboardAccess == 1) {
       dashboarddisplay = '';
@@ -217,10 +217,10 @@ export class ReportviewtablePage {
       pageComponent: 'OrgchartPage'
     });
 
-    
+
     //this.footerBar = "0";
     //let footerBar=this.footerBar.split(",");
-    
+
 
     // Footer Menu Access - End
 
@@ -316,7 +316,7 @@ export class ReportviewtablePage {
           console.log("Report Preview Success Response:-" + JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
-             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+            this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
             this.download(1);
@@ -416,7 +416,7 @@ export class ReportviewtablePage {
             console.log("Report Preview Success Response:-" + JSON.stringify(res));
             if (seltypeBtn == '1') {
               this.success = 1;
-               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+              this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
             }
             if (res.totalcount > 0) {
               // this.download(2);
@@ -459,6 +459,7 @@ export class ReportviewtablePage {
             this.noentrymsg = 'No report entries found';
           });
         // For Gettting Unit Details in Graph
+       
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
@@ -471,6 +472,7 @@ export class ReportviewtablePage {
           "&loginid=" + this.userid +
           "&companyid=" + this.companyid +
           "&datacodes=");
+          console.log('Graph Web View URL' + this.url);
       }
     }
 
@@ -488,11 +490,11 @@ export class ReportviewtablePage {
     }
   }
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
   previous() {
-     this.navCtrl.setRoot(ReportsPage, {
+    this.navCtrl.setRoot(ReportsPage, {
       selunit: this.NP.get("selunit"),
       seltemplate: this.NP.get("seltemplate"),
       seltimeframe: this.NP.get("seltimeframe"),
@@ -555,7 +557,7 @@ export class ReportviewtablePage {
         //this.downloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
-       // let pdfPathURL = this.apiServiceURL;
+        // let pdfPathURL = this.apiServiceURL;
         this.csvurl = uri;
         // this.pdfDownloadLink = url;
 
@@ -643,7 +645,7 @@ export class ReportviewtablePage {
     //this.readCsvData();
     //http://denyoappv2.stridecdev.com/report.csv
   }
- 
+
 
   private extractData(res) {
     let csvData = res['_body'] || '';
