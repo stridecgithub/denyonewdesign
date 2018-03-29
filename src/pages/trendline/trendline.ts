@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, ModalController} from 'ionic-angular';
+import { Platform,  NavController, NavParams, ModalController,App} from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlarmPage } from '../alarm/alarm';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
@@ -34,12 +34,16 @@ export class TrendlinePage {
   }
   private apiServiceURL: string = "";
 
-  constructor( public modalCtrl: ModalController,public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
-    this.apiServiceURL = conf.apiBaseURL();
+  constructor( public app: App,public modalCtrl: ModalController,public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         console.log("From Page" + this.navParams.get("from"));
         if (this.navParams.get("from") == 'alarmlog') {
            this.navCtrl.setRoot(AlarmlogPage, {

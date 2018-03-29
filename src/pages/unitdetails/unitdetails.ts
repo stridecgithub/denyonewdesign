@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController, ModalController,App } from 'ionic-angular';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { AlarmPage } from '../alarm/alarm';
@@ -13,10 +13,9 @@ import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { AddUnitPage } from "../add-unit/add-unit";
 import { UnitdetailgraphPage } from "../unitdetailgraph/unitdetailgraph";
 import { ModalPage } from '../modal/modal';
-import * as $ from 'jquery';
 declare var jQuery: any;
 declare var Gauge: any;
-declare var jqLinearGauge: any;
+//declare var jqLinearGauge: any;
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from "rxjs";
 
@@ -33,7 +32,6 @@ import { Subscription } from "rxjs";
 	providers: [Config]
 })
 export class UnitdetailsPage {
-	private tick: any;
 	private subscription: Subscription;
 	footerBar: number = 1;
 	public pageTitle: string;
@@ -169,9 +167,13 @@ export class UnitdetailsPage {
 	public ENGINEDETAILVIEWACCESS: any;
 	public UNITEDITACCESS: any;
 	public UNITDELETEACCESS: any;
-	constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public app: App,public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.platform.ready().then(() => {
 			this.platform.registerBackButtonAction(() => {
+				const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
 				this.navCtrl.setRoot(UnitsPage);
 			});
 		});
@@ -225,7 +227,7 @@ export class UnitdetailsPage {
 			this.alarmviewenable = true;
 		}
 
-		this.apiServiceURL = conf.apiBaseURL();
+		this.apiServiceURL = this.conf.apiBaseURL();
 		this.timerswitch = 1;
 		this.controlleroffmode = '';
 		this.controllerautomode = '';
@@ -242,95 +244,7 @@ export class UnitdetailsPage {
 
 
 
-		// Footer Menu Access - Start
-		let footeraccessstorage = localStorage.getItem("footermenu");
-		let footeraccessparams = this.navParams.get('footermenu');
-		let footermenuacc;
-		if (footeraccessparams != undefined) {
-			footermenuacc = footeraccessparams;
-		} else {
-			footermenuacc = footeraccessstorage;
-		}
-
-		let footermenusplitcomma = footermenuacc.split(",");
-		let dashboardAccess = footermenusplitcomma[0];
-		let unitAccess = footermenusplitcomma[1];
-		let calendarAccess = footermenusplitcomma[2];
-		let messageAccess = footermenusplitcomma[3];
-		let orgchartAccess = footermenusplitcomma[4];
-
-
-		let dashboarddisplay;
-		if (dashboardAccess == 1) {
-			dashboarddisplay = '';
-		} else {
-			dashboarddisplay = 'none';
-		}
-		/*
-		this.footerBar.push({
-			title: 'Dashboard',
-			active: true,
-			colorcode: "rgba(60, 60, 60, 0.7)",
-			footerdisplay: dashboarddisplay,
-			pageComponent: 'DashboardPage'
-		});
-		let unitdisplay;
-		if (unitAccess == 1) {
-			unitdisplay = '';
-		} else {
-			unitdisplay = 'none';
-		}
-		this.footerBar.push({
-			title: 'Units',
-			active: false,
-			colorcode: "#488aff",
-			footerdisplay: unitdisplay,
-			pageComponent: 'UnitsPage'
-		});
-		let calendardisplay;
-		if (calendarAccess == 1) {
-			calendardisplay = '';
-		} else {
-			calendardisplay = 'none';
-		}
-
-		this.footerBar.push({
-			title: 'Calendar',
-			active: false,
-			colorcode: "rgba(60, 60, 60, 0.7)",
-			footerdisplay: calendardisplay,
-			pageComponent: 'CalendarPage'
-		});
-		let messagedisplay;
-		if (messageAccess == 1) {
-			messagedisplay = '';
-		} else {
-			messagedisplay = 'none';
-		}
-		this.footerBar.push({
-			title: 'Message',
-			active: false,
-			colorcode: "rgba(60, 60, 60, 0.7)",
-			footerdisplay: messagedisplay,
-			pageComponent: 'MessagePage'
-		});
-		let orgchartdisplay;
-		if (orgchartAccess == 1) {
-			orgchartdisplay = '';
-		} else {
-			orgchartdisplay = 'none';
-		}
-		this.footerBar.push({
-			title: 'Org Chart',
-			active: false,
-			footerdisplay: orgchartdisplay,
-			colorcode: "rgba(60, 60, 60, 0.7)",
-			pageComponent: 'OrgchartPage'
-		});
-		//this.footerBar = "0";
-		//let footerBar=this.footerBar.split(",");
-*/
-		// Footer Menu Access - End
+	
 	}
 	// ngOnInit() {
 	// 	let timer = TimerObservable.create(2000, 1000);
@@ -339,13 +253,11 @@ export class UnitdetailsPage {
 	// 	});
 	// }
 	presentModal(unit) {
-		console.log(JSON.stringify(unit));
 		let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
 		modal.present();
 	}
 	isNet() {
 		let isNet = localStorage.getItem("isNet");
-		console.log("isNet" + isNet);
 		if (isNet == 'offline') {
 			this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
 		}
@@ -367,30 +279,27 @@ export class UnitdetailsPage {
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
 
-				console.log("Enter:" + this.timerswitch);
-				console.log(JSON.stringify(x))
+				
 				if (this.timerswitch > 0) {
 					let unitid = localStorage.getItem("iframeunitId");
-					console.log("After storage:" + unitid);
+					
 					let urlstr;
-					console.log("Tab choosen" + this.tabs);
+				
 					if (this.tabs == 'dataView') {
 						urlstr = "/" + unitid + "/" + this.unitDetailData.userId + "/unitdata";
 						let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-						console.log("Unit Timer Value:" + url);
+					
 
 
 						this.http.get(url, options)
 							.subscribe((data) => {
-								console.log("Unit data response success:" + JSON.stringify(data.json()));
 								// Votage
 								this.volt1 = data.json().volt1;
 								this.volt2 = data.json().volt2;
 								this.volt3 = data.json().volt3;
-								console.log("Votage A" + this.volt1);
 								if (this.voltageselection == 3) {
 									this.selectedvoltage = this.volt3;
 								} else if (this.voltageselection == 2) {
@@ -404,7 +313,6 @@ export class UnitdetailsPage {
 								this.current1 = data.json().current1;
 								this.current2 = data.json().current2;
 								this.current3 = data.json().current3;
-								console.log("Current B" + this.current1);
 								if (this.currentselection == 3) {
 									this.selectedcurrent = this.current3;
 								} else if (this.currentselection == 2) {
@@ -434,21 +342,13 @@ export class UnitdetailsPage {
 								this.commstatus = data.json().commstatus;
 
 								this.enginestatus = data.json().enginestatus;
-								console.log("Unit Data Engine Status Color:" + this.enginestatus)
-								// if(this.enginestatus=='Warning'){
-								// 	this.enginestatuscolor='#F8A70F';
-								// }else if(this.enginestatus=='Alarm'){
-								// 	this.enginestatuscolor='#C71717';
-								// }
 
 								this.enginestatuscolor = data.json().enginestatuscolor;
-								console.log("Engine Status Color in Overview:-" + this.enginestatuscolor);
 								if (this.enginestatuscolor == '') {
 									this.enginestatuscolor = '#EDEDED';
 								}
 
 								this.commstatus = data.json().commstatus;
-								console.log("Com Status in Dataview" + this.commstatus);
 								if (this.commstatus == 'Offline') {
 									this.commstatuscolor = "gray";
 								} else {
@@ -465,7 +365,6 @@ export class UnitdetailsPage {
 								} else {
 									this.loadpowerfactorneedlevalue = data.json().loadpowerfactor;
 								}
-								console.log("Load factor needle value:" + this.loadpowerfactorneedlevalue);
 								this.batteryvoltage = data.json().batteryvoltage;
 
 							}, error => {
@@ -473,7 +372,6 @@ export class UnitdetailsPage {
 							});
 						// Votage
 						let voltage = 0;
-						console.log("Votage SA" + this.selectedvoltage);
 						let actual_voltage = this.selectedvoltage;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
 						// if (actual_voltage > 0) {
 						// 	voltage = ((actual_voltage - 260) / 200) * 100;
@@ -489,8 +387,8 @@ export class UnitdetailsPage {
 						else
 							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / diff) * 100;
 
-						console.log("Voltage Pecentage:" + voltage);
-						let voltguagelabel = this.voltguagelabel;
+					
+						//let voltguagelabel = this.voltguagelabel;
 						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
 						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
 						let voltagegauge = new Gauge(jQuery('.voltagegauge'), {
@@ -508,19 +406,16 @@ export class UnitdetailsPage {
 
 						// Current
 						let current = 0;
-						let actual_current = this.selectedcurrent;
-						console.log("this.selectedcurrent:" + this.selectedcurrent);
-						console.log("Actual_current:" + actual_current);
-						console.log("Min Value:" + this.setpointsdata[1].minvalue);
-						console.log("Max Value:" + this.setpointsdata[1].maxvalue);
+						//let actual_current = this.selectedcurrent;
+						
 						if (this.selectedcurrent == parseFloat(this.setpointsdata[1].minvalue)) {
 							current = 0;
-							console.log("Curren0t:" + current);
+							
 						} else if (this.selectedcurrent >= parseFloat(this.setpointsdata[1].maxvalue)) {
-							console.log("Current:100" + current);
+							
 							current = 100;
 						} else {
-							console.log("Current:72" + current);
+							
 							current = this.selectedcurrent;
 						}
 
@@ -643,21 +538,7 @@ export class UnitdetailsPage {
 						let loadfactor = 0;
 
 						let actual_loadfactor = this.loadpower;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						// if (actual_loadfactor > this.setpointsdata[4].minvalue) {
-						// 	loadfactor = ((actual_loadfactor) / this.setpointsdata[4].maxvalue) * 100;
-						// } else {
-						// 	loadfactor = 0;
-						// }
-
-
-
-						// if (actual_loadfactor <= this.setpointsdata[4].minvalue) {
-						// 	loadfactor = 0;
-						// } else if (actual_loadfactor >= this.setpointsdata[4].maxvalue) {
-						// 	loadfactor = 100;
-						// } else {
-						// 	loadfactor = actual_loadfactor;
-						// }
+					
 						let mnfactor = this.setpointsdata[4].minvalue;
 						let mxfactor = this.setpointsdata[4].maxvalue;
 						if (mnfactor == '') {
@@ -666,8 +547,6 @@ export class UnitdetailsPage {
 						if (mxfactor == '') {
 							mxfactor = 100;
 						}
-						//console.log("Min loadfactor:" + mnfactor);
-						//console.log("Max loadfactor:" + mxfactor);
 						if (actual_loadfactor <= parseFloat(mnfactor)) {
 							loadfactor = 0;
 						} else if (actual_loadfactor >= parseFloat(mxfactor)) {
@@ -700,7 +579,7 @@ export class UnitdetailsPage {
 
 						var coolantbarlabels = this.coolantbarlabels.split(",");
 
-						var gradient1 = {
+						/*var gradient1 = {
 							type: 'linearGradient',
 							x0: 0,
 							y0: 0.5,
@@ -716,7 +595,7 @@ export class UnitdetailsPage {
 							x1: 1,
 							y1: 0.5,
 							colorStops: [{ offset: 0, color: '#ffca00' }, { offset: 1, color: '#ffca00' }]
-						};
+						};*/
 
 						var gradient3 = {
 							type: 'linearGradient',
@@ -739,22 +618,14 @@ export class UnitdetailsPage {
 
 
 						let res = this.setpointsdata;
-						console.log(this.setpointsdata);
-						console.log(this.setpointsdata.length);
 						for (var i = 0; i < res.length; i++) {
 							this.rangesdata = [];
 							var code = res[i].code.toLowerCase();
 							var labels = res[i].barlabels.split(',');
-							console.log("Bar Lbels:-" + labels);
 							var barchartcolors = res[i].barchartcolors.split(',');
 							var sval = 0;
 							var enval = 0;
-							console.log("MINVALUE:"+code+"="+res[i].minvalue);
-							console.log("MAXVALUE:"+code+"="+res[i].maxvalue);
-							//
-							console.log("Lables Length:" + labels.length);
 							for (var x = 0; x < labels.length; x++) {
-								console.log("Xav" + x);
 								if (x == 0) {
 									sval = 0;
 
@@ -817,7 +688,6 @@ export class UnitdetailsPage {
 							}
 							let angle = 0;
 							if (code == 'oilpressure') {
-								console.log("labels[x]" + enval);
 
 								if (enval > 1.1 && enval <= 1.5) {
 									angle = 0;//angle = 180;
@@ -842,10 +712,7 @@ export class UnitdetailsPage {
 								})
 							}
 
-							console.log("Ranges Data Array:" + JSON.stringify(this.rangesdata));
-
 							if (code == "coolanttemp") {
-								console.log("this.coolanttemp" + this.coolanttemp);
 								this.needlevalue = this.coolanttemp;
 
 								if (this.coolanttemp > 120) {
@@ -856,12 +723,10 @@ export class UnitdetailsPage {
 									this.needlevalue = this.coolanttemp;
 								}
 
-								console.log("Oil Pressure needle value:" + this.needlevalue);
-
 							}
 							if (code == "oilpressure") {
 
-								console.log("this.oilpressure" + this.oilpressure)
+								
 
 
 								if (this.oilpressure >= 10) {
@@ -871,7 +736,7 @@ export class UnitdetailsPage {
 								} else {
 									this.needlevalue = this.oilpressure;
 								}
-								console.log("Oil Pressure needle value:" + this.needlevalue);
+								
 							}
 							if (code == "batteryvolt") {
 
@@ -884,12 +749,9 @@ export class UnitdetailsPage {
 								}
 
 
-								console.log("this.batteryvoltage" + this.needlevalue)
-								//this.needlevalue = this.batteryvoltage;
+								
 							}
-							// if (code == "loadpower") {
-							// 	needlevalue = this.loadpowerfactor;
-							// }
+							
 							if (this.needlevalue == undefined) {
 								this.needlevalue = 0;
 							}
@@ -1045,11 +907,8 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-						console.log("Unit Timer Value:" + url);
 						this.http.get(url, options)
 							.subscribe((data) => {
-								console.log("Unit  overview response success:" + JSON.stringify(data.json()));
-								// Votage
 								this.commstatus = data.json().commstatus;
 								if (this.commstatus == 'Offline') {
 									this.commstatuscolor = "gray";
@@ -1096,7 +955,6 @@ export class UnitdetailsPage {
 								}
 								this.runninghrs = data.json().runninghrs;
 								this.enginestatuscolor = data.json().enginestatuscolor;
-								console.log("Engine Status Color in Overview:-" + this.enginestatuscolor);
 								if (this.enginestatuscolor == '') {
 									this.enginestatuscolor = '#EDEDED';
 								}
@@ -1132,7 +990,6 @@ export class UnitdetailsPage {
 		this.pageTitle = "Unit Detail";
 		let editItem = this.NP.get("record");
 		let iframeunitid = localStorage.getItem("iframeunitId");
-		console.log("iframeunitid:" + iframeunitid);
 		if (iframeunitid == 'undefined') {
 			iframeunitid = '0';
 		}
@@ -1148,7 +1005,6 @@ export class UnitdetailsPage {
 				this.unitDetailData.unit_id = editItem.unit_id;
 			}
 		}
-		console.log('ionViewDidLoad UnitdetailsPage');
 		localStorage.setItem("fromModule", "UnitdetailsPage");
 		this.geninfo(this.unitDetailData.unit_id);
 		// UnitDetails Api Call		
@@ -1158,7 +1014,6 @@ export class UnitdetailsPage {
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
-		console.log(url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1173,15 +1028,14 @@ export class UnitdetailsPage {
 					this.unitDetailData.unitname = data.json().units[0].unitname;
 
 					///DCA6000SS Denyo Testing Unit Name can be very long
-					console.log("A" + this.unitDetailData.unitname.length);
 					if (this.unitDetailData.unitname.length > 20) {
-						console.log("B" + this.unitDetailData.unitname.length);
+					
 						this.unitDetailData.unitnameellipse = this.unitDetailData.unitname.substr(0, 25) + "...";
-						console.log(this.unitDetailData.unitnameellipse)
+					
 					} else {
 						this.unitDetailData.unitnameellipse = this.unitDetailData.unitname;
 					}
-					console.log("C" + this.unitDetailData.unitname.length);
+					
 					this.unitDetailData.projectname = data.json().units[0].projectname;
 					this.unitDetailData.location = data.json().units[0].location;
 					this.unitDetailData.colorcodeindications = data.json().units[0].colorcode;
@@ -1245,12 +1099,8 @@ export class UnitdetailsPage {
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
-		// Unit Details API Call
-		//	http://denyoappv2.stridecdev.com/7/1/unitdetails1	
-		///this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails height=1000 width=100% frameborder=0></iframe>";
-		//width='508' height='286'
-		console.log("Tab1:-" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails1");
-		console.log("Tab12:-" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails2");
+		
+		
 		this.tabview1 = "<iframe   height=500 width=100% frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen src=" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails1></iframe>";
 		this.tabview2 = "<iframe height=1000 width=100% frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen src=" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails2></iframe>";
 
@@ -1285,8 +1135,6 @@ export class UnitdetailsPage {
 	}
 	overviewAction(genkey, controllerid, action) {
 
-
-		console.log('action' + action);
 		let acttitle;
 		if (action == 'on') {
 			acttitle = "START";
@@ -1318,18 +1166,15 @@ export class UnitdetailsPage {
 			buttons: [{
 				text: 'Yes',
 				handler: () => {
-					//http://denyoapi.stridecdev.com/api2/{{unitDetailData.controllerid}}/fault-reset/{{genkey}}
-					let body: string = "",
+						let body: string = "",
 						type: string = "application/x-www-form-urlencoded; charset=UTF-8",
 						headers: any = new Headers({ 'Content-Type': type }),
 						options: any = new RequestOptions({ headers: headers }),
-						//url: any = "http://denyoapi.stridecdev.com/api2/" + controllerid + "/" + action + "/" + genkey;
 						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&controlaction=" + action + "&ismobile=1";
-					console.log(url);
-					console.log(body);
+					
 
 
-					console.log("Enter API Calls");
+					
 					//this.http.get(url, options)
 					this.http.post(url, body, options)
 						.subscribe((data) => {
@@ -1337,7 +1182,7 @@ export class UnitdetailsPage {
 								if (action == 'START') {
 									this.startbtnenable = true;
 								}
-								//console.log("Fault successfully reset!");
+								
 								if (action == 'OFF-MODE') {
 									//this.showAlert('OFF-Mode', 'OFF-Mode')
 									this.conf.sendNotification(`OFF-Mode`);
@@ -1355,7 +1200,7 @@ export class UnitdetailsPage {
 							}
 							// Otherwise let 'em know anyway
 							else {
-								console.log("Something went wrong!");
+								
 							}
 						}, error => {
 							this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -1378,14 +1223,13 @@ export class UnitdetailsPage {
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/" + unitid + "/1/enginedetailsnewapi";
 
-		console.log(url1);
 		this.http.get(url1, options1)
 			.subscribe((data) => {
 				let res;
 				res = data.json();
-				console.log("enginedetailsnewapi" + JSON.stringify(res));
+				
 				let unitdetails = res.genset_detail[0];
-				console.log("Controller Id" + unitdetails.controllerid);
+				
 				this.unitDetailData.controllerid = unitdetails.controllerid;
 				this.unitDetailData.neaplateno = unitdetails.neaplateno;
 				this.unitDetailData.serialnumber = unitdetails.serialnumber;
@@ -1395,8 +1239,7 @@ export class UnitdetailsPage {
 
 
 
-				// Get Guage Details
-				//denyoappv2.stridecdev.com/gaugedetails/GEN0002
+			
 
 				let //body: string = "loginid=" + this.userId,
 					type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1404,13 +1247,11 @@ export class UnitdetailsPage {
 					options1: any = new RequestOptions({ headers: headers1 }),
 					url1: any = this.apiServiceURL + "/gaugedetails/" + this.unitDetailData.controllerid;
 
-				console.log("Guage Detail API:" + url1);
 				this.http.get(url1, options1)
 					.subscribe((data) => {
 						let res;
 						res = data.json();
-						//this.setpointsdata = data.json();
-						console.log("data.json().setpoints[0].length:" + data.json().setpoints[0].length);
+						
 						if (data.json().setpoints.length > 0) {
 							for (let sp in res.setpoints) {
 								this.setpointsdata.push({
@@ -1424,7 +1265,6 @@ export class UnitdetailsPage {
 								})
 							}
 						}
-						console.log("Push Value:-" + JSON.stringify(this.setpointsdata))
 						this.voltlabel = data.json().setpoints[0].labels;
 						this.voltcolors = data.json().setpoints[0].colors;
 
@@ -1478,12 +1318,9 @@ export class UnitdetailsPage {
 			headers: any = new Headers({ 'Content-Type': type }),
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getcount";
-		console.log(url);
-		console.log(body);
 
 		this.http.post(url, body, options)
 			.subscribe((data) => {
-				console.log("Count Response Success:" + JSON.stringify(data.json()));
 				let res = data.json();
 				this.serviceCount = res.servicecount;
 				this.commentCount = res.commentcount;
@@ -1504,12 +1341,10 @@ export class UnitdetailsPage {
 			headers1: any = new Headers({ 'Content-Type': type1 }),
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.unitDetailData.userId;
-		console.log(url1);
-		// console.log(body);
+		
 
 		this.http.get(url1, options1)
-			.subscribe((data) => {
-				console.log("Count Response Success:" + JSON.stringify(data.json()));
+			.subscribe((data) => {				
 				this.msgcount = data.json().msgcount;
 				this.notcount = data.json().notifycount;
 			}, error => {
@@ -1527,18 +1362,10 @@ export class UnitdetailsPage {
 				headers: any = new Headers({ 'Content-Type': type }),
 				options: any = new RequestOptions({ headers: headers }),
 				url: any = this.apiServiceURL + "/removeservicecount";
-			console.log(url);
-			console.log(body);
 
 			this.http.post(url, body, options)
 				.subscribe((data) => {
-					if (data.status === 200) {
-						console.log("Service count successfully removed");
-					}
-					// Otherwise let 'em know anyway
-					else {
-						console.log("Something went wrong!");
-					}
+					
 				}, error => {
 					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 				});
@@ -1561,8 +1388,7 @@ export class UnitdetailsPage {
 		}
 	}
 	commentsInfo(unitId, access) {
-		console.log(access);
-		// this.navCtrl.setRoot(MenuPage);
+		
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EVENTS/COMMENTS', this.rolePermissionMsg)
@@ -1573,21 +1399,10 @@ export class UnitdetailsPage {
 				headers: any = new Headers({ 'Content-Type': type }),
 				options: any = new RequestOptions({ headers: headers }),
 				url: any = this.apiServiceURL + "/removecommentcount";
-			console.log(url);
-			console.log(body);
+		
 
 			this.http.post(url, body, options)
 				.subscribe((data) => {
-
-					// If the request was successful notify the user
-					if (data.status === 200) {
-						console.log("Comment count successfully removed");
-
-					}
-					// Otherwise let 'em know anyway
-					else {
-						console.log("Something went wrong!");
-					}
 				}, error => {
 					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 				});
@@ -1649,10 +1464,7 @@ export class UnitdetailsPage {
 		}
 	}
 	enginedetail(access) {
-		console.log(access);
-		// if (this.timerswitch > 0) {
-		// 	this.subscription.unsubscribe();
-		// }
+	
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ENGINE DETAIL', this.rolePermissionMsg)
@@ -1700,8 +1512,7 @@ export class UnitdetailsPage {
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('DELETE', this.rolePermissionMsg)
-		} else {
-			console.log("Deleted Id" + id);
+		} else {			
 			let confirm = this.alertCtrl.create({
 				message: 'Are you sure you want to delete this unit?',
 				buttons: [{
@@ -1747,7 +1558,7 @@ export class UnitdetailsPage {
 					this.conf.sendNotification('Something went wrong!');
 				}
 			}, error => {
-				console.log("Error")
+				
 			});
 	}
 	viewondash(id) {
@@ -1773,11 +1584,10 @@ export class UnitdetailsPage {
 			headers: any = new Headers({ 'Content-Type': type }),
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + urlstr;
-		console.log("onAction map.ts:" + url);
 
 		this.http.get(url, options)
 			.subscribe((data) => {
-				console.log("Count Response Success:" + JSON.stringify(data.json()));
+			
 
 				// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1798,7 +1608,7 @@ export class UnitdetailsPage {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EDIT', this.rolePermissionMsg)
 		} else {
-			console.log("Item From Do Action:" + JSON.stringify(item));
+			
 			this.navCtrl.setRoot(AddUnitPage, {
 				record: item,
 				act: act,
@@ -1811,7 +1621,6 @@ export class UnitdetailsPage {
 
 	selectVoltage(voltage) {
 		this.voltageselection = voltage;
-		console.log(voltage);
 		if (voltage == 3) {
 			this.selectedvoltage = this.volt3;
 			this.l1l2l3voltagelablel = 'L1-L3';
@@ -1826,7 +1635,6 @@ export class UnitdetailsPage {
 	}
 	selectCurrent(current) {
 		this.currentselection = current;
-		console.log(current);
 		if (current == 3) {
 			this.selectedcurrent = this.current3;
 			this.l1l2l3currentlablel = 'L3';
@@ -1852,14 +1660,7 @@ export class UnitdetailsPage {
 		});
 
 
-		// let modal = this.modalCtrl.create(UnitdetailgraphPage, {
-		// 	unit_id: unit_id,
-		// 	graphname: graphname
-		// });
-		// modal.present();
-
-		// console.log("Show Graph function calling:-" + unit_id);
-
+		
 	}
 
 }

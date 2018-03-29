@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, AlertController, PopoverController,App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -8,8 +8,8 @@ import { ComposePage } from "../compose/compose";
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
-import { MsgPopoverPage } from '../msgpopover/msgpopover';
-import { stringify } from '@angular/compiler/src/util';
+//import { MsgPopoverPage } from '../msgpopover/msgpopover';
+//import { stringify } from '@angular/compiler/src/util';
 /**
  * Generated class for the MessagedetailPage page.
  *
@@ -77,10 +77,14 @@ export class MessagedetailPage {
   private activelow: string = "0";
   private activehigh: string = "0";
  
-  constructor(private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public app: App,private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
     
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.navParams.get("frompage") == 'notification') {
           this.navCtrl.setRoot(NotificationPage);
        } else {
@@ -98,7 +102,7 @@ export class MessagedetailPage {
       });
     });
 
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.form = formBuilder.group({
@@ -124,7 +128,6 @@ export class MessagedetailPage {
     });
   }
   toggle(isopenorclose) {
-    console.log(isopenorclose);
     if (isopenorclose == 1) {
       this.open = 1;
       this.isopenorclose = 0;
@@ -138,7 +141,6 @@ export class MessagedetailPage {
   }
 
   togglereplyforwardopen(isopenorclose) {
-    console.log(isopenorclose);
     if (isopenorclose == 1) {
       this.openpop = 1;
       this.isopenorclose = 0;
@@ -156,14 +158,12 @@ export class MessagedetailPage {
   ionViewDidLoad() {
 
     this.openpop = 0;
-    console.log('ionViewDidLoad MessagedetailPage');
+    
     this.detailItem = this.navParams.get('item');
     this.from = this.navParams.get('from');
     this.favstatus = this.navParams.get('favstatus');
     this.message_readstatus = this.navParams.get('message_readstatus');
-    console.log("From:" + this.from);
-    console.log("favstatus:" + this.favstatus);
-    console.log("message_readstatus:" + this.message_readstatus);
+   
     if (this.from == 'send') {
       this.delete_icon_only = '0';
     } else if (this.from == 'push') {
@@ -178,7 +178,7 @@ export class MessagedetailPage {
     if (this.from == 'push') {
       messageids = this.navParams.get("event_id");
     } else if (this.from == 'compose') {
-      console.log("compose"+this.navParams.get("event_id"))
+      
       messageids = this.navParams.get("event_id");
     } else {
       messageids = this.detailItem.message_id;
@@ -188,67 +188,20 @@ export class MessagedetailPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
-    console.log(url1 + '?' + bodymessage);
+   
     this.conf.presentLoading(1);
     this.http.post(url1, bodymessage, options1)
       //this.http.get(url1, options1)
       .subscribe((data) => {
         this.conf.presentLoading(0)
-        console.log("Message Response Success:" + JSON.stringify(data.json()));
-        console.log("Message Details:" + data.json().messages[0]);
+      
         this.selectEntry(data.json().messages[0]);
         // this.doAttachmentResources(data.json().messages[0].message_id);
       }, error => {
       });
-    /*}
-    if (this.from != 'push') {
     
-    }*/
-    //this.doAttachmentResources(this.detailItem.message_id);
   }
-  /*doAttachmentResources(message_id) {
-    this.addedImgLists = [];
-    //micro_timestamp = '2017112123520';
-    console.log("doImageResources function calling successfully....")
-    let //body: string = "micro_timestamp=" + micro_timestamp,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      //http://denyoappv2.stridecdev.com/api/message_attachments_by_messageid.php?message_id=87
-      url: any = this.apiServiceURL + "/api/message_attachments_by_messageid.php?message_id=" + message_id;
-    console.log(url);
-    this.http.get(url, options)
-      .subscribe((data) => {
-        console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
-        this.totalCount = 0;
-        console.log(data.json().length - 1);
-        for (let i = 0; i < data.json().length; i++) {
-
-          console.log("Attachmnt:" + data.json()[i].messageresource_id);
-          this.totalFileSize = data.json()[i];
-          let imgSrc;
-          imgSrc = this.apiServiceURL + "/attachments" + '/' + data.json()[i].messageresource_filename;
-          if (data.json()[i].messageresource_id > 0) {
-            this.addedImgLists.push({
-              fileName: data.json()[i].messageresource_filename,
-              fileSize: data.json()[i].filesize_kb,
-              resouce_id: data.json()[i].messageresource_id,
-              imgSrc: imgSrc
-            });
-          }
-          if (data.json().length == this.totalCount) {
-
-            break;
-          }
-          this.totalCount++;
-        }
-
-        console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
-
-
-      });
-  }
-*/
+ 
   selectEntry(item) {
     this.priority_image='';
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
@@ -257,11 +210,8 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/changereadunread";
-    console.log(url);
-    console.log(body);
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Comment count successfully removed`);
@@ -272,7 +222,6 @@ export class MessagedetailPage {
           // this.conf.sendNotification('Something went wrong!');
         }
       });
-    console.log(JSON.stringify(item));
     this.priority_image='';
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
@@ -280,7 +229,6 @@ export class MessagedetailPage {
     this.messages_body_html = item.message_body_html;
     this.messageid = item.message_id;
     this.is_reply = item.isreply;
-    console.log("Is Reply:-"+this.is_reply);
     this.priority_image = item.priority_image;
     
     if(this.priority_image=='arrow_active_low.png'){
@@ -292,10 +240,10 @@ export class MessagedetailPage {
 
 
     this.replyall = item.replyall;
-    console.log('replyall' + this.replyall);
+    
     this.priority_highclass = '';
     this.priority_lowclass = '';
-    console.log("item.message_priority"+item.message_priority )
+   
     if (item.message_priority == "2") {
       this.priority_highclass = "border-high";
     } else {
@@ -313,7 +261,6 @@ export class MessagedetailPage {
       this.priority_lowclass = "";
     }
 
-    console.log("this.priority_lowclass:-"+this.priority_lowclass);
 
     this.favstatus = this.navParams.get('favstatus');
     this.message_readstatus = this.navParams.get('message_readstatus');
@@ -333,21 +280,15 @@ export class MessagedetailPage {
 
 
 
-    console.log("Favorite Status:" + this.favstatus);
-    //this.is_favorite = item.is_favorite;
+    
     this.message_priority = item.message_priority;
     this.time_ago = item.time_ago;
     this.receiver_id = item.receiver_id.toLowerCase();
     let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
-    console.log("Receiver id:" + this.receiver_id.toLowerCase());
-    console.log("personal hashtag:" + personalhashtag);
-
-    //let n = this.receiver_id.indexOf(personalhashtag);
+   
 
 
     let n = this.receiver_id.includes(personalhashtag);
-
-    console.log(n);
     if (n > 0) {
       this.receiver_id = this.receiver_id.toString().replace(personalhashtag, " ");
       this.receiver_id = "me " + this.conf.toTitleCase(this.receiver_id);
@@ -379,11 +320,8 @@ export class MessagedetailPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/messages/changereadunread";
-      console.log(url);
-      console.log(body);
       this.http.post(url, body, options)
         .subscribe((data) => {
-          console.log("Change read unread api calls:" + JSON.stringify(data.json()));
           // If the request was successful notify the user
           if (data.status === 200) {
             //this.conf.sendNotification(`Comment count successfully removed`);
@@ -397,7 +335,7 @@ export class MessagedetailPage {
 
     }
     this.totalFileSize = item.totalfilesize;
-    console.log("attachments:" + item.attachments);
+    
     if (item.attachments != '') {
       let ath = item.attachments.split("#");
       let flsize = item.filesizes.split("#")
@@ -410,7 +348,7 @@ export class MessagedetailPage {
           //  imgSrc: imgSrc
         });
       }
-      console.log("filesizes:" + item.filesizes);
+      
     }
   }
 
@@ -431,21 +369,21 @@ export class MessagedetailPage {
     }
   }
   readAction(messageid, act, from) {
-    console.log('act' + act);
+    
     if (act == 'unread') {
-      console.log('A');
+    
       this.unreadAction(messageid);
-      console.log('B');
+     
       this.message_readstatus = 0;
       return false;
     } else if (act == 'read') {
       this.message_readstatus = 1;
-      console.log('A');
+     
       this.readActionStatus(messageid);
-      console.log('B');
+     
       return false;
     }
-    console.log('D');
+   
   }
   readActionStatus(val) {
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
@@ -454,8 +392,8 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/changereadunread";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe((data) => {
         console.log("Change read unread api calls:" + JSON.stringify(data.json()));
@@ -528,8 +466,8 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/messagefavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(JSON.stringify(data));
@@ -565,8 +503,8 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/sendmessagefavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(JSON.stringify(data));
@@ -775,7 +713,7 @@ export class MessagedetailPage {
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           this.replyforward = 0;
@@ -820,20 +758,7 @@ export class MessagedetailPage {
       event_id: messageid
     });
   }
-  presentPopover(myEvent, detailItem, from) {
-    let popover = this.popoverCtrl.create(MsgPopoverPage, { item: detailItem, from: from, replyall: this.replyall });
-    popover.present({
-      ev: myEvent,
-    });
-    popover.onWillDismiss(data => {
-      console.log("Detail Item:" + JSON.stringify(detailItem));
-      console.log("Data:" + data);
-      console.log("From:" + from);
-      if (data != null) {
-        this.action(detailItem, data, from, this.replyall);
-      }
-    });
-  }
+ 
 
   getPrority(val) {
     console.log("getPrority function calling:-" + val);

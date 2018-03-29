@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController,App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
-import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
+//import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
 import { CalendarPage } from "../calendar/calendar";
 import { AddcalendarPage } from "../addcalendar/addcalendar";
@@ -38,9 +38,13 @@ export class EventDetailsEventPage {
   // tabBarElement: any;
   eventitem;
   private apiServiceURL: string = "";
-  constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+  constructor(private app:App,public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.NP.get("from") == 'notification') {
           this.navCtrl.setRoot(NotificationPage);
         } else {
@@ -48,7 +52,7 @@ export class EventDetailsEventPage {
         }
       });
     });
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
       /// this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
@@ -75,7 +79,7 @@ export class EventDetailsEventPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/eventdetailbyid";
-      console.log(url1);
+      
       this.http.post(url1, body, options1)
         .subscribe((data) => {
           console.log("eventdetailbyid Response Success:" + JSON.stringify(data.json()));

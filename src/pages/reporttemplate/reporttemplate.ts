@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams,Platform,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddreporttemplatePage } from '../addreporttemplate/addreporttemplate';
 import { LoadingController } from 'ionic-angular';
-import { MyaccountPage } from '../myaccount/myaccount';
+//import { MyaccountPage } from '../myaccount/myaccount';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { ReporttemplatedetailPage } from '../reporttemplatedetail/reporttemplatedetail';
+import { DashboardPage } from '../dashboard/dashboard';
 //import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the UnitgroupPage page.
@@ -46,11 +47,15 @@ export class ReporttemplatePage {
     }
   public reporttemplateAllLists = [];
   profilePhoto;
-  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
+  constructor(public app: App,public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
       this.platform.ready().then(() => {
         this.platform.registerBackButtonAction(() => {
-          this.nav.setRoot(MyaccountPage);
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+          this.nav.setRoot(DashboardPage);
         });
       });
     
@@ -67,105 +72,7 @@ export class ReporttemplatePage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-   /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
-*/
-    // Footer Menu Access - End
+    
 
   }
 
@@ -188,8 +95,8 @@ export class ReporttemplatePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -226,11 +133,11 @@ export class ReporttemplatePage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc;
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.availabletemp.length);
         console.log("2" + res.availabletemp);
         if (res.availabletemp.length > 0) {
@@ -253,18 +160,18 @@ export class ReporttemplatePage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+     
       this.doReport();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
 
   presentLoading(parm) {
@@ -345,7 +252,7 @@ export class ReporttemplatePage {
 
 
   previous() {
-     this.nav.setRoot(MyaccountPage);
+     this.nav.setRoot(DashboardPage);
   }
   notification() {
      this.nav.setRoot(NotificationPage);

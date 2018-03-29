@@ -3,9 +3,9 @@ import { NavController, NavParams, Platform,ModalController } from 'ionic-angula
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AlarmPage } from '../alarm/alarm';
-import { UnitsPage } from '../units/units';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
-import { CalendarPage } from '../calendar/calendar';
+//import { CalendarPage } from '../calendar/calendar';
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { Config } from '../../config/config';
 import { ModalPage } from '../modal/modal';
@@ -61,7 +61,7 @@ export class AddalarmlistPage {
     public NP: NavParams,
     public fb: FormBuilder) {
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -91,16 +91,16 @@ export class AddalarmlistPage {
     this.companyid = localStorage.getItem("userInfoCompanyId");
 
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
 
   }
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddalarmlistPage');
+    
     localStorage.setItem("fromModule", "AddalarmlistPage");
     let unit_id = this.NP.get("unitid");
-    console.log("addfdfsdfssdf" + JSON.stringify(unit_id));
+    
     // UnitDetails Api Call		
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -108,7 +108,7 @@ export class AddalarmlistPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unit_id.unit_id;
-    console.log(url);
+   
     this.http.get(url, options)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
@@ -148,7 +148,7 @@ export class AddalarmlistPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {
@@ -162,7 +162,7 @@ export class AddalarmlistPage {
     this.unitDetailData.location = localStorage.getItem("unitlocation");
     this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
     this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
-    console.log("Unit Details Color Code:" + this.unitDetailData.colorcodeindications);
+   
     this.unitDetailData.lat = localStorage.getItem("unitlat");
     this.unitDetailData.lng = localStorage.getItem("unitlng");
     this.unitDetailData.rh = localStorage.getItem("runninghr");
@@ -170,7 +170,6 @@ export class AddalarmlistPage {
     this.getUserListData();
 
     if (this.NP.get("record")) {
-      console.log(this.NP.get("act"));
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       // this.pageTitle = 'Edit Company Group';
@@ -209,11 +208,10 @@ export class AddalarmlistPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.companyid;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        // console.log(data.json);
+        
         this.responseResultReportTo = res.staffslist;
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -221,7 +219,6 @@ export class AddalarmlistPage {
 
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -251,17 +248,13 @@ export class AddalarmlistPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/alarms/assignalarm";
-      console.log(url);
-      console.log(body);
+      
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-          //console.log("Response Success:" + JSON.stringify(data.json()));
-          // If the request was successful notify the user
+         
           if (data.status === 200) {
             this.hideForm = true;
-            console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
-            //this.conf.sendNotification(`Successfully assigned`);
             this.conf.sendNotification(data.json().msg[0].result);
             localStorage.setItem("userPhotoFile", "");
             

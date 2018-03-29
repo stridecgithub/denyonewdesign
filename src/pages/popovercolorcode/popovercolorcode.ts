@@ -46,7 +46,7 @@ export class PopovercolorcodePage {
     this.DELETEACCESS = localStorage.getItem("SETTINGS_ORGCHART_DELETE");
     console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
  this.networkType = '';
-    this.apiServiceURLHTML = conf.apiBaseURL();
+    this.apiServiceURLHTML = this.conf.apiBaseURL();
     
   }
 

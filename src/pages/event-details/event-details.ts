@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams } from 'ionic-angular';
+import { Platform, NavController, NavParams,App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -36,12 +36,16 @@ export class EventDetailsPage {
   // tabBarElement: any;
   frompage;
   private apiServiceURL: string = "";
-  constructor(private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
-    this.apiServiceURL = conf.apiBaseURL();
+  constructor(public app: App,private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+    this.apiServiceURL = this.conf.apiBaseURL();
 
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.NP.get("from") == 'commentinfo') {
           this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.item,
@@ -74,7 +78,7 @@ export class EventDetailsPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/getalarmdetails";
-      console.log(url1);
+      
       this.http.post(url1, body, options1)
         .subscribe((data) => {
           console.log("Alarm event  details:-" + JSON.stringify(data.json()))
@@ -112,7 +116,7 @@ export class EventDetailsPage {
 
   }
   doEditAlarm(item, act) {
-    let unitid = this.NP.get("record");
+  //  let unitid = this.NP.get("record");
     console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {

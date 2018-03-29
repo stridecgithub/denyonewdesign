@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Platform, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform, AlertController,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -13,12 +13,13 @@ import { NotificationPage } from '../notification/notification';
 import { DatePicker } from '@ionic-native/date-picker';
 import { ReportsPage } from '../reports/reports';
 //import { OrgchartPage } from '../orgchart/orgchart';
-import { DocumentViewer, DocumentViewerOptions } from '@ionic-native/document-viewer';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as papa from 'papaparse';
+import { Config } from '../../config/config';
 @Component({
   selector: 'page-reportviewtable',
   templateUrl: 'reportviewtable.html',
@@ -58,7 +59,7 @@ export class ReportviewtablePage {
   public headLists = [];
   public headValue = [];
   public responseResultTimeFrame = [];
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   profilePhoto;
   totalcount;
   location;
@@ -82,11 +83,15 @@ export class ReportviewtablePage {
   url;
   storageDirectory: string = '';
   public buttonClicked: boolean = false;
-  constructor(private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
+  constructor(public app: App,private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
-
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(ReportsPage, {
           selunit: this.NP.get("selunit"),
           seltemplate: this.NP.get("seltemplate"),
@@ -116,7 +121,7 @@ export class ReportviewtablePage {
       "seltimeframe": [""],
     });
 
-    this.apiServiceURL = this.apiServiceURL;
+
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -125,104 +130,7 @@ export class ReportviewtablePage {
     }
     // make sure this is on a device, not an emulation (e.g. chrome tools device mode)   
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
 
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
-
-    // Footer Menu Access - End
 
   }
   ionViewWillEnter() {
@@ -459,8 +367,8 @@ export class ReportviewtablePage {
             this.noentrymsg = 'No report entries found';
           });
         // For Gettting Unit Details in Graph
-       
-        this.url = this.sanitizer.bypassSecurityTrustResourceUrl("http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1" +
+
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
           "&selunit=" + this.NP.get("selunit") +
           "&seltimeframe=" + this.NP.get("seltimeframe") +
           "&seltemplate=" + this.NP.get("seltemplate") +
@@ -472,7 +380,7 @@ export class ReportviewtablePage {
           "&loginid=" + this.userid +
           "&companyid=" + this.companyid +
           "&datacodes=");
-          console.log('Graph Web View URL' + this.url);
+        console.log('Graph Web View URL' + this.url);
       }
     }
 
@@ -642,20 +550,11 @@ export class ReportviewtablePage {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    //this.readCsvData();
-    //http://denyoappv2.stridecdev.com/report.csv
+
   }
 
 
-  private extractData(res) {
-    let csvData = res['_body'] || '';
-    let parsedData = papa.parse(csvData).data;
 
-    this.headerRow = parsedData[0];
-
-    parsedData.splice(0, 1);
-    this.csvData = parsedData;
-  }
 
 
   trackByFn(index: any, item: any) {

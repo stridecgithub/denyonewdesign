@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform,App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -31,7 +31,7 @@ import { Config } from '../../config/config';
 export class AdduserPage {
   // Define FormBuilder /model properties
   public loginas: any;
- 
+
   footerBar: number = 0;
   public form: FormGroup;
   public first_name: any;
@@ -63,8 +63,8 @@ export class AdduserPage {
   public recordID: any = null;
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  public addedImgLists = this.apiServiceURL + "/images/default.png";
+  private apiServiceURL: string = "";
+  public addedImgLists;
   username;
   password;
   hashtag;
@@ -81,20 +81,25 @@ export class AdduserPage {
   public responseResultRole = [];
   public responseResultRoleDropDown = [];
   companyId;
-  constructor(private conf: Config, public nav: NavController,
+  constructor(private app:App,private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public loadingCtrl: LoadingController, private camera: Camera
 
     , private transfer: FileTransfer,
-    private ngZone: NgZone, public actionSheetCtrl: ActionSheetController,public platform:Platform) {
-
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {         
-          this.nav.setRoot(UserPage);
-        });
+    private ngZone: NgZone, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.addedImgLists = this.apiServiceURL + "/images/default.png";
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+        this.nav.setRoot(UserPage);
       });
+    });
 
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
@@ -133,122 +138,24 @@ export class AdduserPage {
     this.getUserListData();
     this.getCompanyGroupListData();
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
 
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
-*/
-    // Footer Menu Access - End
 
   }
 
   matchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
-    this.conf.consolePrint('A');
+    
     return (group: FormGroup) => {
-      this.conf.consolePrint('B');
+     
       let passwordInput = group.controls[passwordKey];
       let passwordConfirmationInput = group.controls[passwordConfirmationKey];
       if (passwordInput.value !== passwordConfirmationInput.value) {
-        this.conf.consolePrint('C');
+       
         return passwordConfirmationInput.setErrors({ notEquivalent: true })
       }
     }
   }
   ionViewDidLoad() {
-    this.conf.consolePrint('ionViewDidLoad AddcompanygroupPage');
+   
     this.pageLoad();
 
   }
@@ -270,7 +177,7 @@ export class AdduserPage {
       .subscribe(data => {
         res = data.json();
         this.responseResultRole = res.roles;
-        this.conf.consolePrint(JSON.stringify(this.responseResultRole));
+        
         if (this.responseResultRole.length > 0) {
           for (let role in this.responseResultRole) {
 
@@ -300,20 +207,19 @@ export class AdduserPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    this.conf.consolePrint(url);
-    // this.conf.consolePrint(body);
+   
 
     this.http.get(url, options)
       .subscribe((data) => {
-        this.conf.consolePrint("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
 
-    this.conf.consolePrint(JSON.stringify(this.NP.get("record")));
+   
     if (this.NP.get("record")) {
-      this.conf.consolePrint("Add User:" + JSON.stringify(this.NP.get("record")));
+     
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit User';
@@ -322,7 +228,7 @@ export class AdduserPage {
       if (this.NP.get("record").photo) {
         if (this.NP.get("record").photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
-          this.conf.consolePrint(this.addedImgLists);
+         
         }
       }
       let editItem = this.NP.get("record");
@@ -349,21 +255,18 @@ export class AdduserPage {
       let info = this.NP.get("uservalue");
       this.pageTitle = 'Edit User';
       //var objects = JSON.parse(info);
-      this.conf.consolePrint("JSON.stringify:" + JSON.stringify(info));
-      this.conf.consolePrint("Length:" + info.length);
-      this.conf.consolePrint('A');
+     
       for (var key in info) {
-        this.conf.consolePrint('B');
+      
         let keyindex;
         if (this.NP.get("record")) {
           keyindex = 0;
         } else {
           keyindex = 1;
         }
-        this.conf.consolePrint("Key:" + key);
-        this.conf.consolePrint("Key Index:" + keyindex);
+       
         if (key == keyindex) {
-          this.conf.consolePrint('Key' + key);
+        
           this.first_name = info[key].first_name;
           this.last_name = info[key].last_name;
           this.email = info[key].email;
@@ -377,10 +280,9 @@ export class AdduserPage {
             this.contact = this.contact;
           }
 
-          this.conf.consolePrint("First Name for User Account:" + this.first_name);
-          //this.conf.consolePrint(JSON.stringify(this));
+         
         } else {
-          this.conf.consolePrint('Key' + key);
+         
           this.first_name = info[0].first_name;
           this.last_name = info[0].last_name;
           this.email = info[0].email;
@@ -396,19 +298,15 @@ export class AdduserPage {
           }
 
 
-          this.conf.consolePrint("First Name for User Account:" + this.first_name);
+         
         }
-        /* this.userInfo.push({
-           info
-         });
-         this.conf.consolePrint("User Information:" + JSON.stringify(this.userInfo));
-         */
+       
       }
 
       if (this.NP.get("uservalue")[0].photo) {
         if (this.NP.get("uservalue")[0].photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
-          this.conf.consolePrint(this.addedImgLists);
+          
         }
       }
     }
@@ -420,13 +318,13 @@ export class AdduserPage {
   }
 
   getPrimaryContact(ev) {
-    this.conf.consolePrint(ev.target.value);
+    
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      this.conf.consolePrint('Reached five characters above');
+    
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      this.conf.consolePrint('Reached five characters below');
+     
       this.borderbottomredvalidation = '';
     }
   }
@@ -439,18 +337,13 @@ export class AdduserPage {
     this.email = item.email;
     this.country = item.country;
     this.contact = item.contact_number;
-    this.conf.consolePrint("Contact Number" + item.contact_number);
-    // if (this.contact != '') {
-    //   let contactSplitSpace = this.contact.split(" ");
-    //   this.primary = contactSplitSpace[0];
-    //   this.contact = contactSplitSpace[1];
-    // }
+   
 
 
     this.photo = item.photo;
     localStorage.setItem("photofromgallery", this.photo);
     this.recordID = item.staff_id;
-    this.conf.consolePrint(this.recordID);
+   
 
     this.username = item.username;
     this.password = item.password;
@@ -459,8 +352,7 @@ export class AdduserPage {
     this.role = item.role_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
-    this.conf.consolePrint(this.company_group);
-    this.conf.consolePrint(item.report_to);
+   
     this.report_to = item.report_to;
     this.getUserListData();
 
@@ -485,34 +377,31 @@ export class AdduserPage {
 
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        this.conf.consolePrint(JSON.stringify(data.json()));
-        // If the request was successful notify the user
+       
         if (data.status === 200) {
-          this.conf.consolePrint("create" + data.json().msg[0].Error);
-          this.conf.consolePrint('1');
+         
           if (data.json().msg[0].Error > 0) {
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
             this.sendNotification(data.json().message);
-            this.conf.consolePrint("create" + data.json().msg[0].Error);
-            this.conf.consolePrint('2');
+           
             let uploadfromgallery = localStorage.getItem("photofromgallery");
 
             if (uploadfromgallery != undefined) {
-              this.conf.consolePrint('A');
+             
               this.photo = uploadfromgallery;
             }
             if (this.photo == undefined) {
-              this.conf.consolePrint('B');
+              
               this.photo = '';
             }
             if (this.photo == 'undefined') {
-              this.conf.consolePrint('C');
+              
               this.photo = '';
             }
             if (this.photo == '') {
-              this.conf.consolePrint('D');
+              
               this.photo = '';
             }
             contact = contact.replace("+", "%2B");
@@ -535,12 +424,11 @@ export class AdduserPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/store";
-            this.conf.consolePrint(url);
-            this.conf.consolePrint(body);
+           
 
             this.http.post(url, body, options)
               .subscribe((data) => {
-                this.conf.consolePrint("Response Success:" + JSON.stringify(data.json()));
+               
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -585,19 +473,19 @@ export class AdduserPage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-      this.conf.consolePrint('A');
+     
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-      this.conf.consolePrint('B');
+     
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-      this.conf.consolePrint('C');
+     
       this.photo = '';
     }
     if (this.photo == '') {
-      this.conf.consolePrint('D');
+     
       this.photo = '';
     }
 
@@ -609,10 +497,10 @@ export class AdduserPage {
       url1: any = this.apiServiceURL + "/checkusername";
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        this.conf.consolePrint(JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
-          this.conf.consolePrint("update" + data.json().msg[0].Error);
+          
           if (data.json().msg[0].Error > 0) {
             //this.userInfo=[];
             this.sendNotification(data.json().msg[0].result);
@@ -640,11 +528,10 @@ export class AdduserPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/update";
-            this.conf.consolePrint(url);
-            this.conf.consolePrint(body);
+          
             this.http.post(url, body, options)
               .subscribe(data => {
-                this.conf.consolePrint(data);
+               
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -724,10 +611,7 @@ export class AdduserPage {
 
     //contact = primary + " " + contact;
     contact = contact;
-    this.conf.consolePrint(contact);
-    /*if (this.addedImgLists) {
-      this.isUploadedProcessing = true;
-    }*/
+   
     if (this.isUploadedProcessing == false) {
       if (this.isEdited) {
         this.updateEntry(first_name, last_name, email, country, contact, this.userId, role, username, password, hashtag, report_to, company_group, job_position);
@@ -826,11 +710,11 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-      this.conf.consolePrint("Report To API:" + url)
+      
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-          this.conf.consolePrint(JSON.stringify(res));
+         
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
@@ -838,7 +722,7 @@ export class AdduserPage {
           else {
             this.len = res.TotalCount;
           }
-          this.conf.consolePrint("length" + res.TotalCount);
+          
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -851,13 +735,13 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-      this.conf.consolePrint("Report To API:" + url)
+     
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-          this.conf.consolePrint("length" + res.TotalCount);
+         
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -872,7 +756,7 @@ export class AdduserPage {
   }
 
   onSegmentChanged() {
-    this.conf.consolePrint("ID" + this.company_group);
+   
     this.getUserListData();
   }
   fileChooser() {
@@ -906,7 +790,7 @@ export class AdduserPage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-              this.conf.consolePrint(imageURI);
+            
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -921,16 +805,7 @@ export class AdduserPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            this.conf.consolePrint('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
+         
 
             const options: CameraOptions = {
               quality: 100,
@@ -942,7 +817,7 @@ export class AdduserPage {
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
-              this.conf.consolePrint(uri);
+             
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -958,7 +833,7 @@ export class AdduserPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            this.conf.consolePrint('Cancel clicked');
+           
           }
         }
       ]
@@ -970,10 +845,9 @@ export class AdduserPage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
+   
     this.photo = fileName;
-    this.conf.consolePrint("currentName File Name is:" + currentName);
-    this.conf.consolePrint("fileName File Name is:" + fileName);
+   
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -987,26 +861,21 @@ export class AdduserPage {
       mimeType: "text/plain",
     }
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    // this.conf.sendNotification(`profile photo uploaded few minutes redirect to my account page. please wait`);
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-        this.conf.consolePrint(JSON.stringify(data));
+        
         localStorage.setItem("userPhotoFile", "");
-        this.conf.consolePrint("UPLOAD SUCCESS:" + data.response);
+       
 
-        this.conf.consolePrint("File Name:" + JSON.parse(data.response).name);
+     
 
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-        this.conf.consolePrint("Upload Success Push" + JSON.stringify(this.userInfo));
-
-        this.conf.consolePrint("Upload Success File Name" + this.userInfo[0].photo.name);
+       
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
@@ -1019,15 +888,11 @@ export class AdduserPage {
         //  return false;
 
 
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
-        //  this.conf.sendNotification(`User profile successfully updated`);
-        // this.nav.setRoot(MyaccountPage);
+        
 
       }, (err) => {
         //loading.dismiss();
-        this.conf.consolePrint("Upload Error:");
+       
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }

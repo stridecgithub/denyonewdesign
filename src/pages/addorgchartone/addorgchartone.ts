@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform,App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -12,6 +12,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { NotificationPage } from '../notification/notification';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
+declare var jQuery: any;
 //import { DashboardPage } from '../dashboard/dashboard';
 //import { TabsPage } from "../tabs/tabs";
 
@@ -57,16 +58,16 @@ export class AddorgchartonePage {
   public recordID: any = null;
   public isUploadedProcessing: boolean = false;
   public uploadResultBase64Data;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public responseResultCompanyGroup: any;
-  public responseResultReportTo: any;
+  public responseResultReportTo = [];
   public len;
   job_position;
   company_group;
   report_to;
   company_id;
-  public addedImgLists = this.apiServiceURL + "/images/default.png";
-  constructor(private conf: Config, public nav: NavController,
+  public addedImgLists;
+  constructor(private app:App,private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
@@ -74,9 +75,14 @@ export class AddorgchartonePage {
     public loadingCtrl: LoadingController,
     private camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
-
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.addedImgLists = this.apiServiceURL + "/images/default.png";
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.nav.setRoot(OrgchartPage);
       });
     });
@@ -108,7 +114,6 @@ export class AddorgchartonePage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddorgchartonePage');
     this.pageLoad();
   }
   pageLoad() {
@@ -117,19 +122,14 @@ export class AddorgchartonePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
     this.getJsonCountryListData();
-
-    console.log(JSON.stringify(this.NP.get("record")));
     this.getCompanyGroupListData();
     if (this.NP.get("record") != undefined) {
       this.isEdited = true;
@@ -139,7 +139,6 @@ export class AddorgchartonePage {
       this.hideActionButton = true;
       if (this.NP.get("record").photo) {
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
-        console.log(this.addedImgLists);
       }
       let editItem = this.NP.get("record");
       this.first_name = editItem.firstname;
@@ -147,7 +146,6 @@ export class AddorgchartonePage {
       this.email = editItem.email;
       this.country = editItem.country_id;
       this.contact = editItem.contact_number;
-      console.log(this.contact);
       if (this.contact != undefined) {
         // let contactSplitSpace = this.contact.split(" ");
         // this.primary = contactSplitSpace[0];
@@ -163,13 +161,10 @@ export class AddorgchartonePage {
 
   }
   getPrimaryContact(ev) {
-    console.log(ev.target.value);
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      console.log('Reached five characters above');
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      console.log('Reached five characters below');
       this.borderbottomredvalidation = '';
     }
   }
@@ -199,19 +194,15 @@ export class AddorgchartonePage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-      console.log('A');
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-      console.log('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-      console.log('C');
       this.photo = '';
     }
     if (this.photo == '') {
-      console.log('D');
       this.photo = '';
     }
     contact = contact.replace("+", "%2B");
@@ -230,13 +221,9 @@ export class AddorgchartonePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/orgchart/store";
-    console.log(url);
-    console.log(body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
-        // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
           this.sendNotification(data.json().msg[0].result);
@@ -257,19 +244,15 @@ export class AddorgchartonePage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-      console.log('A');
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-      console.log('B');
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-      console.log('C');
       this.photo = '';
     }
     if (this.photo == '') {
-      console.log('D');
       this.photo = '';
     }
     contact = contact.replace("+", "%2B");
@@ -290,11 +273,8 @@ export class AddorgchartonePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/orgchart/update";
-    console.log(url);
-    console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
@@ -314,7 +294,6 @@ export class AddorgchartonePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getCountries";
-    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe(data => {
@@ -335,7 +314,6 @@ export class AddorgchartonePage {
     // primary: string = this.form.controls["primary"].value;
     //contact = primary + " " + contact;
     contact = contact;
-    console.log(contact);
     /*if (this.addedImgLists) {
       this.isUploadedProcessing = true;
     }*/
@@ -370,12 +348,11 @@ export class AddorgchartonePage {
     });
     notification.present();
   }
-  previous() {   
+  previous() {
     this.nav.setRoot(OrgchartPage);
   }
 
   popoverclose() {
-    console.log("Popover Function Calling...")
     jQuery(".popover-content").hide();
   }
   cation() {
@@ -388,7 +365,6 @@ export class AddorgchartonePage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
-    console.log("getcompanies API:" + url)
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -405,21 +381,52 @@ export class AddorgchartonePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      console.log("getstaffs API:" + url);
+      
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
-            console.log("LENGTH" + this.report_to);
+
             this.len = 0;
           }
           else {
             this.len = res.TotalCount;
           }
-          console.log("length" + res.TotalCount);
-          // this.naDisplay = 1;
-          this.responseResultReportTo = res.staffslist;
+
+          if (this.recordID != '') {
+            if (res.staffslist.length > 0) {
+
+              for (let staff in res.staffslist) {
+
+                if (this.recordID != res.staffslist[staff].staff_id) {
+                  this.responseResultReportTo.push({
+                    staff_id: res.staffslist[staff].staff_id,
+                    firstname: res.staffslist[staff].firstname,
+                    lastname: res.staffslist[staff].lastname,
+                    email: res.staffslist[staff].email,
+                    contact_number: res.staffslist[staff].contact_number,
+                    photo: res.staffslist[staff].photo,
+                    personalhashtag: res.staffslist[staff].personalhashtag,
+                    country_id: res.staffslist[staff].country_id,
+                    role_id: res.staffslist[staff].role_id,
+                    job_position: res.staffslist[staff].job_position,
+                    report_to: res.staffslist[staff].report_to,
+                    company_id: res.staffslist[staff].company_id,
+                    non_user: res.staffslist[staff].non_user,
+                    status: res.staffslist[staff].status,
+                    createdby: res.staffslist[staff].createdby,
+                    createdon: res.staffslist[staff].createdon,
+                    updatedby: res.staffslist[staff].updatedby,
+                    updatedon: res.staffslist[staff].updatedon
+                  });
+                }
+              }
+            }
+          } else {
+            this.responseResultReportTo = res.staffslist;
+          }
+
         });
     }
     else {
@@ -428,22 +435,53 @@ export class AddorgchartonePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      console.log("Report To API:" + url)
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-          console.log("length" + res.TotalCount);
+
           // this.naDisplay = 1;
-          this.responseResultReportTo = res.staffslist;
+
+          if (this.recordID != '') {
+            if (res.staffslist.length > 0) {
+
+              for (let staff in res.staffslist) {
+                if (this.recordID != res.staffslist[staff].staff_id) {
+                  this.responseResultReportTo.push({
+                    staff_id: res.staffslist[staff].staff_id,
+                    firstname: res.staffslist[staff].firstname,
+                    lastname: res.staffslist[staff].lastname,
+                    email: res.staffslist[staff].email,
+                    contact_number: res.staffslist[staff].contact_number,
+                    photo: res.staffslist[staff].photo,
+                    personalhashtag: res.staffslist[staff].personalhashtag,
+                    country_id: res.staffslist[staff].country_id,
+                    role_id: res.staffslist[staff].role_id,
+                    job_position: res.staffslist[staff].job_position,
+                    report_to: res.staffslist[staff].report_to,
+                    company_id: res.staffslist[staff].company_id,
+                    non_user: res.staffslist[staff].non_user,
+                    status: res.staffslist[staff].status,
+                    createdby: res.staffslist[staff].createdby,
+                    createdon: res.staffslist[staff].createdon,
+                    updatedby: res.staffslist[staff].updatedby,
+                    updatedon: res.staffslist[staff].updatedon
+                  });
+                }
+              }
+            } else {
+              this.responseResultReportTo = res.staffslist;
+            }
+          }
         });
     }
 
   }
 
   onSegmentChanged(comapnyid) {
-    console.log("ID" + this.company_group);
+
     this.getUserListData(comapnyid);
   }
   fileChooser() {
@@ -477,7 +515,6 @@ export class AddorgchartonePage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-              console.log(imageURI);
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -492,16 +529,6 @@ export class AddorgchartonePage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
 
             const options: CameraOptions = {
               quality: 100,
@@ -513,7 +540,7 @@ export class AddorgchartonePage {
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
-              console.log(uri);
+
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -529,7 +556,7 @@ export class AddorgchartonePage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+
           }
         }
       ]
@@ -542,10 +569,7 @@ export class AddorgchartonePage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
     this.photo = fileName;
-    console.log("currentName File Name is:" + currentName);
-    console.log("fileName File Name is:" + fileName);
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -559,26 +583,19 @@ export class AddorgchartonePage {
       mimeType: "text/plain",
     }
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    // this.conf.sendNotification(`profile photo uploaded few minutes redirect to my account page. please wait`);
-    fileTransfer.onProgress(this.onProgress);
+      fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-        console.log(JSON.stringify(data));
-        localStorage.setItem("userPhotoFile", "");
-        console.log("UPLOAD SUCCESS:" + data.response);
 
-        console.log("File Name:" + JSON.parse(data.response).name);
+        localStorage.setItem("userPhotoFile", "");
+
 
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
 
-        console.log("Upload Success File Name" + this.userInfo[0].photo.name);
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
@@ -588,18 +605,10 @@ export class AddorgchartonePage {
         this.isProgress = false;
 
         this.isUploadedProcessing = false;
-        //  return false;
-
-
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
-        //  this.conf.sendNotification(`User profile successfully updated`);
-        // this.nav.setRoot(MyaccountPage);
+        
 
       }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:");
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }

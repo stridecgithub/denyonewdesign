@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController,App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UnitsPage } from '../units/units';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -17,7 +17,6 @@ import { DashboardPage } from '../dashboard/dashboard';
  * Ionic pages and navigation.
  */
 declare var jQuery: any;
-declare var mention: any;
 
 @Component({
   selector: 'page-notification-settings',
@@ -87,9 +86,13 @@ export class NotificationSettingsPage {
   contactnumber;
   companyId;
   constructor(
-    public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, public conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+    public app: App,public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, public conf: Config, public navCtrl: NavController, public navParams: NavParams) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.isEdited > 0) {
           this.navCtrl.setRoot(AddUnitPage, {
             accountInfo: this.navParams.get("accountInfo"),
@@ -142,7 +145,7 @@ export class NotificationSettingsPage {
 
     });
 
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     if (this.navParams.get("accountInfo")) {
       this.previousFormData = this.navParams.get("accountInfo");
       this.unitname = this.previousFormData[0]['unitname'];
@@ -228,7 +231,7 @@ export class NotificationSettingsPage {
           this.contact_number_3 = contactNumber;
 
           if (this.contact_number_3 != undefined) {
-            let contactSplitSpace = this.contact_number_3.split(" ");
+           // let contactSplitSpace = this.contact_number_3.split(" ");
             // this.primary_3 = contactSplitSpace[0];
             // this.contact_number_3 = contactSplitSpace[1];
             this.contact_number_3 = this.contact_number_3;
@@ -251,7 +254,7 @@ export class NotificationSettingsPage {
           this.contact_number_5 = contactNumber;
 
           if (this.contact_number_5 != undefined) {
-            let contactSplitSpace = this.contact_number_5.split(" ");
+            //let contactSplitSpace = this.contact_number_5.split(" ");
             // this.primary_5 = contactSplitSpace[0];
             // this.contact_number_5 = contactSplitSpace[1];
             this.contact_number_5 = this.contact_number_5;
@@ -285,7 +288,7 @@ export class NotificationSettingsPage {
     //   headers: any = new Headers({ 'Content-Type': type }),
     //   options: any = new RequestOptions({ headers: headers }),
     //   url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=unit&companyId=" + this.companyId + "&userId=" + this.userId;
-    // console.log(url);
+    // 
     // this.http.get(url, options)
     //   .subscribe(data => {
     //     // If the request was successful notify the user
@@ -310,7 +313,7 @@ export class NotificationSettingsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/alarmhashtags?companyid=" + this.companyId + "&login=" + this.userId;
-    console.log(url);
+    
     this.http.get(url, options)
 
     // let body: string = param,
@@ -371,25 +374,25 @@ export class NotificationSettingsPage {
     console.log("secondary" + secondary)
     let nme;
     if (contact_name == undefined) {
-      console.log('A');
+     
       nme = '';
     }
     if (contact_name == '') {
-      console.log('B');
+     
       nme = '';
     }
     let num;
     if (secondary == undefined) {
       num = '';
-      console.log('C');
+     
     }
     if (secondary == '') {
-      console.log('D');
+     
       num = '';
     }
     console.log(this.cont5);
     if (nme != '' && num != '') {
-      console.log('E');
+      
       this.isSubmitted = false;
     } else {
       console.log('F');
@@ -402,25 +405,25 @@ export class NotificationSettingsPage {
     console.log("secondary" + secondary)
     let nme;
     if (contact_name == undefined) {
-      console.log('A');
+     
       nme = '';
     }
     if (contact_name == '') {
-      console.log('B');
+     
       nme = '';
     }
     let num;
     if (secondary == undefined) {
       num = '';
-      console.log('C');
+     
     }
     if (secondary == '') {
-      console.log('D');
+     
       num = '';
     }
     console.log(this.cont5);
     if (nme != '' && num != '') {
-      console.log('E');
+      
       this.isSubmitted = false;
     } else {
       console.log('F');
@@ -433,25 +436,25 @@ export class NotificationSettingsPage {
     console.log("secondary" + secondary)
     let nme;
     if (contact_name == undefined) {
-      console.log('A');
+     
       nme = '';
     }
     if (contact_name == '') {
-      console.log('B');
+     
       nme = '';
     }
     let num;
     if (secondary == undefined) {
       num = '';
-      console.log('C');
+     
     }
     if (secondary == '') {
-      console.log('D');
+     
       num = '';
     }
     console.log(this.cont5);
     if (nme != '' && num != '') {
-      console.log('E');
+      
       this.isSubmitted = false;
     } else {
       console.log('F');
@@ -465,25 +468,25 @@ export class NotificationSettingsPage {
     console.log("secondary" + secondary)
     let nme;
     if (contact_name == undefined) {
-      console.log('A');
+     
       nme = '';
     }
     if (contact_name == '') {
-      console.log('B');
+     
       nme = '';
     }
     let num;
     if (secondary == undefined) {
       num = '';
-      console.log('C');
+     
     }
     if (secondary == '') {
-      console.log('D');
+     
       num = '';
     }
     console.log(this.cont5);
     if (nme != '' && num != '') {
-      console.log('E');
+      
       this.isSubmitted = false;
     } else {
       console.log('F');
@@ -739,7 +742,7 @@ export class NotificationSettingsPage {
             console.log("URL:" + url + "?" + body);
             this.http.post(url, body, options)
               .subscribe((data) => {
-                //console.log("Response Success:" + JSON.stringify(data.json()));
+                
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -793,7 +796,7 @@ export class NotificationSettingsPage {
             console.log("URL:" + url + "?" + body);
             this.http.post(url, body, options)
               .subscribe((data) => {
-                //console.log("Response Success:" + JSON.stringify(data.json()));
+                
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -823,11 +826,7 @@ export class NotificationSettingsPage {
 
 
 
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.gethashtag = hashtag;
-  }
-
+ 
   addmore() {
     if (this.isEdited == 0) {
       //this.isSubmitted = true;

@@ -3,9 +3,9 @@
 //import {  NavController, NavParams } from 'ionic-angular';
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
-import { Events, NavController, AlertController, Platform, ItemSliding, NavParams } from 'ionic-angular';
+import { Events, NavController, AlertController, Platform, ItemSliding, NavParams, App } from 'ionic-angular';
 import * as moment from 'moment';
-import { DragulaService } from "ng2-dragula/ng2-dragula"
+//import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
 import { Http, Headers, RequestOptions } from "@angular/http";
 //import { EventDetailsPage } from '../../pages/calendardetail/calendardetail';
@@ -13,7 +13,7 @@ import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { EventDetailsServicePage } from '../../pages/event-details-service/event-details-service';
 import { EventDetailsEventPage } from '../../pages/event-details-event/event-details-event';
 import { NotificationPage } from '../notification/notification';
-import { PermissionPage } from '../permission/permission';
+//import { PermissionPage } from '../permission/permission';
 import { AddcalendarPage } from '../../pages/addcalendar/addcalendar';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { Config } from '../../config/config';
@@ -80,7 +80,7 @@ import {  NavController, NavParams } from 'ionic-angular';
   selector: 'page-calendar',
   templateUrl: 'calendar.html',
   //<<<<<<< HEAD
-  providers: [DragulaService, Config]
+  providers: [Config]
 })
 export class CalendarPage {
   footerBar: number = 2;
@@ -149,19 +149,23 @@ export class CalendarPage {
   @Output() onEventDoubleTap = new EventEmitter<any>();
   @Output() onEventPress = new EventEmitter<any>();
   public profilePhoto;
-  constructor(private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, private dragulaService: DragulaService, public navCtrl: NavController,
+  constructor(private app: App, private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, public navCtrl: NavController,
     private calendarElement: ElementRef,
     public events: Events, private http: Http, public alertCtrl: AlertController) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(DashboardPage, {
         });
       });
     });
 
     localStorage.setItem("sdate", "");
-    console.log("Weekdays console.log" + this.weekDays);
+    
     let currentDate = new Date();
     this.currentDataHighlights = '';
     this.currentDate = currentDate.getDate();
@@ -184,16 +188,9 @@ export class CalendarPage {
     this.SERVICEVIEWACCESS = localStorage.getItem("CALENDAR_SERVICES_VIEW");
     this.SERVICEDELETEACCESS = localStorage.getItem("CALENDAR_SERVICES_DELETE");
 
-    dragulaService.drag.subscribe((value) => {
-      console.log(`drag: ${value[0]}`);
-      this.onDrag(value.slice(1));
-    });
-    dragulaService.drop.subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
-      this.onDrop(value.slice(1));
-    });
+   
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.calEvents = [];
 
 
@@ -208,112 +205,10 @@ export class CalendarPage {
 
 
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    console.log("Footer Menu Access abc:-" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-    if (calendarAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
-    }
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    /*this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    console.log("Final Footer Menu access:" + this.footerBar);
-*/
-    // Footer Menu Access - End
 
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
@@ -321,124 +216,18 @@ export class CalendarPage {
   ionViewDidLoad() {
     localStorage.setItem("sdate", "");
     this.doNotifiyCount();
-    console.log('ionViewDidLoad  CalendarPage');
   }
-  // In Dragula documentation it says dropModel for Angular2 also gives the
-  // model on the controller, not just the HTML elements, but I see no
-  // difference to onDrop function arguments. TRY AGAIN LATER!!
-  //  private onDropModel(args) {
-  //    let [bagName, el, target] = args;
-  //    console.log('OnDropModel', bagName, el, target);
-  //  }
+  
   getlength(number) {
     return number.toString().length;
   }
-  private onDrag(args) {
-    let [e, el] = args;
-    console.log('dragging', e, el);
-    this.itemCameFromBag = el;
-    this.draggingItem = e;
-    this.draggingItemId = e.id;
-    if (e.className.indexOf('is-continued') > 0 || e.className.indexOf('does-continue') > 0) {
-      var found = false, idx = 0, currentClassName;
-      while (!found && idx < e.classList.length) {
-        currentClassName = e.classList[idx++];
-        if (currentClassName.startsWith('multi-span-')) {
-          this.activeDragGroup = currentClassName;
-          //document.getElementsByClassName(currentClassName);
-        }
-      }
-    }
-  }
-
-  private onDrop(args) {
-    let [e, el] = args;
-    var droppedOnGridItem = el.parentElement.parentElement;
-    var droppedOnGridItemIdx = droppedOnGridItem.dataset.idx;
-    this.activeDragGroup = '';
-    // Move events date and Output event
-    // FOR isExtension events, move date moved by on all dates and move in grids!
-    var movedElement, daysMoved, isExtensionOffsetToStartDate = 0;
-    this.ctrl.monthView.days[droppedOnGridItemIdx].events.some((d: any) => {
-      if (d.id === this.draggingItemId) {
-        movedElement = d;
-        if (movedElement.isExtension) {
-          var cameFromGridIdx = this.itemCameFromBag.parentElement.parentElement.dataset.idx;
-          console.log('moved element date', movedElement.startDate,
-            'grid item it came from date', this.ctrl.monthView.days[cameFromGridIdx].date,
-            '\n\ndays difference', this.ctrl.monthView.days[cameFromGridIdx].date.diff(moment(movedElement.startDate).startOf('day'), 'days'));
-          isExtensionOffsetToStartDate = this.ctrl.monthView.days[cameFromGridIdx].date.diff(moment(movedElement.startDate).startOf('day'), 'days');
-        }
-        daysMoved = this.ctrl.monthView.days[droppedOnGridItemIdx].date.diff(moment(d.startDate).startOf('day'), 'days');
-        d.startDate = this.moveDateByDays(d.startDate, daysMoved - isExtensionOffsetToStartDate);
-        d.endDate = this.moveDateByDays(d.endDate, daysMoved - isExtensionOffsetToStartDate);
-        // Now we need to move it into the correct order of events:
-        var movedElementCalEventsIdx = this.calEvents.indexOf(movedElement);
-        // Splice it:
-        this.calEvents.splice(movedElementCalEventsIdx, 1);
-        // Reinsert it at the correct position:
-        this.insertDate(movedElement);
-        console.log('Changed d.startDate to', d.startDate, 'and end date', d.endDate, '{IDX}', movedElementCalEventsIdx);
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (movedElement.isExtension) {
-      // Remove all multi-span copies of moved item:
-      movedElement.extensionMonthViewDayIdxs.forEach((d: number) => {
-        var indexOfExtendedItem = this.ctrl.monthView.days[d].events.indexOf(movedElement);
-        console.log('index of moved element', indexOfExtendedItem);
-        if (indexOfExtendedItem >= 0) {
-          this.ctrl.monthView.days[d].events.splice(indexOfExtendedItem, 1);
-        }
-      });
-      // Now find first, create event there and extend: (SHOULD CHECK IF THERE IS OVERFLOW OR UNDERFLOW AFTER ADDING DAYS MOVED!!)
-      console.log('daysMoves', daysMoved, movedElement.extensionMonthViewDayIdxs[0]);
-      movedElement.isExtension = false;
-      var firstDayMovesTo = movedElement.extensionMonthViewDayIdxs[0] + (daysMoved - isExtensionOffsetToStartDate);
-
-      console.log('isExtensionOffsetToStartDate', isExtensionOffsetToStartDate);
-      // Only add the event if it is not the first one. If it is the fisrt,
-      // dragula will already add it, but after our code has finished, so we
-      // would have our element twice:
-      if (isExtensionOffsetToStartDate > 0) {
-        this.ctrl.monthView.days[Math.max(0, firstDayMovesTo)].events.push(movedElement);
-      }
-      // Make new multi-span copies for moved event:
-      this.makeExtensionEvents(this.ctrl.monthView.days[Math.max(0, firstDayMovesTo)], firstDayMovesTo);
-    }
-    // Emit event:
-    this.emitEventMoved({
-      element: movedElement,
-      // Need to change this to firstItemDate if multi-span is moved
-      movedToDate: this.ctrl.monthView.days[droppedOnGridItemIdx].date.toDate()
-    })
-    this.draggingItem = null;
-  }
-
-  /**
-   * Fires when a calendar event was moved on the calendar.
-   * The object this event fires contains the calendar event that moved (with
-   * the start and end date already adjusted and the a date object for the day
-   * the calendar event has moved to.
-   */
-  private emitEventMoved(ev) {
-    this.afterEventMove.emit(ev);
-  }
-
-  private moveDateByDays(date, days) {
-    var m = moment(date);
-    m.add(days, 'days');
-    return m.toDate();
-  }
-
+  
   ngOnInit() {
-    console.log('1');
+   
     this.onLoad = false;
-    console.log('2');
+   
     this.addMissingIds();
-    console.log('3');
+    
     this.ctrl = {
       viewMode: 'month',
       dateSelection: moment(),
@@ -459,25 +248,14 @@ export class CalendarPage {
         selectedDate: null
       }
     };
-    console.log('4');
-    console.log(" ngOnint A:" + this.ctrl);
-    console.log(" ngOnint B" + JSON.stringify(this.ctrl));
-
-
-    console.log(" ngOnit A" + JSON.stringify(this.ctrl));
-    console.log(" ngOnit B" + this.ctrl.dateSelection);
-    console.log(" ngOnit C" + this.ctrl.dateSelection.toString());
+    
     let toStrDte = this.ctrl.dateSelection.toString();
-    console.log(" ngOnit D" + toStrDte.split("T"));
-    console.log(" ngOnit E" + toStrDte.split(" ")[3]);
+   
     let calendardaystr = toStrDte.split(" ")[0];
     let calendarmonthstr = toStrDte.split(" ")[1];
     let calendardatestr = toStrDte.split(" ")[2];
     let calendaryearstr = toStrDte.split(" ")[3];
-    console.log(" ngOnit G Day" + calendardaystr);
-    console.log(" ngOnit H Month" + calendarmonthstr);
-    console.log(" ngOnit I Date" + calendardatestr);
-    console.log(" ngOnit J Year" + calendaryearstr);
+   
 
     this.currentDateFormatToday = calendardaystr + " " + calendardatestr + " " + calendarmonthstr + " " + calendaryearstr;
     this.calendarDate = calendardatestr;
@@ -522,9 +300,6 @@ export class CalendarPage {
   }
 
   selectDate(date) {
-    console.log("Select date function" + date);
-    console.log("Select date function" + JSON.stringify(date));
-    this.events.publish('calendar-event:month-grid-cell-tap', date);
     this.ctrl.dateSelection = date.date;
     this.ctrl.monthView.selectedDate = date;
   }
@@ -565,7 +340,6 @@ export class CalendarPage {
     this.monthTitle = this.ctrl.selectedMonth;
     this.yearTitle = this.ctrl.selectedYear;
     this.monthstr = this.monthTitle + "-" + this.calendarYear;
-    console.log("Month String:--" + this.monthstr);
     if (this.monthTitle == 'May') {
       mn = 5;
     } else if (this.monthTitle == 'January') {
@@ -599,7 +373,6 @@ export class CalendarPage {
       mn = 12;
     }
     let currentDate = this.ctrl.selectedYear + "-" + mn + "-" + this.ctrl.selectedDay;
-    console.log("Current Date:--" + currentDate);
     this.defaultDevent(currentDate, this.monthstr);
     this.updateMainView();
   }
@@ -618,7 +391,7 @@ export class CalendarPage {
     var firstDayInViewOfPreviousMonth = moment(this.ctrl.monthView.firstDayOfMonth).subtract(firstDayOfMonthAsWeekday - 1, 'days');
 
     var currentDay = moment(firstDayInViewOfPreviousMonth);
-    var days = [];
+   // var days = [];
     var ctrlObj: any = {
       idx: 0,
       reachedEventListEnd: false,
@@ -650,14 +423,12 @@ export class CalendarPage {
   private insertDate(elem) {
     var insertAt = null;
     this.calEvents.some((ce: CalendarEvent, idx: number) => {
-      console.log(ce.startDate.getTime(), elem.startDate.getTime());
       if (ce.startDate.getTime() > elem.startDate.getTime()) {
         insertAt = idx;
         return true;
       }
       return false;
     });
-    console.log('Inser at', insertAt, this.calEvents);
     if (insertAt !== null) {
       this.calEvents.splice(insertAt, 0, elem);
     } else {
@@ -675,7 +446,7 @@ export class CalendarPage {
         dd.extensionMonthViewDayIdxs = [idx];
         var startDateEndOfDay = moment(dd.startDate).endOf('day'),
           endDateEndOfDay = moment(dd.endDate).endOf('day'),
-          newEvent, daysPlus = 0;
+          daysPlus = 0;
         while (startDateEndOfDay.isBefore(endDateEndOfDay) && startDateEndOfDay.isBefore(this.ctrl.monthView.days[this.ctrl.monthView.days.length - 1].date)) {
           daysPlus++;
           dd.extensionMonthViewDayIdxs.push(idx + daysPlus);
@@ -753,7 +524,6 @@ export class CalendarPage {
 
   tmpTapCount = 0;
   eventOnClick(item: CalendarEvent, $event) {
-    console.log("eventOnClick" + JSON.stringify($event));
     $event.srcEvent.stopPropagation(); // <-- Doesn't seem to work
     this.tmpTapCount = $event.tapCount;
     setTimeout(() => {
@@ -781,14 +551,12 @@ export class CalendarPage {
   stopPressPropagation = false; // <-- Fix to stop mothDayGrid press event to
   //     get triggered too.
   eventOnPress(item: CalendarEvent, $event) {
-    console.log("eventOnPress" + JSON.stringify($event));
     $event.srcEvent.stopImmediatePropagation();
     $event.srcEvent.stopPropagation();
     this.stopPressPropagation = true;
     setTimeout(() => {
       this.stopPressPropagation = false;
     }, 100);
-    console.log('STOPPED PROPAGATION');
     if (this.draggingItem === null) {
       this.events.publish('calendar-event:item-press', item);
       if (typeof item.onpress === 'function') {
@@ -800,8 +568,7 @@ export class CalendarPage {
   }
 
   monthDayGridCellOnPress(item: CalendarEvent, $event) {
-    console.log("monthDayGridCellOnPress function" + $event);
-    console.log("monthDayGridCellOnPress function" + JSON.stringify($event));
+   
     $event.srcEvent.stopPropagation(); // <-- Doesn't seem to work
     if (this.draggingItem === null && this.tmpTapCount === 0 && !this.stopPressPropagation) {
       this.events.publish('calendar-event:month-grid-cell-press - calendar.components', item);
@@ -809,7 +576,6 @@ export class CalendarPage {
   }
 
   addCalendarEvent(calEvent: CalendarEvent) {
-    console.log('adding event', calEvent);
     if (typeof calEvent.id !== 'string') {
       calEvent.id = shortid.generate();
     }
@@ -833,10 +599,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-    console.log("Default Event API function All Events calling API URL" + url);
-
-    // console.log(url);
-    let colors: string[] = ['primary', 'warning', 'danger', 'success'];
+   
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -858,7 +621,7 @@ export class CalendarPage {
               cdate: this.currentYear + "-" + this.currentMonth + "-" + this.currentDate
             });
           }
-          console.log("Highlight data:" + JSON.stringify(this.highlighteddata))
+         
         }
         for (var i = 0; i < this.eventIdentify.length; i += 1) {
           var startTime;
@@ -906,7 +669,6 @@ export class CalendarPage {
           var service_date_arrayj;
 
           service_date_arrayj = this.serviceIdentify[j]['next_service_date'];
-          console.log("Next SErvice date" + service_date_arrayj);
           if (service_date_arrayj != undefined) {
             var yearstrj = service_date_arrayj[0];
             var monthstrj = parseInt(service_date_arrayj[1], 10) - 1;
@@ -974,7 +736,6 @@ export class CalendarPage {
           let wrn = this.alarmIdentity[k]['alarm_name'].includes('Wrn');
           let alarm_priority;
           alarm_priority = this.alarmIdentity[k]['alarm_priority']
-          console.log(fls);
           if (fls > 0) {
             alarm_priority = 3;
           }
@@ -1033,9 +794,6 @@ export class CalendarPage {
         else {
 
         }
-
-
-        console.log("Calendar Component" + JSON.stringify(this.calEvents));
         this.totalCountEventDateWise = this.calEvents.length;
         if (this.totalCountEventDateWise == 0) {
           this.noeventtitle = 'There is no events';
@@ -1051,7 +809,6 @@ export class CalendarPage {
   }
 
   doCalendarDelete(item, action) {
-    console.log("Deleted Id" + item.event_id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -1117,7 +874,6 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -1147,14 +903,9 @@ export class CalendarPage {
 
   onTimeSelected(year, month, date, ev) {
     this.onLoad = true;
-    console.log(year + "-" + month + "-" + date);
     this.currentDate = date;
     this.currentYear = year;
     this.currentMonth = month;
-    console.log("One time selected date is:" + this.currentDate);
-    console.log("Current Year is:" + this.currentYear);
-    console.log("Current Date is:" + this.currentDate);
-    console.log("Current Month is:" + this.currentMonth);
 
 
     this.currentCalendarDate = ev;
@@ -1235,7 +986,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr;
-    console.log("On Time Selected Function:-" + url);
+    
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1244,15 +995,11 @@ export class CalendarPage {
         let cmonth = currentDateArr.getMonth() + 1;
         let mnstr;
         let dtstr;
-        console.log("cmonth.toLocaleString.length" + cmonth.toLocaleString.length);
-        console.log("cmonth" + cmonth)
         if (cmonth > 9) {
           cmonth = cmonth;
           mnstr = '';
-          console.log("Less than 9 below 10")
 
         } else {
-          console.log("Greater than 9 reach 10")
           cmonth = cmonth;
           mnstr = '0';
 
@@ -1265,7 +1012,7 @@ export class CalendarPage {
 
         }
 
-        console.log("Date length string:-" + this.getlength(currentDateArr.getDate()));
+        
 
         let curDate = currentDateArr.getFullYear() + "-" + mnstr + cmonth + "-" + dtstr + currentDateArr.getDate();
 
@@ -1282,26 +1029,20 @@ export class CalendarPage {
         if (year != undefined)
           this.dateHeaderTitle = months[month] + " " + year;
         if (ev != '') {
-          console.log("curDate:" + curDate);
-          console.log("selDate:" + selDate);
           localStorage.setItem("sdate", selectdate);
         } else {
         }
         this.calendarResultEvent = [];
         if (this.petselection == 'ALL') {
-          console.log('ALL');
+          
           this.doCalendarResult(data, 0, 0, 0, 'all')
         } else if (this.petselection == 'SERVICE') {
-          console.log('SERVICE');
           this.doCalendarResult(data, 0, 0, 0, 'service');//JsonData,Event,Service,Alarm
         } else if (this.petselection == 'EVENT') {
-          console.log('EVENT');
           this.doCalendarResult(data, 0, 0, 0, 'event');//JsonData,Event,Service,Alarm
         } else if (this.petselection == 'ALARM') {
-          console.log('ALARM');
           this.doCalendarResult(data, 0, 0, 0, 'alarm');//JsonData,Event,Service,Alarm
         } else {
-          console.log('EV' + ev);
           if (ev != '') {
             this.doCalendarResult(data, 1, 1, 1, '')//JsonData,Event,Service,Alarm
           }
@@ -1400,7 +1141,7 @@ export class CalendarPage {
         icon: 'service',
         class: 'service'
       });
-      console.log("doCalendarResult this.serviceIdentify[j]" + JSON.stringify(this.calendarResultEvent));
+     
 
     }
 
@@ -1414,7 +1155,6 @@ export class CalendarPage {
       let wrn = this.alarmIdentity[k]['alarm_name'].includes('Wrn');
       let alarm_priority;
       alarm_priority = this.alarmIdentity[k]['alarm_priority']
-      console.log(fls);
       if (fls > 0) {
         alarm_priority = 3;
       }
@@ -1520,8 +1260,6 @@ export class CalendarPage {
         selectedDate: null
       }
     };
-
-    console.log("ngOnInit" + JSON.stringify(this.ctrl));
     let mn = moment().month() + 1;
 
 
@@ -1544,19 +1282,19 @@ export class CalendarPage {
 
     this.onTimeSelected(this.ctrl.selectedYear, this.month, this.date, '');
 
-    console.log("Filter for Date" + currentDate);
+    
     localStorage.setItem("eventDate", currentDate);
   }
 
 
   swipeopensliding(slidingItem: ItemSliding) {
-    console.log("Slide 1");
+   
     slidingItem.getOpenAmount();
-    console.log("Slide 2");
+   
   }
   // List page navigate to notification list
   notification() {
-    console.log('Will go notification list page');
+   
     // Navigate the notification list page
     this.navCtrl.setRoot(NotificationPage);
   }
@@ -1572,7 +1310,7 @@ export class CalendarPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-        console.log(error);
+       
       });
     // Notiifcation count
   }
@@ -1580,7 +1318,7 @@ export class CalendarPage {
 
 
   doServiceDelete(item) {
-    console.log("Deleted Id" + item.event_id);
+    
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -1606,7 +1344,6 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -1623,9 +1360,6 @@ export class CalendarPage {
       });
   }
   addCalendar(item, event_type) {
-    console.log(JSON.stringify(item));
-    console.log(item.event_id);
-    console.log(event_type);
     if (event_type == 'S') {
       event_type = 'service';
       this.navCtrl.setRoot(AddcalendarPage,
@@ -1653,9 +1387,6 @@ export class CalendarPage {
 
 
   doEditAlarm(item, act) {
-    console.log(JSON.stringify(item));
-    let unitid = item.alarm_unit_id;
-    console.log(item.alarm_assginedby_name);
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
         this.navCtrl.setRoot(AddalarmPage, {
@@ -1674,7 +1405,6 @@ export class CalendarPage {
 
 
   doEventDelete(item) {
-    console.log("Deleted Id" + item.event_id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -1701,7 +1431,6 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

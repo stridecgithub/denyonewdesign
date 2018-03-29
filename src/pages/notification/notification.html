@@ -21,7 +21,7 @@
   </ion-refresher>
   <ion-list>
     <ion-item-sliding *ngFor="let notify of notificationAllLists">
-      <ion-item *ngIf="notify.notify_type=='M'" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item  ngClass="{{notify.notify_to_readstatus}}" *ngIf="notify.notify_type=='M'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">
@@ -34,7 +34,7 @@
         </div>
       </ion-item>
 
-      <ion-item *ngIf="notify.notify_type=='OA' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item ngClass="{{notify.notify_to_readstatus}}" *ngIf="notify.notify_type=='OA' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
               <img src="{{notify.photo}}" alt="" width="60" height="60" *ngIf="notify.photo!=''">
@@ -57,7 +57,7 @@
       </ion-item>
 
 
-      <ion-item *ngIf="notify.notify_type=='A' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item ngClass="{{notify.notify_to_readstatus}}" *ngIf="notify.notify_type=='A' && notify.content!=''" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60" *ngIf="notify.photo!=''">
@@ -81,7 +81,7 @@
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='C'" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item ngClass="{{notify.notify_to_readstatus}}" class="msg" *ngIf="notify.notify_type=='C'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">
@@ -95,7 +95,7 @@
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='S'" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item ngClass="{{notify.notify_to_readstatus}}" class="msg" *ngIf="notify.notify_type=='S'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">
@@ -109,7 +109,7 @@
       </ion-item>
 
 
-      <ion-item class="msg" *ngIf="notify.notify_type=='E'" (click)="notificationdetails(notify,notify.notify_type)">
+      <ion-item ngClass="{{notify.notify_to_readstatus}}" class="msg" *ngIf="notify.notify_type=='E'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
             <img src="{{notify.photo}}" alt="" width="60" height="60">

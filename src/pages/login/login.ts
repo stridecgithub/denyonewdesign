@@ -6,7 +6,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Network } from '@ionic-native/network';
 /*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the LoginPage page.
@@ -29,9 +28,9 @@ export class LoginPage {
   public form: FormGroup;
   public isSubmitted: boolean = false;
   alert: any;
-  constructor( public platform: Platform, public alertCtrl: AlertController, private network: Network, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
+  constructor( public platform: Platform, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
     public fb: FormBuilder) {
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
    
 
@@ -158,7 +157,7 @@ export class LoginPage {
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         if (res.msg[0]['Error'] > 0) {
           this.isSubmitted = false;
           this.conf.sendNotification(res.msg[0]['result']);
@@ -178,11 +177,11 @@ export class LoginPage {
           localStorage.setItem("personalhashtag", res['staffdetails'][0].personalhashtag);
           localStorage.setItem("leftmenu", JSON.stringify(res['leftmenu']));
           localStorage.setItem("footermenu", res['footermenu']);
-          console.log(JSON.stringify(res['roledata']));
+         
           localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));
           localStorage.setItem("roleactionpermissiondata", JSON.stringify(res['roleactionpermissiondata']));
 
-          let roleData = localStorage.getItem("RolePermissionData");
+          //let roleData = localStorage.getItem("RolePermissionData");
           console.log("Loop Length is:" + res['roleactionpermissiondata'].length);
           for (let rle = 0; rle < res['roleactionpermissiondata'].length; rle++) {
             let splitvalue = res['roleactionpermissiondata'][rle].toString().split(",");

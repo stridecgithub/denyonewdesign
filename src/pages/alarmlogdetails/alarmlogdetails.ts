@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams,Platform } from 'ionic-angular';
+import {  NavController, NavParams} from 'ionic-angular';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -42,9 +42,9 @@ export class AlarmlogdetailsPage {
   //tabBarElement: any;
   alarm_assginedby_hashtag;
   alarm_assginedto_hashtag
-  constructor(private platform:Platform,private conf: Config, public navCtrl: NavController, public navParams: NavParams,
+  constructor(private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder, public http: Http) {
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.form = fb.group({
       "alarm_assginedto_name": ["", Validators.required],
@@ -61,8 +61,8 @@ export class AlarmlogdetailsPage {
   }
   ionViewDidLoad() {
   // this.tabBarElement.style.display = 'none';
-    let record = this.navParams.get("record");
-    console.log(JSON.stringify(record));
+    //let record = this.navParams.get("record");
+    
 
     this.alarm_name = this.navParams.get("record").alarm_name;
     this.alarm_assginedto_name = this.navParams.get("record").alarm_assginedto_name;

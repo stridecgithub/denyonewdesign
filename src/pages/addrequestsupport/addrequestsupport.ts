@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -9,8 +9,8 @@ import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { DatePicker } from '@ionic-native/date-picker';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { UnitsPage } from '../units/units';
-import { NotificationPage } from '../notification/notification';
+//import { UnitsPage } from '../units/units';
+//import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import * as moment from 'moment';
 /**
@@ -63,8 +63,21 @@ export class AddrequestsupportPage {
   }
   public hideActionButton = true;
   //tabBarElement: any;
-  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
+  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
     private ngZone: NgZone) {
+
+      this.platform.ready().then(() => {
+        this.platform.registerBackButtonAction(() => {
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+          if (overlayView && overlayView.dismiss) {
+            overlayView.dismiss();
+          }
+          this.nav.setRoot(ServicinginfoPage, {
+            record: this.NP.get("record")
+          });
+        });
+      });
+
     this.uploadcount = 10;
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
@@ -97,7 +110,7 @@ export class AddrequestsupportPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
    
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
@@ -119,8 +132,8 @@ export class AddrequestsupportPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -208,8 +221,7 @@ export class AddrequestsupportPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    console.log("File Name is:" + currentName);
+   
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -234,9 +246,7 @@ export class AddrequestsupportPage {
 
 
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
+      fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
 
@@ -248,7 +258,7 @@ export class AddrequestsupportPage {
         console.log("Upload Response is" + JSON.stringify(data))
         let res = JSON.parse(data.response);
         console.log(res.id);
-        console.log(JSON.stringify(res));
+        
 
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
@@ -337,16 +347,10 @@ export class AddrequestsupportPage {
   // for the record data
   createEntry(service_remark, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    this.platform.ready().then(() => {
-      this.platform.registerBackButtonAction(() => {
-        this.nav.setRoot(ServicinginfoPage, {
-          record: this.NP.get("record")
-        });
-      });
-    });
+    
 
    // let serviced_datetime = new Date().toJSON().split('T');
-    var date = new Date();
+   // var date = new Date();
     let serviced_datetime = moment().format();
     console.log("Default date is" + serviced_datetime);
 
@@ -384,11 +388,11 @@ export class AddrequestsupportPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           localStorage.setItem("microtime", "");

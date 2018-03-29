@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams ,Platform} from 'ionic-angular';
+import { NavController, NavParams ,Platform,App} from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Http, Headers, RequestOptions } from '@angular/http';
-//import { Http, Headers, RequestOptions } from '@angular/http';
-//import { HTTP } from '@ionic-native/http';
-//import * as $ from 'jquery';
 import { NotificationPage } from '../notification/notification';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
 import { Config } from '../../config/config';
@@ -21,7 +18,6 @@ export class EngineviewPage {
   public colorListArr = [];
   iframeContent: any;
   profilePhoto;
-  //private _inputpdf: string = '<iframe src="http://denyoappv2.stridecdev.com/2/1/unitdetails" height="350" frameborder="0"></iframe>';
   private apiServiceURL: string = "";
 
   public serviceCount;
@@ -37,11 +33,15 @@ export class EngineviewPage {
 
 
   }
-  constructor(public platform:Platform,public http: Http, private conf: Config, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
+  constructor(private app:App,public platform:Platform,public http: Http, private conf: Config, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public nav: NavController) {
     
     
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(EnginedetailPage);
       });
     });
@@ -55,95 +55,7 @@ export class EngineviewPage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-*/
-    // Footer Menu Access - End
+    
   }
 
 
@@ -154,8 +66,8 @@ export class EngineviewPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {

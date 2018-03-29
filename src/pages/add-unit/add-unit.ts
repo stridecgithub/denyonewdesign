@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform ,App} from 'ionic-angular';
 import { NotificationSettingsPage } from "../notification-settings/notification-settings";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
-import { NativeGeocoder, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
-import { PiclocationPage } from "../piclocation/piclocation";
 import { UnitsPage } from "../units/units";
 import { DashboardPage } from '../dashboard/dashboard';
-//import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the AddUnitPage page.
  *
@@ -20,7 +17,7 @@ import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-add-unit',
   templateUrl: 'add-unit.html',
-  providers: [NativeGeocoder, Config]
+  providers: [ Config]
 })
 export class AddUnitPage {
   public form: FormGroup;
@@ -48,7 +45,7 @@ export class AddUnitPage {
   unitid;
   public locationedit: boolean = false;
   //tabBarElement: any;
-  constructor(private nativeGeocoder: NativeGeocoder, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
+  constructor(public app: App,public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder) {
     this.form = fb.group({
       "location": ["", Validators.required],
@@ -63,7 +60,7 @@ export class AddUnitPage {
     });
 
 
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
     this.getCompanyListData();
@@ -71,6 +68,12 @@ export class AddUnitPage {
     this.getJsonModelListData();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+
         if (this.navParams.get("from") == 'dashboard') {
           this.navCtrl.setRoot(DashboardPage, { tabIndex: 0, tabs: 'listView' });
         } else {
@@ -88,15 +91,11 @@ export class AddUnitPage {
   }
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad AddUnitPage');
-    console.log("Navigation data from back notification settings" + JSON.stringify(this.navParams.get("accountsInfo")));
-    if (this.navParams.get("accountsInfo") == undefined) {
-      console.log("accountsInfo undefined section calling...");
+     if (this.navParams.get("accountsInfo") == undefined) {
+     
 
     } else {
-      console.log("accountsInfo value calling...");
-      console.log("accountsInfo value project name:" + this.navParams.get("accountsInfo")[0].projectname);
-
+      
 
       this.unitname = this.navParams.get("accountsInfo")[0].unitname;
       this.projectname = this.navParams.get("accountsInfo")[0].projectname;
@@ -109,7 +108,7 @@ export class AddUnitPage {
       this.serial_number = this.navParams.get("accountsInfo")[0].serial_number;
       this.contacts = this.navParams.get("accountsInfo")[0].contacts;
     }
-    let previousData = localStorage.getItem("addUnitFormOneValue");
+    localStorage.getItem("addUnitFormOneValue");
     if (this.navParams.get("unitId")) {
       this.isEdited = true;
       this.unitid = this.navParams.get("unitId");
@@ -121,9 +120,9 @@ export class AddUnitPage {
     }
   }
   editDeployedLocation() {
-    console.log('1');
+   
     this.locationedit = false;
-    console.log('2');
+  
   }
   geninfo(item) {
     this.projectname = item.projectname;
@@ -175,7 +174,7 @@ export class AddUnitPage {
         let res = data.json();
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log(JSON.stringify(data.json()));
+        
 
           if (res.msg[0].Error == '1') {
             this.conf.sendNotification(res.msg[0].result);
@@ -229,11 +228,11 @@ export class AddUnitPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
-    console.log("URL" + url);
+   
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
+       
         this.responseResultCompany = res.companies;
       }, error => {
 
@@ -263,51 +262,30 @@ export class AddUnitPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitgroups?loginid=" + this.userId + "&company_id=" + this.companyId;
     let res;
-    console.log("URL" + url);
+    
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
+      
         this.responseResultUnitGroup = res.unitgroups;
       }, error => {
       });
 
   }
 
-  getGps(unitid) {/*
-    let locationSplit = this.location.split(",");
-    for (let i = 0; i < locationSplit.length; i++) {
-      if (i == 0) {
-        console.log(locationSplit[i]);
-        this.nativeGeocoder.forwardGeocode(locationSplit[i])
-          .then((coordinates: NativeGeocoderForwardResult) => {
-            console.log('The coordinates are latitude=' + coordinates.latitude + ' and longitude=' + coordinates.longitude)
-            this.lat = coordinates.latitude;
-            this.lat = this.lat.substring(0, 10);
-            this.lang = coordinates.longitude;
-            this.lang = this.lang.substring(0, 10);
-          }
-          )
-          .catch((error: any) => {
-            console.log(error);
-            this.conf.sendNotification(error);
-          });
-      }
-    }*/
-
-
+  getGps(unitid) {
     let res,
       body: string = "",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1";
+    
     this.http.post(url, body, options)
       .subscribe(data => {
 
 
         res = data.json();
-        console.log(JSON.stringify(res));
         this.lat = res.latitude;
         this.lang = res.longtitude;
 
@@ -316,8 +294,5 @@ export class AddUnitPage {
 
   }
 
-  getmaplocation() {
-    this.navCtrl.setRoot(PiclocationPage, {
-    });
-  }
+ 
 }

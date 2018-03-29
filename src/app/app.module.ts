@@ -32,9 +32,9 @@ import { AddhocPage } from "../pages/addhoc/addhoc";
 import { ServicedetailsPage } from "../pages/servicedetails/servicedetails";
 import { PopoverPage } from '../pages/popover/popover';
 import { AddUnitPage } from "../pages/add-unit/add-unit";
-import { PiclocationPage } from "../pages/piclocation/piclocation";
+//import { PiclocationPage } from "../pages/piclocation/piclocation";
 //import { AlarmLogPage } from "../pages/alarm-log/alarm-log";
-import { UnitDetailsPage } from '../pages/unit-details/unit-details';
+//import { UnitDetailsPage } from '../pages/unit-details/unit-details';
 //import { EventDetailsPage } from '../pages/calendardetail/calendardetail';
 import { EventDetailsPage } from '../pages/event-details/event-details';
 import { NotificationSettingsPage } from '../pages/notification-settings/notification-settings';
@@ -51,7 +51,7 @@ import { TrendlinePage } from '../pages/trendline/trendline';
 import { AddcommentsinfoPage } from '../pages/addcommentsinfo/addcommentsinfo';
 import { CommentdetailsPage } from '../pages/commentdetails/commentdetails';
 import { MessageDetailViewPage } from '../pages/message-detail-view/message-detail-view';
-import { MsgPopoverPage } from '../pages/msgpopover/msgpopover';
+//import { MsgPopoverPage } from '../pages/msgpopover/msgpopover';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { MyaccountPage } from '../pages/myaccount/myaccount';
 import { EditprofilesteponePage } from '../pages/editprofilestepone/editprofilestepone';
@@ -81,13 +81,6 @@ import { EngineviewPage } from '../pages/engineview/engineview';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 import { RequestdenyoPage } from '../pages/requestdenyo/requestdenyo';
 import { ReportviewPage } from '../pages/reportview/reportview';
-import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
-import { EventviewPage } from '../pages/eventview/eventview';
-import { CommentviewPage } from '../pages/commentview/commentview';
-import { EventeditPage } from '../pages/eventedit/eventedit';
-import { EventaddPage } from '../pages/eventadd/eventadd';
-import { CommentreplyPage } from '../pages/commentreply/commentreply';
-import { CommentaddPage } from '../pages/commentadd/commentadd';
 import { MapPage } from '../pages/map/map';
 import { Network } from '@ionic-native/network';
 import { ModalPage } from '../pages/modal/modal';
@@ -98,7 +91,7 @@ import { PopoverchoosecolorPage } from '../pages/popoverchoosecolor/popoverchoos
 import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { Push} from '@ionic-native/push';
 
 import { PermissionPage } from '../pages/permission/permission';
 @NgModule({
@@ -135,7 +128,7 @@ import { PermissionPage } from '../pages/permission/permission';
     ComposePage,
     CalendarPage,
     AddcalendarPage,
-    PiclocationPage,
+    //PiclocationPage,
     ForgotpasswordPage,
     EventDetailsServicePage,
     MessagesPage,
@@ -147,7 +140,7 @@ import { PermissionPage } from '../pages/permission/permission';
     ComposePage,
     MessagedetailPage,
     UnitdetailsPage,
-    UnitDetailsPage,
+    //UnitDetailsPage,
     ServicinginfoPage,
     AddserviceinfoPage,
     AlarmlogPage,
@@ -170,23 +163,13 @@ import { PermissionPage } from '../pages/permission/permission';
     AddcommentsinfoPage,
     CommentdetailsPage,
     MessageDetailViewPage,
-    MsgPopoverPage,
+    //MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
     AddrolePage,
     RequestdenyoPage,
     ChangepasswordPage,
-    ReportviewPage,
-    EventsandcommentsPage,
-    EventviewPage,
-    CommentviewPage,
-    EventeditPage,
-    EventaddPage,
-    CommentreplyPage,
-    CommentaddPage,
-    //ReporttemplatedetailPage,
-    //  ChangepasswordPage,
-
+    ReportviewPage,   
     EngineviewPage,
 	PopoverchoosecolorPage
 
@@ -239,7 +222,7 @@ import { PermissionPage } from '../pages/permission/permission';
     DashboardPage,
     NotificationPage,
     MessagesPage,
-    PiclocationPage,
+    //PiclocationPage,
     ComposePage,
     CalendarPage,
     AddcalendarPage,
@@ -252,7 +235,7 @@ import { PermissionPage } from '../pages/permission/permission';
     ComposePage,
     MessagedetailPage,
     UnitdetailsPage,
-    UnitDetailsPage,
+    //UnitDetailsPage,
     ServicinginfoPage,
     AddserviceinfoPage,
     AlarmlogPage,
@@ -276,22 +259,12 @@ import { PermissionPage } from '../pages/permission/permission';
     AddcommentsinfoPage,
     CommentdetailsPage,
     MessageDetailViewPage,
-    MsgPopoverPage,
+    //MsgPopoverPage,
     MyaccountPage,
     EditprofilesteponePage,
     RequestdenyoPage,
     ChangepasswordPage,
     ReportviewPage,
-    EventsandcommentsPage,
-    EventviewPage,
-    CommentviewPage,
-    EventeditPage,
-    EventaddPage,
-    CommentreplyPage,
-    CommentaddPage,
-    //ReporttemplatedetailPage,
-    //ChangepasswordPage
-
     EngineviewPage,
 	PopoverchoosecolorPage
   ],

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams,Platform } from 'ionic-angular';
+import { NavController, ToastController, NavParams,Platform ,App} from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
@@ -9,6 +9,7 @@ import { NotificationPage } from '../notification/notification';
 import { CalendarPage } from '../calendar/calendar';
 import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
+//import { Config } from '../../config/config';
 /**
  * Generated class for the AddenginedetailPage page.
  *
@@ -24,7 +25,7 @@ export class AddenginedetailPage {
   footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
+  private apiServiceURL: string = "";
   public totalCount;
   public recordID: any = null;
   pet: string = "ALL";
@@ -51,13 +52,18 @@ export class AddenginedetailPage {
   public rawhtml: any;
   public companyId;
   public form: FormGroup;
-  constructor(private conf: Config, public navCtrl: NavController,
+  constructor( private app:App,private conf: Config,public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController,public platform:Platform) {
+      this.apiServiceURL = this.conf.apiBaseURL();
       this.platform.ready().then(() => {
         this.platform.registerBackButtonAction(() => {
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
           this.navCtrl.setRoot(EnginedetailPage);
         });
       });
@@ -70,95 +76,7 @@ export class AddenginedetailPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.pageTitle = 'Add Engine Detail';
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-*/
-    // Footer Menu Access - End
+   
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddenginedetailPage');
@@ -170,8 +88,8 @@ export class AddenginedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -181,7 +99,7 @@ export class AddenginedetailPage {
       });
     if (this.NP.get("record")) {
       this.pageTitle = 'Edit Engine Detail';
-      console.log(this.NP.get("act"));
+      
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
 
@@ -210,12 +128,12 @@ export class AddenginedetailPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/enginemodel/update";
-      console.log(url);
-      console.log(body);
+      
+      
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-          //console.log("Response Success:" + JSON.stringify(data.json()));
+          
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;
@@ -238,12 +156,12 @@ export class AddenginedetailPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/enginemodel";
-      console.log(url);
-      console.log(body);
+      
+      
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-          //console.log("Response Success:" + JSON.stringify(data.json()));
+          
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;

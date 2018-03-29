@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
+import { NavController, ToastController, NavParams, Platform ,App} from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -7,6 +7,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 //import { AddunitgroupPage } from '../addunitgroup/addunitgroup';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 import { NotificationPage } from '../notification/notification';
+import { Config } from '../../config/config';
 ///import { LoadingController } from 'ionic-angular';
 
 /**
@@ -35,15 +36,19 @@ export class AddreporttemplatePage {
   pageTitle: string;
   public recordID: any = null;
   public isEdited: boolean = false;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(public nav: NavController,
+  private apiServiceURL: string = "";
+  constructor(private app:App,private conf: Config,public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
-
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.nav.setRoot(ReporttemplatePage);
       });
     });
@@ -57,104 +62,7 @@ export class AddreporttemplatePage {
     });
 
     this.userId = localStorage.getItem("userInfoId");
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
 
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
-
-    // Footer Menu Access - End
 
   }
   /*
@@ -171,7 +79,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
     console.log('ionViewDidLoad AddreporttemplatePage');
     if (this.NP.get("record")) {
       this.pageTitle = "Edit Report Template";
-      console.log(this.NP.get("record"));
+      
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
     }
@@ -186,7 +94,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getavailableheading";
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -303,7 +211,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
-          console.log(JSON.stringify(data.json()));
+          
           // If the request was successful notify the user
           if (data.status === 200) {
             console.log("Msg Results:-" + res.msg[0].result);
@@ -350,7 +258,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
-          console.log(JSON.stringify(data.json()));
+          
           // If the request was successful notify the user
           if (data.status === 200) {
             console.log("Msg Results:-" + res.msg[0].result);

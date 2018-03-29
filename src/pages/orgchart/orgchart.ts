@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ViewController, NavController, AlertController, NavParams, Platform, Gesture, PopoverController } from 'ionic-angular';
+import { ViewController, NavController, AlertController, NavParams, Platform, Gesture, PopoverController, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitsPage } from '../units/units';
@@ -10,7 +10,8 @@ import { Config } from '../../config/config';
 import { DashboardPage } from "../dashboard/dashboard";
 import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
 import { ComposePage } from "../compose/compose";
-import { PermissionPage } from '../permission/permission';
+//import { PermissionPage } from '../permission/permission';
+//declare var jQuery: any;
 /**
  * Generated class for the UnitgroupPage page.
  *
@@ -67,7 +68,7 @@ export class OrgchartPage {
   iframeContent: any;
   public profilePhoto;
 
-  constructor(public viewCtrl: ViewController, private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
+  constructor(public app: App, public viewCtrl: ViewController, private el: ElementRef, private conf: Config, public platform: Platform, public NP: NavParams, public popoverCtrl: PopoverController, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public navParams: NavParams) {
     //this.width = 1;
     //this.height = 150";
@@ -81,12 +82,15 @@ export class OrgchartPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
-        this.popoverclose();
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(DashboardPage);
       });
     });
@@ -102,17 +106,10 @@ export class OrgchartPage {
 
 
     this.CREATEACCESS = localStorage.getItem("SETTINGS_ORGCHART_CREATE");
-    console.log("Role Authority for Unit Listing Create:" + this.CREATEACCESS);
-
-
-    //Authorization Get Value
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.networkType = '';
     this.platform.ready().then(() => {
-
-      console.log('Device Resolution Width: ' + platform.width() + 16);
-      console.log('Device Resolution Height: ' + platform.height());
       this.devicewidth = platform.width();
       this.deviceheight = platform.height();
 
@@ -127,186 +124,65 @@ export class OrgchartPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    console.log("Footer Menu Access abc:-" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-    if(orgchartAccess==0){
-      this.navCtrl.setRoot(PermissionPage, {});
-    }
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "#488aff",
-      pageComponent: 'OrgchartPage'
-    });
-
-    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    console.log("Final Footer Menu access:" + this.footerBar);
-*/
-    // Footer Menu Access - End
 
 
-  
 
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
+
 
   }
 
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
   }
-  popoverclose() {
-    console.log("Popover Function Calling...")
-    jQuery(".popover-content").hide();
-  }
-  pinchEvent(e) {
-    console.log("pinchEvent" + JSON.stringify(e))
-    console.log("pinchW is" + this.pinchW);
-    console.log("pinchH is" + this.pinchH)
 
-    console.log("Additional Event" + e.additionalEvent);
+  pinchEvent(e) {
+    //if (this.imgwidth >= 80 && this.imgwidth <= 250) {
     if (e.additionalEvent == 'pinchout') {
-      console.log("Additional Event pichout 1");
 
       this.fontsize = this.fontsize + 1;
 
-
-      console.log("Image size above 80");
+      if (this.fontsize >= 32) {
+        this.fontsize = 32;
+      }
       this.imgwidth = this.imgwidth + 1;
       this.imgheight = this.imgheight + 1;
       this.imgradius = parseInt(this.imgwidth) / 2;
 
-      /*this.width = this.pinchW * parseInt(e.scale) + parseInt(this.devicewidth);
-      this.height = this.pinchH * parseInt(e.scale) + parseInt(this.deviceheight);
-      this.imgwidth = this.pinchW * parseInt(e.scale) + this.imgwidth;
-      this.imgheight = this.pinchH * parseInt(e.scale) + this.imgheight;
-      this.imgradius = this.imgwidth + parseInt(e.scale) / 2;
-      this.fontsize = this.fontsize + parseInt(e.scale);*/
-      //this.imgwidth =
-
+      console.log("Pinch Out");
+      console.log("Font Size:" + this.fontsize);
+      console.log("Image Width:" + this.imgwidth);
+      console.log("Image Height:" + this.imgheight);
+      console.log("Image Radius:" + this.imgradius);
     } else {
-      console.log("Additional Event pinch in 2");
-      // if (this.imgwidth > 0 && this.imgheight > 0) {
-      /* this.width = this.pinchW * parseInt(e.scale) - parseInt(this.devicewidth);
-       this.height = this.pinchH * parseInt(e.scale) - parseInt(this.deviceheight);
-       this.imgwidth = this.pinchW * parseInt(e.scale) - this.imgwidth;
-       this.imgheight = this.pinchH * parseInt(e.scale) - this.imgheight;
-       this.imgradius = this.imgwidth - parseInt(e.scale) / 2;
-       this.fontsize = this.fontsize - parseInt(e.scale);*/
-      //}
-
-      this.fontsize = this.fontsize - 1;
-
-
-      console.log("Image size above 80");
-      this.imgwidth = this.imgwidth - 1;
-      this.imgheight = this.imgheight - 1;
-      this.imgradius = parseInt(this.imgwidth) / 2;
-
+      if (this.imgwidth >= 80) {
+        this.fontsize = this.fontsize - 1;
+        if (this.fontsize >= 32) {
+          this.fontsize = 32;
+        }
+        this.imgwidth = this.imgwidth - 1;
+        this.imgheight = this.imgheight - 1;
+        this.imgradius = parseInt(this.imgwidth) / 2;
+        console.log("Pinch In");
+        console.log("Font Size:" + this.fontsize);
+        console.log("Image Width:" + this.imgwidth);
+        console.log("Image Height:" + this.imgheight);
+        console.log("Image Radius:" + this.imgradius);
+      }
     }
+    //this.rotation = e.rotation;
 
 
-    console.log("E Scale is" + e.scale);
-    //console.log("Width is" + this.width);
-    //console.log("Height is" + this.height);
-    console.log("Image width is" + this.imgwidth);
-    console.log("Image height is" + this.imgheight);
-    console.log("Image radius is" + this.imgradius);
-
-    this.rotation = e.rotation;
+    /*  console.log("Font Size:" + this.fontsize);
+      console.log("Image Width:" + this.imgwidth);
+      console.log("Image Height:" + this.imgheight);
+      console.log("Image Radius:" + this.imgradius);
+      alert(
+        "Font Size:" + this.fontsize + "\n" + "Image Width:" + this.imgwidth + "\n Image Height:" + this.imgheight + "\n Image Radius:" + this.imgradius
+      )
+*/
 
     if (this.timeout == null) {
       this.timeout = setTimeout(() => {
@@ -320,7 +196,71 @@ export class OrgchartPage {
         this.updateWidthHeightPinch();
       }, 1000);
     }
+    //}
   }
+
+
+  pinchEventManual(e) {
+    //if (this.imgwidth >= 80 && this.imgwidth <= 250) {
+    console.log(this.imgwidth);
+    if (e == 'pinchout') {
+
+      this.fontsize = this.fontsize + 1;
+
+      if (this.fontsize >= 16) {
+        this.fontsize = 16;
+      }
+      this.imgwidth = this.imgwidth + 1;
+      this.imgheight = this.imgheight + 1;
+      this.imgradius = parseInt(this.imgwidth) / 2;
+
+      console.log("Pinch Out");
+      console.log("Font Size:" + this.fontsize);
+      console.log("Image Width:" + this.imgwidth);
+      console.log("Image Height:" + this.imgheight);
+      console.log("Image Radius:" + this.imgradius);
+
+    } else {
+      if (this.imgwidth >= 80) {
+        this.fontsize = this.fontsize - 1;
+        if (this.fontsize >= 16) {
+          this.fontsize = 16;
+        }
+        this.imgwidth = this.imgwidth - 1;
+        this.imgheight = this.imgheight - 1;
+        this.imgradius = parseInt(this.imgwidth) / 2;
+        console.log("Pinch In");
+        console.log("Font Size:" + this.fontsize);
+        console.log("Image Width:" + this.imgwidth);
+        console.log("Image Height:" + this.imgheight);
+        console.log("Image Radius:" + this.imgradius);
+      }
+
+
+    }
+
+
+    // alert(
+    //   "Font Size:" + this.fontsize + "\n" + "Image Width:" + this.imgwidth + "\n Image Height:" + this.imgheight + "\n Image Radius:" + this.imgradius
+    // )
+    // this.rotation = e.rotation;
+
+    if (this.timeout == null) {
+      this.timeout = setTimeout(() => {
+        this.timeout = null;
+        this.updateWidthHeightPinch();
+      }, 1000);
+    } else {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.timeout = null;
+        this.updateWidthHeightPinch();
+      }, 1000);
+    }
+    // }
+  }
+
+
   updateWidthHeightPinch() {
     this.pinchW = this.width;
     this.pinchH = this.height;
@@ -332,11 +272,7 @@ export class OrgchartPage {
       ev: myEvent,
     });
     popover.onWillDismiss(data => {
-      console.log(JSON.stringify(data));
 
-      //console.log("Hashtag:"+data[0].hashtag);
-
-      // console.log("Act:"+data[0].act);
 
       if (data != null) {
         if (data.length == 1) {
@@ -360,7 +296,7 @@ export class OrgchartPage {
     this.navCtrl.setRoot(ComposePage, { 'to': to });
   }
   doDelete(item) {
-    console.log("Deleted Id" + item[0].staff_id);
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -425,20 +361,17 @@ export class OrgchartPage {
 
     //turn on listening for pinch or rotate events
     this.gesture.on('pinch', e => this.pinchEvent(e));
-    console.log('ionViewDidLoad OrgchartPage');
+
     localStorage.setItem("fromModule", "OrgchartPage");
     this.getCompanyGroupListData();
 
 
     let compId = this.NP.get("companyId");
-    console.log('A' + compId);
     if (compId > 0) {
-      console.log('B')
       this.pet = compId;
       this.companyId = compId;
     } else {
-      console.log('C')
-      this.pet = this.companyId;
+      this.pet = "1";
     }
 
     let //body: string = "loginid=" + this.userId,
@@ -446,12 +379,10 @@ export class OrgchartPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -461,10 +392,7 @@ export class OrgchartPage {
     this.reportData.startindex = 0;
     this.reportData.sort = "unitgroup_id";
 
-    //this.doOrgChart();
 
-
-    // console.log(this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1");
   }
   ionViewDidLoad() {
     this.pageLoad();
@@ -479,21 +407,17 @@ export class OrgchartPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
-    console.log(url);
-    // console.log(body);
+
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
-        // console.log("Orgchart Response Success:" + JSON.stringify(data.json()));
+
         res = data.json();
         this.totalCount = res.totalCount;
-        console.log("Total Count:" + this.totalCount);
-        console.log("Parent" + JSON.stringify(res));
         if (res.parents.length > 0) {
           this.parents = res.parents;
-          // this.responseResultCompany = res.companies;
-          //console.log("1:"+JSON.stringify(this.responseResultCompany));
+
 
 
         }
@@ -504,9 +428,6 @@ export class OrgchartPage {
 
   }
 
-  /*previous() {
-     this.nav.setRoot(MyaccountPage);
-  }*/
 
   getCompanyGroupListData() {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -514,12 +435,10 @@ export class OrgchartPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=orgchart";
     let res;
-    console.log("BALA" + url);
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
         this.responseResultCompanyGroup = res.companies;
-        console.log(res.companies);
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });

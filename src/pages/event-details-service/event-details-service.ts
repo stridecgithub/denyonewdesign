@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
-import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
+//import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
 import { CalendarPage } from "../calendar/calendar";
 import { AddcalendarPage } from "../addcalendar/addcalendar";
@@ -66,7 +66,7 @@ export class EventDetailsServicePage {
       });
     });
 
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }

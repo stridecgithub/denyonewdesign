@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams ,Platform} from 'ionic-angular';
+import {  NavController, NavParams ,Platform,App} from 'ionic-angular';
 import { ReporttemplatePage } from '../reporttemplate/reporttemplate';
 
 /**
@@ -18,114 +18,21 @@ export class ReporttemplatedetailPage {
   public templatename;
   public availableheading = [];
   public footerBar=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
+  constructor(public app: App,public navCtrl: NavController, public navParams: NavParams,public platform:Platform) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(ReporttemplatePage);
       });
     });
     
 
   
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-    
-    
-    
    
-    
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-    
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    
-
-    // Footer Menu Access - End
 
   }
   ionViewDidLoad() {
@@ -135,11 +42,11 @@ export class ReporttemplatedetailPage {
     console.log("Report availabe"+JSON.stringify(this.availableheading));
     // console.log('ionViewDidLoad ReporttemplatedetailPage');
     // let res = this.navParams.get('templatedata');
-    // console.log(JSON.stringify(res));
+    // 
     // if (res.length > 0) {
-    //   console.log('A');
+    //  
     //   for (let availabletemps in res) {
-    //     console.log('B');
+    //    
     //     this.reporttemplateAllLists.push({
     //       id: res[availabletemps].id,
     //       templatename: res[availabletemps].templatename,
@@ -148,7 +55,7 @@ export class ReporttemplatedetailPage {
     //   }
     //   console.log(JSON.stringify(this.reporttemplateAllLists));
     // } else {
-    //   console.log('C');
+    //  
     //   //this.totalCount = 0;
     // }
   }

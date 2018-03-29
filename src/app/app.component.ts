@@ -29,7 +29,6 @@ import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
-import { EventsandcommentsPage } from '../pages/eventsandcomments/eventsandcomments';
 import { Network } from '@ionic-native/network';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
@@ -58,41 +57,19 @@ export class MyApp {
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
   constructor(public alertCtrl: AlertController, private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
 
 
     this.dataService.getMenus()
       .subscribe((response) => {
-        console.log("Menu Loading......");
+        
         this.menuOpened();
         this.pages = response;
-
-        //let leftmenu = localStorage.getItem("leftmenu");
-        // console.log("Left Menu Access1:" + leftmenu);
-        // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
-
-        // console.log("Menu JSON" + JSON.stringify(this.pages));
       });
 
-    /*
-    [{"title":"Dashboard","icon":"dashboard","color":"gray"},{"title":"Units","icon":"units","color":"gray","subs":[{"title":"Unit Listing","component":"UnitsPage"},{"title":"Unit Group","component":"UnitgroupPage"},{"title":"Engine Model","component":"EnginedetailPage"}]},{"title":"Calendar","icon":"calendar","color":"gray"},{"title":"Message","icon":"messages","color":"gray"},{"title":"Reports","icon":"reports","color":"gray"},{"title":"Settings","icon":"settings","color":"gray","subs":[{"title":"My Account","component":"MyaccountPage"},{"title":"User List","component":"UserPage"},{"title":"Company Group","component":"CompanygroupPage"},{"title":"User Role","component":"RolePage"},{"title":"Report Template","component":"ReporttemplatePage"},{"title":"Org Chart","component":"OrgchartPage"}]},{"title":"Logout","icon":"logout","color":"gray"}]
-    */
-
-    /*
-        this.nativeStorage.getItem('menuItem')
-          .then(
-          data => {
-            console.log("Native Storage Data:" + JSON.stringify(data));
-            this.profilePhoto = this.apiServiceURL + "/staffphotos/" + data.profilePhoto;
-            this.firstname = data.firstname;
-            this.lastname = data.lastname;
-            this.companyGroupName = data.companyGroupName;
-          },
-          error => console.error(error)
-          );
-    */
+    
     platform.ready().then(() => {
 
       localStorage.setItem("isNet", 'online');
@@ -107,21 +84,17 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if (platform.is('android')) {
-        console.log("Devices Running...");
-        //this.initPushNotification();
+      
       }
       statusBar.styleDefault();
       splashScreen.hide();
 
       this.parentMenue = ['units', 'dashboard'];
       this.childMenu = ["units-enginemodelmanagement", "units-unit"]
-      //   this.menuAccessData = this.menuAccessData({
-      //     parentmenu: 'units',
-      //     dashboard
-      // });
+     
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-      console.log("User Id:" + this.userId);
+     
       if (this.userId != undefined) {
         this.firstname = localStorage.getItem("userInfoName");
         this.lastname = localStorage.getItem("userInfoLastName");
@@ -135,11 +108,10 @@ export class MyApp {
       } else {
         this.events.subscribe('user:created', (user, time) => {
           // user and time are the same arguments passed in `events.publish(user, time)`
-          console.log('Welcome', user, 'at', time);
-          console.log("First Name:" + user.firstname);
+         
           this.firstname = user.firstname;
           this.lastname = user.lastname;
-          console.log("User info from event created" + JSON.stringify(user));
+       
           this.companyGroupName = user.companygroup_name;
           this.profilePhoto = user.photo;
           if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -164,7 +136,7 @@ export class MyApp {
       // Connection checking
       // watch network for a disconnect
       let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-        console.log('network was disconnected :-(');
+      
         this.conf.sendNotification('network was disconnected :-(')
       });
 
@@ -174,14 +146,14 @@ export class MyApp {
 
       // watch network for a connection
       let connectSubscription = this.network.onConnect().subscribe(() => {
-        console.log('network connected!');
+       
         this.conf.sendNotification('network connected!');
         // We just got a connection but we need to wait briefly
         // before we determine the connection type. Might need to wait.
         // prior to doing any api requests as well.
         setTimeout(() => {
           if (this.network.type === 'wifi') {
-            console.log('we got a wifi connection, woohoo!');
+           
 
             this.conf.sendNotification('we got a wifi connection, woohoo!');
           }
@@ -213,7 +185,7 @@ export class MyApp {
     // ];
     events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
+     
       //this.firstname=user[0].firstname;
       //this.lastname=user[0].firstname;
     });
@@ -239,9 +211,7 @@ export class MyApp {
       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
       this.navCtrl.setRoot(OrgchartPage, { tabIndex: 4 });
-    } else if (page.component == 'EventsandcommentsPage') {
-      this.navCtrl.setRoot(EventsandcommentsPage);
-    } else if (page.title == 'Messages') {
+    }  else if (page.title == 'Messages') {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'messages', Date.now());
@@ -306,25 +276,22 @@ export class MyApp {
 
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
-    console.log("User Id:" + this.userId);
     this.events.unsubscribe('user:created', null);
 
-    /*this.storage.clear().then(()=>{
-        console.log('all keys are cleared');
-          });*/
+   
     let
       typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headersunit: any = new Headers({ 'Content-Type': typeunit }),
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/moblogout/" + this.userId;
-    console.log("Logout URL" + urlunit);
+    
 
 
     //this.showAlert('Logout Url', urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-          console.log(JSON.stringify(data.json()));
+         
           localStorage.setItem("personalhashtag", "");
           localStorage.setItem("fromModule", "");
           localStorage.setItem("userInfo", "");
@@ -340,10 +307,8 @@ export class MyApp {
           localStorage.setItem("footermenu", '');
           let roleData = localStorage.getItem("roleactionpermissiondata");
           let roleparseData = JSON.parse(roleData);
-          console.log("Logout Loop Length is:" + roleparseData.length);
           for (let rle = 0; rle < roleparseData.length; rle++) {
             let splitvalue = roleparseData[rle].toString().split(",");
-            console.log(splitvalue[0] + "-" + splitvalue[1] + "-" + splitvalue[2] + "-" + splitvalue[3] + "-" + splitvalue[4]);
             let firstvaluesplit = splitvalue[0].split(":");
             let secondvaluesplit = splitvalue[1].split(":");
             let thirdvaluesplit = splitvalue[2].split(":");
@@ -352,32 +317,27 @@ export class MyApp {
 
 
             let firstvaluename = firstvaluesplit[0];
-            let firstvaluedata = firstvaluesplit[1];
-            console.log("Name 1:" + firstvaluename.toUpperCase() + " " + "Value 1:" + firstvaluedata);
+            //let firstvaluedata = firstvaluesplit[1];
             localStorage.setItem(firstvaluename.toUpperCase(), "");
 
 
             let secondvaluename = secondvaluesplit[0];
-            let secondvaluedata = secondvaluesplit[1];
-            console.log("Name: 2" + secondvaluename.toUpperCase() + " " + "Value 2:" + secondvaluedata);
+            //let secondvaluedata = secondvaluesplit[1];
             localStorage.setItem(secondvaluename.toUpperCase(), "");
 
 
             let thirdvaluename = thirdvaluesplit[0];
-            let thirdvaluedata = thirdvaluesplit[1];
-            console.log("Name: 3" + thirdvaluename.toUpperCase() + " " + "Value 3:" + thirdvaluedata);
+           // let thirdvaluedata = thirdvaluesplit[1];
             localStorage.setItem(thirdvaluename.toUpperCase(), "");
 
 
             let fourthvaluename = fourthvaluesplit[0];
-            let fourthvaluedata = fourthvaluesplit[1];
-            console.log("Name: 4" + fourthvaluename.toUpperCase() + " " + "Value 4:" + fourthvaluedata);
+            //let fourthvaluedata = fourthvaluesplit[1];
             localStorage.setItem(fourthvaluename.toUpperCase(), "");
 
 
             let fivthvaluename = fivthvaluesplit[0];
-            let fivthvaluedata = fivthvaluesplit[1];
-            console.log("Name: 5" + fivthvaluename.toUpperCase() + " " + "Value 5:" + fivthvaluedata);
+          //  let fivthvaluedata = fivthvaluesplit[1];
             localStorage.setItem(fivthvaluename.toUpperCase(), "");
           }
           this.navCtrl.setRoot(LoginPage);
@@ -394,8 +354,6 @@ export class MyApp {
   }
   @HostListener('keydown', ['$event'])
   keyEvent(event) {
-    console.log(JSON.stringify(event));
-    console.log(event.srcElement.tagName)
     if (event.srcElement.tagName !== "INPUT") {
       return;
     }
@@ -415,7 +373,6 @@ export class MyApp {
   }
 
   onEnter() {
-    console.log("onEnter()-kannan appcomponent ts");
     this.keyboard.close();
   }
 
@@ -425,9 +382,7 @@ export class MyApp {
       .then((res: any) => {
 
         if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
         } else {
-          console.log('We do not have permission to send push notifications');
         }
 
       });
@@ -456,8 +411,7 @@ export class MyApp {
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('registration').subscribe((registration: any) => {
 
-      console.log('Device registered', registration);
-      console.log('Device Json registered', JSON.stringify(registration));
+     
       localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
     }
     );
@@ -467,7 +421,7 @@ export class MyApp {
 
   }
   onNext() {
-    console.log("onNext()");
+   
     this.keyboard.close();/*
     if (!this.nextIonInputId) {
       return;
@@ -487,11 +441,10 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
-      console.log("First Name:" + user.firstname);
+     
       this.firstname = user.firstname;
       this.lastname = user.lastname;
-      console.log("User info from event created" + JSON.stringify(user));
+     
       this.companyGroupName = user.companygroup_name;
       this.profilePhoto = user.photo;
       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -501,7 +454,7 @@ export class MyApp {
       }
     });
 
-    console.log("Dashboard- Menu Opened");
+    
     this.events.publish('menu:closed', '');
     this.firstname = localStorage.getItem("userInfoName");
     this.lastname = localStorage.getItem("userInfoLastName");
@@ -518,11 +471,9 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-      console.log('Welcome', user, 'at', time);
-      console.log("First Name:" + user.firstname);
+     
       this.firstname = user.firstname;
       this.lastname = user.lastname;
-      console.log("User info from event created" + JSON.stringify(user));
       this.companyGroupName = user.companygroup_name;
       this.profilePhoto = user.photo;
       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -531,12 +482,8 @@ export class MyApp {
         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
       }
 
-      // let leftmenu = localStorage.getItem("leftmenu");
-      //console.log("Left Menu Access1:" + leftmenu);
-      // this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+     
     });
-
-    console.log("Dashboard- Menu Opened");
 
     this.firstname = localStorage.getItem("userInfoName");
     this.lastname = localStorage.getItem("userInfoLastName");
@@ -550,9 +497,7 @@ export class MyApp {
 
     this.events.publish('menu:opened', '');
 
-    //let leftmenu = localStorage.getItem("leftmenu");
-    //console.log("Left Menu Access1:" + leftmenu);
-    //this.pages = JSON.parse(localStorage.getItem("leftmenu"));
+    
   }
 
   toggleLevel1(idx) {

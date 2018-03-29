@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController, ModalController,App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddcommentsinfoPage } from '../addcommentsinfo/addcommentsinfo';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { EventDetailsPage } from '../event-details/event-details';
-import { EventDetailsServicePage } from '../event-details-service/event-details-service';
+//import { EventDetailsServicePage } from '../event-details-service/event-details-service';
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 import { ModalPage } from '../modal/modal';
@@ -66,11 +66,15 @@ export class CommentsinfoPage {
   public networkType: string;
   public totalCount;
   public sortLblTxt: string = 'Comment';
-  constructor(public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
+  constructor(private app:App,public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(UnitdetailsPage, {
           record: this.NP.get("record"),
           tabs: 'dataView'
@@ -87,97 +91,10 @@ export class CommentsinfoPage {
     this.COMMENTCREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
     this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
     this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
 
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-*/
+    
     // Footer Menu Access - End
   }
 
@@ -256,7 +173,7 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unitid;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
@@ -319,18 +236,18 @@ export class CommentsinfoPage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+     
       this.doService();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
   doService() {
     this.conf.presentLoading(1);
@@ -363,12 +280,12 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.comments.length);
         console.log("2" + res.comments);
         if (res.comments.length > 0) {

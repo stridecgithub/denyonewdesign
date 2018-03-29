@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -13,7 +13,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 declare var jQuery: any;
-declare var mention: any;
 import * as moment from 'moment';
 
 /**
@@ -91,11 +90,15 @@ export class AddcommentsinfoPage {
   //tabBarElement: any;
   atmentioneddata = [];
   companyId
-  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(CommentsinfoPage, {
           record: this.NP.get("record")
         });
@@ -115,7 +118,6 @@ export class AddcommentsinfoPage {
     this.servicemaxdate = this.maxDateStr();
 
 
-    console.log("Max:" + this.servicemaxdate);
 
     this.priority_highclass = '';
     this.priority_lowclass = '';
@@ -139,14 +141,9 @@ export class AddcommentsinfoPage {
     var date = new Date();
 
     this.serviced_date = date.toISOString();
-    console.log("Date String:" + date.toTimeString());
-    //this.serviced_time=date.toTimeString().split(" ")[0];
-    console.log("Date Only" + this.serviced_date);
-    //this.serviced_date = new Date().toJSON().split('T')[0];
-    console.log("Default date is" + this.serviced_date);
 
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
@@ -174,7 +171,7 @@ export class AddcommentsinfoPage {
     localStorage.setItem("microtime", this.micro_timestamp);
 
     this.addedServiceImgLists = [];
-    console.log('ionViewDidLoad addhocPage');
+    
     localStorage.setItem("fromModule", "addhocPage");
 
     let //body: string = "loginid=" + this.userId,
@@ -182,12 +179,11 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+      
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -196,7 +192,7 @@ export class AddcommentsinfoPage {
     // this.getPrority(1);
     //let users = localStorage.getItem("atMentionedStorage");
     this.is_request = false;
-    console.log("Add Comments Info" + JSON.stringify(this.NP.get("record")));
+    
 
 
 
@@ -232,7 +228,6 @@ export class AddcommentsinfoPage {
         optionsunit: any = new RequestOptions({ headers: headersunit }),
         urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
           "&unitid=" + this.comment_unitid;
-      console.log(urlunit);
       this.http.get(urlunit, optionsunit)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -272,7 +267,7 @@ export class AddcommentsinfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-            console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+           
 
           }
         }, error => {
@@ -281,27 +276,7 @@ export class AddcommentsinfoPage {
       // Unit Details API Call
     }
 
-    // Atmentioned API Calls
-    // let
-    //   //body: string = "key=delete&recordID=" + recordID,
-    //   type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers1: any = new Headers({ 'Content-Type': type }),
-    //   options1: any = new RequestOptions({ headers: headers }),
-    //   url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=" + this.companyId + "&userId=" + this.unitDetailData.userId;
-    // console.log(url);
-    // this.http.get(url1, options1)
-    //   .subscribe(data => {
-    //     // If the request was successful notify the user
-    //     if (data.status === 200) {
-    //       this.atmentioneddata = data.json();
-    //     }
-    //     // Otherwise let 'em know anyway
-    //     else {
-    //       this.conf.sendNotification('Something went wrong!');
-    //     }
-    //   }, error => {
-
-    //   })
+   
 
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
@@ -309,16 +284,10 @@ export class AddcommentsinfoPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    console.log(url1);
+    
     this.http.get(url1, options1)
 
-    // let body: string = param,
-
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = urlstring;
-    console.log("Message sending API" + url1 + "?" + body1);
+  
 
     this.http.post(url1, body1, options1)
 
@@ -328,7 +297,7 @@ export class AddcommentsinfoPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
+          
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -346,7 +315,7 @@ export class AddcommentsinfoPage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+   
     jQuery(".comment_remark").mention({
       users: this.atmentioneddata
     });
@@ -370,8 +339,7 @@ export class AddcommentsinfoPage {
 
     this.servicemaxdate = yyyy + '-' + this.mm + '-' + this.dd;
 
-    // this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Max:" + this.servicemaxdate);
+    
     return this.servicemaxdate;
 
   }
@@ -380,8 +348,6 @@ export class AddcommentsinfoPage {
 
     let oneWeekAgo = new Date();
     let prevfivedays = oneWeekAgo.setDate(oneWeekAgo.getDate() - 5);
-    console.log("Previous five days:" + prevfivedays);
-
     let dateFormat = new Date(prevfivedays);
     this.servicemindate = dateFormat.getFullYear() + '-' + (dateFormat.getMonth() + 1) + '-' + dateFormat.getDate();
     this.minyr = dateFormat.getFullYear();
@@ -396,7 +362,6 @@ export class AddcommentsinfoPage {
       this.minmn = '0' + this.minmn;
     }
     this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Min:" + this.servicemindate);
     return this.servicemindate;
   }
 
@@ -407,8 +372,7 @@ export class AddcommentsinfoPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    console.log("File Name is:" + currentName);
+    
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -433,20 +397,16 @@ export class AddcommentsinfoPage {
 
 
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
+      fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/commentupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         // this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
-        console.log("Upload Response is" + JSON.stringify(data))
+        
         let res = JSON.parse(data.response);
-        console.log(res.id);
-        console.log(JSON.stringify(res));
-
+       
         let imgSrc;
         imgSrc = this.apiServiceURL + "/commentimages" + '/' + newFileName;
         this.addedServiceImgLists.push({
@@ -484,7 +444,7 @@ export class AddcommentsinfoPage {
         // Save in Backend and MysQL
       }, (err) => {
         //loading.dismiss();
-        console.log("Upload Error:" + JSON.stringify(err));
+       
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -501,17 +461,17 @@ export class AddcommentsinfoPage {
 
   saveEntry() {
 
-    var date = new Date();
+   // var date = new Date();
     let comment_date = moment().format();
     let cmddte = comment_date.split("T")[0];
     let cmdtme = comment_date.split("T")[1].substring(0, 5);
-    console.log(cmddte + " " + cmdtme);
+   
     comment_date = cmddte + " " + cmdtme;
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
     } else {
-      console.log(this.form.controls);
+      
       if (this.isUploadedProcessing == false) {
 
         let comments = jQuery(".comment_remark").val();
@@ -528,12 +488,11 @@ export class AddcommentsinfoPage {
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-        console.log("Chkemailhashtags API" + url + "?" + body);
+        
 
         this.http.post(url, body, options)
           .subscribe((data) => {
-            console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-            console.log("1" + data.json().invalidusers);
+         
             if (data.json().invalidusers == '') {
               if (this.isEdited) {
                 this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
@@ -583,15 +542,11 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
-    console.log(body);
-    console.log("Hello");
-    console.log(url);
 
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
-        // If the request was successful notify the user
+       
         if (data.status === 200) {
           this.comment_subject = '';
           this.comments = '';
@@ -650,11 +605,8 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/update";
-    console.log(url);
-    console.log(body);
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
         // If the request was successful notify the user
         if (data.status === 200) {
           this.comment_subject = '';
@@ -685,7 +637,6 @@ export class AddcommentsinfoPage {
   getNextDate(val, field) {
     this.isFuture = 0;
     this.isSubmitted = false;
-    console.log('1' + val);
     let date;
     if (val > 0) {
       date = this.addDays(val);
@@ -697,7 +648,6 @@ export class AddcommentsinfoPage {
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-      console.log("Month String:-" + mn);
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -708,14 +658,14 @@ export class AddcommentsinfoPage {
       } else {
         datestr = dt;
       }
-      console.log("Date String:-" + dt);
+     
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     } else {
       let monthstr;
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-      console.log("Month String:-" + mn);
+     
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -726,7 +676,6 @@ export class AddcommentsinfoPage {
       } else {
         datestr = dt;
       }
-      console.log("Date String:-" + dt);
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     }
     if (this.unitDetailData.nextServiceDate != '') {
@@ -757,12 +706,12 @@ export class AddcommentsinfoPage {
   subDays(days) {
     let result = new Date();
     result.setDate(result.getDate() - days);
-    console.log("SubDays Function Result is:" + result);
+    
     return result;
   }
   showDatePicker() {
     this.isSubmitted = false;
-    console.log("showDatePicker:" + this.servicemaxdate);
+    
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
@@ -777,21 +726,20 @@ export class AddcommentsinfoPage {
 
         let monthstr = date.getMonth() + parseInt("1");
 
-        console.log('Got date: ', date);
-        console.log(new Date().getTime() + "<" + date.getTime());
+       
         if (new Date().getTime() < date.getTime()) {
           this.isFuture = 0;
           this.isSubmitted = false;
-          console.log("Future Dates");
+         
           this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
         } else {
           this.isFuture = 1;
           this.isSubmitted = true;
-          console.log("Old Dates");
+      
           this.unitDetailData.nextServiceDate = '';
         }
       },
-      err => console.log('Error occurred while getting date: ', err)
+      err =>{}
       );
   }
 
@@ -812,7 +760,6 @@ export class AddcommentsinfoPage {
     this.recordID = item.comment_id
     this.comment_by = item.comment_by;
     this.serviced_date = item.serviced_date;
-    console.log("Service Date Time:" + this.serviced_date);
     if (this.serviced_date == "0000-00-00") {
       this.serviced_date = '';
     }
@@ -820,7 +767,6 @@ export class AddcommentsinfoPage {
     this.comment_remark = item.comment_remark;
     //this.next_service_date = item.next_service_date;
     this.service_priority = item.service_priority;
-    console.log("X" + this.service_priority);
     if (this.service_priority == "1") {
       this.priority_lowclass = "border_low";
 
@@ -861,7 +807,6 @@ export class AddcommentsinfoPage {
     }
 
     if (this.NP.get("act") == 'Add') {
-      console.log("Fresh Clear add service info.ts start...");
       this.addedServiceImgLists = [];
       this.addedServiceImgLists.length = 0;
       this.unitDetailData.nextServiceDate = '';
@@ -872,7 +817,6 @@ export class AddcommentsinfoPage {
     }
   }
   doRemoveResouce(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this file?',
       buttons: [{
@@ -888,8 +832,6 @@ export class AddcommentsinfoPage {
             }
           }
           this.uploadcount = 10 - this.addedServiceImgLists.length;
-          console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
-          console.log("After Deleted Upload count length:" + this.uploadcount);
         }
       },
       {
@@ -946,14 +888,14 @@ export class AddcommentsinfoPage {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
-            console.log('Confirm clicked');
+            
           }
         },
         {
           text: 'Cancel',
           handler: () => {
             this.is_request = false;
-            console.log('Cancel clicked');
+           
           }
         }
       ],
@@ -990,7 +932,7 @@ export class AddcommentsinfoPage {
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-              console.log(imageURI);
+              
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -1001,16 +943,7 @@ export class AddcommentsinfoPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
+       
 
             const options: CameraOptions = {
               quality: 100,
@@ -1021,7 +954,7 @@ export class AddcommentsinfoPage {
             }
 
             this.camera.getPicture(options).then((uri) => {
-              console.log(uri);
+             
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -1034,7 +967,7 @@ export class AddcommentsinfoPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+           
           }
         }
       ]
@@ -1042,8 +975,5 @@ export class AddcommentsinfoPage {
     actionSheet.present();
     return false;
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+  
 }

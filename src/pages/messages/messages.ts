@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ModalController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController, Platform,App } from 'ionic-angular';
 import { ComposePage } from "../compose/compose";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { NotificationPage } from '../notification/notification';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 declare var jQuery: any;
-import { PermissionPage } from '../permission/permission';
+//import { PermissionPage } from '../permission/permission';
 import { DashboardPage } from '../dashboard/dashboard';
 @Component({
   selector: 'page-messages',
@@ -122,8 +122,8 @@ export class MessagesPage {
   testRadioResult;
   // tabBarElement;
   public profilePhoto;
-  constructor(public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
-    this.apiServiceURL = conf.apiBaseURL();
+  constructor(public app: App,public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.inb();
@@ -136,113 +136,17 @@ export class MessagesPage {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(DashboardPage, {
         });
       });
     });
     this.doNotifiyCount();
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    console.log("Footer Menu Access abc:-" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-    if (messageAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
-    }
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-   this.footerBar.push({
-     title: 'Dashboard',
-     active: true,
-     colorcode: "rgba(60, 60, 60, 0.7)",
-     footerdisplay: dashboarddisplay,
-     pageComponent: 'DashboardPage'
-   });
-   let unitdisplay;
-   if (unitAccess == 1) {
-     unitdisplay = '';
-   } else {
-     unitdisplay = 'none';
-   }
-   this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
- 
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
- 
-    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    console.log("Final Footer Menu access:" + this.footerBar);
-*/
-    // Footer Menu Access - End
+   
 
 
 
@@ -303,7 +207,7 @@ export class MessagesPage {
     }
     if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
       this.tabs = 'inboxView';
-      console.log('A');
+     
       jQuery('#inboxView').show();
       jQuery('#sentView').show();
       jQuery('#inboxblock').show();
@@ -313,7 +217,7 @@ export class MessagesPage {
 
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
       this.tabs = 'inboxView';
-      console.log('B');
+     
       jQuery('#inboxView').show();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').show();
@@ -323,7 +227,7 @@ export class MessagesPage {
 
     } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
       this.tabs = 'sentView';
-      console.log('C');
+     
       jQuery('#inboxView').hide();
       jQuery('#sentView').show();
       jQuery('#inboxblock').hide();
@@ -333,7 +237,7 @@ export class MessagesPage {
       this.snd();
 
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
-      console.log('D');
+     
       jQuery('#inboxView').hide();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').hide();
@@ -373,7 +277,7 @@ export class MessagesPage {
     console.log("this.MESSAGESENTVIEWACCESS" + this.MESSAGESENTVIEWACCESS);
     console.log("this.MESSAGEINBOXVIEWACCESS" + this.MESSAGEINBOXVIEWACCESS);
     if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
-      console.log('A');
+     
       this.tabs = 'inboxView';
       jQuery('#inboxView').show();
       jQuery('#sentView').show();
@@ -382,7 +286,7 @@ export class MessagesPage {
       this.segmenttabshow = 1;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
-      console.log('B');
+     
       this.tabs = 'inboxView';
       jQuery('#inboxView').show();
       jQuery('#sentView').hide();
@@ -391,7 +295,7 @@ export class MessagesPage {
       this.segmenttabshow = 0;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
-      console.log('C');
+     
       this.tabs = 'sentView';
       jQuery('#inboxView').hide();
       jQuery('#sentView').show();
@@ -400,7 +304,7 @@ export class MessagesPage {
       this.segmenttabshow = 1;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
-      console.log('D');
+     
       jQuery('#inboxView').hide();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').hide();
@@ -432,14 +336,14 @@ export class MessagesPage {
     localStorage.setItem("microtime", '');
     console.log('act' + act);
     if (act == 'unread') {
-      console.log('A');
+     
       this.unreadAction(messageid, item);
-      console.log('B');
+     
       return false;
     } else if (act == 'read') {
-      console.log('A');
+     
       this.readActionStatus(messageid, item);
-      console.log('B');
+     
       return false;
     } else {
 
@@ -449,7 +353,7 @@ export class MessagesPage {
         from: from
       });
     }
-    console.log('D');
+   
   }
   inb() {
     this.inboxLists = [];
@@ -490,13 +394,13 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages?is_mobile=1&startindex=" + this.inboxData.startindex + "&results=" + this.inboxData.results + "&sort=" + this.inboxData.sort + "&dir=" + this.inboxData.sortascdesc + "&loginid=" + this.userId;
     let res;
-    console.log(url);
+    
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
 
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.messages.length);
         console.log("2" + res.messages);
         if (res.messages.length > 0) {
@@ -536,13 +440,13 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
     let res;
-    console.log(url);
+    
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
 
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.messages.length);
         console.log("2" + res.messages);
         if (res.messages.length > 0) {
@@ -574,33 +478,33 @@ export class MessagesPage {
   /**********************/
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCount)
     if (this.inboxData.startindex < this.totalCount && this.inboxData.startindex > 0) {
-      console.log('B');
+     
       this.doInbox();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
   doSendInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCountSend)
     if (this.sendData.startindex < this.totalCountSend && this.sendData.startindex > 0) {
-      console.log('B');
+     
       this.doSend();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
   doConfirm(id, item, type) {
     console.log("Deleted Id" + id);
@@ -856,8 +760,8 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/setfavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(JSON.stringify(data.json().msg.result));
@@ -890,8 +794,8 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/setsenditemfavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(data);
@@ -961,8 +865,8 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/changereadunread";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe((data) => {
         console.log("Change read unread api calls:" + JSON.stringify(data.json()));

@@ -1,4 +1,16 @@
 page-notification {
+.unread{
+ //background-color: #acacac;
+    font-weight: bold;
+}
+
+.read{
+  //background-color: #cacaca;
+     font-weight: normal;
+ }
+
+
+
   .item {
     padding-left: 0;
   }

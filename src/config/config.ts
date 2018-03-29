@@ -6,8 +6,9 @@ export class Config {
         public toastCtrl: ToastController) {
     }
     apiBaseURL() { // Base URL configuration
-        return 'http://denyoappv2.stridecdev.com';
-        // return 'http://localhost/denyov2/public';
+       // return 'http://denyoappv2.stridecdev.com';// live
+        return 'http://denyodev1.stridecdev.com';// Testing
+
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";
@@ -100,8 +101,6 @@ export class Config {
         return splithypen[1] + "-" + splithypen[2] + "-" + splithypen[0];
     }
 
-    consolePrint(print) {
-        // console.log(print)
-    }
+   
 
 }

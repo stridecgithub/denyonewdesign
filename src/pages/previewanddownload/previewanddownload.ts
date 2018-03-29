@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController,App } from 'ionic-angular';
 import { ServicingDetailsPage } from '../servicing-details/servicing-details';
 import { MessagedetailPage } from '../messagedetail/messagedetail';
 
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Config } from '../../config/config';
-import { CalendarPage } from "../calendar/calendar";
+//import { CalendarPage } from "../calendar/calendar";
 
 import { CommentdetailsPage } from "../commentdetails/commentdetails";
 /**
@@ -30,11 +30,15 @@ export class PreviewanddownloadPage {
   storageDirectory: string = '';
   ispreview = 0;
   private apiServiceURL: string = "";
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public platform: Platform, private conf: Config, public navParams: NavParams, private transfer: FileTransfer, private file: File) {
-    this.apiServiceURL = conf.apiBaseURL();
+  constructor(public app: App,public navCtrl: NavController, public alertCtrl: AlertController, public platform: Platform, private conf: Config, public navParams: NavParams, private transfer: FileTransfer, private file: File) {
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.frompage = this.navParams.get("frompage");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         console.log("From page for previous:" + this.frompage);
         // if (this.navParams.get("record") == undefined) {
         //    this.navCtrl.setRoot(CalendarPage, {});
@@ -72,7 +76,7 @@ export class PreviewanddownloadPage {
     console.log("Service Unit Data" + JSON.stringify(this.navParams.get("record")));
     console.log('ionViewDidLoad PreviewanddownloadPage');
     this.frompage = this.navParams.get("frompage");
-    //http://denyoappv2.stridecdev.com/attachments/
+  
     if (this.frompage == 'MessagedetailPage') {
       console.log("File Name:" + this.navParams.get("imagedata").fileName.split(".")[0]);
       console.log("Extension Name:" + this.navParams.get("imagedata").fileName.split(".")[1]);
@@ -119,7 +123,7 @@ export class PreviewanddownloadPage {
   }
 
   download(url) {
-    //url='denyoappv2.stridecdev.com';
+   
     const fileTransfer: FileTransferObject = this.transfer.create();
 
     let file = this.imagename;

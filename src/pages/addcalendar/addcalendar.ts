@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -9,7 +9,6 @@ import { Config } from '../../config/config';
 import { DatePicker } from '@ionic-native/date-picker';
 import * as moment from 'moment';
 declare var jQuery: any;
-declare var mention: any;
 /**
  * Generated class for the AddcompanygroupPage page.
  *
@@ -93,13 +92,17 @@ export class AddcalendarPage {
 
   public EVENTCREATEACCESS: any;
 
-  constructor(public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
+  constructor(private app: App, public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(CalendarPage);
       });
     });
@@ -131,7 +134,7 @@ export class AddcalendarPage {
     });
     this.disunit = false;
     //this.serviced_datetime = moment().format(); // 2018-01-16T23:08:57+05:30
-    console.log(this.serviced_datetime);
+
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
 
@@ -246,10 +249,9 @@ export class AddcalendarPage {
     this.event_end_date = localStorage.getItem("eventDate");
     this.event_date = moment().format();
     this.event_end_date = moment().format();
-    console.log("Bottom UTC Format Current Date:" + this.event_date);
 
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem
 
       ("userInfoPhoto");
@@ -266,12 +268,11 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -279,31 +280,31 @@ export class AddcalendarPage {
       });
     if (localStorage.getItem("sdate") != '') {
       this.event_date = localStorage.getItem("sdate");
-      console.log("Storage event date:" + this.event_date);
+
       this.event_end_date = localStorage.getItem("sdate");
-      console.log("Storage event event_end_date:" + this.event_end_date);
+
       this.storagetime = moment().format().split("T")[1];
-      console.log("Storage Time:" + this.storagetime);
+
       this.serviced_datetime = localStorage.getItem("sdate") + "T" + this.storagetime.substring(0, 5);
-      console.log("Storage event serviced_datetime:" + this.serviced_datetime);
+
     } else {
       this.event_date = moment().format();
-      console.log("Storage event date:" + this.event_date);
+
       this.event_end_date = moment().format();
-      console.log("Storage event event_end_date:" + this.event_end_date);
+
       this.serviced_datetime = moment().format();
-      console.log("Storage event serviced_datetime:" + this.serviced_datetime);
+
     }
     // this.serviced_datetime=localStorage.getItem("sdate");
     this.getUnitListData();
     this.resetFields();
-    console.log("Item:" + this.NP.get("item"));
+
     if (this.NP.get("item")) {
 
-      console.log("Kannan");
+
       if (this.NP.get("service_id")) {
         let eventType = this.NP.get("type");
-        console.log("Event Type:" + eventType);
+
 
 
         let body: string = "serviceid=" + this.NP.get("service_id"),
@@ -311,13 +312,13 @@ export class AddcalendarPage {
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/servicebyid";
-        console.log(url1 + "?" + body);
+
         this.http.post(url1, body, options1)
           .subscribe((data) => {
-            console.log(JSON.stringify(data.json()))
+
             this.item = data.json().servicedetail[0];
             if (this.item != '') {
-              console.log("JSON for service detail" + JSON.stringify(data.json().servicedetail[0]));
+
               this.selectEntry(data.json().servicedetail[0], this.NP.get("type"));
             }
           }, error => {
@@ -325,7 +326,7 @@ export class AddcalendarPage {
           });
       } else if (this.NP.get("event_id")) {
         let eventType = this.NP.get("type");
-        console.log("Event Type:" + eventType);
+
 
 
 
@@ -334,18 +335,17 @@ export class AddcalendarPage {
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/eventdetailbyid";
-        console.log(url1);
+
         this.http.post(url1, body, options1)
           .subscribe((data) => {
-            console.log("eventdetailbyid Response Success:" + JSON.stringify(data.json()));
-            console.log("Event Details:" + data.json().eventslist[0]);
+
             this.selectEntry(data.json().eventslist[0], this.NP.get("type"));
 
           }, error => {
 
           });
       } else {
-        console.log(this.NP.get("type"));
+
         this.selectEntry(this.NP.get("item"), this.NP.get("type"));
       }
       this.isEdited = true;
@@ -399,7 +399,7 @@ export class AddcalendarPage {
   }
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad  AddcalendarPage');
+
     localStorage.setItem("fromModule", "AddcalendarPage");
 
 
@@ -409,7 +409,7 @@ export class AddcalendarPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.userId;
-    console.log(url1);
+
     this.http.get(url1, options1)
 
     // let body: string = param,
@@ -418,7 +418,7 @@ export class AddcalendarPage {
     //   headers: any = new Headers({ 'Content-Type': type }),
     //   options: any = new RequestOptions({ headers: headers }),
     //   url: any = urlstring;
-    console.log("Message sending API" + url1 + "?" + body1);
+
 
     this.http.post(url1, body1, options1)
 
@@ -428,7 +428,7 @@ export class AddcalendarPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
+
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -451,7 +451,7 @@ export class AddcalendarPage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+
     jQuery(".event_notes").mention({
       users: this.atmentioneddata
     });
@@ -462,10 +462,7 @@ export class AddcalendarPage {
   }
 
 
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.gethashtag = hashtag;
-  }
+
 
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
@@ -475,7 +472,7 @@ export class AddcalendarPage {
   // Assign the navigation retrieved data to properties
   // used as models on the page's HTML form
   selectEntry(item, type) {
-    console.log("Edit Select Entry Response" + JSON.stringify(item));
+
 
     this.event_location = item.event_location
 
@@ -486,24 +483,14 @@ export class AddcalendarPage {
       this.type_name = "Service";
       this.event_type = 'Service';
       this.event_date = item.service_scheduled_date;
-      console.log("Event Date:" + item.event_date);
+
       this.event_unitid = item.service_unitid;
       this.recordID = item.service_id;
-      console.log(item.serviced_datetime);
+
 
       this.serviced_datetime = item.serviced_datetime;
 
-      // this.event_time = item.service_scheduled_time.substr(0, 5);
-      // let getampmpvalue = item.service_scheduled_time.substr(6, 8)
-      // console.log("AMPM:" + getampmpvalue);
-      // if (getampmpvalue == 'PM') {
-      //   let timesplit = this.event_time.split(":");
-      //   let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-      //   console.log("hoursadd24hourformat" + hoursadd24hourformat);
-      //   this.event_time = hoursadd24hourformat + ":" + timesplit[1];
-      // }
-      // //this.event_time ='17:30';
-      // console.log("Time for Start:" + this.event_time);
+
 
       this.event_subject = item.service_subject;
       this.event_notes = item.description;
@@ -522,7 +509,7 @@ export class AddcalendarPage {
       this.servicedatetimefield = false;
       this.unitfield = false;
       this.disunit = false;
-      console.log("Time for End Before:" + item.event_end_time);
+
       this.getType(this.type_name);
 
       this.type_name = "Event";
@@ -537,13 +524,13 @@ export class AddcalendarPage {
         this.event_time = item.event_time.substr(0, 5);
         let getampmpvalue = item.event_time.substr(6, 8)
 
-        console.log("AMPM:" + getampmpvalue);
+
         if (getampmpvalue == 'PM') {
           let timesplit = this.event_time.split(":");
           let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-          console.log("hoursadd24hourformat" + hoursadd24hourformat);
+
           this.event_time = hoursadd24hourformat + ":" + timesplit[1];
-          console.log("this.event_time" + this.event_time);
+
         }
       }
 
@@ -554,41 +541,27 @@ export class AddcalendarPage {
         this.alldayevent = false;
       }
       if (item.event_end_time == null) {
-        console.log("A");
+
         this.event_end_time = '';
       } else {
-        console.log("B");
+
         this.event_end_time = item.event_end_time;
       }
 
-      console.log("this.event_end_time" + this.event_end_time);
-      console.log("item.event_end_time" + item.event_end_time);
-      if (this.event_end_time != '') {
-        // console.log("E");
-        // this.event_end_time = item.event_end_time.substr(0, 5);
 
-        // let getampmpvalue = item.event_end_time.substr(5, 7)
-        // console.log("AMPM:" + getampmpvalue);
-        // if (getampmpvalue == 'PM') {
-        //   console.log('Enter PM'+ item.event_end_time);
-        //   let timesplit = item.event_end_time.split(":");
-        //   let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-        //   console.log("hoursadd24hourformat" + hoursadd24hourformat);
-        //   this.event_end_time = this.event_end_time + ":" + timesplit[1];
-        //   console.log(this.event_end_time);
-        //   console.log("this.event_end_time" + this.event_end_time);
-        // }
+      if (this.event_end_time != '') {
+
 
 
         this.event_end_time = item.event_end_time.substr(0, 5);
         let getampmpvalue = item.event_end_time.substr(6, 8)
-        console.log("END TIME AMPM:" + getampmpvalue);
+
         if (getampmpvalue == 'PM') {
           let timesplit = this.event_end_time.split(":");
           let hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-          console.log("hoursadd24hourformat" + hoursadd24hourformat);
+
           this.event_end_time = hoursadd24hourformat + ":" + timesplit[1];
-          console.log("this.event_end_time" + this.event_end_time);
+
         }
 
       } else {
@@ -612,11 +585,11 @@ export class AddcalendarPage {
     if (this.event_unitid > 0) {
       this.getProjectLocation(this.event_unitid)
     }
-    this.address1get(this.event_notes);
+
   }
 
   getType(type) {
-    console.log("Event Type:" + type);
+
     if (type == "Service") {
       this.startdatefield = false;
       this.starttimefield = false;
@@ -672,7 +645,7 @@ export class AddcalendarPage {
       let am_pm = date.getHours() >= 12 ? "PM" : "AM";
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
@@ -694,7 +667,7 @@ export class AddcalendarPage {
       let am_pm = date.getHours() >= 12 ? "PM" : "AM";
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
@@ -720,15 +693,14 @@ export class AddcalendarPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
 
-    //http://denyoappv2.stridecdev.com/eventstorev2?is_mobile=1&event_type=Event&event_title=testing&event_location=madurai&event_date=2017-12-12&event_time=12%20AM&event_added_by=1&service_remark=testing%20remarks&event_alldayevent=1&event_end_date=2017-12-25&event_end_time=12%20AM
-    console.log(url + "?" + body);
+
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        console.log(JSON.stringify(data.json()));
+
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
+
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.conf.sendNotification(res.msg[0].result);
@@ -783,7 +755,7 @@ export class AddcalendarPage {
       let am_pm = date.getHours() >= 12 ? "PM" : "AM";
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_time = this.hours + ":" + minutes + " " + am_pm;
     }
 
@@ -805,7 +777,7 @@ export class AddcalendarPage {
       let am_pm = date.getHours() >= 12 ? "PM" : "AM";
       this.hours = hours < 10 ? "0" + hours : hours;
       let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      //let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       event_end_time = this.hours + ":" + minutes + " " + am_pm;
     }
     /*
@@ -828,14 +800,14 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendar/update";
-    console.log("Update Event API URL:=" + url + "?" + body);
+
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();
-        console.log(data.json());
+
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
+
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.conf.sendNotification(res.msg[0].result);
@@ -864,20 +836,19 @@ export class AddcalendarPage {
   deleteEntry() {
 
 
-    let type_name: string = this.form.controls["type_name"].value,
+    let //type_name: string = this.form.controls["type_name"].value,
       //body: string = "key=delete&recordID=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/" + this.recordID + "/1/delete";
-    console.log(url);
+
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          //  console.log("Alarm Assinged Reponse:"+JSON.stringify(data));
-          // this.conf.sendNotification(`Company group was successfully deleted`);
+
           this.conf.sendNotification(data.json().msg[0].result);
         }
         // Otherwise let 'em know anyway
@@ -912,7 +883,7 @@ export class AddcalendarPage {
       serviced_datetime: string = this.form.controls["serviced_datetime"].value;
     this.alldayeventvalue = this.form.controls["alldayevent"].value;
 
-    console.log("alldayevent toggle value" + this.alldayeventvalue);
+
     if (event_end_date == undefined) {
       event_end_date = '';
     }
@@ -925,14 +896,10 @@ export class AddcalendarPage {
     if (event_end_date != '') {
       let event_date_valid = event_date.split("T")[0];
       let event_end_date_valid = event_end_date.split("T")[0];
-      console.log("start date is:" + event_date_valid);
-      console.log("end date is:" + event_end_date_valid);
+
       let startdate = this.conf.monthdateyearformat(event_date_valid);
       let enddate = this.conf.monthdateyearformat(event_end_date_valid);
-      console.log("start date is:" + startdate);
-      console.log("end date is:" + enddate);
-      console.log("start date parse is:" + Date.parse(startdate));
-      console.log("end date parse is:" + Date.parse(enddate));
+
       if ((Date.parse(startdate)) > Date.parse(enddate)) {
         if (type_name != 'Service') {
           this.conf.sendNotification('End date should be after start date');
@@ -949,7 +916,7 @@ export class AddcalendarPage {
       togglevalue = 0
     }
 
-    console.log("Final Toggle" + this.alldayeventvalue + ":" + togglevalue);
+
 
 
     // Personal hashtag checking....
@@ -962,12 +929,10 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-    console.log("Chkemailhashtags API" + url + "?" + body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-        console.log("1" + data.json().invalidusers);
+
         if (data.json().invalidusers == '') {
           if (this.isEdited) {
             this.updateEntry(serviced_datetime, event_date, event_end_date, event_end_time, togglevalue, type_name, event_project, event_subject, event_unitid, event_time, event_location, service_remark, this.userId);
@@ -1002,11 +967,9 @@ export class AddcalendarPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=0&results=300&sort=unit_id&dir=asc&company_id=" + this.companyId + "&loginid=" + this.userId;
     let res;
-    console.log("URL" + url);
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
         this.responseResultCompany = res.units;
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -1020,13 +983,11 @@ export class AddcalendarPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/" + unitid + "/1/getunitdata";
     let res;
-    console.log("URL" + url);
+
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        console.log(JSON.stringify(res));
-        console.log("Project Name:" + res.unitdata[0].projectname);
-        console.log("Project Location:" + res.unitdata[0].location);
+
         this.event_project = res.unitdata[0].projectname;
         this.event_location = res.unitdata[0].location;
         //this.responseResultCompany = res.companies;
@@ -1047,9 +1008,9 @@ export class AddcalendarPage {
     }).then(
       date => {
         this.event_date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-        console.log('Got date: ', this.event_date);
+
       },
-      err => console.log('Error occurred while getting date: ', err)
+      err => { }
       );
   }
   previous() {
@@ -1063,8 +1024,7 @@ export class AddcalendarPage {
   }
 
   alldayeenttoggle(event, val) {
-    console.log(event);
-    console.log(val);
+   
     if (val == true) {
       this.endtimefield = false;
       this.starttimefield = false;
@@ -1081,12 +1041,12 @@ export class AddcalendarPage {
     }
   }
   filToDate(event_date) {
-    console.log("Start Date:" + event_date);
+   
     this.event_end_date = event_date.split("T")[0];
   }
 
   CalendarfutureDateValidation(formvalue) {
-    console.log("A");
+  
     this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
@@ -1106,16 +1066,16 @@ export class AddcalendarPage {
     let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-      console.log("B");
+     
     } else {
 
       this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
-      console.log("C");
+     
 
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
-    console.log(this.futuredatemsg);
+   
     if (this.futuredatemsg != '') {
       this.showAlert('', 'Please select current date or future date.')
     }

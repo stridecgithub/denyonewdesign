@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController, NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
+import { AlertController, NavController, NavParams, ActionSheetController, Platform, App  } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -11,7 +11,6 @@ import { File } from '@ionic-native/file';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 declare var jQuery: any;
-declare var mention: any;
 
 /**
  * Generated class for the ComposePage page.
@@ -84,13 +83,19 @@ export class ComposePage {
   public atmentioneddata = [];
   existingimagecount;
   replyall;
-  constructor(private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
+  constructor(public app: App,private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
 
     private transfer: FileTransfer,
     private ngZone: NgZone, public platform: Platform) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+
         this.navCtrl.setRoot(MessagesPage);
       });
     });
@@ -104,7 +109,7 @@ export class ComposePage {
 
     });
     this.getPrority(0);
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.message_priority = 0;
     this.nowuploading = 0;
     let already = localStorage.getItem("microtime");
@@ -310,7 +315,7 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messagehashtags?companyId=" + this.companyId + "&loginid=" + this.userId;
-    console.log(url);
+    
     this.http.get(url, options)
 
     // let body: string = param,
@@ -436,47 +441,7 @@ export class ComposePage {
         //this.doAttachmentResources(data.json().messages[0].message_id);
       }, error => {
       });
-    /*
-    this.addedImgLists = [];
-    //micro_timestamp = '2017112123520';
-    console.log("doImageResources function calling successfully....")
-    let //body: string = "micro_timestamp=" + micro_timestamp,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      //http://denyoappv2.stridecdev.com/api/message_attachments_by_messageid.php?message_id=87
-      url: any = this.apiServiceURL + "/api/message_attachments_by_messageid.php?message_id=" + message_id;
-    console.log(url);
-    this.http.get(url, options)
-      .subscribe((data) => {
-        console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
-        this.totalCount = 0;
-        console.log(data.json().length - 1);
-        for (let i = 0; i < data.json().length; i++) {
-  
-          console.log("Attachmnt:" + data.json()[i].messageresource_id);
-          this.totalFileSize = data.json()[i];
-          let imgSrc;
-          imgSrc = this.apiServiceURL + "/attachments" + '/' + data.json()[i].messageresource_filename;
-          if (data.json()[i].messageresource_id > 0) {
-            this.addedImgLists.push({
-              fileName: data.json()[i].messageresource_filename,
-              fileSize: data.json()[i].filesize_kb,
-              resouce_id: data.json()[i].messageresource_id,
-              imgSrc: imgSrc
-            });
-          }
-          if (data.json().length == this.totalCount) {
-  
-            break;
-          }
-          this.totalCount++;
-        }
-  
-        console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
-  
-  
-      });*/
+    
   }
 
   selectEntry(item) {
@@ -607,7 +572,7 @@ export class ComposePage {
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
 
@@ -748,7 +713,7 @@ export class ComposePage {
   fileTrans(path, micro_timestamp) {
     this.isSubmitted = true;
     console.log("Path:" + path);
-    let fileName = path.substr(path.lastIndexOf('/') + 1);
+   // let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
     let currentName = path.replace(/^.*[\\\/]/, '');
     console.log("File Name is:" + currentName);
@@ -788,7 +753,7 @@ export class ComposePage {
         this.conf.sendNotification("File attached successfully");
 
         console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
-        let imgSrc;
+        //let imgSrc;
         if (this.messageid == undefined) {
           this.messageid = 0;
         }
@@ -868,18 +833,7 @@ export class ComposePage {
 
     this.message_priority = val
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.hashtag = hashtag;
-
-
-    var str = " i am from Tamil nadu.";
-    var res = str.split(" ");  //split by space
-    res.pop();  //remove last element
-    console.log(res.join(" ") + ".");  //join back together
-
-
-  }
+ 
 
   doRemoveResouce(item) {
     console.log("Deleted Id" + item.resource_id);
@@ -925,7 +879,7 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/" + recordID + "/removeattachment";
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

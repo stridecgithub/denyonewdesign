@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Platform, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, Platform, ActionSheetController,App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -66,13 +66,17 @@ export class EditprofilesteponePage {
   private apiServiceURL: string = "";
   public networkType: string;
   public responseResultCountry: any;
-  constructor(private conf: Config, public platform: Platform, public nav: NavController,
+  constructor(private app:App,private conf: Config, public platform: Platform, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.nav.setRoot(MyaccountPage);
       });
     });
@@ -99,108 +103,11 @@ export class EditprofilesteponePage {
 
     });
     this.userId = localStorage.getItem("userInfoId");
-    console.log(this.userId);
+    
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
-
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
+    this.apiServiceURL = this.conf.apiBaseURL();
 
     
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    */
-
-    // Footer Menu Access - End
 
   }
 
@@ -237,12 +144,12 @@ export class EditprofilesteponePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/settings/profile?is_mobile=1&loggedin_id=" + this.userId;
-    console.log(url);
+    
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.settings.length);
         console.log("2" + res.settings);
         this.first_name = res.settings[0].firstname;
@@ -327,19 +234,19 @@ export class EditprofilesteponePage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-      console.log('A');
+     
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-      console.log('B');
+     
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-      console.log('C');
+     
       this.photo = '';
     }
     if (this.photo == '') {
-      console.log('D');
+     
       this.photo = '';
     }
 
@@ -363,8 +270,8 @@ export class EditprofilesteponePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/settings/profileupdate";
-    console.log(url);
-    console.log(body);
+    
+    
 
     this.http.post(url, body, options)
       .subscribe(data => {
@@ -375,9 +282,7 @@ export class EditprofilesteponePage {
           // if (!userPhotoFile) {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
-          // this.conf.sendNotification(`User profile successfully updated`);
-          // this.nav.setRoot(MyaccountPage);
-          //}
+          
 
           this.conf.sendNotification(data.json().msg['result']);
           this.nav.setRoot(MyaccountPage);
@@ -400,7 +305,7 @@ export class EditprofilesteponePage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry() {
-    let first_name: string = this.form.controls["first_name"].value,
+    let //first_name: string = this.form.controls["first_name"].value,
       body: string = "key=delete&recordID=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -499,9 +404,9 @@ export class EditprofilesteponePage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
+  
     this.photo = fileName;
-    console.log("currentName File Name is:" + currentName);
+   
     console.log("fileName File Name is:" + fileName);
     this.photo = fileName;
     /*var d = new Date(),
@@ -516,10 +421,7 @@ export class EditprofilesteponePage {
       mimeType: "text/plain",
     }
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    // this.conf.sendNotification(`profile photo uploaded few minutes redirect to my account page. please wait`);
-    fileTransfer.onProgress(this.onProgress);
+      fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
         console.log(JSON.stringify(data));
@@ -545,14 +447,7 @@ export class EditprofilesteponePage {
         this.isProgress = false;
 
         this.isUploadedProcessing = false;
-        //  return false;
-
-
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
-        //  this.conf.sendNotification(`User profile successfully updated`);
-        // this.nav.setRoot(MyaccountPage);
+        
 
       }, (err) => {
         //loading.dismiss();
@@ -692,7 +587,7 @@ export class EditprofilesteponePage {
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-          console.log(JSON.stringify(res));
+          
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;

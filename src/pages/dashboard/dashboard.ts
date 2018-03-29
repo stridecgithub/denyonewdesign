@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController,App } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -13,11 +13,12 @@ import { MessageDetailViewPage } from '../message-detail-view/message-detail-vie
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { ModalPage } from '../modal/modal';
 declare let google;
+declare var jQuery: any;
 import { AddUnitPage } from "../add-unit/add-unit";
-import { Network } from '@ionic-native/network';
-import { LocalNotifications } from '@ionic-native/local-notifications';
-import { LoginPage } from '../login/login';
-import { PermissionPage } from '../permission/permission';
+//import { Network } from '@ionic-native/network';
+//import { LocalNotifications } from '@ionic-native/local-notifications';
+//import { LoginPage } from '../login/login';
+//import { PermissionPage } from '../permission/permission';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -27,7 +28,7 @@ import { PermissionPage } from '../permission/permission';
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
-  providers: [Push, LocalNotifications, Config]//
+  providers: [Push, Config]//
 })
 
 export class DashboardPage {
@@ -82,98 +83,16 @@ export class DashboardPage {
   public UNITHIDEACCESS: any;
 
   previousPage;
-  constructor(public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, private localNotifications: LocalNotifications, public alertCtrl: AlertController, public platform: Platform, private network: Network, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(private app:App,public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push,  public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-    if (dashboardAccess == 0) {
-      this.navCtrl.setRoot(PermissionPage, {});
-    }
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-*/
-
-    // Footer Menu Access - End
+    
     this.platform.ready().then(() => {
 
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.navCtrl.canGoBack()) {
           this.navCtrl.pop();
         } else {
@@ -190,7 +109,7 @@ export class DashboardPage {
       this.tabIndexVal = localStorage.getItem("tabIndex");
       this.initPushNotification();
     });
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -225,7 +144,7 @@ export class DashboardPage {
   }
 
   displayNetworkUpdate(connectionState: string) {
-    let networkType = this.network.type;
+   // let networkType = this.network.type;
   }
   ionViewWillLeave() {
     this.tabIndexVal = localStorage.getItem("tabIndex");
@@ -1049,7 +968,7 @@ export class DashboardPage {
 
         });
 
-        let currinfowindow = null;
+       // let currinfowindow = null;
 
 
         // Add click event
@@ -1315,18 +1234,18 @@ export class DashboardPage {
   /**********************/
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+     
       this.doUnit();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
   initPushNotification() {
     // to check if we have permission
@@ -1487,72 +1406,7 @@ export class DashboardPage {
     alert.present();
   }
 
-  public schedule(notification, cnt) {
-    //if (this.userId > 0) {
-    //this.msgcount = cnt;
-    console.log("D:" + JSON.stringify(notification));
-    this.localNotifications.schedule({
-      title: notification.title,
-      text: notification.message,
-      at: new Date(new Date()),
-      sound: null
-    });
-
-    localStorage.setItem("navtype", notification.additionalData.arrayval.type);
-    localStorage.setItem("navtid", notification.additionalData.arrayval.id);
-
-    this.localNotifications.on("click", (notification, state) => {
-      console.log("Local notification clicked...");
-      console.log("1" + notification);
-      console.log("2" + state);
-      console.log("3" + JSON.stringify(notification));
-      console.log("4" + JSON.stringify(state));
-      let navids = localStorage.getItem("navtid");
-      let navtypes = localStorage.getItem("navtype");
-      console.log(navids);
-      console.log(navtypes);
-
-      if (navtypes == 'M') {
-        this.navCtrl.setRoot(MessageDetailViewPage, {
-          event_id: navids,
-          from: 'push'
-        });
-      }
-      else if (navtypes == 'OA') {
-        this.navCtrl.setRoot(EventDetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-      } else if (navtypes == 'A') {
-        this.navCtrl.setRoot(EventDetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "AlarmdetailsPage");
-      } else if (navtypes == 'C') {
-        this.navCtrl.setRoot(CommentdetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "CommentdetailsPage");
-      } else if (navtypes == 'E') {
-        this.navCtrl.setRoot(EventDetailsEventPage, {
-          event_id: navids,
-          from: 'Push',
-        });
-        localStorage.setItem("fromModule", "CalendardetailPage");
-      } else if (navtypes == 'S') {
-        this.navCtrl.setRoot(ServicingDetailsPage, {
-          event_id: navids,
-          from: 'Push'
-        });
-        localStorage.setItem("fromModule", "ServicedetailsPage");
-      }
-
-    });
-
-    //}
-  }
+ 
 
   pushNavigationTeseting() {
     /*

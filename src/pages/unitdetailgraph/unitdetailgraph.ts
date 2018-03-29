@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, ModalController } from 'ionic-angular';
+import { Platform,  NavController, NavParams, ModalController,App } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { Config } from '../../config/config';
@@ -35,12 +35,16 @@ export class UnitdetailgraphPage {
   private apiServiceURL: string = "";
 
   constructor(
-    public modalCtrl: ModalController, public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
-    this.apiServiceURL = conf.apiBaseURL();
+    public app: App,public modalCtrl: ModalController, public platform: Platform, private conf: Config, public http: Http, private sanitizer: DomSanitizer, public navCtrl: NavController, public navParams: NavParams) {
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(UnitdetailsPage, {
           record: this.navParams.get("record"),
           tabs: 'dataView'
@@ -65,7 +69,6 @@ export class UnitdetailgraphPage {
     let graphname = this.navParams.get("graphname");
     if (graphname == 'LOADPOWERFACTOR') {
       this.title = 'Load Power Factore';
-      //http://denyoappv2.stridecdev.com/{{this.unitDetailData.unit_id}}/LOADPOWERFACTOR/0/showgraph
       this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + unit_id + "/LOADPOWERFACTOR/1/showgraph");
     } else if (graphname == 'OILPRESSURE') {
       this.title = 'Oil Pressure';

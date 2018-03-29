@@ -1,14 +1,14 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform ,App} from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
-import { DatePicker } from '@ionic-native/date-picker';
+//import { DatePicker } from '@ionic-native/date-picker';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { UnitsPage } from '../units/units';
+//import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -16,7 +16,6 @@ import * as moment from 'moment';
 import 'moment-timezone';
 
 declare var jQuery: any;
-declare var mention: any;
 /*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the AddserviceinfoPage page.
@@ -27,7 +26,7 @@ declare var mention: any;
 @Component({
   selector: 'page-addserviceinfo',
   templateUrl: 'addserviceinfo.html',
-  providers: [Camera, FileTransfer, File, DatePicker, Config, FileChooser]
+  providers: [Camera, FileTransfer, File, Config, FileChooser]
 })
 export class AddserviceinfoPage {
   @ViewChild('fileInput') fileInput;
@@ -96,10 +95,14 @@ export class AddserviceinfoPage {
   public atmentioneddata = [];
   public companyId: any;
 
-  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.addedServiceImgLists = [];
         if (this.NP.get("from") == 'service') {
           this.navCtrl.setRoot(ServicinginfoPage, {
@@ -168,7 +171,7 @@ export class AddserviceinfoPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
 
   }
@@ -235,7 +238,7 @@ export class AddserviceinfoPage {
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
-        console.log(url);
+        
         this.http.get(url, options)
           .subscribe(data => {
             // If the request was successful notify the user
@@ -265,7 +268,7 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    console.log(url);
+    
     this.http.get(url, options)
 
     // let body: string = param,
@@ -315,8 +318,8 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -446,8 +449,7 @@ export class AddserviceinfoPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    console.log("File Name is:" + currentName);
+    
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -472,9 +474,7 @@ export class AddserviceinfoPage {
 
 
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
+     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isSubmitted = true;
@@ -484,7 +484,7 @@ export class AddserviceinfoPage {
         console.log("Upload Response is" + JSON.stringify(data))
         let res = JSON.parse(data.response);
         console.log(res.id);
-        console.log(JSON.stringify(res));
+        
 
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
@@ -614,8 +614,7 @@ export class AddserviceinfoPage {
     }
 
     //description = localStorage.getItem("atMentionResult");
-    //http://denyoappv2.stridecdev.com/newserviceschedule?is_mobile=1&unitid=1&subject=newschduleservice&dateandtime=2017-11-20&description=newscheduledformdescriotion&created_by=1&time=8 AM
-    let body: string = "is_mobile=1" +
+  let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
       "&unitid=" + this.service_unitid +
       "&dateandtime=" + serviced_date +
@@ -636,13 +635,13 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-    console.log(url);
-    console.log(body);
+    
+    
 
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -668,10 +667,7 @@ export class AddserviceinfoPage {
       });
   }
 
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+ 
 
   // Update an existing record that has been edited in the page's HTML form
   // Use angular's http post method to submit the record data
@@ -731,87 +727,7 @@ export class AddserviceinfoPage {
 
 
 
-  selectEntry(item) {/*
-
-    // http://denyoappv2.stridecdev.com/servicescheduleedit/1
-    let //body: string = "loginid=" + this.userId,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/servicescheduleedit/" + item.service_id;
-    console.log(url);
-    // console.log(body);
-
-    this.http.get(url, options)
-      .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
-        this.msgcount = data.json().msgcount;
-        this.notcount = data.json().notifycount;
-      }, error => {
-        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-      });
-    this.serviced_by = item.serviced_by;
-    this.serviced_datetime = item.serviced_datetime;
-    console.log("Service Date Time:" + this.serviced_datetime);
-    if (this.serviced_datetime == "0000-00-00") {
-      this.serviced_datetime = '';
-    }
-    this.service_subject = item.service_subject;
-    this.description = item.description;
-    //this.service_remark = item.service_remark;
-    //this.next_service_date = item.next_service_date;
-    this.service_priority = item.service_priority;
-    console.log("X" + this.service_priority);
-    if (this.service_priority == "1") {
-      this.priority_lowclass = "border_low";
-
-    } else if (this.service_priority == "2") {
-
-      this.priority_highclass = "border_high";
-    }
-    if (item.is_request > 0) {
-      //this.is_request = true;
-    }
-    this.serviced_by_name = item.serviced_by_name;
-    this.service_resources = item.service_resources;
-    this.unitDetailData.nextServiceDate = item.next_service_date;
-    this.service_resources = item.service_resources;
-
-    if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-      let hashhypenhash = this.service_resources.split("#-#");
-      for (let i = 0; i < hashhypenhash.length; i++) {
-        let imgDataArr = hashhypenhash[i].split("|");
-        let imgSrc;
-        imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
-        this.addedServiceImgLists.push({
-          imgSrc: imgSrc,
-          imgDateTime: new Date(),
-          fileName: imgDataArr[1],
-          resouce_id: imgDataArr[0]
-        });
-      }
-
-
-
-      this.uploadcount = 10;
-      if (this.addedServiceImgLists.length > 9) {
-        this.isUploaded = false;
-      } else {
-        let remcount = this.uploadcount - this.addedServiceImgLists.length;
-        this.uploadcount = remcount;
-      }
-    }
-
-    if (this.NP.get("act") == 'Add') {
-      console.log("Fresh Clear add service info.ts start...");
-      this.addedServiceImgLists = [];
-      this.addedServiceImgLists.length = 0;
-      this.unitDetailData.nextServiceDate = '';
-      // this.is_request = false;
-      // this.service_remark = '';
-      this.service_subject = '';
-      localStorage.setItem("microtime", "");
-    }*/
+  selectEntry(item) {
   }
   doRemoveResouce(id, item) {
     console.log("Deleted Id" + id);

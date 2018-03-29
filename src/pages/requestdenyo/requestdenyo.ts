@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -15,6 +15,8 @@ import { DatePicker } from '@ionic-native/date-picker';
 import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
 //import { OrgchartPage } from '../orgchart/orgchart';
 import { ReportsPage } from "../reports/reports";
+
+import { Config } from '../../config/config';
 @Component({
   selector: 'page-requestdenyo',
   templateUrl: 'requestdenyo.html',
@@ -50,13 +52,17 @@ export class RequestdenyoPage {
   public end_date = '2017-08-02';
 */
   public responseResultTimeFrame = [];
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(private datePicker: DatePicker, public NP: NavParams,
+  private apiServiceURL: string = "";
+  constructor(public app: App, private conf: Config,private datePicker: DatePicker, public NP: NavParams,
   	private alertController: AlertController,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController,public platform:Platform) {
-
+      this.apiServiceURL = this.conf.apiBaseURL();
       this.platform.ready().then(() => {
         this.platform.registerBackButtonAction(() => {
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
           this.navCtrl.setRoot(ReportsPage);
         });
       });
@@ -72,8 +78,6 @@ export class RequestdenyoPage {
       "seltimeframe": ["", Validators.required]
     });
     this.responseResultTimeFrame = [];
-
-    this.apiServiceURL = this.apiServiceURL;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if(this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL +"/images/default.png";
@@ -92,8 +96,8 @@ export class RequestdenyoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userid;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -216,8 +220,7 @@ export class RequestdenyoPage {
 
 
 
-  //http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1&selunit=1&seltimeframe=continues&seltemplate=1&from=2017-08-12&to=2017-08-12&action=view&exportto=table&seltype=0
-  getTemplate(templateId) {
+   getTemplate(templateId) {
     console.log(templateId);
   }
 

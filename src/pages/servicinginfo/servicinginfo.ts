@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform, ModalController, App } from 'ionic-angular';
 import { AddserviceinfoPage } from '../addserviceinfo/addserviceinfo';
 import { UnitsPage } from '../units/units';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -76,16 +76,20 @@ export class ServicinginfoPage {
   public totalCountUpcoming;
   public totalCounthistory;
   public profilePhoto;
-  public sortLblTxt: string = 'Date'; 
+  public sortLblTxt: string = 'Date';
   footerBar: number = 1;
-  constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
+  constructor(public app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
 
-  
+
 
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(UnitdetailsPage, {
           record: this.NP.get("record"),
           tabs: 'dataView'
@@ -101,7 +105,7 @@ export class ServicinginfoPage {
     this.EDITACCESS = localStorage.getItem("UNITS_SERVICINGINFO_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_DELETE");
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
 
 
     this.profilePhoto = localStorage.getItem
@@ -114,95 +118,7 @@ export class ServicinginfoPage {
     }
 
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
 
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-*/
-    // Footer Menu Access - End
   }
 
   ionViewWillLeave() {
@@ -220,8 +136,8 @@ export class ServicinginfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -253,7 +169,7 @@ export class ServicinginfoPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
           "&unitid=" + unitid;
-      console.log(url);
+      
       this.http.get(url, options)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -324,18 +240,18 @@ export class ServicinginfoPage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCountUpcoming)
     if (this.upcomingData.startindex < this.totalCountUpcoming && this.upcomingData.startindex > 0) {
-      console.log('B');
+     
       this.doUpcoming();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
   doUpcoming() {
     this.conf.presentLoading(1);
@@ -352,18 +268,17 @@ export class ServicinginfoPage {
     } else {
       this.unit_id = editItem.service_unitid;
     }
-    //http://denyoappv2.stridecdev.com/serviceupcoming?is_mobile=1&startindex=0&results=50&sort=service_id&dir=desc&unitid=1
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        console.log(JSON.stringify(res));
+        
         console.log("1" + res.services.length);
         console.log("2" + res.services);
         if (res.services.length > 0) {
@@ -416,17 +331,17 @@ export class ServicinginfoPage {
 
 
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   previous() {
-     this.navCtrl.setRoot(UnitdetailsPage, {
+    this.navCtrl.setRoot(UnitdetailsPage, {
       record: this.NP.get("record"),
       tabs: 'dataView'
     });
   }
 
   redirectToUnits() {
-     this.navCtrl.setRoot(UnitsPage);
+    this.navCtrl.setRoot(UnitsPage);
   }
 
 
@@ -436,7 +351,7 @@ export class ServicinginfoPage {
     this.service_remark = '';
     this.addedServiceImgLists = [];
     localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(AddserviceinfoPage, {
+    this.navCtrl.setRoot(AddserviceinfoPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -449,7 +364,7 @@ export class ServicinginfoPage {
     this.service_remark = '';
     this.addedImgLists = [];
     localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(AddrequestsupportPage, {
+    this.navCtrl.setRoot(AddrequestsupportPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -470,7 +385,7 @@ export class ServicinginfoPage {
      else {
        this.conf.sendNotification("Not Applicable!!!")
      }*/
-     this.navCtrl.setRoot(ServicedetailsPage, {
+    this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -480,7 +395,7 @@ export class ServicinginfoPage {
   }
   servicedetailsView(item, act, from) {
     localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(ServicingDetailsPage, {
+    this.navCtrl.setRoot(ServicingDetailsPage, {
       record: item,
       act: 'View',
       from: from
@@ -598,11 +513,11 @@ export class ServicinginfoPage {
   }
 
   redirectCalendar() {
-     this.navCtrl.setRoot(CalendarPage);
+    this.navCtrl.setRoot(CalendarPage);
   }
 
   redirectToSettings() {
-     this.navCtrl.setRoot(OrgchartPage);
+    this.navCtrl.setRoot(OrgchartPage);
   }
 
   doSortUpcomingService() {
@@ -675,7 +590,7 @@ export class ServicinginfoPage {
   }
   doAddHoc() {
     localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(AddhocPage, {
+    this.navCtrl.setRoot(AddhocPage, {
       record: this.NP.get("record"),
       act: 'Add',
       unit_id: this.unit_id
@@ -697,47 +612,19 @@ export class ServicinginfoPage {
     } else {
       this.unit_id = editItem.service_unitid;
     }
-    //http://denyoappv2.stridecdev.com/servicehistory?is_mobile=1&startindex=0&results=50&sort=service_id&dir=desc&unitid=1
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
 
-        if (res.services.length > 0) {
-          for (let serviceData in res.services) {
+        if (res.services.length > 0) {         
             this.historyAllLists = res.services;
-
-            /* this.historyAllLists.push({
-               "user_photo": res.services[serviceData].user_photo,
-               "service_subject": res.services[serviceData].service_subject,
-               "serviced_scheduled_display": res.services[serviceData].serviced_scheduled_display,
-               "serviced_created_name": res.services[serviceData].serviced_created_name,
-               "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag_withinclosedbracket != undefined ? res.services[serviceData].serviced_created_name_hastag_withinclosedbracket : '',
-               "serviced_by_name": res.services[serviceData].serviced_by_name,
-               "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag_withinclosedbracket != undefined ?   res.services[serviceData].serviced_by_name_hastag_withinclosedbracket  : '',
-               "is_denyo_support": res.services[serviceData].is_denyo_support,
-               "is_request": res.services[serviceData].is_request,
-               "service_remark": res.services[serviceData].service_remark,
-               "service_description": res.services[serviceData].service_description,
-               "service_resources": res.services[serviceData].service_resources,
-               "service_unitid": res.services[serviceData].service_unitid,
-               "service_id": res.services[serviceData].service_id,
-               "serviced_schduled_date": res.services[serviceData].serviced_schduled_date,
-               "service_scheduled_time_format": res.services[serviceData].service_scheduled_time_format,
-               "next_service_date": res.services[serviceData].next_service_date,
-               "next_service_date_selected": res.services[serviceData].next_service_date_selected,
-               "service_status": res.services[serviceData].service_status,
-               "currentdate_mobileview": res.services[serviceData].currentdate_mobileview,
-               "serviced_datetime_edit": res.services[serviceData].serviced_datetime_edit
-             });*/
-          }
-
           this.totalCounthistory = res.totalCounthistory;
           this.historyData.startindex += this.historyData.results;
           this.loadingMoreDataContent = 'Loading More Data';
@@ -769,17 +656,17 @@ export class ServicinginfoPage {
   }
   doInfiniteHistory(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCounthistory)
     if (this.historyData.startindex < this.totalCounthistory && this.historyData.startindex > 0) {
-      console.log('B');
+     
       this.doHistory();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
 }

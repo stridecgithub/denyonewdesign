@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, Platform, ModalController } from 'ionic-angular';
+import { NavController, AlertController, NavParams, Platform, ModalController,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -53,16 +53,20 @@ export class EnginedetailviewPage {
   public msgcount: any;
   public notcount: any;
 
-  constructor(public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
+  constructor(private app:App,public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController, private sanitizer: DomSanitizer,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.unitid = localStorage.getItem("unitId");
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(UnitdetailsPage, {
           record: this.navParams.get("record"),
           tabs: 'dataView'
@@ -71,94 +75,7 @@ export class EnginedetailviewPage {
     });
 
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /* this.footerBar.push({
-       title: 'Dashboard',
-       active: true,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: dashboarddisplay,
-       pageComponent: 'DashboardPage'
-     });
-     let unitdisplay;
-     if (unitAccess == 1) {
-       unitdisplay = '';
-     } else {
-       unitdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Units',
-       active: false,
-       colorcode: "#488aff",
-       footerdisplay: unitdisplay,
-       pageComponent: 'UnitsPage'
-     });
-     let calendardisplay;
-     if (calendarAccess == 1) {
-       calendardisplay = '';
-     } else {
-       calendardisplay = 'none';
-     }
- 
-     this.footerBar.push({
-       title: 'Calendar',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: calendardisplay,
-       pageComponent: 'CalendarPage'
-     });
-     let messagedisplay;
-     if (messageAccess == 1) {
-       messagedisplay = '';
-     } else {
-       messagedisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Message',
-       active: false,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       footerdisplay: messagedisplay,
-       pageComponent: 'MessagePage'
-     });
-     let orgchartdisplay;
-     if (orgchartAccess == 1) {
-       orgchartdisplay = '';
-     } else {
-       orgchartdisplay = 'none';
-     }
-     this.footerBar.push({
-       title: 'Org Chart',
-       active: false,
-       footerdisplay: orgchartdisplay,
-       colorcode: "rgba(60, 60, 60, 0.7)",
-       pageComponent: 'OrgchartPage'
-     });
-     //this.footerBar = "0";
-     //let footerBar=this.footerBar.split(",");
- */
-    // Footer Menu Access - End
+    
   }
   presentModal(unit) {
     console.log(JSON.stringify(unit));
@@ -176,7 +93,7 @@ export class EnginedetailviewPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + this.unitid;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {

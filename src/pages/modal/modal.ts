@@ -271,9 +271,9 @@ export class ModalPage {
       });
       let iconDisplay;
       let genstatus;
-      console.log('A');
+     
       if (this.navParams.get('unitdata').enginestatus != undefined) {
-        console.log('B');
+       
         genstatus = this.navParams.get('unitdata').enginestatus
       } else {
         console.log('C:' + this.navParams.get('unitdata').gen_status);

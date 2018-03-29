@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController,Platform } from 'ionic-angular';
+import { NavController, NavParams, ToastController,Platform ,App} from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { RolePage } from '../role/role';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 //import { MyaccountPage } from '../myaccount/myaccount';
 //import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
+import { Config } from '../../config/config';
 //import { ReportsPage } from '../reports/reports';
 //import { CalendarPage } from '../calendar/calendar';
 //import { OrgchartPage} from '../orgchart/orgchart';
@@ -153,13 +154,14 @@ export class AddrolePage {
   public pageTitle: string;
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com/";
-  constructor(public navCtrl: NavController,
+  private apiServiceURL: string = "";
+  constructor(private app:App, private conf: Config, public navCtrl: NavController,
     public http: Http,
     public platform:Platform,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController) {
+      this.apiServiceURL = this.conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -272,111 +274,17 @@ export class AddrolePage {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(RolePage);
       });
     });
 
     this.userId = localStorage.getItem("userInfoId");
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
     
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-    
-    
-    
-   
-    
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-    
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    
-*/
-    // Footer Menu Access - End
 
   }
 
@@ -392,8 +300,8 @@ export class AddrolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -403,7 +311,7 @@ export class AddrolePage {
       });
     this.resetFields();
     if (this.NP.get("record")) {
-      console.log(this.NP.get("act"));
+      
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Role';
@@ -427,8 +335,8 @@ export class AddrolePage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "editrole?is_mobile=1&role_id=" + this.recordID;
-    console.log(url);
+      url: any = this.apiServiceURL + "/editrole?is_mobile=1&role_id=" + this.recordID;
+    
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1151,13 +1059,13 @@ export class AddrolePage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "role/store";
-    console.log(url);
-    console.log(body);
+      url: any = this.apiServiceURL + "/role/store";
+    
+    
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log(JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
@@ -1191,7 +1099,7 @@ export class AddrolePage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "role/update";
+      url: any = this.apiServiceURL + "/role/update";
     console.log(url+"?"+body);
     this.http.post(url, body, options)
       .subscribe(data => {
@@ -1227,8 +1135,8 @@ export class AddrolePage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "role/store";
-    console.log(body);
+      url: any = this.apiServiceURL + "/role/store";
+    
 
     this.http.post(url, body, options)
       .subscribe(data => {

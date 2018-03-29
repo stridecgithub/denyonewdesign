@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -110,11 +110,15 @@ export class ServicedetailsPage {
   currentyear;
   service_time;
   hoursadd24hourformat;
-  constructor(private filechooser: FileChooser, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(public app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.addedServiceImgLists = [];
         if (this.NP.get("from") == 'service') {
           this.navCtrl.setRoot(ServicinginfoPage, {
@@ -206,7 +210,7 @@ export class ServicedetailsPage {
     console.log("Default date is" + this.serviced_date);
 
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
 
 
   }
@@ -271,8 +275,8 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -382,7 +386,7 @@ export class ServicedetailsPage {
           headers1: any = new Headers({ 'Content-Type': type }),
           options1: any = new RequestOptions({ headers: headers }),
           url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
-        console.log(url1);
+        
         this.http.get(url1, options1)
           .subscribe(data => {
             // If the request was successful notify the user
@@ -413,11 +417,11 @@ export class ServicedetailsPage {
 
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type }),
+     
+      
       options1: any = new RequestOptions({ headers: headers }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    console.log(url1);
+    
     this.http.get(url1, options1)
 
     // let body: string = param,
@@ -475,8 +479,8 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         let favorite;
@@ -524,8 +528,7 @@ export class ServicedetailsPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let currentName = path.replace(/^.*[\\\/]/, '');
-    console.log("File Name is:" + currentName);
+   
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -550,9 +553,7 @@ export class ServicedetailsPage {
 
 
 
-    //  http://127.0.0.1/ionic/upload_attach.php
-    //http://amahr.stridecdev.com/getgpsvalue.php?key=create&lat=34&long=45
-    fileTransfer.onProgress(this.onProgress);
+     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isProgress = true;
@@ -562,7 +563,7 @@ export class ServicedetailsPage {
         console.log("Upload Response is" + JSON.stringify(data))
         let res = JSON.parse(data.response);
         console.log(res.id);
-        console.log(JSON.stringify(res));
+        
 
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
@@ -786,22 +787,20 @@ export class ServicedetailsPage {
       "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
 
 
-      //// http://denyoappv2.stridecdev.com/services/adhocstore
-      ///?is_mobile=1&service_unitid=1&serviced_date=2017-11-09&time=8 AM &service_remark=@arun&next_service_date=2018-2-7&is_denyo_support=1&serviced_by=1&created_by=1&service_status=1&is_request=false&service_subject=My service&micro_timestamp=2017109153351&uploadInfo=[]
-
+     
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
-    console.log(url);
-    console.log(body);
+    
+    
 
     this.http.post(url, body, options)
       .subscribe((data) => {
         // let res = data.json();
         console.log("Success Data:" + data);
         console.log("Success Data JSON:" + data.json());
-        //console.log("Response Success:" + JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -877,8 +876,8 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/update";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         console.log(data);
@@ -1013,10 +1012,7 @@ export class ServicedetailsPage {
       err => console.log('Error occurred while getting date: ', err)
       );
   }
-  address1get(hashtag) {
-    console.log(hashtag);
-    this.unitDetailData.hashtag = hashtag;
-  }
+
 
 
 
@@ -1060,8 +1056,7 @@ export class ServicedetailsPage {
       localStorage.setItem("microtime", "");
     } else {
 
-      // {"service_id":"54","service_unitid":"1","serviced_by":"0","serviced_datetime":"","serviced_datetime_display":"","serviced_scheduled_display":"Monday 18/12/2017 18:45:PM","created_datetime":"18/12/2017 ","duration":"1","schuled_status":"0","service_subject":"18th December subject","service_remark":null,"service_description":"18th December decription","is_denyo_support":"0","service_priority":"0","current_datetime":"18 Dec 2017","is_request":"0","event_type":"S","next_service_date":null,"nxtserviceformatted":"01 Jan 1970","serviced_created_name":"Guest 1","serviced_created_name_hastag":"@denyov2","user_photo":"http://denyoappv2.stridecdev.com/images/default.png","service_resources":""}
-      this.service_subject = item.service_subject;
+       this.service_subject = item.service_subject;
 
       this.serviced_scheduled_display = item.serviced_scheduled_display;
       this.serviced_date = item.serviced_scheduled_display;
@@ -1182,7 +1177,7 @@ export class ServicedetailsPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/servicebyid";
-    console.log(url1);
+    
     this.http.post(url1, body, options1)
       .subscribe((data) => {
         console.log("servicebyid Response Success:" + JSON.stringify(data.json()));

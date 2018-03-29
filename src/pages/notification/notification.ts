@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform, App } from 'ionic-angular';
 import { AddserviceinfoPage } from '../addserviceinfo/addserviceinfo';
 import { UnitsPage } from '../units/units';
 import { CalendarPage } from '../calendar/calendar';
@@ -47,13 +47,13 @@ export class NotificationPage {
   private apiServiceURL: string = "";
   public networkType: string;
   public totalCount;
-  constructor(private conf: Config, public platform: Platform, private sanitizer: DomSanitizer, public http: Http,
+  constructor(public app: App, private conf: Config, public platform: Platform, private sanitizer: DomSanitizer, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.pageTitle = 'Notifications';
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -64,6 +64,10 @@ export class NotificationPage {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         if (this.previousPage == 'UnitsPage') {
           this.navCtrl.setRoot(UnitsPage);
         } else if (this.previousPage == 'CalendarPage') {
@@ -85,18 +89,14 @@ export class NotificationPage {
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationPage');
     localStorage.setItem("fromModule", "NotificationPage");
   }
   notificationdetails(item, nottype) {
-    console.log(nottype);
-    console.log(JSON.stringify(item));
 
 
     let body: string = "is_mobile=1&loginid=" + this.userId +
@@ -105,12 +105,12 @@ export class NotificationPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/changestatusapibell_list";
-    console.log(url);
-    console.log(body);
+
+    console.log("URL:" + url + "?" + body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+        console.log("changestatusapibell_list Response Success:" + JSON.stringify(data.json()));
 
         // If the request was successful notify the user
         if (data.status === 200) {
@@ -178,9 +178,7 @@ export class NotificationPage {
   }
   ionViewWillEnter() {
 
-    if (this.NP.get("record")) {
-      console.log("Service Info Record Param Value:" + JSON.stringify(this.NP.get("record")));
-    }
+
     this.reportData.startindex = 0;
     this.reportData.sort = "service_id";
     this.doNotification();
@@ -189,7 +187,7 @@ export class NotificationPage {
   }
 
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+
     this.reportData.startindex = 0;
     this.notificationAllLists = [];
     this.doNotification();
@@ -198,19 +196,17 @@ export class NotificationPage {
     }, 2000);
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-    console.log('A');
-    console.log("Total Count:" + this.totalCount)
+
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+
       this.doNotification();
     }
-    console.log('C');
+
     setTimeout(() => {
-      console.log('D');
+
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+
   }
   doNotification() {
     this.conf.presentLoading(1);
@@ -228,33 +224,24 @@ export class NotificationPage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
     let res;
-    console.log(url);
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-      
+        console.log("Notification Response" + JSON.stringify(res));
         if (res.notification != undefined) {
           if (res.notification.length > 0) {
             for (let notifications in res.notification) {
-              // let isphoto = 0;
-              // if (res.notification[notifications].id != 'null') {
-              //   isphoto = 1;
-              // }
-              // if (res.notification[notifications].id != null) {
-              //   isphoto = 1;
-              // }
-              // if (res.notification[notifications].id != '') {
-              //   isphoto = 1;
-              // }
-              let usericon='';
+
+              let usericon = '';
               if (res.notification[notifications].usericon != '') {
                 usericon = this.apiServiceURL + "/staffphotos/" + res.notification[notifications].usericon;
               } else {
                 if (res.notification[notifications].notify_type != 'OA' && res.notification[notifications].notify_type != 'A') {
                   usericon = this.apiServiceURL + "/images/default.png";
-                }else{
-                  usericon='';
+                } else {
+                  usericon = '';
                 }
               }
               let cnt;
@@ -271,7 +258,6 @@ export class NotificationPage {
               if (cnt != '') {
                 con = cnt.replace("<br />", "<br>");
               }
-              console.log("coon" + con);
               let warn_tripped_status;
               let priority;
               if (res.notification[notifications].notify_type == 'OA') {
@@ -281,12 +267,11 @@ export class NotificationPage {
                 } else {
                   warn_tripped_status = '';
                 }
-                console.log("Alarm Warning Status:" + warn_tripped_status);
+
                 let fls = res.notification[notifications].content.includes('Fls');
                 let wrn = res.notification[notifications].content.includes('Wrn');
 
-                priority = res.notification[notifications].priority
-                console.log(fls);
+                priority = res.notification[notifications].priority;
                 if (fls > 0) {
                   priority = 3;
                 }
@@ -301,12 +286,10 @@ export class NotificationPage {
                 } else {
                   warn_tripped_status = '';
                 }
-                console.log("Alarm Warning Status:" + warn_tripped_status);
                 let fls = res.notification[notifications].content.includes('Fls');
                 let wrn = res.notification[notifications].content.includes('Wrn');
 
-                priority = res.notification[notifications].priority
-                console.log(fls);
+                priority = res.notification[notifications].priority;
                 if (fls > 0) {
                   priority = 3;
                 }
@@ -316,11 +299,17 @@ export class NotificationPage {
               }
 
 
+              let unread = '';
 
+              if (res.notification[notifications].notify_to_readstatus == 0) {
+                unread = 'unread';
+              } else {
+                unread = 'read';
+              }
 
               this.notificationAllLists.push({
                 table_id: res.notification[notifications].table_id,
-                notify_to_readstatus: res.notification[notifications].notify_to_readstatus,
+                notify_to_readstatus: unread,
                 photo: usericon,
                 notify_type: res.notification[notifications].notify_type,
                 content: res.notification[notifications].content,
@@ -329,16 +318,15 @@ export class NotificationPage {
                 priority: priority,
                 notify_by_name: res.notification[notifications].notify_by_name
               });
-             
+
             }
             this.totalCount = res.totalCount;
             this.reportData.startindex += this.reportData.results;
-            console.log(JSON.stringify(this.notificationAllLists));
           } else {
             //this.totalCount = 0;
           }
         }
-        // console.log("Total Record:2" + this.totalCount);
+
 
       }, error => {
         this.conf.presentLoading(0);
@@ -375,7 +363,6 @@ export class NotificationPage {
   }
 
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this unit group?',
       buttons: [{

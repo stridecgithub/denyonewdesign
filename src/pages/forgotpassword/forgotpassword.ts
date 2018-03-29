@@ -58,7 +58,7 @@ export class ForgotpasswordPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
     this.networkType = '';
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         this.nav.setRoot(LoginPage);
@@ -88,7 +88,7 @@ export class ForgotpasswordPage {
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
-          console.log(JSON.stringify(data.json()));
+          
           // If the request was successful notify the user
           if (data.status === 200) {
             console.log("Msg Results:-" + res.msg[0].result);

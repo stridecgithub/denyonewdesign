@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -18,7 +18,6 @@ import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
 
 import { Config } from '../../config/config';
-import { EventsandcommentsPage } from '../eventsandcomments/eventsandcomments';
 
 import * as moment from 'moment';
 @Component({
@@ -71,12 +70,16 @@ export class ReportsPage {
   public end_date = '2017-08-02';
 */
   public responseResultTimeFrame = [];
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(private conf: Config,private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
+  private apiServiceURL: string = "";
+  constructor(public app: App,private conf: Config,private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController,public platform:Platform) {
-
+      this.apiServiceURL = this.conf.apiBaseURL();
       this.platform.ready().then(() => {
         this.platform.registerBackButtonAction(() => {
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
           this.navCtrl.setRoot(DashboardPage);
         });
       });
@@ -96,8 +99,6 @@ export class ReportsPage {
       "end_date": ["", Validators.required],
     });
     this.responseResultTimeFrame = [];
-
-    this.apiServiceURL = this.apiServiceURL;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -105,104 +106,6 @@ export class ReportsPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.NP.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-    
-    
-    
-   
-    
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-    
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    
-
-    // Footer Menu Access - End
    
     this.CREATEACCESS = localStorage.getItem("REPORTS_REPORTS_CREATE");
   }
@@ -247,8 +150,8 @@ export class ReportsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userid;
-    console.log(url);
-    // console.log(body);
+    
+    
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -374,7 +277,6 @@ export class ReportsPage {
 
 
 
-  //http://denyoappv2.stridecdev.com/reports/viewreport?is_mobile=1&selunit=1&seltimeframe=continues&seltemplate=1&from=2017-08-12&to=2017-08-12&action=view&exportto=table&seltype=0
   getTemplate(templateId) {
     console.log(templateId);
   }
@@ -460,9 +362,7 @@ export class ReportsPage {
   }
 
 
-  evecomments() {
-     this.navCtrl.setRoot(EventsandcommentsPage);
-  }
+
 
   filToDate(start_date) {
     console.log("Start Date:" + start_date);

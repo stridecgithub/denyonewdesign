@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform ,App} from 'ionic-angular';
 import { MyaccountPage } from '../myaccount/myaccount';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -21,12 +21,16 @@ export class ChangepasswordPage {
   public form: FormGroup;
   public isSubmitted: boolean = false;
   userId;
-  constructor(private conf: Config, public navCtrl: NavController, public navParams: NavParams, public http: Http,
+  constructor(private app:App,private conf: Config, public navCtrl: NavController, public navParams: NavParams, public http: Http,
     public NP: NavParams,
     public fb: FormBuilder, public platform: Platform
   ) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(MyaccountPage);
       });
     });
@@ -35,7 +39,7 @@ export class ChangepasswordPage {
       "confirmpassword": ["", Validators.required],
       "newpassword": ["", Validators.required]
     });
-    this.apiServiceURL = conf.apiBaseURL();
+    this.apiServiceURL = this.conf.apiBaseURL();
   }
 
   ionViewDidLoad() {
@@ -46,10 +50,9 @@ export class ChangepasswordPage {
   }
 
   saveEntry() {
-    //loginid=46&oldpassword=newnew&newpassword=123123
     let oldpassword: string = this.form.controls["oldpassword"].value,
       newpassword: string = this.form.controls["newpassword"].value;
-    //denyoappv2.stridecdev.com/changepassword?loginid=46&oldpassword=newnew&newpassword=123123
+    
     let body: string = "loginid=" + this.userId + "&oldpassword=" + oldpassword + "&newpassword=" + newpassword,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -59,7 +62,7 @@ export class ChangepasswordPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        console.log(JSON.stringify(data.json()));
+        
         // If the request was successful notify the user
         if (data.status === 200) {
           console.log("Msg Results:-" + res.msg[0].result);

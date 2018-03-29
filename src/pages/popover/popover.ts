@@ -56,7 +56,7 @@ export class PopoverPage {
     this.EDITACCESS = localStorage.getItem("SETTINGS_ORGCHART_EDIT");
     this.DELETEACCESS = localStorage.getItem("SETTINGS_ORGCHART_DELETE");
     this.networkType = '';
-    this.apiServiceURLHTML = conf.apiBaseURL();
+    this.apiServiceURLHTML = this.conf.apiBaseURL();
     //console.log("this.companyId" + this.companyId);
     //console.log("this.itemData.company_id" + this.itemData.company_id);
     //console.log("this.EDITACCESS" + this.EDITACCESS)

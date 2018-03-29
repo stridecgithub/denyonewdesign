@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams,Platform } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AdduserPage } from '../adduser/adduser';
 import { LoadingController } from 'ionic-angular';
-import { MyaccountPage } from '../myaccount/myaccount';
+//import { MyaccountPage } from '../myaccount/myaccount';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
+import { DashboardPage } from '../dashboard/dashboard';
 
 /**
  * Generated class for the UserPage page.
@@ -49,14 +50,18 @@ export class UserPage {
       results: 50
     }
   public userAllLists = [];
-  constructor(public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
+  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public nav: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Users';
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
-        this.nav.setRoot(MyaccountPage);
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+        this.nav.setRoot(DashboardPage);
       });
     });
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERLIST_CREATE");
@@ -71,105 +76,6 @@ export class UserPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
-
-
-
-
-
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "#488aff",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-
-*/
-    // Footer Menu Access - End
 
   }
 
@@ -177,7 +83,6 @@ export class UserPage {
   /* Pull to Refresh */
   /*******************/
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
     this.userAllLists = [];
     this.doUser();
@@ -203,13 +108,12 @@ export class UserPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/staff?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
-    console.log(url);
+
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        console.log(JSON.stringify(res));
-        console.log("1" + res.staff.length);
-        console.log("2" + res.staff);
+
+       
         if (res.staff.length > 0) {
           this.userAllLists = res.staff;
           this.totalCount = res.totalCount;
@@ -217,7 +121,6 @@ export class UserPage {
         } else {
           this.totalCount = 0;
         }
-        console.log("Total Record:" + this.totalCount);
 
       });
     this.presentLoading(0);
@@ -227,19 +130,16 @@ export class UserPage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-    console.log('A');
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+
       this.doUser();
     }
-    console.log('C');
+
     setTimeout(() => {
-      console.log('D');
+
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+
   }
 
 
@@ -250,12 +150,12 @@ export class UserPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    console.log(url);
-    // console.log(body);
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -288,7 +188,7 @@ export class UserPage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this user?',
       buttons: [{
@@ -359,32 +259,7 @@ export class UserPage {
     this.doUser();
   }
 
-  /********************/
-  /* Sorting function */
-  /********************/
-  // doSort(val) {
-  //   console.log('1');
-  //   this.userAllLists = [];
-  //   this.reportData.startindex = 0;
-  //   console.log('2');
-  //   this.sortby = 1;
-  //   if (this.vendorsort == "asc") {
-  //     this.reportData.sortascdesc = "desc";
-  //     this.vendorsort = "desc";
-  //     this.ascending = false;
-  //     console.log('3');
-  //   }
-  //   else {
-  //     console.log('4');
-  //     this.reportData.sortascdesc = "asc";
-  //     this.vendorsort = "asc";
-  //     this.ascending = true;
-  //   }
-  //   console.log('5');
-  //   this.reportData.sort = val;
-  //   this.doUser();
-  //   console.log('6');
-  // }
+
   presentLoading(parm) {
     let loader;
     loader = this.loadingCtrl.create({
@@ -399,7 +274,7 @@ export class UserPage {
   }
 
   previous() {
-    this.nav.setRoot(MyaccountPage);
+    this.nav.setRoot(DashboardPage);
   }
   notification() {
     this.nav.setRoot(NotificationPage);
@@ -423,8 +298,7 @@ export class UserPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -442,9 +316,9 @@ export class UserPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
+
             if (data != undefined) {
-              console.log('Desc clicked');
+
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'companygroup_name') {

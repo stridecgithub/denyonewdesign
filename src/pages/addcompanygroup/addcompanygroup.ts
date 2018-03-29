@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, Platform } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Platform,App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { CompanygroupPage } from '../companygroup/companygroup';
@@ -56,14 +56,18 @@ export class AddcompanygroupPage {
   public pageTitle: string;
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
-  private apiServiceURL: string = "http://denyoappv2.stridecdev.com";
-  constructor(public nav: NavController,
+  private apiServiceURL: string = "";
+  constructor(private app:App,public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController,public platform:Platform) {
       this.platform.ready().then(() => {
         this.platform.registerBackButtonAction(() => {
+          const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
           this.nav.setRoot(CompanygroupPage);
         });
       });
@@ -93,24 +97,12 @@ export class AddcompanygroupPage {
     
     // this.footerBar="0,"+footermenuacc;
 
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-
+    
     
     
     
    
     
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
     /*
     this.footerBar.push({
       title: 'Dashboard',
@@ -183,8 +175,7 @@ export class AddcompanygroupPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddcompanygroupPage');
-  }
+      }
 
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
@@ -195,19 +186,18 @@ export class AddcompanygroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log(url);
-    // console.log(body);
+   
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
     this.getJsonCountryListData();
     if (this.NP.get("record")) {
-      console.log(this.NP.get("act"));
+    
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Company Group';
@@ -1217,13 +1207,13 @@ export class AddcompanygroupPage {
   }
 
   getPrimaryContact(ev) {
-    console.log(ev.target.value);
+   
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      console.log('Reached five characters above');
+     
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      console.log('Reached five characters below');
+      
       this.borderbottomredvalidation = '';
     }
   }
@@ -1242,14 +1232,11 @@ export class AddcompanygroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup/store";
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        console.log(JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].Error);
           this.hideForm = true;
           if (res.msg[0].Error == '1') {
             this.isSubmitted=false;
@@ -1288,14 +1275,11 @@ export class AddcompanygroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup/update";
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();
-        console.log(data.json());
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.sendNotification(res.msg[0].result);
@@ -1319,15 +1303,12 @@ export class AddcompanygroupPage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry() {
-
-    //http://denyoappv2.stridecdev.com/companygroup/8/1/delete
     let companygroup_name: string = this.form.controls["companygroup_name"].value,
       //body: string = "key=delete&recordID=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup/" + this.recordID + "/1/delete";
-    console.log(url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -1356,7 +1337,6 @@ export class AddcompanygroupPage {
 
    // contact = primary + " " + contact;
     contact = contact;
-    console.log(contact);
     if (companygroup_name.toLowerCase() == 'denyo' || companygroup_name.toLowerCase() == 'dum' || companygroup_name.toLowerCase() == 'dsg' || companygroup_name.toLowerCase() == 'denyo singapore') {
       this.sendNotification("Given Company Name Not Acceptable....");
     }

@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, ModalController,Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, ModalController,Platform,App } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -7,7 +7,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from "../add-unit/add-unit";
 import { ModalPage } from '../modal/modal';
 import { DashboardPage } from '../dashboard/dashboard';
-import { PermissionPage } from '../permission/permission';
+//import { PermissionPage } from '../permission/permission';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -55,8 +55,8 @@ export class UnitsPage {
   public EDITACCESS: any;
   public DELETEACCESS: any;
   tabIndexVal;
-  constructor(public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
-    this.apiServiceURL = conf.apiBaseURL();
+  constructor(public app: App,public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -71,110 +71,13 @@ export class UnitsPage {
 
 
 
-    // Footer Menu Access - Start
-    let footeraccessstorage = localStorage.getItem("footermenu");
-    let footeraccessparams = this.navParams.get('footermenu');
-    let footermenuacc;
-    if (footeraccessparams != undefined) {
-      footermenuacc = footeraccessparams;
-    } else {
-      footermenuacc = footeraccessstorage;
-    }
-
-    console.log("Footer Menu Access abc:-" + footermenuacc);
-    // this.footerBar="0,"+footermenuacc;
-
-    let footermenusplitcomma = footermenuacc.split(",");
-    let dashboardAccess = footermenusplitcomma[0];
-    let unitAccess = footermenusplitcomma[1];
-    let calendarAccess = footermenusplitcomma[2];
-    let messageAccess = footermenusplitcomma[3];
-    let orgchartAccess = footermenusplitcomma[4];
-    if(unitAccess==0){
-      this.navCtrl.setRoot(PermissionPage, {});
-    }
-    console.log("Footer Menu Access for Dashboard" + dashboardAccess);
-    console.log("Footer Menu Access for Dashboard" + unitAccess);
-    console.log("Footer Menu Access for Calendar" + calendarAccess);
-    console.log("Footer Menu Access for Messagees" + messageAccess);
-    console.log("Footer Menu Access for Org Chart" + orgchartAccess);
-    let dashboarddisplay;
-    if (dashboardAccess == 1) {
-      dashboarddisplay = '';
-    } else {
-      dashboarddisplay = 'none';
-    }
-    /*
-    this.footerBar.push({
-      title: 'Dashboard',
-      active: true,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: dashboarddisplay,
-      pageComponent: 'DashboardPage'
-    });
-    let unitdisplay;
-    if (unitAccess == 1) {
-      unitdisplay = '';
-    } else {
-      unitdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Units',
-      active: false,
-      colorcode: "#488aff",
-      footerdisplay: unitdisplay,
-      pageComponent: 'UnitsPage'
-    });
-    let calendardisplay;
-    if (calendarAccess == 1) {
-      calendardisplay = '';
-    } else {
-      calendardisplay = 'none';
-    }
-
-    this.footerBar.push({
-      title: 'Calendar',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: calendardisplay,
-      pageComponent: 'CalendarPage'
-    });
-    let messagedisplay;
-    if (messageAccess == 1) {
-      messagedisplay = '';
-    } else {
-      messagedisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Message',
-      active: false,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      footerdisplay: messagedisplay,
-      pageComponent: 'MessagePage'
-    });
-    let orgchartdisplay;
-    if (orgchartAccess == 1) {
-      orgchartdisplay = '';
-    } else {
-      orgchartdisplay = 'none';
-    }
-    this.footerBar.push({
-      title: 'Org Chart',
-      active: false,
-      footerdisplay: orgchartdisplay,
-      colorcode: "rgba(60, 60, 60, 0.7)",
-      pageComponent: 'OrgchartPage'
-    });
-
-    console.log("Footer Access Loop Value:" + JSON.stringify(this.footerBar));
-    //this.footerBar = "0";
-    //let footerBar=this.footerBar.split(",");
-    console.log("Final Footer Menu access:" + this.footerBar);
-*/
-    // Footer Menu Access - End
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
         this.navCtrl.setRoot(DashboardPage, {
         });
       });
@@ -279,12 +182,12 @@ export class UnitsPage {
       url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
 
     let res;
-    console.log(url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
 
         res = data.json();
-        // console.log(JSON.stringify(res));
+        // 
         // console.log("1" + res.units.length);
         // console.log("2" + res.units);
         if (res.units.length > 0) {
@@ -422,8 +325,8 @@ export class UnitsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
-    console.log(url);
-    console.log(body);
+    
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         //this.reportData.startindex = 0;
@@ -431,7 +334,7 @@ export class UnitsPage {
         //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
-          console.log(JSON.stringify(res));
+          
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavourited successfully");
@@ -699,18 +602,18 @@ export class UnitsPage {
   /**********************/
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-    console.log('A');
+   
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-      console.log('B');
+     
       this.doUnit();
     }
-    console.log('C');
+   
     setTimeout(() => {
-      console.log('D');
+     
       infiniteScroll.complete();
     }, 500);
-    console.log('E');
+    
   }
 
 }
