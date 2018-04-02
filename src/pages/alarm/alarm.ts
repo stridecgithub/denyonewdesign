@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, Platform, ModalController,App } from 'ionic-angular';
+import { NavController, AlertController, NavParams, Platform, ModalController, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -32,7 +32,7 @@ export class AlarmPage {
   public DELETEACCESS: any;
   public pageTitle: string;
   public loginas: any;
-  
+
   footerBar: number = 1;
   private apiServiceURL: string = "";
   public networkType: string;
@@ -61,21 +61,21 @@ export class AlarmPage {
   public userId: any;
   public unit_id: any;
   public sortLblTxt: string = 'Date';
-  constructor(private app:App,public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
 
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {   
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
-        }      
-          this.navCtrl.setRoot(UnitdetailsPage, {
-            record: this.NP.get("record"),
-            tabs: 'overView'
-          });
+        }
+        this.navCtrl.setRoot(UnitdetailsPage, {
+          record: this.NP.get("record"),
+          tabs: 'overView'
         });
       });
+    });
 
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -85,7 +85,7 @@ export class AlarmPage {
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
 
-    
+
 
     platform.registerBackButtonAction(() => {
       this.navCtrl.setRoot(UnitdetailsPage, {
@@ -237,12 +237,12 @@ export class AlarmPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarm";
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        
+
         console.log("1" + res.alarms.length);
         console.log("2" + res.alarms);
 
@@ -263,10 +263,21 @@ export class AlarmPage {
               alarm_priority = 2;
             }
 
+
+            let act = res.alarms[alarm].alarm_name.includes('!');
+            let activealarm;
+            let activealarmtext;
+            if (act > 0) {
+              activealarm = 'active-alarm';
+              activealarmtext = 'active-alarm-text';
+            }
+
             this.reportAllLists.push({
               alarm_id: res.alarms[alarm].alarm_id,
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
               alarm_name: res.alarms[alarm].alarm_name,
+              activealarm: activealarm,
+              activealarmtext: activealarmtext,
               alarm_assginedby_name: res.alarms[alarm].alarm_assginedby_name,
               alarm_assginedto_name: res.alarms[alarm].alarm_assginedto_name,
               alarm_priority: alarm_priority,
@@ -301,18 +312,18 @@ export class AlarmPage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-   
+
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doAlarm();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 
 

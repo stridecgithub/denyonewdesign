@@ -122,10 +122,12 @@ export class MessagesPage {
   testRadioResult;
   // tabBarElement;
   public profilePhoto;
+  roleId;
   constructor(public app: App,public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.roleId = localStorage.getItem("userInfoRoleId");
     this.inb();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {

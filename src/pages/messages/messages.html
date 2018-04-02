@@ -91,7 +91,7 @@
             </button>
 
 
-            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')"  *ngIf="MESSAGEINBOXDELETEACCESS==1">
+            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')"  *ngIf="(MESSAGEINBOXDELETEACCESS==1 && inboxitem.duration==0) || (roleId==1 && MESSAGEINBOXDELETEACCESS==1)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -143,7 +143,7 @@
               <ion-icon name="mail"></ion-icon>
               Read
             </button-->
-            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')"  *ngIf="MESSAGESENTDELETEACCESS==1">
+            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')"  *ngIf="(MESSAGESENTDELETEACCESS==1 && senditem.duration==0) || (roleId==1 && MESSAGESENTDELETEACCESS==1)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>

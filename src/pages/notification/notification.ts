@@ -95,6 +95,21 @@ export class NotificationPage {
   }
   ionViewDidLoad() {
     localStorage.setItem("fromModule", "NotificationPage");
+
+
+    let body: string = "is_mobile=1&loginid=" + this.userId,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/changebellnotify";
+
+    console.log("URL:" + url + "?" + body);
+
+    this.http.post(url, body, options)
+      .subscribe((data) => {
+        console.log("changebellnotify:" + JSON.stringify(data.json()));
+
+      });
   }
   notificationdetails(item, nottype) {
 
@@ -224,7 +239,7 @@ export class NotificationPage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
     let res;
-
+    console.log("Notification list api" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);

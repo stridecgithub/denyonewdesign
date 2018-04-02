@@ -303,7 +303,7 @@ export class AddcalendarPage {
 
 
       if (this.NP.get("service_id")) {
-        let eventType = this.NP.get("type");
+       // let eventType = this.NP.get("type");
 
 
 
@@ -325,7 +325,7 @@ export class AddcalendarPage {
 
           });
       } else if (this.NP.get("event_id")) {
-        let eventType = this.NP.get("type");
+       // let eventType = this.NP.get("type");
 
 
 

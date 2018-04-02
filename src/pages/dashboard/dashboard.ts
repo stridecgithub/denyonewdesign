@@ -136,7 +136,6 @@ export class DashboardPage {
 
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
@@ -338,7 +337,7 @@ export class DashboardPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-        console.log(error);
+       
       });
     // Notiifcation count
   }
@@ -410,7 +409,7 @@ export class DashboardPage {
           this.totalCount = 0;
         }
       }, error => {
-        console.log("Error" + JSON.stringify(error));
+        
       });
 
   }
@@ -420,7 +419,6 @@ export class DashboardPage {
 
   /******************************************/
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this unit?',
       buttons: [{
@@ -465,14 +463,14 @@ export class DashboardPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
-          console.log("Deleted done");
+         
         }
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log("Error")
+       
       });
   }
 
@@ -561,7 +559,7 @@ export class DashboardPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error);// + "\n" + error;
+        
       });
     //this.doUnit();
   }
@@ -922,7 +920,7 @@ export class DashboardPage {
       center: latLngmapoption,
       zoom: 8      
     }
-    console.log("Map Options" + JSON.stringify(mapOptions));
+    
 
     // Create map
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -948,7 +946,7 @@ export class DashboardPage {
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
-          iconDisplay = 'assets/imgs/marker-' + markers[i].genstatus + '.png'
+          iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png'
         }
         let marker = new google.maps.Marker({
           position: latLng,
@@ -1086,9 +1084,7 @@ export class DashboardPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
-              console.log('Desc clicked');
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'unitname') {
@@ -1134,12 +1130,10 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + urlstr;
-    console.log("onAction map.ts:" + url);
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("dashboardaction?id=" + id + "&action=hide&is_mobile=1&loginid=" + this.userId + JSON.stringify(data.json()));
-
+       
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Dashboard hide action successfully updated`);
@@ -1207,7 +1201,6 @@ export class DashboardPage {
       localStorage.setItem("unitlat", item.lat);
       localStorage.setItem("unitlng", item.lng);
       localStorage.setItem("runninghr", item.runninghr);
-      console.log("RHR" + item.runninghr);
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
@@ -1233,9 +1226,6 @@ export class DashboardPage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doUnit();
@@ -1253,9 +1243,9 @@ export class DashboardPage {
       .then((res: any) => {
 
         if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
+         
         } else {
-          console.log('We do not have permission to send push notifications');
+          
         }
 
       });
@@ -1308,7 +1298,7 @@ export class DashboardPage {
     }
     );
 
-    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+    pushObject.on('error').subscribe(error =>{} );
 
 
   }
@@ -1321,7 +1311,6 @@ export class DashboardPage {
     });
     toast.present();
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
       this.pushDetail(notification);
     });
   }
@@ -1336,7 +1325,6 @@ export class DashboardPage {
     });
     toast.present();
     toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
     });
   }
 

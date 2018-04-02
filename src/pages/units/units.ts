@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, ModalController,Platform,App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, ModalController, Platform, App } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -54,10 +54,12 @@ export class UnitsPage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  roleId;
   tabIndexVal;
-  constructor(public app: App,public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
+    this.roleId = localStorage.getItem("userInfoRoleId");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
@@ -182,7 +184,7 @@ export class UnitsPage {
       url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
 
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -204,6 +206,14 @@ export class UnitsPage {
             }
             // console.log("Favorite is:" + res.units[unit].favorite);
 
+            let dur;
+            if (this.roleId == 1) {
+              dur = 0;
+            } else {
+              dur=res.units[unit].duration;
+            }
+
+
             this.unitAllLists.push({
               unit_id: res.units[unit].unit_id,
               unitname: res.units[unit].unitname,
@@ -223,6 +233,7 @@ export class UnitsPage {
               favoriteindication: res.units[unit].favorite,
               lat: res.units[unit].lat,
               lng: res.units[unit].lng,
+              duration: dur,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid,
@@ -230,7 +241,7 @@ export class UnitsPage {
               duedatecolor: res.units[unit].duedatecolor
             });
           }
-          // console.log("Kannan12345fdsfs" + JSON.stringify(this.unitAllLists));
+          console.log("Kannan12345fdsfs" + JSON.stringify(this.unitAllLists));
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -325,8 +336,8 @@ export class UnitsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
         //this.reportData.startindex = 0;
@@ -334,7 +345,7 @@ export class UnitsPage {
         //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
-          
+
           console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavourited successfully");
@@ -376,6 +387,7 @@ export class UnitsPage {
               favoriteindication: res.units[unit].favorite,
               genstatus: res.units[unit].genstatus,
               lat: res.units[unit].lat,
+              duration: res.units[unit].duration,
               lng: res.units[unit].lng,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
@@ -602,18 +614,18 @@ export class UnitsPage {
   /**********************/
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-   
+
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doUnit();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 
 }

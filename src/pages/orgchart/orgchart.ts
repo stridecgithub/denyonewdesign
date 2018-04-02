@@ -145,7 +145,7 @@ export class OrgchartPage {
       this.fontsize = this.fontsize + 1;
 
       if (this.fontsize >= 32) {
-        this.fontsize = 32;
+        // this.fontsize = 32;
       }
       this.imgwidth = this.imgwidth + 1;
       this.imgheight = this.imgheight + 1;
@@ -157,10 +157,24 @@ export class OrgchartPage {
       console.log("Image Height:" + this.imgheight);
       console.log("Image Radius:" + this.imgradius);
     } else {
+      this.fontsize = this.fontsize - 1;
+
+
+      if (this.fontsize < 0) {
+        this.fontsize = 11;
+      }
       if (this.imgwidth >= 80) {
-        this.fontsize = this.fontsize - 1;
+
         if (this.fontsize >= 32) {
-          this.fontsize = 32;
+          // this.fontsize = 32;
+        }
+
+        if (this.fontsize < 0) {
+          //this.fontsize = 11;
+        }
+
+        if (this.fontsize < 12) {
+          // this.fontsize = 11;
         }
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
@@ -207,8 +221,8 @@ export class OrgchartPage {
 
       this.fontsize = this.fontsize + 1;
 
-      if (this.fontsize >= 16) {
-        this.fontsize = 16;
+      if (this.fontsize >= 32) {
+        this.fontsize = 32;
       }
       this.imgwidth = this.imgwidth + 1;
       this.imgheight = this.imgheight + 1;
@@ -223,9 +237,20 @@ export class OrgchartPage {
     } else {
       if (this.imgwidth >= 80) {
         this.fontsize = this.fontsize - 1;
-        if (this.fontsize >= 16) {
-          this.fontsize = 16;
+        if (this.fontsize >= 32) {
+          this.fontsize = 32;
         }
+
+
+
+        if (this.fontsize < 0) {
+          this.fontsize = 11;
+        }
+
+        if (this.fontsize < 12) {
+          this.fontsize = 11;
+        }
+
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
         this.imgradius = parseInt(this.imgwidth) / 2;
@@ -371,7 +396,8 @@ export class OrgchartPage {
       this.pet = compId;
       this.companyId = compId;
     } else {
-      this.pet = "1";
+      // this.pet = "1";
+      this.pet = this.companyId;
     }
 
     let //body: string = "loginid=" + this.userId,

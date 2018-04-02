@@ -149,10 +149,11 @@ export class CalendarPage {
   @Output() onEventDoubleTap = new EventEmitter<any>();
   @Output() onEventPress = new EventEmitter<any>();
   public profilePhoto;
+  roleId;
   constructor(private app: App, private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, public navCtrl: NavController,
     private calendarElement: ElementRef,
     public events: Events, private http: Http, public alertCtrl: AlertController) {
-
+    this.roleId = localStorage.getItem("userInfoRoleId");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -165,7 +166,7 @@ export class CalendarPage {
     });
 
     localStorage.setItem("sdate", "");
-    
+
     let currentDate = new Date();
     this.currentDataHighlights = '';
     this.currentDate = currentDate.getDate();
@@ -188,7 +189,7 @@ export class CalendarPage {
     this.SERVICEVIEWACCESS = localStorage.getItem("CALENDAR_SERVICES_VIEW");
     this.SERVICEDELETEACCESS = localStorage.getItem("CALENDAR_SERVICES_DELETE");
 
-   
+
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
     this.calEvents = [];
@@ -217,17 +218,17 @@ export class CalendarPage {
     localStorage.setItem("sdate", "");
     this.doNotifiyCount();
   }
-  
+
   getlength(number) {
     return number.toString().length;
   }
-  
+
   ngOnInit() {
-   
+
     this.onLoad = false;
-   
+
     this.addMissingIds();
-    
+
     this.ctrl = {
       viewMode: 'month',
       dateSelection: moment(),
@@ -248,14 +249,14 @@ export class CalendarPage {
         selectedDate: null
       }
     };
-    
+
     let toStrDte = this.ctrl.dateSelection.toString();
-   
+
     let calendardaystr = toStrDte.split(" ")[0];
     let calendarmonthstr = toStrDte.split(" ")[1];
     let calendardatestr = toStrDte.split(" ")[2];
     let calendaryearstr = toStrDte.split(" ")[3];
-   
+
 
     this.currentDateFormatToday = calendardaystr + " " + calendardatestr + " " + calendarmonthstr + " " + calendaryearstr;
     this.calendarDate = calendardatestr;
@@ -391,7 +392,7 @@ export class CalendarPage {
     var firstDayInViewOfPreviousMonth = moment(this.ctrl.monthView.firstDayOfMonth).subtract(firstDayOfMonthAsWeekday - 1, 'days');
 
     var currentDay = moment(firstDayInViewOfPreviousMonth);
-   // var days = [];
+    // var days = [];
     var ctrlObj: any = {
       idx: 0,
       reachedEventListEnd: false,
@@ -568,7 +569,7 @@ export class CalendarPage {
   }
 
   monthDayGridCellOnPress(item: CalendarEvent, $event) {
-   
+
     $event.srcEvent.stopPropagation(); // <-- Doesn't seem to work
     if (this.draggingItem === null && this.tmpTapCount === 0 && !this.stopPressPropagation) {
       this.events.publish('calendar-event:month-grid-cell-press - calendar.components', item);
@@ -599,7 +600,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-   
+
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -621,7 +622,7 @@ export class CalendarPage {
               cdate: this.currentYear + "-" + this.currentMonth + "-" + this.currentDate
             });
           }
-         
+
         }
         for (var i = 0; i < this.eventIdentify.length; i += 1) {
           var startTime;
@@ -986,7 +987,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr;
-    
+
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1012,7 +1013,7 @@ export class CalendarPage {
 
         }
 
-        
+
 
         let curDate = currentDateArr.getFullYear() + "-" + mnstr + cmonth + "-" + dtstr + currentDateArr.getDate();
 
@@ -1034,7 +1035,7 @@ export class CalendarPage {
         }
         this.calendarResultEvent = [];
         if (this.petselection == 'ALL') {
-          
+
           this.doCalendarResult(data, 0, 0, 0, 'all')
         } else if (this.petselection == 'SERVICE') {
           this.doCalendarResult(data, 0, 0, 0, 'service');//JsonData,Event,Service,Alarm
@@ -1141,7 +1142,7 @@ export class CalendarPage {
         icon: 'service',
         class: 'service'
       });
-     
+
 
     }
 
@@ -1282,19 +1283,19 @@ export class CalendarPage {
 
     this.onTimeSelected(this.ctrl.selectedYear, this.month, this.date, '');
 
-    
+
     localStorage.setItem("eventDate", currentDate);
   }
 
 
   swipeopensliding(slidingItem: ItemSliding) {
-   
+
     slidingItem.getOpenAmount();
-   
+
   }
   // List page navigate to notification list
   notification() {
-   
+
     // Navigate the notification list page
     this.navCtrl.setRoot(NotificationPage);
   }
@@ -1310,7 +1311,7 @@ export class CalendarPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-       
+
       });
     // Notiifcation count
   }
@@ -1318,7 +1319,7 @@ export class CalendarPage {
 
 
   doServiceDelete(item) {
-    
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{

@@ -1,4 +1,14 @@
 page-alarm{
+
+	.active-alarm{
+		background-color: #f1f1f1;
+			 font-weight: bold;
+	 }
+
+	 .active-alarm-text{
+		color: red;
+	 }
+
 	.list-item-options button.edit-btn {
 		background: #00BA28;
 	}
@@ -69,7 +79,7 @@ page-alarm{
 	ion-col{
 		h1{
 			font-size: 16px;
-			color: #000000;
+		/*	color: #000000;*/
 			font-weight: bold;
 			margin-top: 14px;
 		}

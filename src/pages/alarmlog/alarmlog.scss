@@ -1,4 +1,12 @@
 page-alarmlog {
+
+	.ative-alarm{
+		background-color: #f1f1f1;
+			 font-weight: bold;
+	 }
+	 .active-alarm-text{
+		color: red;
+	 }
 ion-content .scroll-content {
     margin-bottom: 0;
 }
@@ -57,7 +65,7 @@ ion-content .scroll-content {
 	ion-col{
 		h1{
 			font-size: 16px;
-			color: #000000;
+		/*	color: #000000;*/
 			font-weight: bold;
 			margin-top: 14px;
 		}
@@ -87,7 +95,7 @@ ion-content .scroll-content {
 	ion-col{
 		h1{
 			font-size: 16px;
-			color: #000000;
+		/*	color: #000000;*/
 			font-weight: bold;
 			margin-top: 14px;
 		}
@@ -118,7 +126,7 @@ ion-content .scroll-content {
 	ion-col{
 		h1{
 			font-size: 16px;
-			color: #000000;
+			/*color: #000000;*/
 			font-weight: bold;
 			margin-top: 14px;
 		}

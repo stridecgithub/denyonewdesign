@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, AlertController, ModalController,App } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController, ModalController, App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
@@ -66,9 +66,11 @@ export class CommentsinfoPage {
   public networkType: string;
   public totalCount;
   public sortLblTxt: string = 'Comment';
-  constructor(private app:App,public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
+  roleId;
+  constructor(private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
-
+    this.roleId = localStorage.getItem("userInfoRoleId");
+    console.log("Role Id" + this.roleId);
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -91,10 +93,11 @@ export class CommentsinfoPage {
     this.COMMENTCREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
     this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
     this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
+    console.log("COMMENTDELETEACCESS:" + this.COMMENTDELETEACCESS);
     this.apiServiceURL = this.conf.apiBaseURL();
 
 
-    
+
     // Footer Menu Access - End
   }
 
@@ -173,7 +176,7 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unitid;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
@@ -236,18 +239,18 @@ export class CommentsinfoPage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-   
+
     console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doService();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   doService() {
     this.conf.presentLoading(1);
@@ -280,12 +283,12 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-    
+    console.log("Comment URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        
+
         console.log("1" + res.comments.length);
         console.log("2" + res.comments);
         if (res.comments.length > 0) {

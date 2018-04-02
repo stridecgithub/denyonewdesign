@@ -60,7 +60,7 @@
         <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)"   *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
-        <button ion-button class="del-btn" (click)="doConfirm(unit.unit_id,item)"   *ngIf="DELETEACCESS==1">
+        <button ion-button class="del-btn" (click)="doConfirm(unit.unit_id,item)"   *ngIf="DELETEACCESS==1 && unit.duration==0">
           <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>

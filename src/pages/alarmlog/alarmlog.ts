@@ -240,12 +240,22 @@ export class AlarmlogPage {
               alarm_priority = 2;
             }
 
+            let act = res.alarms[alarm].alarm_name.includes('!');
+            let activealarm;
+            let activealarmtext;
+            if (act > 0) {
+              activealarm = 'ative-alarm';
+              activealarmtext = 'active-alarm-text'
+            }
+
             this.reportAllLists.push({
               alarm_id: res.alarms[alarm].alarm_id,
               alarm_name: res.alarms[alarm].alarm_name,
               alarm_assginedby_name: res.alarms[alarm].alarm_assginedby_name,
               alarm_assginedto_name: res.alarms[alarm].alarm_assginedto_name,
               alarm_priority: alarm_priority,
+              activealarm:activealarm,
+              activealarmtext: activealarmtext,
               alarm_received_date: res.alarms[alarm].alarm_received_date,
               alarm_received_date_mobileview: res.alarms[alarm].alarm_received_date_mobileview,
               alarm_received_time: res.alarms[alarm].alarm_received_time,

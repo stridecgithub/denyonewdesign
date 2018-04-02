@@ -78,12 +78,10 @@ export class ServicinginfoPage {
   public profilePhoto;
   public sortLblTxt: string = 'Date';
   footerBar: number = 1;
+  roleId;
   constructor(public app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
-
-
-
-
+    this.roleId = localStorage.getItem("userInfoRoleId");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -136,8 +134,8 @@ export class ServicinginfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -169,7 +167,7 @@ export class ServicinginfoPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
           "&unitid=" + unitid;
-      
+
       this.http.get(url, options)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -240,18 +238,18 @@ export class ServicinginfoPage {
   }
   doInfinite(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-   
+
     console.log("Total Count:" + this.totalCountUpcoming)
     if (this.upcomingData.startindex < this.totalCountUpcoming && this.upcomingData.startindex > 0) {
-     
+
       this.doUpcoming();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   doUpcoming() {
     this.conf.presentLoading(1);
@@ -273,12 +271,12 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    
+    console.log("Upcoming ServicingInfo URL" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        
+
         console.log("1" + res.services.length);
         console.log("2" + res.services);
         if (res.services.length > 0) {
@@ -617,14 +615,14 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    
+    console.log("Service History API" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
 
-        if (res.services.length > 0) {         
-            this.historyAllLists = res.services;
+        if (res.services.length > 0) {
+          this.historyAllLists = res.services;
           this.totalCounthistory = res.totalCounthistory;
           this.historyData.startindex += this.historyData.results;
           this.loadingMoreDataContent = 'Loading More Data';
@@ -656,17 +654,17 @@ export class ServicinginfoPage {
   }
   doInfiniteHistory(infiniteScroll) {
     console.log('InfinitScroll function calling...');
-   
+
     console.log("Total Count:" + this.totalCounthistory)
     if (this.historyData.startindex < this.totalCounthistory && this.historyData.startindex > 0) {
-     
+
       this.doHistory();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 }
