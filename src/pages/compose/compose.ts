@@ -376,7 +376,6 @@ export class ComposePage {
   }
 
   selectEntry(item) {
-    console.log("Added Image List:" + JSON.stringify(item));
     this.totalFileSize = item.totalfilesize;
     this.totalFileSizeExisting = this.totalFileSize;
     if (item.attachments != '') {
@@ -404,7 +403,7 @@ export class ComposePage {
         });
       }
 
-      console.log("Added Image List:" + JSON.stringify(this.addedImgLists));
+     
 
     }
   }
