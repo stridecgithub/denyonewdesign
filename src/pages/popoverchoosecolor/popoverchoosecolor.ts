@@ -42,7 +42,6 @@ export class PopoverchoosecolorPage {
     this.button11_border = '';
     this.button12_border = '';
     this.defaultcolorselection = this.navParams.get('colorcode');
-    console.log("Edit Color code:" + this.defaultcolorselection);
     if (this.defaultcolorselection == '9013fe') {
       this.button1_border = 'button1-border';
     } else if (this.defaultcolorselection == '50e2c1') {
@@ -83,7 +82,6 @@ export class PopoverchoosecolorPage {
   }
 
   choosecolor(clr) {
-    console.log(clr);
     this.selectedcolor = clr;
 
     this.button1_border = '';
@@ -99,7 +97,6 @@ export class PopoverchoosecolorPage {
     this.button11_border = '';
     this.button12_border = '';
     this.defaultcolorselection =this.selectedcolor;
-    console.log("Edit Color code:" + this.defaultcolorselection);
     if (this.defaultcolorselection == '9013fe') {
       this.button1_border = 'button1-border';
     } else if (this.defaultcolorselection == '50e2c1') {

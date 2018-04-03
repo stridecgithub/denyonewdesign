@@ -89,7 +89,7 @@ export class ReporttemplatePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReporttemplatePage');
+   
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -100,7 +100,7 @@ export class ReporttemplatePage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -110,7 +110,7 @@ export class ReporttemplatePage {
   }
 
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+  
     this.reportData.startindex = 0;
     this.reporttemplateAllLists = [];
     this.doReport();
@@ -137,9 +137,6 @@ export class ReporttemplatePage {
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
-        console.log("1" + res.availabletemp.length);
-        console.log("2" + res.availabletemp);
         if (res.availabletemp.length > 0) {
           for (let availabletemps in res.availabletemp) {
             this.reporttemplateAllLists.push({
@@ -151,17 +148,15 @@ export class ReporttemplatePage {
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
-          //this.totalCount = 0;
+         
         }
-        // console.log("Total Record:2" + this.totalCount);
+       
 
       });
     this.presentLoading(0);
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
+  
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doReport();
@@ -198,8 +193,7 @@ export class ReporttemplatePage {
       availableheading: availableheading
     });
   }
-  doConfirm(id, item) {
-    console.log("Deleted Id" + id);
+  doConfirm(id, item) {   
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this report template?',
       buttons: [{

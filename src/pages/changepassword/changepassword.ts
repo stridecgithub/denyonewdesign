@@ -43,7 +43,7 @@ export class ChangepasswordPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ChangepasswordPage');
+   
 
     this.userId = localStorage.getItem("userInfoId");
 
@@ -58,14 +58,14 @@ export class ChangepasswordPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/changepassword";
-    console.log("Change Password API Calls:-" + url + "?" + body);
+    
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
         
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
+        
           if (res.msg[0].Error > 0) {
             this.conf.sendNotification(res.msg[0].result);
           } else {
@@ -87,15 +87,13 @@ export class ChangepasswordPage {
   }
 
   comparepassword(confirmpassword, newpassword) {
-    console.log("Confirm Passowrd:" + confirmpassword + "-New Password:" + newpassword)
+   
     if (confirmpassword != newpassword) {
       this.isSubmitted = true;
     } else {
       this.isSubmitted = false;
     }
-    // this.isSubmitted = true;
-    // console.log(val);
-    // //if()
+   
 
   }
 

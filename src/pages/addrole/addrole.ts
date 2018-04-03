@@ -288,9 +288,7 @@ export class AddrolePage {
 
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddRolePage');
-  }
+
 
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
@@ -305,7 +303,7 @@ export class AddrolePage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+      
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -1033,15 +1031,7 @@ export class AddrolePage {
         else {
           this.rolepermissionData.setdeleteorg = false;
         }
-        // this.rolepermissionData.setvieworg = res[19].setvieworg;
-        // this.rolepermissionData.setcreateorg = res[19].setcreateorg;
-        // this.rolepermissionData.seteditorg = res[19].seteditorg;
-        // this.rolepermissionData.setdeleteorg = res[19].setdeleteorg;
-
-
-        //  console.log("dashboardviewmap:" + res[1].dashboardviewunits);
-
-        console.log("Role Permission Data Response:" + JSON.stringify(data.json()));
+        
 
       });
   }
@@ -1069,7 +1059,7 @@ export class AddrolePage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-          console.log(data.json().Error);
+         
           if (data.json().Error > 0) {
             this.roleperMissionData = [];
             this.sendNotification(data.json().message);
@@ -1100,10 +1090,10 @@ export class AddrolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role/update";
-    console.log(url+"?"+body);
+    
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
+       
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
@@ -1158,7 +1148,7 @@ export class AddrolePage {
   // Determine whether we are adding a new record or amending an
   // existing record
   saveEntry() {
-    // console.log("Controll Form is:"+JSON.stringify(this.form.controls));
+    
     this.roleperMissionData = [];
     let role_name: string = this.form.controls["role_name"].value;
 
@@ -1426,8 +1416,7 @@ export class AddrolePage {
 
 
 
-    console.log("1" + this.roleperMissionData);
-    console.log("2" + JSON.stringify(this.roleperMissionData));
+    
     if (this.isEdited) {
       this.updateEntry(role_name, this.roleperMissionData, this.userId);
     }

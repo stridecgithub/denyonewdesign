@@ -78,12 +78,10 @@ export class EnginedetailviewPage {
     
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EnginedetailviewPage');
     localStorage.setItem("fromModule", "EnginedetailviewPage");
 
     // UnitDetails Api Call		
@@ -133,7 +131,7 @@ export class EnginedetailviewPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {
@@ -142,7 +140,7 @@ export class EnginedetailviewPage {
     // Unit Details API Call
 
     if (this.NP.get("record")) {
-      console.log("Service Info Record Param Value:" + JSON.stringify(this.NP.get("record")));
+      
       let editItem = this.NP.get("record");
       this.unitDetailData.runninghr = editItem.runninghr;
       this.unitDetailData.gen_status = editItem.gen_status;
@@ -168,7 +166,7 @@ export class EnginedetailviewPage {
       this.unitDetailData.location = localStorage.getItem("unitlocation");
       this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
       this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
-      console.log("Unit Details Color Code:" + this.unitDetailData.colorcodeindications);
+     
       this.unitDetailData.lat = localStorage.getItem("unitlat");
       this.unitDetailData.lng = localStorage.getItem("unitlng");
       this.unitDetailData.rh = localStorage.getItem("runninghr");

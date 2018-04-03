@@ -123,7 +123,7 @@
         <!-- i value {{i}}
         index value {{index}}
         existing image count {{existingimagecount}} -->
-        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='forward' && act!='replytoall'">
+        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='replytoall' && imageitem.oldnew=='new'">
           <!-- *ngIf="act!='reply' && act!='forward'" -->
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>

@@ -79,7 +79,7 @@ export class AddenginedetailPage {
    
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddenginedetailPage');
+   
   }
   ionViewWillEnter() {
 
@@ -93,7 +93,7 @@ export class AddenginedetailPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -116,7 +116,7 @@ export class AddenginedetailPage {
     this.enginemodel = item.model;
     this.rawhtml = item.rawhtml;
     this.recordID = item.model_id;
-    console.log("ID" + this.recordID);
+   
   }
   saveEntry() {
     if (this.isEdited) {

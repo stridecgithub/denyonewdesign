@@ -38,26 +38,7 @@ export class ReporttemplatedetailPage {
   ionViewDidLoad() {
     this.templatename=this.navParams.get('templatename');
     this.availableheading=this.navParams.get('templatedata');
-    console.log("Report template name"+this.templatename);
-    console.log("Report availabe"+JSON.stringify(this.availableheading));
-    // console.log('ionViewDidLoad ReporttemplatedetailPage');
-    // let res = this.navParams.get('templatedata');
-    // 
-    // if (res.length > 0) {
-    //  
-    //   for (let availabletemps in res) {
-    //    
-    //     this.reporttemplateAllLists.push({
-    //       id: res[availabletemps].id,
-    //       templatename: res[availabletemps].templatename,
-    //      // availableheading: res[availabletemps].availableheading.split("#")
-    //     });
-    //   }
-    //   console.log(JSON.stringify(this.reporttemplateAllLists));
-    // } else {
-    //  
-    //   //this.totalCount = 0;
-    // }
+   
   }
   previous() {
      this.navCtrl.setRoot(ReporttemplatePage);

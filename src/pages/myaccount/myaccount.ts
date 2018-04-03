@@ -78,9 +78,9 @@ export class MyaccountPage {
       this.navCtrl.setRoot(PermissionPage, {});
 
     }
-    console.log("Role Authority for Unit Listing View:" + this.VIEWACCESS);
+   
     this.EDITACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
+   
     this.companyId = localStorage.getItem("userInfoCompanyId");
 
     this.networkType = '';
@@ -96,7 +96,7 @@ export class MyaccountPage {
 
 
 
-    console.log('ionViewDidLoad My Account Page');
+    
     localStorage.setItem("fromModule", "MyaccountPage");
     localStorage.setItem("userPhotoFile", '');
     // body: string = "key=myaccount&userId=" + this.userId,
@@ -110,8 +110,7 @@ export class MyaccountPage {
       .subscribe((data) => {
         res = data.json();
         
-        console.log("1" + res.settings.length);
-        console.log("2" + res.settings);
+       
         if (res.settings.length > 0) {
           this.userid = res.settings[0].username;
           this.username = res.settings[0].username;
@@ -127,13 +126,13 @@ export class MyaccountPage {
           this.firstname = res.settings[0].firstname;
           this.lastname = res.settings[0].lastname;
 
-          console.log("A" + res.settings[0].photo_filename);
+          
           if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {
             this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-            console.log('My Acccount One Photo Available....');
+           
           } else {
             this.photo = this.apiServiceURL + "/images/default.png";
-            console.log('My Acccount  One Photo Not Available....');
+            
           }
         }
         // [{ "userid": "1", "userdetailsid": "1", "username": "denyov2", "password": "e3b81d385ca4c26109dfbda28c563e2b", "firstname": "Super Admin", "lastname": "Denyo", "email": "balamurugan@webneo.in", "contact_number": "9597645985", "country_id": "99", "photo": "1496647262537.jpg", "job_position": "Country Manager", "report_to": "0", "company_id": "1", "companygroup_name": "Denyo" }]
@@ -151,7 +150,7 @@ export class MyaccountPage {
     
     this.http.get(url1, options1)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+        
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {

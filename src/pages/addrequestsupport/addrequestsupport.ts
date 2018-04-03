@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform, App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -63,20 +63,20 @@ export class AddrequestsupportPage {
   }
   public hideActionButton = true;
   //tabBarElement: any;
-  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
+  constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
     private ngZone: NgZone) {
 
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
-          if (overlayView && overlayView.dismiss) {
-            overlayView.dismiss();
-          }
-          this.nav.setRoot(ServicinginfoPage, {
-            record: this.NP.get("record")
-          });
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        }
+        this.nav.setRoot(ServicinginfoPage, {
+          record: this.NP.get("record")
         });
       });
+    });
 
     this.uploadcount = 10;
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
@@ -111,17 +111,16 @@ export class AddrequestsupportPage {
     localStorage.setItem("microtime", this.micro_timestamp);
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
-   
+
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
 
   ionViewWillLeave() {
-   // this.tabBarElement.style.display = 'flex';
+    // this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-   // this.tabBarElement.style.display = 'none';
+    // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
-    console.log('ionViewDidLoad AddrequestsupportPage');
     localStorage.setItem("fromModule", "AddrequestsupportPage");
   }
 
@@ -132,12 +131,11 @@ export class AddrequestsupportPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -151,7 +149,6 @@ export class AddrequestsupportPage {
       this.unitDetailData.unit_id = this.NP.get("record").unit_id;
     }
     if (this.NP.get("record")) {
-      console.log("Np record param from previous" + JSON.stringify(this.NP.get("record")));
       this.selectEntry(this.NP.get("record"));
 
 
@@ -167,8 +164,6 @@ export class AddrequestsupportPage {
         this.unitDetailData.pageTitle = 'Request Support Edit';
         this.isEdited = true;
       }
-
-      console.log("Service Unit Id:" + this.service_unitid);
     }
 
 
@@ -180,7 +175,6 @@ export class AddrequestsupportPage {
     this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
     this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
     this.unitDetailData.favoriteindication = localStorage.getItem("unitfav");
-    console.log("Add Comment Color Code:" + this.unitDetailData.colorcodeindications);
     this.unitDetailData.lat = localStorage.getItem("unitlat");
     this.unitDetailData.lng = localStorage.getItem("unitlng");
     this.unitDetailData.rh = localStorage.getItem("runninghr");
@@ -208,7 +202,6 @@ export class AddrequestsupportPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
       this.fileTrans(imageData, micro_timestamp);
       this.addedAttachList = imageData;
     }, (err) => {
@@ -221,7 +214,7 @@ export class AddrequestsupportPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-   
+
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -246,20 +239,10 @@ export class AddrequestsupportPage {
 
 
 
-      fileTransfer.onProgress(this.onProgress);
+    fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
-
-
-
-        // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
-
-
-        console.log("Upload Response is" + JSON.stringify(data))
         let res = JSON.parse(data.response);
-        console.log(res.id);
-        
-
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
         this.addedServiceImgLists.push({
@@ -288,15 +271,8 @@ export class AddrequestsupportPage {
 
         this.isUploadedProcessing = false;
         return false;
-
-
-
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
       }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:" + JSON.stringify(err));
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -312,8 +288,6 @@ export class AddrequestsupportPage {
   }
 
   saveEntry() {
-
-    console.log(this.form.controls);
     if (this.isUploadedProcessing == false) {
       /* let name: string = this.form.controls["lat"].value,
          description: string = this.form.controls["long"].value,
@@ -321,18 +295,9 @@ export class AddrequestsupportPage {
 
 
       let service_remark: string = this.form.controls["service_remark"].value,
-        service_subject: string = this.form.controls["service_subject"].value;
-
-      console.log("service_remark:" + service_remark);
-
-      console.log("service_subject:" + service_subject);
-      console.log("nextServiceDate:" + this.unitDetailData.nextServiceDate);
-      console.log("Image Data" + JSON.stringify(this.addedServiceImgLists));
-      //let d = new Date();
-      //let micro_timestamp = d.getFullYear() + "" + d.getMonth() + "" + d.getDate() + "" + d.getHours() + "" + d.getMinutes() + "" + d.getSeconds();
-      if (this.isEdited) {
-        //this.updateEntry(service_remark, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
-      }
+        service_subject: string = this.form.controls["service_subject"].value; if (this.isEdited) {
+          //this.updateEntry(service_remark, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
+        }
       else {
         this.createEntry(service_remark, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
       }
@@ -347,12 +312,11 @@ export class AddrequestsupportPage {
   // for the record data
   createEntry(service_remark, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
     this.isSubmitted = true;
-    
 
-   // let serviced_datetime = new Date().toJSON().split('T');
-   // var date = new Date();
+
+    // let serviced_datetime = new Date().toJSON().split('T');
+    // var date = new Date();
     let serviced_datetime = moment().format();
-    console.log("Default date is" + serviced_datetime);
 
     let datesplit = serviced_datetime.split("T")[1];
     let timesplit = datesplit.split(":");
@@ -364,8 +328,7 @@ export class AddrequestsupportPage {
     }
     this.serviced_datetime = serviced_datetime.split("T");
     //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
-    let timevalue = this.hrvalue + ":" + minvalue + ":00"
-    console.log(timevalue);
+    let timevalue = this.hrvalue + ":" + minvalue + ":00";
     let body: string = "is_mobile=1" +
       //"&service_priority=" + this.service_priority +
       "&unitid=" + this.service_unitid +
@@ -378,7 +341,7 @@ export class AddrequestsupportPage {
       "&created_by=" + this.unitDetailData.userId +
       "&serviced_by=" + this.unitDetailData.userId +
       "&is_request=1" +
-      "&subject=" + service_subject+
+      "&subject=" + service_subject +
       "&micro_timestamp=" + micro_timestamp +
       "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
       //"&contact_number=" + this.contact_number +
@@ -388,17 +351,17 @@ export class AddrequestsupportPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
           localStorage.setItem("microtime", "");
           //this.conf.sendNotification(`Servicing info was successfully added`);
           this.conf.sendNotification(data.json().msg[0].result);
-           this.nav.setRoot(ServicinginfoPage, {
+          this.nav.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
         }
@@ -412,7 +375,6 @@ export class AddrequestsupportPage {
   }
 
   getNextDate(val, field) {
-    console.log('1' + val);
     let date;
     if (val > 0) {
       date = this.addDays(val);
@@ -424,7 +386,6 @@ export class AddrequestsupportPage {
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-      console.log("Month String:-" + mn);
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -435,7 +396,6 @@ export class AddrequestsupportPage {
       } else {
         datestr = dt;
       }
-      console.log("Date String:-" + dt);
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     } else {
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + parseInt(date.getMonth() + 1) + "-" + date.getDate();
@@ -462,9 +422,9 @@ export class AddrequestsupportPage {
     }).then(
       date => {
         this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-        console.log('Got date: ', date)
+
       },
-      err => console.log('Error occurred while getting date: ', err)
+      err => { }
       );
   }
 
@@ -494,11 +454,9 @@ export class AddrequestsupportPage {
           resouce_id: imgDataArr[0]
         });
       }
-      console.log("this.addedServiceImgLists" + JSON.stringify(this.addedServiceImgLists));
-      console.log("Length is:" + this.addedServiceImgLists.length);
+      
 
       if (this.NP.get("act") == 'Add') {
-        console.log("Fresh Clear add request support info.ts start...");
         this.addedServiceImgLists = [];
         this.addedServiceImgLists.length = 0;
         this.service_subject = '';
@@ -514,7 +472,6 @@ export class AddrequestsupportPage {
     }
   }
   doRemoveResouce(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this file?',
       buttons: [{
@@ -528,8 +485,6 @@ export class AddrequestsupportPage {
             }
           }
           this.uploadcount = 10 - this.addedServiceImgLists.length;
-          console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
-          console.log("After Deleted Upload count length:" + this.uploadcount);
         }
       },
       {
@@ -569,7 +524,7 @@ export class AddrequestsupportPage {
       });
   }
   previous() {
-     this.nav.setRoot(ServicinginfoPage, {
+    this.nav.setRoot(ServicinginfoPage, {
       record: this.NP.get("record")
     });
   }
@@ -585,7 +540,6 @@ export class AddrequestsupportPage {
           text: 'Cancel',
           handler: () => {
             this.isSubmitted = false;
-            console.log('Cancel clicked');
           }
         },
         {
@@ -628,7 +582,6 @@ export class AddrequestsupportPage {
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-              console.log(imageURI);
               this.isSubmitted = true;
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
@@ -639,17 +592,7 @@ export class AddrequestsupportPage {
         }, {
           text: 'From Camera',
           icon: 'md-camera',
-          handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
+          handler: () => {          
 
             const options: CameraOptions = {
               quality: 100,
@@ -661,7 +604,7 @@ export class AddrequestsupportPage {
 
 
             this.camera.getPicture(options).then((uri) => {
-              console.log(uri);
+             
               this.isSubmitted = true;
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
@@ -675,7 +618,7 @@ export class AddrequestsupportPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+           
           }
         }
       ]

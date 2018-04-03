@@ -68,7 +68,7 @@ export class ForgotpasswordPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ForgotpasswordPage');
+    
     localStorage.setItem("fromModule", "ForgotpasswordPage");
   }
   saveEntry() {
@@ -91,7 +91,7 @@ export class ForgotpasswordPage {
           
           // If the request was successful notify the user
           if (data.status === 200) {
-            console.log("Msg Results:-" + res.msg[0].result);
+            
             this.hideForm = true;
             //this.conf.sendNotification('Forgot password has been sending your registered email id.');           
             // this.nav.setRoot(LoginPage);

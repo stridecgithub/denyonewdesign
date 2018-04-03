@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, AlertController, NavParams,Platform,App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { AddunitsonePage } from '../addunitsone/addunitsone';
+//import { AddunitsonePage } from '../addunitsone/addunitsone';
 import { LoadingController } from 'ionic-angular';
 //import { DashboardPage } from '../dashboard/dashboard';
 //import { UserPage } from '../user/user';
@@ -90,30 +90,21 @@ export class Unitgrouplist {
 
     //Authorization Get Value
     this.colorcode = this.navParams.get('colorcode');
-    console.log(this.colorcode);
-
     this.cname = this.navParams.get('cname');
-    console.log(this.cname);
 
     this.favoriteindication = this.navParams.get('favoriteindication');
-    console.log(this.favoriteindication);
 
     this.unitgroup_name = this.navParams.get('unitgroup_name');
     this.remark = this.navParams.get('remark');
     this.createdOn = this.navParams.get('createdOn');
-    console.log(this.remark);
-    console.log(this.createdOn);
     this.totalunits = this.navParams.get('totalunits');
-    console.log(this.totalunits);
 
    
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Unitgrouplist');
   }
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doUnit();
@@ -157,18 +148,13 @@ export class Unitgrouplist {
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
-        console.log("1" + res.units.length);
-        console.log("2" + res.units);
         if (res.units.length > 0) {
           for (let unit in res.units) {
             let colorcode;
             let favorite;
-            let index = this.colorListArr.indexOf(res.units[unit].colorcode); // 1
-            console.log("Color Index:" + index);
+            let index = this.colorListArr.indexOf(res.units[unit].colorcode); 
             let colorvalincrmentone = index + 1;
             colorcode = "button" + colorvalincrmentone;
-            console.log("Color is" + colorcode);
             if (res.units[unit].favorite == 1) {
               favorite = "favorite";
               localStorage.setItem("unitfav", favorite);
@@ -207,7 +193,7 @@ export class Unitgrouplist {
         } else {
           this.totalCount = 0;
         }
-        console.log("Total Record:" + this.totalCount);
+       
 
       });
     this.presentLoading(0);
@@ -217,9 +203,7 @@ export class Unitgrouplist {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
    
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doUnit();
@@ -244,7 +228,7 @@ export class Unitgrouplist {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -253,21 +237,9 @@ export class Unitgrouplist {
 
   }
 
-  doAdd() {
-     this.nav.setRoot(AddunitsonePage);
-  }
+ 
   getCheckBoxValue(item, val) {
-    /*console.log("Available data" + val);
-    this.getCheckboxData.push({
-      availabledata: val
-    })*/
-
-
-    /*console.log("Available data" + name);
-this.selectedAction.push({
-  availabledata: name
-})
-console.log(JSON.stringify(this.selectedAction));*/
+    
     if (val != '') {
       if (this.str == '') {
         this.str = val;
@@ -275,22 +247,10 @@ console.log(JSON.stringify(this.selectedAction));*/
         this.str = this.str + "," + val;
       }
     }
-    this.detailvalue = item;
-
-
-    // localStorage.setItem("unitunitname", item.unitname);
-    // localStorage.setItem("unitlocation", item.location);
-    // localStorage.setItem("unitprojectname", item.projectname);
-    // localStorage.setItem("unitcolorcode", item.colorcodeindications);
-    // localStorage.setItem("unitlat", item.lat);
-    // localStorage.setItem("unitlng", item.lng);
-    // console.log(this.str + "//" + JSON.stringify(this.detailvalue));
-    // localStorage.setItem("viewlist", this.str);
+    this.detailvalue = item;   
   }
 
-  onAction(actpet) {
-    console.log('Your act pet is:' + actpet);
-    console.log(JSON.stringify(this.str));
+  onAction(actpet) {    
     let urlstr;
     if (actpet == 'delete') {
       if (this.str == '') {
@@ -328,8 +288,7 @@ console.log(JSON.stringify(this.selectedAction));*/
       
 
       this.http.get(url, options)
-        .subscribe((data) => {
-          console.log("Count Response Success:" + JSON.stringify(data.json()));
+        .subscribe((data) => {         
           // If the request was successful notify the user
           if (data.status === 200) {
             if (actpet == 'delete') {
@@ -349,41 +308,11 @@ console.log(JSON.stringify(this.selectedAction));*/
         });
     }
   }
-  doEdit(item, act, unitId) {
-    if (act == 'edit') {
-       this.nav.setRoot(AddunitsonePage, {
-        record: item,
-        act: act
-      });
-      return false;
-    } else if (act == 'detail') {
-
-      localStorage.setItem("unitId", unitId);
-      localStorage.setItem("iframeunitId", unitId);
-      localStorage.setItem("unitunitname", item.unitname);
-      localStorage.setItem("unitlocation", item.location);
-      localStorage.setItem("unitprojectname", item.projectname);
-      localStorage.setItem("unitcolorcode", item.colorcodeindications);
-      localStorage.setItem("unitlat", item.lat);
-      localStorage.setItem("unitlng", item.lng);
-
-
-       this.nav.setRoot(UnitdetailsPage, {
-        record: item
-      });
-      return false;
-    } 
-  }
-
-
-
-
 
   /******************************************/
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this unit?',
       buttons: [{
@@ -458,27 +387,21 @@ console.log(JSON.stringify(this.selectedAction));*/
   /* Sorting function */
   /********************/
   doSort(val) {
-    console.log('1');
     this.reportAllLists = [];
     this.reportData.startindex = 0;
-    console.log('2');
     this.sortby = 1;
     if (this.vendorsort == "asc") {
       this.reportData.sortascdesc = "desc";
       this.vendorsort = "desc";
       this.ascending = false;
-      console.log('3');
     }
     else {
-      console.log('4');
       this.reportData.sortascdesc = "asc";
       this.vendorsort = "asc";
       this.ascending = true;
     }
-    console.log('5');
     this.reportData.sort = val;
     this.doUnit();
-    console.log('6');
   }
   presentLoading(parm) {
     let loader;
@@ -508,14 +431,13 @@ console.log(JSON.stringify(this.selectedAction));*/
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
+       
         let res = data.json();
-        console.log(res.msg[0].Error);
-        console.log(res.msg[0].result);
+      
         if (res.msg[0] == 0) {
-          console.log("Favorite");
+        
         } else {
-          console.log("Un Favorite");
+         
         }
 
         if (res.units.length > 0) {
@@ -523,10 +445,10 @@ console.log(JSON.stringify(this.selectedAction));*/
             let colorcode;
             let favorite;
             let index = this.colorListArr.indexOf(res.units[unit].colorcode); // 1
-            console.log("Color Index:" + index);
+          
             let colorvalincrmentone = index + 1;
             colorcode = "button" + colorvalincrmentone;
-            console.log("Color is" + colorcode);
+           
             if (res.units[unit].favorite == 1) {
               favorite = "favorite";
             }

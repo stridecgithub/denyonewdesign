@@ -44,7 +44,7 @@ export class TrendlinePage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        console.log("From Page" + this.navParams.get("from"));
+       
         if (this.navParams.get("from") == 'alarmlog') {
            this.navCtrl.setRoot(AlarmlogPage, {
             record: this.navParams.get("record"),
@@ -66,15 +66,12 @@ export class TrendlinePage {
   }
   
 presentModal(unit) {
-  console.log(JSON.stringify(unit));
+ 
   let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
   modal.present();
 }
   ionViewDidLoad() {
-    console.log("Navigation data of item" + JSON.stringify(this.navParams.get("record")));
-    //this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad TrendlinePage');
-    console.log("Alaram Id" + this.navParams.get("alarmid"));
+  
     let alarmID = this.navParams.get("alarmid");
     //this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID + " height=350 width=100% frameborder=0></iframe > ";
     this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID);
@@ -87,11 +84,11 @@ presentModal(unit) {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unid;
-    console.log(urlunit);
+    
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-          console.log('rrrrr');
+         
           this.unitDetailData.unitname = data.json().units[0].unitname;
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
@@ -128,7 +125,7 @@ presentModal(unit) {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+        
 
         }
       }, error => {
@@ -136,7 +133,7 @@ presentModal(unit) {
     // Unit Details API Call
   }
   previous() {
-    console.log("From Page" + this.navParams.get("from"));
+   
     if (this.navParams.get("from") == 'alarmlog') {
        this.navCtrl.setRoot(AlarmlogPage, {
         record: this.navParams.get("record"),

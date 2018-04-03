@@ -124,8 +124,7 @@ export class ServicinginfoPage {
   }
 
   ionViewDidLoad() {
-    // this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad ServicinginfoPage');
+    
     localStorage.setItem("fromModule", "ServicinginfoPage");
   }
   ionViewWillEnter() {
@@ -139,7 +138,7 @@ export class ServicinginfoPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -147,10 +146,9 @@ export class ServicinginfoPage {
       });
 
     if (this.NP.get("record")) {
-      console.log("Service Info Record Param Value:" + JSON.stringify(this.NP.get("record")));
+    
       let editItem = this.NP.get("record");
-      console.log("SErvine info loading:" + editItem);
-      console.log("SErvine info loading JSON:" + JSON.stringify(editItem));
+   
       // UnitDetails Api Call		
 
       let unitid = editItem.unit_id;
@@ -160,7 +158,7 @@ export class ServicinginfoPage {
       if (unitid == 'undefined') {
         unitid = editItem.service_unitid;
       }
-      console.log("Unit Id" + unitid);
+    
       let
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
@@ -207,7 +205,7 @@ export class ServicinginfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-            console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
           }
         }, error => {
@@ -228,7 +226,7 @@ export class ServicinginfoPage {
     // Atmentioned Tag Storage
   }
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+  
     this.upcomingData.startindex = 0;
     this.upcomingAllLists = [];
     this.doUpcoming();
@@ -237,9 +235,9 @@ export class ServicinginfoPage {
     }, 2000);
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
+  
 
-    console.log("Total Count:" + this.totalCountUpcoming)
+  
     if (this.upcomingData.startindex < this.totalCountUpcoming && this.upcomingData.startindex > 0) {
 
       this.doUpcoming();
@@ -260,7 +258,7 @@ export class ServicinginfoPage {
       this.upcomingData.sort = "comapny";
     }
     let editItem = this.NP.get("record");
-    console.log("Record item" + this.NP.get("record"));
+    
     if (this.NP.get("record").unit_id != undefined && this.NP.get("record").unit_id != 'undefined') {
       this.unit_id = editItem.unit_id;
     } else {
@@ -271,38 +269,16 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    console.log("Upcoming ServicingInfo URL" + url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
 
-        console.log("1" + res.services.length);
-        console.log("2" + res.services);
+      
         if (res.services.length > 0) {
           this.upcomingAllLists = res.services;
-          /*if (res.services.length > 0) {
-            for (let serviceData in res.services) {
-              this.upcomingAllLists.push({
-                'is_denyo_support': res.services[serviceData].is_denyo_support,
-                'next_service_date_selected': res.services[serviceData].next_service_date_selected,
-                'service_unitid': res.services[serviceData].service_unitid,
-                'is_request': res.services[serviceData].is_request,
-                'service_id': res.services[serviceData].service_id,
-                'next_service_date': res.services[serviceData].next_service_date,
-                'serviced_schduled_date': res.services[serviceData].serviced_schduled_date,
-                'service_scheduled_time_format': res.services[serviceData].service_scheduled_time_format,
-                'serviced_by': res.services[serviceData].serviced_by,
-                'user_photo': res.services[serviceData].user_photo,
-                'service_subject': res.services[serviceData].service_subject,
-                'serviced_scheduled_display': res.services[serviceData].serviced_scheduled_display,
-                "serviced_created_name": res.services[serviceData].serviced_created_name,
-                "serviced_created_name_hastag": res.services[serviceData].serviced_created_name_hastag != undefined ? "(" + res.services[serviceData].serviced_created_name_hastag + ")" : '',
-                "serviced_by_name": res.services[serviceData].serviced_by_name,
-                "serviced_by_name_hastag": res.services[serviceData].serviced_by_name_hastag != undefined ? "(" + res.services[serviceData].serviced_by_name_hastag + ")" : '',
-              });
-            }
-          }*/
+          
 
 
           this.totalCountUpcoming = res.totalCountUpcoming;
@@ -310,14 +286,14 @@ export class ServicinginfoPage {
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
             this.photo = res.services[i].user_photo;
-            console.log("PHOTO" + this.photo);
+           
           }
 
         } else {
           this.totalCountUpcoming = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-        console.log("Total Record:" + this.totalCountUpcoming);
+       
 
       }, error => {
         this.conf.presentLoading(0);
@@ -372,17 +348,7 @@ export class ServicinginfoPage {
 
 
   doEdit(item, act) {
-    /* if (item.event_type.toLowerCase() == 's') {
-       localStorage.setItem("microtime", "");
-        this.navCtrl.setRoot(AddserviceinfoPage, {
-         record: item,
-         act: 'Edit',
-         from: 'service'
-       });
-     }
-     else {
-       this.conf.sendNotification("Not Applicable!!!")
-     }*/
+   
     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
@@ -400,14 +366,14 @@ export class ServicinginfoPage {
     });
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
+   
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
 
   doConfirmUpcoming(id, item, from) {
 
-    console.log("Deleted Id" + id);
+   
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service schedule?',
       buttons: [{
@@ -441,7 +407,7 @@ export class ServicinginfoPage {
   }
   doConfirmHistory(id, item, from) {
 
-    console.log("Deleted Id" + id);
+  
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service history?',
       buttons: [{
@@ -542,8 +508,7 @@ export class ServicinginfoPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+           
             if (data != undefined) {
               this.upcomingData.sort = data;
               this.upcomingData.sortascdesc = 'asc';
@@ -564,7 +529,7 @@ export class ServicinginfoPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
+           
             if (data != undefined) {
               this.upcomingData.sort = data;
               this.upcomingData.sortascdesc = 'desc';
@@ -615,7 +580,7 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    console.log("Service History API" + url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -628,14 +593,14 @@ export class ServicinginfoPage {
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
             this.photo = res.services[i].user_photo;
-            console.log("PHOTO" + this.photo);
+           
           }
 
         } else {
           this.totalCounthistory = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-        console.log("Total Record:" + this.totalCounthistory);
+       
 
       }, error => {
         this.conf.presentLoading(0);
@@ -644,7 +609,7 @@ export class ServicinginfoPage {
 
   }
   doRefreshHistory(refresher) {
-    console.log('doRefresh function calling...');
+   
     this.historyData.startindex = 0;
     this.historyAllLists = [];
     this.doHistory();
@@ -653,9 +618,7 @@ export class ServicinginfoPage {
     }, 2000);
   }
   doInfiniteHistory(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-
-    console.log("Total Count:" + this.totalCounthistory)
+  
     if (this.historyData.startindex < this.totalCounthistory && this.historyData.startindex > 0) {
 
       this.doHistory();

@@ -396,15 +396,13 @@ export class MessagedetailPage {
     
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Change read unread api calls:" + JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Readstatus action:" + JSON.stringify(data));
+         
           if (data.json().msg[0]['Error'] == 0) {
             this.conf.sendNotification(data.json().msg[0]['result']);
           }
-          console.log('Exit 1');
-          console.log('Exit 2');
+         
 
         }
         // Otherwise let 'em know anyway
@@ -423,30 +421,24 @@ export class MessagedetailPage {
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
-    console.log(urlstr + '?' + bodymessage);
     let res;
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-        console.log("Unread action:" + JSON.stringify(data.json()));
-        console.log("Res Result" + res.msg[0]['result']);
-        console.log("data.status" + data.status);
-        console.log("Error" + res.msg[0]['Error'])
+       
         if (data.status === 200) {
-          console.log('Enter');
+         
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
-          console.log('Exit 1');
-
-          console.log('Exit 2');
+         
         }
         // Otherwise let 'em know anyway
         else {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error);
+       
       });
 
 
@@ -460,7 +452,7 @@ export class MessagedetailPage {
     }
   }
   favorite(messageid) {
-    console.log("Favorite Calling...");
+   
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -470,8 +462,7 @@ export class MessagedetailPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(JSON.stringify(data));
-        console.log("Favorit status result:" + data.json().favstatus);
+      
         this.favstatus = data.json().favstatus;
         if (this.favstatus == 'fav') {
           this.favstatus = 1;
@@ -490,14 +481,14 @@ export class MessagedetailPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error)
+       
       });
 
 
   }
 
   sentfavorite(messageid) {
-    console.log("Sent Favorite Calling...");
+   
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -507,8 +498,7 @@ export class MessagedetailPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(JSON.stringify(data));
-        console.log("Favorit status result:" + data.json().favstatus);
+      
         this.favstatus = data.json().favstatus;
         if (this.favstatus == 'fav') {
           this.favstatus = 1;
@@ -527,14 +517,14 @@ export class MessagedetailPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error)
+       
       });
 
 
   }
 
   doConfirm(id, item, type) {
-    console.log("Deleted Id" + id);
+   
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this message?',
       buttons: [{
@@ -563,18 +553,12 @@ export class MessagedetailPage {
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
-    console.log(urlstr + '?' + bodymessage);
     let res;
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-        console.log("Unread action:" + JSON.stringify(data.json()));
-        console.log("Res Result" + res.msg[0]['result']);
-        console.log("data.status" + data.status);
-        console.log("Error" + res.msg[0]['Error'])
+       
         if (data.status === 200) {
-
-          console.log('Enter');
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
              this.navCtrl.setRoot(MessagesPage);
@@ -586,7 +570,7 @@ export class MessagedetailPage {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error);
+       
       });
 
 
@@ -636,20 +620,12 @@ export class MessagedetailPage {
   }
 
   saveEntry() {
-    console.log(this.form.controls);
+    
     if (this.isUploadedProcessing == false) {
       let to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
-        subject: string = this.form.controls["subject"].value;
-      console.log("serviced_datetime:" + to);
-      console.log("copytome:" + copytome);
-      console.log("messages_subject:" + subject);
-
-      console.log("Attached image for file for reply and forward" + JSON.stringify(this.attachedFileLists));
-      console.log("Image Data" + JSON.stringify(this.addedImgLists));
-
-      console.log("To Final:" + to);
+        subject: string = this.form.controls["subject"].value;    
 
       this.createEntry(this.micro_timestamp, to, copytome, composemessagecontent, subject);
 
@@ -670,8 +646,7 @@ export class MessagedetailPage {
 
     let param;
     let urlstring;
-    console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
-    console.log("Is reply?" + this.isReply);
+   
     if (this.replyforward > 0) {
 
       let isrepfor;
@@ -709,7 +684,7 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-    console.log("Message sending API" + url + "?" + body);
+    
 
     this.http.post(url, body, options)
       .subscribe((data) => {
@@ -745,7 +720,7 @@ export class MessagedetailPage {
   }
 
   doDetail(item, imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    console.log(JSON.stringify(item));
+  
      this.navCtrl.setRoot(MessageDetailViewPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
@@ -761,19 +736,19 @@ export class MessagedetailPage {
  
 
   getPrority(val) {
-    console.log("getPrority function calling:-" + val);
+    
 
 
     if (val == "2") {
-      console.log('val A:' + val);
+     
       this.activelow = "0";
       this.activehigh = "1";
     } else if (val == "1") {
-      console.log('val B:' + val);
+    
       this.activelow = "1";
       this.activehigh = "0";
     } else {
-      console.log('val C:' + val);
+     
       this.activelow = "0";
       this.activehigh = "0";}
 

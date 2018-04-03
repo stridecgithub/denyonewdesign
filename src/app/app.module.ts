@@ -26,7 +26,6 @@ import { AlarmlogPage } from '../pages/alarmlog/alarmlog';
 import { AlarmPage } from '../pages/alarm/alarm';
 import { AddalarmPage } from '../pages/addalarm/addalarm';
 import { AddalarmlistPage } from '../pages/addalarmlist/addalarmlist';
-import { AddunitsonePage } from '../pages/addunitsone/addunitsone';
 import { CommentsinfoPage } from "../pages/commentsinfo/commentsinfo";
 import { AddhocPage } from "../pages/addhoc/addhoc";
 import { ServicedetailsPage } from "../pages/servicedetails/servicedetails";
@@ -147,7 +146,6 @@ import { PermissionPage } from '../pages/permission/permission';
     AlarmPage,
     AddalarmPage,
     AddalarmlistPage,
-    AddunitsonePage,
     CommentsinfoPage,
     AddhocPage,
     ServicedetailsPage,
@@ -242,7 +240,6 @@ import { PermissionPage } from '../pages/permission/permission';
     AlarmPage,
     AddalarmPage,
     AddalarmlistPage,
-    AddunitsonePage,
     ForgotpasswordPage,
     CommentsinfoPage,
     AddhocPage,

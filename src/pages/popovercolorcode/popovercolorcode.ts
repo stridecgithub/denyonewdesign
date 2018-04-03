@@ -31,8 +31,7 @@ export class PopovercolorcodePage {
   public EDITACCESS: any;
   public DELETEACCESS: any;
   constructor( private conf: Config,public platform: Platform,public viewCtrl: ViewController, public NP: NavParams, public NavController: NavController) {
-    this.itemData = this.NP.get("item");
-    console.log(JSON.stringify(this.itemData));
+    this.itemData = this.NP.get("item");    
     this.itemDataDelete.push({ staff_id: this.itemData.staff_id });
     this.photo = this.itemData.photo;
     this.firstname = this.itemData.firstname;
@@ -42,29 +41,18 @@ export class PopovercolorcodePage {
     this.email=this.itemData.email;
     this.cn=this.itemData.contact_number;
      this.EDITACCESS = localStorage.getItem("SETTINGS_ORGCHART_EDIT");
-    console.log("Role Authority for Unit Listing Edit:" + this.EDITACCESS);
     this.DELETEACCESS = localStorage.getItem("SETTINGS_ORGCHART_DELETE");
-    console.log("Role Authority for Unit Listing Delete:" + this.DELETEACCESS);
  this.networkType = '';
     this.apiServiceURLHTML = this.conf.apiBaseURL();
     
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PopoverPage');
      localStorage.setItem("fromModule", "PopoverPage");
   }
   close(itemData) {
     this.viewCtrl.dismiss(itemData);
   }
-  mail()
-  {
-    /*console.log("HELLO"+this.email);
-      this.navCtrl.setRoot(EmailPage, {
-      recordemail:this.email
-     
-     
-    });*/
-  }
+
 
 }

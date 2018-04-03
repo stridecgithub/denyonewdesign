@@ -70,7 +70,6 @@ export class CommentsinfoPage {
   constructor(private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
-    console.log("Role Id" + this.roleId);
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -93,7 +92,6 @@ export class CommentsinfoPage {
     this.COMMENTCREATEACCESS = localStorage.getItem("UNITS_COMMENTS_CREATE");
     this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
     this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
-    console.log("COMMENTDELETEACCESS:" + this.COMMENTDELETEACCESS);
     this.apiServiceURL = this.conf.apiBaseURL();
 
 
@@ -102,11 +100,9 @@ export class CommentsinfoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoadCommentsinfoPage');
   }
 
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -132,9 +128,6 @@ export class CommentsinfoPage {
   }
 
   doCommentView(event_id, event_type, eventdata) {
-    console.log("Event Id" + event_id);
-    console.log("event_type" + event_type);
-    console.log("eventdata" + JSON.stringify(eventdata));
     this.navCtrl.setRoot(CommentdetailsPage, {
       event_id: event_id,
       event_type: event_type,
@@ -147,29 +140,25 @@ export class CommentsinfoPage {
   ionViewWillEnter() {
 
     let iframeunitid = localStorage.getItem("iframeunitId");
-    console.log("iframeunitid:" + iframeunitid);
-    // UnitDetails Api Call		
-    console.log("Comment Info Record Param Value:" + JSON.stringify(this.NP.get("record")));
+   
     let editItem = this.NP.get("record");
     let from = this.NP.get("from");
-    console.log("From:" + from);
-    console.log("Comment info loading:" + editItem);
-    console.log("Comment info loading JSON:" + JSON.stringify(editItem));
+  
     let unitid = localStorage.getItem("iframeunitId");
     if (unitid == undefined) {
       if (from == 'service') {
-        console.log("Service");
+     
         unitid = editItem.service_unitid;
       } else if (from == 'alarm') {
-        console.log("Alarm");
+      
         unitid = editItem.alarm_unitid;
       } else {
-        console.log("Comment");
+       
         unitid = editItem.comment_unit_id;
       }
     }
 
-    console.log("Unit Id" + unitid);
+   
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -216,7 +205,7 @@ export class CommentsinfoPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {
@@ -229,7 +218,7 @@ export class CommentsinfoPage {
   }
 
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+  
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doService();
@@ -238,9 +227,6 @@ export class CommentsinfoPage {
     }, 2000);
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doService();
@@ -264,7 +250,6 @@ export class CommentsinfoPage {
 
 
     let iframeunitid = localStorage.getItem("iframeunitId");
-    console.log("iframeunitid:" + iframeunitid);
     if (iframeunitid == 'undefined') {
       iframeunitid = '0';
     }
@@ -283,14 +268,11 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-    console.log("Comment URL:" + url);
+   
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-
-        console.log("1" + res.comments.length);
-        console.log("2" + res.comments);
         if (res.comments.length > 0) {
           this.reportAllLists = res.comments;
           this.totalCount = res.totalCount;
@@ -300,7 +282,7 @@ export class CommentsinfoPage {
           this.totalCount = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-        console.log("Total Record:" + this.totalCount);
+       
 
       }, error => {
         this.conf.presentLoading(0);
@@ -333,9 +315,7 @@ export class CommentsinfoPage {
 
 
   doEdit(item, act, type) {
-    console.log(type);
     if (type.toLowerCase() == 'c') {
-      console.log("comment")
       localStorage.setItem("microtime", "");
       this.navCtrl.setRoot(AddcommentsinfoPage, {
         record: item,
@@ -377,8 +357,7 @@ export class CommentsinfoPage {
 
 
     if (type.toLowerCase() == 'a') {
-      console.log("Alarm")
-      // localStorage.setItem("microtime", "");
+     
       if (item.alarm_assigned_to == '') {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
@@ -390,56 +369,13 @@ export class CommentsinfoPage {
         this.conf.sendNotification("Alarm already assigned");
       }
     }
-    /*
-   if (type.toLowerCase() == 'r') {
-     this.conf.sendNotification("Not Applicable!!!");
-   }
-
-
- }
- /*details(item, act, type) {
-  console.log(JSON.stringify(item));
-  console.log(act);
-  console.log(type);
-  if (type.toLowerCase() == 'c') {
-    localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(CommentdetailsPage, {
-      record: item,
-      act: 'Edit'
-    });
-  }
- if (type.toLowerCase() == 's') {
-    localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(ServicedetailsPage, {
-      record: item,
-      act: 'Edit',
-      from:'comment'
-    });
-  }
-  if (type.toLowerCase() == 'r') {
-    localStorage.setItem("microtime", "");
-     this.navCtrl.setRoot(ServicedetailsPage, {
-      record: item,
-      act: 'Edit',
-      from:'comment'
-    });
-  }
-  if(type.toLowerCase()=='a')
-  {
-     this.navCtrl.setRoot(AlarmlistdetailPage, {
-      record: item,
-      act: act,
-      from:'comment'
-
-     
-    });
-  }*/
+   
   }
 
   doConfirm(item, ty) {
 
     if (ty.toLowerCase() == 'c') {
-      console.log("Deleted Id" + item.comment_id);
+     
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this comment?',
         buttons: [{
@@ -461,7 +397,6 @@ export class CommentsinfoPage {
       confirm.present();
     }
     if (ty.toLowerCase() == 's') {
-      console.log("Deleted Id" + item.service_id);
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this Service?',
         buttons: [{
@@ -483,7 +418,6 @@ export class CommentsinfoPage {
       confirm.present();
     }
     if (ty.toLowerCase() == 'r') {
-      console.log("Deleted Id" + item.service_id);
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this Service?',
         buttons: [{
@@ -558,7 +492,6 @@ export class CommentsinfoPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-      console.log("DURL" + url);
       this.http.get(url, options)
         .subscribe(data => {
           // If the request was successful notify the user
@@ -601,8 +534,6 @@ export class CommentsinfoPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -622,9 +553,7 @@ export class CommentsinfoPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
-              console.log('Desc clicked');
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'service') {

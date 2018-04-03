@@ -27,7 +27,7 @@ export class ReportviewPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportviewPage');
+    
   }
   previous() {
      this.navCtrl.setRoot(ReportsPage);

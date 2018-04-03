@@ -83,7 +83,6 @@ export class AlarmlogdetailsPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unit_id;
-    console.log(urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
@@ -123,7 +122,7 @@ export class AlarmlogdetailsPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+          
 
         }
       }, error => {

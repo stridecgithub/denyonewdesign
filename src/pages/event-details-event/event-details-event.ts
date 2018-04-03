@@ -70,7 +70,7 @@ export class EventDetailsEventPage {
     }
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
-      console.log("Event Type:" + eventType);
+      
 
 
 
@@ -82,8 +82,7 @@ export class EventDetailsEventPage {
       
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log("eventdetailbyid Response Success:" + JSON.stringify(data.json()));
-          console.log("Event Details:" + data.json().eventslist[0]);
+         
           this.eventitem = data.json().eventslist[0];
           this.eventTitle = data.json().eventslist[0].event_title;
           this.event_dot_color = data.json().eventslist[0].event_dot_color;
@@ -96,7 +95,7 @@ export class EventDetailsEventPage {
           } else {
             this.event_time = "- " + data.json().eventslist[0].formatted_event_end_date;
           }
-          console.log("A:" + data.json().eventslist[0].event_end_time);
+         
 
 
           let evttime;
@@ -129,7 +128,7 @@ export class EventDetailsEventPage {
 
   doConfirmUpcoming(id, item) {
 
-    console.log("Deleted Id" + id);
+    
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service schedule?',
       buttons: [{
@@ -188,7 +187,7 @@ export class EventDetailsEventPage {
 
   }
   doEventDelete(item) {
-    console.log("Deleted Id" + item.event_id);
+   
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -215,7 +214,7 @@ export class EventDetailsEventPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
+   
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

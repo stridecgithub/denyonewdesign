@@ -111,7 +111,6 @@ export class ReportsPage {
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
@@ -134,9 +133,6 @@ export class ReportsPage {
     confirm.present();
   }
   ionViewWillEnter() {
-
-
-    console.log("Req Success" + this.NP.get("reqsuccess"));
     if (this.NP.get("reqsuccess") > 0) {
       this.showConfirm()
     }
@@ -155,7 +151,6 @@ export class ReportsPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -191,26 +186,17 @@ export class ReportsPage {
           this.end_date = this.to;
         }
       },
-      err => console.log('Error occurred while getting date: '+ err)
+      err =>{}
       );
 
-    /*if (val == '1') {
-      this.from = date.getFullYear() + "-" + parseInt(date.getMonth() + 1) + "-" + date.getDate();
-      console.log("From date from choosen calendar:" + this.from);
-    }
-
-    if (val == '2') {
-      this.to = date.getFullYear() + "-" + parseInt(date.getMonth() + 1) + "-" + date.getDate();
-      console.log("From date from choosen calendar:" + this.to);
-    }*/
+   
   }
 
 
   saveEntry(val, from, to) {
     this.from = from;
     this.to = to;
-    console.log("Button 1:" + this.button1);
-    console.log("Button 2:" + this.button2);
+  
     let selunit: string = this.form.controls["selunit"].value,
       seltemplate: string = this.form.controls["seltemplate"].value,
       seltimeframe: string = this.form.controls["seltimeframe"].value;
@@ -278,11 +264,11 @@ export class ReportsPage {
 
 
   getTemplate(templateId) {
-    console.log(templateId);
+   
   }
 
   getFormat(format) {
-    console.log(format);
+   
     this.isSubmitted = false;
     if (format == 'graph') {
       this.isSubmitted = true;
@@ -294,10 +280,9 @@ export class ReportsPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=0&results=300&sort=unit_id&dir=asc&company_id=" + this.companyId + "&loginid=" + this.userId;
-      url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
+       url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
     let res;
-    console.log("URL" + url);
+   
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -312,7 +297,6 @@ export class ReportsPage {
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=0&results=300&sort=unit_id&dir=asc&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
     let res;
-    console.log("URL" + url);
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -324,7 +308,6 @@ export class ReportsPage {
 
 
   ionViewDidLoad() {
-    console.log(JSON.stringify(this.NP));
     if (this.NP.get("selunit") > 0) {
       this.val = this.NP.get("val");
       this.exportto = this.NP.get("exportto");
@@ -346,7 +329,7 @@ export class ReportsPage {
 
 
     }
-    console.log('ionViewDidLoad ReportsPage');
+    
   }
 
   previous() {
@@ -365,8 +348,6 @@ export class ReportsPage {
 
 
   filToDate(start_date) {
-    console.log("Start Date:" + start_date);
-    //this.end_date = start_date.split("T")[0];
   }
 
 

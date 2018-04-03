@@ -103,11 +103,8 @@ export class NotificationPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/changebellnotify";
 
-    console.log("URL:" + url + "?" + body);
-
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("changebellnotify:" + JSON.stringify(data.json()));
 
       });
   }
@@ -121,11 +118,8 @@ export class NotificationPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/changestatusapibell_list";
 
-    console.log("URL:" + url + "?" + body);
-
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("changestatusapibell_list Response Success:" + JSON.stringify(data.json()));
 
         // If the request was successful notify the user
         if (data.status === 200) {
@@ -239,12 +233,11 @@ export class NotificationPage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
     let res;
-    console.log("Notification list api" + url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        console.log("Notification Response" + JSON.stringify(res));
         if (res.notification != undefined) {
           if (res.notification.length > 0) {
             for (let notifications in res.notification) {

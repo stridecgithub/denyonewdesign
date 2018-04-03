@@ -121,19 +121,12 @@ export class AddserviceinfoPage {
     });
     let date = new Date();
     this.currentyear = date.getFullYear();
-
-    console.log("Min date:" + this.mindate);
     this.isFuture = 0;
     this.uploadcount = 10;
-    this.serviced_datetime = moment().format(); // 2018-01-16T23:08:57+05:30
-    console.log(this.serviced_datetime);
-
+    this.serviced_datetime = moment().format(); 
 
     this.servicemindate = this.minDateStr();
     this.servicemaxdate = this.maxDateStr();
-
-
-    console.log("Max:" + this.servicemaxdate);
 
     this.priority_highclass = '';
     this.priority_lowclass = '';
@@ -192,9 +185,6 @@ export class AddserviceinfoPage {
     }
 
     this.servicemaxdate = yyyy + '-' + this.mm + '-' + this.dd;
-
-    // this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Max:" + this.servicemaxdate);
     return this.servicemaxdate;
 
   }
@@ -203,8 +193,6 @@ export class AddserviceinfoPage {
 
     let oneWeekAgo = new Date();
     let prevfivedays = oneWeekAgo.setDate(oneWeekAgo.getDate() - 5);
-    console.log("Previous five days:" + prevfivedays);
-
     let dateFormat = new Date(prevfivedays);
     this.servicemindate = dateFormat.getFullYear() + '-' + (dateFormat.getMonth() + 1) + '-' + dateFormat.getDate();
     this.minyr = dateFormat.getFullYear();
@@ -218,8 +206,7 @@ export class AddserviceinfoPage {
     if (this.minmn < 10) {
       this.minmn = '0' + this.minmn;
     }
-    this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Min:" + this.servicemindate);
+    this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt;
     return this.servicemindate;
   }
   ionViewWillLeave() {
@@ -228,37 +215,8 @@ export class AddserviceinfoPage {
   ionViewDidLoad() {
     // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
-    console.log('ionViewDidLoad AddserviceinfoPage');
     localStorage.setItem("fromModule", "AddserviceinfoPage");
-    /*
-        // Atmentioned API Calls
-        let
-          //body: string = "key=delete&recordID=" + recordID,
-          type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers: any = new Headers({ 'Content-Type': type }),
-          options: any = new RequestOptions({ headers: headers }),
-          url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
-        
-        this.http.get(url, options)
-          .subscribe(data => {
-            // If the request was successful notify the user
-            if (data.status === 200) {
-              this.atmentioneddata = data.json();
-              console.log(this.atmentioneddata);
-             
-            }
-            // Otherwise let 'em know anyway
-            else {
-              this.conf.sendNotification('Something went wrong!');
-            }
-          }, error => {
     
-          })
-    
-        // Atmentioned API Calls
-        jQuery('#description').triggeredAutocomplete({
-          source: this.atmentioneddata
-        });*/
 
 
     // Atmentioned API Calls
@@ -271,13 +229,7 @@ export class AddserviceinfoPage {
     
     this.http.get(url, options)
 
-    // let body: string = param,
-
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = urlstring;
-    console.log("Message sending API" + url + "?" + body);
+   
 
     this.http.post(url, body, options)
 
@@ -287,7 +239,7 @@ export class AddserviceinfoPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
+         
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -305,7 +257,7 @@ export class AddserviceinfoPage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+  
     jQuery(".description").mention({
       users: this.atmentioneddata
     });
@@ -323,16 +275,13 @@ export class AddserviceinfoPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-    // this.getPrority(1);
-    //let users = localStorage.getItem("atMentionedStorage");
-    //this.is_request = false;
-    console.log(JSON.stringify(this.NP.get("record")));
+   
 
 
 
@@ -356,8 +305,7 @@ export class AddserviceinfoPage {
       }
 
 
-      console.log("Service Id:" + this.service_id);
-      console.log("Service Unit Id:" + this.service_unitid);
+    
       // UnitDetails Api Call		
       let
         typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -365,7 +313,7 @@ export class AddserviceinfoPage {
         optionsunit: any = new RequestOptions({ headers: headersunit }),
         urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
           "&unitid=" + this.service_unitid;
-      console.log(urlunit);
+    
       this.http.get(urlunit, optionsunit)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -405,7 +353,7 @@ export class AddserviceinfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-            console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+           
 
           }
         }, error => {
@@ -438,7 +386,6 @@ export class AddserviceinfoPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
       this.fileTrans(imageData, micro_timestamp);
       this.addedAttachList = imageData;
     }, (err) => {
@@ -478,12 +425,8 @@ export class AddserviceinfoPage {
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isSubmitted = true;
-        // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
-
-
-        console.log("Upload Response is" + JSON.stringify(data))
+       
         let res = JSON.parse(data.response);
-        console.log(res.id);
         
 
         let imgSrc;
@@ -495,10 +438,7 @@ export class AddserviceinfoPage {
           resouce_id: res.id
         });
 
-        //loading.dismiss();
-        /* if (this.addedServiceImgLists.length > 9) {
-           this.isUploaded = false;
-         }*/
+      
         this.uploadcount = 10;
         if (this.addedServiceImgLists.length > 9) {
           this.isUploaded = false;
@@ -522,8 +462,7 @@ export class AddserviceinfoPage {
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
       }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:" + JSON.stringify(err));
+       
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -546,7 +485,6 @@ export class AddserviceinfoPage {
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
     } else {
-      console.log(this.form.controls);
       if (this.isUploadedProcessing == false) {
         let serviced_datetime: string = this.form.controls["serviced_datetime"].value,
           serviced_by: string = this.unitDetailData.userId,
@@ -562,12 +500,11 @@ export class AddserviceinfoPage {
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-        console.log("Chkemailhashtags API" + url + "?" + body);
+      
 
         this.http.post(url, body, options)
           .subscribe((data) => {
-            console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-            console.log("1" + data.json().invalidusers);
+          
             if (data.json().invalidusers == '') {
               this.createEntry(description, serviced_datetime, serviced_by, service_subject);
             } else {
@@ -600,37 +537,29 @@ export class AddserviceinfoPage {
     }
 
 
-    console.log("Form date:" + serviced_date);
+   
     if (serviced_date == 'undefined') {
 
       this.serviced_datetime = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 1" + this.serviced_datetime);
+     
       serviced_date = this.serviced_datetime
     }
     if (serviced_date == undefined) {
       this.serviced_datetime = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 2" + this.serviced_datetime);
+     
       serviced_date = this.serviced_datetime
     }
 
     //description = localStorage.getItem("atMentionResult");
   let body: string = "is_mobile=1" +
-      //"&service_priority=" + this.service_priority +
       "&unitid=" + this.service_unitid +
       "&dateandtime=" + serviced_date +
-      // "&service_remark=" + service_remark +
       "&description=" + description +
-      //"&time=" + serviced_time +
-      //"&next_service_date=" + nextServiceDate +
       "&is_denyo_support=0" +
       "&created_by=" + this.unitDetailData.userId +
       "&is_request=0" +
       "&subject=" + service_subject,
-      //"&micro_timestamp=" + micro_timestamp +
-      //"&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
-      //"&contact_number=" + this.contact_number +
-      //"&contact_name=" + this.contact_name +
-      //"&nextServiceDate=" + nextServiceDate,
+      
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -697,7 +626,6 @@ export class AddserviceinfoPage {
   subDays(days) {
     let result = new Date();
     result.setDate(result.getDate() - days);
-    console.log("SubDays Function Result is:" + result);
     return result;
   }
 
@@ -730,7 +658,6 @@ export class AddserviceinfoPage {
   selectEntry(item) {
   }
   doRemoveResouce(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this file?',
       buttons: [{
@@ -745,9 +672,7 @@ export class AddserviceinfoPage {
 
             }
           }
-          this.uploadcount = 10 - this.addedServiceImgLists.length;
-          console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
-          console.log("After Deleted Upload count length:" + this.uploadcount);
+          this.uploadcount = 10 - this.addedServiceImgLists.length;         
         }
       },
       {
@@ -803,15 +728,12 @@ export class AddserviceinfoPage {
         {
           text: 'Ok',
           handler: () => {
-            // this.is_request = true;
-            console.log('Confirm clicked');
+           
           }
         },
         {
           text: 'Cancel',
           handler: () => {
-            // this.is_request = false;
-            console.log('Cancel clicked');
           }
         }
       ],
@@ -849,7 +771,6 @@ export class AddserviceinfoPage {
 
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-              console.log(imageURI);
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -860,7 +781,6 @@ export class AddserviceinfoPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
             const options: CameraOptions = {
               quality: 25,
               destinationType: this.camera.DestinationType.FILE_URI,
@@ -870,17 +790,8 @@ export class AddserviceinfoPage {
               saveToPhotoAlbum: true
             };
 
-
-            // const options: CameraOptions = {
-            //   quality: 100,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   encodingType: this.camera.EncodingType.JPEG,
-            //   mediaType: this.camera.MediaType.PICTURE
-            // }
-
-
             this.camera.getPicture(options).then((uri) => {
-              console.log(uri);
+            
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -893,7 +804,7 @@ export class AddserviceinfoPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+           
           }
         }
       ]

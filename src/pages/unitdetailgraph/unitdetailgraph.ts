@@ -53,7 +53,7 @@ export class UnitdetailgraphPage {
     });
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
+    
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -61,10 +61,7 @@ export class UnitdetailgraphPage {
     ///this.tabBarElement.style.display = 'flex';
   }
   ionViewDidLoad() {
-    console.log("Navigation data of item" + JSON.stringify(this.navParams.get("record")));
-    //this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad TrendlinePage');
-    console.log("Alaram Id" + this.navParams.get("alarmid"));
+   
     let unit_id = this.navParams.get("unit_id");
     let graphname = this.navParams.get("graphname");
     if (graphname == 'LOADPOWERFACTOR') {
@@ -111,11 +108,10 @@ export class UnitdetailgraphPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unid;
-    console.log(urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-          console.log('rrrrr');
+        
           this.unitDetailData.unitname = data.json().units[0].unitname;
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
@@ -152,7 +148,7 @@ export class UnitdetailgraphPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {

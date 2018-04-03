@@ -144,7 +144,7 @@ export class ReportviewtablePage {
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userid;
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -158,7 +158,7 @@ export class ReportviewtablePage {
     this.success = 0;
     this.requestsuccessview = 0;
     let seltypeBtn = this.NP.get("val");
-    console.log("Select Type Button Submit" + seltypeBtn);
+   
     let action;
     let seltype;
     if (seltypeBtn == '1') {
@@ -182,20 +182,10 @@ export class ReportviewtablePage {
 
 
     if (seltypeBtn != '3' && this.graphview == 0) {
-      console.log("Block A");
+     
       let info = this.NP.get("selunit");
-      console.log(JSON.stringify(info));
-      let /*body: string = "is_mobile=1" +
-        "&selunit=" + this.NP.get("selunit") +
-        "&seltimeframe=" + this.NP.get("seltimeframe") +
-        "&seltemplate=" + this.NP.get("seltemplate") +
-        "&from=" + this.NP.get("from") +
-        "&to=" + this.NP.get("to") +
-        "&exportto=" + this.NP.get("exportto") +
-        "&seltype=" + seltype +
-        "&action=" + action +
-        "&loginid=" + this.userid +
-        "&companyid=" + this.companyid,*/
+     
+      let 
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
@@ -210,8 +200,6 @@ export class ReportviewtablePage {
           "&action=" + action +
           "&loginid=" + this.userid +
           "&companyid=" + this.companyid;
-
-      console.log("Report submit url is:-" + url);
       let res;
       this.presentLoading(1);
       //this.http.post(url, body, options)
@@ -221,7 +209,6 @@ export class ReportviewtablePage {
 
           // If the request was successful notify the user
           res = data.json();
-          console.log("Report Preview Success Response:-" + JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
@@ -275,13 +262,12 @@ export class ReportviewtablePage {
     } else if (this.graphview > 0) {
 
       this.buttonClicked = false;
-      console.log("Block C");
 
       if (seltypeBtn == '1') {
         this.graphview = 0;
         this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
-        console.log(this.requestsuccess);
+       
       } else {
 
         // For Getting Unit Details in Graph
@@ -311,7 +297,7 @@ export class ReportviewtablePage {
             "&loginid=" + this.userid +
             "&companyid=" + this.companyid;
 
-        console.log("Report submit url is:-" + url);
+      
         let res;
         this.presentLoading(1);
         //this.http.post(url, body, options)
@@ -321,7 +307,7 @@ export class ReportviewtablePage {
 
             // If the request was successful notify the user
             res = data.json();
-            console.log("Report Preview Success Response:-" + JSON.stringify(res));
+           
             if (seltypeBtn == '1') {
               this.success = 1;
               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
@@ -380,7 +366,7 @@ export class ReportviewtablePage {
           "&loginid=" + this.userid +
           "&companyid=" + this.companyid +
           "&datacodes=");
-        console.log('Graph Web View URL' + this.url);
+        
       }
     }
 
@@ -413,20 +399,8 @@ export class ReportviewtablePage {
     });
   }
   download(val) {
-    //this.buttonClicked = true;
-    console.log("PDF Download");
-    // PDF Viewer Calling      
-    let /*body: string = "is_mobile=1" +
-      "&selunit=" + this.NP.get("selunit") +
-      "&seltimeframe=" + this.NP.get("seltimeframe") +
-      "&seltemplate=" + this.NP.get("seltemplate") +
-      "&from=" + this.NP.get("from") +
-      "&to=" + this.NP.get("to") +
-      "&exportto=" + this.NP.get("exportto") +
-      "&seltype=" + val +
-      "&action=view" +
-      "&loginid=" + this.userid +
-      "&companyid=" + this.companyid,*/
+     
+    let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -441,8 +415,6 @@ export class ReportviewtablePage {
         "&action=view" +
         "&loginid=" + this.userid +
         "&companyid=" + this.companyid;
-
-    console.log("Report submit url is:-" + url);
     let res;
     this.presentLoading(1);
     //this.http.post(url, body, options)
@@ -452,7 +424,6 @@ export class ReportviewtablePage {
         this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
-        console.log("JSON Return" + JSON.stringify(res));
         let uri;
         if (val == 1) {
           uri = res.pdf;
@@ -461,7 +432,7 @@ export class ReportviewtablePage {
           uri = res.csv;
           this.csvDownloadLink = uri;
         }
-        console.log("Uploaded and generated success file is:" + uri);
+       
         //this.downloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
@@ -477,23 +448,12 @@ export class ReportviewtablePage {
         // if (val == 1) {
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
-          console.log('download complete: ' + entry.toURL());
-          // const options: DocumentViewerOptions = {
-          //   title: url
-          // }
-          console.log("val:" + val);
-          if (val == 1) {
-            // this.document.viewDocument(entry.toURL(), 'application/pdf', options);
-          } else {
-            // this.fileOpener.open(this.file.dataDirectory + pdfFile, 'application/excel')
-            //   .then(() => console.log('File is opened'))
-            //   .catch(e => console.log('Error openening file', e));
-          }
+         
+         
 
           this.pdfdownloadview = 0;
         }, (error) => {
-          console.log(error);
-          // handle error
+         
         });
 
 
@@ -515,7 +475,6 @@ export class ReportviewtablePage {
     let url = filepathurl;
     fileTransfer.download(url, this.file.dataDirectory + 'report_' + new Date().toISOString() + '.csv').then((entry) => {
       if (entry) {
-        console.log('download complete: ' + entry.toURL());
         let alert = this.alertCtrl.create({
           title: 'CSV Downloaded Successfully',
           buttons: [{

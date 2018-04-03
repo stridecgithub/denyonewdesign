@@ -112,7 +112,7 @@ export class EditprofilesteponePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EditprofilesteponePage');
+   
     localStorage.setItem("fromModule", "EditprofilesteponePage");
     this.pageLoad();
   }
@@ -138,8 +138,7 @@ export class EditprofilesteponePage {
     }
 
 
-    let userInf = localStorage.getItem("userInfo");
-    console.log("User Information Storage:" + JSON.stringify(userInf));
+    //let userInf = localStorage.getItem("userInfo");
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -150,11 +149,9 @@ export class EditprofilesteponePage {
       .subscribe((data) => {
         res = data.json();
         
-        console.log("1" + res.settings.length);
-        console.log("2" + res.settings);
+       
         this.first_name = res.settings[0].firstname;
         this.last_name = res.settings[0].lastname;
-        console.log(res.settings[0].firstname);
         this.username = res.settings[0].username;
         this.contact = res.settings[0].contact_number;
         this.photo = res.settings[0].photo_filename;
@@ -174,27 +171,19 @@ export class EditprofilesteponePage {
         this.country = res.settings[0].country_id;
         this.company_id = res.settings[0].company_id;
         this.report_to = res.settings[0].report_to;
-        console.log("this.report_to " + this.report_to);
-        //if (this.company_id > 0) {
         this.getUserListData();
         // }
 
         this.job_position = res.settings[0].job_position;
 
-        console.log(res.settings[0].country_name);
-        // if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {           
-        //   this.photo = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-        //    console.log('My Acccount One Photo Available....');
-        // }else {
-        //   console.log('Edit Profile One Photo Not Available....')
-        // }
+       
 
         if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-          console.log('My Acccount One Photo Available....');
+         
         } else {
           this.addedImgLists = this.apiServiceURL + "/images/default.png";
-          console.log('My Acccount  One Photo Not Available....');
+        
         }
 
       }, error => {
@@ -203,13 +192,13 @@ export class EditprofilesteponePage {
   }
 
   getPrimaryContact(ev) {
-    console.log(ev.target.value);
+   
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      console.log('Reached five characters above');
+     
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      console.log('Reached five characters below');
+     
       this.borderbottomredvalidation = '';
     }
   }
@@ -223,13 +212,6 @@ export class EditprofilesteponePage {
   //first_name, last_name, email, username,password, contact, this.userId
   updateEntry(first_name, last_name, email, username, password, contact, createdby, hashtag, job_position, company_id, report_to) {
 
-
-
-    // let userPhotoFile = localStorage.getItem("userPhotoFile");
-    // if (userPhotoFile) {
-    //   console.log("Upload Device Image File:" + userPhotoFile);
-    //   this.fileTrans(userPhotoFile);
-    // }
     contact = contact.replace("+", "%2B");
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
@@ -275,7 +257,6 @@ export class EditprofilesteponePage {
 
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
@@ -357,9 +338,6 @@ export class EditprofilesteponePage {
         report_to: string = this.form.controls["report_to"].value;
       //contact = primary + " " + contact;
       contact = contact;
-      console.log("Contact Concatenate" + contact);
-      console.log(this.form.controls);
-      console.log("this.isUploadedProcessing" + this.isUploadedProcessing);
       if (this.isUploadedProcessing == false) {
         this.updateEntry(first_name, last_name, email, username, password, contact, this.userId, hashtag, job_position, company_id, report_to);
       }
@@ -406,8 +384,6 @@ export class EditprofilesteponePage {
     const fileTransfer: FileTransferObject = this.transfer.create();
   
     this.photo = fileName;
-   
-    console.log("fileName File Name is:" + fileName);
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -424,20 +400,15 @@ export class EditprofilesteponePage {
       fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-        console.log(JSON.stringify(data));
+       
         localStorage.setItem("userPhotoFile", "");
-        console.log("UPLOAD SUCCESS:" + data.response);
-
-        console.log("File Name:" + JSON.parse(data.response).name);
-
+       
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-        console.log("Upload Success Push" + JSON.stringify(this.userInfo));
-
-        console.log("Upload Success File Name" + this.userInfo[0].photo.name);
+       
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
@@ -450,8 +421,7 @@ export class EditprofilesteponePage {
         
 
       }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:");
+       
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -497,7 +467,7 @@ export class EditprofilesteponePage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-              console.log(imageURI);
+             
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -512,16 +482,7 @@ export class EditprofilesteponePage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
+          
 
             const options: CameraOptions = {
               quality: 100,
@@ -533,7 +494,7 @@ export class EditprofilesteponePage {
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
-              console.log(uri);
+            
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -549,7 +510,7 @@ export class EditprofilesteponePage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+           
           }
         }
       ]
@@ -583,7 +544,7 @@ export class EditprofilesteponePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
-      console.log("Report To API:" + url)
+    
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
@@ -595,8 +556,7 @@ export class EditprofilesteponePage {
           else {
             this.len = res.TotalCount;
           }
-          console.log("this.len:" + this.len)
-          console.log("length" + res.TotalCount);
+        
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -609,13 +569,13 @@ export class EditprofilesteponePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
-      console.log("Report To API:" + url)
+     
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-          console.log("length" + res.TotalCount);
+         
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {

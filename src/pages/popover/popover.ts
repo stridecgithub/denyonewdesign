@@ -37,7 +37,7 @@ export class PopoverPage {
   constructor(private conf: Config, public platform: Platform, public viewCtrl: ViewController, public NP: NavParams, public NavController: NavController) {
     this.itemData = this.NP.get("item");
     this.companyId = localStorage.getItem("userInfoCompanyId");
-    console.log(JSON.stringify(this.itemData));
+   
     this.itemDataDelete.push({ hashtag: '', staff_id: this.itemData.staff_id, 'act': 'delete' });
     this.photo = this.itemData.photo;
     this.firstname = this.itemData.firstname;
@@ -57,26 +57,17 @@ export class PopoverPage {
     this.DELETEACCESS = localStorage.getItem("SETTINGS_ORGCHART_DELETE");
     this.networkType = '';
     this.apiServiceURLHTML = this.conf.apiBaseURL();
-    //console.log("this.companyId" + this.companyId);
-    //console.log("this.itemData.company_id" + this.itemData.company_id);
-    //console.log("this.EDITACCESS" + this.EDITACCESS)
+   
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PopoverPage');
+    
     localStorage.setItem("fromModule", "PopoverPage");
   }
   close(itemData) {
     this.viewCtrl.dismiss(itemData);
   }
-  mail() {
-    /*console.log("HELLO"+this.email);
-      this.navCtrl.setRoot(EmailPage, {
-      recordemail:this.email
-     
-     
-    });*/
-  }
+
 
 }

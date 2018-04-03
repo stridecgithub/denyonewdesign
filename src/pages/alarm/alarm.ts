@@ -95,37 +95,14 @@ export class AlarmPage {
     });
 
   }
-  presentModal(unit) {
-    console.log(JSON.stringify(unit));
+  presentModal(unit) {    
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
   ionViewDidEnter() {
-    console.log('ionViewDidEnter1 AlarmPage');
+   
     localStorage.setItem("fromModule", "AlarmPage");
-    /*let editItem = this.NP.get("record");
-
-    let from = this.NP.get("from");
-    let unid;
-    console.log("Alarm Ts:" + JSON.stringify(this.NP.get("record")));
-    console.log("From:" + from);
-    if (from == 'trendline') {
-      unid = this.NP.get("record").alarm_unit_id;
-      console.log("Alarm Unit Id" + unid);
-    } else if (from == 'addalarm') {
-      unid = this.NP.get("record").alarm_unit_id;
-      console.log("Alarm Unit Id" + unid);
-    }else if (from == undefined) {
-      unid = this.NP.get("record").unit_id;
-      console.log("Alarm Unit Id" + unid);
-    } else if (from == 'undefined') {
-      unid = this.NP.get("record").unit_id;
-      console.log("Alarm Unit Id" + unid);
-    }  else {
-      unid = this.NP.get("record").alarm_unit_id;
-      console.log("Unit Id" + unid);
-    }
-*/
+    
 
     this.unitDetailData.unit_id = localStorage.getItem("unitId");
 
@@ -146,11 +123,11 @@ export class AlarmPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unid;
-    console.log(urlunit);
+  
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-          console.log('rrrrr');
+         
           this.unitDetailData.unitname = data.json().units[0].unitname;
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
@@ -187,7 +164,7 @@ export class AlarmPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {
@@ -213,7 +190,7 @@ export class AlarmPage {
       });
   }
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+   
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doAlarm();
@@ -243,9 +220,7 @@ export class AlarmPage {
         this.conf.presentLoading(0);
         res = data.json();
 
-        console.log("1" + res.alarms.length);
-        console.log("2" + res.alarms);
-
+     
         if (res.alarms.length > 0) {
 
           for (let alarm in res.alarms) {
@@ -255,7 +230,7 @@ export class AlarmPage {
             let wrn = res.alarms[alarm].alarm_name.includes('Wrn');
             let alarm_priority;
             alarm_priority = res.alarms[alarm].alarm_priority
-            console.log(fls);
+           
             if (fls > 0) {
               alarm_priority = 3;
             }
@@ -267,8 +242,7 @@ export class AlarmPage {
             let act = res.alarms[alarm].alarm_name.includes('!');
             let activealarm;
             let activealarmtext;
-            if (act > 0) {
-              activealarm = 'active-alarm';
+            if (act > 0) {             
               activealarmtext = 'active-alarm-text';
             }
 
@@ -288,19 +262,14 @@ export class AlarmPage {
 
             });
           }
-          //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.reportAllLists = res.unitgroups;
-         
-          console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.reportAllLists));*/
+    
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.conf.presentLoading(0);
           this.totalCount = 0;
         }
-        console.log("Total Record:2" + this.totalCount);
-
+       
       }, error => {
         this.conf.presentLoading(0);
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -311,9 +280,7 @@ export class AlarmPage {
 
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-
-    console.log("Total Count:" + this.totalCount)
+  
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doAlarm();
@@ -394,8 +361,7 @@ export class AlarmPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+          
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -416,7 +382,6 @@ export class AlarmPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';

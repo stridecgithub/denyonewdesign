@@ -156,7 +156,6 @@ export class MessagesPage {
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
@@ -174,15 +173,10 @@ export class MessagesPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-        console.log(error);
       });
     // Notiifcation count
   }
-  // ionViewDidLoad() {
-
-  //   console.log('ionViewDidLoad MessagesPage');
-  // }
-
+ 
 
   ionViewDidLoad() {
     // Authority for message send
@@ -199,7 +193,7 @@ export class MessagesPage {
     // Authority for message inbox
 
    
-    console.log('ionViewDidEnter MessagesPage');
+   
     let elements = document.querySelectorAll(".tabbar");
 
     if (elements != null) {
@@ -249,15 +243,14 @@ export class MessagesPage {
     }
 
     if (this.navParams.get("fromtab") != undefined) {
-      console.log("Tab:" + this.navParams.get("fromtab"));
       if (this.navParams.get("fromtab") == 'sentView') {
-        console.log("Send view tab active IonviewdidLoad");
+      
         this.tabs = 'sendView';
         this.snd();
       } else {
         this.inb();
         this.tabs = 'inboxView';
-        console.log("Inbox view tab active  IonviewdidLoad");
+       
       }
       this.tabs = this.navParams.get("fromtab");     
     }
@@ -276,8 +269,7 @@ export class MessagesPage {
     this.MESSAGEINBOXEDITACCESS = localStorage.getItem("MESSAGES_INBOX_EDIT");
     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
     // Authority for message inbox
-    console.log("this.MESSAGESENTVIEWACCESS" + this.MESSAGESENTVIEWACCESS);
-    console.log("this.MESSAGEINBOXVIEWACCESS" + this.MESSAGEINBOXVIEWACCESS);
+    
     if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
      
       this.tabs = 'inboxView';
@@ -316,15 +308,10 @@ export class MessagesPage {
     }
 
     if (this.navParams.get("fromtab") != undefined) {
-      console.log("Tab:" + this.navParams.get("fromtab"));
-      if (this.navParams.get("fromtab") == 'sentView') {
-        console.log("Send view tab active IonviewdidEnter");
+      if (this.navParams.get("fromtab") == 'sentView') {       
         this.tabs = 'sendView';
-       // this.snd();
-      } else {
-       // this.inb();
-        this.tabs = 'inboxView';
-        console.log("Inbox view tab active IonviewdidEnter");
+      } else {      
+        this.tabs = 'inboxView';       
       }
       this.tabs = this.navParams.get("fromtab");     
     }
@@ -335,8 +322,7 @@ export class MessagesPage {
     this.navCtrl.setRoot(ComposePage);
   }
   readAction(messageid, item, act, from) {
-    localStorage.setItem("microtime", '');
-    console.log('act' + act);
+    localStorage.setItem("microtime", '');   
     if (act == 'unread') {
      
       this.unreadAction(messageid, item);
@@ -402,9 +388,6 @@ export class MessagesPage {
       .subscribe((data) => {
 
         res = data.json();
-        
-        console.log("1" + res.messages.length);
-        console.log("2" + res.messages);
         if (res.messages.length > 0) {
           this.inboxLists = res.messages;
           this.totalCount = res.totalCount;
@@ -414,7 +397,6 @@ export class MessagesPage {
           this.totalCount = 0;
           //this.loadingMoreDataContent = 'No More Data';
         }
-        console.log("Total Record:" + this.totalCount);
         this.conf.presentLoading(0);
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -448,9 +430,6 @@ export class MessagesPage {
       .subscribe((data) => {
 
         res = data.json();
-        
-        console.log("1" + res.messages.length);
-        console.log("2" + res.messages);
         if (res.messages.length > 0) {
 
          
@@ -458,30 +437,20 @@ export class MessagesPage {
             this.sendLists = res.messages;
             this.totalCount = res.totalCount;
             this.sendData.startindex += this.sendData.results;
-         
-          console.log("Kannan:-" + JSON.stringify(this.sendLists));
-          //this.sendLists = res.messages;
           this.totalCountSend = res.totalCount;
           this.sendData.startindex += this.sendData.results;
-          //this.loadingMoreDataContent = 'Loading More Data';
         } else {
           this.totalCountSend = 0;
-          //this.loadingMoreDataContent = 'No More Data';
         }
-        console.log("Total Record:" + this.totalCountSend);
         this.conf.presentLoading(0);
       }, error => {
-        console.log(error);
       });
     //this.conf.presentLoading(0);
   }
   /**********************/
   /* Infinite scrolling */
   /**********************/
-  doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
+  doInfinite(infiniteScroll) {    
     if (this.inboxData.startindex < this.totalCount && this.inboxData.startindex > 0) {
      
       this.doInbox();
@@ -494,9 +463,6 @@ export class MessagesPage {
     
   }
   doSendInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCountSend)
     if (this.sendData.startindex < this.totalCountSend && this.sendData.startindex > 0) {
      
       this.doSend();
@@ -509,7 +475,6 @@ export class MessagesPage {
     
   }
   doConfirm(id, item, type) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this message?',
       buttons: [{
@@ -550,41 +515,32 @@ export class MessagesPage {
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
-    console.log(urlstr + '?' + bodymessage);
     let res;
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-        console.log("Unread action:" + JSON.stringify(data.json()));
-        console.log("Res Result" + res.msg[0]['result']);
-        console.log("data.status" + data.status);
-        console.log("Error" + res.msg[0]['Error'])
+       
         if (data.status === 200) {
-          console.log('Enter');
+       
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
-          console.log('Exit 1');
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
           this.doInbox();
-          console.log('Exit 2');
         }
         // Otherwise let 'em know anyway
         else {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error);
       });
 
 
   }
   // List page navigate to notification list
   notification() {
-    console.log('Will go notification list page');
-    // Navigate the notification list page
     this.navCtrl.setRoot(NotificationPage);
   }
 
@@ -617,8 +573,6 @@ export class MessagesPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
             if (data != undefined) {
               this.inboxData.sort = data;
               this.inboxData.sortascdesc = 'asc';
@@ -644,7 +598,6 @@ export class MessagesPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
               this.inboxData.sort = data;
               this.inboxData.sortascdesc = 'desc';
@@ -699,8 +652,6 @@ export class MessagesPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
             if (data != undefined) {
               this.sendData.sort = data;
               this.sendData.sortascdesc = 'asc';
@@ -726,7 +677,6 @@ export class MessagesPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
               this.sendData.sort = data;
               this.sendData.sortascdesc = 'desc';
@@ -766,7 +716,6 @@ export class MessagesPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(JSON.stringify(data.json().msg.result));
         // If the request was successful notify the user
         if (data.status === 200) {
 
@@ -784,7 +733,6 @@ export class MessagesPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error)
       });
 
 
@@ -800,7 +748,7 @@ export class MessagesPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
+      
         // If the request was successful notify the user
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
@@ -813,7 +761,7 @@ export class MessagesPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error)
+       
       });
 
 
@@ -822,39 +770,36 @@ export class MessagesPage {
 
   unreadAction(val, inboxData) {
 
-    console.log(JSON.stringify(this.actionId));
+   
     let urlstr = this.apiServiceURL + "/messages/actions?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Unread&messageids=" + val;
     let bodymessage: string = "",
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
-    console.log(urlstr + '?' + bodymessage);
+    
     let res;
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-        console.log("Unread action:" + JSON.stringify(data.json()));
-        console.log("Res Result" + res.msg[0]['result']);
-        console.log("data.status" + data.status);
-        console.log("Error" + res.msg[0]['Error'])
+      
         if (data.status === 200) {
-          console.log('Enter');
+        
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
-          console.log('Exit 1');
+        
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
           this.doInbox();
-          console.log('Exit 2');
+         
         }
         // Otherwise let 'em know anyway
         else {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log(error);
+       
       });
 
 
@@ -871,19 +816,18 @@ export class MessagesPage {
     
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Change read unread api calls:" + JSON.stringify(data.json()));
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Readstatus action:" + JSON.stringify(data));
+         
           if (data.json().msg[0]['Error'] == 0) {
             this.conf.sendNotification(data.json().msg[0]['result']);
           }
-          console.log('Exit 1');
+         
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
           this.doInbox();
-          console.log('Exit 2');
+         
 
         }
         // Otherwise let 'em know anyway

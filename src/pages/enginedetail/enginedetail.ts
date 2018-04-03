@@ -78,7 +78,6 @@ export class EnginedetailPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EnginedetailPage');
     this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_ENGINEMODEL_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_DELETE");
@@ -97,7 +96,6 @@ export class EnginedetailPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -144,7 +142,6 @@ export class EnginedetailPage {
         } else {
           this.totalCount = 0;
         }
-        console.log("Total Record:2" + this.totalCount);
 
       });
     this.presentLoading(0);
@@ -156,9 +153,7 @@ export class EnginedetailPage {
     this.nav.setRoot(AddenginedetailPage);
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
    
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doengine();
@@ -183,8 +178,7 @@ export class EnginedetailPage {
       loader.dismiss();
     }
   }
-  doConfirm(id, item) {
-    console.log("Deleted Id" + id);
+  doConfirm(id, item) {    
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this generator model?',
       buttons: [{

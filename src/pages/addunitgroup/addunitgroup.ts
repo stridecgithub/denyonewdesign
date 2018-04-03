@@ -87,7 +87,7 @@ export class AddunitgroupPage {
       ev: '',
     });
     popover.onWillDismiss(data => {
-      console.log(JSON.stringify(data));
+     
 
     });
   }
@@ -120,7 +120,7 @@ export class AddunitgroupPage {
   saveEntry() {
     let cname: string = this.form.controls["cname"].value,
       remark: string = this.form.controls["remark"].value;
-    console.log(cname, remark);
+    
     if (cname.toLowerCase() == 'denyo' || cname.toLowerCase() == 'dum' || cname.toLowerCase() == 'dsg' || cname.toLowerCase() == 'denyo singapore') {
       this.sendNotification("Given Unit Group Name Not Acceptable....");
     }
@@ -137,7 +137,7 @@ export class AddunitgroupPage {
 
   }
   updateEntry(cname, ccode, remark, userid, companyid) {
-    console.log(cname, ccode, remark, userid, companyid);
+    
     this.isSubmitted = true;
     let body: string = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -148,10 +148,10 @@ export class AddunitgroupPage {
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();
-        console.log(data.json());
+        
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
+        
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.sendNotification(res.msg[0].result);
@@ -171,7 +171,7 @@ export class AddunitgroupPage {
     this.isSubmitted = true;
     // this.isUploadedProcessing = true;
     let updatedby = createdby;
-    console.log(cname, ccode, remark, companyid);
+    
     let body: string = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + ccode + "&remark=" + remark + "&createdby=" + createdby + "&updatedby=" + updatedby + "&company_id=" + companyid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -183,14 +183,14 @@ export class AddunitgroupPage {
         
         // If the request was successful notify the user
         if (data.status === 200) {
-          console.log("Msg Results:-" + res.msg[0].result);
+          
           this.hideForm = true;
           if (res.msg[0].result > 0) {
-            console.log('1');
+           
             this.sendNotification(res.msg[0].result);
             return false;
           } else {
-            console.log('2');
+          
             this.sendNotification(res.msg[0].result);
             this.nav.setRoot(UnitgroupPage);
           }
@@ -235,16 +235,11 @@ export class AddunitgroupPage {
     document.getElementById('E1E1E1').classList.remove("border-need");
     document.getElementById(colorCodeValue).classList.add("border-need");
 
-    //if (this.isEdited == true) {
-    // if (this.ccode != colorCodeValue) {
-    //   console.log(this.ccode);
-    //   document.getElementById(this.ccode).classList.remove("border-need");
-    // }
-    // }
+    
 
 
 
-    console.log(colorCodeValue);
+    
     this.ccode = colorCodeValue;
   }
 
@@ -252,23 +247,7 @@ export class AddunitgroupPage {
 
 
   chooseColor() {
-    /* Vinoth i have commented some line for error. pleae before code push without incomplete
-    let confirm = this.alertCtrl.create({
-      title: 'Select Color',
-      message: 'Please note that additional charges may apply, if requesting for Denyo Service Support.',
-      buttons: [
-	  {
-          text: 'Select',
-          handler: () => {
-            this.is_request = true;
-            console.log('Confirm clicked');
-          }
-        }
-        
-      ],
-      cssClass: 'alertDanger adhoc-alert'
-    });
-    confirm.present();*/
+   
   }
 
 
@@ -289,16 +268,12 @@ export class AddunitgroupPage {
       ev: myEvent
     });
     popover.onWillDismiss(data => {
-      console.log(JSON.stringify(data));
+    
       if (data != null) {
-        console.log(data);
+       
         this.colorcode = data
         this.ccode = data;
-        if (data.length == 1) {
-          // this.doDelete(data);
-        } else {
-          // this.doEdit(data, 'edit');
-        }
+        
       }
     });
   }

@@ -82,7 +82,6 @@ export class CompanydetailPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Companydetail');
   }
   ionViewWillEnter() {
     let comid = this.NP.get("record");
@@ -95,12 +94,8 @@ export class CompanydetailPage {
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
-        console.log("1" + res.companydetails.length);
-        console.log("2" + res.companydetails);
         if (res.companydetails.length > 0) {
           this.name = res.companydetails[0].companygroup_name;
-          console.log("2" + this.name);
           this.address = res.companydetails[0].address;
           this.contact = res.companydetails[0].contact;
 

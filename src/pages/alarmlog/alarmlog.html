@@ -57,7 +57,7 @@
   </ion-refresher>
   <ion-list>
     <ion-item-sliding *ngFor="let alarmitem of reportAllLists">
-      <ion-item ngClass="{{alarmitem.activealarm}}">
+      <ion-item>
         <div ngClass="load{{alarmitem.alarm_priority}}" (click)="doAlarmLogDetail(alarmitem)">
           <ion-icon name="information-circle"></ion-icon>
           <ion-row>

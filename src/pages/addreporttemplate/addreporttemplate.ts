@@ -65,18 +65,10 @@ export class AddreporttemplatePage {
 
 
   }
-  /*
-insertUserToArray(id,item){
-//check item.user and do stuff
-
-console.log("Current Available Loop Data"+JSON.stringify(this.availableheadingitem));
-console.log("Id"+id+"<==>"+item._value);
-
-console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
-}*/
+ 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddreporttemplatePage');
+   
     if (this.NP.get("record")) {
       this.pageTitle = "Edit Report Template";
       
@@ -135,39 +127,15 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
   }
 
 
-  /*getCheckBoxValue(name) {
-    console.log("Available data" + name);
-
-
-    this.getCheckboxData.push({
-      availabledata: name
-    })
-    console.log(JSON.stringify(this.getCheckboxData));
-  }*/
-
+ 
   getCheckBoxValue(id, item, value) {
 
   }
   insertUserToArray(id, item, value) {
 
-    /* console.log("Available data" + name);
- 
- 
-     this.getCheckboxData.push({
-       availabledata: name
-     })
-     console.log(JSON.stringify(this.getCheckboxData));
-     */
+   
 
 
-    //check item.user and do stuff
-
-    console.log("Current Available Loop Data" + JSON.stringify(this.availableheadingitem));
-    console.log("Id:" + id + "<==>Checkbox Boolean:" + item._value + "<==>Checkbox value:" + value);
-
-    //console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
-    //this.getCheckboxData.splice(1,1);
-    //console.log("Filter DAta:"+JSON.stringify(this.getCheckboxData));
 
     if (item._value == true) {
       this.getCheckboxData.push({ "availabledata": value });
@@ -179,7 +147,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
         }
       }
     }
-    console.log("Edited Data" + JSON.stringify(this.getCheckboxData));
+   
   }
 
 
@@ -198,15 +166,13 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
     if (this.getCheckboxData.length == 0) {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
-      //let getCheckbox = this.remove_duplicates(this.getCheckboxData);
-      //console.log("Check" + getCheckbox);
-      let templatename: string = this.form.controls["templatename"].value
+        let templatename: string = this.form.controls["templatename"].value
       let body: string = "is_mobile=1&templatename=" + templatename + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/update";
-      console.log(url + "?" + body);
+     
 
       this.http.post(url, body, options)
         .subscribe((data) => {
@@ -214,7 +180,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
           
           // If the request was successful notify the user
           if (data.status === 200) {
-            console.log("Msg Results:-" + res.msg[0].result);
+           
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
               this.nav.setRoot(ReporttemplatePage);
@@ -233,27 +199,23 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
   selectEntry(item) {
 
     this.templatename = item.templatename;
-    console.log("Id:" + item.id);
+    
     this.recordID = item.id;
-    console.log("Available Heading:" + JSON.stringify(item.availableheading));
-    console.log(item.availableheading);
-    for (let ava = 0; ava < item.availableheading; ava++) {
-      console.log(item.availableheading[ava]);
-    }
+   
 
   }
   createEntry() {
     if (this.getCheckboxData.length == 0) {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
-      console.log(JSON.stringify(this.getCheckboxData));
+     
       let templatename: string = this.form.controls["templatename"].value
       let body: string = "is_mobile=1&templatename=" + templatename + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/store";
-      console.log(url + "?" + body);
+     
 
       this.http.post(url, body, options)
         .subscribe((data) => {
@@ -261,7 +223,7 @@ console.log("Selected DAta:"+JSON.stringify(this.getCheckboxData));
           
           // If the request was successful notify the user
           if (data.status === 200) {
-            console.log("Msg Results:-" + res.msg[0].result);
+           
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
               this.nav.setRoot(ReporttemplatePage);

@@ -88,7 +88,6 @@ export class UnitsPage {
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
@@ -101,7 +100,6 @@ export class UnitsPage {
     //this.tabBarElement.style.display = 'flex';
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -109,7 +107,6 @@ export class UnitsPage {
 
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
-    //console.log("Page Name"+this.navCtrl.getActive().name);
 
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
@@ -121,11 +118,9 @@ export class UnitsPage {
     }
     if (this.userId == 'null') {
       this.userId = '';
-      console.log("ionViewDidLoad B");
     }
     if (this.userId == null) {
       this.userId = '';
-      console.log("ionViewDidLoadC");
     }
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -136,9 +131,7 @@ export class UnitsPage {
 
     } else {
       this.events.subscribe('user:created', (user, time) => {
-        // user and time are the same arguments passed in `events.publish(user, time)`
-        console.log('Welcome', user, 'at', time);
-        console.log("Company Id:" + user.company_id);
+      
         this.companyId = user.company_id;
         this.userId = user.staff_id
         this.doUnit();
@@ -159,7 +152,6 @@ export class UnitsPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-        console.log(error);
       });
     // Notiifcation count
   }
@@ -189,9 +181,7 @@ export class UnitsPage {
       .subscribe((data) => {
 
         res = data.json();
-        // 
-        // console.log("1" + res.units.length);
-        // console.log("2" + res.units);
+       
         if (res.units.length > 0) {
 
           for (let unit in res.units) {
@@ -204,7 +194,7 @@ export class UnitsPage {
             } else {
               cname = '';
             }
-            // console.log("Favorite is:" + res.units[unit].favorite);
+         
 
             let dur;
             if (this.roleId == 1) {
@@ -241,16 +231,15 @@ export class UnitsPage {
               duedatecolor: res.units[unit].duedatecolor
             });
           }
-          console.log("Kannan12345fdsfs" + JSON.stringify(this.unitAllLists));
+         
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
-        // console.log("Total Record:" + this.totalCount);
         this.conf.presentLoading(0);
       }, error => {
-        console.log("Error" + JSON.stringify(error));
+       
       });
 
   }
@@ -259,8 +248,7 @@ export class UnitsPage {
   /* @doConfirm called for alert dialog box **/
 
   /******************************************/
-  doConfirm(id, item) {
-    console.log("Deleted Id" + id);
+  doConfirm(id, item) {    
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this unit?',
       buttons: [{
@@ -306,21 +294,20 @@ export class UnitsPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
-          console.log("Deleted done");
+         
         }
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        console.log("Error")
+      
       });
   }
 
   // List page navigate to notification list
   notification() {
-    console.log('Will go notification list page');
-    // Navigate the notification list page
+   
     this.navCtrl.setRoot(NotificationPage);
   }
 
@@ -345,8 +332,6 @@ export class UnitsPage {
         //this.doUnit();
         let res = data.json();
         if (data.status === 200) {
-
-          console.log("Kannan:" + res.favorite);
           if (res.favorite == 0) {
             //this.conf.sendNotification("Unfavourited successfully");
             this.conf.sendNotification(data.json().msg['result']);
@@ -369,7 +354,6 @@ export class UnitsPage {
             } else {
               cname = '';
             }
-            console.log("Favorite is:" + res.units[unit].favorite);
             this.unitAllLists.push({
               unit_id: res.units[unit].unit_id,
               unitname: res.units[unit].unitname,
@@ -404,7 +388,6 @@ export class UnitsPage {
 
 
       }, error => {
-        console.log(error);// + "\n" + error;
       });
 
     //this.doUnit();
@@ -439,8 +422,6 @@ export class UnitsPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -462,9 +443,7 @@ export class UnitsPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
-              console.log('Desc clicked');
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'unitname') {
@@ -538,7 +517,6 @@ export class UnitsPage {
       localStorage.setItem("unitlat", item.lat);
       localStorage.setItem("unitlng", item.lng);
       localStorage.setItem("runninghr", item.runninghr);
-      console.log("RHR" + item.runninghr);
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
@@ -586,12 +564,9 @@ export class UnitsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + urlstr;
-    console.log("onAction map.ts:" + url);
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
-
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Dashboard view action successfully updated`);
@@ -613,9 +588,6 @@ export class UnitsPage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doUnit();

@@ -86,7 +86,7 @@ export class EventDetailsServicePage {
     this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
-      console.log("Event Type:" + eventType);
+     
 
 
       let body: string = "serviceid=" + this.NP.get("event_id"),
@@ -94,13 +94,13 @@ export class EventDetailsServicePage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/servicebyid";
-      console.log(url1 + "?" + body);
+     
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log(JSON.stringify(data.json()))
+         
           this.item = data.json().servicedetail[0];
           if (this.item != '') {
-            console.log("JSON for service detail" + JSON.stringify(data.json().servicedetail[0]));
+          
             this.eventTitle = data.json().servicedetail[0].service_subject;
             this.eventitem = data.json().servicedetail[0];
             this.projectname = data.json().servicedetail[0].projectname;
@@ -113,7 +113,7 @@ export class EventDetailsServicePage {
             this.service_scheduled_time = data.json().servicedetail[0].service_scheduled_time;
             this.service_dot_color = data.json().servicedetail[0].service_dot_color;
             this.next_service_date_selected = data.json().servicedetail[0].next_service_date_selected;
-            console.log(JSON.stringify(this.item));
+           
             this.is_request = data.json().servicedetail[0].is_request;
             this.is_denyo_support = data.json().servicedetail[0].is_denyo_support;
             this.serviced_by = data.json().servicedetail[0].serviced_by;
@@ -121,12 +121,12 @@ export class EventDetailsServicePage {
 
             this.service_resources = data.json().servicedetail[0].service_resources;
             if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-              console.log('service reource calling....')
+            
               let hashhypenhash = this.service_resources.split("#-#");
-              console.log("#-#" + hashhypenhash);
+             
               for (let i = 0; i < hashhypenhash.length; i++) {
                 let imgDataArr = hashhypenhash[i].split("|");
-                console.log("imgDataArr" + imgDataArr[i])
+              
                 let imgSrc;
                 imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
                 this.addedImgListsDetails.push({
@@ -138,7 +138,7 @@ export class EventDetailsServicePage {
               }
 
             }
-            console.log("Image Lists:-" + JSON.stringify(this.addedImgListsDetails));
+           
 
           }
         }, error => {
@@ -157,7 +157,7 @@ export class EventDetailsServicePage {
 
   doConfirmUpcoming(id, item) {
 
-    console.log("Deleted Id" + id);
+   
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service schedule?',
       buttons: [{
@@ -234,7 +234,6 @@ export class EventDetailsServicePage {
     }
   }
   doEventDelete(item) {
-    console.log("Deleted Id" + item.service_id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -260,7 +259,6 @@ export class EventDetailsServicePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

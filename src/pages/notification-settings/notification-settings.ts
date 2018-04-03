@@ -148,10 +148,8 @@ export class NotificationSettingsPage {
     this.apiServiceURL = this.conf.apiBaseURL();
     if (this.navParams.get("accountInfo")) {
       this.previousFormData = this.navParams.get("accountInfo");
-      this.unitname = this.previousFormData[0]['unitname'];
-      console.log("Unit Name:" + this.unitname);
+      this.unitname = this.previousFormData[0]['unitname'];    
       this.projectname = this.previousFormData[0]['projectname'];
-      console.log("Project Nam:" + this.projectname);
       this.controllerid = this.previousFormData[0]['controllerid'];
       this.neaplateno = this.previousFormData[0]['neaplateno'];
       this.models_id = this.previousFormData[0]['models_id'];
@@ -164,21 +162,12 @@ export class NotificationSettingsPage {
       this.contactpersonal = this.previousFormData[0]['contactpersonal'];
       this.contactnumber = this.previousFormData[0]['contactnumber'];
       let previousData = localStorage.getItem("addUnitFormOneValue");
-      console.log(previousData);
 
     }
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
-    console.log("Record param" + this.navParams.get("record"))
-
-    console.log("Is Edited?" + this.navParams.get("isEdited"));
-
-    console.log(this.isEdited);
-    // this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
   }
   geninfo(item, editdata) {
-    console.log("Get Info:" + JSON.stringify(item));
-
     this.contactpersonal = editdata[0]['contactpersonal'];
     this.contactnumber = editdata[0]['contactnumber'];
     this.item = item;
@@ -194,10 +183,6 @@ export class NotificationSettingsPage {
         let contactNumber;
         contactName = contDataArr[0];
         contactNumber = contDataArr[1];
-
-        console.log("incr:" + i);
-        console.log("contactName:" + contactName);
-        console.log("contactNumber:" + contactNumber);
         if (i == 0) {
           this.contact_name_1 = contactName;
           this.contact_number_1 = contactNumber;
@@ -215,12 +200,8 @@ export class NotificationSettingsPage {
           this.contact_number_2 = contactNumber;
 
           if (this.contact_number_2 != undefined) {
-            //let contactSplitSpace = this.contact_number_2.split(" ");
-            //this.primary_2 = contactSplitSpace[0];
-            //this.contact_number_2 = contactSplitSpace[1];
-            //console.log("primary_2:" + this.primary_2);
+           
             this.contact_number_2 = this.contact_number_2;
-            console.log("contact_number_2:" + this.contact_number_2);
           }
 
 
@@ -278,36 +259,7 @@ export class NotificationSettingsPage {
       this.isEdited = 0;
     }
     this.addmorebtn = 1;
-    //this.tabBarElement.style.display = 'none';
-
-    console.log('ionViewDidLoad NotificationSettingsPage');
-    // Atmentioned API Calls
-    // let
-    //   //body: string = "key=delete&recordID=" + recordID,
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=unit&companyId=" + this.companyId + "&userId=" + this.userId;
-    // 
-    // this.http.get(url, options)
-    //   .subscribe(data => {
-    //     // If the request was successful notify the user
-    //     if (data.status === 200) {
-    //       this.atmentioneddata = data.json();
-    //       console.log(this.atmentioneddata);
-
-    //     }
-
-
-    //     // Otherwise let 'em know anyway
-    //     else {
-    //       this.conf.sendNotification('Something went wrong!');
-    //     }
-    //   }, error => {
-
-    //   })
-
-    let body: string = '',
+        let body: string = '',
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -315,14 +267,6 @@ export class NotificationSettingsPage {
       url: any = this.apiServiceURL + "/alarmhashtags?companyid=" + this.companyId + "&login=" + this.userId;
     
     this.http.get(url, options)
-
-    // let body: string = param,
-
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = urlstring;
-    console.log("Message sending API" + url + "?" + body);
 
     this.http.post(url, body, options)
 
@@ -332,7 +276,6 @@ export class NotificationSettingsPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -350,7 +293,7 @@ export class NotificationSettingsPage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+   
     jQuery(".alarmhashtags").mention({
       users: this.atmentioneddata
     });
@@ -358,20 +301,19 @@ export class NotificationSettingsPage {
     // Atmentioned API Calls
   }
   getPrimaryContact(ev) {
-    console.log(ev.target.value);
+  
     let char = ev.target.value.toString();
     if (char.length > 5) {
-      console.log('Reached five characters above');
+     
       this.borderbottomredvalidation = 'border-bottom-invalid';
     } else {
-      console.log('Reached five characters below');
+     
       this.borderbottomredvalidation = 'border-bottom-valid';
     }
   }
 
   getPrimaryContact2(contact_name, secondary) {
-    console.log("contact_name for 2" + contact_name);
-    console.log("secondary" + secondary)
+  
     let nme;
     if (contact_name == undefined) {
      
@@ -390,19 +332,18 @@ export class NotificationSettingsPage {
      
       num = '';
     }
-    console.log(this.cont5);
+    
     if (nme != '' && num != '') {
       
       this.isSubmitted = false;
     } else {
-      console.log('F');
+     
       this.isSubmitted = true;
     }
   }
 
   getPrimaryContact3(contact_name, secondary) {
-    console.log("contact_name for 3" + contact_name);
-    console.log("secondary" + secondary)
+   
     let nme;
     if (contact_name == undefined) {
      
@@ -421,19 +362,18 @@ export class NotificationSettingsPage {
      
       num = '';
     }
-    console.log(this.cont5);
+   
     if (nme != '' && num != '') {
       
       this.isSubmitted = false;
     } else {
-      console.log('F');
+    
       this.isSubmitted = true;
     }
   }
 
   getPrimaryContact4(contact_name, secondary) {
-    console.log("contact_name for 4" + contact_name);
-    console.log("secondary" + secondary)
+   
     let nme;
     if (contact_name == undefined) {
      
@@ -452,20 +392,19 @@ export class NotificationSettingsPage {
      
       num = '';
     }
-    console.log(this.cont5);
+   
     if (nme != '' && num != '') {
       
       this.isSubmitted = false;
     } else {
-      console.log('F');
+    
       this.isSubmitted = true;
     }
   }
 
 
   getPrimaryContact5(contact_name, secondary) {
-    console.log("contact_name for 5" + contact_name);
-    console.log("secondary" + secondary)
+  
     let nme;
     if (contact_name == undefined) {
      
@@ -484,27 +423,22 @@ export class NotificationSettingsPage {
      
       num = '';
     }
-    console.log(this.cont5);
+   
     if (nme != '' && num != '') {
       
       this.isSubmitted = false;
     } else {
-      console.log('F');
+    
       this.isSubmitted = true;
     }
   }
   doRemoveContact(val, contactArr) {
-    console.log(contactArr.contacts);//Name1|+90 1#Name2|+91 2#Name3|+92 3#Name4|+93 4#Name5|+94 5
-
-
-
-
-    let confirm = this.alertCtrl.create({
+      let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this contact ' + val + '?',
       buttons: [{
         text: 'Yes',
         handler: () => {
-          console.log("Remove 5 calling");
+       
           if (val == 2) {
             this.cont2 = false;
             this.contact_name_2 = '';
@@ -557,7 +491,7 @@ export class NotificationSettingsPage {
 
     // let contact = primary + " " + secondary;
     let contact = secondary;
-    console.log(contact);
+   
     contact = contact.replace("+", "%2B");
     if (this.form.controls["contact_name_1"].value != '') {
       this.contactInfo.push({
@@ -584,7 +518,6 @@ export class NotificationSettingsPage {
         let contact; contact = this.form.controls["contact_number_2"].value;
 
         if (contact != undefined) {
-          console.log(contact);
           contact = contact.replace("+", "%2B");
         }
 
@@ -615,7 +548,6 @@ export class NotificationSettingsPage {
         // contact = this.form.controls["primary_3"].value + " " + this.form.controls["contact_number_3"].value;
         contact = this.form.controls["contact_number_3"].value;
         if (contact != undefined) {
-          console.log(contact);
           contact = contact.replace("+", "%2B");
         }
         if (this.form.controls["contact_name_3"].value != '') {
@@ -645,7 +577,6 @@ export class NotificationSettingsPage {
         // contact = this.form.controls["primary_4"].value + " " + this.form.controls["contact_number_4"].value;
         contact = this.form.controls["contact_number_4"].value;
         if (contact != undefined) {
-          console.log(contact);
           contact = contact.replace("+", "%2B");
         }
         if (this.form.controls["contact_name_4"].value != '') {
@@ -675,7 +606,6 @@ export class NotificationSettingsPage {
         //contact = this.form.controls["primary_5"].value + " " + this.form.controls["contact_number_5"].value;
         contact = this.form.controls["contact_number_5"].value;
         if (contact != undefined) {
-          console.log(contact);
           contact = contact.replace("+", "%2B");
         }
         if (this.form.controls["contact_name_5"].value != '') {
@@ -706,16 +636,12 @@ export class NotificationSettingsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-    console.log("Chkemailhashtags API" + url + "?" + body);
-
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-        console.log("1" + data.json().invalidusers);
+      
         if (data.json().invalidusers == '') {
           this.alarmhashtags = jQuery(".alarmhashtags").val();
-          console.log("#to value" + jQuery("#to").val());
-          console.log(this.isEdited);
+       
           if (this.isEdited > 0) {
             let body: string = "is_mobile=1&unit_id=" + this.isEdited +
               "&unitname=" + this.unitname +
@@ -739,7 +665,7 @@ export class NotificationSettingsPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/units/update";
-            console.log("URL:" + url + "?" + body);
+         
             this.http.post(url, body, options)
               .subscribe((data) => {
                 
@@ -792,8 +718,6 @@ export class NotificationSettingsPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/units/store";
-
-            console.log("URL:" + url + "?" + body);
             this.http.post(url, body, options)
               .subscribe((data) => {
                 
@@ -833,23 +757,21 @@ export class NotificationSettingsPage {
     }
     let len = this.contactnameArray.length;
     let incr;
-    console.log("1" + len);
+  
     if (len == 0) {
       len = 1;
     } else {
-      console.log("2" + len);
+     
       len = len + 1;
       //len = parseInt(incr) + parseInt(len);
     }
     if (len > 4) {
-      console.log("3" + len);
-      console.log('Contact details only five item')
+    
       this.addmorebtn = 0;
     } else {
-      console.log("4" + len);
-      console.log("5" + len);
+     
       incr = len + 1;
-      console.log("6incr" + incr);
+    
       this.contactnameArray.push({
         name: 'contact_name_' + incr,
         placeholder: "Name"
@@ -860,7 +782,7 @@ export class NotificationSettingsPage {
         placeholder: "Number"
       });
     }
-    console.log("7" + len);
+  
 
     if (len == 1) {
       this.cont2 = true;

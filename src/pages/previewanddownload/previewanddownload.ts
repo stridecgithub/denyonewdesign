@@ -39,11 +39,7 @@ export class PreviewanddownloadPage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        console.log("From page for previous:" + this.frompage);
-        // if (this.navParams.get("record") == undefined) {
-        //    this.navCtrl.setRoot(CalendarPage, {});
-        //   return false;
-        // }
+       
         if (this.frompage == 'ServicingDetailsPage') {
           this.navCtrl.setRoot(ServicingDetailsPage, {
             record: this.navParams.get("record")
@@ -54,7 +50,7 @@ export class PreviewanddownloadPage {
             from: 'commentinfo'
           });
         } else if (this.frompage == 'MessagedetailPage') {
-          console.log("this.navParams.get('messageid')" + this.navParams.get("messageid"));
+          
           this.navCtrl.setRoot(MessagedetailPage, {
             item: this.navParams.get("record"),
             from: this.navParams.get("from"),
@@ -72,14 +68,11 @@ export class PreviewanddownloadPage {
     this.uploadsuccess = 0;
 
     this.imagename = this.navParams.get("imagedata").fileName;
-    console.log("Image Data" + JSON.stringify(this.navParams.get("imagedata")));
-    console.log("Service Unit Data" + JSON.stringify(this.navParams.get("record")));
-    console.log('ionViewDidLoad PreviewanddownloadPage');
+  
     this.frompage = this.navParams.get("frompage");
   
     if (this.frompage == 'MessagedetailPage') {
-      console.log("File Name:" + this.navParams.get("imagedata").fileName.split(".")[0]);
-      console.log("Extension Name:" + this.navParams.get("imagedata").fileName.split(".")[1]);
+    
       if (this.navParams.get("imagedata").fileName.split(".")[1] == 'jpg') {
         this.ispreview = 1;
       } else if (this.navParams.get("imagedata").fileName.split(".")[1] == 'png') {
@@ -87,20 +80,16 @@ export class PreviewanddownloadPage {
       } else {
         this.ispreview = 0;
       }
-      console.log(this.ispreview);
+     
       this.imagepath = this.apiServiceURL + "/attachments/" + this.navParams.get("imagedata").fileName;
-      console.log(this.imagepath);
+    
     } else {
       this.ispreview = 1;
       this.imagepath = this.navParams.get("imagedata").imgSrc;
     }
   }
   previous(frompage) {
-    console.log("From page for previous:" + frompage);
-    // if (this.navParams.get("record") == undefined) {
-    //    this.navCtrl.setRoot(CalendarPage, {});
-    //   return false;
-    // }
+  
     if (frompage == 'ServicingDetailsPage') {
       this.navCtrl.setRoot(ServicingDetailsPage, {
         record: this.navParams.get("record")
@@ -111,7 +100,7 @@ export class PreviewanddownloadPage {
         from: 'commentinfo'
       });
     } else if (frompage == 'MessagedetailPage') {
-      console.log("this.navParams.get('messageid')" + this.navParams.get("messageid"));
+      
       this.navCtrl.setRoot(MessagedetailPage, {
         item: this.navParams.get("record"),
         from: this.navParams.get("from"),
@@ -127,11 +116,9 @@ export class PreviewanddownloadPage {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
     let file = this.imagename;
-    console.log("URL:-" + url);
-    console.log("Data Directory:-" + this.file.dataDirectory)
-    console.log("File:-" + file)
+  
     fileTransfer.download(url, this.file.dataDirectory + file).then((entry) => {
-      console.log('download complete: ' + entry.toURL());
+    
       this.conf.sendNotification('download complete: ' + entry.toURL());
       this.uploadsuccess = 0;
     }, (error) => {

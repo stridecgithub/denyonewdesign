@@ -30,7 +30,7 @@ export class PermissionPage {
 
   ionViewDidLoad() {
     this.rolePermissionMsg = this.conf.rolePermissionMsg();
-    console.log('ionViewDidLoad PermissionPage');
+    
   }
   previous() {
     this.navCtrl.setRoot(DashboardPage);

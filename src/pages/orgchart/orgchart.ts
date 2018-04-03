@@ -151,11 +151,7 @@ export class OrgchartPage {
       this.imgheight = this.imgheight + 1;
       this.imgradius = parseInt(this.imgwidth) / 2;
 
-      console.log("Pinch Out");
-      console.log("Font Size:" + this.fontsize);
-      console.log("Image Width:" + this.imgwidth);
-      console.log("Image Height:" + this.imgheight);
-      console.log("Image Radius:" + this.imgradius);
+     
     } else {
       this.fontsize = this.fontsize - 1;
 
@@ -179,24 +175,11 @@ export class OrgchartPage {
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
         this.imgradius = parseInt(this.imgwidth) / 2;
-        console.log("Pinch In");
-        console.log("Font Size:" + this.fontsize);
-        console.log("Image Width:" + this.imgwidth);
-        console.log("Image Height:" + this.imgheight);
-        console.log("Image Radius:" + this.imgradius);
       }
     }
     //this.rotation = e.rotation;
 
 
-    /*  console.log("Font Size:" + this.fontsize);
-      console.log("Image Width:" + this.imgwidth);
-      console.log("Image Height:" + this.imgheight);
-      console.log("Image Radius:" + this.imgradius);
-      alert(
-        "Font Size:" + this.fontsize + "\n" + "Image Width:" + this.imgwidth + "\n Image Height:" + this.imgheight + "\n Image Radius:" + this.imgradius
-      )
-*/
 
     if (this.timeout == null) {
       this.timeout = setTimeout(() => {
@@ -216,7 +199,7 @@ export class OrgchartPage {
 
   pinchEventManual(e) {
     //if (this.imgwidth >= 80 && this.imgwidth <= 250) {
-    console.log(this.imgwidth);
+   
     if (e == 'pinchout') {
 
       this.fontsize = this.fontsize + 1;
@@ -228,11 +211,7 @@ export class OrgchartPage {
       this.imgheight = this.imgheight + 1;
       this.imgradius = parseInt(this.imgwidth) / 2;
 
-      console.log("Pinch Out");
-      console.log("Font Size:" + this.fontsize);
-      console.log("Image Width:" + this.imgwidth);
-      console.log("Image Height:" + this.imgheight);
-      console.log("Image Radius:" + this.imgradius);
+     
 
     } else {
       if (this.imgwidth >= 80) {
@@ -254,11 +233,7 @@ export class OrgchartPage {
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
         this.imgradius = parseInt(this.imgwidth) / 2;
-        console.log("Pinch In");
-        console.log("Font Size:" + this.fontsize);
-        console.log("Image Width:" + this.imgwidth);
-        console.log("Image Height:" + this.imgheight);
-        console.log("Image Radius:" + this.imgradius);
+     
       }
 
 

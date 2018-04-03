@@ -95,7 +95,7 @@ export class AlarmlogPage {
 
   }
   presentModal(unit) {
-    console.log(JSON.stringify(unit));
+   
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -105,8 +105,7 @@ export class AlarmlogPage {
     });
   }
   ionViewDidEnter() {
-    console.log('ionViewDidEnter1 AlarmlogPage');
-
+    
     localStorage.setItem("fromModule", "AlarmlogPage");
     // UnitDetails Api Call		
 
@@ -126,11 +125,9 @@ export class AlarmlogPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unid;
-    console.log(urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-          console.log('rrrrr');
           this.unitDetailData.unitname = data.json().units[0].unitname;
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
@@ -167,7 +164,7 @@ export class AlarmlogPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+         
 
         }
       }, error => {
@@ -177,7 +174,7 @@ export class AlarmlogPage {
   }
 
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+    
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doAlarm();
@@ -206,9 +203,6 @@ export class AlarmlogPage {
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        
-        console.log("1" + res.alarms.length);
-        console.log("2" + res.alarms);
 
         if (res.alarms.length > 0) {
 
@@ -231,8 +225,7 @@ export class AlarmlogPage {
             let fls = res.alarms[alarm].alarm_name.includes('Fls');
             let wrn = res.alarms[alarm].alarm_name.includes('Wrn');
             let alarm_priority;
-            alarm_priority = res.alarms[alarm].alarm_priority
-            console.log(fls);
+            alarm_priority = res.alarms[alarm].alarm_priority;
             if (fls > 0) {
               alarm_priority = 3;
             }
@@ -243,8 +236,7 @@ export class AlarmlogPage {
             let act = res.alarms[alarm].alarm_name.includes('!');
             let activealarm;
             let activealarmtext;
-            if (act > 0) {
-              activealarm = 'ative-alarm';
+            if (act > 0) {             
               activealarmtext = 'active-alarm-text'
             }
 
@@ -270,17 +262,13 @@ export class AlarmlogPage {
 
             });
           }
-          //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.reportAllLists = res.unitgroups;
-         
-          console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.reportAllLists));*/
+       
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
-        console.log("Total Record:2" + this.totalCount);
+       
 
       }, error => {
         this.conf.presentLoading(0);
@@ -295,10 +283,7 @@ export class AlarmlogPage {
     this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
     this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
     this.unitDetailData.favoriteindication = localStorage.getItem("unitfav");
-    console.log("Add Comment Color Code:" + this.unitDetailData.colorcodeindications);
-
-
-    console.log("Alarm log page unit id is" + this.unitDetailData.unit_id)
+    
     localStorage.setItem("unitId", this.unitDetailData.unit_id);
     localStorage.setItem("iframeunitId", this.unitDetailData.unit_id);
     this.unitDetailData.rh = localStorage.getItem("runninghr");
@@ -324,9 +309,6 @@ export class AlarmlogPage {
       });
   }
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doAlarm();
@@ -404,9 +386,7 @@ export class AlarmlogPage {
       buttons: [
         {
           text: 'Asc',
-          handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+          handler: data => {           
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -427,7 +407,6 @@ export class AlarmlogPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';

@@ -249,7 +249,7 @@ export class ModalPage {
         ]
       }
     ];
-    console.log("Unit Data:"+JSON.stringify(this.navParams.get('unitdata')));
+    
 
     this.mapData.push({
       name: this.navParams.get('unitdata').location,
@@ -257,8 +257,7 @@ export class ModalPage {
     });
 
     let mapEle = this.mapElement.nativeElement;
-    console.log(JSON.stringify(this.mapData));
-    console.log("Center Map Data:" + this.mapData.find((d: any) => d.center));
+  
     let map = new google.maps.Map(mapEle, {
       center: this.mapData.find((d: any) => d.center),
       zoom: 16,
@@ -276,7 +275,7 @@ export class ModalPage {
        
         genstatus = this.navParams.get('unitdata').enginestatus
       } else {
-        console.log('C:' + this.navParams.get('unitdata').gen_status);
+       
         genstatus = this.navParams.get('unitdata').gen_status;
       }
       iconDisplay = 'assets/imgs/marker-' + genstatus + '.png'
@@ -295,7 +294,7 @@ export class ModalPage {
     google.maps.event.addListenerOnce(map, 'idle', () => {
       mapEle.classList.add('show-map');
     });
-    console.log('ionViewDidLoad ModalPage');
+    
   }
   previous(frompage) {
     this.viewCtrl.dismiss();

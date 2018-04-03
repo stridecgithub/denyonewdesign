@@ -63,10 +63,9 @@ export class CommentdetailsPage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement.style.display = 'none';
     }
-    console.log("Nav Param:" + JSON.stringify(this.NP));
     if (this.NP.get("event_id")) {
       let eventType = this.NP.get("event_type");
-      console.log("Event Type:" + eventType);
+     
 
 
       let body: string = "commentid=" + this.NP.get("event_id"),
@@ -74,10 +73,10 @@ export class CommentdetailsPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/getcommentdetails";
-      console.log(url1 + "?" + body);
+      
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log(JSON.stringify(data.json()))
+        
           this.item = data.json().comments[0];
           this.eventTitle = data.json().comments[0].comment_subject;
           this.eventitem = data.json().comments[0];
@@ -91,19 +90,19 @@ export class CommentdetailsPage {
           
           
           this.user_photo= data.json().comments[0].user_photo;
-          console.log("User Photo :"+ this.user_photo);
+         
           this.service_scheduled_time = data.json().comments[0].service_scheduled_time;
           this.service_dot_color = data.json().comments[0].service_dot_color;
-          console.log(JSON.stringify(this.item));
+         
 
           this.comment_resources = data.json().comments[0].comment_resources;
           if (this.comment_resources != undefined && this.comment_resources != 'undefined' && this.comment_resources != '') {
-            console.log('service reource calling....')
+         
             let hashhypenhash = this.comment_resources.split("#-#");
-            console.log("#-#" + hashhypenhash);
+         
             for (let i = 0; i < hashhypenhash.length; i++) {
               let imgDataArr = hashhypenhash[i].split("|");
-              console.log("imgDataArr" + imgDataArr[i])
+         
               let imgSrc;
               imgSrc = this.apiServiceURL + "/commentimages" + '/' + imgDataArr[1];
               this.addedImgListsDetails.push({
@@ -131,8 +130,6 @@ export class CommentdetailsPage {
   }
 
   doConfirmUpcoming(id, item) {
-
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service schedule?',
       buttons: [{
@@ -200,7 +197,6 @@ export class CommentdetailsPage {
 
   }
   doEventDelete(item) {
-    console.log("Deleted Id" + item.comment_id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete?',
       buttons: [{
@@ -226,7 +222,6 @@ export class CommentdetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + delactionurl;
-    console.log("Event Deleted API Url:" + url);
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

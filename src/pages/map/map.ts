@@ -23,8 +23,7 @@ export class MapPage {
       "lat": 1.331862, "lng": 103.807846, "center": true
     })
     let mapEle = this.mapElement.nativeElement;
-    console.log(JSON.stringify(this.mapData));
-    console.log("Center Map Data:" + this.mapData.find((d: any) => d.center));
+   
     let map = new google.maps.Map(mapEle, {
       center: this.mapData.find((d: any) => d.center),
       zoom: 16

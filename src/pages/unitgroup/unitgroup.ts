@@ -83,7 +83,6 @@ export class UnitgroupPage {
 
 
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
     this.unitgroupAllLists = [];
     this.dounitGroup();
@@ -100,9 +99,8 @@ export class UnitgroupPage {
     this.CREATEACCESS = localStorage.getItem("UNITS_UNITGROUP_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_UNITGROUP_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_UNITGROUP_DELETE");
-    //this.tabBarElement.style.display = 'none';
-    console.log('ionViewDidLoad UnitgroupPage');
-    let //body: string = "loginid=" + this.userId,
+    
+    let 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -112,7 +110,7 @@ export class UnitgroupPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -155,21 +153,17 @@ export class UnitgroupPage {
     this.http.get(url, options)
       .subscribe((data) => {
         this.presentLoading(0);
-        res = data.json();
-        
-        console.log("1" + res.unitgroups.length);
-        console.log("2" + res.unitgroups);
-        console.log("3" + res.colorcode);       
+        res = data.json();       
         if (res.unitgroups.length > 0) {
 
           for (let unitgroup in res.unitgroups) {
             let colorcode;
             let favorite;
             let index = this.colorListArr.indexOf(res.unitgroups[unitgroup].colorcode); // 1
-            console.log("Color Index:" + index);
+           
             let colorvalincrmentone = index + 1;
             colorcode = "button" + colorvalincrmentone;
-            console.log("Color is" + colorcode);
+          
             if (res.unitgroups[unitgroup].favorite == 1) {
               favorite = "favorite";
             }
@@ -188,7 +182,7 @@ export class UnitgroupPage {
               cname = '';
             }
 
-            console.log(favorite);
+           
             this.unitgroupAllLists.push({
               unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
               unitgroup_name: res.unitgroups[unitgroup].unitgroup_name,
@@ -202,17 +196,13 @@ export class UnitgroupPage {
               createdOn: res.unitgroups[unitgroup].createdOn,
             });
           }
-          //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.unitgroupAllLists = res.unitgroups;
          
-          console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.unitgroupAllLists));*/
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
-        console.log("Total Record:2" + this.totalCount);
+        
 
       });
 
@@ -223,9 +213,7 @@ export class UnitgroupPage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
    
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.dounitGroup();
@@ -266,7 +254,7 @@ export class UnitgroupPage {
   }
   doConfirm(id, item) {
     if (item.totalunits == 0) {
-      console.log("Deleted Id" + id);
+     
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this unit group?',
         buttons: [{
@@ -288,7 +276,7 @@ export class UnitgroupPage {
       confirm.present();
     }
     else {
-      console.log("Deleted Id" + id);
+     
       let confirm = this.alertCtrl.create({
         message: 'There are some units under this Unit Group.If delete this Unit Group,all units will be deleted.Are you sure you want to delete this unit group?',
         buttons: [{
@@ -362,15 +350,10 @@ export class UnitgroupPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
+       
         let res = data.json();
-        console.log(res.msg[0].Error);
-        console.log(res.msg[0].result);
-        if (res.msg[0] == 0) {
-          console.log("Favorite");
-        } else {
-          console.log("Un Favorite");
-        }
+       
+      
 
         if (res.unitgroups.length > 0) {
 
@@ -378,10 +361,10 @@ export class UnitgroupPage {
             let colorcode;
             let favorite;
             let index = this.colorListArr.indexOf(res.unitgroups[unitgroup].colorcode); // 1
-            console.log("Color Index:" + index);
+          
             let colorvalincrmentone = index + 1;
             colorcode = "button" + colorvalincrmentone;
-            console.log("Color is" + colorcode);
+           
             if (res.unitgroups[unitgroup].favorite == 1) {
               favorite = "favorite";
             }
@@ -400,7 +383,7 @@ export class UnitgroupPage {
               cname = '';
             }
 
-            console.log(favorite);
+          
             this.unitgroupAllLists.push({
               unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
               unitgroup_name: res.unitgroups[unitgroup].unitgroup_name,
@@ -414,11 +397,7 @@ export class UnitgroupPage {
               createdOn: res.unitgroups[unitgroup].createdOn,
             });
           }
-          //"unitgroup_id":1,"unitgroup_name":"demo unit","colorcode":"FBD75C","remark":"nice","favorite":1,"totalunits":5
-          /*this.unitgroupAllLists = res.unitgroups;
          
-          console.log("Total Record:`" + this.totalCount);
-          console.log(JSON.stringify(this.unitgroupAllLists));*/
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -471,8 +450,7 @@ export class UnitgroupPage {
         {
           text: 'Asc',
           handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+         
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -492,9 +470,9 @@ export class UnitgroupPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
+            
             if (data != undefined) {
-              console.log('Desc clicked');
+             
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
               if (data == 'favorite') {

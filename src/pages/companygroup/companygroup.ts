@@ -86,15 +86,13 @@ export class CompanygroupPage {
 
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CompanygroupPage');
-  }
+
 
   /*******************/
   /* Pull to Refresh */
   /*******************/
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
+   
     this.reportData.startindex = 0;
     this.companygroupAllLists = [];
     this.doCompanyGroup();
@@ -125,9 +123,6 @@ export class CompanygroupPage {
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
-        console.log("1" + res.companygroups.length);
-        console.log("2" + res.companygroups);
         if (res.companygroups.length > 0) {
           this.companygroupAllLists = res.companygroups;
           this.totalCount = res.totalCount;
@@ -137,7 +132,6 @@ export class CompanygroupPage {
           this.totalCount = 0;
           this.loadingMoreDataContent='No More Data';
         }
-        console.log("Total Record:" + this.totalCount);
 
       });
     this.presentLoading(0);
@@ -157,9 +151,6 @@ export class CompanygroupPage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doCompanyGroup();
@@ -182,7 +173,6 @@ export class CompanygroupPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
        this.msgcount=data.json().msgcount;
         this.notcount=data.json().notifycount;
       });
@@ -216,7 +206,7 @@ export class CompanygroupPage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
+    
     if(item.totalunits == 0 || item.totalusers == 0)
     {
     let confirm = this.alertCtrl.create({
@@ -306,32 +296,7 @@ export class CompanygroupPage {
   }
 
 
-  /********************/
-  /* Sorting function */
-  /********************/
-  // doSort(val) {
-  //   console.log('1');
-  //   this.companygroupAllLists = [];
-  //   this.reportData.startindex = 0;
-  //   console.log('2');
-  //   this.sortby = 1;
-  //   if (this.vendorsort == "asc") {
-  //     this.reportData.sortascdesc = "desc";
-  //     this.vendorsort = "desc";
-  //     this.ascending = false;
-  //     console.log('3');
-  //   }
-  //   else {
-  //     console.log('4');
-  //     this.reportData.sortascdesc = "asc";
-  //     this.vendorsort = "asc";
-  //     this.ascending = true;
-  //   }
-  //   console.log('5');
-  //   this.reportData.sort = val;
-  //   this.doCompanyGroup();
-  //   console.log('6');
-  // }
+  
 
   presentLoading(parm) {
     let loader;
@@ -365,9 +330,7 @@ export class CompanygroupPage {
       buttons: [
         {
           text: 'Asc',
-          handler: data => {
-            console.log(data);
-            console.log('Asc clicked');
+          handler: data => {           
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
@@ -383,9 +346,9 @@ export class CompanygroupPage {
         {
           text: 'Desc',
           handler: data => {
-            console.log(data);
+           
             if (data != undefined) {
-              console.log('Desc clicked');
+            
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
              if (data == 'companygroup_name') {

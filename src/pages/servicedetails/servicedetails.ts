@@ -151,9 +151,6 @@ export class ServicedetailsPage {
     this.servicemindate = this.minDateStr();
     this.servicemaxdate = this.maxDateStr();
 
-
-    console.log("Max:" + this.servicemaxdate);
-
     this.priority_highclass = '';
     this.priority_lowclass = '';
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
@@ -193,21 +190,11 @@ export class ServicedetailsPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
 
-    //let dateStr1 = new Date();
-    //let yearstr1 = dateStr1.getFullYear();
-    //let monthstr1 = dateStr1.getMonth() + 1;
-    //let datestr1 = dateStr1.getDate();
-    //this.serviced_date = yearstr1 + "/" + monthstr1 + "/" + datestr1;
-    // this.serviced_date="2017-09-14";
-    //console.log("Default date is"+this.serviced_date);
+   
     var date = new Date();
 
     this.serviced_date = moment().format();
-    console.log("Date String:" + date.toTimeString());
-    //this.serviced_time=date.toTimeString().split(" ")[0];
-    console.log("Date Only" + this.serviced_date);
-    //this.serviced_date = new Date().toJSON().split('T')[0];
-    console.log("Default date is" + this.serviced_date);
+  
 
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
@@ -231,9 +218,6 @@ export class ServicedetailsPage {
     }
 
     this.servicemaxdate = yyyy + '-' + this.mm + '-' + this.dd;
-
-    // this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Max:" + this.servicemaxdate);
     return this.servicemaxdate;
 
   }
@@ -242,7 +226,6 @@ export class ServicedetailsPage {
 
     let oneWeekAgo = new Date();
     let prevfivedays = oneWeekAgo.setDate(oneWeekAgo.getDate() - 5);
-    console.log("Previous five days:" + prevfivedays);
 
     let dateFormat = new Date(prevfivedays);
     this.servicemindate = dateFormat.getFullYear() + '-' + (dateFormat.getMonth() + 1) + '-' + dateFormat.getDate();
@@ -258,7 +241,6 @@ export class ServicedetailsPage {
       this.minmn = '0' + this.minmn;
     }
     this.servicemindate = this.minyr + '-' + this.minmn + '-' + this.mindt
-    console.log("Min:" + this.servicemindate);
     return this.servicemindate;
   }
   ionViewWillLeave() {
@@ -267,7 +249,6 @@ export class ServicedetailsPage {
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
-    console.log('ionViewDidLoad servicedetail.ts');
     localStorage.setItem("fromModule", "addhocPage");
 
     let //body: string = "loginid=" + this.userId,
@@ -280,7 +261,6 @@ export class ServicedetailsPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -289,7 +269,6 @@ export class ServicedetailsPage {
     // this.getPrority(1);
     //let users = localStorage.getItem("atMentionedStorage");
     this.is_request = false;
-    console.log(JSON.stringify(this.NP.get("record")));
 
 
 
@@ -313,15 +292,7 @@ export class ServicedetailsPage {
         this.isSubmitted = false;
       }
 
-      console.log("Select Entry Items:" + JSON.stringify(this.NP.get("record")));
-
-      //this.doImageResources(this.service_id);
-
-
-
-
-      console.log("Service Id:" + this.service_id);
-      console.log("Service Unit Id:" + this.service_unitid);
+     
       // UnitDetails Api Call		
       let
         typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -329,7 +300,7 @@ export class ServicedetailsPage {
         optionsunit: any = new RequestOptions({ headers: headersunit }),
         urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
           "&unitid=" + this.service_unitid;
-      console.log(urlunit);
+     
       this.http.get(urlunit, optionsunit)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -369,7 +340,7 @@ export class ServicedetailsPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-            console.log("Favorite Indication is" + this.unitDetailData.favoriteindication);
+          
 
           }
         }, error => {
@@ -377,42 +348,7 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
-    /*
     
-        // Atmentioned API Calls
-        let
-          //body: string = "key=delete&recordID=" + recordID,
-          type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-          headers1: any = new Headers({ 'Content-Type': type }),
-          options1: any = new RequestOptions({ headers: headers }),
-          url1: any = this.apiServiceURL + "/api/atmentionednew.php?method=atmention&act=event&companyId=1&userId=1";
-        
-        this.http.get(url1, options1)
-          .subscribe(data => {
-            // If the request was successful notify the user
-            if (data.status === 200) {
-              this.atmentioneddata = data.json();
-              console.log(this.atmentioneddata);
-             
-    
-            }
-            // Otherwise let 'em know anyway
-            else {
-              this.conf.sendNotification('Something went wrong!');
-            }
-          }, error => {
-    
-          })
-          jQuery('.description').triggeredAutocomplete({
-            hidden: '#hidden_inputbox',
-            source: this.atmentioneddata
-          });
-    
-          jQuery('#service_remark').triggeredAutocomplete({
-            hidden: '#hidden_inputbox',
-            source: this.atmentioneddata
-          });
-          */
 
 
     let body1: string = '',
@@ -424,13 +360,7 @@ export class ServicedetailsPage {
     
     this.http.get(url1, options1)
 
-    // let body: string = param,
-
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = urlstring;
-    console.log("Message sending API" + url1 + "?" + body1);
+   
 
     this.http.post(url1, body1, options1)
 
@@ -440,8 +370,7 @@ export class ServicedetailsPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
-
+         
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
               this.atmentioneddata.push({
@@ -458,7 +387,7 @@ export class ServicedetailsPage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
+   
     jQuery(".service_remark").mention({
       users: this.atmentioneddata
     });
@@ -517,7 +446,6 @@ export class ServicedetailsPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      console.log(imageData);
       this.fileTrans(imageData, micro_timestamp);
       this.addedAttachList = imageData;
     }, (err) => {
@@ -557,12 +485,8 @@ export class ServicedetailsPage {
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isProgress = true;
-        // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
-
-
-        console.log("Upload Response is" + JSON.stringify(data))
+       
         let res = JSON.parse(data.response);
-        console.log(res.id);
         
 
         let imgSrc;
@@ -594,15 +518,8 @@ export class ServicedetailsPage {
         this.isProgress = false;
         this.isUploadedProcessing = false;
         return false;
-
-
-
-        // Save in Backend and MysQL
-        //this.uploadToServer(data.response);
-        // Save in Backend and MysQL
       }, (err) => {
-        //loading.dismiss();
-        console.log("Upload Error:" + JSON.stringify(err));
+      
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -618,14 +535,8 @@ export class ServicedetailsPage {
   }
 
   saveEntry(status) {
-
-    console.log(this.form.controls);
     if (this.isUploadedProcessing == false) {
-      /* let name: string = this.form.controls["lat"].value,
-         description: string = this.form.controls["long"].value,
-         photos: object = this.addedImgLists;*/
-
-      let service_remark = jQuery(".service_remark").val();
+          let service_remark = jQuery(".service_remark").val();
       let description = jQuery(".description").val();
 
 
@@ -638,12 +549,9 @@ export class ServicedetailsPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/messages/chkemailhashtags";
-      console.log("Chkemailhashtags API" + url1 + "?" + body1);
 
       this.http.post(url1, body1, options1)
         .subscribe((data) => {
-          console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-          console.log("1" + data.json().invalidusers);
           if (data.json().invalidusers == '') {
 
           } else {
@@ -653,8 +561,7 @@ export class ServicedetailsPage {
         });
       // Personal hashtag checking....
 
-      console.log("Service service_remark:" + service_remark);
-      console.log("Service Description:" + description);
+    
       if (status == 1) {
         if (service_remark == '') {
           this.conf.sendNotification("Service remark is required");
@@ -662,15 +569,14 @@ export class ServicedetailsPage {
         }
       }
       let
-        //service_remark: string = this.form.controls["service_remark"].value,
+      
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-        //  description: string = this.form.controls["description"].value,
+        
         service_subject: string = this.form.controls["service_subject"].value;
-      console.log("service_scheduled_date and time:" + service_scheduled_date);
-      // service_scheduled_date = "2018-02-16T02:45:00";
+     
 
 
       // Personal hashtag checking....
@@ -682,12 +588,10 @@ export class ServicedetailsPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-      console.log("Chkemailhashtags API" + url + "?" + body);
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-          console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-          console.log("1" + data.json().invalidusers);
+         
           if (data.json().invalidusers == '') {
             this.createEntry(service_scheduled_date, description, status, service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
           } else {
@@ -729,21 +633,7 @@ export class ServicedetailsPage {
     } else if (nextServiceDate == '') {
       nextServiceDate = '';
     }
-    // let explodedate = serviced_date.split("/");
-    // serviced_date = explodedate[2] + "-" + explodedate[1] + "-" + explodedate[0];
-    // console.log("Form date:" + serviced_date);
-    /*if (serviced_date == 'undefined') {
-
-      this.serviced_date = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 1" + this.serviced_date);
-      serviced_date = this.serviced_date
-    }
-    if (serviced_date == undefined) {
-      this.serviced_date = new Date().toJSON().split('T')[0];
-      console.log("service datetime for form entry is 2" + this.serviced_date);
-      serviced_date = this.serviced_date
-    }
-*/
+   
 
     if (is_request == true) {
       is_request = 1;
@@ -797,9 +687,7 @@ export class ServicedetailsPage {
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        // let res = data.json();
-        console.log("Success Data:" + data);
-        console.log("Success Data JSON:" + data.json());
+        
         
         // If the request was successful notify the user
         if (data.status === 200) {
@@ -880,7 +768,7 @@ export class ServicedetailsPage {
     
     this.http.post(url, body, options)
       .subscribe(data => {
-        console.log(data);
+       
         // If the request was successful notify the user
         if (data.status === 200) {
           localStorage.setItem("microtime", "");
@@ -908,7 +796,6 @@ export class ServicedetailsPage {
   getNextDate(val, field) {
     this.isFuture = 0;
     this.isSubmitted = false;
-    console.log('1' + val);
     if (val == 14) {
       this.next_service_date_selected = 1;
     } else if (val == 30) {
@@ -933,7 +820,7 @@ export class ServicedetailsPage {
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-      console.log("Month String:-" + mn);
+     
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -944,7 +831,7 @@ export class ServicedetailsPage {
       } else {
         datestr = dt;
       }
-      console.log("Date String:-" + dt);
+     
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     }
     if (this.unitDetailData.nextServiceDate != '') {
@@ -975,12 +862,10 @@ export class ServicedetailsPage {
   subDays(days) {
     let result = new Date();
     result.setDate(result.getDate() - days);
-    console.log("SubDays Function Result is:" + result);
     return result;
   }
   showDatePicker() {
     this.isSubmitted = false;
-    console.log("showDatePicker:" + this.servicemaxdate);
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
@@ -995,21 +880,19 @@ export class ServicedetailsPage {
 
         let monthstr = date.getMonth() + parseInt("1");
 
-        console.log('Got date: ', date);
-        console.log(new Date().getTime() + "<" + date.getTime());
+      
         if (new Date().getTime() < date.getTime()) {
           this.isFuture = 0;
           this.isSubmitted = false;
-          console.log("Future Dates");
+        
           this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
         } else {
           this.isFuture = 1;
           this.isSubmitted = true;
-          console.log("Old Dates");
           this.unitDetailData.nextServiceDate = '';
         }
       },
-      err => console.log('Error occurred while getting date: ', err)
+      err => {}
       );
   }
 
@@ -1046,7 +929,6 @@ export class ServicedetailsPage {
 
 
     if (this.NP.get("act") == 'Add') {
-      console.log("Fresh Clear add service info.ts start...");
       this.addedServiceImgLists = [];
       this.addedServiceImgLists.length = 0;
       this.unitDetailData.nextServiceDate = '';
@@ -1061,59 +943,25 @@ export class ServicedetailsPage {
       this.serviced_scheduled_display = item.serviced_scheduled_display;
       this.serviced_date = item.serviced_scheduled_display;
       if (this.serviced_scheduled_display != '') {
-        //this.service_scheduled_date = this.serviced_scheduled_display.split(" ")[1] + " " + this.serviced_scheduled_display.split(" ")[2]
-
-        if (item.serviced_schduled_date == undefined) {
+              if (item.serviced_schduled_date == undefined) {
           item.serviced_schduled_date = item.service_scheduled_date;
         }
-        // this.service_scheduled_date = item.serviced_schduled_date + "T" + item.service_scheduled_time_format.substr(0, 5);
-        // console.log("With Substring 5:" + item.service_scheduled_time_format.substr(0, 5));
-        // console.log("Without Substring 5:" + item.service_scheduled_time_format);
-        // //this.service_scheduled_date ='';
-        // console.log("service_scheduled_date-kannan 1" + this.service_scheduled_date);
+      
       }
 
 
 
-      // this.service_time = item.service_scheduled_time_format.substr(0, 5);
-      // console.log(" this.service_time" + this.service_time);
-      // let getampmpvalue = item.service_scheduled_time_format.substr(6, 8)
-      // console.log("AMPM:" + getampmpvalue);
-      // if (getampmpvalue == 'PM') {
-      //   let timesplit = this.service_time.split(":");
-      //   this.hoursadd24hourformat = parseInt(timesplit[0]) + 12;
-      //   console.log("hoursadd24hourformat PM" + this.hoursadd24hourformat);
-      //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-      // } else {
-      //   let timesplit = this.service_time.split(":");
-      //   this.hoursadd24hourformat = parseInt(timesplit[0]);
-      //   if (this.hoursadd24hourformat == 12) {
-      //     this.hoursadd24hourformat = '00';
-      //   }
-      //   console.log("hoursadd24hourformat aM" + this.hoursadd24hourformat);
-      //   this.service_time = this.hoursadd24hourformat + ":" + timesplit[1];
-      // }
-
-
-      // this.service_scheduled_date = this.navParams.get("record").serviced_schduled_date + "T" + this.service_time;
-      // this.service_scheduled_date = item.serviced_datetime_edit;
+     
 
       this.service_scheduled_date = item.serviced_datetime_edit;
-      //this.service_scheduled_date ="2018-02-17T13:45:30";
-
-      console.log("ffsf" + this.service_scheduled_date);
-      //this.service_scheduled_date="2018-02-17 03:17";
-      // this.service_scheduled_date="2018-02-17T13:17";
-
-      //console.log("serviceing-details.ts" + this.service_scheduled_date);
+    
 
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
       this.serviced_created_name_hastag_withinclosedbracket = item.serviced_created_name_hastag_withinclosedbracket;
 
       this.next_service_date_selected = item.next_service_date_selected;
-      console.log("next_service_date_selected" + this.next_service_date_selected);
-      console.log("next_service_date:" + this.next_service_date);
+     
       if (this.next_service_date_selected == 1) {
         this.weekselection = 'weekselection';
         this.next_service_date = item.next_service_date;
@@ -1130,7 +978,7 @@ export class ServicedetailsPage {
         this.next_service_date = '';
       }
       this.next_service_date_mobileview = item.next_service_date_mobileview;
-      console.log("Service Description:" + item.description);
+    
       if (item.description == undefined) {
         this.description = item.service_description;
       } else {
@@ -1152,12 +1000,12 @@ export class ServicedetailsPage {
 
     this.service_resources = item.service_resources;
     if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-      console.log('service reource calling....')
+    
       let hashhypenhash = this.service_resources.split("#-#");
-      console.log("#-#" + hashhypenhash);
+     
       for (let i = 0; i < hashhypenhash.length; i++) {
         let imgDataArr = hashhypenhash[i].split("|");
-        console.log("imgDataArr" + imgDataArr[i])
+     
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
         this.addedServiceImgLists.push({
@@ -1171,7 +1019,6 @@ export class ServicedetailsPage {
 
   }
   doImageResources(service_id) {
-    console.log("doImageResources function calling successfully....")
     let body: string = "serviceid=" + service_id,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
@@ -1180,8 +1027,7 @@ export class ServicedetailsPage {
     
     this.http.post(url1, body, options1)
       .subscribe((data) => {
-        console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
-        console.log("Service Details:" + data.json().servicedetail[0]);
+       
         this.service_resources = data.json().servicedetail[0].service_resources;
         if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
           let hashhypenhash = this.service_resources.split("#-#");
@@ -1210,7 +1056,6 @@ export class ServicedetailsPage {
       });
   }
   doRemoveResouce(id, item, service_id) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this file?',
       buttons: [{
@@ -1228,8 +1073,6 @@ export class ServicedetailsPage {
             }
           }
           this.uploadcount = 10 - this.addedServiceImgLists.length;
-          console.log("After Deleted" + JSON.stringify(this.addedServiceImgLists));
-          console.log("After Deleted Upload count length:" + this.uploadcount);
         }
       },
       {
@@ -1292,14 +1135,14 @@ export class ServicedetailsPage {
           text: 'Cancel',
           handler: () => {
             this.is_request = false;
-            console.log('Cancel clicked');
+           
           }
         },
         {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
-            console.log('Confirm clicked');
+           
           }
         }
       ],
@@ -1338,7 +1181,7 @@ export class ServicedetailsPage {
 
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-              console.log(imageURI);
+             
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -1348,17 +1191,7 @@ export class ServicedetailsPage {
         }, {
           text: 'From Camera',
           icon: 'md-camera',
-          handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
-
-            // };
+          handler: () => {          
 
             const options: CameraOptions = {
               quality: 100,
@@ -1369,7 +1202,7 @@ export class ServicedetailsPage {
             }
 
             this.camera.getPicture(options).then((uri) => {
-              console.log(uri);
+            
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -1382,7 +1215,7 @@ export class ServicedetailsPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+           
           }
         }
       ]

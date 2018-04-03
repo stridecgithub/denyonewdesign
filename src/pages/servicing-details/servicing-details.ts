@@ -83,7 +83,7 @@ export class ServicingDetailsPage {
 
      
         let eventType = this.navParams.get("event_type");
-        console.log("Event Type:" + eventType);
+       
 
 
         let body: string = "serviceid=" + this.navParams.get("event_id"),
@@ -91,13 +91,13 @@ export class ServicingDetailsPage {
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/servicebyid";
-        console.log(url1 + "?" + body);
+       
         this.http.post(url1, body, options1)
           .subscribe((data) => {
-            console.log(JSON.stringify(data.json()))
+          
             this.item = data.json().servicedetail[0];
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
-            console.log("JSON for service detail" + JSON.stringify(data.json().servicedetail[0]));
+          
             this.service_subject = data.json().servicedetail[0].service_subject;
             this.user_photo = data.json().servicedetail[0].user_photo;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
@@ -118,12 +118,12 @@ export class ServicingDetailsPage {
 
             this.service_resources = data.json().servicedetail[0].service_resources;
             if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-              console.log('service reource calling....')
+            
               let hashhypenhash = this.service_resources.split("#-#");
-              console.log("#-#" + hashhypenhash);
+             
               for (let i = 0; i < hashhypenhash.length; i++) {
                 let imgDataArr = hashhypenhash[i].split("|");
-                console.log("imgDataArr" + imgDataArr[i])
+               
                 let imgSrc;
                 imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
                 this.addedImgListsDetails.push({
@@ -135,7 +135,7 @@ export class ServicingDetailsPage {
               }
 
             }
-            console.log("Image Lists:-" + JSON.stringify(this.addedImgListsDetails));
+           
 
 
           }, error => {
@@ -143,11 +143,7 @@ export class ServicingDetailsPage {
           });
       }
     } else {
-      //this.tabBarElement.style.display = 'none';
-      console.log('ionViewDidLoad ServicingDetailsPage');
-      console.log("Record" + JSON.stringify(this.navParams.get("record")));
-      console.log("From" + this.navParams.get("from"));
-      //this.service_id = this.navParams.get("record").service_id;
+     
       this.service_unitid = this.navParams.get("record").service_unitid;
       this.serviced_datetime = this.navParams.get("record").serviced_datetime;
       this.next_service_date_selected = this.navParams.get("record").next_service_date_selected;
@@ -194,12 +190,12 @@ export class ServicingDetailsPage {
 
       this.service_resources = this.navParams.get("record").service_resources;
       if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-        console.log('service reource calling....')
+       
         let hashhypenhash = this.service_resources.split("#-#");
-        console.log("#-#" + hashhypenhash);
+      
         for (let i = 0; i < hashhypenhash.length; i++) {
           let imgDataArr = hashhypenhash[i].split("|");
-          console.log("imgDataArr" + imgDataArr[i])
+         
           let imgSrc;
           imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
           this.addedImgListsDetails.push({
@@ -212,7 +208,7 @@ export class ServicingDetailsPage {
 
       }
     }
-    console.log("Image Lists:-" + JSON.stringify(this.addedImgListsDetails));
+   
   }
 
   previous() {

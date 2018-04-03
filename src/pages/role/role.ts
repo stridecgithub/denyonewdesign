@@ -79,7 +79,6 @@ export class RolePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RolePage');
 
     this.reportData.startindex = 0;
     this.reportData.sort = "createdon";
@@ -92,7 +91,6 @@ export class RolePage {
   /* Pull to Refresh */
   /*******************/
   doRefresh(refresher) {
-    console.log('doRefresh function calling...');
     this.reportData.startindex = 0;
     this.roleAllLists = [];
     this.doRole();
@@ -113,9 +111,7 @@ export class RolePage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "vendor";
     }
-    //console.log("key=run&startIndex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&statusName=" + this.reportData.status + "&pagination=true");
-    let //body: string = "key=run&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&statusName=" + this.reportData.status + "&pagination=true",
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      let    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role?is_mobile=1&role_name=" + this.reportData.sort;
@@ -141,9 +137,6 @@ export class RolePage {
   /* Infinite scrolling */
   /**********************/
   doInfinite(infiniteScroll) {
-    console.log('InfinitScroll function calling...');
-   
-    console.log("Total Count:" + this.totalCount)
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
      
       this.doRole();
@@ -184,7 +177,6 @@ export class RolePage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-    console.log("Deleted Id" + id);
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this role?',
       buttons: [{
@@ -249,27 +241,21 @@ export class RolePage {
   /* Sorting function */
   /********************/
   doSort(val) {
-    console.log('1');
     this.roleAllLists = [];
     this.reportData.startindex = 0;
-    console.log('2');
     this.sortby = 1;
     if (this.vendorsort == "asc") {
       this.reportData.sortascdesc = "desc";
       this.vendorsort = "desc";
       this.ascending = false;
-      console.log('3');
     }
     else {
-      console.log('4');
       this.reportData.sortascdesc = "asc";
       this.vendorsort = "asc";
       this.ascending = true;
     }
-    console.log('5');
     this.reportData.sort = val;
     this.doRole();
-    console.log('6');
   }
 
   presentLoading(parm) {

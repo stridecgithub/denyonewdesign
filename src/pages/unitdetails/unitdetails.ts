@@ -729,14 +729,14 @@ export class UnitdetailsPage {
 								
 
 
-								if (this.oilpressure >= 10) {
-									this.needlevalue = 10;
-								} else if (this.oilpressure <= 0) {
+								if (this.oilpressure <= 0) {
 									this.needlevalue = 0;
 								} else {
 									this.needlevalue = this.oilpressure;
 								}
-								
+								if (this.needlevalue >= 10) { //10
+									this.needlevalue = 10; //10
+								}  
 							}
 							if (code == "batteryvolt") {
 
@@ -759,8 +759,12 @@ export class UnitdetailsPage {
 								this.needlevalue = 0;
 							}
 							
-							
-							
+							let scalemax;
+							/*if (code == 'oilpressure') {
+								scalemax=10; //10
+							}else{*/
+								scalemax=res[i].maxvalue;
+							//}
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -777,7 +781,7 @@ export class UnitdetailsPage {
 								scales: [
 									{
 										minimum: 0,
-										maximum: res[i].maxvalue,
+										maximum: scalemax,
 
 										labels: {
 											offset: 0.15,

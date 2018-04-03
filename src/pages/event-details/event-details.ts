@@ -70,7 +70,7 @@ export class EventDetailsPage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement.style.display = 'none';
     }
-    console.log("From Page:" + this.frompage);
+   
     this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
       let body: string = "alarmid=" + this.NP.get("event_id"),
@@ -81,7 +81,7 @@ export class EventDetailsPage {
       
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-          console.log("Alarm event  details:-" + JSON.stringify(data.json()))
+         
           this.eventTitle = data.json().alarms[0].alarm_name;
           this.evenDate = data.json().alarms[0].alarm_received_formatted_date;
           this.labels = data.json().alarms[0].labels;
@@ -89,16 +89,16 @@ export class EventDetailsPage {
           this.projectname = data.json().alarms[0].projectname;
           this.location = data.json().alarms[0].location;
           this.alarm_color_code = data.json().alarms[0].alarm_color_code;
-          console.log(this.alarm_color_code);
+         
           this.alarm_priority = data.json().alarms[0].alarm_priority;
           this.item = data.json().alarms[0];
-          console.log(JSON.stringify(this.item));
+         
 
 
           let fls = this.eventTitle.includes('Fls');
           let wrn = this.eventTitle.includes('Wrn');         
           this.alarm_priority = data.json().alarms[0].alarm_priority;
-          console.log(fls);
+         
           if (fls > 0) {
             this.alarm_priority = 3;
             this.alarm_color_code='#c4c4c4';
@@ -116,8 +116,7 @@ export class EventDetailsPage {
 
   }
   doEditAlarm(item, act) {
-  //  let unitid = this.NP.get("record");
-    console.log(item.alarm_assginedby_name);
+  
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
         this.navCtrl.setRoot(AddalarmPage, {

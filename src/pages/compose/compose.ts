@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { AlertController, NavController, NavParams, ActionSheetController, Platform, App  } from 'ionic-angular';
+import { AlertController, NavController, NavParams, ActionSheetController, Platform, App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -83,7 +83,7 @@ export class ComposePage {
   public atmentioneddata = [];
   existingimagecount;
   replyall;
-  constructor(public app: App,private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
+  constructor(public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
 
 
     private transfer: FileTransfer,
@@ -141,13 +141,11 @@ export class ComposePage {
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
-    console.log("isNet" + isNet);
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
     }
   }
   toggle(isopenorclose) {
-    console.log(isopenorclose);
     if (isopenorclose == 1) {
       this.open = 1;
       this.isopenorclose = 0;
@@ -164,7 +162,6 @@ export class ComposePage {
   }
 
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-    console.log("Message Id" + messageid);
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
@@ -182,23 +179,15 @@ export class ComposePage {
 
 
     this.copytome = 0;
-    console.log('ionViewDidLoad ComposePage');
     this.doAttachmentResources(this.micro_timestamp);
     if (this.navParams.get("record") != undefined) {
-      console.log("Record Item" + JSON.stringify(this.navParams.get("record")));
       this.messageid = this.navParams.get("record").message_id;
       this.replyall = this.navParams.get("record").replyall;
     }
     this.act = this.navParams.get("action");
-
-    console.log("REply all:" + this.replyall);
-    console.log("Action" + this.act);
     this.choice = this.navParams.get("from");
-    console.log("Choice of From" + this.choice);
     if (this.choice != undefined) {
-      //this.doDetails(this.navParams.get("record"), this.choice);
       if (this.act == 'reply') {
-        //this.reply(this.navParams.get("record").messages_body);
         this.priority_highclass = '';
         this.priority_lowclass = '';
         this.inboxsortaction = false;
@@ -215,7 +204,6 @@ export class ComposePage {
           this.copytome = 0;
 
           this.getPrority(this.navParams.get("record").message_priority);
-          console.log("TO A" + this.navParams.get("record").message_priority);
           this.subject = this.messages_subject;
         }
         else {
@@ -225,23 +213,18 @@ export class ComposePage {
           this.addedImgLists = [];
           this.copytome = 0;
           this.getPrority(this.navParams.get("record").message_priority);
-          console.log("Priority B" + this.navParams.get("record").message_priority);
           this.subject = this.navParams.get("record").messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
         }
 
         this.isReply = 1;
-        console.log("Reply Calling");
         this.messageid = this.navParams.get("record").message_id;
         this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
       }
 
 
       if (this.act == 'replytoall') {
-
-        console.log("goto replytoall");
-        //this.reply(this.navParams.get("record").messages_body);
         this.priority_highclass = '';
         this.priority_lowclass = '';
         this.inboxsortaction = false;
@@ -251,14 +234,14 @@ export class ComposePage {
         this.replyforward = 1;
         this.isReply = 1;
         if (this.senderid == this.userId) {
-          console.log("A:Get Reply All Users:" + this.navParams.get("record").replyall);
+
           this.to = this.navParams.get("record").replyall;//this.receiver_id;
 
           this.addedImgLists = [];
           this.copytome = 0;
 
           this.getPrority(this.navParams.get("record").message_priority);
-          console.log("TO A" + this.navParams.get("record").message_priority);
+
           this.subject = this.messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
@@ -266,13 +249,13 @@ export class ComposePage {
         else {
 
           this.isReply = 0;
-          console.log("B:Get Reply All Users:" + this.navParams.get("record").replyall);
+
           this.to = this.navParams.get("record").replyall;
 
           this.addedImgLists = [];
           this.copytome = 0;
           this.getPrority(this.navParams.get("record").message_priority);
-          console.log("Priority B" + this.navParams.get("record").message_priority);
+
           this.subject = this.navParams.get("record").messages_subject;
           this.composemessagecontent = "\n\n\n" + this.navParams.get("record").message_body;
 
@@ -280,7 +263,7 @@ export class ComposePage {
         }
 
         this.isReply = 1;
-        console.log("Reply Calling");
+
         this.messageid = this.navParams.get("record").message_id;
         this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
       }
@@ -288,7 +271,7 @@ export class ComposePage {
       if (this.act == 'forward') {
         this.messageid = this.navParams.get("record").message_id;
         this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
-        console.log("Forward Calling");
+
 
         this.priority_highclass = '';
         this.priority_lowclass = '';
@@ -301,7 +284,7 @@ export class ComposePage {
 
         this.addedImgLists = [];
         this.copytome = 0;
-        console.log("Priority C" + this.navParams.get("record").message_priority);
+
         this.getPrority(this.navParams.get("record").message_priority);
         this.subject = this.navParams.get("record").messages_subject;
         this.composemessagecontent = "\n\n\n" + "-----Forward Message-----" + "\n" + this.navParams.get("record").message_body;
@@ -315,16 +298,10 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messagehashtags?companyId=" + this.companyId + "&loginid=" + this.userId;
-    
+
     this.http.get(url, options)
 
-    // let body: string = param,
 
-    //   type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-    //   headers: any = new Headers({ 'Content-Type': type }),
-    //   options: any = new RequestOptions({ headers: headers }),
-    //   url: any = urlstring;
-    console.log("Message sending API" + url + "?" + body);
 
     this.http.post(url, body, options)
 
@@ -334,7 +311,6 @@ export class ComposePage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          console.log(data.json().staffs);
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -352,74 +328,32 @@ export class ComposePage {
       }, error => {
 
       })
-    console.log(JSON.stringify("Array Result:" + this.atmentioneddata));
     jQuery(".to").mention({
       users: this.atmentioneddata
     });
-    // Atmentioned API Calls
 
-
-    // if (this.replyforward > 0) {
-
-    //   let imgcount = localStorage.getItem("existingimagecount");
-    //   if (imgcount != undefined && imgcount != 'undefined' && imgcount != '') {
-    //     this.existingimagecount = imgcount;
-    //   } else {
-    //     localStorage.set("existingimagecount" + this.addedImgLists.length);
-    //     this.existingimagecount = this.addedImgLists.length;
-    //   }
-    // }
   }
 
 
 
 
   doAttachmentResources(micro_timestamp) {
+
     this.addedImgLists = [];
     let bodymessage: string = "messageid=0&micro_timestamp=" + micro_timestamp + "&loginid=" + this.userId,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
-    console.log(url1 + '?' + bodymessage);
+
     this.http.post(url1, bodymessage, options1)
-      //this.http.get(url1, options1)
       .subscribe((data) => {
 
 
-        console.log("Message Response Success:" + JSON.stringify(data.json()));
-        console.log("Message Details:" + data.json().messages[0]);
+
         this.selectEntry(data.json().messages[0]);
 
-        /*
-                console.log("servicebyid Response Success:" + JSON.stringify(data.json()));
-                this.totalCount = 0;
-                console.log(data.json().length - 1);
-                for (let i = 0; i < data.json().length; i++) {
-        
-                  console.log("Attachmnt:" + data.json()[i].attachment_id);
-                  this.totalFileSize = data.json()[i];
-                  let imgSrc;
-                  //imgSrc = this.apiServiceURL + "/attachments" + '/' + data.json()[i].attachment;
-                  if (data.json()[i].attachment_id > 0) {
-                    this.addedImgLists.push({
-                      fileName: data.json()[i].attachment,
-                      fileSize: data.json()[i].filesize_kb,
-                      resouce_id: data.json()[i].attachment_id
-                    });
-                  }
-                  if (data.json().length == this.totalCount) {
-        
-                    break;
-                  }
-                  this.totalCount++;
-                }
-        
-                console.log("Attached from api response:" + JSON.stringify(this.addedImgLists));
-                if (this.messageid != 0) {
-                  this.totalFileSize = this.addedImgLists[0].fileSize;
-                }
-        */
+
 
       });
   }
@@ -431,53 +365,53 @@ export class ComposePage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
-    console.log(url1 + '?' + bodymessage);
     this.http.post(url1, bodymessage, options1)
-      //this.http.get(url1, options1)
       .subscribe((data) => {
-        console.log("Message Response Success:" + JSON.stringify(data.json()));
-        console.log("Message Details:" + data.json().messages[0]);
+
         this.selectEntry(data.json().messages[0]);
-        //this.doAttachmentResources(data.json().messages[0].message_id);
+
       }, error => {
       });
-    
+
   }
 
   selectEntry(item) {
-
-    console.log(JSON.stringify(item));
-    //if (this.nowuploading == 0) {
+    console.log("Added Image List:" + JSON.stringify(item));
     this.totalFileSize = item.totalfilesize;
-    //}
     this.totalFileSizeExisting = this.totalFileSize;
-    console.log("this.totalFileSizeExisting:" + this.totalFileSizeExisting);
     if (item.attachments != '') {
       let ath = item.attachments.split("#");
       let flsize = item.filesizes.split("#");
-      let resourceid = item.resourceids.split("#")
+      let resourceid = item.resourceids.split("#");
+      let oldnew = item.old_new.split("#");
+      let ondata;
       for (let i = 0; i < ath.length; i++) {
+        if (oldnew[i] == '') {
+          ondata = 'old';
+        } else if (oldnew[i] == 'old') {
+          ondata = 'old';
+        } else {
+          ondata = 'new';
+        }
         this.addedImgLists.push({
           fileName: ath[i],
           fileSize: flsize[i],
-          resource_id: resourceid[i]
+          resource_id: resourceid[i],
+          oldnew: ondata,
           // fileSize: data.json()[i].filesize_kb,
           // resouce_id: data.json()[i].messageresource_id,
           //  imgSrc: imgSrc
         });
       }
-      console.log("filesizes:" + item.filesizes);
+
+      console.log("Added Image List:" + JSON.stringify(this.addedImgLists));
+
     }
   }
   // When form submitting the below function calling
   saveEntry() {
 
-    // let to = jQuery('.to').tagEditor('getTags')[0].tags;
-    // console.log(to.length);
-    // if (to.length == 0) {
-    //   this.conf.sendNotification(`To address required`);
-    //   return false;
-    // }
+
 
 
     // Personal hashtag checking....
@@ -489,12 +423,11 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-    console.log("Chkemailhashtags API" + url + "?" + body);
+
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        console.log("Chkemailhashtags response success:" + JSON.stringify(data.json()));
-        console.log("1" + data.json().invalidusers);
+
         if (data.json().invalidusers == '') {
           if (this.isUploadedProcessing == false) {
             let copytome: string = this.form.controls["copytome"].value,
@@ -529,8 +462,7 @@ export class ComposePage {
     // }
     let param;
     let urlstring;
-    console.log("is reply forward and this.messageid" + this.replyforward + " " + this.messageid);
-    console.log("Is reply?" + this.isReply);
+
     if (this.replyforward > 0) {
 
       let isrepfor;
@@ -568,11 +500,10 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-    console.log("Message sending API" + url + "?" + body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
 
@@ -608,14 +539,7 @@ export class ComposePage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-            // var options = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            //   allowEdit: true,
-            //   encodingType: this.camera.EncodingType.JPEG,
-            //   saveToPhotoAlbum: true
-            // };
+
             const options: CameraOptions = {
               quality: 100,
               destinationType: this.camera.DestinationType.FILE_URI,
@@ -625,9 +549,7 @@ export class ComposePage {
               correctOrientation: true
             }
             this.camera.getPicture(options).then((imageURI) => {
-              //alert(imageURI);
               localStorage.setItem("receiptAttachPath", imageURI);
-              console.log(imageURI);
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -639,16 +561,7 @@ export class ComposePage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-            console.log('Camera clicked');
-            // const options: CameraOptions = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: 1,
-            //   targetWidth: 200,
-            //   targetHeight: 200,
-            //   saveToPhotoAlbum: true
 
-            // };
 
             const options: CameraOptions = {
               quality: 100,
@@ -660,7 +573,6 @@ export class ComposePage {
 
 
             this.camera.getPicture(options).then((uri) => {
-              //alert(uri);
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -672,28 +584,26 @@ export class ComposePage {
           text: 'From File',
           icon: 'document',
           handler: () => {
-            console.log('File clicked');
-            console.log('From File clicked');
+
 
             this.isUploadedProcessing = true;
             this.filechooser.open()
               .then(
               uri => {
-                //alert(uri);
-                console.log(uri);
+
                 this.fileTrans(uri, micro_timestamp);
                 this.addedAttachList = uri;
               }
 
               )
-              .catch(e => console.log(e));
+              .catch(e => { });
           }
         }, {
           text: 'Cancel',
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+
           }
         }
       ]
@@ -712,11 +622,9 @@ export class ComposePage {
 
   fileTrans(path, micro_timestamp) {
     this.isSubmitted = true;
-    console.log("Path:" + path);
-   // let fileName = path.substr(path.lastIndexOf('/') + 1);
+
     const fileTransfer: FileTransferObject = this.transfer.create();
     let currentName = path.replace(/^.*[\\\/]/, '');
-    console.log("File Name is:" + currentName);
 
     let dateStr = new Date();
     let year = dateStr.getFullYear();
@@ -729,7 +637,7 @@ export class ComposePage {
       n = d.getTime(),
       newFileName = year + "" + month + "" + date + "" + hr + "" + mn + "" + sec + "_Denyo_" + currentName;
 
-    console.log("File Name is :" + newFileName);
+
 
     let options: FileUploadOptions = {
       fileKey: 'file',
@@ -740,37 +648,26 @@ export class ComposePage {
     }
     fileTransfer.onProgress(this.onProgress);
 
-    //this.showAlert("Uplod path for upload_attach:", this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n);
-
-    // fileTransfer.upload(path, this.baseURI + '/api/upload_attach.php', options)
     fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n, options)
       .then((data) => {
-        console.log("UPLOAD SUCCESS:" + data.response);
-        //this.showAlert("UPLOAD SUCCESS:", data.response);
+
         this.nowuploading = 1;
         let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
 
-        console.log('http:' + '//' + successData.baseURL + '/' + successData.target_dir + '/' + successData.fileName);
-        //let imgSrc;
+
         if (this.messageid == undefined) {
           this.messageid = 0;
         }
-        console.log("Image get from resource for message Id:" + this.messageid);
+
 
         if (this.messageid > 0) {
           this.doAttachmentResourcesExisting(this.messageid, this.micro_timestamp);
         }
         this.doAttachmentResources(this.micro_timestamp);
-        if (this.messageid != 0) {
-          //this.totalFileSize = successData.totalSizeInKB;
-        }
-        /*console.log("this.totalFileSize"+this.totalFileSize); 
-        this.overAllFileSize=this.totalFileSize+this.totalFileSizeExisting;
-         console.log("this.overAllFileSize"+this.totalFileSize); */
+
         localStorage.setItem('fileAttach', JSON.stringify(this.addedImgLists));
-        console.log("Added Image List Response:" + JSON.stringify(this.addedImgLists));
         if (this.addedImgLists.length > 9) {
           this.isUploaded = false;
         }
@@ -786,7 +683,6 @@ export class ComposePage {
       }, (err) => {
 
         this.isProgress = false;
-        console.log("Upload Error:" + JSON.stringify(err));
         this.conf.errorNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -802,28 +698,27 @@ export class ComposePage {
   }
   // List page navigate to notification list
   notification() {
-    console.log('Will go notification list page');
-    // Navigate the notification list page
+
     this.navCtrl.setRoot(NotificationPage);
   }
   getPrority(val) {
-    console.log("getPrority function calling:-" + val);
+
 
 
     if (val == "2") {
-      console.log('val A:' + val);
+
       this.activelow = "0";
       this.activehigh = "1";
       this.normallow = "0";
       this.activenormal = "1";
     } else if (val == "1") {
-      console.log('val B:' + val);
+
       this.activelow = "1";
       this.activehigh = "0";
       this.normallow = "1";
       this.activenormal = "0";
     } else {
-      console.log('val C:' + val);
+
       this.activelow = "0";
       this.activehigh = "0";
       this.normallow = "0";
@@ -833,11 +728,10 @@ export class ComposePage {
 
     this.message_priority = val
   }
- 
+
 
   doRemoveResouce(item) {
-    console.log("Deleted Id" + item.resource_id);
-    console.log("Image Item" + JSON.stringify(item));
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this file?',
       buttons: [{
@@ -874,12 +768,12 @@ export class ComposePage {
   // for the record ID we want to remove from the remote database
   deleteEntry(recordID) {
     let
-      //body: string = "key=delete&recordID=" + recordID,
+
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/" + recordID + "/removeattachment";
-    
+
     this.http.get(url, options)
       .subscribe(data => {
         // If the request was successful notify the user

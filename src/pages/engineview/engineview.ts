@@ -60,7 +60,7 @@ export class EngineviewPage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EngineviewPage');
+    
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -71,11 +71,11 @@ export class EngineviewPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("Count Response Success:" + JSON.stringify(data.json()));
+       
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
-    console.log(JSON.stringify(this.NP.get("record")));
+    
     let editItem = this.NP.get("record");
     // this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/webview_enginedetails/"+editItem.model_id + " height=500px width=100% frameborder=0></iframe>";
 
