@@ -583,14 +583,15 @@ export class AddhocPage {
     } else if (nextServiceDate == '') {
       nextServiceDate = '0000-00-00';
     }
-
+    let pushnotify = this.service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     let body: string = "is_mobile=1" +
       "&service_priority=" + this.service_priority +
       "&service_unitid=" + this.service_unitid +
       "&serviced_datetime=" + serviced_date +
       "&service_scheduled_date=" + serviced_date +
       "&time=" + serviced_time +
-      "&service_remark=" + service_remark +
+      "&pushnotify=" + pushnotify +
+      "&service_remark=" + encodeURIComponent(service_remark.toString()) +
       "&next_service_date=" + nextServiceDate +
       "&next_service_date_selected=" + this.next_service_date_selected +
       "&is_denyo_support=" + is_denyo_support +

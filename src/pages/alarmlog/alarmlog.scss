@@ -1,6 +1,14 @@
 page-alarmlog {
-
-
+.info{
+	img{
+		width: 25%;
+		float: left;
+		padding: 14px 12px 0px 16px;
+	}
+}
+.label-md {
+	margin: 0px 0px 0px 0;
+}
 	 .active-alarm-text{
 		color: white;
 		background-color: red;
@@ -123,6 +131,7 @@ ion-content .scroll-content {
 	}
 	ion-col{
 		h1{
+			margin-left: 0px;
 			font-size: 16px;
 			/*color: #000000;*/
 			font-weight: bold;

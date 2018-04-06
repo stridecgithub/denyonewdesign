@@ -303,7 +303,7 @@ export class AddcalendarPage {
 
 
       if (this.NP.get("service_id")) {
-       // let eventType = this.NP.get("type");
+        // let eventType = this.NP.get("type");
 
 
 
@@ -325,7 +325,7 @@ export class AddcalendarPage {
 
           });
       } else if (this.NP.get("event_id")) {
-       // let eventType = this.NP.get("type");
+        // let eventType = this.NP.get("type");
 
 
 
@@ -679,21 +679,24 @@ export class AddcalendarPage {
       event_time = '';
       event_end_time = '';
     }
-    service_remark = jQuery(".event_notes").val();
+   
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
     } else {
       field = "&event_title=" + event_subject;
     }
+    let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + service_remark + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
+      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&pushnotify=" + pushnotify + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + encodeURIComponent(service_remark.toString()) + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
 
+    console.log("Add Calendar / Add Event API:" + url + "?" + body);
 
+    //this.showAlert('Add Calendar / Add Event API', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
@@ -787,13 +790,15 @@ export class AddcalendarPage {
         }*/
     service_remark = jQuery(".event_notes").val();
     let field;
+    let pushnotify = this.service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     if (type_name == 'Service') {
-      field = "&event_title=" + event_subject + "&service_remark=" + service_remark;
+      field = "&event_title=" + event_subject + "&service_remark=" + service_remark + "&pushnotify=" + pushnotify;
     } else {
-      field = "&event_title=" + event_subject + "&service_remark=" + service_remark;
+      field = "&event_title=" + event_subject + "&service_remark=" + service_remark + "&pushnotify=" + pushnotify;
     }
     //"&event_remark=" + service_remark +
     event_unitid = this.event_unitid;
+
     let body: string = "is_mobile=1&event_type="
       + type_name + field + "&event_date=" + this.event_date + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&ses_login_id=" + createdby + "&event_added_by=" + createdby + "&id=" + this.recordID + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -929,7 +934,7 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-
+      service_remark = jQuery(".event_notes").val();
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -1024,7 +1029,7 @@ export class AddcalendarPage {
   }
 
   alldayeenttoggle(event, val) {
-   
+
     if (val == true) {
       this.endtimefield = false;
       this.starttimefield = false;
@@ -1041,12 +1046,12 @@ export class AddcalendarPage {
     }
   }
   filToDate(event_date) {
-   
+
     this.event_end_date = event_date.split("T")[0];
   }
 
   CalendarfutureDateValidation(formvalue) {
-  
+
     this.futuredatemsg = '';
     this.isSubmitted = true;
     let date = new Date();
@@ -1066,16 +1071,16 @@ export class AddcalendarPage {
     let current_date = date.getFullYear() + "-" + this.mn + "-" + this.dd;
     if (formvalue.split("T")[0] >= current_date) {
       this.isSubmitted = false;
-     
+
     } else {
 
       this.futuredatemsg = "You have selected previous date is" + formvalue.split("T")[0] + ".No previous date is allowed";
-     
+
 
       this.serviced_datetime = moment().format();
       this.isSubmitted = true;
     }
-   
+
     if (this.futuredatemsg != '') {
       this.showAlert('', 'Please select current date or future date.')
     }

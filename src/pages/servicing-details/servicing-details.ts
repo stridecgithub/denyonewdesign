@@ -82,7 +82,7 @@ export class ServicingDetailsPage {
       if (this.navParams.get("event_id")) {
 
      
-        let eventType = this.navParams.get("event_type");
+      //  let eventType = this.navParams.get("event_type");
        
 
 

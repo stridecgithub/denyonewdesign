@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams, Platform, ModalController,App } from 'ionic-angular';
+import { NavController, AlertController, NavParams, Platform, ModalController, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddalarmPage } from '../addalarm/addalarm';
@@ -59,7 +59,7 @@ export class AlarmlogPage {
   public msgcount: any;
   public notcount: any;
   public sortLblTxt: string = 'Date';
-  constructor(private app:App,public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
 
 
@@ -84,7 +84,7 @@ export class AlarmlogPage {
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
 
-    
+
 
     platform.registerBackButtonAction(() => {
       this.navCtrl.setRoot(UnitdetailsPage, {
@@ -95,7 +95,7 @@ export class AlarmlogPage {
 
   }
   presentModal(unit) {
-   
+
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -105,7 +105,7 @@ export class AlarmlogPage {
     });
   }
   ionViewDidEnter() {
-    
+
     localStorage.setItem("fromModule", "AlarmlogPage");
     // UnitDetails Api Call		
 
@@ -164,7 +164,7 @@ export class AlarmlogPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-         
+
 
         }
       }, error => {
@@ -174,7 +174,7 @@ export class AlarmlogPage {
   }
 
   doRefresh(refresher) {
-    
+
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doAlarm();
@@ -198,7 +198,7 @@ export class AlarmlogPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog";
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -236,8 +236,17 @@ export class AlarmlogPage {
             let act = res.alarms[alarm].alarm_name.includes('!');
             let activealarm;
             let activealarmtext;
-            if (act > 0) {             
+            if (act > 0) {
               activealarmtext = 'active-alarm-text'
+            }
+            let color;
+            let ispadding;
+            if (res.alarms[alarm].isactivealarm >0) {
+              color = '#ffffff';
+              ispadding = '3px';
+            } else {
+              color = '#000000';
+              ispadding = '0px';
             }
 
             this.reportAllLists.push({
@@ -246,7 +255,7 @@ export class AlarmlogPage {
               alarm_assginedby_name: res.alarms[alarm].alarm_assginedby_name,
               alarm_assginedto_name: res.alarms[alarm].alarm_assginedto_name,
               alarm_priority: alarm_priority,
-              activealarm:activealarm,
+              activealarm: activealarm,
               activealarmtext: activealarmtext,
               alarm_received_date: res.alarms[alarm].alarm_received_date,
               alarm_received_date_mobileview: res.alarms[alarm].alarm_received_date_mobileview,
@@ -257,18 +266,23 @@ export class AlarmlogPage {
               alarm_unit_id: res.alarms[alarm].alarm_unit_id,
               alarm_assginedby_hashtag: hashtagbyname,
               alarm_assginedto_hashtag: hashtagtoname,
-              alarm_assgined_to: res.alarms[alarm].alarm_assgined_to
-
+              alarm_assgined_to: res.alarms[alarm].alarm_assgined_to,
+              code: res.alarms[alarm].code,
+              alarmicon: res.alarms[alarm].alarmicon,
+              bgcolor: res.alarms[alarm].bgcolor,
+              isactivealarm: res.alarms[alarm].isactivealarm,
+              color: color,
+              ispadding: ispadding
 
             });
           }
-       
+          
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
-       
+
 
       }, error => {
         this.conf.presentLoading(0);
@@ -283,7 +297,7 @@ export class AlarmlogPage {
     this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
     this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
     this.unitDetailData.favoriteindication = localStorage.getItem("unitfav");
-    
+
     localStorage.setItem("unitId", this.unitDetailData.unit_id);
     localStorage.setItem("iframeunitId", this.unitDetailData.unit_id);
     this.unitDetailData.rh = localStorage.getItem("runninghr");
@@ -310,15 +324,15 @@ export class AlarmlogPage {
   }
   doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doAlarm();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 
   previous() {
@@ -386,7 +400,7 @@ export class AlarmlogPage {
       buttons: [
         {
           text: 'Asc',
-          handler: data => {           
+          handler: data => {
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';

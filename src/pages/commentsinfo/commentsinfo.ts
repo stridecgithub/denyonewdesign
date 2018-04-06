@@ -139,7 +139,7 @@ export class CommentsinfoPage {
 
   ionViewWillEnter() {
 
-    let iframeunitid = localStorage.getItem("iframeunitId");
+   // let iframeunitid = localStorage.getItem("iframeunitId");
    
     let editItem = this.NP.get("record");
     let from = this.NP.get("from");

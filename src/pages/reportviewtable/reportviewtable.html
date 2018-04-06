@@ -17,7 +17,7 @@
         </button>
       </ion-buttons>
       <ion-title>Report</ion-title>
-      <div class="right-header-btns"  *ngIf="graphview==0">
+      <div class="right-header-btns" *ngIf="graphview==0">
         <button class="open" (click)="onButtonClick()">
           <ion-icon name="open"></ion-icon>
         </button>
@@ -30,7 +30,7 @@
           <a href="{{pdfDownloadLink}}">PDF</a>
         </ion-list>
         <ion-list>
-           <a href="{{csvDownloadLink}}">CSV</a>
+          <a href="{{csvDownloadLink}}">CSV</a>
           <!-- <a href="javascript:void(0)" (click)="download(2)">CSV</a> -->
         </ion-list>
       </ion-row>
@@ -41,9 +41,9 @@
 
 <ion-content padding class="ion-content">
   <div class="error" *ngIf="success==1" style="color:red;text-align:center">Request report generated successfully.kindly check your valid email address</div>
-  <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
+  <!-- <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div> -->
 
-  
+
   <div *ngIf="requestsuccessview>0">{{requestsuccess}}</div>
 
   <!-- <div *ngIf="pdfdownloadview>0">Report generated successfully as PDF format. -->
@@ -168,19 +168,43 @@
         <h2>{{timeframe}}</h2>
       </ion-col>
     </ion-row>
+    <br/>
+    <ion-row  *ngIf="graphview==0  && success==0">
+      <ion-col col-4>     
+          <ion-checkbox color="dark" checked="true" [(ngModel)]="showrunning"></ion-checkbox> Generator running
+      </ion-col>
+      <ion-col col-4>       
+          <ion-checkbox color="dark" checked="true" [(ngModel)]="showonline"></ion-checkbox> Generator online
+      </ion-col>
+      <ion-col col-4>
+      
+          <ion-checkbox color="dark" checked="true" [(ngModel)]="showload"></ion-checkbox> Generator supplying load
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row"  *ngIf="graphview==0  && success==0">
+      <ion-col class="col col" col-12="">
+        <div class="bottom-row bot-row2-srvce">
+          <button (click)="getReportResult(seltypeBtn,exportto,selunit,seltimeframe,seltemplate,from,to,showrunning,showonline,showload)">Apply Filter</button>
+        </div>
+      </ion-col>
+    </ion-row>
+
   </div>
   <div class="table-view" *ngIf="graphview==0  && success==0">
+    <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
 
     <table>
       <thead>
         <tr>
+          <th>SNO</th>
           <th *ngFor="let headitem  of headLists">{{headitem}}</th>
 
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let valueitem  of headValue; let i = index">
-
+          <td>{{i+1}}</td>
           <td *ngFor="let valueitems  of valueitem; let j = index">{{valueitems}}</td>
 
         </tr>
@@ -195,5 +219,5 @@
   </div>
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>

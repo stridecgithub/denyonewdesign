@@ -1,4 +1,4 @@
-<ion-header  (tap)="isNet()">
+<ion-header (tap)="isNet()">
   <ion-toolbar color="primary">
     <ion-buttons left>
       <button ion-button icon-only (click)="previous()">
@@ -14,7 +14,7 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content  (tap)="isNet()">
+<ion-content (tap)="isNet()">
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
     <ion-row style="background-color: #f8f8f8;">
       <ion-col class="col" col-12 style="background-color: #f8f8f8;">
@@ -96,8 +96,8 @@
       </div>
 
 
-      <div class="progress-outer" *ngIf="isProgress">
-        <div class="progress-inner" [style.width]="progress + '%'">        
+      <div class="progress-outer" *ngIf="isProgress" style="position: absolute;top: 50%;">
+        <div class="progress-inner" [style.width]="progress + '%'">
         </div>
       </div>
 
@@ -123,7 +123,7 @@
         <!-- i value {{i}}
         index value {{index}}
         existing image count {{existingimagecount}} -->
-        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='replytoall' && imageitem.oldnew=='new'">
+        <button (click)="doRemoveResouce(imageitem)" *ngIf="act!='reply' && act!='replytoall' && imageitem.oldnew=='new'"><!-- && imageitem.oldnew=='new' -->
           <!-- *ngIf="act!='reply' && act!='forward'" -->
           <ion-icon name="md-close-circle" style="color:red;"></ion-icon>
         </button>

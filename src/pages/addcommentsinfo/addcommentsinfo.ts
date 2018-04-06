@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform, App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -90,7 +90,7 @@ export class AddcommentsinfoPage {
   //tabBarElement: any;
   atmentioneddata = [];
   companyId
-  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
     this.platform.ready().then(() => {
@@ -171,7 +171,7 @@ export class AddcommentsinfoPage {
     localStorage.setItem("microtime", this.micro_timestamp);
 
     this.addedServiceImgLists = [];
-    
+
     localStorage.setItem("fromModule", "addhocPage");
 
     let //body: string = "loginid=" + this.userId,
@@ -183,7 +183,7 @@ export class AddcommentsinfoPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-      
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -192,7 +192,7 @@ export class AddcommentsinfoPage {
     // this.getPrority(1);
     //let users = localStorage.getItem("atMentionedStorage");
     this.is_request = false;
-    
+
 
 
 
@@ -267,7 +267,7 @@ export class AddcommentsinfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-           
+
 
           }
         }, error => {
@@ -276,7 +276,7 @@ export class AddcommentsinfoPage {
       // Unit Details API Call
     }
 
-   
+
 
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
@@ -284,10 +284,10 @@ export class AddcommentsinfoPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    
+
     this.http.get(url1, options1)
 
-  
+
 
     this.http.post(url1, body1, options1)
 
@@ -297,7 +297,7 @@ export class AddcommentsinfoPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-          
+
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -315,7 +315,7 @@ export class AddcommentsinfoPage {
       }, error => {
 
       })
-   
+
     jQuery(".comment_remark").mention({
       users: this.atmentioneddata
     });
@@ -339,7 +339,7 @@ export class AddcommentsinfoPage {
 
     this.servicemaxdate = yyyy + '-' + this.mm + '-' + this.dd;
 
-    
+
     return this.servicemaxdate;
 
   }
@@ -372,7 +372,7 @@ export class AddcommentsinfoPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    
+
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -397,16 +397,16 @@ export class AddcommentsinfoPage {
 
 
 
-      fileTransfer.onProgress(this.onProgress);
+    fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/commentupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         // this.isSubmitted = true;
         // Upload Response is{"bytesSent":1872562,"responseCode":200,"response":"{\"error\":false,\"id\":51}","objectId":""}
 
 
-        
+
         let res = JSON.parse(data.response);
-       
+
         let imgSrc;
         imgSrc = this.apiServiceURL + "/commentimages" + '/' + newFileName;
         this.addedServiceImgLists.push({
@@ -444,7 +444,7 @@ export class AddcommentsinfoPage {
         // Save in Backend and MysQL
       }, (err) => {
         //loading.dismiss();
-       
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -461,17 +461,17 @@ export class AddcommentsinfoPage {
 
   saveEntry() {
 
-   // var date = new Date();
+    // var date = new Date();
     let comment_date = moment().format();
     let cmddte = comment_date.split("T")[0];
     let cmdtme = comment_date.split("T")[1].substring(0, 5);
-   
+
     comment_date = cmddte + " " + cmdtme;
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.networkType = this.conf.networkErrMsg();
     } else {
-      
+
       if (this.isUploadedProcessing == false) {
 
         let comments = jQuery(".comment_remark").val();
@@ -488,11 +488,11 @@ export class AddcommentsinfoPage {
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-        
+
 
         this.http.post(url, body, options)
           .subscribe((data) => {
-         
+
             if (data.json().invalidusers == '') {
               if (this.isEdited) {
                 this.updateEntry(comment_date, comments, comment_subject, this.addedImgLists, this.unitDetailData.hashtag, this.micro_timestamp);
@@ -526,10 +526,13 @@ export class AddcommentsinfoPage {
     if (this.service_priority == 'undefined') {
       this.service_priority = '0';
     }
+    let pushnotify = comments.replace(/(\r\n\t|\n|\r\t)/gm, " ");
+
     let body: string = "is_mobile=1" +
       "&comment_unit_id=" + this.comment_unitid +
       "&comment_priority=" + this.service_priority +
-      "&comment_remark=" + comments +
+      "&pushnotify=" + pushnotify +
+      "&comment_remark=" + encodeURIComponent(comments.toString()) +
       "&comment_by=" + this.unitDetailData.userId +
       "&comment_subject=" + comment_subject +
       "&micro_timestamp=" + micro_timestamp +
@@ -542,11 +545,13 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
+    console.log("Store Comments:" + url + "?" + body);
 
+    //this.showAlert('Store Comments:', url + "?" + body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-       
+
         if (data.status === 200) {
           this.comment_subject = '';
           this.comments = '';
@@ -658,14 +663,14 @@ export class AddcommentsinfoPage {
       } else {
         datestr = dt;
       }
-     
+
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     } else {
       let monthstr;
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-     
+
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -706,12 +711,12 @@ export class AddcommentsinfoPage {
   subDays(days) {
     let result = new Date();
     result.setDate(result.getDate() - days);
-    
+
     return result;
   }
   showDatePicker() {
     this.isSubmitted = false;
-    
+
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
@@ -726,20 +731,20 @@ export class AddcommentsinfoPage {
 
         let monthstr = date.getMonth() + parseInt("1");
 
-       
+
         if (new Date().getTime() < date.getTime()) {
           this.isFuture = 0;
           this.isSubmitted = false;
-         
+
           this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
         } else {
           this.isFuture = 1;
           this.isSubmitted = true;
-      
+
           this.unitDetailData.nextServiceDate = '';
         }
       },
-      err =>{}
+      err => { }
       );
   }
 
@@ -888,14 +893,14 @@ export class AddcommentsinfoPage {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
-            
+
           }
         },
         {
           text: 'Cancel',
           handler: () => {
             this.is_request = false;
-           
+
           }
         }
       ],
@@ -932,7 +937,7 @@ export class AddcommentsinfoPage {
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-              
+
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -943,7 +948,7 @@ export class AddcommentsinfoPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-       
+
 
             const options: CameraOptions = {
               quality: 100,
@@ -954,7 +959,7 @@ export class AddcommentsinfoPage {
             }
 
             this.camera.getPicture(options).then((uri) => {
-             
+
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -967,7 +972,7 @@ export class AddcommentsinfoPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]
@@ -975,5 +980,12 @@ export class AddcommentsinfoPage {
     actionSheet.present();
     return false;
   }
-  
+  showAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 }

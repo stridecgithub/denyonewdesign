@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, ModalController,App } from 'ionic-angular';
+import { NavController, NavParams, Platform, ModalController, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
@@ -62,9 +62,10 @@ export class AddalarmPage {
   mindate;
   alarm_assgined_to;
   alarm_remark;
-
+  code;
+  trendlineshow;
   public atmentioneddata = [];
-  constructor(private app:App,public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
+  constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
@@ -75,7 +76,7 @@ export class AddalarmPage {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
-        }        if (this.NP.get("from") == 'alarm') {
+        } if (this.NP.get("from") == 'alarm') {
           this.navCtrl.setRoot(AlarmPage,
             {
               record: this.NP.get("record")
@@ -93,7 +94,7 @@ export class AddalarmPage {
         } else {
 
         }
-        
+
       });
     });
 
@@ -140,10 +141,10 @@ export class AddalarmPage {
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
 
-   
+
     localStorage.setItem("fromModule", "AddalarmPage");
     let unit_id = this.NP.get("record").alarm_unit_id;
-    
+
     // UnitDetails Api Call		
     let
       typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -151,7 +152,7 @@ export class AddalarmPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unit_id;
-   
+
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
@@ -191,7 +192,7 @@ export class AddalarmPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          
+
 
         }
       }, error => {
@@ -203,7 +204,7 @@ export class AddalarmPage {
 
 
     if (this.NP.get("record")) {
-     
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.item = this.NP.get("record");
@@ -228,19 +229,19 @@ export class AddalarmPage {
       });
 
 
-    
+
 
 
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
-     // type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      // type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       //headers1: any = new Headers({ 'Content-Type': type }),
       options1: any = new RequestOptions({ headers: headers }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyid + "&login=" + this.unitDetailData.userId;
-    
+
     this.http.get(url1, options1)
 
-    
+
     this.http.post(url1, body1, options1)
 
       .subscribe(data => {
@@ -249,7 +250,7 @@ export class AddalarmPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-         
+
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -267,7 +268,7 @@ export class AddalarmPage {
       }, error => {
 
       })
-    
+
     jQuery(".remark").mention({
       users: this.atmentioneddata
     });
@@ -280,7 +281,7 @@ export class AddalarmPage {
     // this.unitDetailData.location = localStorage.getItem("unitlocation");
     // this.unitDetailData.projectname = localStorage.getItem("unitprojectname");
     // this.unitDetailData.colorcodeindications = localStorage.getItem("unitcolorcode");
-   
+
     // this.unitDetailData.lat = localStorage.getItem("unitlat");
     // this.unitDetailData.lng = localStorage.getItem("unitlng");
     // this.unitDetailData.rh = localStorage.getItem("runninghr");
@@ -289,17 +290,22 @@ export class AddalarmPage {
 
   }
   selectEntry(item) {
-  
+
     this.subject = item.alarm_name;
     this.assignedby = this.uname;
     this.alarm_assgined_to = item.alarm_assgined_to;
     this.assigned_to = item.alarm_assgined_to;
     this.recordID = item.alarm_id;
-    this.alarm_priority = item.alarm_priority
+    this.alarm_priority = item.alarm_priority;
     this.alarm_remark = item.alarm_remark;
     this.remark = item.alarm_remark
     this.alarm_received_time = item.alarm_received_time;
-
+    this.code = item.code;
+    if (this.code != '') {
+      this.trendlineshow = 'edit-alarm-top';
+    } else {
+      this.trendlineshow = 'edit-alarm-top-trendline';
+    }
 
   }
   getUserListData() {
@@ -308,7 +314,7 @@ export class AddalarmPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.companyid;
     let res;
-    
+
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -331,11 +337,11 @@ export class AddalarmPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-    
+
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
+
         if (data.json().invalidusers == '') {
 
           let isNet = localStorage.getItem("isNet");
@@ -349,25 +355,26 @@ export class AddalarmPage {
           } else {
             this.networkType = '';
 
-
+            let pushnotify = this.remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
             this.isSubmitted = true;
             let body: string = "is_mobile=1&alarmid=" + this.recordID +
               "&alarm_assigned_by=" + this.userId +
               "&alarm_assigned_to=" + assigned_to +
-              "&alarm_remark=" + this.remark +
+              "&pushnotify=" + pushnotify +
+              "&alarm_remark=" +  encodeURIComponent(this.remark.toString())  +
               "&alarm_assigned_date=" + alarm_assigned_date,
 
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/alarms/assignalarm";
-           
+
 
             this.http.post(url, body, options)
               .subscribe((data) => {
                 if (data.status === 200) {
                   this.hideForm = true;
-                 
+
                   //this.conf.sendNotification(`Successfully assigned`);
                   this.conf.sendNotification(data.json().msg[0].result);
                   localStorage.setItem("userPhotoFile", "");
@@ -398,13 +405,13 @@ export class AddalarmPage {
 
   }
 
- 
+
   tapEvent(hashtag) {
-    
+
     this.unitDetailData.hashtag = hashtag.target.value;
   }
   previous() {
-    
+
     if (this.NP.get("from") == 'alarm') {
       this.navCtrl.setRoot(AlarmPage,
         {
@@ -423,7 +430,7 @@ export class AddalarmPage {
     } else {
 
     }
-      }
+  }
 
   trendlineInfo(alarmid, item) {
     this.navCtrl.setRoot(TrendlinePage, {

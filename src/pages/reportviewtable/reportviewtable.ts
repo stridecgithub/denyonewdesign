@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Platform, AlertController,App } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform, AlertController, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -82,8 +82,16 @@ export class ReportviewtablePage {
   contactnumbers;
   url;
   storageDirectory: string = '';
+  seltypeBtn;
+  exportto;
+  selunit;
+  seltimeframe;
+  seltemplate;
+  public showrunning: boolean = false;
+  public showonline: boolean = false;
+  public showload: boolean = false;
   public buttonClicked: boolean = false;
-  constructor(public app: App,private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
+  constructor(public app: App, private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
@@ -144,7 +152,7 @@ export class ReportviewtablePage {
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userid;
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -154,11 +162,44 @@ export class ReportviewtablePage {
     this.buttonClicked = !this.buttonClicked;
   }
   ionViewDidLoad() {
+    this.exportto = this.NP.get("exportto")
+    this.seltypeBtn = this.NP.get("val");
+    this.selunit = this.NP.get("selunit");
+    this.seltimeframe = this.NP.get("seltimeframe");
+    this.seltemplate = this.NP.get("seltemplate");
+    this.from = this.NP.get("from");
+    this.to = this.NP.get("to");
+    this.showrunning = false;
+    this.showonline = false;
+    this.showload = false;
+    this.getReportResult(this.seltypeBtn, this.exportto, this.selunit, this.seltimeframe, this.seltemplate, this.from, this.to, this.showrunning, this.showonline, this.showload);
+  }
+
+  getReportResult(seltypeBtn, exportto, selunit, seltimeframe, seltemplate, from, to, showrunning, showonline, showload) {
+    
+    this.reportAllLists = [];
+    this.headLists = [];
+    this.headValue = [];
+    if (showrunning == true) {
+      showrunning = 1;
+    } else {
+      showrunning = 0;
+    }
+    if (showonline == true) {
+      showonline = 1;
+    } else {
+      showonline = 0;
+    }
+    if (showload == true) {
+      showload = 1;
+    } else {
+      showload = 0;
+    }
     this.requestsuccess = '';
     this.success = 0;
     this.requestsuccessview = 0;
-    let seltypeBtn = this.NP.get("val");
-   
+
+
     let action;
     let seltype;
     if (seltypeBtn == '1') {
@@ -176,33 +217,36 @@ export class ReportviewtablePage {
 
 
 
-    if (this.NP.get("exportto") == 'graph') {
+    if (exportto == 'graph') {
       this.graphview = 1;
     }
 
 
     if (seltypeBtn != '3' && this.graphview == 0) {
-     
-      let info = this.NP.get("selunit");
-     
-      let 
+
+      //let info = this.NP.get("selunit");
+
+      let
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
-          "&selunit=" + this.NP.get("selunit") +
-          "&seltimeframe=" + this.NP.get("seltimeframe") +
-          "&seltemplate=" + this.NP.get("seltemplate") +
-          "&from=" + this.NP.get("from") +
-          "&to=" + this.NP.get("to") +
-          "&exportto=" + this.NP.get("exportto") +
+          "&selunit=" + selunit +
+          "&seltimeframe=" + seltimeframe +
+          "&seltemplate=" + seltemplate +
+          "&from=" + from +
+          "&to=" + to +
+          "&exportto=" + exportto +
           "&seltype=" + seltype +
           "&action=" + action +
           "&loginid=" + this.userid +
+          "&showrunning=" + showrunning +
+          "&showonline=" + showonline +
+          "&showload=" + showload +
           "&companyid=" + this.companyid;
       let res;
       this.presentLoading(1);
-      //this.http.post(url, body, options)
+     
       this.http.get(url, options)
         ///this.http.post(url, body, options)
         .subscribe((data) => {
@@ -214,8 +258,8 @@ export class ReportviewtablePage {
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
           if (res.totalcount > 0) {
-            this.download(1);
-            this.download(2);
+            this.download(1, showrunning, showonline, showload);
+            this.download(2, showrunning, showonline, showload);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
@@ -267,59 +311,49 @@ export class ReportviewtablePage {
         this.graphview = 0;
         this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
-       
+
       } else {
 
         // For Getting Unit Details in Graph
-        let /*body: string = "is_mobile=1" +
-          "&selunit=" + this.NP.get("selunit") +
-          "&seltimeframe=" + this.NP.get("seltimeframe") +
-          "&seltemplate=" + this.NP.get("seltemplate") +
-          "&from=" + this.NP.get("from") +
-          "&to=" + this.NP.get("to") +
-          "&exportto=" + this.NP.get("exportto") +
-          "&seltype=" + seltype +
-          "&action=" + action +
-          "&loginid=" + this.userid +
-          "&companyid=" + this.companyid,*/
+        let
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
-            "&selunit=" + this.NP.get("selunit") +
-            "&seltimeframe=" + this.NP.get("seltimeframe") +
-            "&seltemplate=" + this.NP.get("seltemplate") +
-            "&from=" + this.NP.get("from") +
-            "&to=" + this.NP.get("to") +
+            "&selunit=" + selunit +
+            "&seltimeframe=" + seltimeframe +
+            "&seltemplate=" + seltemplate +
+            "&from=" + from +
+            "&to=" + to +
             "&exportto=table" +
             "&seltype=" + seltype +
             "&action=" + action +
             "&loginid=" + this.userid +
+            "&showrunning=" + showrunning +
+            "&showonline=" + showonline +
+            "&showload=" + showload +
             "&companyid=" + this.companyid;
 
-      
+
         let res;
         this.presentLoading(1);
-        //this.http.post(url, body, options)
         this.http.get(url, options)
-          ///this.http.post(url, body, options)
-          .subscribe((data) => {
 
+          .subscribe((data) => {
             // If the request was successful notify the user
             res = data.json();
-           
+
             if (seltypeBtn == '1') {
               this.success = 1;
               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
             }
             if (res.totalcount > 0) {
-              // this.download(2);
+
               this.headLists = res.templatedata;
-              this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
+              this.headValue = res.mobilehistorydata;
 
               this.posts = res.mobilehistorydata[0];
-              // this.keys = Object.keys(this.posts);
-              // this.reportAllLists = res.reportdata;
+
               this.totalcount = res.totalcount;
 
               this.location = res.unitdata[0].location;
@@ -355,21 +389,22 @@ export class ReportviewtablePage {
         // For Gettting Unit Details in Graph
 
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
-          "&selunit=" + this.NP.get("selunit") +
-          "&seltimeframe=" + this.NP.get("seltimeframe") +
-          "&seltemplate=" + this.NP.get("seltemplate") +
-          "&from=" + this.NP.get("from") +
-          "&to=" + this.NP.get("to") +
-          "&exportto=" + this.NP.get("exportto") +
+          "&selunit=" + selunit +
+          "&seltimeframe=" + seltimeframe +
+          "&seltemplate=" + seltemplate +
+          "&from=" + from +
+          "&to=" + to +
+          "&exportto=" + exportto +
           "&seltype=" + seltype +
           "&action=" + action +
           "&loginid=" + this.userid +
+          "&showrunning=" + showrunning +
+          "&showonline=" + showonline +
+          "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-        
       }
     }
-
   }
   presentLoading(parm) {
     let loader;
@@ -398,8 +433,22 @@ export class ReportviewtablePage {
       val: this.NP.get("val")
     });
   }
-  download(val) {
-     
+  download(val, showrunning, showonline, showload) {
+    if (showrunning == true) {
+      showrunning = 1;
+    } else {
+      showrunning = 0;
+    }
+    if (showonline == true) {
+      showonline = 1;
+    } else {
+      showonline = 0;
+    }
+    if (showload == true) {
+      showload = 1;
+    } else {
+      showload = 0;
+    }
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -414,10 +463,12 @@ export class ReportviewtablePage {
         "&seltype=" + val +
         "&action=view" +
         "&loginid=" + this.userid +
+        "&showrunning=" + showrunning +
+        "&showonline=" + showonline +
+        "&showload=" + showload +
         "&companyid=" + this.companyid;
     let res;
     this.presentLoading(1);
-    //this.http.post(url, body, options)
     this.http.get(url, options)
       ///this.http.post(url, body, options)
       .subscribe((data) => {
@@ -432,7 +483,7 @@ export class ReportviewtablePage {
           uri = res.csv;
           this.csvDownloadLink = uri;
         }
-       
+
         //this.downloadLink = uri;
         this.pdfdownloadview = 1;
         let pdfFile = uri;
@@ -448,12 +499,12 @@ export class ReportviewtablePage {
         // if (val == 1) {
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
-         
-         
+
+
 
           this.pdfdownloadview = 0;
         }, (error) => {
-         
+
         });
 
 

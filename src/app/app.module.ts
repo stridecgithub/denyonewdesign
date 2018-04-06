@@ -90,11 +90,13 @@ import { PopoverchoosecolorPage } from '../pages/popoverchoosecolor/popoverchoos
 import { Unitgrouplist } from '../pages/unitgrouplist/unitgrouplist';
 import { ReporttemplatedetailPage } from '../pages/reporttemplatedetail/reporttemplatedetail';
 import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
-import { Push} from '@ionic-native/push';
+import { Push } from '@ionic-native/push';
 
 import { PermissionPage } from '../pages/permission/permission';
+import { LongPressModule } from 'ionic-long-press';
+import { ViewunitPage } from '../pages/viewunit/viewunit';
 @NgModule({
-  declarations: [    
+  declarations: [
     PermissionPage,
     ProgressBarComponent,
     ReporttemplatedetailPage,
@@ -167,15 +169,16 @@ import { PermissionPage } from '../pages/permission/permission';
     AddrolePage,
     RequestdenyoPage,
     ChangepasswordPage,
-    ReportviewPage,   
+    ReportviewPage,
     EngineviewPage,
-	PopoverchoosecolorPage
-
+    PopoverchoosecolorPage,
+    ViewunitPage
   ],
   imports: [
     BrowserModule,
     HttpModule,
     DragulaModule,
+    LongPressModule,
     IonicModule.forRoot(MyApp, {
       platforms: {
         android: {
@@ -263,7 +266,8 @@ import { PermissionPage } from '../pages/permission/permission';
     ChangepasswordPage,
     ReportviewPage,
     EngineviewPage,
-	PopoverchoosecolorPage
+    PopoverchoosecolorPage,
+    ViewunitPage
   ],
   providers: [
     Config,

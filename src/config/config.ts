@@ -6,9 +6,8 @@ export class Config {
         public toastCtrl: ToastController) {
     }
     apiBaseURL() { // Base URL configuration
-        return 'http://denyoappv2.stridecdev.com';// live
-        //return 'http://denyodev1.stridecdev.com';// Testing
-
+       return 'http://denyoappv2.stridecdev.com';// live
+       // return 'http://denyodev1.stridecdev.com';// Testing
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";
@@ -20,9 +19,7 @@ export class Config {
     networkErrMsg() {
         return "Connection Error:Internet connection not available";
     }
-    popoverThemeJSIonic() {
-        return 0;
-    }
+  
 
     presentLoading(parm) {
 

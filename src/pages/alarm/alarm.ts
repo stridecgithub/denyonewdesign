@@ -95,14 +95,14 @@ export class AlarmPage {
     });
 
   }
-  presentModal(unit) {    
+  presentModal(unit) {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
   ionViewDidEnter() {
-   
+
     localStorage.setItem("fromModule", "AlarmPage");
-    
+
 
     this.unitDetailData.unit_id = localStorage.getItem("unitId");
 
@@ -123,11 +123,11 @@ export class AlarmPage {
       optionsunit: any = new RequestOptions({ headers: headersunit }),
       urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
         "&unitid=" + unid;
-  
+
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-         
+
           this.unitDetailData.unitname = data.json().units[0].unitname;
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
@@ -164,7 +164,7 @@ export class AlarmPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-         
+
 
         }
       }, error => {
@@ -190,7 +190,7 @@ export class AlarmPage {
       });
   }
   doRefresh(refresher) {
-   
+
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doAlarm();
@@ -214,13 +214,11 @@ export class AlarmPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarm";
     let res;
-
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
 
-     
         if (res.alarms.length > 0) {
 
           for (let alarm in res.alarms) {
@@ -230,7 +228,7 @@ export class AlarmPage {
             let wrn = res.alarms[alarm].alarm_name.includes('Wrn');
             let alarm_priority;
             alarm_priority = res.alarms[alarm].alarm_priority
-           
+
             if (fls > 0) {
               alarm_priority = 3;
             }
@@ -242,9 +240,28 @@ export class AlarmPage {
             let act = res.alarms[alarm].alarm_name.includes('!');
             let activealarm;
             let activealarmtext;
-            if (act > 0) {             
+            if (act > 0) {
               activealarmtext = 'active-alarm-text';
             }
+            let trendlineshow;
+            if (res.alarms[alarm].code != '') {
+              trendlineshow = 'trendlineshow';
+
+            } else {
+              trendlineshow = 'trendlineshow-none';
+
+            }
+
+            let color;
+            let ispadding;
+            if (res.alarms[alarm].isactivealarm >0) {
+              color = '#ffffff';
+              ispadding = '3px';
+            } else {
+              color = '#000000';
+              ispadding = '0px';
+            }
+
 
             this.reportAllLists.push({
               alarm_id: res.alarms[alarm].alarm_id,
@@ -258,18 +275,26 @@ export class AlarmPage {
               alarm_received_date: res.alarms[alarm].alarm_received_date,
               alarm_received_time: res.alarms[alarm].alarm_received_time,
               alarm_assgined_to: res.alarms[alarm].alarm_assgined_to,
-              alarm_remark: res.alarms[alarm].alarm_remark
+              alarm_remark: res.alarms[alarm].alarm_remark,
+              code: res.alarms[alarm].code,
+              trendlineshow: trendlineshow,
+              alarmicon: res.alarms[alarm].alarmicon,
+              bgcolor: res.alarms[alarm].bgcolor,
+              isactivealarm: res.alarms[alarm].isactivealarm,
+              color: color,
+              ispadding: ispadding
+              
 
             });
           }
-    
+         
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
           this.conf.presentLoading(0);
           this.totalCount = 0;
         }
-       
+
       }, error => {
         this.conf.presentLoading(0);
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -280,7 +305,7 @@ export class AlarmPage {
 
   }
   doInfinite(infiniteScroll) {
-  
+
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doAlarm();
@@ -361,7 +386,7 @@ export class AlarmPage {
         {
           text: 'Asc',
           handler: data => {
-          
+
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';

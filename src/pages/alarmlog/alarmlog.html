@@ -58,12 +58,15 @@
   <ion-list>
     <ion-item-sliding *ngFor="let alarmitem of reportAllLists">
       <ion-item>
-        <div ngClass="load{{alarmitem.alarm_priority}}" (click)="doAlarmLogDetail(alarmitem)">
-          <ion-icon name="information-circle"></ion-icon>
+        <div class="info" ngClass="load{{alarmitem.alarm_priority}}" (click)="doAlarmLogDetail(alarmitem)">
+          <!-- <ion-icon name="information-circle"></ion-icon> -->
+
+          <img alt="" src="assets/imgs/{{alarmitem.alarmicon}}.png">
           <ion-row>
             <ion-col col-12>
-              <h1 style="white-space: normal;" ngClass="{{alarmitem.activealarmtext}}">{{alarmitem.alarm_name}}</h1>
-              <p>Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}}
+                <div><h1 style="white-space: normal;display:inline" [ngStyle]="{'padding':  alarmitem.ispadding,'color':  alarmitem.color,'background-color':  alarmitem.bgcolor}">{{alarmitem.alarm_name}}</h1></div>
+              <br>
+                <p>Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}}
                 <br> Assigned to: {{alarmitem.alarm_assginedto_name}} {{alarmitem.alarm_assginedto_hashtag}} </p>
               <div class="date">
                 {{alarmitem.alarm_received_date_mobileview}}

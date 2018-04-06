@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform,App } from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform, App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -190,11 +190,11 @@ export class ServicedetailsPage {
     }
     localStorage.setItem("microtime", this.micro_timestamp);
 
-   
-    var date = new Date();
+
+    //var date = new Date();
 
     this.serviced_date = moment().format();
-  
+
 
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
@@ -256,8 +256,8 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -292,7 +292,7 @@ export class ServicedetailsPage {
         this.isSubmitted = false;
       }
 
-     
+
       // UnitDetails Api Call		
       let
         typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -300,7 +300,7 @@ export class ServicedetailsPage {
         optionsunit: any = new RequestOptions({ headers: headersunit }),
         urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
           "&unitid=" + this.service_unitid;
-     
+
       this.http.get(urlunit, optionsunit)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -340,7 +340,7 @@ export class ServicedetailsPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-          
+
 
           }
         }, error => {
@@ -348,19 +348,19 @@ export class ServicedetailsPage {
         });
       // Unit Details API Call
     }
-    
+
 
 
     let body1: string = '',
       //body: string = "key=delete&recordID=" + recordID,
-     
-      
+
+
       options1: any = new RequestOptions({ headers: headers }),
       url1: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    
+
     this.http.get(url1, options1)
 
-   
+
 
     this.http.post(url1, body1, options1)
 
@@ -370,7 +370,7 @@ export class ServicedetailsPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-         
+
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
               this.atmentioneddata.push({
@@ -387,7 +387,7 @@ export class ServicedetailsPage {
       }, error => {
 
       })
-   
+
     jQuery(".service_remark").mention({
       users: this.atmentioneddata
     });
@@ -408,8 +408,8 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
         let favorite;
@@ -456,7 +456,7 @@ export class ServicedetailsPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-   
+
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -481,13 +481,13 @@ export class ServicedetailsPage {
 
 
 
-     fileTransfer.onProgress(this.onProgress);
+    fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isProgress = true;
-       
+
         let res = JSON.parse(data.response);
-        
+
 
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
@@ -519,7 +519,7 @@ export class ServicedetailsPage {
         this.isUploadedProcessing = false;
         return false;
       }, (err) => {
-      
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -536,7 +536,7 @@ export class ServicedetailsPage {
 
   saveEntry(status) {
     if (this.isUploadedProcessing == false) {
-          let service_remark = jQuery(".service_remark").val();
+      let service_remark = jQuery(".service_remark").val();
       let description = jQuery(".description").val();
 
 
@@ -561,7 +561,7 @@ export class ServicedetailsPage {
         });
       // Personal hashtag checking....
 
-    
+
       if (status == 1) {
         if (service_remark == '') {
           this.conf.sendNotification("Service remark is required");
@@ -569,14 +569,14 @@ export class ServicedetailsPage {
         }
       }
       let
-      
+
         next_service_date: string = this.form.controls["next_service_date"].value,
         serviced_by: string = this.form.controls["serviced_by"].value,
         is_request: string = this.form.controls["is_request"].value,
         service_scheduled_date: string = this.form.controls["service_scheduled_date"].value,
-        
+
         service_subject: string = this.form.controls["service_subject"].value;
-     
+
 
 
       // Personal hashtag checking....
@@ -591,7 +591,7 @@ export class ServicedetailsPage {
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-         
+
           if (data.json().invalidusers == '') {
             this.createEntry(service_scheduled_date, description, status, service_scheduled_date, '', service_remark, next_service_date, serviced_by, is_request, service_subject, this.addedServiceImgLists, this.unitDetailData.hashtag, this.unitDetailData.nextServiceDate, this.micro_timestamp);
           } else {
@@ -633,7 +633,7 @@ export class ServicedetailsPage {
     } else if (nextServiceDate == '') {
       nextServiceDate = '';
     }
-   
+
 
     if (is_request == true) {
       is_request = 1;
@@ -655,6 +655,8 @@ export class ServicedetailsPage {
       serviced_by = '0';
     }
     // service_subject = 'my service';
+    let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
+    let descriptionnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     let body: string = "is_mobile=1" +
 
       "&service_unitid=" + this.service_unitid +
@@ -663,9 +665,11 @@ export class ServicedetailsPage {
       "&time=" + serviced_time +
       "&service_status=" + status +
       "&service_scheduled_date=" + serviced_date +
-      "&description=" + description +
-      "&service_remark=" + service_remark +
-      "&service_description=" + description +
+      "&pushnotify=" + pushnotify +
+      "&descriptionnotify=" + descriptionnotify +
+      "&description=" + encodeURIComponent(description.toString()) +
+      "&service_remark=" + encodeURIComponent(service_remark.toString()) +
+      "&service_description=" +
       "&next_service_date=" + nextServiceDate +
       "&next_service_date_selected=" + this.next_service_date_selected +
       "&is_denyo_support=" + is_denyo_support +
@@ -677,18 +681,16 @@ export class ServicedetailsPage {
       "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
 
 
-     
+
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
-    
-    
-
+    //this.showAlert('Service Update API URL:', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
-        
+
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -724,74 +726,7 @@ export class ServicedetailsPage {
 
 
 
-  // Update an existing record that has been edited in the page's HTML form
-  // Use angular's http post method to submit the record data
-  // to our remote PHP script (note the body variable we have created which
-  // supplies a variable of key with a value of update followed by the key/value pairs
-  // for the record data
-  updateEntry(serviced_date, serviced_time, service_remark, next_service_date, serviced_by, is_request, service_subject, addedImgLists, remarkget, nextServiceDate, micro_timestamp) {
-    this.isSubmitted = true;
-    // if (localStorage.getItem("atMentionResult") != '') {
-    //   service_remark = localStorage.getItem("atMentionResult");
-    // }
-    if (this.service_priority == undefined) {
-      this.service_priority = 0;
-    }
-    if (this.service_priority == 'undefined') {
-      this.service_priority = 0;
-    }
-    if (nextServiceDate == 'undefined') {
-      nextServiceDate = '';
-    }
-    if (nextServiceDate == undefined) {
-      nextServiceDate = '';
-    }
-    let body: string = "is_mobile=1&service_id=" + this.service_id +
-      "&serviced_datetime=" + serviced_date +
-      "&service_priority=" + this.service_priority +
-      "&service_unitid=" + this.service_unitid +
-      "&service_remark=" + service_remark +
-      "&next_service_date=" + nextServiceDate +
-      "&next_service_date_selected=" + this.next_service_date_selected +
-      "&is_denyo_support=" + is_request +
-      "&serviced_by=" + this.unitDetailData.userId +
-      "&is_request=" + is_request +
-      "&service_subject=" + service_subject +
-      "&micro_timestamp=" + micro_timestamp +
-      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
 
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/services/update";
-    
-    
-    this.http.post(url, body, options)
-      .subscribe(data => {
-       
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          localStorage.setItem("microtime", "");
-          this.addedServiceImgLists = [];
-          this.service_subject = '';
-          this.service_remark = '';
-          this.addedServiceImgLists = [];
-          //this.conf.sendNotification(`Servicing info  was successfully updated`);
-
-          this.conf.sendNotification(data.json().msg[0]['result']);
-          localStorage.setItem("atMentionResult", '');
-          this.navCtrl.setRoot(ServicinginfoPage, {
-            record: this.NP.get("record")
-          });
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-      });
-  }
 
   getNextDate(val, field) {
     this.isFuture = 0;
@@ -820,7 +755,7 @@ export class ServicedetailsPage {
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
       let dt = date.getDate();
-     
+
       if (mn < 10) {
         monthstr = "0" + mn;
       } else {
@@ -831,7 +766,7 @@ export class ServicedetailsPage {
       } else {
         datestr = dt;
       }
-     
+
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
     }
     if (this.unitDetailData.nextServiceDate != '') {
@@ -880,11 +815,11 @@ export class ServicedetailsPage {
 
         let monthstr = date.getMonth() + parseInt("1");
 
-      
+
         if (new Date().getTime() < date.getTime()) {
           this.isFuture = 0;
           this.isSubmitted = false;
-        
+
           this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
         } else {
           this.isFuture = 1;
@@ -892,7 +827,7 @@ export class ServicedetailsPage {
           this.unitDetailData.nextServiceDate = '';
         }
       },
-      err => {}
+      err => { }
       );
   }
 
@@ -925,7 +860,7 @@ export class ServicedetailsPage {
 
   selectEntry(item) {
 
-
+    console.log("Service Edit Item" + JSON.stringify(item));
 
 
     if (this.NP.get("act") == 'Add') {
@@ -938,30 +873,30 @@ export class ServicedetailsPage {
       localStorage.setItem("microtime", "");
     } else {
 
-       this.service_subject = item.service_subject;
+      this.service_subject = item.service_subject;
 
       this.serviced_scheduled_display = item.serviced_scheduled_display;
       this.serviced_date = item.serviced_scheduled_display;
       if (this.serviced_scheduled_display != '') {
-              if (item.serviced_schduled_date == undefined) {
+        if (item.serviced_schduled_date == undefined) {
           item.serviced_schduled_date = item.service_scheduled_date;
         }
-      
+
       }
 
 
 
-     
+
 
       this.service_scheduled_date = item.serviced_datetime_edit;
-    
+
 
       this.serviced_created_name = item.serviced_created_name;
       this.serviced_created_name_hastag = item.serviced_created_name_hastag;
       this.serviced_created_name_hastag_withinclosedbracket = item.serviced_created_name_hastag_withinclosedbracket;
 
       this.next_service_date_selected = item.next_service_date_selected;
-     
+
       if (this.next_service_date_selected == 1) {
         this.weekselection = 'weekselection';
         this.next_service_date = item.next_service_date;
@@ -978,7 +913,7 @@ export class ServicedetailsPage {
         this.next_service_date = '';
       }
       this.next_service_date_mobileview = item.next_service_date_mobileview;
-    
+
       if (item.description == undefined) {
         this.description = item.service_description;
       } else {
@@ -1000,12 +935,12 @@ export class ServicedetailsPage {
 
     this.service_resources = item.service_resources;
     if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-    
+
       let hashhypenhash = this.service_resources.split("#-#");
-     
+
       for (let i = 0; i < hashhypenhash.length; i++) {
         let imgDataArr = hashhypenhash[i].split("|");
-     
+
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
         this.addedServiceImgLists.push({
@@ -1024,10 +959,10 @@ export class ServicedetailsPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/servicebyid";
-    
+
     this.http.post(url1, body, options1)
       .subscribe((data) => {
-       
+
         this.service_resources = data.json().servicedetail[0].service_resources;
         if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
           let hashhypenhash = this.service_resources.split("#-#");
@@ -1135,14 +1070,14 @@ export class ServicedetailsPage {
           text: 'Cancel',
           handler: () => {
             this.is_request = false;
-           
+
           }
         },
         {
           text: 'Ok',
           handler: () => {
             this.is_request = true;
-           
+
           }
         }
       ],
@@ -1181,7 +1116,7 @@ export class ServicedetailsPage {
 
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
-             
+
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -1191,7 +1126,7 @@ export class ServicedetailsPage {
         }, {
           text: 'From Camera',
           icon: 'md-camera',
-          handler: () => {          
+          handler: () => {
 
             const options: CameraOptions = {
               quality: 100,
@@ -1202,7 +1137,7 @@ export class ServicedetailsPage {
             }
 
             this.camera.getPicture(options).then((uri) => {
-            
+
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -1215,7 +1150,7 @@ export class ServicedetailsPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]

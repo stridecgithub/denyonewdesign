@@ -278,7 +278,12 @@ export class ModalPage {
        
         genstatus = this.navParams.get('unitdata').gen_status;
       }
-      iconDisplay = 'assets/imgs/marker-' + genstatus + '.png'
+
+      if (this.navParams.get('unitdata').mapicon != undefined) {
+        iconDisplay = 'assets/imgs/marker-' +this.navParams.get('unitdata').mapicon + '.png';
+      }
+
+     // iconDisplay = 'assets/imgs/marker-' + genstatus + '.png'
       let marker = new google.maps.Marker({
         position: markerData,
         map: map,

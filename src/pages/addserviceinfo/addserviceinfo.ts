@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform ,App} from 'ionic-angular';
+import { ActionSheetController, AlertController, NavController, NavParams, ViewController, Platform, App } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -95,7 +95,7 @@ export class AddserviceinfoPage {
   public atmentioneddata = [];
   public companyId: any;
 
-  constructor(private app:App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
+  constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -123,7 +123,7 @@ export class AddserviceinfoPage {
     this.currentyear = date.getFullYear();
     this.isFuture = 0;
     this.uploadcount = 10;
-    this.serviced_datetime = moment().format(); 
+    this.serviced_datetime = moment().format();
 
     this.servicemindate = this.minDateStr();
     this.servicemaxdate = this.maxDateStr();
@@ -216,7 +216,7 @@ export class AddserviceinfoPage {
     // this.tabBarElement.style.display = 'none';
     this.addedServiceImgLists = [];
     localStorage.setItem("fromModule", "AddserviceinfoPage");
-    
+
 
 
     // Atmentioned API Calls
@@ -226,10 +226,10 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/hashtags?companyid=" + this.companyId + "&login=" + this.unitDetailData.userId;
-    
+
     this.http.get(url, options)
 
-   
+
 
     this.http.post(url, body, options)
 
@@ -239,7 +239,7 @@ export class AddserviceinfoPage {
         if (data.status === 200) {
           // this.atmentioneddata = data.json();
           res = data.json();
-         
+
 
           if (res.staffs.length > 0) {
             for (let staff in res.staffs) {
@@ -257,7 +257,7 @@ export class AddserviceinfoPage {
       }, error => {
 
       })
-  
+
     jQuery(".description").mention({
       users: this.atmentioneddata
     });
@@ -270,18 +270,18 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
-   
+
 
 
 
@@ -305,7 +305,7 @@ export class AddserviceinfoPage {
       }
 
 
-    
+
       // UnitDetails Api Call		
       let
         typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -313,7 +313,7 @@ export class AddserviceinfoPage {
         optionsunit: any = new RequestOptions({ headers: headersunit }),
         urlunit: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
           "&unitid=" + this.service_unitid;
-    
+
       this.http.get(urlunit, optionsunit)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -353,7 +353,7 @@ export class AddserviceinfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-           
+
 
           }
         }, error => {
@@ -396,7 +396,7 @@ export class AddserviceinfoPage {
 
   fileTrans(path, micro_timestamp) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    
+
 
     //YmdHis_123_filename
     let dateStr = new Date();
@@ -421,13 +421,13 @@ export class AddserviceinfoPage {
 
 
 
-     fileTransfer.onProgress(this.onProgress);
+    fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/fileupload.php?micro_timestamp=' + micro_timestamp, options)
       .then((data) => {
         this.isSubmitted = true;
-       
+
         let res = JSON.parse(data.response);
-        
+
 
         let imgSrc;
         imgSrc = this.apiServiceURL + "/serviceimages" + '/' + newFileName;
@@ -438,7 +438,7 @@ export class AddserviceinfoPage {
           resouce_id: res.id
         });
 
-      
+
         this.uploadcount = 10;
         if (this.addedServiceImgLists.length > 9) {
           this.isUploaded = false;
@@ -462,7 +462,7 @@ export class AddserviceinfoPage {
         //this.uploadToServer(data.response);
         // Save in Backend and MysQL
       }, (err) => {
-       
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -500,11 +500,11 @@ export class AddserviceinfoPage {
           headers: any = new Headers({ 'Content-Type': type }),
           options: any = new RequestOptions({ headers: headers }),
           url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-      
+
 
         this.http.post(url, body, options)
           .subscribe((data) => {
-          
+
             if (data.json().invalidusers == '') {
               this.createEntry(description, serviced_datetime, serviced_by, service_subject);
             } else {
@@ -537,40 +537,41 @@ export class AddserviceinfoPage {
     }
 
 
-   
+
     if (serviced_date == 'undefined') {
 
       this.serviced_datetime = new Date().toJSON().split('T')[0];
-     
+
       serviced_date = this.serviced_datetime
     }
     if (serviced_date == undefined) {
       this.serviced_datetime = new Date().toJSON().split('T')[0];
-     
+
       serviced_date = this.serviced_datetime
     }
-
+    let pushnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     //description = localStorage.getItem("atMentionResult");
-  let body: string = "is_mobile=1" +
+    let body: string = "is_mobile=1" +
       "&unitid=" + this.service_unitid +
       "&dateandtime=" + serviced_date +
-      "&description=" + description +
+      "&pushnotify=" + pushnotify +
+      "&description=" + encodeURIComponent(description.toString()) +     
       "&is_denyo_support=0" +
       "&created_by=" + this.unitDetailData.userId +
       "&is_request=0" +
       "&subject=" + service_subject,
-      
+
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-    
-    
+
+    console.log("New Scheduled Service:" + url + "?" + body);
 
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -596,7 +597,7 @@ export class AddserviceinfoPage {
       });
   }
 
- 
+
 
   // Update an existing record that has been edited in the page's HTML form
   // Use angular's http post method to submit the record data
@@ -672,7 +673,7 @@ export class AddserviceinfoPage {
 
             }
           }
-          this.uploadcount = 10 - this.addedServiceImgLists.length;         
+          this.uploadcount = 10 - this.addedServiceImgLists.length;
         }
       },
       {
@@ -728,7 +729,7 @@ export class AddserviceinfoPage {
         {
           text: 'Ok',
           handler: () => {
-           
+
           }
         },
         {
@@ -791,7 +792,7 @@ export class AddserviceinfoPage {
             };
 
             this.camera.getPicture(options).then((uri) => {
-            
+
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -804,7 +805,7 @@ export class AddserviceinfoPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]

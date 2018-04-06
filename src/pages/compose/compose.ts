@@ -88,6 +88,8 @@ export class ComposePage {
 
     private transfer: FileTransfer,
     private ngZone: NgZone, public platform: Platform) {
+    //this.isProgress = true;
+    //this.progress = 50;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
 
@@ -397,13 +399,10 @@ export class ComposePage {
           fileSize: flsize[i],
           resource_id: resourceid[i],
           oldnew: ondata,
-          // fileSize: data.json()[i].filesize_kb,
-          // resouce_id: data.json()[i].messageresource_id,
-          //  imgSrc: imgSrc
         });
       }
 
-     
+
 
     }
   }
@@ -651,7 +650,7 @@ export class ComposePage {
       .then((data) => {
 
         this.nowuploading = 1;
-        let successData = JSON.parse(data.response);
+       // let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
 

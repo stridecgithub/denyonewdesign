@@ -1,5 +1,5 @@
 page-alarm{
-
+	
 	.active-alarm-text{
 		color: white;
 		background-color: red;
@@ -62,7 +62,7 @@ page-alarm{
 	border-bottom: 0px solid #d6d6d6;
 	overflow: hidden;
 	img{
-		width: 20%;
+		width: 25%;
 		float: left;
 		padding: 14px 12px 0px 16px;
 	}
@@ -93,6 +93,21 @@ page-alarm{
    	color: #424242;
     font-size: 12px;
 	}
+
+	.trendlineshow{
+		color: #424242;
+		float: right;
+    margin: 18px -41px 0 0;   
+    font-size: 12px;
+	}
+
+	.trendlineshow-none{
+		color: #424242;
+		float: right;
+    margin: 18px -4px 0 0;   
+    font-size: 12px;
+	}
+	
 }
 .load{
 	border-bottom: 1px solid #d6d6d6;
@@ -128,4 +143,5 @@ page-alarm{
 		margin: 16px -26px 0 0;
 		color: #424242;
 	}
+	
 }

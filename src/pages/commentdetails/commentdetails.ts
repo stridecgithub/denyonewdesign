@@ -64,7 +64,7 @@ export class CommentdetailsPage {
       //this.tabBarElement.style.display = 'none';
     }
     if (this.NP.get("event_id")) {
-      let eventType = this.NP.get("event_type");
+     // let eventType = this.NP.get("event_type");
      
 
 
