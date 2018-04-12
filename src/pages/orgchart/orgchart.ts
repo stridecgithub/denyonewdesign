@@ -10,6 +10,7 @@ import { Config } from '../../config/config';
 import { DashboardPage } from "../dashboard/dashboard";
 import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
 import { ComposePage } from "../compose/compose";
+import { PermissionPage } from '../../pages/permission/permission';
 //import { PermissionPage } from '../permission/permission';
 //declare var jQuery: any;
 /**
@@ -53,6 +54,7 @@ export class OrgchartPage {
   public userId: any;
   public companyId: any;
   public CREATEACCESS: any;
+  public VIEWACCESS: any;  
   public tap: number = 600;
   timeout: any;
   width: any;
@@ -106,6 +108,10 @@ export class OrgchartPage {
 
 
     this.CREATEACCESS = localStorage.getItem("SETTINGS_ORGCHART_CREATE");
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_ORGCHART_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
     this.networkType = '';

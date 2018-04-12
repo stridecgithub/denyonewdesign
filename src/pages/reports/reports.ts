@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform,App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -20,6 +20,7 @@ import { ReportviewPage } from '../reportview/reportview';
 import { Config } from '../../config/config';
 
 import * as moment from 'moment';
+import { PermissionPage } from '../../pages/permission/permission';
 @Component({
   selector: 'page-reports',
   templateUrl: 'reports.html',
@@ -33,7 +34,7 @@ import * as moment from 'moment';
 export class ReportsPage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
   //map: any;
-  public footerBar  = [];
+  public footerBar = [];
   public loginas: any;
   public form: FormGroup;
   public userid: any;
@@ -66,25 +67,26 @@ export class ReportsPage {
   public graphradiochk: boolean = false;
   public CREATEACCESS;
 
+  public VIEWACCESS: any;
   /* public start_date = '2017-08-02';
   public end_date = '2017-08-02';
 */
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "";
-  constructor(public app: App,private conf: Config,private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
-    public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController,public platform:Platform) {
-      this.apiServiceURL = this.conf.apiBaseURL();
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
+  constructor(public app: App, private conf: Config, private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
+    public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public platform: Platform) {
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-          this.navCtrl.setRoot(DashboardPage);
-        });
+        this.navCtrl.setRoot(DashboardPage);
       });
+    });
 
-      
+
     this.pageTitle = 'Reports';
     this.mindate = moment().format();
     this.loginas = localStorage.getItem("userInfoName");
@@ -106,8 +108,13 @@ export class ReportsPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-   
+
     this.CREATEACCESS = localStorage.getItem("REPORTS_REPORTS_CREATE");
+
+    this.VIEWACCESS = localStorage.getItem("REPORTS_REPORTS_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
   }
   isNet() {
     let isNet = localStorage.getItem("isNet");
@@ -146,8 +153,8 @@ export class ReportsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userid;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -177,26 +184,26 @@ export class ReportsPage {
         let monthstr = date.getMonth() + parseInt("1");
         if (val == '1') {
           this.from = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
-          
+
           this.start_date = this.from;
         }
         if (val == '2') {
           this.to = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
-         
+
           this.end_date = this.to;
         }
       },
-      err =>{}
+      err => { }
       );
 
-   
+
   }
 
 
   saveEntry(val, from, to) {
     this.from = from;
     this.to = to;
-  
+
     let selunit: string = this.form.controls["selunit"].value,
       seltemplate: string = this.form.controls["seltemplate"].value,
       seltimeframe: string = this.form.controls["seltimeframe"].value;
@@ -245,7 +252,7 @@ export class ReportsPage {
     }
 
 
-     this.nav.setRoot(ReportviewtablePage, {
+    this.nav.setRoot(ReportviewtablePage, {
       selunit: selunit,
       seltemplate: seltemplate,
       seltimeframe: seltimeframe,
@@ -264,11 +271,11 @@ export class ReportsPage {
 
 
   getTemplate(templateId) {
-   
+
   }
 
   getFormat(format) {
-   
+
     this.isSubmitted = false;
     if (format == 'graph') {
       this.isSubmitted = true;
@@ -280,9 +287,9 @@ export class ReportsPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-       url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
+      url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
     let res;
-   
+
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
@@ -317,31 +324,31 @@ export class ReportsPage {
       this.seltemplate = this.NP.get("seltemplate")
       this.seltimeframe = this.NP.get("seltimeframe")
       if (this.exportto == 'graph') {
-        this.tableradiochk=false;
-        this.graphradiochk=true;
+        this.tableradiochk = false;
+        this.graphradiochk = true;
       }
 
       if (this.exportto == 'table') {
-        this.tableradiochk=true;
-        this.graphradiochk=false;
+        this.tableradiochk = true;
+        this.graphradiochk = false;
       }
 
 
 
     }
-    
+
   }
 
   previous() {
-     this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
 
   viewreport() {
-     this.navCtrl.setRoot(RequestdenyoPage);
+    this.navCtrl.setRoot(RequestdenyoPage);
   }
 
   viewreportpage() {
-     this.navCtrl.setRoot(ReportviewPage);
+    this.navCtrl.setRoot(ReportviewPage);
   }
 
 

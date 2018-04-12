@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, ToastController, AlertController, NavParams,Platform,App } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddcompanygroupPage } from '../addcompanygroup/addcompanygroup';
@@ -7,7 +7,7 @@ import { LoadingController } from 'ionic-angular';
 //import { MyaccountPage } from '../myaccount/myaccount';
 import { NotificationPage } from '../notification/notification';
 import { CompanydetailPage } from '../companydetail/companydetail';
-
+import { PermissionPage } from '../../pages/permission/permission';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
 /**
@@ -26,32 +26,33 @@ export class CompanygroupPage {
   public pageTitle: string;
   public loginas: any;
   public Role;
-   
+
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
-  public loadingMoreDataContent:string;
+  public VIEWACCESS: any;
+  public loadingMoreDataContent: string;
   private apiServiceURL: string = "";
   public totalCount;
-   public companyId:any;
-  pet: string = "ALL";  
+  public companyId: any;
+  pet: string = "ALL";
   public sortby = 2;
   public vendorsort = "asc";
   public ascending = true;
-   public msgcount:any;
-  public notcount:any;
+  public msgcount: any;
+  public notcount: any;
   public sortLblTxt: string = 'Group Name';
   public reportData: any =
-  {
-    status: '',
-    sort: 'companygroup_id',
-    sortascdesc: 'desc',
-    startindex: 0,
-    results: 50
-  }
+    {
+      status: '',
+      sort: 'companygroup_id',
+      sortascdesc: 'desc',
+      startindex: 0,
+      results: 50
+    }
   public companygroupAllLists = [];
   profilePhoto;
-  constructor(private app:App,public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
+  constructor(private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Company Group';
 
@@ -61,28 +62,32 @@ export class CompanygroupPage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        this.nav.setRoot(DashboardPage);
+        this.navCtrl.setRoot(DashboardPage);
       });
     });
 
 
-    this.loadingMoreDataContent='Loading More Data';
+    this.loadingMoreDataContent = 'Loading More Data';
     this.loginas = localStorage.getItem("userInfoName");
-     this.companyId = localStorage.getItem("userInfoCompanyId");
-      this.Role = localStorage.getItem("userInfoRoleId");
-     
-    this.CREATEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_CREATE");   
-    this.EDITACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_EDIT");    
-    this.DELETEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_DELETE");   
+    this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.Role = localStorage.getItem("userInfoRoleId");
+
+    this.CREATEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_CREATE");
+    this.EDITACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_EDIT");
+    this.DELETEACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_DELETE");
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_COMPANYGROUP_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
-    if(this.profilePhoto == '' || this.profilePhoto == 'null') {
-      this.profilePhoto = this.apiServiceURL +"/images/default.png";
+    if (this.profilePhoto == '' || this.profilePhoto == 'null') {
+      this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
-     this.profilePhoto = this.apiServiceURL +"/staffphotos/" + this.profilePhoto;
+      this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    
+
 
   }
 
@@ -92,7 +97,7 @@ export class CompanygroupPage {
   /* Pull to Refresh */
   /*******************/
   doRefresh(refresher) {
-   
+
     this.reportData.startindex = 0;
     this.companygroupAllLists = [];
     this.doCompanyGroup();
@@ -113,13 +118,13 @@ export class CompanygroupPage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "companygroup_name";
     }
-   
+
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc+"&companyid="+this.companyId;
+      url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -127,10 +132,10 @@ export class CompanygroupPage {
           this.companygroupAllLists = res.companygroups;
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
-          this.loadingMoreDataContent='Loading More Data';
+          this.loadingMoreDataContent = 'Loading More Data';
         } else {
           this.totalCount = 0;
-          this.loadingMoreDataContent='No More Data';
+          this.loadingMoreDataContent = 'No More Data';
         }
 
       });
@@ -152,15 +157,15 @@ export class CompanygroupPage {
   /**********************/
   doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doCompanyGroup();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   ionViewWillEnter() {
     let //body: string = "loginid=" + this.userId,
@@ -168,13 +173,13 @@ export class CompanygroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + localStorage.getItem("userInfoId");
-    
-   
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       this.msgcount=data.json().msgcount;
-        this.notcount=data.json().notifycount;
+        this.msgcount = data.json().msgcount;
+        this.notcount = data.json().notifycount;
       });
     this.reportData.startindex = 0;
     this.reportData.sort = "companygroup_name";
@@ -182,21 +187,20 @@ export class CompanygroupPage {
   }
 
   doAdd() {
-     this.nav.setRoot(AddcompanygroupPage);
+    this.navCtrl.setRoot(AddcompanygroupPage);
   }
-  detail(item)
-  {
-      this.nav.setRoot(CompanydetailPage, {
-       record: item       
-      });
+  detail(item) {
+    this.navCtrl.setRoot(CompanydetailPage, {
+      record: item
+    });
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.nav.setRoot(AddcompanygroupPage, {
+      this.navCtrl.setRoot(AddcompanygroupPage, {
         record: item,
         act: act
       });
-    } 
+    }
   }
 
 
@@ -206,57 +210,55 @@ export class CompanygroupPage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-    
-    if(item.totalunits == 0 || item.totalusers == 0)
-    {
-    let confirm = this.alertCtrl.create({
-      message: 'Are you sure you want to delete this company group?',
-      buttons: [{
-        text: 'Yes',
-        handler: () => {
-          this.deleteEntry(id);
-          for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
-            if (this.companygroupAllLists[q] == item) {
-              this.companygroupAllLists.splice(q, 1);
+
+    if (item.totalunits == 0 || item.totalusers == 0) {
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this company group?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            this.deleteEntry(id);
+            for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
+              if (this.companygroupAllLists[q] == item) {
+                this.companygroupAllLists.splice(q, 1);
+              }
             }
           }
-        }
-      },
-      {
-        text: 'No',
-        handler: () => { }
-      }]
-    });
-  
-  
-    confirm.present();
-  }
-  else
-  {
-    {
-    let confirm = this.alertCtrl.create({
-      message: 'There are some user and units under this Company Group.If delete Company Group,all users and units will be deleted.Are you sure you want to delete?',
-      buttons: [{
-        text: 'Yes',
-        handler: () => {
-          this.deleteEntry(id);
-          for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
-            if (this.companygroupAllLists[q] == item) {
-              this.companygroupAllLists.splice(q, 1);
-            }
-          }
-        }
-      },
-      {
-        text: 'No',
-        handler: () => { }
-      }]
-    });
-  
-  
-    confirm.present();
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+
+
+      confirm.present();
     }
-  }
+    else {
+      {
+        let confirm = this.alertCtrl.create({
+          message: 'There are some user and units under this Company Group.If delete Company Group,all users and units will be deleted.Are you sure you want to delete?',
+          buttons: [{
+            text: 'Yes',
+            handler: () => {
+              this.deleteEntry(id);
+              for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
+                if (this.companygroupAllLists[q] == item) {
+                  this.companygroupAllLists.splice(q, 1);
+                }
+              }
+            }
+          },
+          {
+            text: 'No',
+            handler: () => { }
+          }]
+        });
+
+
+        confirm.present();
+      }
+    }
   }
 
   // Remove an existing record that has been selected in the page's HTML form
@@ -296,7 +298,7 @@ export class CompanygroupPage {
   }
 
 
-  
+
 
   presentLoading(parm) {
     let loader;
@@ -311,16 +313,16 @@ export class CompanygroupPage {
     }
   }
 
- 
- 
+
+
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   doSort() {
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
-        
+
         {
           type: 'radio',
           label: 'Group Name',
@@ -330,11 +332,11 @@ export class CompanygroupPage {
       buttons: [
         {
           text: 'Asc',
-          handler: data => {           
+          handler: data => {
             if (data != undefined) {
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'asc';
-             if (data == 'companygroup_name') {
+              if (data == 'companygroup_name') {
                 this.sortLblTxt = 'Group Name';
               }
               this.reportData.startindex = 0;
@@ -346,12 +348,12 @@ export class CompanygroupPage {
         {
           text: 'Desc',
           handler: data => {
-           
+
             if (data != undefined) {
-            
+
               this.reportData.sort = data;
               this.reportData.sortascdesc = 'desc';
-             if (data == 'companygroup_name') {
+              if (data == 'companygroup_name') {
                 this.sortLblTxt = 'Group Name';
               }
               this.reportData.startindex = 0;

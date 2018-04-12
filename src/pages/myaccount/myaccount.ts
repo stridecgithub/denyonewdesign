@@ -73,10 +73,9 @@ export class MyaccountPage {
     this.loginas = localStorage.getItem("userInfoName");
 
     this.userId = localStorage.getItem("userInfoId");
-    this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_VIEW");   
     if (this.VIEWACCESS == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
-
     }
    
     this.EDITACCESS = localStorage.getItem("SETTINGS_MYACCOUNT_EDIT");

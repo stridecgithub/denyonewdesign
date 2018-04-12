@@ -8,7 +8,7 @@ import { LoadingController } from 'ionic-angular';
 import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
-
+import { PermissionPage } from '../../pages/permission/permission';
 /**
  * Generated class for the UserPage page.
  *
@@ -31,7 +31,8 @@ export class UserPage {
   pet: string = "ALL";
   public CREATEACCESS: any;
   public EDITACCESS: any;
-  public DELETEACCESS: any;
+  public DELETEACCESS: any;  
+public VIEWACCESS: any;  
   public sortby = 2;
   public vendorsort = "asc";
   public ascending = true;
@@ -50,7 +51,7 @@ export class UserPage {
       results: 50
     }
   public userAllLists = [];
-  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public nav: NavController,
+  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Users';
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -61,13 +62,17 @@ export class UserPage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        this.nav.setRoot(DashboardPage);
+       this.navCtrl.setRoot(DashboardPage);
       });
     });
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERLIST_CREATE");
     this.EDITACCESS = localStorage.getItem("SETTINGS_USERLIST_EDIT");
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERLIST_DELETE");
 
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_USERLIST_VIEW");
+    if (this.VIEWACCESS == 0) {
+         this.navCtrl.setRoot(PermissionPage, {});
+       }
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -169,12 +174,12 @@ export class UserPage {
 
   doAdd() {
     localStorage.setItem("photofromgallery", "");
-    this.nav.setRoot(AdduserPage);
+   this.navCtrl.setRoot(AdduserPage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
       localStorage.setItem("photofromgallery", "");
-      this.nav.setRoot(AdduserPage, {
+     this.navCtrl.setRoot(AdduserPage, {
         record: item,
         act: act
       });
@@ -274,10 +279,10 @@ export class UserPage {
   }
 
   previous() {
-    this.nav.setRoot(DashboardPage);
+   this.navCtrl.setRoot(DashboardPage);
   }
   notification() {
-    this.nav.setRoot(NotificationPage);
+   this.navCtrl.setRoot(NotificationPage);
   }
   doSort() {
     let prompt = this.alertCtrl.create({

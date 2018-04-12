@@ -16,6 +16,7 @@ import { NotificationPage } from '../notification/notification';
 //import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
+import { PermissionPage } from '../../pages/permission/permission';
 /**
  * Generated class for the AddrolePage page.
  *
@@ -34,6 +35,7 @@ export class RolePage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  public VIEWACCESS: any;  
   private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
@@ -51,7 +53,7 @@ export class RolePage {
   public roleAllLists = [];
   profilePhoto;
   constructor(public app: App,public platform:Platform,public http: Http, private conf: Config,
-    public nav: NavController,
+    public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Roles';
     this.loginas = localStorage.getItem("userInfoName");
@@ -61,12 +63,16 @@ export class RolePage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        this.nav.setRoot(DashboardPage);
+        this.navCtrl.setRoot(DashboardPage);
       });
     });
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERROLE_CREATE");
     this.EDITACCESS = localStorage.getItem("SETTINGS_USERROLE_EDIT");
     this.DELETEACCESS = localStorage.getItem("SETTINGS_USERROLE_DELETE");
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_USERROLE_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -151,11 +157,11 @@ export class RolePage {
 
 
   doAdd() {
-     this.nav.setRoot(AddrolePage);
+     this.navCtrl.setRoot(AddrolePage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.nav.setRoot(AddrolePage, {
+       this.navCtrl.setRoot(AddrolePage, {
         record: item,
         act: act
       });
@@ -271,10 +277,10 @@ export class RolePage {
     }
   }
   notification() {
-     this.nav.setRoot(NotificationPage);
+     this.navCtrl.setRoot(NotificationPage);
   }
   previous() {
-     this.nav.setRoot(DashboardPage);
+     this.navCtrl.setRoot(DashboardPage);
   }
 
 }

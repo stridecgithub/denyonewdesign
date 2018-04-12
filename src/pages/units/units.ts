@@ -7,7 +7,7 @@ import { UnitdetailsPage } from '../unitdetails/unitdetails';
 import { AddUnitPage } from "../add-unit/add-unit";
 import { ModalPage } from '../modal/modal';
 import { DashboardPage } from '../dashboard/dashboard';
-//import { PermissionPage } from '../permission/permission';
+import { PermissionPage } from '../../pages/permission/permission';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -54,6 +54,7 @@ export class UnitsPage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  public VIEWACCESS: any;
   roleId;
   tabIndexVal;
   constructor(public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
@@ -71,7 +72,11 @@ export class UnitsPage {
     this.EDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_UNITSLISTING_DELETE");
 
-
+ 
+    this.VIEWACCESS = localStorage.getItem("UNITS_UNITSLISTING_VIEW");
+    if (this.VIEWACCESS == 0) {
+         this.navCtrl.setRoot(PermissionPage, {});
+       }
 
 
     this.platform.ready().then(() => {
@@ -131,7 +136,7 @@ export class UnitsPage {
 
     } else {
       this.events.subscribe('user:created', (user, time) => {
-      
+
         this.companyId = user.company_id;
         this.userId = user.staff_id
         this.doUnit();
@@ -181,7 +186,7 @@ export class UnitsPage {
       .subscribe((data) => {
 
         res = data.json();
-       
+
         if (res.units.length > 0) {
 
           for (let unit in res.units) {
@@ -194,13 +199,13 @@ export class UnitsPage {
             } else {
               cname = '';
             }
-         
+
 
             let dur;
             if (this.roleId == 1) {
               dur = 0;
             } else {
-              dur=res.units[unit].duration;
+              dur = res.units[unit].duration;
             }
 
 
@@ -231,7 +236,7 @@ export class UnitsPage {
               duedatecolor: res.units[unit].duedatecolor
             });
           }
-         
+
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -239,7 +244,7 @@ export class UnitsPage {
         }
         this.conf.presentLoading(0);
       }, error => {
-       
+
       });
 
   }
@@ -248,7 +253,7 @@ export class UnitsPage {
   /* @doConfirm called for alert dialog box **/
 
   /******************************************/
-  doConfirm(id, item) {    
+  doConfirm(id, item) {
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this unit?',
       buttons: [{
@@ -294,20 +299,20 @@ export class UnitsPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
-         
+
         }
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-      
+
       });
   }
 
   // List page navigate to notification list
   notification() {
-   
+
     this.navCtrl.setRoot(NotificationPage);
   }
 

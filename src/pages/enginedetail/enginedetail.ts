@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams, Platform,App } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { LoadingController } from 'ionic-angular';
@@ -11,6 +11,7 @@ import { NotificationPage } from '../notification/notification';
 
 import { DashboardPage } from '../dashboard/dashboard';
 import { Config } from '../../config/config';
+import { PermissionPage } from '../../pages/permission/permission';
 /**
  * Generated class for the EnginedetailPage page.
  *
@@ -35,6 +36,7 @@ export class EnginedetailPage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  public VIEWACCESS: any;
   public reportData: any =
     {
       status: '',
@@ -49,7 +51,7 @@ export class EnginedetailPage {
   public userId: any;
   public companyId;
   public profilePhoto;
-  constructor(private app:App,public platform: Platform, public http: Http, private conf: Config, public nav: NavController,
+  constructor(private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public NP: NavParams, public loadingCtrl: LoadingController) {
 
     this.platform.ready().then(() => {
@@ -58,7 +60,7 @@ export class EnginedetailPage {
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-        this.nav.setRoot(DashboardPage);
+        this.navCtrl.setRoot(DashboardPage);
       });
     });
 
@@ -74,13 +76,18 @@ export class EnginedetailPage {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
 
-    
+
   }
 
   ionViewDidLoad() {
     this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_ENGINEMODEL_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_DELETE");
+
+    this.VIEWACCESS = localStorage.getItem("UNITS_ENGINEMODEL_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
   }
   ionViewWillEnter() {
     this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
@@ -91,8 +98,8 @@ export class EnginedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
@@ -117,11 +124,11 @@ export class EnginedetailPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/enginemodel?is_mobile=1";
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
+
 
         if (res.modeldata.length > 0) {
 
@@ -147,23 +154,23 @@ export class EnginedetailPage {
     this.presentLoading(0);
   }
   previous() {
-    this.nav.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
   doAdd() {
-    this.nav.setRoot(AddenginedetailPage);
+    this.navCtrl.setRoot(AddenginedetailPage);
   }
   doInfinite(infiniteScroll) {
-   
+
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doengine();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 
   presentLoading(parm) {
@@ -178,7 +185,7 @@ export class EnginedetailPage {
       loader.dismiss();
     }
   }
-  doConfirm(id, item) {    
+  doConfirm(id, item) {
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this generator model?',
       buttons: [{
@@ -228,7 +235,7 @@ export class EnginedetailPage {
   }
   doEdit(item, act) {
     if (act == 'edit') {
-      this.nav.setRoot(AddenginedetailPage, {
+      this.navCtrl.setRoot(AddenginedetailPage, {
         record: item,
         act: act
       });
@@ -236,7 +243,7 @@ export class EnginedetailPage {
   }
   doView(item, act) {
     if (act == 'detail') {
-      this.nav.setRoot(EngineviewPage, {
+      this.navCtrl.setRoot(EngineviewPage, {
         record: item
       });
       return false;
@@ -244,7 +251,7 @@ export class EnginedetailPage {
   }
 
   notification() {
-    this.nav.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
 }

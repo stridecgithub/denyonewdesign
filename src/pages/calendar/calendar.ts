@@ -600,7 +600,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-
+    console.log(url);
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -712,7 +712,7 @@ export class CalendarPage {
             event_remark: rem_desc,
             event_location: this.serviceIdentify[j]['service_location'],
             event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
-            serviced_by: this.serviceIdentify[j]['serviced_by'],            
+            serviced_by: this.serviceIdentify[j]['serviced_by'],
             event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
             calendar_time: this.serviceIdentify[j]['created_time']
 

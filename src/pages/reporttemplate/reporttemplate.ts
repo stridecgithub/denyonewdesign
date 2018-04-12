@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams,Platform,App } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddreporttemplatePage } from '../addreporttemplate/addreporttemplate';
@@ -9,6 +9,7 @@ import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { ReporttemplatedetailPage } from '../reporttemplatedetail/reporttemplatedetail';
 import { DashboardPage } from '../dashboard/dashboard';
+import { PermissionPage } from '../../pages/permission/permission';
 //import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the UnitgroupPage page.
@@ -31,6 +32,7 @@ export class ReporttemplatePage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  public VIEWACCESS: any;
   public totalCount;
   public reporttemplate;
   public msgcount: any;
@@ -47,23 +49,27 @@ export class ReporttemplatePage {
     }
   public reporttemplateAllLists = [];
   profilePhoto;
-  constructor(public app: App,public platform:Platform,public http: Http, private conf: Config, public nav: NavController,
+  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-          this.nav.setRoot(DashboardPage);
-        });
+       this.navCtrl.setRoot(DashboardPage);
       });
-    
-      this.loginas = localStorage.getItem("userInfoName");
-    this.userId = localStorage.getItem("userInfoId");    
-    this.CREATEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_CREATE");    
-    this.EDITACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_EDIT");   
-    this.DELETEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_DELETE");    
+    });
+
+    this.loginas = localStorage.getItem("userInfoName");
+    this.userId = localStorage.getItem("userInfoId");
+    this.CREATEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_CREATE");
+    this.EDITACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_EDIT");
+    this.DELETEACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_DELETE");
+    this.VIEWACCESS = localStorage.getItem("SETTINGS_REPORTTEMPLATE_VIEW");
+    if (this.VIEWACCESS == 0) {
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     this.pageTitle = 'Report Template';
     this.apiServiceURL = this.conf.apiBaseURL();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
@@ -72,7 +78,7 @@ export class ReporttemplatePage {
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    
+
 
   }
 
@@ -89,18 +95,18 @@ export class ReporttemplatePage {
   }
 
   ionViewDidLoad() {
-   
+
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
@@ -110,7 +116,7 @@ export class ReporttemplatePage {
   }
 
   doRefresh(refresher) {
-  
+
     this.reportData.startindex = 0;
     this.reporttemplateAllLists = [];
     this.doReport();
@@ -133,7 +139,7 @@ export class ReporttemplatePage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc;
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -148,25 +154,25 @@ export class ReporttemplatePage {
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
-         
+
         }
-       
+
 
       });
     this.presentLoading(0);
   }
   doInfinite(infiniteScroll) {
-  
+
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doReport();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
 
   presentLoading(parm) {
@@ -189,11 +195,11 @@ export class ReporttemplatePage {
     notification.present();
   }
   doAdd(availableheading) {
-     this.nav.setRoot(AddreporttemplatePage, {
+   this.navCtrl.setRoot(AddreporttemplatePage, {
       availableheading: availableheading
     });
   }
-  doConfirm(id, item) {   
+  doConfirm(id, item) {
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this report template?',
       buttons: [{
@@ -236,7 +242,7 @@ export class ReporttemplatePage {
   }
   doEdit(item, act, availableheading) {
     if (act == 'edit') {
-       this.nav.setRoot(AddreporttemplatePage, {
+     this.navCtrl.setRoot(AddreporttemplatePage, {
         record: item,
         act: act,
         availableheading: availableheading
@@ -246,14 +252,14 @@ export class ReporttemplatePage {
 
 
   previous() {
-     this.nav.setRoot(DashboardPage);
+   this.navCtrl.setRoot(DashboardPage);
   }
   notification() {
-     this.nav.setRoot(NotificationPage);
+   this.navCtrl.setRoot(NotificationPage);
   }
 
   reportdetail(templatename, templatedata) {
-     this.nav.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
+   this.navCtrl.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
   }
 
 
