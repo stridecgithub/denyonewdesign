@@ -56,8 +56,8 @@
             <div [ngStyle]="{'color':  upcomintitem.duedatecolor}" class="p1" (click)="servicedetailsView(upcomintitem,'view','upcoming')">
               <img *ngIf="upcomintitem.user_photo!=''" src="{{upcomintitem.user_photo}}">
               <div class="check">
-                <h3>
-                  <b>{{upcomintitem.service_subject}}</b>
+                <h3 style="width:270px">
+                  <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_scheduled_display}}
@@ -129,8 +129,8 @@
             <div class="p1">
               <img *ngIf="historytitem.user_photo!=''" src="{{historytitem.user_photo}}">
               <div class="check">
-                <h3>
-                  <b>{{historytitem.service_subject}}</b>
+                <h3 style="width:270px">
+                  <b style="white-space:normal">{{historytitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{historytitem.serviced_scheduled_display}}
