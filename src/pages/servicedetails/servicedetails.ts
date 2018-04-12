@@ -99,7 +99,8 @@ export class ServicedetailsPage {
     serviced_by: '',
     nextServiceDate: '',
     addedImgLists1: '',
-    addedImgLists2: ''
+    addedImgLists2: '',
+    nextServiceDateDisplay: ''
   }
   public hideActionButton = true;
   //tabBarElement: any;
@@ -110,6 +111,7 @@ export class ServicedetailsPage {
   currentyear;
   service_time;
   hoursadd24hourformat;
+  monthstr;
   constructor(public app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
 
@@ -686,6 +688,7 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
+    console.log('Service Update API URL:' + url + "?" + body);
     //this.showAlert('Service Update API URL:', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
@@ -728,7 +731,7 @@ export class ServicedetailsPage {
 
 
 
-  getNextDate(val, field) {
+  getNextDate(val) {
     this.isFuture = 0;
     this.isSubmitted = false;
     if (val == 14) {
@@ -748,9 +751,32 @@ export class ServicedetailsPage {
     } else {
       this.showDatePicker();
     }
-    if (field == '1') {
-      this.serviced_date = date.getFullYear() + "-" + parseInt(date.getMonth() + 1) + "-" + date.getDate();
+
+    let minutes;
+    minutes = parseInt(date.getMinutes());
+    if (minutes < 10) {
+      minutes = "0" + minutes;
     } else {
+      minutes = minutes;
+    }
+
+    let hours;
+    hours = parseInt(date.getHours());
+    if (hours < 10) {
+      hours = "0" + hours;
+    } else {
+      hours = hours;
+    }
+
+    let seconds;
+    seconds = parseInt(date.getSeconds());
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    } else {
+      seconds = seconds;
+    }
+
+   
       let monthstr;
       let datestr;
       let mn = parseInt(date.getMonth() + 1);
@@ -767,8 +793,13 @@ export class ServicedetailsPage {
         datestr = dt;
       }
 
-      this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr;
-    }
+
+
+      this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+      this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
+      console.log(this.unitDetailData.nextServiceDate);
+   
     if (this.unitDetailData.nextServiceDate != '') {
       //this.isSubmitted = false;
     } else {
@@ -813,18 +844,48 @@ export class ServicedetailsPage {
     }).then(
       date => {
 
-        let monthstr = date.getMonth() + parseInt("1");
+        let datestr=new Date();
+        let minutes;
+        minutes = datestr.getMinutes();
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        } else {
+          minutes = minutes;
+        }
 
+        let hours;
+        hours = datestr.getHours();
+        if (hours < 10) {
+          hours = "0" + hours;
+        } else {
+          hours = hours;
+        }
+
+        let seconds;
+        seconds = datestr.getSeconds();
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        } else {
+          seconds = seconds;
+        }
+        this.monthstr = date.getMonth();
+        if (this.monthstr < 10) {
+          this.monthstr = "0" + this.monthstr;
+        } else {
+          this.monthstr = this.monthstr;
+        }
 
         if (new Date().getTime() < date.getTime()) {
           this.isFuture = 0;
           this.isSubmitted = false;
 
-          this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + date.getDate();
+          this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + this.monthstr + "-" + date.getDate() + "T" + hours + ":" + minutes + ":" + seconds;
+          this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + this.monthstr + "-" + date.getDate();
         } else {
           this.isFuture = 1;
           this.isSubmitted = true;
           this.unitDetailData.nextServiceDate = '';
+          this.unitDetailData.nextServiceDateDisplay = '';
         }
       },
       err => { }

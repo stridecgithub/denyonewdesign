@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform ,App} from 'ionic-angular';
+import { NavController, NavParams, Platform, App, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { ServicinginfoPage } from "../servicinginfo/servicinginfo";
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 import { CommentsinfoPage } from "../commentsinfo/commentsinfo";
+import { DomSanitizer } from '@angular/platform-browser';
 /**
  * Generated class for the ServicingDetailsPage page.
  *
@@ -31,7 +32,7 @@ export class ServicingDetailsPage {
   is_request;
   service_priority;
   current_datetime;
-  user_photo;
+  profilePicture;
   service_resources;
   serviced_created_name;
   serviced_created_name_hastag;
@@ -47,7 +48,7 @@ export class ServicingDetailsPage {
   //tabBarElement: any;
   service_time;
   hoursadd24hourformat;
-  constructor(private app:App,public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http) {
+  constructor(private app: App, public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http, public alertCtrl: AlertController, private sanitizer: DomSanitizer) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -81,9 +82,9 @@ export class ServicingDetailsPage {
     if (this.navParams.get("from") == 'Push') {
       if (this.navParams.get("event_id")) {
 
-     
-      //  let eventType = this.navParams.get("event_type");
-       
+
+        //  let eventType = this.navParams.get("event_type");
+
 
 
         let body: string = "serviceid=" + this.navParams.get("event_id"),
@@ -91,26 +92,45 @@ export class ServicingDetailsPage {
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/servicebyid";
-       
+
         this.http.post(url1, body, options1)
           .subscribe((data) => {
-          
-            this.item = data.json().servicedetail[0];
+            this.profilePicture = data.json().servicedetail[0].user_photo;
+            console.log(this.profilePicture);
+            this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(data.json().servicedetail[0].user_photo);
+            this.item = data.json().servicedetail[0];          
+            localStorage.setItem("unitId", data.json().servicedetail[0].unit_id);
+            console.log(JSON.stringify(this.item));
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
-          
-            this.service_subject = data.json().servicedetail[0].service_subject;
-            this.user_photo = data.json().servicedetail[0].user_photo;
+            this.service_subject = data.json().servicedetail[0].service_subject;           
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
             this.service_remark = data.json().servicedetail[0].service_remark;
             this.serviced_created_name = data.json().servicedetail[0].serviced_created_name;
             this.serviced_created_name_hastag = data.json().servicedetail[0].serviced_created_name_hastag;
+            this.service_remark = data.json().servicedetail[0].service_remark;
+            if (this.service_remark == null) {
+              this.service_remark = '';
+            }
+            if (this.service_remark == 'null') {
+              this.service_remark = '';
+            }
+
+
             this.service_description = data.json().servicedetail[0].description;
+            if (this.service_description == null) {
+              this.service_description = '';
+            }
+            if (this.service_description == 'null') {
+              this.service_description = '';
+            }
+
+
             this.next_service_date_mobileview = data.json().servicedetail[0].next_service_date_mobileview;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_scheduled_time;
             this.serviced_datetime_display_format = data.json().servicedetail[0].serviced_scheduled_display;
             // this.service_dot_color = data.json().servicedetail[0].service_dot_color;
             this.next_service_date_selected = data.json().servicedetail[0].next_service_date_selected;
-
+            this.next_service_date = data.json().servicedetail[0].serviced_schduled_date;
             this.is_request = data.json().servicedetail[0].is_request;
             this.is_denyo_support = data.json().servicedetail[0].is_denyo_support;
 
@@ -118,12 +138,12 @@ export class ServicingDetailsPage {
 
             this.service_resources = data.json().servicedetail[0].service_resources;
             if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-            
+
               let hashhypenhash = this.service_resources.split("#-#");
-             
+
               for (let i = 0; i < hashhypenhash.length; i++) {
                 let imgDataArr = hashhypenhash[i].split("|");
-               
+
                 let imgSrc;
                 imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
                 this.addedImgListsDetails.push({
@@ -135,7 +155,7 @@ export class ServicingDetailsPage {
               }
 
             }
-           
+
 
 
           }, error => {
@@ -143,7 +163,7 @@ export class ServicingDetailsPage {
           });
       }
     } else {
-     
+
       this.service_unitid = this.navParams.get("record").service_unitid;
       this.serviced_datetime = this.navParams.get("record").serviced_datetime;
       this.next_service_date_selected = this.navParams.get("record").next_service_date_selected;
@@ -175,6 +195,17 @@ export class ServicingDetailsPage {
 
       this.service_subject = this.navParams.get("record").service_subject;
       this.service_remark = this.navParams.get("record").service_remark;
+
+
+
+      if (this.service_remark == null) {
+        this.service_remark = '';
+      }
+      if (this.service_remark == 'null') {
+        this.service_remark = '';
+      }
+
+
       this.service_description = this.navParams.get("record").service_description;
       if (this.service_description == null) {
         this.service_description = '';
@@ -186,16 +217,18 @@ export class ServicingDetailsPage {
       this.is_request = this.navParams.get("record").is_request;
       this.service_priority = this.navParams.get("record").service_priority;
       this.current_datetime = this.navParams.get("record").current_datetime;
-      this.user_photo = this.navParams.get("record").user_photo;
+      this.profilePicture = this.navParams.get("record").user_photo;
+      console.log(this.profilePicture);
+      this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get("record").user_photo);
 
       this.service_resources = this.navParams.get("record").service_resources;
       if (this.service_resources != undefined && this.service_resources != 'undefined' && this.service_resources != '') {
-       
+
         let hashhypenhash = this.service_resources.split("#-#");
-      
+
         for (let i = 0; i < hashhypenhash.length; i++) {
           let imgDataArr = hashhypenhash[i].split("|");
-         
+
           let imgSrc;
           imgSrc = this.apiServiceURL + "/serviceimages" + '/' + imgDataArr[1];
           this.addedImgListsDetails.push({
@@ -208,7 +241,7 @@ export class ServicingDetailsPage {
 
       }
     }
-   
+
   }
 
   previous() {
@@ -235,7 +268,14 @@ export class ServicingDetailsPage {
       frompage: from
     });
   }
-
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
 }
 
 

@@ -790,7 +790,7 @@ export class AddcalendarPage {
         }*/
     service_remark = jQuery(".event_notes").val();
     let field;
-    let pushnotify = this.service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
+    let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject + "&service_remark=" + service_remark + "&pushnotify=" + pushnotify;
     } else {

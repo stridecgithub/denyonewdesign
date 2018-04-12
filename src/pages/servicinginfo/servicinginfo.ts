@@ -119,15 +119,13 @@ export class ServicinginfoPage {
 
   }
 
-  ionViewWillLeave() {
-    //this.tabBarElement.style.display = 'flex';
-  }
+  
 
   ionViewDidLoad() {
     
     localStorage.setItem("fromModule", "ServicinginfoPage");
-  }
-  ionViewWillEnter() {
+
+    
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -148,7 +146,7 @@ export class ServicinginfoPage {
     if (this.NP.get("record")) {
     
       let editItem = this.NP.get("record");
-   
+     // this.showAlert('this.NP.get("record")', JSON.stringify(editItem));
       // UnitDetails Api Call		
 
       let unitid = editItem.unit_id;
@@ -225,6 +223,7 @@ export class ServicinginfoPage {
 
     // Atmentioned Tag Storage
   }
+  
   doRefresh(refresher) {
   
     this.upcomingData.startindex = 0;
@@ -629,5 +628,14 @@ export class ServicinginfoPage {
       infiniteScroll.complete();
     }, 500);
 
+  }
+
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }

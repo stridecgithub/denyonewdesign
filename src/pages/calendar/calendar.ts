@@ -657,6 +657,7 @@ export class CalendarPage {
             event_time: this.eventIdentify[i]['event_time'],
             event_location: this.eventIdentify[i]['event_location'],
             event_remark: this.eventIdentify[i]['event_remark'],
+            duration: this.eventIdentify[i]['duration'],
             event_addedby_name: this.eventIdentify[i]['event_addedby_name'],
             event_time_new: this.eventIdentify[i]['service_scheduled_time'],
             calendar_time: this.eventIdentify[i]['created_time']
@@ -698,6 +699,7 @@ export class CalendarPage {
             projectname: this.serviceIdentify[j]['unit_project_name'],
             event_unitid: this.serviceIdentify[j]['service_unitid'],
             event_added_by: this.serviceIdentify[j]['event_added_by'],
+            duration: this.serviceIdentify[j]['duration'],
             type: 'event',
             allDay: true,
             icon: 'camera',
@@ -710,6 +712,7 @@ export class CalendarPage {
             event_remark: rem_desc,
             event_location: this.serviceIdentify[j]['service_location'],
             event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
+            serviced_by: this.serviceIdentify[j]['serviced_by'],            
             event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
             calendar_time: this.serviceIdentify[j]['created_time']
 
@@ -1096,6 +1099,7 @@ export class CalendarPage {
         formatted_datetime: this.eventIdentify[i]['formatted_datetime'],
         event_time_new: this.eventIdentify[i]['service_scheduled_time'],
         event_added_by: this.eventIdentify[i]['event_added_by'],
+        duration: this.eventIdentify[i]['duration'],
         calendar_time: this.eventIdentify[i]['created_time'],
         event_type: 'E',
         icon: 'alarm', // Icon of the alert. This is compulsory when using the 
@@ -1134,9 +1138,10 @@ export class CalendarPage {
         event_remark: rem_desc,
         event_location: this.serviceIdentify[j]['service_location'],
         event_addedby_name: this.serviceIdentify[j]['serviced_by_name'],
+        serviced_by: this.serviceIdentify[j]['serviced_by'],
         formatted_datetime: this.serviceIdentify[j]['formatted_datetime'],
         event_time_new: this.serviceIdentify[j]['service_scheduled_time'],
-
+        duration: this.serviceIdentify[j]['duration'],
         calendar_time: this.serviceIdentify[j]['created_time'],
         event_type: 'S',
         icon: 'service',

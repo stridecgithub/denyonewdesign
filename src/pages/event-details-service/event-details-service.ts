@@ -85,7 +85,7 @@ export class EventDetailsServicePage {
 
     this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
-      let eventType = this.NP.get("event_type");
+    
      
 
 
@@ -100,15 +100,34 @@ export class EventDetailsServicePage {
          
           this.item = data.json().servicedetail[0];
           if (this.item != '') {
-          
+          console.log("Event Details Service:"+JSON.stringify(this.item));
             this.eventTitle = data.json().servicedetail[0].service_subject;
             this.eventitem = data.json().servicedetail[0];
             this.projectname = data.json().servicedetail[0].projectname;
             this.unitname = data.json().servicedetail[0].unitname;
             this.evenDate = data.json().servicedetail[0].service_formatted_date;
             this.location = data.json().servicedetail[0].location;
-            this.service_remark = data.json().servicedetail[0].service_remark
+            this.service_remark = data.json().servicedetail[0].service_remark;
+
+
+            this.service_remark = data.json().servicedetail[0].service_remark;
+           
+            if (this.service_remark == null) {
+              this.service_remark = '';
+            }
+            if (this.service_remark == 'null') {
+              this.service_remark = '';
+            }
+
+
             this.description = data.json().servicedetail[0].description;
+           
+            if (this.description == null) {
+              this.description = '';
+            }
+            if (this.description == 'null') {
+              this.description = '';
+            }
             this.next_service_date_mobileview = data.json().servicedetail[0].next_service_date_mobileview;
             this.service_scheduled_time = data.json().servicedetail[0].service_scheduled_time;
             this.service_dot_color = data.json().servicedetail[0].service_dot_color;

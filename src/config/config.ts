@@ -7,7 +7,7 @@ export class Config {
     }
     apiBaseURL() { // Base URL configuration
        return 'http://denyoappv2.stridecdev.com';// live
-       // return 'http://denyodev1.stridecdev.com';// Testing
+       //return 'http://denyodev1.stridecdev.com';// Testing
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController,App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController, App } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -83,9 +83,9 @@ export class DashboardPage {
   public UNITHIDEACCESS: any;
 
   previousPage;
-  constructor(private app:App,public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push,  public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  constructor(private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
-    
+
     this.platform.ready().then(() => {
 
       this.platform.registerBackButtonAction(() => {
@@ -143,7 +143,7 @@ export class DashboardPage {
   }
 
   displayNetworkUpdate(connectionState: string) {
-   // let networkType = this.network.type;
+    // let networkType = this.network.type;
   }
   ionViewWillLeave() {
     this.tabIndexVal = localStorage.getItem("tabIndex");
@@ -337,7 +337,7 @@ export class DashboardPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-       
+
       });
     // Notiifcation count
   }
@@ -409,7 +409,7 @@ export class DashboardPage {
           this.totalCount = 0;
         }
       }, error => {
-        
+
       });
 
   }
@@ -463,14 +463,14 @@ export class DashboardPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
-         
+
         }
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
   }
 
@@ -559,7 +559,7 @@ export class DashboardPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        
+
       });
     //this.doUnit();
   }
@@ -918,9 +918,9 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 8      
+      zoom: 8
     }
-    
+
 
     // Create map
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -966,7 +966,7 @@ export class DashboardPage {
 
         });
 
-       // let currinfowindow = null;
+        // let currinfowindow = null;
 
 
         // Add click event
@@ -998,7 +998,7 @@ export class DashboardPage {
     // Automatically center the map fitting all markers on the screen
     //this.map.setZoom(11);
     //this.map.fitBounds(bounds);
-   
+
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
       this.setZoom(18);
@@ -1133,7 +1133,7 @@ export class DashboardPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Dashboard hide action successfully updated`);
@@ -1217,9 +1217,9 @@ export class DashboardPage {
     }
   }
   pushTesting() {
-    this.navCtrl.setRoot(MessageDetailViewPage, {
-      event_id: 10,
-      from: 'push'
+    this.navCtrl.setRoot(ServicingDetailsPage, {
+      event_id: 166,
+      from: 'Push'
     });
   }
   /**********************/
@@ -1227,15 +1227,15 @@ export class DashboardPage {
   /**********************/
   doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doUnit();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   initPushNotification() {
     // to check if we have permission
@@ -1243,9 +1243,9 @@ export class DashboardPage {
       .then((res: any) => {
 
         if (res.isEnabled) {
-         
+
         } else {
-          
+
         }
 
       });
@@ -1280,7 +1280,7 @@ export class DashboardPage {
           this.pushnotifycount = this.pushnotifycount + 1;
 
         }
-        // this.showAlert('JSON Array Value', JSON.stringify(notification));
+        //this.showAlert('JSON Array Value', JSON.stringify(notification));
         if (notification.additionalData.foreground == true) {
           // this.doConfirmRead(notification)
           this.presentToast(notification);
@@ -1298,7 +1298,7 @@ export class DashboardPage {
     }
     );
 
-    pushObject.on('error').subscribe(error =>{} );
+    pushObject.on('error').subscribe(error => { });
 
 
   }
@@ -1394,7 +1394,7 @@ export class DashboardPage {
     alert.present();
   }
 
- 
+
 
   pushNavigationTeseting() {
     /*

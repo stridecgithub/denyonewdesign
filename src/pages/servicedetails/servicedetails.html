@@ -191,7 +191,7 @@
    text-align:center;" *ngIf="isFuture>0 && unitDetailData.nextServiceDate==''">Next service date should be future date only</div>
      
        <div  style="color: #000;   
-   text-align:center;padding-bottom: 6px;"  *ngIf="unitDetailData.nextServiceDate!=''"><b>Next Service Date:</b>{{unitDetailData.nextServiceDate}}</div>
+   text-align:center;padding-bottom: 6px;"  *ngIf="unitDetailData.nextServiceDate!=''"><b>Next Service Date:</b>{{unitDetailData.nextServiceDateDisplay}}</div>
  
    <div *ngIf="next_service_date!='' && unitDetailData.nextServiceDate==''" style="color: #000;   
    text-align:center;padding-bottom: 6px;"><b>Next Service Date:</b>{{next_service_date_mobileview}}</div>

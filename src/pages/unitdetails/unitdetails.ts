@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, AlertController, ModalController,App } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController, ModalController, App } from 'ionic-angular';
 import { ServicinginfoPage } from '../servicinginfo/servicinginfo';
 import { AlarmlogPage } from '../alarmlog/alarmlog';
 import { AlarmPage } from '../alarm/alarm';
@@ -167,15 +167,22 @@ export class UnitdetailsPage {
 	public ENGINEDETAILVIEWACCESS: any;
 	public UNITEDITACCESS: any;
 	public UNITDELETEACCESS: any;
-	constructor(public app: App,public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
+	devicewidth: any;
+	deviceheight: any;
+	constructor(public app: App, public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.platform.ready().then(() => {
 			this.platform.registerBackButtonAction(() => {
 				const overlayView = this.app._appRoot._overlayPortal._views[0];
-        if (overlayView && overlayView.dismiss) {
-          overlayView.dismiss();
-        }
+				if (overlayView && overlayView.dismiss) {
+					overlayView.dismiss();
+				}
 				this.navCtrl.setRoot(UnitsPage);
 			});
+			this.devicewidth = platform.width();
+			this.deviceheight =50;// platform.height();
+			//this.showAlert('Width: ', this.devicewidth);
+			//this.showAlert('Height: ', this.deviceheight);
+
 		});
 
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
@@ -244,7 +251,7 @@ export class UnitdetailsPage {
 
 
 
-	
+
 	}
 	// ngOnInit() {
 	// 	let timer = TimerObservable.create(2000, 1000);
@@ -279,19 +286,19 @@ export class UnitdetailsPage {
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
 
-				
+
 				if (this.timerswitch > 0) {
 					let unitid = localStorage.getItem("iframeunitId");
-					
+
 					let urlstr;
-				
+
 					if (this.tabs == 'dataView') {
 						urlstr = "/" + unitid + "/" + this.unitDetailData.userId + "/unitdata";
 						let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-					
+
 
 
 						this.http.get(url, options)
@@ -387,7 +394,7 @@ export class UnitdetailsPage {
 						else
 							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / diff) * 100;
 
-					
+
 						//let voltguagelabel = this.voltguagelabel;
 						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
 						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
@@ -407,15 +414,15 @@ export class UnitdetailsPage {
 						// Current
 						let current = 0;
 						//let actual_current = this.selectedcurrent;
-						
+
 						if (this.selectedcurrent == parseFloat(this.setpointsdata[1].minvalue)) {
 							current = 0;
-							
+
 						} else if (this.selectedcurrent >= parseFloat(this.setpointsdata[1].maxvalue)) {
-							
+
 							current = 100;
 						} else {
-							
+
 							current = this.selectedcurrent;
 						}
 
@@ -538,7 +545,7 @@ export class UnitdetailsPage {
 						let loadfactor = 0;
 
 						let actual_loadfactor = this.loadpower;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-					
+
 						let mnfactor = this.setpointsdata[4].minvalue;
 						let mxfactor = this.setpointsdata[4].maxvalue;
 						if (mnfactor == '') {
@@ -687,10 +694,14 @@ export class UnitdetailsPage {
 								res[i].minvalue = 0;
 							}
 							let angle = 0;
+							let labelofset=0.15;
+							let labelfont='12px sans-serif';
 							if (code == 'oilpressure') {
-
+								labelofset=-2;
+								labelfont='8px sans-serif';
 								if (enval > 1.1 && enval <= 1.5) {
 									angle = 0;//angle = 180;
+									
 								}
 								this.rangesdata.push({
 									startValue: enval,
@@ -726,7 +737,7 @@ export class UnitdetailsPage {
 							}
 							if (code == "oilpressure") {
 
-								
+
 
 
 								if (this.oilpressure <= 0) {
@@ -736,7 +747,7 @@ export class UnitdetailsPage {
 								}
 								if (this.needlevalue >= 10) { //10
 									this.needlevalue = 10; //10
-								}  
+								}
 							}
 							if (code == "batteryvolt") {
 
@@ -749,25 +760,26 @@ export class UnitdetailsPage {
 								}
 
 
-								
+
 							}
-							
+
 							if (this.needlevalue == undefined) {
 								this.needlevalue = 0;
 							}
 							if (this.needlevalue == 'undefined') {
 								this.needlevalue = 0;
 							}
-							
+
 							let scalemax;
 							/*if (code == 'oilpressure') {
 								scalemax=10; //10
 							}else{*/
-								scalemax=res[i].maxvalue;
+							scalemax = res[i].maxvalue;
 							//}
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
+								width: this.devicewidth,														
 								border: {
 									padding: 5,
 									lineWidth: 0,
@@ -784,8 +796,11 @@ export class UnitdetailsPage {
 										maximum: scalemax,
 
 										labels: {
-											offset: 0.15,
-											angle: angle
+											//offset: 0,
+											offset:labelofset,
+											angle: angle,
+											font: labelfont//'8px sans-serif'
+											
 										},
 										majorTickMarks: {
 											length: 0,
@@ -846,6 +861,7 @@ export class UnitdetailsPage {
 						jQuery('#powerfactor').jqLinearGauge({
 							orientation: 'horizontal',
 							background: '#fff',
+							width: this.devicewidth,
 							border: {
 								padding: 5,
 								lineWidth: 0,
@@ -1033,13 +1049,13 @@ export class UnitdetailsPage {
 
 					///DCA6000SS Denyo Testing Unit Name can be very long
 					if (this.unitDetailData.unitname.length > 20) {
-					
+
 						this.unitDetailData.unitnameellipse = this.unitDetailData.unitname.substr(0, 25) + "...";
-					
+
 					} else {
 						this.unitDetailData.unitnameellipse = this.unitDetailData.unitname;
 					}
-					
+
 					this.unitDetailData.projectname = data.json().units[0].projectname;
 					this.unitDetailData.location = data.json().units[0].location;
 					this.unitDetailData.colorcodeindications = data.json().units[0].colorcode;
@@ -1103,8 +1119,8 @@ export class UnitdetailsPage {
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
-		
-		
+
+
 		this.tabview1 = "<iframe   height=500 width=100% frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen src=" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails1></iframe>";
 		this.tabview2 = "<iframe height=1000 width=100% frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen src=" + this.apiServiceURL + "/" + this.unitDetailData.unit_id + "/1/unitdetails2></iframe>";
 
@@ -1170,15 +1186,15 @@ export class UnitdetailsPage {
 			buttons: [{
 				text: 'Yes',
 				handler: () => {
-						let body: string = "",
+					let body: string = "",
 						type: string = "application/x-www-form-urlencoded; charset=UTF-8",
 						headers: any = new Headers({ 'Content-Type': type }),
 						options: any = new RequestOptions({ headers: headers }),
 						url: any = this.apiServiceURL + "/remoteaction?controllerid=" + controllerid + "&controlaction=" + action + "&ismobile=1";
-					
 
 
-					
+
+
 					//this.http.get(url, options)
 					this.http.post(url, body, options)
 						.subscribe((data) => {
@@ -1186,7 +1202,7 @@ export class UnitdetailsPage {
 								if (action == 'START') {
 									this.startbtnenable = true;
 								}
-								
+
 								if (action == 'OFF-MODE') {
 									//this.showAlert('OFF-Mode', 'OFF-Mode')
 									this.conf.sendNotification(`OFF-Mode`);
@@ -1204,7 +1220,7 @@ export class UnitdetailsPage {
 							}
 							// Otherwise let 'em know anyway
 							else {
-								
+
 							}
 						}, error => {
 							this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -1231,9 +1247,9 @@ export class UnitdetailsPage {
 			.subscribe((data) => {
 				let res;
 				res = data.json();
-				
+
 				let unitdetails = res.genset_detail[0];
-				
+
 				this.unitDetailData.controllerid = unitdetails.controllerid;
 				this.unitDetailData.neaplateno = unitdetails.neaplateno;
 				this.unitDetailData.serialnumber = unitdetails.serialnumber;
@@ -1243,7 +1259,7 @@ export class UnitdetailsPage {
 
 
 
-			
+
 
 				let //body: string = "loginid=" + this.userId,
 					type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1255,7 +1271,7 @@ export class UnitdetailsPage {
 					.subscribe((data) => {
 						let res;
 						res = data.json();
-						
+
 						if (data.json().setpoints.length > 0) {
 							for (let sp in res.setpoints) {
 								this.setpointsdata.push({
@@ -1345,10 +1361,10 @@ export class UnitdetailsPage {
 			headers1: any = new Headers({ 'Content-Type': type1 }),
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.unitDetailData.userId;
-		
+
 
 		this.http.get(url1, options1)
-			.subscribe((data) => {				
+			.subscribe((data) => {
 				this.msgcount = data.json().msgcount;
 				this.notcount = data.json().notifycount;
 			}, error => {
@@ -1369,7 +1385,7 @@ export class UnitdetailsPage {
 
 			this.http.post(url, body, options)
 				.subscribe((data) => {
-					
+
 				}, error => {
 					this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 				});
@@ -1392,7 +1408,7 @@ export class UnitdetailsPage {
 		}
 	}
 	commentsInfo(unitId, access) {
-		
+
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EVENTS/COMMENTS', this.rolePermissionMsg)
@@ -1403,7 +1419,7 @@ export class UnitdetailsPage {
 				headers: any = new Headers({ 'Content-Type': type }),
 				options: any = new RequestOptions({ headers: headers }),
 				url: any = this.apiServiceURL + "/removecommentcount";
-		
+
 
 			this.http.post(url, body, options)
 				.subscribe((data) => {
@@ -1468,7 +1484,7 @@ export class UnitdetailsPage {
 		}
 	}
 	enginedetail(access) {
-	
+
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('ENGINE DETAIL', this.rolePermissionMsg)
@@ -1516,7 +1532,7 @@ export class UnitdetailsPage {
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('DELETE', this.rolePermissionMsg)
-		} else {			
+		} else {
 			let confirm = this.alertCtrl.create({
 				message: 'Are you sure you want to delete this unit?',
 				buttons: [{
@@ -1562,7 +1578,7 @@ export class UnitdetailsPage {
 					this.conf.sendNotification('Something went wrong!');
 				}
 			}, error => {
-				
+
 			});
 	}
 	viewondash(id) {
@@ -1591,7 +1607,7 @@ export class UnitdetailsPage {
 
 		this.http.get(url, options)
 			.subscribe((data) => {
-			
+
 
 				// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1612,7 +1628,7 @@ export class UnitdetailsPage {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EDIT', this.rolePermissionMsg)
 		} else {
-			
+
 			this.navCtrl.setRoot(AddUnitPage, {
 				record: item,
 				act: act,
@@ -1664,7 +1680,7 @@ export class UnitdetailsPage {
 		});
 
 
-		
+
 	}
 
 }

@@ -86,9 +86,9 @@
     </div>
 
     <div id="listView" style="display: none;">
-      <!-- For Push Testing 
-     <button ion-button class="edit-btn" (click)="pushTesting()">
-          <img width="25" src="assets/imgs/edit@2x.png">Push Testing
+      <!-- For Push Testing
+      <button ion-button class="edit-btn" (click)="pushTesting()">
+        <img width="25" src="assets/imgs/edit@2x.png">Push Testing
       </button> -->
       <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
 
@@ -137,7 +137,7 @@
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitAllLists.length!=0">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
- 
+
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>

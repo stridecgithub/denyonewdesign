@@ -583,7 +583,7 @@ export class AddhocPage {
     } else if (nextServiceDate == '') {
       nextServiceDate = '0000-00-00';
     }
-    let pushnotify = this.service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
+    let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     let body: string = "is_mobile=1" +
       "&service_priority=" + this.service_priority +
       "&service_unitid=" + this.service_unitid +
