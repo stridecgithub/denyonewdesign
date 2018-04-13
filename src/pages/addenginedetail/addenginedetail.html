@@ -107,32 +107,46 @@
 
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="saveEntry()">
-  <div class="add-unit-gp">
-<div class="unit-sapce">
-<ion-list>
-    <ion-item>
-      <ion-label stacked>Model Name</ion-label>
-      <ion-input type="text" formControlName="enginemodel" [(ngModel)]="enginemodel"></ion-input>
-    </ion-item>
-</ion-list>    
-    
-    <ion-list>
+    <div class="add-unit-gp">
+      <div class="unit-sapce">
+        <!-- <ion-list>
+          <ion-item>
+            <ion-label stacked>Model Name</ion-label>
+            <ion-input type="text" formControlName="enginemodel" [(ngModel)]="enginemodel"></ion-input>
+          </ion-item>
+        </ion-list> -->
+
+        <!-- <ion-list>
         <ion-item>
           <ion-label stacked>Raw HTML</ion-label>
           <ion-textarea rows="20" type="text" formControlName="rawhtml" [(ngModel)]="rawhtml"></ion-textarea>
         </ion-item>
-    </ion-list>
-</div>    
-    <ion-list style="border-top:1px solid #d6d6d6;">
+    </ion-list> -->
+
+
+        <div>Model Name</div>
+        <div>
+          <ion-input type="text" formControlName="enginemodel" [(ngModel)]="enginemodel"></ion-input>
+        </div>
+
+
+        <div>Detail</div>
+        <div>
+          <ion-textarea id="summernote" formControlName="rawhtml" [(ngModel)]="rawhtml" class="summernote"></ion-textarea>
+        </div>
+
+
+      </div>
+      <ion-list style="border-top:1px solid #d6d6d6;">
         <ion-item style="background-color:#fff;padding-top:10px;">
-          <button style="width:81%;margin:0 auto;display: table;"  ion-button color="primary" text-center [disabled]="!form.valid">Save</button>
+          <button style="width:81%;margin:0 auto;display: table;" ion-button color="primary" text-center [disabled]="!form.valid">Save</button>
         </ion-item>
-    </ion-list>
-    
+      </ion-list>
+
     </div>
-    
+
   </form>
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>
