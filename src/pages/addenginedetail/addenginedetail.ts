@@ -121,7 +121,7 @@ export class AddenginedetailPage {
   saveEntry() {
     if (this.isEdited) {
       let body: string = "is_mobile=1&model=" + this.enginemodel +
-        "&rawhtml=" + this.rawhtml + "&model_id=" + this.recordID,
+        "&rawhtml=" +  encodeURIComponent(this.rawhtml.toString()) + "&model_id=" + this.recordID,
 
 
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -149,7 +149,7 @@ export class AddenginedetailPage {
     }
     else {
       let body: string = "is_mobile=1&model=" + this.enginemodel +
-        "&rawhtml=" + this.rawhtml,
+        "&rawhtml=" + encodeURIComponent(this.rawhtml.toString()),
 
 
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",

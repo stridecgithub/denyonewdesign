@@ -17,8 +17,11 @@ page-unitdetails {
 .select-md .select-icon .select-icon-inner {
 	margin-top: -6px;
 }
-.select-text {
+.select-text-device-360  {
 	font-weight: 600;
+}
+.select-text-device-320 {
+	font-weight: 500;
 }
 .bottom-row button {
 	font-size: 16px;
@@ -262,21 +265,21 @@ a{
 .buttons{
   display: inline-block;
   text-align: center;
-    .edit{
+    .edit-device-360{
       background: #00BA28;
       padding: 5px 42px;
       font-size: 15px;
       float: left;
       color: #ffffff;
   }
-  .delete{
+  .delete-device-360{
     background: #C71717;
     padding: 5px 35px;
     font-size: 15px;
     float: left;
     color: #ffffff;
   }
-  .pin{
+  .pin-device-360{
     background: #F8A70F;
     padding: 11px 4px;
     font-size: 15px;
@@ -289,6 +292,34 @@ a{
       margin-left: 40px;
     }
   }
+
+  .edit-device-320{
+    background: #00BA28;
+    padding: 5px 40px;
+    font-size: 15px;
+    float: left;
+    color: #ffffff;
+  }
+  .delete-device-320{
+    background: #C71717;
+    padding: 5px 17px;
+    font-size: 15px;
+    float: left;
+    color: #ffffff;
+  }
+  .pin-device-320{
+    background: #F8A70F;
+    padding: 10.5px 4px;
+    font-size: 15px;
+    float: right;
+    color: #ffffff;
+    img{
+      display: block;
+      width: 30px;
+      height: 29px;
+      margin-left: 40px;
+      }
+    }
   span{
     display: block;
   }

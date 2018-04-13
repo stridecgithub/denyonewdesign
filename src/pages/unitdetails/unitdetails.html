@@ -234,15 +234,15 @@
     <div class="buttons">
       <ion-row>
         <ion-col col-12>
-          <div class="edit"   (click)="doAction(unitDetailData,'edit',unitDetailData.unit_id,'unitdetail',uniteditable)">
+          <div ngClass="{{edit_device}}"  (click)="doAction(unitDetailData,'edit',unitDetailData.unit_id,'unitdetail',uniteditable)">
             <ion-icon name="create"></ion-icon>
             <span>Edit</span>
           </div>
-          <div class="delete" (click)="doConfirm(unitDetailData.unit_id,unitdeletable)">
+          <div ngClass="{{delete_device}}" (click)="doConfirm(unitDetailData.unit_id,unitdeletable)">
             <ion-icon name="trash"></ion-icon>
             <span>Delete</span>
           </div>
-          <div class="pin" (click)="viewondash(unitDetailData.unit_id)">
+          <div ngClass="{{pin_device}}" (click)="viewondash(unitDetailData.unit_id)">
             <img src="assets/imgs/pin.png">
             <span>Pin to Dashboard</span>
           </div>
@@ -289,7 +289,7 @@
               </span>
               <div class="svg-draw">
                 <div class="voltagegauge demo2"></div>
-                <ion-select [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" class="sel-big">
+                <ion-select ngClass="{{select_text_device}}" [(ngModel)]="selectvoltage" (ionChange)="selectVoltage(selectvoltage)" class="sel-big">
                   <ion-option value="1" selected="true">L1-L2</ion-option>
                   <ion-option value="2">L2-L3</ion-option>
                   <ion-option value="3">L1-L3</ion-option>
@@ -313,7 +313,7 @@
               </span>
               <div class="svg-draw">
                 <div class="currentgauge demo2"></div>
-                <ion-select [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" class="sel-big">
+                <ion-select ngClass="{{select_text_device}}" [(ngModel)]="selectcurrent" (ionChange)="selectCurrent(selectcurrent)" class="sel-big">
                   <ion-option value="1" selected="true">L1</ion-option>
                   <ion-option value="2">L2</ion-option>
                   <ion-option value="3">L3</ion-option>

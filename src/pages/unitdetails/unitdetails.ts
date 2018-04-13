@@ -169,6 +169,10 @@ export class UnitdetailsPage {
 	public UNITDELETEACCESS: any;
 	devicewidth: any;
 	deviceheight: any;
+	select_text_device;
+	edit_device;
+	delete_device;
+	pin_device;
 	constructor(public app: App, public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
 		this.platform.ready().then(() => {
 			this.platform.registerBackButtonAction(() => {
@@ -179,10 +183,20 @@ export class UnitdetailsPage {
 				this.navCtrl.setRoot(UnitsPage);
 			});
 			this.devicewidth = platform.width();
-			this.deviceheight =50;// platform.height();
+			this.deviceheight = platform.height();
 			//this.showAlert('Width: ', this.devicewidth);
 			//this.showAlert('Height: ', this.deviceheight);
-
+			if (this.devicewidth <= 320) {
+				this.select_text_device = 'select-text-device-320';
+				this.edit_device='edit-device-320';
+				this.delete_device='delete-device-320';
+				this.pin_device='pin-device-320';
+			}else{
+				this.select_text_device = 'select-text-device-360';
+				this.edit_device='edit-device-360';
+				this.delete_device='delete-device-360';
+				this.pin_device='pin-device-360';
+			}
 		});
 
 		this.unitDetailData.loginas = localStorage.getItem("userInfoName");
@@ -694,14 +708,14 @@ export class UnitdetailsPage {
 								res[i].minvalue = 0;
 							}
 							let angle = 0;
-							let labelofset=0.15;
-							let labelfont='12px sans-serif';
+							let labelofset = 0.15;
+							let labelfont = '12px sans-serif';
 							if (code == 'oilpressure') {
-								labelofset=-2;
-								labelfont='8px sans-serif';
+								labelofset = -2;
+								labelfont = '8px sans-serif';
 								if (enval > 1.1 && enval <= 1.5) {
 									angle = 0;//angle = 180;
-									
+
 								}
 								this.rangesdata.push({
 									startValue: enval,
@@ -724,6 +738,9 @@ export class UnitdetailsPage {
 							}
 
 							if (code == "coolanttemp") {
+								if (this.devicewidth <= 320) {
+									labelfont = '8px sans-serif';
+								}
 								this.needlevalue = this.coolanttemp;
 
 								if (this.coolanttemp > 120) {
@@ -779,7 +796,7 @@ export class UnitdetailsPage {
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
-								width: this.devicewidth,														
+								width: this.devicewidth,
 								border: {
 									padding: 5,
 									lineWidth: 0,
@@ -797,10 +814,10 @@ export class UnitdetailsPage {
 
 										labels: {
 											//offset: 0,
-											offset:labelofset,
+											offset: labelofset,
 											angle: angle,
 											font: labelfont//'8px sans-serif'
-											
+
 										},
 										majorTickMarks: {
 											length: 0,
