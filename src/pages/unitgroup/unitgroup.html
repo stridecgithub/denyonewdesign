@@ -43,9 +43,7 @@
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let unitgroup of unitgroupAllLists">
       <ion-item (click)="view(unitgroup.unitgroup_id, unitgroup.colorcode, unitgroup.cname, unitgroup.favoriteindication,unitgroup.unitgroup_name,unitgroup.totalunits,unitgroup.remark,unitgroup.createdOn)">
-        <!-- <button class="{{unitgroup.colorcodeindication}}" style="float: left ;width:8px;height: 47px;">
-
-        </button> -->
+      
 
         <span class="initial"  [ngStyle]="{'background-color': '#' + unitgroup.colorcode}">{{unitgroup.cname}}</span>
     
@@ -64,8 +62,8 @@
 
         <div class="list-favorite">
             <button (click)="favorite(unitgroup.unitgroup_id)" style="text-align:right;">
-              <ion-icon name="star-outline" *ngIf="unitgroup.favoriteindication === 0 || unitgroup.favoriteindication === 'unfavorite'"></ion-icon>
-              <ion-icon name="star" class="favorite" *ngIf="unitgroup.favoriteindication === 1 || unitgroup.favoriteindication === 'favorite'"></ion-icon>
+              <ion-icon class="star-fav" name="star-outline" *ngIf="unitgroup.favoriteindication === 0 || unitgroup.favoriteindication === 'unfavorite'"></ion-icon>
+              <ion-icon name="star" class="favorite star-fav" *ngIf="unitgroup.favoriteindication === 1 || unitgroup.favoriteindication === 'favorite'"></ion-icon>
             </button>
           </div>
 

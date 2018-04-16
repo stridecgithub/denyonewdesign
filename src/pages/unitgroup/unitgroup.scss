@@ -1,8 +1,22 @@
 page-unitgroup {
+
+
+
+  .star-fav {   
+    position: absolute;
+    margin-left: 53px;
+    margin-top: -16px;
+}
+
+.star-fav-320 {   
+  position: absolute;
+  margin-left: 53px;
+  margin-top: -16px;
+}
+
 	.group-info {
 		float:left;
 		width: 46%;
-	/*	width:69%;*/
 		white-space:normal
 	}
 	.group-info h3 {
