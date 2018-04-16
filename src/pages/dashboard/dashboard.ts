@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController,App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events, Platform, ModalController, ToastController, App } from 'ionic-angular';
 import { Config } from '../../config/config';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
@@ -12,6 +12,7 @@ import { ServicingDetailsPage } from '../servicing-details/servicing-details';
 import { MessageDetailViewPage } from '../message-detail-view/message-detail-view';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { ModalPage } from '../modal/modal';
+import { ViewunitPage } from '../viewunit/viewunit';
 declare let google;
 declare var jQuery: any;
 import { AddUnitPage } from "../add-unit/add-unit";
@@ -43,7 +44,10 @@ export class DashboardPage {
   public offlinecount: string = "0";
   public tabs: string = 'mapView';
   public unitsPopups: any;
-
+  selectallopenpop = 0;
+  moreopenpop = 0;
+  selectallopenorclose = 1;
+  moreopenorclose = 1;
   connected;
   disconnected;
   private apiServiceURL: string = '';
@@ -83,9 +87,10 @@ export class DashboardPage {
   public UNITHIDEACCESS: any;
 
   previousPage;
-  constructor(private app:App,public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push,  public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  public selecteditems = [];
+  constructor(private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
 
-    
+
     this.platform.ready().then(() => {
 
       this.platform.registerBackButtonAction(() => {
@@ -143,12 +148,14 @@ export class DashboardPage {
   }
 
   displayNetworkUpdate(connectionState: string) {
-   // let networkType = this.network.type;
+    // let networkType = this.network.type;
   }
   ionViewWillLeave() {
     this.tabIndexVal = localStorage.getItem("tabIndex");
   }
   ionViewDidLoad() {
+    this.selectallopenpop = 0;
+    this.moreopenpop = 0;
     this.totalCount = 0;
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
@@ -337,7 +344,7 @@ export class DashboardPage {
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
-       
+
       });
     // Notiifcation count
   }
@@ -399,7 +406,10 @@ export class DashboardPage {
               lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
-              viewonid: res.units[unit].viewonid
+              viewonid: res.units[unit].viewonid,
+              logo: "assets/imgs/square.png",
+              active: ""
+
             });
           }
 
@@ -409,7 +419,7 @@ export class DashboardPage {
           this.totalCount = 0;
         }
       }, error => {
-        
+
       });
 
   }
@@ -463,14 +473,14 @@ export class DashboardPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
-         
+
         }
         // Otherwise let 'em know anyway
         else {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
   }
 
@@ -532,7 +542,9 @@ export class DashboardPage {
               lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
               companygroup_name: cname,
-              viewonid: res.units[unit].viewonid
+              viewonid: res.units[unit].viewonid,
+              logo: "assets/imgs/square.png",
+              active: ""
             });
           }
           //this.unitAllLists = res.units;
@@ -559,7 +571,7 @@ export class DashboardPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-        
+
       });
     //this.doUnit();
   }
@@ -918,9 +930,9 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 8      
+      zoom: 8
     }
-    
+
 
     // Create map
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
@@ -946,7 +958,9 @@ export class DashboardPage {
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
-          iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png'
+          //if (markers[i].mapicon != undefined) {
+          iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png';
+          //}
         }
         let marker = new google.maps.Marker({
           position: latLng,
@@ -966,7 +980,7 @@ export class DashboardPage {
 
         });
 
-       // let currinfowindow = null;
+        // let currinfowindow = null;
 
 
         // Add click event
@@ -998,7 +1012,7 @@ export class DashboardPage {
     // Automatically center the map fitting all markers on the screen
     //this.map.setZoom(11);
     //this.map.fitBounds(bounds);
-   
+
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
     let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
       this.setZoom(18);
@@ -1133,7 +1147,7 @@ export class DashboardPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Dashboard hide action successfully updated`);
@@ -1227,15 +1241,15 @@ export class DashboardPage {
   /**********************/
   doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
+
       this.doUnit();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   initPushNotification() {
     // to check if we have permission
@@ -1243,9 +1257,9 @@ export class DashboardPage {
       .then((res: any) => {
 
         if (res.isEnabled) {
-         
+
         } else {
-          
+
         }
 
       });
@@ -1298,7 +1312,7 @@ export class DashboardPage {
     }
     );
 
-    pushObject.on('error').subscribe(error =>{} );
+    pushObject.on('error').subscribe(error => { });
 
 
   }
@@ -1394,7 +1408,7 @@ export class DashboardPage {
     alert.present();
   }
 
- 
+
 
   pushNavigationTeseting() {
     /*
@@ -1432,6 +1446,224 @@ export class DashboardPage {
     });
     this.alert.present();
   }
+  pressed(item, index) {
+    this.selecteditems = [];
+    if (this.unitAllLists[index]) {
+      if (this.unitAllLists[index].active == '') {
+        this.unitAllLists[index].active = 'active';
+        this.unitAllLists[index].logo = 'assets/imgs/tick_white_background.png';
+      } else {
+        this.unitAllLists[index].active = '';
+        this.unitAllLists[index].logo = 'assets/imgs/tick_white_background.png';
+      }
+    }
 
+
+
+    for (let i = 0; i < this.unitAllLists.length; i++) {
+      if (this.unitAllLists[i].active == 'active') {
+
+        let cname = this.unitAllLists[i].unitgroup_name;
+
+        if (cname != 'undefined' && cname != undefined) {
+          let stringToSplit = cname;
+          let x = stringToSplit.split("");
+          cname = x[0].toUpperCase();
+        } else {
+          cname = '';
+        }
+
+        this.selecteditems.push({
+          unit_id: this.unitAllLists[i].unit_id,
+          unitname: this.unitAllLists[i].unitname,
+          location: this.unitAllLists[i].location,
+          projectname: this.unitAllLists[i].projectname,
+          colorcode: this.unitAllLists[i].colorcode,
+          contacts: this.unitAllLists[i].contacts,
+          nextservicedate: this.unitAllLists[i].nextservicedate,
+          controllerid: this.unitAllLists[i].controllerid,
+          neaplateno: this.unitAllLists[i].neaplateno,
+          companys_id: this.unitAllLists[i].companys_id,
+          unitgroups_id: this.unitAllLists[i].unitgroups_id,
+          serial_number: this.unitAllLists[i].serialnumber,
+          models_id: this.unitAllLists[i].models_id,
+          alarmnotificationto: this.unitAllLists[i].alarmnotificationto,
+          genstatus: this.unitAllLists[i].genstatus,
+          favoriteindication: this.unitAllLists[i].favorite,
+          lat: this.unitAllLists[i].latitude,
+          lng: this.unitAllLists[i].longtitude,
+          runninghr: this.unitAllLists[i].runninghr,
+          companygroup_name: cname,
+          viewonid: this.unitAllLists[i].viewonid
+        }
+        );
+      }
+    }
+
+
+  }
+  released() {
+    console.log('released');
+    //alert('released');
+  }
+  resettoback() {
+    this.selectallopenpop = 0;
+    this.moreopenpop = 0;
+    this.unitAllLists = [];
+    this.doUnit();
+    this.selecteditems = [];
+  }
+  selectalltip(selectallopenorclose) {
+    this.moreopenpop = 0;
+    if (selectallopenorclose == 1) {
+      this.selectallopenpop = 1;
+      this.selectallopenorclose = 0;
+      // this.close = 0;
+    }
+    if (selectallopenorclose == 0) {
+      this.selectallopenpop = 0;
+      this.selectallopenorclose = 1;
+      //this.close = 1;
+    }
+  }
+  moretip(moreopenorclose) {
+    this.selectallopenpop = 0;
+    if (moreopenorclose == 1) {
+      this.moreopenpop = 1;
+      this.moreopenorclose = 0;
+      // this.close = 0;
+    }
+    if (moreopenorclose == 0) {
+      this.moreopenpop = 0;
+      this.moreopenorclose = 1;
+      //this.close = 1;
+    }
+  }
+  selectAll() {
+    this.selecteditems = [];
+    for (let i = 0; i < this.unitAllLists.length; i++) {
+      this.unitAllLists[i].active = 'active';
+      this.unitAllLists[i].logo = 'assets/imgs/tick_white_background.png';
+
+      let cname = this.unitAllLists[i].unitgroup_name;
+
+      if (cname != 'undefined' && cname != undefined) {
+        let stringToSplit = cname;
+        let x = stringToSplit.split("");
+        cname = x[0].toUpperCase();
+      } else {
+        cname = '';
+      }
+
+      this.selecteditems.push({
+        unit_id: this.unitAllLists[i].unit_id,
+        unitname: this.unitAllLists[i].unitname,
+        location: this.unitAllLists[i].location,
+        projectname: this.unitAllLists[i].projectname,
+        colorcode: this.unitAllLists[i].colorcode,
+        contacts: this.unitAllLists[i].contacts,
+        nextservicedate: this.unitAllLists[i].nextservicedate,
+        controllerid: this.unitAllLists[i].controllerid,
+        neaplateno: this.unitAllLists[i].neaplateno,
+        companys_id: this.unitAllLists[i].companys_id,
+        unitgroups_id: this.unitAllLists[i].unitgroups_id,
+        serial_number: this.unitAllLists[i].serialnumber,
+        models_id: this.unitAllLists[i].models_id,
+        alarmnotificationto: this.unitAllLists[i].alarmnotificationto,
+        genstatus: this.unitAllLists[i].genstatus,
+        favoriteindication: this.unitAllLists[i].favorite,
+        lat: this.unitAllLists[i].latitude,
+        lng: this.unitAllLists[i].longtitude,
+        runninghr: this.unitAllLists[i].runninghr,
+        companygroup_name: cname,
+        viewonid: this.unitAllLists[i].viewonid
+      }
+      );
+
+    }
+  }
+
+  favoritemore() {
+  }
+  viewmore(selecteditems) {
+    let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
+    modal.present();
+  }
+  removemore() {
+    this.moreopenpop = 0;
+    let str = '';
+    for (let i = 0; i < this.selecteditems.length; i++) {
+      str = str + this.selecteditems[i].viewonid + ",";
+    }
+    str = str.replace(/,\s*$/, "");
+    let urlstr;
+    urlstr = "/dashboardaction?id=" + str + "&action=hide&is_mobile=1&loginid=" + this.userId;
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + urlstr;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        if (data.status === 200) {
+
+
+          this.reportData.startindex = 0;
+          this.unitAllLists = [];
+          let res = data.json();
+          console.log(JSON.stringify(res));
+
+          if (res.units.length > 0) {
+            for (let unit in res.units) {
+              let cname = res.units[unit].unitgroup_name;
+
+              if (cname != 'undefined' && cname != undefined) {
+                let stringToSplit = cname;
+                let x = stringToSplit.split("");
+                cname = x[0].toUpperCase();
+              } else {
+                cname = '';
+              }
+
+              this.unitAllLists.push({
+                unit_id: res.units[unit].unit_id,
+                unitname: res.units[unit].unitname,
+                location: res.units[unit].location,
+                contacts: res.units[unit].contacts,
+                projectname: res.units[unit].projectname,
+                colorcode: res.units[unit].colorcode,
+                nextservicedate: res.units[unit].nextservicedate,
+                neaplateno: res.units[unit].neaplateno,
+                companys_id: res.units[unit].companys_id,
+                unitgroups_id: res.units[unit].unitgroups_id,
+                models_id: res.units[unit].models_id,
+                serial_number: res.units[unit].serialnumber,
+                alarmnotificationto: res.units[unit].alarmnotificationto,
+                favoriteindication: res.units[unit].favorite,
+                genstatus: res.units[unit].genstatus,
+                lat: res.units[unit].latitude,
+                lng: res.units[unit].longtitude,
+                runninghr: res.units[unit].runninghr,
+                companygroup_name: cname,
+                viewonid: res.units[unit].viewonid,
+                logo: "assets/imgs/square.png",
+                active: ""
+              });
+            }
+
+            this.totalCount = res.totalCount;
+            this.reportData.startindex += this.reportData.results;
+          } else {
+            this.totalCount = 0;
+          }
+          this.selecteditems = [];
+          this.conf.sendNotification(data.json().msg['result']);
+         
+        }
+        // Otherwise let 'em know anyway
+        else {
+        }
+      });
+
+  }
 }
 
