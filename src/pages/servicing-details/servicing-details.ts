@@ -96,11 +96,9 @@ export class ServicingDetailsPage {
         this.http.post(url1, body, options1)
           .subscribe((data) => {
             this.profilePicture = data.json().servicedetail[0].user_photo;
-            console.log(this.profilePicture);
             this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(data.json().servicedetail[0].user_photo);
             this.item = data.json().servicedetail[0];          
             localStorage.setItem("unitId", data.json().servicedetail[0].unit_id);
-            console.log(JSON.stringify(this.item));
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
             this.service_subject = data.json().servicedetail[0].service_subject;           
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
@@ -218,7 +216,6 @@ export class ServicingDetailsPage {
       this.service_priority = this.navParams.get("record").service_priority;
       this.current_datetime = this.navParams.get("record").current_datetime;
       this.profilePicture = this.navParams.get("record").user_photo;
-      console.log(this.profilePicture);
       this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(this.navParams.get("record").user_photo);
 
       this.service_resources = this.navParams.get("record").service_resources;

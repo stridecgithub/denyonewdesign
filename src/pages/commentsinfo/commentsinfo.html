@@ -45,19 +45,7 @@
 
 
 
-    <!-- <ion-item style="width: 100%; margin: 0; padding-left: 10px;">
-      <ion-label>Sort By</ion-label>
-      <ion-select style="padding: 1px 1px 6px 1px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
-        <ion-option value="alarm,asc" selected="true">Alarm</ion-option>
-        <ion-option value="comment,asc">Comment</ion-option>
-        <ion-option value="service,asc">Service</ion-option>
-        <ion-option value="name,asc">Sender Ascending</ion-option>
-        <ion-option value="name,desc">Sender Descending</ion-option>
-      </ion-select>
-    </ion-item> -->
-
-
-    <!-- service p1 -->
+  
     <div class="new-service">
       <h1 (click)="doAdd()" *ngIf="COMMENTCREATEACCESS==1">New Comment</h1>
 
@@ -72,25 +60,18 @@
         <ion-item-sliding class="brd" *ngFor="let upcomintitem of reportAllLists;">
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'" (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
-            <div class="p1">
+            <div class="p1"  ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3>
-                  <b>{{upcomintitem.comment_subject}}</b>
+                <h3  [ngStyle]="{'width':h3width}">
+                  <b style="white-space:normal">{{upcomintitem.comment_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.comment_date_formatted}}
                 </div>
 
                 <span>Comment By:{{upcomintitem.comment_by_name}} {{upcomintitem.comment_by_name_hastag}} </span>
-
-                <!-- <h5>{{upcomintitem.comment_remark}}</h5> -->
-
-                <!--span class="priorityicon"> <img  style="width: 20px;height:20px;    margin-top: 22px;
-          margin-right: 27px;" src="img/low_priority.png" hspace="10" *ngIf="item.comment_priority=='1'" />
-              <img  style="width: 20px;height:20px;    margin-top: 22px;
-          margin-right: 27px;" src="img/high_priority.png" hspace="10" *ngIf="item.comment_priority=='2'" /></span-->
 
 
 
@@ -100,12 +81,12 @@
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='R'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
 
-            <div class="p1">
+            <div class="p1"   ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3>
-                  <b>{{upcomintitem.service_subject}}</b>
+                <h3  [ngStyle]="{'width':h3width}">
+                  <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_scheduled_display}}
@@ -114,10 +95,7 @@
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
 
-                <div style="position: absolute;
-                margin-top: -60px;
-                margin-left: 57%;
-                text-align: center;">
+                <div  ngClass="{{denyosupporttext}}" class="denyo-support-text">
                   <span style="color:green;font-size:11px" *ngIf="upcomintitem.is_denyo_support>0">
                     <ion-icon ios="ios-checkmark" md="md-checkmark" style="color:green;font-size:16px"></ion-icon>
                     <br>Denyo Support
@@ -130,12 +108,12 @@
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='S'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
 
-            <div class="p1">
+            <div class="p1"   ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3>
-                  <b>{{upcomintitem.service_subject}}</b>
+                <h3  [ngStyle]="{'width':h3width}">
+                  <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_scheduled_display}}
@@ -163,7 +141,7 @@
 
           <!--  && upcomintitem.alarm_assigned_by!='' -->
           <ion-item *ngIf="upcomintitem.event_type=='OA'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="p1">
+            <div class="p1"   ngClass="{{itemwidth}}">
               <div class="msg">
                 <!-- <div class="user-img"> -->
                 <img src="assets/imgs/warning-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
@@ -173,7 +151,7 @@
 
 
                 <div class="check">
-                  <h3 style="padding-left:13px;white-space: normal;">
+                  <h3 [ngStyle]="{'width':h3width}" style="padding-left:13px;white-space: normal;">
                     <b>{{upcomintitem.alarm_name}}</b>
                   </h3>
                   <div class="D&T" style="font-size:14px;padding-left:13px">
@@ -190,7 +168,7 @@
           </ion-item>
           <!--  && upcomintitem.alarm_assigned_by!=''-->
           <ion-item *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="p1">
+            <div class="p1"   ngClass="{{itemwidth}}">
               <div class="msg">
                 <!-- <div class="user-img"> -->
                 <img src="assets/imgs/warning-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
@@ -200,7 +178,7 @@
 
 
                 <div class="check">
-                  <h3 style="padding-left:13px;white-space: normal;">
+                  <h3 [ngStyle]="{'width':h3width}" style="padding-left:13px;white-space: normal;">
                     <b>{{upcomintitem.alarm_name}}</b>
                   </h3>
                   <div class="D&T" style="font-size:14px;padding-left:13px">

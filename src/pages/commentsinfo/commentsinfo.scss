@@ -1,5 +1,20 @@
 page-commentsinfo {
-
+	.device-320-item-width
+	{
+		width:430px;
+	}
+	.denyo-support-text{
+		position: absolute;
+		margin-top: -60px;
+		margin-left: 57%;
+		text-align: center;
+	}
+	.denyo-support-text-320{
+		position: absolute;
+		margin-top: -68px;
+		margin-left: 52%;
+		text-align: center;
+	}
 	.msg {
 		display: flex;
 		flex-wrap: nowrap;

@@ -566,8 +566,6 @@ export class AddserviceinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
 
-    console.log("New Scheduled Service:" + url + "?" + body);
-
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();

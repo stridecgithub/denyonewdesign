@@ -13,7 +13,6 @@
         <ion-icon name="notifications"></ion-icon>
         <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
       </button>
-      <!--button class="profile"><img src="{{profilePhoto}}" width="28" height="28"></button-->
     </div>
   </ion-navbar>
 
@@ -22,15 +21,7 @@
 <ion-content (tap)="isNet()">
 
   <div class="network-error" *ngIf="networkType!=''" style="position: relative;margin-top: 108%;">{{networkType}}</div>
-  <!--div *ngIf="networkType==''">
-    <ion-select style="padding: 1px 1px 6px 1px;position: relative;
-    margin-top: 16px;" [(ngModel)]="pet" (ionChange)="onSegmentChanged(pet)">
-      <ion-option value="ALL" selected=true>All</ion-option>
-      <ion-option value="SERVICE">Service</ion-option>
-      <ion-option value="EVENT">Event</ion-option>
-      <ion-option value="ALARM">Alarm</ion-option>
-    </ion-select>
-  </div-->
+ 
   <div class="ionic2-calendar" [ngClass]="sizeClass" *ngIf="networkType==''">
     <div class="ionic2-cal-topnav">
       <div class="month-selection" padding>
@@ -44,11 +35,6 @@
       </div>
     </div>
     <div class="main-view" *ngIf="networkType==''">
-
-      <!--div style="background-color:gray;
-    color: white;" class="ionic2-cal-item ionic2-cal-header" *ngFor="let wd of weekDays">
-          {{wd}}
-        </div-->
       <div class="ionic2-cal-month-view">
         <div class="ionic2-cal-item ionic2-cal-header">
           Mon
@@ -174,9 +160,7 @@
       </div>
       <div style="text-align: center">
         <button class="add-new-event" (click)="doAdd()">
-          <ion-icon name="add-circle" style="position: fixed;
-    bottom: 9%;
-    right: 1%;"></ion-icon>
+          <ion-icon name="add-circle"   ngClass="{{calendaradd}}"></ion-icon>
         </button>
       </div>
 
@@ -202,16 +186,13 @@
                 {{eventitem.calendar_time}}
               </div>
 
-              <div class="event-detail eventcolor">
+              <div class="eventcolor"   ngClass="{{eventdetailclass}}">
                 <div style="white-space: normal">
                   <b>{{eventitem.event_title}}</b>
                 </div>
 
                 <div style="white-space: normal">{{eventitem.event_location}}</div>
                 <div style="white-space: normal">{{eventitem.event_remark}}</div>
-                <!-- <div>{{eventitem.event_addedby_name}}
-                </div> -->
-
 
               </div>
             </ion-item>
@@ -232,11 +213,8 @@
 
 
 
-              <div class="event-detail servicecolor">
-                <!--div style="white-space: normal">Location:{{eventitem.event_location}}</div>
-              <div style="white-space: normal">Remarks:{{eventitem.event_remark}}</div>
-              <div>Created By:{{eventitem.event_addedby_name}}-->
-
+              <div class="servicecolor"   ngClass="{{eventdetailclass}}">
+               
                 <h1>
                   <b> {{eventitem.event_title}}</b>
                 </h1>
@@ -256,7 +234,7 @@
 
               </div>
 
-              <div class="event-detail" ngClass="{{eventitem.eventcolor}}">
+              <div   ngClass="{{eventdetailclass}} {{eventitem.eventcolor}}">
                 <h1> {{eventitem.name}}</h1>
                 <p>{{eventitem.unitname}}
                   <br> {{eventitem.projectname}}
@@ -282,18 +260,10 @@
               </button>
 
 
-              <!-- *ngIf="eventitem.duration==0 && eventitem.event_type=='S' && eventitem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
-
-<!-- Service Delete Access:{{SERVICEDELETEACCESS}}
-Duration:{{eventitem.duration}}
-Type:{{eventitem.event_type}}
-Added By:{{eventitem.event_added_by}}
-Role Id:{{roleId}}
-User Id:{{userId}} -->
+            
               <button *ngIf="(SERVICEDELETEACCESS==1 && eventitem.duration==0 && eventitem.event_type=='S') || (roleId==1 && SERVICEDELETEACCESS==1 && eventitem.event_type=='S')"
                 ion-button class="del-btn" (click)="doServiceDelete(eventitem)">
-                <!--*ngIf="eventitem.duration!=1 && eventitem.event_type=='S' && SERVICEDELETEACCESS=='1' && eventitem.event_added_by==userId" -->
-                <ion-icon name="trash"></ion-icon>Delete
+                  <ion-icon name="trash"></ion-icon>Delete
               </button>
 
 
@@ -305,16 +275,6 @@ User Id:{{userId}} -->
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
 
-              <!-- <button *ngIf="eventitem.event_type=='A' && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(eventitem)">
-                <ion-icon name="trash"></ion-icon>Delete
-              </button> -->
-
-
-              <!-- <button *ngIf="eventitem.event_type=='OA' && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(eventitem)">
-                <ion-icon name="trash"></ion-icon>Delete
-              </button> -->
-
-
 
 
             </ion-item-options>
@@ -325,19 +285,7 @@ User Id:{{userId}} -->
 
       <div id="event-list" *ngIf="onLoad==true">
         <ion-list>
-          <ion-item-sliding #item class="list-item" *ngFor="let calendaritem of calendarResultEvent">
-
-            <!--ion-item>
-            <div class="event-time">
-              11:30AM
-            </div>
-            <div class="event-detail eventcolor">
-              <h1>Sd Door Switch</h1>
-              <p>DCA6000SS Denyo Testing Unit Name can b…<br> Denyo Remote Monitoring Project Name<br> 1 Orchard Boulevard </p>
-            </div>
-          </ion-item-->
-
-
+          <ion-item-sliding #item class="list-item" *ngFor="let calendaritem of calendarResultEvent">        
 
             <ion-item *ngIf="calendaritem.event_type=='E'  && EVENTVIEWACCESS==1" (click)="doEventView(calendaritem.event_id,calendaritem.event_type,calendaritem)">
 
@@ -349,15 +297,14 @@ User Id:{{userId}} -->
                 {{calendaritem.calendar_time}}
               </div>
 
-              <div class="event-detail eventcolor">
+              <div class="eventcolor"  ngClass="{{eventdetailclass}}">
                 <div style="white-space: normal">
                   <b>{{calendaritem.event_title}}</b>
                 </div>
 
                 <div style="white-space: normal">{{calendaritem.event_location}}</div>
                 <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-                <!-- <div>{{calendaritem.event_addedby_name}}
-                </div> -->
+              
               </div>
             </ion-item>
 
@@ -374,22 +321,21 @@ User Id:{{userId}} -->
                 {{calendaritem.calendar_time}}
               </div>
 
-              <div class="event-detail servicecolor">
+              <div class="servicecolor"   ngClass="{{eventdetailclass}}">
                 <div style="white-space: normal">
                   <b>{{calendaritem.event_title}}</b>
                 </div>
                 <h1>{{calendaritem.unitname}}</h1>
                 <div style="white-space: normal">{{calendaritem.event_location}}</div>
                 <div style="white-space: normal">{{calendaritem.event_remark}}</div>
-                <!-- <div>{{calendaritem.event_addedby_name}}
-                </div> -->
+               
               </div>
             </ion-item>
             <ion-item *ngIf="calendaritem.event_type=='A'  && ALARMVIEWACCESS=='1'" (click)="doCalendarView(calendaritem.event_id,calendaritem.event_type)">
               <div class="event-time">
                 {{calendaritem.calendar_time}}
               </div>
-              <div class="event-detail" ngClass="{{calendaritem.eventcolor}}">
+              <div    ngClass="{{eventdetailclass}} {{calendaritem.eventcolor}}">
                 <h1>
                   <b>{{calendaritem.event_title}}</b>
                 </h1>
@@ -425,28 +371,12 @@ User Id:{{userId}} -->
               <button *ngIf="(SERVICEDELETEACCESS==1 && calendaritem.duration==0 && calendaritem.event_type=='S') || (roleId==1 && SERVICEDELETEACCESS==1 && calendaritem.event_type=='S')"
 
                 ion-button class="del-btn" (click)="doServiceDelete(calendaritem)">
-                <!-- *ngIf="calendaritem.duration!=1 && calendaritem.event_type=='S' && calendaritem.event_added_by==userId && SERVICEDELETEACCESS=='1'"-->
-                <ion-icon name="trash"></ion-icon>Delete
+                  <ion-icon name="trash"></ion-icon>Delete
               </button>
-
-
-              <!-- *ngIf="calendaritem.duration==0 && calendaritem.event_type=='E' && calendaritem.event_added_by==userId && EVENTDELETEACCESS=='1'" -->
-
-
               <button ion-button *ngIf="(EVENTDELETEACCESS==1 && calendaritem.duration==0 && calendaritem.event_type=='E') || (roleId==1 && EVENTDELETEACCESS==1 && calendaritem.event_type=='E')"
                 class="del-btn" (click)="doEventDelete(calendaritem)">
                 <ion-icon name="trash"></ion-icon>Delete
               </button>
-
-
-              <!-- <button *ngIf="calendaritem.event_type=='A'  && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(calendaritem)">
-                <ion-icon name="trash"></ion-icon>Delete
-              </button>
-
-
-              <button *ngIf="calendaritem.event_type=='OA'  && ALARMDELETEACCESS==1" ion-button class="del-btn" (click)="doCalendarDelete(calendaritem)">
-                <ion-icon name="trash"></ion-icon>Delete
-              </button> -->
 
 
             </ion-item-options>

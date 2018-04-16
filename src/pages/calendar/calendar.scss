@@ -838,12 +838,41 @@ button.currentDataHighlights {
       font-size: 12px;
     }
     h1 {
+      font-size: 16px;
+    }
+  }
+
+  .event-detail-device-320 {
+    padding-left: 4px;
+    float: right;
+    width: 80%;
+    position: relative;
+    font-size: 12px;
+	white-space: normal;
+    &:before {      
+      content: '●';
+      position: absolute;
+      left: -8px;
+      top: -6px;
+      font-size: 16px;
+    }
+    h1 {
       font-size: 14px;
     }
   }
+
 }
 
-
+.calendaradd{
+  position: fixed;
+  bottom: 9%;
+  right: 1%;
+}
+.calendaradd-320{
+  position: fixed;
+  bottom: 10%;
+  right: 1%;
+}
 
 .trippedcolor {
   &:before {

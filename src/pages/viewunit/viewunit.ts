@@ -20,9 +20,7 @@ export class ViewunitPage {
   }
 
   ionViewDidLoad() {
-    this.unitAllLists = this.navParams.get('item');   
-    console.log('ionViewDidLoad ViewunitPage');
-    console.log("Selected view items:-"+JSON.stringify(this.unitAllLists));
+    this.unitAllLists = this.navParams.get('item');  
   }
   previous() {
     this.viewCtrl.dismiss();

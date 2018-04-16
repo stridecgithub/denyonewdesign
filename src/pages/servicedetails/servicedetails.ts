@@ -688,8 +688,6 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
-    console.log('Service Update API URL:' + url + "?" + body);
-    //this.showAlert('Service Update API URL:', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -798,7 +796,7 @@ export class ServicedetailsPage {
       this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
       this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
-      console.log(this.unitDetailData.nextServiceDate);
+     
    
     if (this.unitDetailData.nextServiceDate != '') {
       //this.isSubmitted = false;
@@ -920,10 +918,6 @@ export class ServicedetailsPage {
 
 
   selectEntry(item) {
-
-    console.log("Service Edit Item" + JSON.stringify(item));
-
-
     if (this.NP.get("act") == 'Add') {
       this.addedServiceImgLists = [];
       this.addedServiceImgLists.length = 0;

@@ -694,8 +694,6 @@ export class AddcalendarPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
 
-    console.log("Add Calendar / Add Event API:" + url + "?" + body);
-
     //this.showAlert('Add Calendar / Add Event API', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {

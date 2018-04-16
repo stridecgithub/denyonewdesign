@@ -67,6 +67,11 @@ export class CommentsinfoPage {
   public totalCount;
   public sortLblTxt: string = 'Comment';
   roleId;
+  itemwidth: any;
+  devicewidth: any;
+  deviceheight: any;  
+  h3width = '';
+  denyosupporttext;
   constructor(private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
@@ -81,6 +86,8 @@ export class CommentsinfoPage {
           tabs: 'dataView'
         });
       });
+      this.devicewidth = this.platform.width();
+      this.deviceheight = this.platform.height();
     });
 
 
@@ -99,8 +106,7 @@ export class CommentsinfoPage {
     // Footer Menu Access - End
   }
 
-  ionViewDidLoad() {
-  }
+ 
 
   presentModal(unit) {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
@@ -138,7 +144,15 @@ export class CommentsinfoPage {
 
 
   ionViewWillEnter() {
-
+    if (this.devicewidth <= 320) {
+      this.itemwidth = 'device-320-item-width';
+      this.h3width = '230px';
+      this.denyosupporttext='denyo-support-text-320';
+    } else {
+      this.itemwidth = '';
+      this.h3width = '270px';
+      this.denyosupporttext='denyo-support-text';
+    }
    // let iframeunitid = localStorage.getItem("iframeunitId");
    
     let editItem = this.NP.get("record");
@@ -281,8 +295,7 @@ export class CommentsinfoPage {
         } else {
           this.totalCount = 0;
           this.loadingMoreDataContent = 'No More Data';
-        }
-       
+        }      
 
       }, error => {
         this.conf.presentLoading(0);

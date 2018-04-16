@@ -47,26 +47,27 @@
 
     <!-- service p1 -->
     <div class="new-service">
-      <h1 (click)="doAdd()"  *ngIf="CREATEACCESS==1">Schedule New Service</h1>
+      <h1 (click)="doAdd()" *ngIf="CREATEACCESS==1">Schedule New Service</h1>
       <h2>Upcoming</h2>
       <div class="error" *ngIf="totalCountUpcoming==0">No entries found</div>
       <ion-list class="lst" *ngFor="let upcomintitem of upcomingAllLists;">
         <ion-item-sliding class="brd">
           <ion-item class="slide">
-            <div [ngStyle]="{'color':  upcomintitem.duedatecolor}" class="p1" (click)="servicedetailsView(upcomintitem,'view','upcoming')">
+            <div [ngStyle]="{'color':  upcomintitem.duedatecolor}" class="p1" (click)="servicedetailsView(upcomintitem,'view','upcoming')"
+              ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" src="{{upcomintitem.user_photo}}">
               <div class="check">
-                <h3 style="width:270px">
+                <h3  [ngStyle]="{'width':h3width}">
                   <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
                   {{upcomintitem.serviced_scheduled_display}}
                 </div>
                 <span *ngIf="upcomintitem.serviced_created_name!='null'">Created by:{{upcomintitem.serviced_created_name}} {{upcomintitem.serviced_created_name_hastag_withinclosedbracket}}
-                  </span>
+                </span>
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag_withinclosedbracket}}
-                  </span>
+                </span>
                 <br>
                 <!-- <span  *ngIf="upcomintitem.service_status==1">Completed Date:{{upcomintitem.currentdate_mobileview}}</span> -->
 
@@ -89,7 +90,8 @@
               <img width="25" src="assets/imgs/edit@2x.png">
               <br>Edit
             </button>
-            <button ion-button *ngIf="(DELETEACCESS==1 && upcomintitem.duration==0) || (roleId==1 && DELETEACCESS==1)"  class="delete-btn" (click)="doConfirmUpcoming(upcomintitem.service_id,item,'upcoming')">
+            <button ion-button *ngIf="(DELETEACCESS==1 && upcomintitem.duration==0) || (roleId==1 && DELETEACCESS==1)" class="delete-btn"
+              (click)="doConfirmUpcoming(upcomintitem.service_id,item,'upcoming')">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -111,8 +113,8 @@
     <ion-row>
       <ion-col class="col" col-12>
         <div class="bottom-row bot-row2-srvce">
-          <button (click)="doAddHoc()"  *ngIf="CREATEACCESS==1">New Ad-hoc Service</button>
-          <button (click)="doRequest()"  *ngIf="CREATEACCESS==1">Request Denyo Support</button>
+          <button (click)="doAddHoc()" *ngIf="CREATEACCESS==1">New Ad-hoc Service</button>
+          <button (click)="doRequest()" *ngIf="CREATEACCESS==1">Request Denyo Support</button>
         </div>
       </ion-col>
     </ion-row>
@@ -126,10 +128,10 @@
       <ion-list class="lst" *ngFor="let historytitem of historyAllLists;">
         <ion-item-sliding class="brd">
           <ion-item class="slide" (click)="servicedetailsView(historytitem,'view','history')">
-            <div class="p1">
+            <div class="p1" ngClass="{{itemwidth}}">
               <img *ngIf="historytitem.user_photo!=''" src="{{historytitem.user_photo}}">
               <div class="check">
-                <h3 style="width:270px">
+                <h3 [ngStyle]="{'width':  h3width}">
                   <b style="white-space:normal">{{historytitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
@@ -153,8 +155,9 @@
               </div>
             </div>
           </ion-item>
-          <ion-item-options side="right" class="list-item-options">          
-            <button   *ngIf="(DELETEACCESS==1 && historytitem.duration==0) || (roleId==1 && DELETEACCESS==1)" (click)="doConfirmUpcoming(historytitem.service_id,historytitem,'history')" ion-button class="delete-btn">
+          <ion-item-options side="right" class="list-item-options">
+            <button *ngIf="(DELETEACCESS==1 && historytitem.duration==0) || (roleId==1 && DELETEACCESS==1)" (click)="doConfirmUpcoming(historytitem.service_id,historytitem,'history')"
+              ion-button class="delete-btn">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -170,8 +173,8 @@
 
     </div>
 
-  </div>  
+  </div>
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
-<ion-footer>
+  <progress-bar [progress]="footerBar"></progress-bar>
+  <ion-footer>

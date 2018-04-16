@@ -100,7 +100,6 @@ export class EventDetailsServicePage {
          
           this.item = data.json().servicedetail[0];
           if (this.item != '') {
-          console.log("Event Details Service:"+JSON.stringify(this.item));
             this.eventTitle = data.json().servicedetail[0].service_subject;
             this.eventitem = data.json().servicedetail[0];
             this.projectname = data.json().servicedetail[0].projectname;

@@ -37,6 +37,10 @@ export class ServicinginfoPage {
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
+  itemwidth: any;
+  devicewidth: any;
+  deviceheight: any;  
+  h3width = '';
   public upcomingData: any =
     {
       status: '',
@@ -92,7 +96,13 @@ export class ServicinginfoPage {
           record: this.NP.get("record"),
           tabs: 'dataView'
         });
+       
+
       });
+
+      this.devicewidth = this.platform.width();
+      this.deviceheight = this.platform.height();
+      
     });
 
 
@@ -119,13 +129,19 @@ export class ServicinginfoPage {
 
   }
 
-  
+
 
   ionViewDidLoad() {
-    
+    if (this.devicewidth <= 320) {
+      this.itemwidth = 'device-320-item-width';
+      this.h3width = '230px';
+    } else {
+      this.itemwidth = '';
+      this.h3width = '270px';
+    }
     localStorage.setItem("fromModule", "ServicinginfoPage");
 
-    
+
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -136,7 +152,7 @@ export class ServicinginfoPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       }, error => {
@@ -144,9 +160,9 @@ export class ServicinginfoPage {
       });
 
     if (this.NP.get("record")) {
-    
+
       let editItem = this.NP.get("record");
-     // this.showAlert('this.NP.get("record")', JSON.stringify(editItem));
+      // this.showAlert('this.NP.get("record")', JSON.stringify(editItem));
       // UnitDetails Api Call		
 
       let unitid = editItem.unit_id;
@@ -156,7 +172,7 @@ export class ServicinginfoPage {
       if (unitid == 'undefined') {
         unitid = editItem.service_unitid;
       }
-    
+
       let
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
@@ -203,7 +219,7 @@ export class ServicinginfoPage {
             }
 
             this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-         
+
 
           }
         }, error => {
@@ -223,9 +239,9 @@ export class ServicinginfoPage {
 
     // Atmentioned Tag Storage
   }
-  
+
   doRefresh(refresher) {
-  
+
     this.upcomingData.startindex = 0;
     this.upcomingAllLists = [];
     this.doUpcoming();
@@ -234,9 +250,9 @@ export class ServicinginfoPage {
     }, 2000);
   }
   doInfinite(infiniteScroll) {
-  
 
-  
+
+
     if (this.upcomingData.startindex < this.totalCountUpcoming && this.upcomingData.startindex > 0) {
 
       this.doUpcoming();
@@ -257,7 +273,7 @@ export class ServicinginfoPage {
       this.upcomingData.sort = "comapny";
     }
     let editItem = this.NP.get("record");
-    
+
     if (this.NP.get("record").unit_id != undefined && this.NP.get("record").unit_id != 'undefined') {
       this.unit_id = editItem.unit_id;
     } else {
@@ -268,16 +284,16 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
 
-      
+
         if (res.services.length > 0) {
           this.upcomingAllLists = res.services;
-          
+
 
 
           this.totalCountUpcoming = res.totalCountUpcoming;
@@ -285,14 +301,14 @@ export class ServicinginfoPage {
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
             this.photo = res.services[i].user_photo;
-           
+
           }
 
         } else {
           this.totalCountUpcoming = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-       
+
 
       }, error => {
         this.conf.presentLoading(0);
@@ -347,7 +363,7 @@ export class ServicinginfoPage {
 
 
   doEdit(item, act) {
-   
+
     this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
@@ -365,14 +381,14 @@ export class ServicinginfoPage {
     });
   }
   presentModal(unit) {
-   
+
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
 
   doConfirmUpcoming(id, item, from) {
 
-   
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service schedule?',
       buttons: [{
@@ -406,7 +422,7 @@ export class ServicinginfoPage {
   }
   doConfirmHistory(id, item, from) {
 
-  
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this service history?',
       buttons: [{
@@ -507,7 +523,7 @@ export class ServicinginfoPage {
         {
           text: 'Asc',
           handler: data => {
-           
+
             if (data != undefined) {
               this.upcomingData.sort = data;
               this.upcomingData.sortascdesc = 'asc';
@@ -528,7 +544,7 @@ export class ServicinginfoPage {
         {
           text: 'Desc',
           handler: data => {
-           
+
             if (data != undefined) {
               this.upcomingData.sort = data;
               this.upcomingData.sortascdesc = 'desc';
@@ -579,7 +595,7 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -592,14 +608,14 @@ export class ServicinginfoPage {
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
             this.photo = res.services[i].user_photo;
-           
+
           }
 
         } else {
           this.totalCounthistory = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-       
+
 
       }, error => {
         this.conf.presentLoading(0);
@@ -608,7 +624,7 @@ export class ServicinginfoPage {
 
   }
   doRefreshHistory(refresher) {
-   
+
     this.historyData.startindex = 0;
     this.historyAllLists = [];
     this.doHistory();
@@ -617,7 +633,7 @@ export class ServicinginfoPage {
     }, 2000);
   }
   doInfiniteHistory(infiniteScroll) {
-  
+
     if (this.historyData.startindex < this.totalCounthistory && this.historyData.startindex > 0) {
 
       this.doHistory();

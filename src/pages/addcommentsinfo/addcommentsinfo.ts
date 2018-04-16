@@ -545,7 +545,6 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
-    console.log("Store Comments:" + url + "?" + body);
 
     //this.showAlert('Store Comments:', url + "?" + body);
 

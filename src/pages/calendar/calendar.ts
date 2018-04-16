@@ -1,19 +1,14 @@
-///<<<<<<< HEAD
-//import { Component } from '@angular/core';
-//import {  NavController, NavParams } from 'ionic-angular';
+
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef }
   from '@angular/core';
 import { Events, NavController, AlertController, Platform, ItemSliding, NavParams, App } from 'ionic-angular';
 import * as moment from 'moment';
-//import { DragulaService } from "ng2-dragula/ng2-dragula"
 import * as shortid from 'shortid';
 import { Http, Headers, RequestOptions } from "@angular/http";
-//import { EventDetailsPage } from '../../pages/calendardetail/calendardetail';
 import { EventDetailsPage } from '../../pages/event-details/event-details';
 import { EventDetailsServicePage } from '../../pages/event-details-service/event-details-service';
 import { EventDetailsEventPage } from '../../pages/event-details-event/event-details-event';
 import { NotificationPage } from '../notification/notification';
-//import { PermissionPage } from '../permission/permission';
 import { AddcalendarPage } from '../../pages/addcalendar/addcalendar';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { Config } from '../../config/config';
@@ -63,23 +58,10 @@ interface CalendarControl {
   monthView: MonthView;
   weekView: WeekView;
 }
-/*=======
-import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
-
->>>>>>> ui*/
-/**
- * Generated class for the CalendarPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-
 @Component({
   selector: 'page-calendar',
   templateUrl: 'calendar.html',
-  //<<<<<<< HEAD
+ 
   providers: [Config]
 })
 export class CalendarPage {
@@ -150,6 +132,10 @@ export class CalendarPage {
   @Output() onEventPress = new EventEmitter<any>();
   public profilePhoto;
   roleId;
+  devicewidth: any;
+  deviceheight: any;
+  eventdetailclass: any;
+  calendaradd:any;
   constructor(private app: App, private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, public navCtrl: NavController,
     private calendarElement: ElementRef,
     public events: Events, private http: Http, public alertCtrl: AlertController) {
@@ -163,6 +149,8 @@ export class CalendarPage {
         this.navCtrl.setRoot(DashboardPage, {
         });
       });
+      this.devicewidth = this.platform.width();
+      this.deviceheight = this.platform.height();
     });
 
     localStorage.setItem("sdate", "");
@@ -215,6 +203,14 @@ export class CalendarPage {
     }
   }
   ionViewDidLoad() {
+    if (this.devicewidth <= 320) {
+      this.eventdetailclass = 'event-detail-device-320';
+      this.calendaradd = 'calendaradd-320';
+      
+    } else {
+      this.eventdetailclass = 'event-detail';
+      this.calendaradd = 'calendaradd';
+    }
     localStorage.setItem("sdate", "");
     this.doNotifiyCount();
   }
@@ -311,7 +307,6 @@ export class CalendarPage {
 
   monthStr2monthNum(monthStr: string) {
     return this.months.indexOf(monthStr);
-    //return this.months.indexOf([monthStr]);
   }
 
   updateMainView = function () {
@@ -392,7 +387,6 @@ export class CalendarPage {
     var firstDayInViewOfPreviousMonth = moment(this.ctrl.monthView.firstDayOfMonth).subtract(firstDayOfMonthAsWeekday - 1, 'days');
 
     var currentDay = moment(firstDayInViewOfPreviousMonth);
-    // var days = [];
     var ctrlObj: any = {
       idx: 0,
       reachedEventListEnd: false,
@@ -549,8 +543,7 @@ export class CalendarPage {
     }, 300);
   }
 
-  stopPressPropagation = false; // <-- Fix to stop mothDayGrid press event to
-  //     get triggered too.
+  stopPressPropagation = false; 
   eventOnPress(item: CalendarEvent, $event) {
     $event.srcEvent.stopImmediatePropagation();
     $event.srcEvent.stopPropagation();
@@ -570,7 +563,7 @@ export class CalendarPage {
 
   monthDayGridCellOnPress(item: CalendarEvent, $event) {
 
-    $event.srcEvent.stopPropagation(); // <-- Doesn't seem to work
+    $event.srcEvent.stopPropagation(); 
     if (this.draggingItem === null && this.tmpTapCount === 0 && !this.stopPressPropagation) {
       this.events.publish('calendar-event:month-grid-cell-press - calendar.components', item);
     }
@@ -600,15 +593,14 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-    console.log(url);
+    
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
 
         let res = data.json();
-        // this.eventIdentify = res.allevents;
+        
         this.eventIdentify = res.events;
-        //let highlightdots = res.highlightdots;
 
         if (res.highlightdots.length > 0) {
           for (let hlgts in res.highlightdots) {
@@ -643,7 +635,6 @@ export class CalendarPage {
             endDate: endTime,
             name: this.eventIdentify[i]['event_title'],
             event_title: this.eventIdentify[i]['event_title'],
-            //event_unitid: this.eventIdentify[i]['service_unitid'],
             type: 'event',
             event_type: 'E',
             allDay: true,
