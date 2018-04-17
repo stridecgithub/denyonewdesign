@@ -1,4 +1,4 @@
-<ion-header  (tap)="isNet()">
+<ion-header  (tap)="isNet()" *ngIf="selecteditems.length==0">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -19,6 +19,43 @@
     </div>
   </ion-navbar>
 
+</ion-header>
+
+
+<ion-header style="background-color:#515151 !important;color:white" *ngIf="selecteditems.length>0">
+  <ion-toolbar style="background-color:#515151 !important;color:white">
+    <ion-buttons left style="background-color:#515151 !important;color:white">
+
+
+
+      <button ion-button icon-only (click)="resettoback()" style="background-color:#515151 !important;color:white">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+
+
+
+
+    </ion-buttons>
+
+    <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
+
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
+        <ion-icon name="md-arrow-dropdown"></ion-icon>
+      </button>
+
+
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="moretip(moreopenorclose)">
+        <ion-icon name="more" style="background-color:#515151 !important;color:white"></ion-icon>
+      </button>
+
+
+
+    </ion-buttons>
+
+  </ion-toolbar>
 </ion-header>
 
 
@@ -48,12 +85,19 @@
 
       <div class="error" *ngIf="totalCount==0">No message entries found</div>
       <ion-list *ngIf="totalCount!=0">
-        <ion-item-sliding *ngFor="let inboxitem of inboxLists">
-          <ion-item class="msg">
+        <ion-item-sliding *ngFor="let inboxitem of inboxLists; let i = index">
+
+
+          <ion-item class="msg"  ngClass="{{inboxitem.active}}">
+
+              <span ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()" *ngIf="inboxitem.active!=''">
+                  <img src="{{inboxitem.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()">
+                </span>
+
+
             <div class="date-time" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.message_date_mobileview_list}}</div>
-            <div class="user-img">
-              <!--img src="assets/imgs/user-pic.jpg" alt=""-->
-              <img *ngIf="inboxitem.senderphoto!=''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
+            <div class="user-img" ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()" *ngIf="inboxitem.active==''" >
+             <img *ngIf="inboxitem.senderphoto!=''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
               <img  *ngIf="inboxitem.senderphoto==''" alt="" src="{{apiServiceURL}}/images/default.png">
             </div>
             <div class="msg-info">

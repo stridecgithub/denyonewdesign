@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ModalController, Platform,App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController, Platform, App } from 'ionic-angular';
 import { ComposePage } from "../compose/compose";
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
@@ -38,7 +38,7 @@ export class MessagesPage {
   public addedImgListsArray = [];
   public addedImgLists = [];
   public attachedFileLists = [];
-  private apiServiceURL: string = ""; 
+  private apiServiceURL: string = "";
   public networkType: string;
   public composemessagecontent: any;
   progress: number;
@@ -46,7 +46,7 @@ export class MessagesPage {
   public personalhashtagreplaceat;
   public receiver_id;
   public receiver_idreplaceat;
-  public pageTitle: any;  
+  public pageTitle: any;
   public recordID: any;
   public userId: any;
   public companyId: any;
@@ -123,7 +123,13 @@ export class MessagesPage {
   // tabBarElement;
   public profilePhoto;
   roleId;
-  constructor(public app: App,public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+
+  selectallopenpop = 0;
+  moreopenpop = 0;
+  selectallopenorclose = 1;
+  moreopenorclose = 1;
+  public selecteditems = [];
+  constructor(public app: App, public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -148,7 +154,7 @@ export class MessagesPage {
     });
     this.doNotifiyCount();
 
-   
+
 
 
 
@@ -176,7 +182,7 @@ export class MessagesPage {
       });
     // Notiifcation count
   }
- 
+
 
   ionViewDidLoad() {
     // Authority for message send
@@ -192,8 +198,8 @@ export class MessagesPage {
     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
     // Authority for message inbox
 
-   
-   
+
+
     let elements = document.querySelectorAll(".tabbar");
 
     if (elements != null) {
@@ -203,7 +209,7 @@ export class MessagesPage {
     }
     if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
       this.tabs = 'inboxView';
-     
+
       jQuery('#inboxView').show();
       jQuery('#sentView').show();
       jQuery('#inboxblock').show();
@@ -213,7 +219,7 @@ export class MessagesPage {
 
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
       this.tabs = 'inboxView';
-     
+
       jQuery('#inboxView').show();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').show();
@@ -223,7 +229,7 @@ export class MessagesPage {
 
     } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
       this.tabs = 'sentView';
-     
+
       jQuery('#inboxView').hide();
       jQuery('#sentView').show();
       jQuery('#inboxblock').hide();
@@ -233,7 +239,7 @@ export class MessagesPage {
       this.snd();
 
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
-     
+
       jQuery('#inboxView').hide();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').hide();
@@ -244,15 +250,15 @@ export class MessagesPage {
 
     if (this.navParams.get("fromtab") != undefined) {
       if (this.navParams.get("fromtab") == 'sentView') {
-      
+
         this.tabs = 'sendView';
         this.snd();
       } else {
         this.inb();
         this.tabs = 'inboxView';
-       
+
       }
-      this.tabs = this.navParams.get("fromtab");     
+      this.tabs = this.navParams.get("fromtab");
     }
   }
 
@@ -269,9 +275,9 @@ export class MessagesPage {
     this.MESSAGEINBOXEDITACCESS = localStorage.getItem("MESSAGES_INBOX_EDIT");
     this.MESSAGEINBOXDELETEACCESS = localStorage.getItem("MESSAGES_INBOX_DELETE");
     // Authority for message inbox
-    
+
     if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 1) {
-     
+
       this.tabs = 'inboxView';
       jQuery('#inboxView').show();
       jQuery('#sentView').show();
@@ -280,7 +286,7 @@ export class MessagesPage {
       this.segmenttabshow = 1;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 1) {
-     
+
       this.tabs = 'inboxView';
       jQuery('#inboxView').show();
       jQuery('#sentView').hide();
@@ -289,7 +295,7 @@ export class MessagesPage {
       this.segmenttabshow = 0;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 1 && this.MESSAGEINBOXVIEWACCESS == 0) {
-     
+
       this.tabs = 'sentView';
       jQuery('#inboxView').hide();
       jQuery('#sentView').show();
@@ -298,7 +304,7 @@ export class MessagesPage {
       this.segmenttabshow = 1;
       this.rolePermissionMsg = '';
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
-     
+
       jQuery('#inboxView').hide();
       jQuery('#sentView').hide();
       jQuery('#inboxblock').hide();
@@ -308,12 +314,12 @@ export class MessagesPage {
     }
 
     if (this.navParams.get("fromtab") != undefined) {
-      if (this.navParams.get("fromtab") == 'sentView') {       
+      if (this.navParams.get("fromtab") == 'sentView') {
         this.tabs = 'sendView';
-      } else {      
-        this.tabs = 'inboxView';       
+      } else {
+        this.tabs = 'inboxView';
       }
-      this.tabs = this.navParams.get("fromtab");     
+      this.tabs = this.navParams.get("fromtab");
     }
 
   }
@@ -322,16 +328,16 @@ export class MessagesPage {
     this.navCtrl.setRoot(ComposePage);
   }
   readAction(messageid, item, act, from) {
-    localStorage.setItem("microtime", '');   
+    localStorage.setItem("microtime", '');
     if (act == 'unread') {
-     
+
       this.unreadAction(messageid, item);
-     
+
       return false;
     } else if (act == 'read') {
-     
+
       this.readActionStatus(messageid, item);
-     
+
       return false;
     } else {
 
@@ -341,7 +347,7 @@ export class MessagesPage {
         from: from
       });
     }
-   
+
   }
   inb() {
     this.inboxLists = [];
@@ -382,21 +388,45 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages?is_mobile=1&startindex=" + this.inboxData.startindex + "&results=" + this.inboxData.results + "&sort=" + this.inboxData.sort + "&dir=" + this.inboxData.sortascdesc + "&loginid=" + this.userId;
     let res;
-    
+
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
-
         res = data.json();
-        if (res.messages.length > 0) {
-          this.inboxLists = res.messages;
-          this.totalCount = res.totalCount;
           this.inboxData.startindex += this.inboxData.results;
-          //this.loadingMoreDataContent = 'Loading More Data';
-        } else {
-          this.totalCount = 0;
-          //this.loadingMoreDataContent = 'No More Data';
-        }
+          if (res.messages.length > 0) {
+            for (let message in res.messages) {
+              this.inboxLists.push({
+                message_id: res.messages[message].message_id,
+                sender_id: res.messages[message].sender_id,
+                messages_subject: res.messages[message].messages_subject,
+                message_body: res.messages[message].message_body,
+                message_body_html: res.messages[message].message_body_html,
+                message_date: res.messages[message].message_date,
+                message_date_mobileview: res.messages[message].message_date_mobileview,
+                message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
+                is_favorite: res.messages[message].is_favorite,
+                message_readstatus: res.messages[message].message_readstatus,
+                message_priority: res.messages[message].message_priority,
+                priority_image: res.messages[message].priority_image,
+                isreply: res.messages[message].isreply,
+                time_ago: res.messages[message].time_ago,
+                receiver_id: res.messages[message].receiver_id,
+                attachments: res.messages[message].attachments,
+                sendername: res.messages[message].sendername,
+                senderphoto: res.messages[message].senderphoto,
+                personalhashtag: res.messages[message].personalhashtag,
+                replyall: res.messages[message].duration,
+                duration: res.messages[message].duration,
+                logo: "assets/imgs/square.png",
+                active: ""
+              });
+            }
+            this.totalCount = res.totalCount;
+          }else {
+            this.totalCount = 0;
+          }
+          console.log("Inbox List Array:" + JSON.stringify(this.inboxLists));       
         this.conf.presentLoading(0);
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -424,7 +454,7 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
     let res;
-    
+
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -432,11 +462,11 @@ export class MessagesPage {
         res = data.json();
         if (res.messages.length > 0) {
 
-         
 
-            this.sendLists = res.messages;
-            this.totalCount = res.totalCount;
-            this.sendData.startindex += this.sendData.results;
+
+          this.sendLists = res.messages;
+          this.totalCount = res.totalCount;
+          this.sendData.startindex += this.sendData.results;
           this.totalCountSend = res.totalCount;
           this.sendData.startindex += this.sendData.results;
         } else {
@@ -450,29 +480,29 @@ export class MessagesPage {
   /**********************/
   /* Infinite scrolling */
   /**********************/
-  doInfinite(infiniteScroll) {    
+  doInfinite(infiniteScroll) {
     if (this.inboxData.startindex < this.totalCount && this.inboxData.startindex > 0) {
-     
+
       this.doInbox();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   doSendInfinite(infiniteScroll) {
     if (this.sendData.startindex < this.totalCountSend && this.sendData.startindex > 0) {
-     
+
       this.doSend();
     }
-   
+
     setTimeout(() => {
-     
+
       infiniteScroll.complete();
     }, 500);
-    
+
   }
   doConfirm(id, item, type) {
     let confirm = this.alertCtrl.create({
@@ -519,9 +549,9 @@ export class MessagesPage {
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-       
+
         if (data.status === 200) {
-       
+
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
@@ -712,8 +742,8 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/setfavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -744,11 +774,11 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/setsenditemfavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
-      
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
@@ -761,7 +791,7 @@ export class MessagesPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
@@ -770,36 +800,36 @@ export class MessagesPage {
 
   unreadAction(val, inboxData) {
 
-   
+
     let urlstr = this.apiServiceURL + "/messages/actions?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Unread&messageids=" + val;
     let bodymessage: string = "",
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
-    
+
     let res;
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-      
+
         if (data.status === 200) {
-        
+
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
-        
+
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
           this.doInbox();
-         
+
         }
         // Otherwise let 'em know anyway
         else {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
@@ -812,22 +842,22 @@ export class MessagesPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/changereadunread";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
         if (data.status === 200) {
-         
+
           if (data.json().msg[0]['Error'] == 0) {
             this.conf.sendNotification(data.json().msg[0]['result']);
           }
-         
+
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
           this.doInbox();
-         
+
 
         }
         // Otherwise let 'em know anyway
@@ -837,6 +867,133 @@ export class MessagesPage {
       });
 
 
+  }
+
+
+  pressed(item, index) {
+    console.log("pressed");
+    this.selecteditems = [];
+    if (this.inboxLists[index]) {
+      if (this.inboxLists[index].active == '') {
+        this.inboxLists[index].active = 'active';
+        this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+      } else {
+        this.inboxLists[index].active = '';
+        this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+      }
+    }
+
+
+
+    for (let i = 0; i < this.inboxLists.length; i++) {
+      if (this.inboxLists[i].active == 'active') {
+        this.inboxLists.push({
+          message_id:  this.inboxLists[i].message_id,
+          sender_id:  this.inboxLists[i].sender_id,
+          messages_subject:  this.inboxLists[i].messages_subject,
+          message_body:  this.inboxLists[i].message_body,
+          message_body_html:  this.inboxLists[i].message_body_html,
+          message_date:  this.inboxLists[i].message_date,
+          message_date_mobileview:  this.inboxLists[i].message_date_mobileview,
+          message_date_mobileview_list:  this.inboxLists[i].message_date_mobileview_list,
+          is_favorite:  this.inboxLists[i].is_favorite,
+          message_readstatus:  this.inboxLists[i].message_readstatus,
+          message_priority:  this.inboxLists[i].message_priority,
+          priority_image:  this.inboxLists[i].priority_image,
+          isreply:  this.inboxLists[i].isreply,
+          time_ago:  this.inboxLists[i].time_ago,
+          receiver_id:  this.inboxLists[i].receiver_id,
+          attachments:  this.inboxLists[i].attachments,
+          sendername:  this.inboxLists[i].sendername,
+          senderphoto:  this.inboxLists[i].senderphoto,
+          personalhashtag:  this.inboxLists[i].personalhashtag,
+          replyall:  this.inboxLists[i].replyall,
+          duration:  this.inboxLists[i].duration
+        });
+      }
+    }
+    console.log("Pressed item:" + JSON.stringify(this.selecteditems));
+
+  }
+  released() {
+    console.log('released');
+    //alert('released');
+  }
+  resettoback() {
+    this.selectallopenpop = 0;
+    this.moreopenpop = 0;
+    this.inboxLists = [];
+    this.inb();
+    this.selecteditems = [];
+  }
+  selectalltip(selectallopenorclose) {
+    this.moreopenpop = 0;
+    if (selectallopenorclose == 1) {
+      this.selectallopenpop = 1;
+      this.selectallopenorclose = 0;
+      // this.close = 0;
+    }
+    if (selectallopenorclose == 0) {
+      this.selectallopenpop = 0;
+      this.selectallopenorclose = 1;
+      //this.close = 1;
+    }
+  }
+  moretip(moreopenorclose) {
+    this.selectallopenpop = 0;
+    if (moreopenorclose == 1) {
+      this.moreopenpop = 1;
+      this.moreopenorclose = 0;
+      // this.close = 0;
+    }
+    if (moreopenorclose == 0) {
+      this.moreopenpop = 0;
+      this.moreopenorclose = 1;
+      //this.close = 1;
+    }
+  }
+  selectAll() {
+    this.selecteditems = [];
+    for (let i = 0; i < this.inboxLists.length; i++) {
+      this.inboxLists[i].active = 'active';
+      this.inboxLists[i].logo = 'assets/imgs/tick_white_background.png';
+
+      let cname = this.inboxLists[i].unitgroup_name;
+
+      if (cname != 'undefined' && cname != undefined) {
+        let stringToSplit = cname;
+        let x = stringToSplit.split("");
+        cname = x[0].toUpperCase();
+      } else {
+        cname = '';
+      }
+
+      this.selecteditems.push({
+        unit_id: this.inboxLists[i].unit_id,
+        unitname: this.inboxLists[i].unitname,
+        location: this.inboxLists[i].location,
+        projectname: this.inboxLists[i].projectname,
+        colorcode: this.inboxLists[i].colorcode,
+        contacts: this.inboxLists[i].contacts,
+        nextservicedate: this.inboxLists[i].nextservicedate,
+        controllerid: this.inboxLists[i].controllerid,
+        neaplateno: this.inboxLists[i].neaplateno,
+        companys_id: this.inboxLists[i].companys_id,
+        unitgroups_id: this.inboxLists[i].unitgroups_id,
+        serial_number: this.inboxLists[i].serialnumber,
+        models_id: this.inboxLists[i].models_id,
+        alarmnotificationto: this.inboxLists[i].alarmnotificationto,
+        genstatus: this.inboxLists[i].genstatus,
+        favoriteindication: this.inboxLists[i].favorite,
+        lat: this.inboxLists[i].latitude,
+        lng: this.inboxLists[i].longtitude,
+        runninghr: this.inboxLists[i].runninghr,
+        companygroup_name: cname,
+        viewonid: this.inboxLists[i].viewonid
+      }
+      );
+
+    }
   }
 
 }
