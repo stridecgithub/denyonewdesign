@@ -1,4 +1,4 @@
-<ion-header   (tap)="isNet()">
+<ion-header   (tap)="isNet()"  *ngIf="selecteditems.length==0">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -20,8 +20,61 @@
   </ion-navbar>
 </ion-header>
 
+<ion-header (tap)="isNet()" style="background-color:#515151 !important;color:white" *ngIf="selecteditems.length>0">
+  <ion-toolbar style="background-color:#515151 !important;color:white">
+    <ion-buttons left style="background-color:#515151 !important;color:white">
+
+
+
+      <button ion-button icon-only (click)="resettoback()" style="background-color:#515151 !important;color:white">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+
+
+
+
+    </ion-buttons>
+
+    <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
+
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
+        <ion-icon name="md-arrow-dropdown"></ion-icon>
+      </button>
+
+
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="moretip(moreopenorclose)">
+        <ion-icon name="more" style="background-color:#515151 !important;color:white"></ion-icon>
+      </button>
+
+
+
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
 
 <ion-content   (tap)="isNet()">
+
+    <div class="list-icon">
+        <div class="select-all" *ngIf="selectallopenpop>0">
+          <button (click)="selectAll()" style="text-align:left">Select All</button>
+    
+        </div>
+      </div>
+    
+      <div class="list-icon">
+        <div class="more" *ngIf="moreopenpop>0">
+          <button (click)="moreaction('favorite')" style="text-align:left">Favorite</button>
+          <button (click)="viewmore(selecteditems)" style="text-align:left">View</button>
+          <button (click)="moreaction('pin')" style="text-align:left">Pin to Dashboard</button>
+          <button (click)="moreaction('delete')" style="text-align:left">Delete</button>
+        </div>
+      </div>
+
+      
   <button class="add-unit-btn" (click)="doAdd()"   *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Unit</button>
   <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
@@ -33,16 +86,26 @@
   </div>
 
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists">
-      <ion-item   (click)="doAction(unit,'detail',unit.unit_id)">
-        <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
+    <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists; let i = index">
+      <ion-item   (click)="doAction(unit,'detail',unit.unit_id)"  ngClass="{{unit.active}}">
+        <!-- <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
         <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
         <span class="status" ngClass="{{unit.genstatus}}"></span> {{unit.unitname}}
-        <div class="list-desc">{{unit.projectname}}</div>
-        <div class="list-favorite">
-          <!-- <button style="text-align:right;"  (click)="presentModal(unit)">
-              <img src="assets/imgs/map.png" class="icon-size">
-          </button> -->
+        <div class="list-desc">{{unit.projectname}}</div> -->
+
+        <span ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()" *ngIf="unit.active!=''" class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">
+            <img src="{{unit.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()">
+          </span>
+          <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
+          <span ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()" *ngIf="unit.active==''"
+            class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
+          <span (click)="doAction(unit,'detail',unit.unit_id)" class="status" ngClass="{{unit.genstatus}}"></span>
+          <span (click)="doAction(unit,'detail',unit.unit_id)">{{unit.unitname}}</span>
+          <div class="list-desc" (click)="doAction(unit,'detail',unit.unit_id)">{{unit.projectname}}</div>
+         
+
+
+        <div class="list-favorite">         
           <button (click)="favorite(unit.unit_id)" style="text-align:right;">
             <ion-icon name="star-outline" *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
             <ion-icon name="star" class="favorite" *ngIf="unit.favoriteindication === 1 || unit.favoriteindication === 'favorite'"></ion-icon>
