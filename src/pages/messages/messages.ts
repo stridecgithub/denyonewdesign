@@ -887,7 +887,7 @@ export class MessagesPage {
 
     for (let i = 0; i < this.inboxLists.length; i++) {
       if (this.inboxLists[i].active == 'active') {
-        this.inboxLists.push({
+        this.selecteditems.push({
           message_id:  this.inboxLists[i].message_id,
           sender_id:  this.inboxLists[i].sender_id,
           messages_subject:  this.inboxLists[i].messages_subject,
