@@ -39,6 +39,8 @@ export class ReporttemplatePage {
   public notcount: any;
   footerBar: number = 0;
   pet: string = "ALL";
+  companyId;
+
   public reportData: any =
     {
       status: '',
@@ -51,13 +53,14 @@ export class ReporttemplatePage {
   profilePhoto;
   constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-       this.navCtrl.setRoot(DashboardPage);
+        this.navCtrl.setRoot(DashboardPage);
       });
     });
 
@@ -137,7 +140,7 @@ export class ReporttemplatePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
-      url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc;
+      url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
 
     this.http.get(url, options)
@@ -154,10 +157,10 @@ export class ReporttemplatePage {
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
-
+          this.totalCount = 0;
         }
 
-
+        console.log(this.totalCount);
       });
     this.presentLoading(0);
   }
@@ -195,7 +198,7 @@ export class ReporttemplatePage {
     notification.present();
   }
   doAdd(availableheading) {
-   this.navCtrl.setRoot(AddreporttemplatePage, {
+    this.navCtrl.setRoot(AddreporttemplatePage, {
       availableheading: availableheading
     });
   }
@@ -242,7 +245,7 @@ export class ReporttemplatePage {
   }
   doEdit(item, act, availableheading) {
     if (act == 'edit') {
-     this.navCtrl.setRoot(AddreporttemplatePage, {
+      this.navCtrl.setRoot(AddreporttemplatePage, {
         record: item,
         act: act,
         availableheading: availableheading
@@ -252,14 +255,14 @@ export class ReporttemplatePage {
 
 
   previous() {
-   this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
   notification() {
-   this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
 
   reportdetail(templatename, templatedata) {
-   this.navCtrl.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
+    this.navCtrl.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
   }
 
 

@@ -1,18 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, Platform,App } from 'ionic-angular';
+import { NavController, NavParams, ToastController, Platform, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { CompanygroupPage } from '../companygroup/companygroup';
 import 'rxjs/add/operator/map';
-//import { UserPage } from '../user/user';
-//import { UnitgroupPage } from '../unitgroup/unitgroup';
-//import { RolePage } from '../role/role';
-//import { MyaccountPage } from '../myaccount/myaccount';
-//import { UnitsPage } from '../units/units';
+import { Config } from '../../config/config';
 import { NotificationPage } from '../notification/notification';
-//import { ReportsPage } from '../reports/reports';
-//import { CalendarPage } from '../calendar/calendar';
-//import { OrgchartPage} from '../orgchart/orgchart';
 /**
  * Generated class for the AddcompanygroupPage page.
  *
@@ -25,11 +18,12 @@ import { NotificationPage } from '../notification/notification';
 })
 export class AddcompanygroupPage {
   // Define FormBuilder /model properties
- 
+
   footerBar: number = 0;
   public loginas: any;
   public form: FormGroup;
   public companygroup_name: any;
+  companyId;
   public address: any;
   public country: any;
   public contact: any;
@@ -46,8 +40,8 @@ export class AddcompanygroupPage {
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
-  public isSubmitted: boolean =false;
-  
+  public isSubmitted: boolean = false;
+
 
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
@@ -57,28 +51,30 @@ export class AddcompanygroupPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  constructor(private app:App,public nav: NavController,
+  constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
-    public toastCtrl: ToastController,public platform:Platform) {
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
+    public toastCtrl: ToastController, public platform: Platform) {
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-          this.nav.setRoot(CompanygroupPage);
-        });
+        this.nav.setRoot(CompanygroupPage);
       });
+    });
     this.loginas = localStorage.getItem("userInfoName");
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     // Create form builder validation rules
     this.form = fb.group({
       "companygroup_name": ["", Validators.required],
       "country": ["", Validators.required],
       "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
-     // "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
-     // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
+      // "contact": ['', Validators.compose([Validators.required,Validators.pattern(/^\+(?:[0-9] ?){6,14}[0-9]$/)])],
+      // "primary": ["", Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(5)])],
       "address": [""]
     });
 
@@ -94,15 +90,15 @@ export class AddcompanygroupPage {
       footermenuacc = footeraccessstorage;
     }
 
-    
+
     // this.footerBar="0,"+footermenuacc;
 
-    
-    
-    
-    
-   
-    
+
+
+
+
+
+
     /*
     this.footerBar.push({
       title: 'Dashboard',
@@ -175,7 +171,7 @@ export class AddcompanygroupPage {
   }
 
   ionViewDidLoad() {
-      }
+  }
 
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
@@ -186,18 +182,18 @@ export class AddcompanygroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-   
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
     this.getJsonCountryListData();
     if (this.NP.get("record")) {
-    
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Company Group';
@@ -1200,20 +1196,20 @@ export class AddcompanygroupPage {
     if (this.contact != undefined) {
       //let contactSplitSpace = this.contact.split(" ");
       //this.primary = contactSplitSpace[0];
-     // this.contact = contactSplitSpace[1];
-      this.contact =this.contact;
+      // this.contact = contactSplitSpace[1];
+      this.contact = this.contact;
     }
     this.recordID = item.companygroup_id;
   }
 
   getPrimaryContact(ev) {
-   
+
     let char = ev.target.value.toString();
     if (char.length > 5) {
-     
+
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-      
+
       this.borderbottomredvalidation = '';
     }
   }
@@ -1223,15 +1219,16 @@ export class AddcompanygroupPage {
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
   createEntry(companygroup_name, address, country, contact, createdby) {
-    this.isSubmitted=true;
+    this.isSubmitted = true;
     contact = contact.replace("+", "%2B");
     address = address.replace("#", "%23");
     let updatedby = createdby;
-    let body: string = "is_mobile=1&companygroup_name=" + companygroup_name + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby,
+    let body: string = "is_mobile=1&companygroup_name=" + companygroup_name + "&usercompanyid=" + this.companyId + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup/store";
+    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
@@ -1239,7 +1236,7 @@ export class AddcompanygroupPage {
         if (data.status === 200) {
           this.hideForm = true;
           if (res.msg[0].Error == '1') {
-            this.isSubmitted=false;
+            this.isSubmitted = false;
             this.sendNotification(res.msg[0].result);
           }
           else {
@@ -1247,7 +1244,7 @@ export class AddcompanygroupPage {
               this.sendNotification(res.msg[0].result);
             } else {
               this.sendNotification(res.msg[0].result);
-               this.nav.setRoot(CompanygroupPage);
+              this.nav.setRoot(CompanygroupPage);
             }
           }
         }
@@ -1266,7 +1263,7 @@ export class AddcompanygroupPage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   updateEntry(companygroup_name, address, country, contact, createdby) {
-     this.isSubmitted=true;
+    this.isSubmitted = true;
     contact = contact.replace("+", "%2B");
     address = address.replace("#", "%23");
     let updatedby = createdby;
@@ -1285,7 +1282,7 @@ export class AddcompanygroupPage {
             this.sendNotification(res.msg[0].result);
           } else {
             this.sendNotification(res.msg[0].result);
-             this.nav.setRoot(CompanygroupPage);
+            this.nav.setRoot(CompanygroupPage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1333,9 +1330,9 @@ export class AddcompanygroupPage {
       address: string = this.form.controls["address"].value,
       country: string = this.form.controls["country"].value,
       contact: string = this.form.controls["contact"].value;
-      //primary: string = this.form.controls["primary"].value;
+    //primary: string = this.form.controls["primary"].value;
 
-   // contact = primary + " " + contact;
+    // contact = primary + " " + contact;
     contact = contact;
     if (companygroup_name.toLowerCase() == 'denyo' || companygroup_name.toLowerCase() == 'dum' || companygroup_name.toLowerCase() == 'dsg' || companygroup_name.toLowerCase() == 'denyo singapore') {
       this.sendNotification("Given Company Name Not Acceptable....");
@@ -1387,9 +1384,9 @@ export class AddcompanygroupPage {
 
   }
   previous() {
-     this.nav.setRoot(CompanygroupPage);
+    this.nav.setRoot(CompanygroupPage);
   }
   notification() {
-     this.nav.setRoot(NotificationPage);
+    this.nav.setRoot(NotificationPage);
   }
 }

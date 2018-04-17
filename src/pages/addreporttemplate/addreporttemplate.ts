@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams, Platform ,App} from 'ionic-angular';
+import { NavController, ToastController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -34,14 +34,16 @@ export class AddreporttemplatePage {
   public availableheading = [];
   public availableheadingitem = [];
   pageTitle: string;
+  companyId;
   public recordID: any = null;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
-  constructor(private app:App,private conf: Config,public nav: NavController,
+  constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
+    this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -65,13 +67,13 @@ export class AddreporttemplatePage {
 
 
   }
- 
+
 
   ionViewDidLoad() {
-   
+
     if (this.NP.get("record")) {
       this.pageTitle = "Edit Report Template";
-      
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
     }
@@ -86,7 +88,7 @@ export class AddreporttemplatePage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getavailableheading";
     let res;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -127,13 +129,13 @@ export class AddreporttemplatePage {
   }
 
 
- 
+
   getCheckBoxValue(id, item, value) {
 
   }
   insertUserToArray(id, item, value) {
 
-   
+
 
 
 
@@ -147,7 +149,7 @@ export class AddreporttemplatePage {
         }
       }
     }
-   
+
   }
 
 
@@ -166,21 +168,21 @@ export class AddreporttemplatePage {
     if (this.getCheckboxData.length == 0) {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
-        let templatename: string = this.form.controls["templatename"].value
+      let templatename: string = this.form.controls["templatename"].value
       let body: string = "is_mobile=1&templatename=" + templatename + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/update";
-     
+
 
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
-          
+
           // If the request was successful notify the user
           if (data.status === 200) {
-           
+
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
               this.nav.setRoot(ReporttemplatePage);
@@ -199,31 +201,31 @@ export class AddreporttemplatePage {
   selectEntry(item) {
 
     this.templatename = item.templatename;
-    
+
     this.recordID = item.id;
-   
+
 
   }
   createEntry() {
     if (this.getCheckboxData.length == 0) {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
-     
+
       let templatename: string = this.form.controls["templatename"].value
-      let body: string = "is_mobile=1&templatename=" + templatename + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId,
+      let body: string = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/store";
-     
 
+      console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
-          
+
           // If the request was successful notify the user
           if (data.status === 200) {
-           
+
             if (res.msg[0].result > 0) {
               this.sendNotification(res.msg[0].result);
               this.nav.setRoot(ReporttemplatePage);
