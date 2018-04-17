@@ -25,7 +25,7 @@
 
 
 
-<ion-header style="background-color:#515151 !important;color:white" *ngIf="selecteditems.length>0">
+<ion-header (tap)="isNet()" style="background-color:#515151 !important;color:white" *ngIf="selecteditems.length>0">
   <ion-toolbar style="background-color:#515151 !important;color:white">
     <ion-buttons left style="background-color:#515151 !important;color:white">
 
