@@ -1,4 +1,4 @@
-<ion-header  (tap)="isNet()">
+<ion-header (tap)="isNet()" *ngIf="selecteditems.length==0">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -14,7 +14,7 @@
         <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
       </button>
       <button class="profile">
-        <img src="{{profilePhoto}}" width="28"  height="28">
+        <img src="{{profilePhoto}}" width="28" height="28">
       </button>
     </div>
   </ion-navbar>
@@ -22,9 +22,46 @@
 </ion-header>
 
 
-<ion-content  (tap)="isNet()">
+<ion-header style="background-color:#515151 !important;color:white" *ngIf="selecteditems.length>0">
+  <ion-toolbar style="background-color:#515151 !important;color:white">
+    <ion-buttons left style="background-color:#515151 !important;color:white">
 
-  <div  *ngIf="segmenttabshow>0">
+
+
+      <button ion-button icon-only (click)="resettoback()" style="background-color:#515151 !important;color:white">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+      </button>
+
+
+
+
+    </ion-buttons>
+
+    <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
+
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
+        <ion-icon name="md-arrow-dropdown"></ion-icon>
+      </button>
+
+
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="moretip(moreopenorclose)">
+        <ion-icon name="more" style="background-color:#515151 !important;color:white"></ion-icon>
+      </button>
+
+
+
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content (tap)="isNet()">
+
+  <div *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs">
       <ion-segment-button value="inboxView" (click)="inb()" id="inboxView">
         Inbox
@@ -34,6 +71,23 @@
       </ion-segment-button>
     </ion-segment>
   </div>
+
+
+  <div class="list-icon">
+      <div class="select-all" *ngIf="selectallopenpop>0">
+        <button (click)="selectAll()" style="text-align:left">Select All</button>
+  
+      </div>
+    </div>
+  
+    <div class="list-icon">
+      <div class="more" *ngIf="moreopenpop>0">
+        <button (click)="favoritemore()" style="text-align:left">Favorite</button>
+        <button (click)="markasreadmore(selecteditems)" style="text-align:left">Mark as Read</button>
+      </div>
+    </div>
+
+
   <div class="error" *ngIf="rolePermissionMsg != ''">{{rolePermissionMsg}}</div>
   <div [ngSwitch]="tabs">
 
@@ -48,13 +102,23 @@
 
       <div class="error" *ngIf="totalCount==0">No message entries found</div>
       <ion-list *ngIf="totalCount!=0">
-        <ion-item-sliding *ngFor="let inboxitem of inboxLists">
-          <ion-item class="msg">
+        <ion-item-sliding *ngFor="let inboxitem of inboxLists; let i = index">
+
+
+          <ion-item class="msg" ngClass="{{inboxitem.active}}">
+
+
+
+
             <div class="date-time" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.message_date_mobileview_list}}</div>
             <div class="user-img">
-              <!--img src="assets/imgs/user-pic.jpg" alt=""-->
-              <img *ngIf="inboxitem.senderphoto!=''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
-              <img  *ngIf="inboxitem.senderphoto==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()"
+                *ngIf="inboxitem.senderphoto!='' && inboxitem.active==''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
+              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()" 
+                *ngIf="inboxitem.senderphoto=='' && inboxitem.active==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <span ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()" *ngIf="inboxitem.active!=''">
+                <img src="{{inboxitem.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i)" (onPressEnd)="released()">
+              </span>
             </div>
             <div class="msg-info">
               <div class="user-name" *ngIf="inboxitem.message_readstatus==0" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">
@@ -91,7 +155,7 @@
             </button>
 
 
-            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')"  *ngIf="(MESSAGEINBOXDELETEACCESS==1 && inboxitem.duration==0) || (roleId==1 && MESSAGEINBOXDELETEACCESS==1)">
+            <button ion-button class="delete-btn" (click)="doConfirm(inboxitem.message_id,inboxitem,'inbox')" *ngIf="(MESSAGEINBOXDELETEACCESS==1 && inboxitem.duration==0) || (roleId==1 && MESSAGEINBOXDELETEACCESS==1)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -103,11 +167,11 @@
         </ion-infinite-scroll>
 
       </ion-list>
-      <button class="create-msg" (click)="compose()"  *ngIf="MESSAGEINBOXCREATEACCESS==1" >
+      <button class="create-msg" (click)="compose()" *ngIf="MESSAGEINBOXCREATEACCESS==1">
         <ion-icon name="create"></ion-icon>
       </button>
     </div>
-    <div *ngSwitchCase="'sentView'"  id="sendblock">
+    <div *ngSwitchCase="'sentView'" id="sendblock">
       <button class="sort-btn" *ngIf="totalCountSend>0" (click)="doSortSendItem()">
         {{sortLblSendTxt}}
         <ion-icon name="arrow-down" *ngIf="sendData.sortascdesc === 'desc'"></ion-icon>
@@ -122,7 +186,7 @@
               <div class="date-time">{{senditem.message_date_mobileview_list}}</div>
               <div class="user-img">
                 <img *ngIf="senditem.recipient_photo!=''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
-                <img  *ngIf="senditem.recipient_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
+                <img *ngIf="senditem.recipient_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               </div>
               <div class="msg-info">
                 <div class="user-name">{{senditem.sendername}}</div>
@@ -143,7 +207,7 @@
               <ion-icon name="mail"></ion-icon>
               Read
             </button-->
-            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')"  *ngIf="(MESSAGESENTDELETEACCESS==1 && senditem.duration==0) || (roleId==1 && MESSAGESENTDELETEACCESS==1)">
+            <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')" *ngIf="(MESSAGESENTDELETEACCESS==1 && senditem.duration==0) || (roleId==1 && MESSAGESENTDELETEACCESS==1)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
@@ -159,5 +223,5 @@
 
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>
