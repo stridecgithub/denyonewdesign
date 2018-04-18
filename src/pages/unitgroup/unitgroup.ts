@@ -149,7 +149,6 @@ export class UnitgroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/unitgroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId;
     let res;
-    console.log("dounitGroup:-" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.presentLoading(0);
@@ -346,8 +345,6 @@ export class UnitgroupPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitgroupfavorite";
-
-    console.log("favorite:" + url)
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();

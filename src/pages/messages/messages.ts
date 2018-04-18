@@ -393,40 +393,39 @@ export class MessagesPage {
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-          this.inboxData.startindex += this.inboxData.results;
-          if (res.messages.length > 0) {
-            for (let message in res.messages) {
-              this.inboxLists.push({
-                message_id: res.messages[message].message_id,
-                sender_id: res.messages[message].sender_id,
-                messages_subject: res.messages[message].messages_subject,
-                message_body: res.messages[message].message_body,
-                message_body_html: res.messages[message].message_body_html,
-                message_date: res.messages[message].message_date,
-                message_date_mobileview: res.messages[message].message_date_mobileview,
-                message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
-                is_favorite: res.messages[message].is_favorite,
-                message_readstatus: res.messages[message].message_readstatus,
-                message_priority: res.messages[message].message_priority,
-                priority_image: res.messages[message].priority_image,
-                isreply: res.messages[message].isreply,
-                time_ago: res.messages[message].time_ago,
-                receiver_id: res.messages[message].receiver_id,
-                attachments: res.messages[message].attachments,
-                sendername: res.messages[message].sendername,
-                senderphoto: res.messages[message].senderphoto,
-                personalhashtag: res.messages[message].personalhashtag,
-                replyall: res.messages[message].duration,
-                duration: res.messages[message].duration,
-                logo: "assets/imgs/square.png",
-                active: ""
-              });
-            }
-            this.totalCount = res.totalCount;
-          }else {
-            this.totalCount = 0;
+        this.inboxData.startindex += this.inboxData.results;
+        if (res.messages.length > 0) {
+          for (let message in res.messages) {
+            this.inboxLists.push({
+              message_id: res.messages[message].message_id,
+              sender_id: res.messages[message].sender_id,
+              messages_subject: res.messages[message].messages_subject,
+              message_body: res.messages[message].message_body,
+              message_body_html: res.messages[message].message_body_html,
+              message_date: res.messages[message].message_date,
+              message_date_mobileview: res.messages[message].message_date_mobileview,
+              message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
+              is_favorite: res.messages[message].is_favorite,
+              message_readstatus: res.messages[message].message_readstatus,
+              message_priority: res.messages[message].message_priority,
+              priority_image: res.messages[message].priority_image,
+              isreply: res.messages[message].isreply,
+              time_ago: res.messages[message].time_ago,
+              receiver_id: res.messages[message].receiver_id,
+              attachments: res.messages[message].attachments,
+              sendername: res.messages[message].sendername,
+              senderphoto: res.messages[message].senderphoto,
+              personalhashtag: res.messages[message].personalhashtag,
+              replyall: res.messages[message].duration,
+              duration: res.messages[message].duration,
+              logo: "assets/imgs/square.png",
+              active: ""
+            });
           }
-          console.log("Inbox List Array:" + JSON.stringify(this.inboxLists));       
+          this.totalCount = res.totalCount;
+        } else {
+          this.totalCount = 0;
+        }
         this.conf.presentLoading(0);
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -461,10 +460,37 @@ export class MessagesPage {
 
         res = data.json();
         if (res.messages.length > 0) {
-
-
-
-          this.sendLists = res.messages;
+          if (res.messages.length > 0) {
+            for (let message in res.messages) {
+              this.sendLists.push({
+                message_id: res.messages[message].message_id,
+                sender_id: res.messages[message].sender_id,
+                messages_subject: res.messages[message].messages_subject,
+                message_body: res.messages[message].message_body,
+                messages_isfavaurite: res.messages[message].messages_isfavaurite,
+                message_body_html: res.messages[message].message_body_html,
+                message_date: res.messages[message].message_date,
+                message_date_mobileview: res.messages[message].message_date_mobileview,
+                message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
+                time_ago: res.messages[message].time_ago,
+                message_priority: res.messages[message].message_priority,
+                priority_image: res.messages[message].priority_image,
+                personalhashtag: res.messages[message].personalhashtag,
+                receiver_id: res.messages[message].receiver_id,
+                receiver_name: res.messages[message].receiver_name,
+                recipient_photo: res.messages[message].recipient_photo,
+                senderphoto: res.messages[message].senderphoto,
+                attachments: res.messages[message].attachments,
+                replyall: res.messages[message].replyall,
+                duration: res.messages[message].duration,
+                logo: "assets/imgs/square.png",
+                active: ""
+              });
+            }
+            this.totalCount = res.totalCount;
+          } else {
+            this.totalCount = 0;
+          }
           this.totalCount = res.totalCount;
           this.sendData.startindex += this.sendData.results;
           this.totalCountSend = res.totalCount;
@@ -870,54 +896,107 @@ export class MessagesPage {
   }
 
 
-  pressed(item, index) {
-    console.log("pressed");
+  moreaction(act) {
+    this.moreopenpop = 0;
+    let str = '';
+    for (let i = 0; i < this.selecteditems.length; i++) {
+      str = str + this.selecteditems[i].message_id + ",";
+    }
+    str = str.replace(/,\s*$/, "");
+    let urlstr;
+    if (act == 'favorite') {
+      urlstr = "";
+    } else if (act == 'markasread') {
+      urlstr = "/unitlistaction?unitid=" + str + "&action=delete&is_mobile=1&loginid=" + this.userId;
+    }
+    
+  }
+  pressed(item, index, act) {
     this.selecteditems = [];
-    if (this.inboxLists[index]) {
-      if (this.inboxLists[index].active == '') {
-        this.inboxLists[index].active = 'active';
-        this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
-      } else {
-        this.inboxLists[index].active = '';
-        this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+    if (act == 'inbox') {
+      if (this.inboxLists[index]) {
+        if (this.inboxLists[index].active == '') {
+          this.inboxLists[index].active = 'active';
+          this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+        } else {
+          this.inboxLists[index].active = '';
+          this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+        }
       }
-    }
 
 
 
-    for (let i = 0; i < this.inboxLists.length; i++) {
-      if (this.inboxLists[i].active == 'active') {
-        this.selecteditems.push({
-          message_id:  this.inboxLists[i].message_id,
-          sender_id:  this.inboxLists[i].sender_id,
-          messages_subject:  this.inboxLists[i].messages_subject,
-          message_body:  this.inboxLists[i].message_body,
-          message_body_html:  this.inboxLists[i].message_body_html,
-          message_date:  this.inboxLists[i].message_date,
-          message_date_mobileview:  this.inboxLists[i].message_date_mobileview,
-          message_date_mobileview_list:  this.inboxLists[i].message_date_mobileview_list,
-          is_favorite:  this.inboxLists[i].is_favorite,
-          message_readstatus:  this.inboxLists[i].message_readstatus,
-          message_priority:  this.inboxLists[i].message_priority,
-          priority_image:  this.inboxLists[i].priority_image,
-          isreply:  this.inboxLists[i].isreply,
-          time_ago:  this.inboxLists[i].time_ago,
-          receiver_id:  this.inboxLists[i].receiver_id,
-          attachments:  this.inboxLists[i].attachments,
-          sendername:  this.inboxLists[i].sendername,
-          senderphoto:  this.inboxLists[i].senderphoto,
-          personalhashtag:  this.inboxLists[i].personalhashtag,
-          replyall:  this.inboxLists[i].replyall,
-          duration:  this.inboxLists[i].duration
-        });
+      for (let i = 0; i < this.inboxLists.length; i++) {
+        if (this.inboxLists[i].active == 'active') {
+          this.selecteditems.push({
+            message_id: this.inboxLists[i].message_id,
+            sender_id: this.inboxLists[i].sender_id,
+            messages_subject: this.inboxLists[i].messages_subject,
+            message_body: this.inboxLists[i].message_body,
+            message_body_html: this.inboxLists[i].message_body_html,
+            message_date: this.inboxLists[i].message_date,
+            message_date_mobileview: this.inboxLists[i].message_date_mobileview,
+            message_date_mobileview_list: this.inboxLists[i].message_date_mobileview_list,
+            is_favorite: this.inboxLists[i].is_favorite,
+            message_readstatus: this.inboxLists[i].message_readstatus,
+            message_priority: this.inboxLists[i].message_priority,
+            priority_image: this.inboxLists[i].priority_image,
+            isreply: this.inboxLists[i].isreply,
+            time_ago: this.inboxLists[i].time_ago,
+            receiver_id: this.inboxLists[i].receiver_id,
+            attachments: this.inboxLists[i].attachments,
+            sendername: this.inboxLists[i].sendername,
+            senderphoto: this.inboxLists[i].senderphoto,
+            personalhashtag: this.inboxLists[i].personalhashtag,
+            replyall: this.inboxLists[i].replyall,
+            duration: this.inboxLists[i].duration
+          });
+        }
       }
-    }
-    console.log("Pressed item:" + JSON.stringify(this.selecteditems));
+    } else {
+      if (this.sendLists[index]) {
+        if (this.sendLists[index].active == '') {
+          this.sendLists[index].active = 'active';
+          this.sendLists[index].logo = 'assets/imgs/tick_white_background.png';
+        } else {
+          this.sendLists[index].active = '';
+          this.sendLists[index].logo = 'assets/imgs/tick_white_background.png';
+        }
+      }
 
+
+
+      for (let i = 0; i < this.sendLists.length; i++) {
+        if (this.sendLists[i].active == 'active') {
+          this.selecteditems.push({
+            message_id: this.sendLists[i].message_id,
+            sender_id: this.sendLists[i].sender_id,
+            messages_subject: this.sendLists[i].messages_subject,
+            message_body: this.sendLists[i].message_body,
+            message_body_html: this.sendLists[i].message_body_html,
+            message_date: this.sendLists[i].message_date,
+            message_date_mobileview: this.sendLists[i].message_date_mobileview,
+            message_date_mobileview_list: this.sendLists[i].message_date_mobileview_list,
+            is_favorite: this.sendLists[i].is_favorite,
+            message_readstatus: this.sendLists[i].message_readstatus,
+            message_priority: this.sendLists[i].message_priority,
+            priority_image: this.sendLists[i].priority_image,
+            isreply: this.sendLists[i].isreply,
+            time_ago: this.sendLists[i].time_ago,
+            receiver_id: this.sendLists[i].receiver_id,
+            attachments: this.sendLists[i].attachments,
+            sendername: this.sendLists[i].sendername,
+            senderphoto: this.sendLists[i].senderphoto,
+            personalhashtag: this.sendLists[i].personalhashtag,
+            replyall: this.sendLists[i].replyall,
+            duration: this.sendLists[i].duration
+          });
+        }
+      }
+     
+    }
   }
   released() {
-    console.log('released');
-    //alert('released');
   }
   resettoback() {
     this.selectallopenpop = 0;
@@ -958,38 +1037,29 @@ export class MessagesPage {
       this.inboxLists[i].active = 'active';
       this.inboxLists[i].logo = 'assets/imgs/tick_white_background.png';
 
-      let cname = this.inboxLists[i].unitgroup_name;
-
-      if (cname != 'undefined' && cname != undefined) {
-        let stringToSplit = cname;
-        let x = stringToSplit.split("");
-        cname = x[0].toUpperCase();
-      } else {
-        cname = '';
-      }
 
       this.selecteditems.push({
-        unit_id: this.inboxLists[i].unit_id,
-        unitname: this.inboxLists[i].unitname,
-        location: this.inboxLists[i].location,
-        projectname: this.inboxLists[i].projectname,
-        colorcode: this.inboxLists[i].colorcode,
-        contacts: this.inboxLists[i].contacts,
-        nextservicedate: this.inboxLists[i].nextservicedate,
-        controllerid: this.inboxLists[i].controllerid,
-        neaplateno: this.inboxLists[i].neaplateno,
-        companys_id: this.inboxLists[i].companys_id,
-        unitgroups_id: this.inboxLists[i].unitgroups_id,
-        serial_number: this.inboxLists[i].serialnumber,
-        models_id: this.inboxLists[i].models_id,
-        alarmnotificationto: this.inboxLists[i].alarmnotificationto,
-        genstatus: this.inboxLists[i].genstatus,
-        favoriteindication: this.inboxLists[i].favorite,
-        lat: this.inboxLists[i].latitude,
-        lng: this.inboxLists[i].longtitude,
-        runninghr: this.inboxLists[i].runninghr,
-        companygroup_name: cname,
-        viewonid: this.inboxLists[i].viewonid
+        message_id: this.inboxLists[i].message_id,
+        sender_id: this.inboxLists[i].sender_id,
+        messages_subject: this.inboxLists[i].messages_subject,
+        message_body: this.inboxLists[i].message_body,
+        message_body_html: this.inboxLists[i].message_body_html,
+        message_date: this.inboxLists[i].message_date,
+        message_date_mobileview: this.inboxLists[i].message_date_mobileview,
+        message_date_mobileview_list: this.inboxLists[i].message_date_mobileview_list,
+        is_favorite: this.inboxLists[i].is_favorite,
+        message_readstatus: this.inboxLists[i].message_readstatus,
+        message_priority: this.inboxLists[i].message_priority,
+        priority_image: this.inboxLists[i].priority_image,
+        isreply: this.inboxLists[i].isreply,
+        time_ago: this.inboxLists[i].time_ago,
+        receiver_id: this.inboxLists[i].receiver_id,
+        attachments: this.inboxLists[i].attachments,
+        sendername: this.inboxLists[i].sendername,
+        senderphoto: this.inboxLists[i].senderphoto,
+        personalhashtag: this.inboxLists[i].personalhashtag,
+        replyall: this.inboxLists[i].replyall,
+        duration: this.inboxLists[i].duration
       }
       );
 

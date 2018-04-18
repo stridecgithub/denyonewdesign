@@ -159,8 +159,6 @@ export class ReporttemplatePage {
         } else {
           this.totalCount = 0;
         }
-
-        console.log(this.totalCount);
       });
     this.presentLoading(0);
   }

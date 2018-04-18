@@ -671,15 +671,48 @@ export class UnitsPage {
 
   }
   released() {
-    console.log('released');
-    //alert('released');
   }
-  resettoback() {
+  resettoback(item) {
+    this.unitAllLists = [];
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
-    this.unitAllLists = [];
-    this.doUnit();
     this.selecteditems = [];
+    for (let unit in item) {
+      let dur;
+      if (this.roleId == 1) {
+        dur = 0;
+      } else {
+        dur = item[unit].duration;
+      }
+      this.unitAllLists.push({
+        unit_id: item[unit].unit_id,
+        unitname: item[unit].unitname,
+        location: item[unit].location,
+        projectname: item[unit].projectname,
+        colorcode: item[unit].colorcode,
+        contacts: item[unit].contacts,
+        nextservicedate: item[unit].nextservicedate,
+        controllerid: item[unit].controllerid,
+        neaplateno: item[unit].neaplateno,
+        serial_number: item[unit].serialnumber,
+        companys_id: item[unit].companys_id,
+        unitgroups_id: item[unit].unitgroups_id,
+        models_id: item[unit].models_id,
+        alarmnotificationto: item[unit].alarmnotificationto,
+        genstatus: item[unit].genstatus,
+        favoriteindication: item[unit].favoriteindication,
+        lat: item[unit].lat,
+        lng: item[unit].lng,
+        duration: dur,
+        runninghr: item[unit].runninghr,
+        companygroup_name: item[unit].companygroup_name,
+        viewonid: item[unit].viewonid,
+        nextservicedate_mobileview: item[unit].nextservicedate_mobileview,
+        duedatecolor: item[unit].duedatecolor,
+        logo: "assets/imgs/square.png",
+        active: ""
+      });
+    }
   }
   selectalltip(selectallopenorclose) {
     this.moreopenpop = 0;
@@ -752,9 +785,7 @@ export class UnitsPage {
   }
 
 
-  deletemore() {
-    console.log('Delete More Function Calling...');
-  }
+  
   viewmore(selecteditems) {
     let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
     modal.present();
@@ -777,7 +808,6 @@ export class UnitsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + urlstr;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         if (data.status === 200) {
@@ -786,9 +816,6 @@ export class UnitsPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           let res = data.json();
-          console.log(JSON.stringify(res));
-          console.log(data.json().msg[0]['result']);
-          console.log(data.json().msg[0]['Error']);
           this.conf.sendNotification(data.json().msg[0]['result']);
           /*
                     if (res.units.length > 0) {

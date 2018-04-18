@@ -217,8 +217,6 @@ export class AddreporttemplatePage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/store";
-
-      console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
