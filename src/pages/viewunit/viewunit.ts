@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ViewController, NavController, NavParams } from 'ionic-angular';
 import { UnitdetailsPage } from '../unitdetails/unitdetails';
+import { DashboardPage } from '../dashboard/dashboard';
+import { UnitsPage } from '../units/units';
+
 /**
  * Generated class for the ViewunitPage page.
  *
@@ -23,7 +26,16 @@ export class ViewunitPage {
     this.unitAllLists = this.navParams.get('item');  
   }
   previous() {
-    this.viewCtrl.dismiss();
+    let from=this.navParams.get('from');
+    if(from=='unit'){
+      this.navCtrl.setRoot(UnitsPage, {
+      });
+    }
+    if(from=='dashboard'){
+      this.navCtrl.setRoot(DashboardPage, {
+      });
+    }
+    //this.viewCtrl.dismiss();
   }
 
   doAction(item, act, unitId) {

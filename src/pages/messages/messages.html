@@ -81,8 +81,8 @@
     </div>  
     <div class="list-icon">
       <div class="more" *ngIf="moreopenpop>0">
-        <button (click)="moreaction('favorite')" style="text-align:left">Favorite</button>
-        <button (click)="moreaction('markasread')" style="text-align:left">Mark as Read</button>
+        <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
+        <button (click)="onholdaction('markasread')" style="text-align:left"  *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
       </div>
     </div>
   <div class="error" *ngIf="rolePermissionMsg != ''">{{rolePermissionMsg}}</div>

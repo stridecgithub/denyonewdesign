@@ -72,9 +72,9 @@
 
   <div class="list-icon">
     <div class="more" *ngIf="moreopenpop>0">
-      <button (click)="favoritemore()" style="text-align:left">Favorite</button>
-      <button (click)="viewmore(selecteditems)" style="text-align:left">View</button>
-      <button (click)="removemore()" style="text-align:left">Remove</button>
+      <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
+      <button (click)="onholdaction('view')" style="text-align:left">View</button>
+      <button (click)="onholdaction('remove')" style="text-align:left">Remove</button>
     </div>
   </div>
 

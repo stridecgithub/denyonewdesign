@@ -54,6 +54,7 @@ export class DashboardPage {
   public totalCount;
   public unitAllLists = [];
   public defaultUnitAllLists = [];
+  public arrayid = [];
   public reportData: any =
     {
       status: '',
@@ -1505,7 +1506,7 @@ export class DashboardPage {
   released() {
   }
   resettoback(item) {
-    this.unitAllLists=[];
+    this.unitAllLists = [];
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
     this.selecteditems = [];
@@ -1536,7 +1537,7 @@ export class DashboardPage {
         active: ""
       });
     }
-   
+
   }
   selectalltip(selectallopenorclose) {
     this.moreopenpop = 0;
@@ -1608,85 +1609,182 @@ export class DashboardPage {
     }
   }
 
-  favoritemore() {
-  }
-  viewmore(selecteditems) {
-    let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
-    modal.present();
-  }
-  removemore() {
+  onholdaction(action) {
     this.moreopenpop = 0;
     let str = '';
-    for (let i = 0; i < this.selecteditems.length; i++) {
-      str = str + this.selecteditems[i].viewonid + ",";
+    this.arrayid = [];
+    if (action == 'favorite') {
+      for (let i = 0; i < this.selecteditems.length; i++) {
+        this.arrayid.push(
+          this.selecteditems[i].unit_id
+        )
+      }
+    } else {
+      for (let i = 0; i < this.selecteditems.length; i++) {
+        str = str + this.selecteditems[i].viewonid + ",";
+      }
     }
+
+
+
     str = str.replace(/,\s*$/, "");
-    let urlstr;
-    urlstr = "/dashboardaction?id=" + str + "&action=hide&is_mobile=1&loginid=" + this.userId;
-    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + urlstr;
-    this.http.get(url, options)
-      .subscribe((data) => {
-        if (data.status === 200) {
+    if (action == 'view') {
+      //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
+      //modal.present();
+      this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems,'from':'dashboard' });
+    } else if (action == 'remove') {
 
 
-          this.reportData.startindex = 0;
-          this.unitAllLists = [];
-          let res = data.json();
-          if (res.units.length > 0) {
-            for (let unit in res.units) {
-              let cname = res.units[unit].unitgroup_name;
+      let urlstr;
+      urlstr = "/onholddashboardaction?id=" + str + "&action=hide&is_mobile=1&loginid=" + this.userId;
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + urlstr;
+      this.http.get(url, options)
+        .subscribe((data) => {
+          if (data.status === 200) {
 
-              if (cname != 'undefined' && cname != undefined) {
-                let stringToSplit = cname;
-                let x = stringToSplit.split("");
-                cname = x[0].toUpperCase();
-              } else {
-                cname = '';
+
+            this.reportData.startindex = 0;
+            this.unitAllLists = [];
+            let res = data.json();
+            if (res.units.length > 0) {
+              for (let unit in res.units) {
+                let cname = res.units[unit].unitgroup_name;
+
+                if (cname != 'undefined' && cname != undefined) {
+                  let stringToSplit = cname;
+                  let x = stringToSplit.split("");
+                  cname = x[0].toUpperCase();
+                } else {
+                  cname = '';
+                }
+
+                this.unitAllLists.push({
+                  unit_id: res.units[unit].unit_id,
+                  unitname: res.units[unit].unitname,
+                  location: res.units[unit].location,
+                  contacts: res.units[unit].contacts,
+                  projectname: res.units[unit].projectname,
+                  colorcode: res.units[unit].colorcode,
+                  nextservicedate: res.units[unit].nextservicedate,
+                  neaplateno: res.units[unit].neaplateno,
+                  companys_id: res.units[unit].companys_id,
+                  unitgroups_id: res.units[unit].unitgroups_id,
+                  models_id: res.units[unit].models_id,
+                  serial_number: res.units[unit].serialnumber,
+                  alarmnotificationto: res.units[unit].alarmnotificationto,
+                  favoriteindication: res.units[unit].favorite,
+                  genstatus: res.units[unit].genstatus,
+                  lat: res.units[unit].latitude,
+                  lng: res.units[unit].longtitude,
+                  runninghr: res.units[unit].runninghr,
+                  companygroup_name: cname,
+                  viewonid: res.units[unit].viewonid,
+                  logo: "assets/imgs/square.png",
+                  active: ""
+                });
               }
 
-              this.unitAllLists.push({
-                unit_id: res.units[unit].unit_id,
-                unitname: res.units[unit].unitname,
-                location: res.units[unit].location,
-                contacts: res.units[unit].contacts,
-                projectname: res.units[unit].projectname,
-                colorcode: res.units[unit].colorcode,
-                nextservicedate: res.units[unit].nextservicedate,
-                neaplateno: res.units[unit].neaplateno,
-                companys_id: res.units[unit].companys_id,
-                unitgroups_id: res.units[unit].unitgroups_id,
-                models_id: res.units[unit].models_id,
-                serial_number: res.units[unit].serialnumber,
-                alarmnotificationto: res.units[unit].alarmnotificationto,
-                favoriteindication: res.units[unit].favorite,
-                genstatus: res.units[unit].genstatus,
-                lat: res.units[unit].latitude,
-                lng: res.units[unit].longtitude,
-                runninghr: res.units[unit].runninghr,
-                companygroup_name: cname,
-                viewonid: res.units[unit].viewonid,
-                logo: "assets/imgs/square.png",
-                active: ""
-              });
+              this.totalCount = res.totalCount;
+              this.reportData.startindex += this.reportData.results;
+            } else {
+              this.totalCount = 0;
             }
+            this.selecteditems = [];
+            this.conf.sendNotification(data.json().msg['result']);
 
-            this.totalCount = res.totalCount;
-            this.reportData.startindex += this.reportData.results;
-          } else {
-            this.totalCount = 0;
           }
-          this.selecteditems = [];
-          this.conf.sendNotification(data.json().msg['result']);
+          // Otherwise let 'em know anyway
+          else {
+          }
+        });
+    } else if (action == 'favorite') {
+      let urlstr;
+      urlstr = "/onholddashboardaction?id=" + this.arrayid + "&action=favorite&is_mobile=1&loginid=" + this.userId;
+      //let bodymessage: string = "",
+      let type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers1: any = new Headers({ 'Content-Type': type1 }),
+        options1: any = new RequestOptions({ headers: headers1 }),
+        url: any = this.apiServiceURL + urlstr;;
+      let res;
+      console.log("URL Onhold Action" + url);
 
-        }
-        // Otherwise let 'em know anyway
-        else {
-        }
-      });
+      //this.http.post(url, bodymessage, options1)
+      this.http.get(url, options1)
+        .subscribe((data) => {
+          res = data.json();
+          console.log("Unread" + JSON.stringify(res));
+          if (data.status === 200) {
+/*
 
+
+            this.reportData.startindex = 0;
+            this.unitAllLists = [];
+            let res = data.json();
+            if (res.units.length > 0) {
+              for (let unit in res.units) {
+                let cname = res.units[unit].unitgroup_name;
+
+                if (cname != 'undefined' && cname != undefined) {
+                  let stringToSplit = cname;
+                  let x = stringToSplit.split("");
+                  cname = x[0].toUpperCase();
+                } else {
+                  cname = '';
+                }
+
+                this.unitAllLists.push({
+                  unit_id: res.units[unit].unit_id,
+                  unitname: res.units[unit].unitname,
+                  location: res.units[unit].location,
+                  contacts: res.units[unit].contacts,
+                  projectname: res.units[unit].projectname,
+                  colorcode: res.units[unit].colorcode,
+                  nextservicedate: res.units[unit].nextservicedate,
+                  neaplateno: res.units[unit].neaplateno,
+                  companys_id: res.units[unit].companys_id,
+                  unitgroups_id: res.units[unit].unitgroups_id,
+                  models_id: res.units[unit].models_id,
+                  serial_number: res.units[unit].serialnumber,
+                  alarmnotificationto: res.units[unit].alarmnotificationto,
+                  favoriteindication: res.units[unit].favorite,
+                  genstatus: res.units[unit].genstatus,
+                  lat: res.units[unit].latitude,
+                  lng: res.units[unit].longtitude,
+                  runninghr: res.units[unit].runninghr,
+                  companygroup_name: cname,
+                  viewonid: res.units[unit].viewonid,
+                  logo: "assets/imgs/square.png",
+                  active: ""
+                });
+              }
+              console.log(JSON.stringify(this.unitAllLists));
+              this.totalCount = res.totalCount;
+              this.reportData.startindex += this.reportData.results;
+            } else {
+              this.totalCount = 0;
+            }
+           // this.selecteditems = [];
+*/
+            this.unitAllLists = [];
+            this.conf.sendNotification(data.json().msg.result);
+            this.reportData.startindex= 0;
+            this.doUnit();
+
+           // this.conf.sendNotification(data.json().msg['result']);
+          }
+          // Otherwise let 'em know anyway
+          else {
+            // this.conf.sendNotification('Something went wrong!');
+          }
+        }, error => {
+
+        });
+    }
   }
+
+
 }
 
