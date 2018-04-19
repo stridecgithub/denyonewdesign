@@ -910,6 +910,8 @@ export class MessagesPage {
 
 
   onholdaction(action) {
+
+
     this.moreopenpop = 0;
     this.arrayid = [];
     for (let i = 0; i < this.selecteditems.length; i++) {
@@ -929,45 +931,99 @@ export class MessagesPage {
     } else if (action == 'markasread') {
       if (this.onholdselectinboxsend == 'inbox') {
         urlstr = this.apiServiceURL + "/onholdmessageaction?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Unread&messageids=" + this.arrayid;
-      } else {
-
       }
+    } else if (action == 'delete') {
+
     }
 
-    let bodymessage: string = "",
-      type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers1: any = new Headers({ 'Content-Type': type1 }),
-      options1: any = new RequestOptions({ headers: headers1 });
-    let res;
-    console.log("URL Onhold Action" + urlstr);
-    this.http.post(urlstr, bodymessage, options1)
-      .subscribe((data) => {
-        res = data.json();
-        console.log("Unread" + JSON.stringify(res));
-        if (data.status === 200) {
-          if (res.msg[0]['Error'] == 0) {
-            this.conf.sendNotification(res.msg[0]['result']);
+
+
+    if (action == 'delete') {
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this message?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            if (this.onholdselectinboxsend == 'inbox') {
+              urlstr = this.apiServiceURL + "/onholdmessageaction?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=delete&messageids=" + this.arrayid;
+
+              let bodymessage: string = "",
+                type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+                headers1: any = new Headers({ 'Content-Type': type1 }),
+                options1: any = new RequestOptions({ headers: headers1 });
+              let res;
+              console.log("URL Onhold Delete Action" + urlstr);
+              this.http.post(urlstr, bodymessage, options1)
+                .subscribe((data) => {
+                  res = data.json();
+                  console.log("Unread" + JSON.stringify(res));
+                  if (data.status === 200) {
+                    if (res.msg[0]['Error'] == 0) {
+                      this.conf.sendNotification(res.msg[0]['result']);
+                    }
+                    this.strinbox = '';
+                    this.inboxact = '';
+                    this.inboxLists = [];
+                    this.selecteditems = [];
+                    this.inboxData.startindex = 0;
+                    this.doInbox();
+                    this.sendLists = [];
+                    this.sendData.startindex = 0;
+                    this.doSend();
+                    console.log('Exit 2');
+                  }
+                  // Otherwise let 'em know anyway
+                  else {
+                    // this.conf.sendNotification('Something went wrong!');
+                  }
+                }, error => {
+                  this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+                });
+            }
           }
-          this.strinbox = '';
-          this.inboxact = '';
-          this.inboxLists = [];
-          this.selecteditems = [];
-          this.inboxData.startindex = 0;
-          this.doInbox();
-          this.sendLists = [];
-          this.sendData.startindex = 0;
-          this.doSend();
-          console.log('Exit 2');
-        }
-        // Otherwise let 'em know anyway
-        else {
-          // this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
       });
+      confirm.present();
+    }
+    if (action != 'delete') {
+      let bodymessage: string = "",
+        type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers1: any = new Headers({ 'Content-Type': type1 }),
+        options1: any = new RequestOptions({ headers: headers1 });
+      let res;
+      console.log("URL Onhold Action" + urlstr);
+      this.http.post(urlstr, bodymessage, options1)
+        .subscribe((data) => {
+          res = data.json();
+          console.log("Unread" + JSON.stringify(res));
+          if (data.status === 200) {
+            if (res.msg[0]['Error'] == 0) {
+              this.conf.sendNotification(res.msg[0]['result']);
+            }
+            this.strinbox = '';
+            this.inboxact = '';
+            this.inboxLists = [];
+            this.selecteditems = [];
+            this.inboxData.startindex = 0;
+            this.doInbox();
+            this.sendLists = [];
+            this.sendData.startindex = 0;
+            this.doSend();
+            console.log('Exit 2');
+          }
+          // Otherwise let 'em know anyway
+          else {
+            // this.conf.sendNotification('Something went wrong!');
+          }
+        }, error => {
+          this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+        });
 
-
+    }
   }
   pressed(item, index, act) {
     this.onholdselectinboxsend = act;

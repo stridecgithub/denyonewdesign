@@ -1769,6 +1769,7 @@ export class DashboardPage {
                         }
                        // this.selecteditems = [];
             */
+            this.selecteditems = [];
             this.unitAllLists = [];
             this.conf.sendNotification(data.json().msg.result);
             this.reportData.startindex = 0;

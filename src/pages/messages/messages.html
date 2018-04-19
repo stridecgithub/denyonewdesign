@@ -47,6 +47,11 @@
     </ion-title>
 
     <ion-buttons end>
+
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="onholdaction('delete')" *ngIf="onholdselectinboxsend == 'inbox'">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+
       <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="moretip(moreopenorclose)">
         <ion-icon name="more" style="background-color:#515151 !important;color:white"></ion-icon>
       </button>
@@ -61,11 +66,11 @@
       <button (click)="selectAll()">Select All</button>
 
     </div>
-  </div>  
+  </div>
   <div class="list-icon">
     <div class="more" *ngIf="moreopenpop>0">
       <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
-      <button (click)="onholdaction('markasread')" style="text-align:left"  *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
+      <button (click)="onholdaction('markasread')" style="text-align:left" *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
     </div>
   </div>
 </ion-header>
@@ -85,7 +90,7 @@
   </div>
 
 
- 
+
   <div class="error" *ngIf="rolePermissionMsg != ''">{{rolePermissionMsg}}</div>
   <div [ngSwitch]="tabs">
 
@@ -110,10 +115,10 @@
 
             <div class="date-time" (click)="readAction(inboxitem.message_id,inboxitem,'detail','inbox')">{{inboxitem.message_date_mobileview_list}}</div>
             <div class="user-img">
-              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()"
-                *ngIf="inboxitem.senderphoto!='' && inboxitem.active==''" src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
-              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()" 
-                *ngIf="inboxitem.senderphoto=='' && inboxitem.active==''" alt="" src="{{apiServiceURL}}/images/default.png">
+              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()" *ngIf="inboxitem.senderphoto!='' && inboxitem.active==''"
+                src="{{inboxitem.senderphoto}}" alt="" width="40" height="40">
+              <img ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()" *ngIf="inboxitem.senderphoto=='' && inboxitem.active==''"
+                alt="" src="{{apiServiceURL}}/images/default.png">
               <span ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()" *ngIf="inboxitem.active!=''">
                 <img src="{{inboxitem.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(inboxitem,i,'inbox')" (onPressEnd)="released()">
               </span>
@@ -190,14 +195,14 @@
 
 
               <div class="user-img">
-                  <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()"
-                    *ngIf="senditem.recipient_photo!='' && senditem.active==''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
-                  <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" 
-                    *ngIf="senditem.recipient_photo=='' && senditem.active==''" alt="" src="{{apiServiceURL}}/images/default.png">
-                  <span ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.active!=''">
-                    <img src="{{senditem.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()">
-                  </span>
-                </div>
+                <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo!='' && senditem.active==''"
+                  src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
+                <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo=='' && senditem.active==''"
+                  alt="" src="{{apiServiceURL}}/images/default.png">
+                <span ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.active!=''">
+                  <img src="{{senditem.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()">
+                </span>
+              </div>
 
 
               <div class="msg-info">

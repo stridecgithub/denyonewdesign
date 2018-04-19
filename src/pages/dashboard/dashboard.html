@@ -167,7 +167,7 @@
             <div class="list-desc" (click)="doAction(unit,'detail',unit.unit_id)">{{unit.projectname}}</div>
             <div class="list-favorite">
               <button style="text-align:right;" (click)="presentModal(unit)">
-                <img class="icon-size" src="assets/imgs/map.png">
+                <img class="icon-size" src="assets/imgs/map.png" style="margin-top: 7px;">
               </button>
               <button (click)="favorite(unit.unit_id)">
                 <ion-icon name="star-outline" *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
