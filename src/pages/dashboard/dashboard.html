@@ -18,7 +18,7 @@
       </button>
     </div>
   </ion-navbar>
-
+ 
 </ion-header>
 
 
@@ -59,13 +59,9 @@
     </ion-buttons>
 
   </ion-toolbar>
-</ion-header>
-
-
-<ion-content (tap)="isNet()">
   <div class="list-icon">
     <div class="select-all" *ngIf="selectallopenpop>0">
-      <button (click)="selectAll()" style="text-align:left">Select All</button>
+      <button (click)="selectAll()">Select All</button>
 
     </div>
   </div>
@@ -77,6 +73,11 @@
       <button (click)="onholdaction('remove')" style="text-align:left">Remove</button>
     </div>
   </div>
+</ion-header>
+
+
+<ion-content (tap)="isNet()">
+
 
   <div *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs" (ionChange)="segmentChanged($event)">

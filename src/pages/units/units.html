@@ -54,25 +54,26 @@
     </ion-buttons>
 
   </ion-toolbar>
+  <div class="list-icon">
+    <div class="select-all" *ngIf="selectallopenpop>0">
+      <button (click)="selectAll()">Select All</button>
+
+    </div>
+  </div>
+
+  <div class="list-icon">
+    <div class="more" *ngIf="moreopenpop>0">
+      <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
+      <button (click)="onholdaction('view')" style="text-align:left">View</button>
+      <button (click)="onholdaction('pin')" style="text-align:left">Pin to Dashboard</button>
+      <button (click)="onholdaction('delete')" style="text-align:left">Delete</button>
+    </div>
+  </div>
 </ion-header>
 
 <ion-content   (tap)="isNet()">
 
-    <div class="list-icon">
-        <div class="select-all" *ngIf="selectallopenpop>0">
-          <button (click)="selectAll()" style="text-align:left">Select All</button>
-    
-        </div>
-      </div>
-    
-      <div class="list-icon">
-        <div class="more" *ngIf="moreopenpop>0">
-          <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
-          <button (click)="onholdaction('view')" style="text-align:left">View</button>
-          <button (click)="onholdaction('pin')" style="text-align:left">Pin to Dashboard</button>
-          <button (click)="onholdaction('delete')" style="text-align:left">Delete</button>
-        </div>
-      </div>
+   
 
       
   <button class="add-unit-btn" (click)="doAdd()"   *ngIf="CREATEACCESS==1">

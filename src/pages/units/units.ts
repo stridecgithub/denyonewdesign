@@ -112,6 +112,7 @@ export class UnitsPage {
     //this.tabBarElement.style.display = 'flex';
   }
   presentModal(unit) {
+    console.log("Units:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

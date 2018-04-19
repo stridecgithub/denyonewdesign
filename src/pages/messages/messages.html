@@ -56,6 +56,18 @@
     </ion-buttons>
 
   </ion-toolbar>
+  <div class="list-icon">
+    <div class="select-all" *ngIf="selectallopenpop>0">
+      <button (click)="selectAll()">Select All</button>
+
+    </div>
+  </div>  
+  <div class="list-icon">
+    <div class="more" *ngIf="moreopenpop>0">
+      <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
+      <button (click)="onholdaction('markasread')" style="text-align:left"  *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
+    </div>
+  </div>
 </ion-header>
 
 
@@ -73,18 +85,7 @@
   </div>
 
 
-  <div class="list-icon">
-      <div class="select-all" *ngIf="selectallopenpop>0">
-        <button (click)="selectAll()" style="text-align:left">Select All</button>
-  
-      </div>
-    </div>  
-    <div class="list-icon">
-      <div class="more" *ngIf="moreopenpop>0">
-        <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
-        <button (click)="onholdaction('markasread')" style="text-align:left"  *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
-      </div>
-    </div>
+ 
   <div class="error" *ngIf="rolePermissionMsg != ''">{{rolePermissionMsg}}</div>
   <div [ngSwitch]="tabs">
 

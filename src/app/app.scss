@@ -809,7 +809,9 @@ page-reportviewtable.ion-page > ion-content .scroll-content,
 page-login.ion-page > ion-content .scroll-content,
 page-permission.ion-page > ion-content .scroll-content,
 page-forgotpassword.ion-page > ion-content .scroll-content ,
-page-compose.ion-page > ion-content .scroll-content{ 
+page-compose.ion-page > ion-content .scroll-content ,
+page-viewunit.ion-page > ion-content .scroll-content ,
+page-modal.ion-page > ion-content .scroll-content{ 
     margin-bottom: 0;
 }
 .typeahead.dropdown-menu {

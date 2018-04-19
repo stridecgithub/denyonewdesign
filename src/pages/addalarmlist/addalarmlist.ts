@@ -219,6 +219,7 @@ export class AddalarmlistPage {
 
   }
   presentModal(unit) {
+    console.log("Add Alarm:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

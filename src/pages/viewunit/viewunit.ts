@@ -24,6 +24,7 @@ export class ViewunitPage {
 
   ionViewDidLoad() {
     this.unitAllLists = this.navParams.get('item');  
+    console.log("1"+JSON.stringify(this.unitAllLists));
   }
   previous() {
     let from=this.navParams.get('from');
@@ -84,8 +85,11 @@ export class ViewunitPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
+      console.log("2"+JSON.stringify(this.unitAllLists ));
       this.navCtrl.setRoot(UnitdetailsPage, {
-        record: item
+        from:this.navParams.get('from'),
+        page:'viewunit',
+        record:this.unitAllLists 
       });
       return false;
     

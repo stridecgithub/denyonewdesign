@@ -381,7 +381,7 @@ export class ServicinginfoPage {
     });
   }
   presentModal(unit) {
-
+    console.log("Service Info:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

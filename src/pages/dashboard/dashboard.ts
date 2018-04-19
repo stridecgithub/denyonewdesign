@@ -136,6 +136,7 @@ export class DashboardPage {
   }
 
   presentModal(unit) {
+    console.log("Dashboard:" + JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -368,7 +369,7 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
-
+    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1631,7 +1632,7 @@ export class DashboardPage {
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
       //modal.present();
-      this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems,'from':'dashboard' });
+      this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems, 'from': 'dashboard' });
     } else if (action == 'remove') {
 
 
@@ -1717,63 +1718,63 @@ export class DashboardPage {
           res = data.json();
           console.log("Unread" + JSON.stringify(res));
           if (data.status === 200) {
-/*
-
-
-            this.reportData.startindex = 0;
-            this.unitAllLists = [];
-            let res = data.json();
-            if (res.units.length > 0) {
-              for (let unit in res.units) {
-                let cname = res.units[unit].unitgroup_name;
-
-                if (cname != 'undefined' && cname != undefined) {
-                  let stringToSplit = cname;
-                  let x = stringToSplit.split("");
-                  cname = x[0].toUpperCase();
-                } else {
-                  cname = '';
-                }
-
-                this.unitAllLists.push({
-                  unit_id: res.units[unit].unit_id,
-                  unitname: res.units[unit].unitname,
-                  location: res.units[unit].location,
-                  contacts: res.units[unit].contacts,
-                  projectname: res.units[unit].projectname,
-                  colorcode: res.units[unit].colorcode,
-                  nextservicedate: res.units[unit].nextservicedate,
-                  neaplateno: res.units[unit].neaplateno,
-                  companys_id: res.units[unit].companys_id,
-                  unitgroups_id: res.units[unit].unitgroups_id,
-                  models_id: res.units[unit].models_id,
-                  serial_number: res.units[unit].serialnumber,
-                  alarmnotificationto: res.units[unit].alarmnotificationto,
-                  favoriteindication: res.units[unit].favorite,
-                  genstatus: res.units[unit].genstatus,
-                  lat: res.units[unit].latitude,
-                  lng: res.units[unit].longtitude,
-                  runninghr: res.units[unit].runninghr,
-                  companygroup_name: cname,
-                  viewonid: res.units[unit].viewonid,
-                  logo: "assets/imgs/square.png",
-                  active: ""
-                });
-              }
-              console.log(JSON.stringify(this.unitAllLists));
-              this.totalCount = res.totalCount;
-              this.reportData.startindex += this.reportData.results;
-            } else {
-              this.totalCount = 0;
-            }
-           // this.selecteditems = [];
-*/
+            /*
+            
+            
+                        this.reportData.startindex = 0;
+                        this.unitAllLists = [];
+                        let res = data.json();
+                        if (res.units.length > 0) {
+                          for (let unit in res.units) {
+                            let cname = res.units[unit].unitgroup_name;
+            
+                            if (cname != 'undefined' && cname != undefined) {
+                              let stringToSplit = cname;
+                              let x = stringToSplit.split("");
+                              cname = x[0].toUpperCase();
+                            } else {
+                              cname = '';
+                            }
+            
+                            this.unitAllLists.push({
+                              unit_id: res.units[unit].unit_id,
+                              unitname: res.units[unit].unitname,
+                              location: res.units[unit].location,
+                              contacts: res.units[unit].contacts,
+                              projectname: res.units[unit].projectname,
+                              colorcode: res.units[unit].colorcode,
+                              nextservicedate: res.units[unit].nextservicedate,
+                              neaplateno: res.units[unit].neaplateno,
+                              companys_id: res.units[unit].companys_id,
+                              unitgroups_id: res.units[unit].unitgroups_id,
+                              models_id: res.units[unit].models_id,
+                              serial_number: res.units[unit].serialnumber,
+                              alarmnotificationto: res.units[unit].alarmnotificationto,
+                              favoriteindication: res.units[unit].favorite,
+                              genstatus: res.units[unit].genstatus,
+                              lat: res.units[unit].latitude,
+                              lng: res.units[unit].longtitude,
+                              runninghr: res.units[unit].runninghr,
+                              companygroup_name: cname,
+                              viewonid: res.units[unit].viewonid,
+                              logo: "assets/imgs/square.png",
+                              active: ""
+                            });
+                          }
+                          console.log(JSON.stringify(this.unitAllLists));
+                          this.totalCount = res.totalCount;
+                          this.reportData.startindex += this.reportData.results;
+                        } else {
+                          this.totalCount = 0;
+                        }
+                       // this.selecteditems = [];
+            */
             this.unitAllLists = [];
             this.conf.sendNotification(data.json().msg.result);
-            this.reportData.startindex= 0;
+            this.reportData.startindex = 0;
             this.doUnit();
 
-           // this.conf.sendNotification(data.json().msg['result']);
+            // this.conf.sendNotification(data.json().msg['result']);
           }
           // Otherwise let 'em know anyway
           else {

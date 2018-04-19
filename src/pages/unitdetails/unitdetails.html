@@ -39,7 +39,7 @@
         {{unitDetailData.projectname }}
         <br>
         <strong>Deployed Location:</strong> {{unitDetailData.location }}
-        <button class="map-btn"  (click)="presentModal(unitDetailData)">
+        <button class="map-btn"  (click)="presentModal(unitDetailData)" style="margin-top:-23px">
          
           <img class="icon-size" src="assets/imgs/map.png">
         </button>
@@ -141,7 +141,7 @@
         {{unitDetailData.projectname }}
         <br>
         <strong>Deployed Location:</strong> {{unitDetailData.location }}
-        <button class="map-btn" (click)="presentModal(unitDetailData)">
+        <button class="map-btn" (click)="presentModal(unitDetailData)"  style="margin-top:-23px">
          
           <img class="icon-size" src="assets/imgs/map.png">
         </button>
@@ -273,9 +273,6 @@
 
       <!--Mid Columns-->
       <ion-row class="mid-col">
-
-        <!-- Voltage Set Points Label: {{voltguagelabel}}
-         Voltage Set Points Colors: {{voltguagecolors}} -->
         <ion-col class="col" col-6>
           <h2>VOLTAGE
             <br> {{selectedvoltage}} V</h2>

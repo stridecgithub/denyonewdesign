@@ -1,38 +1,46 @@
 page-units {
 
-
-  .select-all{
-    /*box-shadow: -2px 4px 10px 2px lightgrey;*/
-    position: absolute;
-    top: 0px;
-    left: 25%;
-    z-index: 99;
-    border: 0px solid lightgray;
-    background-color: white;
-    button{
-      display: block;
-      padding: 10px;
-      width: 100px;
-      font-size: 16px;
+  .list-icon{
+		float: right;
+		button{
+			background: none;
+		}
+		.select-all{
+      box-shadow: -2px 4px 10px 2px lightgrey;
+      position: absolute;
+      top: 45px;
+      left: 15%;
+      z-index: 99;
+      border: 0px solid lightgray;
+      background-color: white;
+			button{
+				display: block;
+        padding:10px 8px 9px 1px;
+				width: 120px;
+        font-size: 16px;
+        text-align:center;
+			}
     }
-  }
+    
+    .more{
+      box-shadow: -2px 4px 10px 2px lightgrey;
+      position: absolute;
+      top: 45px;
+      left: 55%;
+      z-index: 99;
+      border: 0px solid lightgray;
+      background-color: white;
+			button{
+				display: block;
+        padding:10px 0px 9px 14px;
+				width: 150px;
+        font-size: 16px;
+        text-align:center;
+			}
+    }
+    
   
-  .more{
-   /* box-shadow: -2px 4px 10px 2px lightgrey;*/
-    position: absolute;
-    top: 0px;
-    left: 54%;
-    z-index: 99;
-    border: 0px solid lightgray;
-    background-color: white;
-    button{
-      display: block;
-      padding: 10px;
-      width: 145px;
-      font-size: 16px;
-    }
-  }
-
+	}
 
   .add-unit-btn {
     background: #424242;
@@ -57,4 +65,5 @@ page-units {
     margin-top: 3px;
     margin-right: 10px;
   }
+
 }

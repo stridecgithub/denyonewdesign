@@ -66,7 +66,7 @@ export class TrendlinePage {
   }
   
 presentModal(unit) {
- 
+  console.log("Trend Line:"+JSON.stringify(unit));
   let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
   modal.present();
 }

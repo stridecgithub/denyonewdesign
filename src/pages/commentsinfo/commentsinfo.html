@@ -35,9 +35,9 @@
         {{unitDetailData.projectname }}
         <br>
         <strong>Deployed Location:</strong> {{unitDetailData.location }}
-        <button class="map-btn" style="text-align:right;"  (click)="presentModal(unitDetailData)">
-        
-          <img class="icon-size" src="assets/imgs/map.png">
+        <button class="map-btn" style="text-align:right;" (click)="presentModal(unitDetailData)">
+
+          <img class="icon-size" src="assets/imgs/map.png" style="margin-top:-23px">
         </button>
 
       </div>
@@ -45,7 +45,7 @@
 
 
 
-  
+
     <div class="new-service">
       <h1 (click)="doAdd()" *ngIf="COMMENTCREATEACCESS==1">New Comment</h1>
 
@@ -60,11 +60,11 @@
         <ion-item-sliding class="brd" *ngFor="let upcomintitem of reportAllLists;">
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'" (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
-            <div class="p1"  ngClass="{{itemwidth}}">
+            <div class="p1" ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3  [ngStyle]="{'width':h3width}">
+                <h3 [ngStyle]="{'width':h3width}">
                   <b style="white-space:normal">{{upcomintitem.comment_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
@@ -81,11 +81,11 @@
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='R'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
 
-            <div class="p1"   ngClass="{{itemwidth}}">
+            <div class="p1" ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3  [ngStyle]="{'width':h3width}">
+                <h3 [ngStyle]="{'width':h3width}">
                   <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
@@ -95,7 +95,7 @@
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
 
-                <div  ngClass="{{denyosupporttext}}" class="denyo-support-text">
+                <div ngClass="{{denyosupporttext}}" class="denyo-support-text">
                   <span style="color:green;font-size:11px" *ngIf="upcomintitem.is_denyo_support>0">
                     <ion-icon ios="ios-checkmark" md="md-checkmark" style="color:green;font-size:16px"></ion-icon>
                     <br>Denyo Support
@@ -108,11 +108,11 @@
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='S'" (click)="doServiceView(upcomintitem.service_id,upcomintitem.event_type,upcomintitem)">
 
-            <div class="p1"   ngClass="{{itemwidth}}">
+            <div class="p1" ngClass="{{itemwidth}}">
               <img *ngIf="upcomintitem.user_photo!=''" alt="" src="{{upcomintitem.user_photo}}">
               <img *ngIf="upcomintitem.user_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
               <div class="check">
-                <h3  [ngStyle]="{'width':h3width}">
+                <h3 [ngStyle]="{'width':h3width}">
                   <b style="white-space:normal">{{upcomintitem.service_subject}}</b>
                 </h3>
                 <div class="D&T" style="font-size:14px">
@@ -141,7 +141,7 @@
 
           <!--  && upcomintitem.alarm_assigned_by!='' -->
           <ion-item *ngIf="upcomintitem.event_type=='OA'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="p1"   ngClass="{{itemwidth}}">
+            <div class="p1" ngClass="{{itemwidth}}">
               <div class="msg">
                 <!-- <div class="user-img"> -->
                 <img src="assets/imgs/warning-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
@@ -168,7 +168,7 @@
           </ion-item>
           <!--  && upcomintitem.alarm_assigned_by!=''-->
           <ion-item *ngIf="upcomintitem.event_type=='A'" (click)="doAlarmView(upcomintitem.alarm_id,upcomintitem.event_type)">
-            <div class="p1"   ngClass="{{itemwidth}}">
+            <div class="p1" ngClass="{{itemwidth}}">
               <div class="msg">
                 <!-- <div class="user-img"> -->
                 <img src="assets/imgs/warning-pic@2x.png" height="50" alt="" *ngIf="upcomintitem.alarm_priority=='2'">
@@ -235,10 +235,10 @@
 
 
             <button ion-button *ngIf="(upcomintitem.event_type=='R' && upcomintitem.duration==0) ||  (roleId==1 && upcomintitem.event_type=='R') "
-            class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
-            <ion-icon name="trash"></ion-icon>
-            Delete
-          </button>
+              class="delete-btn" (click)="doConfirm(upcomintitem,upcomintitem.event_type)">
+              <ion-icon name="trash"></ion-icon>
+              Delete
+            </button>
 
 
             <!--*ngIf="upcomintitem.duration==0 && upcomintitem.event_type=='C'  && upcomintitem.event_type!='A'  && upcomintitem.event_type!='OA' && COMMENTDELETEACCESS==1"-->
