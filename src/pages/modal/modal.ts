@@ -260,7 +260,7 @@ export class ModalPage {
   
     let map = new google.maps.Map(mapEle, {
       center: this.mapData.find((d: any) => d.center),
-      zoom: 16,
+      zoom: 10,
       styles: mapStyle
     });
 
