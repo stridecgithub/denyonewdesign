@@ -569,7 +569,7 @@ export class AddserviceinfoPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-
+        console.log(JSON.stringify(data));
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -582,6 +582,9 @@ export class AddserviceinfoPage {
           //}
           // this.conf.sendNotification(`New service scheduled added successfully`);
           this.conf.sendNotification(res.msg[0]['result']);
+          if(res.msg[0]['pushid']!=''){
+            this.quickPush(res.msg[0]['pushid']);
+          }         
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });
@@ -595,6 +598,21 @@ export class AddserviceinfoPage {
       });
   }
 
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
 
 
   // Update an existing record that has been edited in the page's HTML form

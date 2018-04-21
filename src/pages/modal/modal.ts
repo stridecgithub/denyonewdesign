@@ -250,10 +250,15 @@ export class ModalPage {
       }
     ];
     
-
+let latitued=parseFloat(this.navParams.get('unitdata').lat);
+let longitude=parseFloat(this.navParams.get('unitdata').lng);
+if(latitued==0){
+  latitued=1.32;
+  longitude=103.701;
+}
     this.mapData.push({
       name: this.navParams.get('unitdata').location,
-      "lat": parseFloat(this.navParams.get('unitdata').lat), "lng": parseFloat(this.navParams.get('unitdata').lng), "center": true
+      "lat": latitued, "lng":longitude, "center": true
     });
 
     let mapEle = this.mapElement.nativeElement;

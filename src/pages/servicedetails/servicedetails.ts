@@ -691,7 +691,7 @@ export class ServicedetailsPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
 
-
+        console.log(JSON.stringify(data));
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -699,9 +699,9 @@ export class ServicedetailsPage {
           this.addedServiceImgLists = [];
           localStorage.setItem("microtime", "");
           this.addedServiceImgLists = [];
-          /* if (res.msg[0]['Error'] > 0) {
-             this.conf.sendNotification(res.msg[0]['result']);
-           }*/
+          if (data.json().msg[0]['pushid'] != '') {
+            this.quickPush(data.json().msg[0]['pushid']);
+          }
           this.conf.sendNotification(data.json().msg[0]['result']);
           // this.conf.sendNotification(`Servicing info was successfully updated`);
           localStorage.setItem("atMentionResult", '');
@@ -726,7 +726,21 @@ export class ServicedetailsPage {
   }
 
 
-
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
 
 
   getNextDate(val) {
@@ -774,30 +788,30 @@ export class ServicedetailsPage {
       seconds = seconds;
     }
 
-   
-      let monthstr;
-      let datestr;
-      let mn = parseInt(date.getMonth() + 1);
-      let dt = date.getDate();
 
-      if (mn < 10) {
-        monthstr = "0" + mn;
-      } else {
-        monthstr = mn;
-      }
-      if (dt < 10) {
-        datestr = "0" + dt;
-      } else {
-        datestr = dt;
-      }
+    let monthstr;
+    let datestr;
+    let mn = parseInt(date.getMonth() + 1);
+    let dt = date.getDate();
+
+    if (mn < 10) {
+      monthstr = "0" + mn;
+    } else {
+      monthstr = mn;
+    }
+    if (dt < 10) {
+      datestr = "0" + dt;
+    } else {
+      datestr = dt;
+    }
 
 
 
-      this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-      this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
-     
-   
+    this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
+
+
     if (this.unitDetailData.nextServiceDate != '') {
       //this.isSubmitted = false;
     } else {
@@ -842,7 +856,7 @@ export class ServicedetailsPage {
     }).then(
       date => {
 
-        let datestr=new Date();
+        let datestr = new Date();
         let minutes;
         minutes = datestr.getMinutes();
         if (minutes < 10) {

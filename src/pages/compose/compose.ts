@@ -498,10 +498,10 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-
+    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
-
+        console.log(JSON.stringify(data));
         // If the request was successful notify the user
         if (data.status === 200) {
 
@@ -510,7 +510,9 @@ export class ComposePage {
           //localStorage.setItem("atMentionResult", '');
           //  this.navCtrl.setRoot(MessagesPage);
           // return false;
-
+          if (data.json().msg[0]['pushid'] != '') {
+            this.quickPush(data.json().msg[0]['pushid']);
+          }
           this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(MessagesPage);
 
@@ -527,6 +529,24 @@ export class ComposePage {
 
 
   }
+
+
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
+
   fileChooser(micro_timestamp) {
 
     let actionSheet = this.actionSheetCtrl.create({
@@ -650,7 +670,7 @@ export class ComposePage {
       .then((data) => {
 
         this.nowuploading = 1;
-       // let successData = JSON.parse(data.response);
+        // let successData = JSON.parse(data.response);
         this.isSubmitted = false;
         this.conf.sendNotification("File attached successfully");
 

@@ -79,7 +79,7 @@ export class EnginedetailviewPage {
     
   }
   presentModal(unit) {
-    console.log("Engine Detail View:"+JSON.stringify(unit));
+    
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

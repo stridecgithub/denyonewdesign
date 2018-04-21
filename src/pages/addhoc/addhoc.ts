@@ -617,8 +617,11 @@ export class AddhocPage {
 
 
         if (data.status === 200) {
-
+          if(data.json().msg[0]['pushid']!=''){
+            this.quickPush(data.json().msg[0]['pushid']);
+          } 
           this.conf.sendNotification(data.json().msg[0].result);
+
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record"),
             unitid: this.service_unitid
@@ -635,7 +638,21 @@ export class AddhocPage {
   }
 
 
-
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
 
 
   getNextDate(val, field) {

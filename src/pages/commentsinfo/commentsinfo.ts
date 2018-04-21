@@ -110,7 +110,6 @@ export class CommentsinfoPage {
  
 
   presentModal(unit) {
-    console.log("Comments Info:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

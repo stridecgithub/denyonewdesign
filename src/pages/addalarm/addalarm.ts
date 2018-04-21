@@ -361,7 +361,7 @@ export class AddalarmPage {
               "&alarm_assigned_by=" + this.userId +
               "&alarm_assigned_to=" + assigned_to +
               "&pushnotify=" + pushnotify +
-              "&alarm_remark=" +  encodeURIComponent(this.remark.toString())  +
+              "&alarm_remark=" + encodeURIComponent(this.remark.toString()) +
               "&alarm_assigned_date=" + alarm_assigned_date,
 
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -374,9 +374,14 @@ export class AddalarmPage {
               .subscribe((data) => {
                 if (data.status === 200) {
                   this.hideForm = true;
-
+                  console.log(JSON.stringify(data.json()));
                   //this.conf.sendNotification(`Successfully assigned`);
                   this.conf.sendNotification(data.json().msg[0].result);
+
+                  if (data.json().msg[0]['pushid'] != '') {
+                    this.quickPush(data.json().msg[0]['pushid']);
+                  }
+                  
                   localStorage.setItem("userPhotoFile", "");
                   // localStorage.setItem("atMentionResult", '');
                   if (this.NP.get("from") == 'alarm') {
@@ -405,7 +410,21 @@ export class AddalarmPage {
 
   }
 
-
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
   tapEvent(hashtag) {
 
     this.unitDetailData.hashtag = hashtag.target.value;

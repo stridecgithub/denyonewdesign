@@ -112,7 +112,6 @@ export class UnitsPage {
     //this.tabBarElement.style.display = 'flex';
   }
   presentModal(unit) {
-    console.log("Units:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -189,7 +188,6 @@ export class UnitsPage {
       url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
 
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -453,6 +451,7 @@ export class UnitsPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
+              this.selecteditems=[];
               this.doUnit();
             }
           }
@@ -474,6 +473,7 @@ export class UnitsPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
+              this.selecteditems=[];
               this.doUnit();
             }
           }
@@ -787,11 +787,10 @@ export class UnitsPage {
   released() {
   }
   onholdaction(action) {
-    console.log(JSON.stringify(this.selecteditems));
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
       //modal.present();
-      this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems,'from':'unit' });
+      this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems, 'from': 'unit' });
       return false;
     }
     this.moreopenpop = 0;
@@ -813,40 +812,82 @@ export class UnitsPage {
     if (action == 'pin') {
       urlstr = "/onholdunitaction?unitid=" + str + "&action=dashboard&is_mobile=1&loginid=" + this.userId;
     } else if (action == 'delete') {
-      urlstr = "/onholdunitaction?unitid=" + str + "&action=delete&is_mobile=1&loginid=" + this.userId;
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to delete this unit?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            urlstr = "/onholdunitaction?unitid=" + str + "&action=delete&is_mobile=1&loginid=" + this.userId;
+            let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + urlstr;
+            this.http.get(url, options)
+              .subscribe((data) => {
+                if (data.status === 200) {
+
+
+                  this.reportData.startindex = 0;
+                  this.unitAllLists = [];
+                  // let res = data.json();
+                  if (action == 'favorite') {
+                    this.conf.sendNotification(data.json().msg.result);
+                  } else {
+                    this.conf.sendNotification(data.json().msg[0]['result']);
+                  }
+
+
+                  this.selecteditems = [];
+                  this.doUnit();
+
+
+                }
+                // Otherwise let 'em know anyway
+                else {
+                }
+              });
+          }
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+      confirm.present();
     } else if (action == 'favorite') {
       urlstr = "/onholdunitaction?unitid=" + this.arrayid + "&action=favorite&is_mobile=1&loginid=" + this.userId;
     }
+    if (action != 'delete') {
+      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + urlstr;
+      this.http.get(url, options)
+        .subscribe((data) => {
+          if (data.status === 200) {
 
-    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + urlstr;
-    console.log(url);
-    this.http.get(url, options)
-      .subscribe((data) => {
-        if (data.status === 200) {
+
+            this.reportData.startindex = 0;
+            this.unitAllLists = [];
+            // let res = data.json();
+            if (action == 'favorite') {
+              this.conf.sendNotification(data.json().msg.result);
+            } else {
+              this.conf.sendNotification(data.json().msg[0]['result']);
+            }
 
 
-          this.reportData.startindex = 0;
-          this.unitAllLists = [];
-         // let res = data.json();
-          if (action == 'favorite') {
-            this.conf.sendNotification(data.json().msg.result);
-          } else {
-            this.conf.sendNotification(data.json().msg[0]['result']);
+            this.selecteditems = [];
+            this.doUnit();
+
+
           }
+          // Otherwise let 'em know anyway
+          else {
+          }
+        });
 
-
-          this.selecteditems = [];
-          this.doUnit();
-
-
-        }
-        // Otherwise let 'em know anyway
-        else {
-        }
-      });
+    }
   }
 
 

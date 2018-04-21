@@ -96,7 +96,6 @@ export class AlarmlogPage {
 
   }
   presentModal(unit) {
-    console.log("Alarm Log:"+JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }

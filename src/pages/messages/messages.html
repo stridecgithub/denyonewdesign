@@ -39,13 +39,15 @@
 
     <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
 
-      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
+      <!-- <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
         <ion-icon name="md-arrow-dropdown"></ion-icon>
-      </button>
+      </button> -->
 
 
     </ion-title>
-
+    <ion-icon name="md-arrow-dropdown" style="background-color:#515151 !important;color:white;margin-top: 5px;
+    margin-left: 2px;
+    font-size: 35px;" (click)="selectalltip(selectallopenorclose)"></ion-icon>
     <ion-buttons end>
 
       <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="onholdaction('delete')" *ngIf="onholdselectinboxsend == 'inbox'">
@@ -185,8 +187,8 @@
         <ion-item-sliding *ngFor="let senditem of sendLists; let i = index">
           <ion-item class="msg">
 
-            <div (click)="readAction(senditem.message_id,senditem,'readsend','send')">
-              <div class="date-time">{{senditem.message_date_mobileview_list}}</div>
+            <div>
+              <div class="date-time" (click)="readAction(senditem.message_id,senditem,'readsend','send')">{{senditem.message_date_mobileview_list}}</div>
               <!-- <div class="user-img">
                 <img *ngIf="senditem.recipient_photo!=''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
                 <img *ngIf="senditem.recipient_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
@@ -205,7 +207,7 @@
               </div>
 
 
-              <div class="msg-info">
+              <div class="msg-info" (click)="readAction(senditem.message_id,senditem,'readsend','send')">
                 <div class="user-name">{{senditem.sendername}}</div>
                 <div class="msg-subject">{{senditem.messages_subject}}</div>
                 <div class="msg-excerpt">{{senditem.message_body}}</div>

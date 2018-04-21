@@ -136,7 +136,6 @@ export class DashboardPage {
   }
 
   presentModal(unit) {
-    console.log("Dashboard:" + JSON.stringify(unit));
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -369,7 +368,7 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
-    console.log("Dashboard list:-"+url);
+
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -407,7 +406,7 @@ export class DashboardPage {
               lat: res.units[unit].latitude,
               lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
-              companygroup_name: cname,              
+              companygroup_name: cname,
               mapicon: res.units[unit].mapicon,
               viewonid: res.units[unit].viewonid,
               logo: "assets/imgs/square.png",
@@ -501,6 +500,7 @@ export class DashboardPage {
   // Favorite Action
 
   favorite(unit_id) {
+   
     this.reportData.startindex = 0;
     this.unitAllLists = [];
     let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId,
@@ -613,7 +613,6 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=8&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
 
-console.log(url);
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
@@ -927,23 +926,18 @@ console.log(url);
     ];
 
     let bounds = new google.maps.LatLngBounds();
-    //let latLngmapoption = new google.maps.LatLng(1.3239805, 103.7018489);
-   
     let latLngmapoption;
-    let zoomlevel=8;
+    let zoomlevel = 8;
     if (markers.length == 1) {
-      zoomlevel=10;
+      zoomlevel = 10;
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
-    }else if(markers.length>1){
-      zoomlevel=5;
-      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);    
+    } else if (markers.length > 1) {
+      zoomlevel = 5;
+      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     } else {
-      zoomlevel=18;
-      latLngmapoption = new google.maps.LatLng(1.3239805, 103.7018489);
+      zoomlevel = 18;
+      latLngmapoption = new google.maps.LatLng(1.32, 103.701);
     }
-
-console.log(zoomlevel);
-
 
     // Map options
     let mapOptions = {
@@ -979,8 +973,6 @@ console.log(zoomlevel);
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
-          console.log(i+":"+ markers[i].mapicon);
-          //if (markers[i].mapicon != undefined) {
           iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png';
           //}
 
@@ -1115,6 +1107,7 @@ console.log(zoomlevel);
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
+              this.selecteditems=[];
               this.doUnit();
             }
           }
@@ -1136,6 +1129,7 @@ console.log(zoomlevel);
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
+              this.selecteditems=[];
               this.doUnit();
             }
           }
@@ -1553,7 +1547,7 @@ console.log(zoomlevel);
         genstatus: item[unit].genstatus,
         favoriteindication: item[unit].favoriteindication,
         lat: item[unit].latitude,
-        mapicon:  item[unit].mapicon,
+        mapicon: item[unit].mapicon,
         lng: item[unit].longtitude,
         runninghr: item[unit].runninghr,
         companygroup_name: item[unit].companygroup_name,
@@ -1659,74 +1653,86 @@ console.log(zoomlevel);
       //modal.present();
       this.navCtrl.setRoot(ViewunitPage, { item: this.selecteditems, 'from': 'dashboard' });
     } else if (action == 'remove') {
+      let confirm = this.alertCtrl.create({
+        message: 'Are you sure you want to remove this unit from dashboard?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+
+            let urlstr;
+            urlstr = "/onholddashboardaction?id=" + str + "&action=hide&is_mobile=1&loginid=" + this.userId;
+            let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+              headers: any = new Headers({ 'Content-Type': type }),
+              options: any = new RequestOptions({ headers: headers }),
+              url: any = this.apiServiceURL + urlstr;
+            this.http.get(url, options)
+              .subscribe((data) => {
+                if (data.status === 200) {
 
 
-      let urlstr;
-      urlstr = "/onholddashboardaction?id=" + str + "&action=hide&is_mobile=1&loginid=" + this.userId;
-      let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-        headers: any = new Headers({ 'Content-Type': type }),
-        options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + urlstr;
-      this.http.get(url, options)
-        .subscribe((data) => {
-          if (data.status === 200) {
+                  this.reportData.startindex = 0;
+                  this.unitAllLists = [];
+                  let res = data.json();
+                  if (res.units.length > 0) {
+                    for (let unit in res.units) {
+                      let cname = res.units[unit].unitgroup_name;
 
+                      if (cname != 'undefined' && cname != undefined) {
+                        let stringToSplit = cname;
+                        let x = stringToSplit.split("");
+                        cname = x[0].toUpperCase();
+                      } else {
+                        cname = '';
+                      }
 
-            this.reportData.startindex = 0;
-            this.unitAllLists = [];
-            let res = data.json();
-            if (res.units.length > 0) {
-              for (let unit in res.units) {
-                let cname = res.units[unit].unitgroup_name;
+                      this.unitAllLists.push({
+                        unit_id: res.units[unit].unit_id,
+                        unitname: res.units[unit].unitname,
+                        location: res.units[unit].location,
+                        contacts: res.units[unit].contacts,
+                        projectname: res.units[unit].projectname,
+                        colorcode: res.units[unit].colorcode,
+                        nextservicedate: res.units[unit].nextservicedate,
+                        neaplateno: res.units[unit].neaplateno,
+                        companys_id: res.units[unit].companys_id,
+                        unitgroups_id: res.units[unit].unitgroups_id,
+                        models_id: res.units[unit].models_id,
+                        serial_number: res.units[unit].serialnumber,
+                        alarmnotificationto: res.units[unit].alarmnotificationto,
+                        favoriteindication: res.units[unit].favorite,
+                        genstatus: res.units[unit].genstatus,
+                        lat: res.units[unit].latitude,
+                        lng: res.units[unit].longtitude,
+                        mapicon: res.units[unit].mapicon,
+                        runninghr: res.units[unit].runninghr,
+                        companygroup_name: cname,
+                        viewonid: res.units[unit].viewonid,
+                        logo: "assets/imgs/square.png",
+                        active: ""
+                      });
+                    }
 
-                if (cname != 'undefined' && cname != undefined) {
-                  let stringToSplit = cname;
-                  let x = stringToSplit.split("");
-                  cname = x[0].toUpperCase();
-                } else {
-                  cname = '';
+                    this.totalCount = res.totalCount;
+                    this.reportData.startindex += this.reportData.results;
+                  } else {
+                    this.totalCount = 0;
+                  }
+                  this.selecteditems = [];
+                  this.conf.sendNotification(data.json().msg['result']);
+
                 }
-
-                this.unitAllLists.push({
-                  unit_id: res.units[unit].unit_id,
-                  unitname: res.units[unit].unitname,
-                  location: res.units[unit].location,
-                  contacts: res.units[unit].contacts,
-                  projectname: res.units[unit].projectname,
-                  colorcode: res.units[unit].colorcode,
-                  nextservicedate: res.units[unit].nextservicedate,
-                  neaplateno: res.units[unit].neaplateno,
-                  companys_id: res.units[unit].companys_id,
-                  unitgroups_id: res.units[unit].unitgroups_id,
-                  models_id: res.units[unit].models_id,
-                  serial_number: res.units[unit].serialnumber,
-                  alarmnotificationto: res.units[unit].alarmnotificationto,
-                  favoriteindication: res.units[unit].favorite,
-                  genstatus: res.units[unit].genstatus,
-                  lat: res.units[unit].latitude,
-                  lng: res.units[unit].longtitude,
-                  mapicon: res.units[unit].mapicon,
-                  runninghr: res.units[unit].runninghr,
-                  companygroup_name: cname,
-                  viewonid: res.units[unit].viewonid,
-                  logo: "assets/imgs/square.png",
-                  active: ""
-                });
-              }
-
-              this.totalCount = res.totalCount;
-              this.reportData.startindex += this.reportData.results;
-            } else {
-              this.totalCount = 0;
-            }
-            this.selecteditems = [];
-            this.conf.sendNotification(data.json().msg['result']);
-
+                // Otherwise let 'em know anyway
+                else {
+                }
+              });
           }
-          // Otherwise let 'em know anyway
-          else {
-          }
-        });
+        },
+        {
+          text: 'No',
+          handler: () => { }
+        }]
+      });
+      confirm.present();
     } else if (action == 'favorite') {
       let urlstr;
       urlstr = "/onholddashboardaction?id=" + this.arrayid + "&action=favorite&is_mobile=1&loginid=" + this.userId;
@@ -1736,13 +1742,9 @@ console.log(zoomlevel);
         options1: any = new RequestOptions({ headers: headers1 }),
         url: any = this.apiServiceURL + urlstr;;
       let res;
-      console.log("URL Onhold Action" + url);
-
-      //this.http.post(url, bodymessage, options1)
       this.http.get(url, options1)
         .subscribe((data) => {
           res = data.json();
-          console.log("Unread" + JSON.stringify(res));
           if (data.status === 200) {
             /*
             
@@ -1787,7 +1789,7 @@ console.log(zoomlevel);
                               active: ""
                             });
                           }
-                          console.log(JSON.stringify(this.unitAllLists));
+                         
                           this.totalCount = res.totalCount;
                           this.reportData.startindex += this.reportData.results;
                         } else {

@@ -136,7 +136,7 @@ export class DashboardPage {
   }
 
   presentModal(unit) {
-    console.log("Dashboard:" + JSON.stringify(unit));
+   
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
@@ -369,7 +369,7 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
-    console.log(url);
+    
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1710,13 +1710,13 @@ export class DashboardPage {
         options1: any = new RequestOptions({ headers: headers1 }),
         url: any = this.apiServiceURL + urlstr;;
       let res;
-      console.log("URL Onhold Action" + url);
+      
 
       //this.http.post(url, bodymessage, options1)
       this.http.get(url, options1)
         .subscribe((data) => {
           res = data.json();
-          console.log("Unread" + JSON.stringify(res));
+         
           if (data.status === 200) {
             /*
             
@@ -1761,7 +1761,7 @@ export class DashboardPage {
                               active: ""
                             });
                           }
-                          console.log(JSON.stringify(this.unitAllLists));
+                          
                           this.totalCount = res.totalCount;
                           this.reportData.startindex += this.reportData.results;
                         } else {

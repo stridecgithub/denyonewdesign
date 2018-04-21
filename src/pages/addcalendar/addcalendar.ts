@@ -679,7 +679,7 @@ export class AddcalendarPage {
       event_time = '';
       event_end_time = '';
     }
-   
+
     let field;
     if (type_name == 'Service') {
       field = "&event_title=" + event_subject;
@@ -698,7 +698,7 @@ export class AddcalendarPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-
+        console.log(JSON.stringify(res));
         // If the request was successful notify the user
         if (data.status === 200) {
 
@@ -708,6 +708,11 @@ export class AddcalendarPage {
           } else {
             this.conf.sendNotification(res.msg[0].result);
             // localStorage.setItem("atMentionResult", '');
+
+            if (data.json().msg[0]['pushid'] != '') {
+              this.quickPush(data.json().msg[0]['pushid']);
+            }
+
             this.navCtrl.setRoot(CalendarPage);
           }
         }
@@ -720,7 +725,21 @@ export class AddcalendarPage {
       });
   }
 
-
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
 
   // Update an existing record that has been edited in the page's HTML form
   // Use angular's http post method to submit the record data
@@ -932,7 +951,7 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
-      service_remark = jQuery(".event_notes").val();
+    service_remark = jQuery(".event_notes").val();
     this.http.post(url, body, options)
       .subscribe((data) => {
 

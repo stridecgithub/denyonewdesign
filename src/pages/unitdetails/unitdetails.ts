@@ -276,7 +276,6 @@ export class UnitdetailsPage {
 	// 	});
 	// }
 	presentModal(unit) {
-		console.log("Unit Details:" + JSON.stringify(unit));
 		let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
 		modal.present();
 	}
@@ -1054,7 +1053,6 @@ export class UnitdetailsPage {
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
-				console.log(url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1521,7 +1519,6 @@ export class UnitdetailsPage {
 		// 	this.subscription.unsubscribe();
 		// }
 		if (this.NP.get("page") == 'viewunit') {
-			console.log("3"+JSON.stringify( this.navParams.get('item')));
 			this.navCtrl.setRoot(ViewunitPage,{
 				item:this.navParams.get('record'),
 				from:this.navParams.get('from'),
