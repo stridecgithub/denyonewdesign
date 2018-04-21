@@ -47,7 +47,8 @@ export class CommentsinfoPage {
     nextServiceDate: '',
     addedImgLists1: '',
     addedImgLists2: '',
-    colorcodeindications: ''
+    colorcodeindications: '',
+		mapicon:''
   }
   footerBar: number = 1;
   public userId: any;
@@ -192,7 +193,7 @@ export class CommentsinfoPage {
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
-
+          this.unitDetailData.mapicon=data.json().units[0].mapicon;
           this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
           if (data.json().units[0].lat == undefined) {
             this.unitDetailData.lat = '';

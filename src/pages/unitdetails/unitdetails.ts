@@ -151,7 +151,8 @@ export class UnitdetailsPage {
 		serial_number: '',
 		contactpersonal: '',
 		contactnumber: '',
-		contacts: ''
+		contacts: '',
+		mapicon:''
 	}
 	public profilePhoto;
 	nextservicedate;
@@ -1134,7 +1135,7 @@ export class UnitdetailsPage {
 
 					}
 					this.unitDetailData.favoriteindication = favorite;
-
+					this.unitDetailData.mapicon=data.json().units[0].mapicon;
 				}
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;

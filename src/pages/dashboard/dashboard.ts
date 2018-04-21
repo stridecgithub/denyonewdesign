@@ -369,7 +369,7 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
-    console.log(url);
+    console.log("Dashboard list:-"+url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -407,7 +407,8 @@ export class DashboardPage {
               lat: res.units[unit].latitude,
               lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
-              companygroup_name: cname,
+              companygroup_name: cname,              
+              mapicon: res.units[unit].mapicon,
               viewonid: res.units[unit].viewonid,
               logo: "assets/imgs/square.png",
               active: ""
@@ -543,6 +544,7 @@ export class DashboardPage {
               lat: res.units[unit].latitude,
               lng: res.units[unit].longtitude,
               runninghr: res.units[unit].runninghr,
+              mapicon: res.units[unit].mapicon,
               companygroup_name: cname,
               viewonid: res.units[unit].viewonid,
               logo: "assets/imgs/square.png",
@@ -611,7 +613,7 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=8&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
 
-
+console.log(url);
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
@@ -926,8 +928,7 @@ export class DashboardPage {
 
     let bounds = new google.maps.LatLngBounds();
     //let latLngmapoption = new google.maps.LatLng(1.3239805, 103.7018489);
-    console.log(markers.length);
-    console.log(JSON.stringify(markers));
+   
     let latLngmapoption;
     let zoomlevel=8;
     if (markers.length == 1) {
@@ -978,9 +979,12 @@ console.log(zoomlevel);
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
+          console.log(i+":"+ markers[i].mapicon);
           //if (markers[i].mapicon != undefined) {
           iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png';
           //}
+
+
         }
         let marker = new google.maps.Marker({
           position: latLng,
@@ -1510,6 +1514,7 @@ console.log(zoomlevel);
           alarmnotificationto: this.unitAllLists[i].alarmnotificationto,
           genstatus: this.unitAllLists[i].genstatus,
           favoriteindication: this.unitAllLists[i].favorite,
+          mapicon: this.unitAllLists[i].mapicon,
           lat: this.unitAllLists[i].latitude,
           lng: this.unitAllLists[i].longtitude,
           runninghr: this.unitAllLists[i].runninghr,
@@ -1548,6 +1553,7 @@ console.log(zoomlevel);
         genstatus: item[unit].genstatus,
         favoriteindication: item[unit].favoriteindication,
         lat: item[unit].latitude,
+        mapicon:  item[unit].mapicon,
         lng: item[unit].longtitude,
         runninghr: item[unit].runninghr,
         companygroup_name: item[unit].companygroup_name,
@@ -1618,6 +1624,7 @@ console.log(zoomlevel);
         genstatus: this.unitAllLists[i].genstatus,
         favoriteindication: this.unitAllLists[i].favorite,
         lat: this.unitAllLists[i].latitude,
+        mapicon: this.unitAllLists[i].mapicon,
         lng: this.unitAllLists[i].longtitude,
         runninghr: this.unitAllLists[i].runninghr,
         companygroup_name: cname,
@@ -1698,6 +1705,7 @@ console.log(zoomlevel);
                   genstatus: res.units[unit].genstatus,
                   lat: res.units[unit].latitude,
                   lng: res.units[unit].longtitude,
+                  mapicon: res.units[unit].mapicon,
                   runninghr: res.units[unit].runninghr,
                   companygroup_name: cname,
                   viewonid: res.units[unit].viewonid,

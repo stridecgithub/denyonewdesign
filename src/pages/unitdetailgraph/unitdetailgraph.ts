@@ -30,7 +30,8 @@ export class UnitdetailgraphPage {
     serviced_by: '',
     nextServiceDate: '',
     addedImgLists1: '',
-    addedImgLists2: ''
+    addedImgLists2: '',
+    mapicon:''
   }
   private apiServiceURL: string = "";
 
@@ -120,7 +121,7 @@ export class UnitdetailgraphPage {
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
-
+          this.unitDetailData.mapicon=data.json().units[0].mapicon;
           this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
           if (data.json().units[0].lat == undefined) {
             this.unitDetailData.lat = '';
