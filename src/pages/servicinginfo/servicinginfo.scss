@@ -27,9 +27,14 @@ page-servicinginfo {
       font-size: 16px;
     }
     .list-favorite {
-      padding: 0;
+	  padding: 0;
+	  width:30px;
       float: right;
-      margin-top: -5px;
+	  margin-top: -5px; 
+	  .icon-size {
+		max-width: 75%;
+		margin-left:7px;
+      }
     }
     .unit-info {
       font-size: 14px;

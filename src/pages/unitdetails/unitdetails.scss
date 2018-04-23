@@ -84,21 +84,12 @@ a{
     .b-gauge__mark         {position: absolute; background: #ccc; width: 1px; height:8px;}
 
 
-  // .toolbar-md-primary .bar-button-clear-md, .toolbar-md-primary .bar-button-default-md, .toolbar-md-primary .bar-button-outline-md, .toolbar-md-primary .toolbar-title-md{
-  //      font-size: inherit !important;
-  // }
 .scroll-content{
     padding: 0px !important;
   }
   .unit-detail {
     border-bottom: #000 5px solid;
-   /* .status {
-      width: 12px;
-      height: 12px;
-      display: inline-block;
-      border-radius: 50%;
-      background: red;
-    }*/
+  
     .unit-title {
       font-size: 16px;
     }
@@ -106,6 +97,10 @@ a{
       padding: 0;
       float: right;
       margin-top: -5px;
+      width:30px;
+     .icon-size {
+        max-width: 75%
+      }
     }
     .unit-info {
       font-size: 14px;

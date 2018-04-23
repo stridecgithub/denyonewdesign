@@ -21,6 +21,12 @@
           <ion-icon name="star-outline" *ngIf="unitDetailData.favoriteindication === 0 || unitDetailData.favoriteindication === 'unfavorite'"></ion-icon>
           <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
         </button>
+
+        <button class="map-btn"    (click)="presentModal(unitDetailData)">
+           
+          <img class="icon-size" src="assets/imgs/map.png">
+        </button>
+
       </div>
       <span class="status" ngClass="{{unitDetailData.gen_status}}"></span>
       <b>{{this.unitDetailData.unitname}}</b>
@@ -29,10 +35,7 @@
       {{unitDetailData.projectname }}
       <br>
       <strong>Deployed Location:</strong> {{unitDetailData.location }}
-      <button class="map-btn" style="text-align:right;margin-top:-21px"  (click)="presentModal(unitDetailData)">
-           
-        <img class="icon-size" src="assets/imgs/map.png">
-      </button>
+     
 
 
     </div>
