@@ -31,7 +31,7 @@ export class CommentsinfoPage {
   public unit_id: any;
   public msgcount: any;
   public notcount: any;
-  isInfiniteHide:boolean;
+  isInfiniteHide: boolean;
   public atMentionedInfo = [];
   public reportData: any =
     {
@@ -245,22 +245,6 @@ export class CommentsinfoPage {
       refresher.complete();
     }, 2000);
   }
-  /*doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-
-      this.doService();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }*/
-
-
-
-
   doService() {
     this.conf.presentLoading(1);
     if (this.reportData.status == '') {
@@ -291,17 +275,16 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-        console.log(JSON.stringify(res));
+
         if (res.comments.length > 0) {
           this.reportAllLists = res.comments;
 
-          this.items = this.mockProvider.getData(this.reportAllLists);
-          console.log(JSON.stringify(this.items));
+          this.items = this.mockProvider.getData(this.reportAllLists, 0);
+
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
           this.loadingMoreDataContent = 'Loading More Data';
@@ -607,7 +590,6 @@ export class CommentsinfoPage {
     let splitdata = val.split(",");
     this.reportData.sort = splitdata[0];
     this.reportData.sortascdesc = splitdata[1];
-    //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.items = [];
@@ -615,17 +597,12 @@ export class CommentsinfoPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.mockProvider.getAsyncData(this.reportAllLists).then((newData) => {
+    this.mockProvider.getAsyncData(this.reportAllLists, this.items.length).then((newData) => {
       for (var i = 0; i < newData.length; i++) {
-        JSON.stringify(this.items.push(newData[i]));
+        this.items.push(newData[i]);
       }
-
       infiniteScroll.complete();
-      console.log("doInfinite total count:-" + this.totalCount);
-      console.log("doInfinite items length:-" + this.items.length);
-     // this.isInfiniteHide = true;
       if (this.items.length > this.totalCount) {
-        //infiniteScroll.enable(false);
         this.isInfiniteHide = false
       }
     });
