@@ -29,6 +29,7 @@ import { ReportsPage } from '../pages/reports/reports';
 import { UnitsPage } from '../pages/units/units';
 import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
+import { PaginatePage } from '../pages/paginate/paginate';
 import { Network } from '@ionic-native/network';
 
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';

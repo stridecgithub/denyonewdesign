@@ -95,6 +95,8 @@ import { Push } from '@ionic-native/push';
 import { PermissionPage } from '../pages/permission/permission';
 import { LongPressModule } from 'ionic-long-press';
 import { ViewunitPage } from '../pages/viewunit/viewunit';
+import { PaginatePage } from '../pages/paginate/paginate';
+
 @NgModule({
   declarations: [
     PermissionPage,
@@ -172,7 +174,8 @@ import { ViewunitPage } from '../pages/viewunit/viewunit';
     ReportviewPage,
     EngineviewPage,
     PopoverchoosecolorPage,
-    ViewunitPage
+    ViewunitPage,
+    PaginatePage
   ],
   imports: [
     BrowserModule,
@@ -267,7 +270,8 @@ import { ViewunitPage } from '../pages/viewunit/viewunit';
     ReportviewPage,
     EngineviewPage,
     PopoverchoosecolorPage,
-    ViewunitPage
+    ViewunitPage,
+    PaginatePage
   ],
   providers: [
     Config,

@@ -11,6 +11,7 @@ import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 import { ModalPage } from '../modal/modal';
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
+import { MockProvider } from './commentinfoprovider';
 /**
  * Generated class for the CommentsinfoPage page.
  *
@@ -22,13 +23,15 @@ import { ServicedetailsPage } from "../servicedetails/servicedetails";
 @Component({
   selector: 'page-commentsinfo',
   templateUrl: 'commentsinfo.html',
-  providers: [Config]
+  providers: [Config, MockProvider]
 })
 export class CommentsinfoPage {
+  items: string[];
   public pageTitle: string;
   public unit_id: any;
   public msgcount: any;
   public notcount: any;
+  isInfiniteHide:boolean;
   public atMentionedInfo = [];
   public reportData: any =
     {
@@ -36,7 +39,7 @@ export class CommentsinfoPage {
       sort: 'comment_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public unitDetailData: any = {
     userId: '',
@@ -48,7 +51,7 @@ export class CommentsinfoPage {
     addedImgLists1: '',
     addedImgLists2: '',
     colorcodeindications: '',
-		mapicon:''
+    mapicon: ''
   }
   footerBar: number = 1;
   public userId: any;
@@ -70,12 +73,13 @@ export class CommentsinfoPage {
   roleId;
   itemwidth: any;
   devicewidth: any;
-  deviceheight: any;  
+  deviceheight: any;
   h3width = '';
   denyosupporttext;
-  constructor(private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
+  constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
+    this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -107,7 +111,7 @@ export class CommentsinfoPage {
     // Footer Menu Access - End
   }
 
- 
+
 
   presentModal(unit) {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
@@ -148,32 +152,32 @@ export class CommentsinfoPage {
     if (this.devicewidth <= 320) {
       this.itemwidth = 'device-320-item-width';
       this.h3width = '230px';
-      this.denyosupporttext='denyo-support-text-320';
+      this.denyosupporttext = 'denyo-support-text-320';
     } else {
       this.itemwidth = '';
       this.h3width = '270px';
-      this.denyosupporttext='denyo-support-text';
+      this.denyosupporttext = 'denyo-support-text';
     }
-   // let iframeunitid = localStorage.getItem("iframeunitId");
-   
+    // let iframeunitid = localStorage.getItem("iframeunitId");
+
     let editItem = this.NP.get("record");
     let from = this.NP.get("from");
-  
+
     let unitid = localStorage.getItem("iframeunitId");
     if (unitid == undefined) {
       if (from == 'service') {
-     
+
         unitid = editItem.service_unitid;
       } else if (from == 'alarm') {
-      
+
         unitid = editItem.alarm_unitid;
       } else {
-       
+
         unitid = editItem.comment_unit_id;
       }
     }
 
-   
+
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -192,7 +196,7 @@ export class CommentsinfoPage {
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
-          this.unitDetailData.mapicon=data.json().units[0].mapicon;
+          this.unitDetailData.mapicon = data.json().units[0].mapicon;
           this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
           if (data.json().units[0].lat == undefined) {
             this.unitDetailData.lat = '';
@@ -220,7 +224,7 @@ export class CommentsinfoPage {
           }
 
           this.unitDetailData.favoriteindication = data.json().units[0].favorite;
-         
+
 
         }
       }, error => {
@@ -233,7 +237,7 @@ export class CommentsinfoPage {
   }
 
   doRefresh(refresher) {
-  
+
     this.reportData.startindex = 0;
     this.reportAllLists = [];
     this.doService();
@@ -241,7 +245,7 @@ export class CommentsinfoPage {
       refresher.complete();
     }, 2000);
   }
-  doInfinite(infiniteScroll) {
+  /*doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doService();
@@ -252,7 +256,11 @@ export class CommentsinfoPage {
       infiniteScroll.complete();
     }, 500);
 
-  }
+  }*/
+
+
+
+
   doService() {
     this.conf.presentLoading(1);
     if (this.reportData.status == '') {
@@ -283,20 +291,24 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-   
+    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
+        console.log(JSON.stringify(res));
         if (res.comments.length > 0) {
           this.reportAllLists = res.comments;
+
+          this.items = this.mockProvider.getData(this.reportAllLists);
+          console.log(JSON.stringify(this.items));
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
           this.loadingMoreDataContent = 'Loading More Data';
         } else {
           this.totalCount = 0;
           this.loadingMoreDataContent = 'No More Data';
-        }      
+        }
 
       }, error => {
         this.conf.presentLoading(0);
@@ -371,7 +383,7 @@ export class CommentsinfoPage {
 
 
     if (type.toLowerCase() == 'a') {
-     
+
       if (item.alarm_assigned_to == '') {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
@@ -383,13 +395,13 @@ export class CommentsinfoPage {
         this.conf.sendNotification("Alarm already assigned");
       }
     }
-   
+
   }
 
   doConfirm(item, ty) {
 
     if (ty.toLowerCase() == 'c') {
-     
+
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this comment?',
         buttons: [{
@@ -525,6 +537,7 @@ export class CommentsinfoPage {
   }
 
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -560,6 +573,7 @@ export class CommentsinfoPage {
               }
               this.reportData.startindex = 0;
               this.reportAllLists = [];
+              this.items = [];
               this.doService();
             }
           }
@@ -579,6 +593,7 @@ export class CommentsinfoPage {
               }
               this.reportData.startindex = 0;
               this.reportAllLists = [];
+              this.items = [];
               this.doService();
             }
           }
@@ -595,6 +610,24 @@ export class CommentsinfoPage {
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
     this.reportAllLists = [];
+    this.items = [];
     this.doService();
+  }
+
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.reportAllLists).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        JSON.stringify(this.items.push(newData[i]));
+      }
+
+      infiniteScroll.complete();
+      console.log("doInfinite total count:-" + this.totalCount);
+      console.log("doInfinite items length:-" + this.items.length);
+     // this.isInfiniteHide = true;
+      if (this.items.length > this.totalCount) {
+        //infiniteScroll.enable(false);
+        this.isInfiniteHide = false
+      }
+    });
   }
 }

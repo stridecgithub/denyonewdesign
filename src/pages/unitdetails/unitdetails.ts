@@ -1427,7 +1427,7 @@ export class UnitdetailsPage {
 		}
 	}
 	commentsInfo(unitId, access) {
-
+		localStorage.setItem('currentlenth', "0");
 		if (access == true) {
 			this.rolePermissionMsg = this.conf.rolePermissionMsg();
 			this.showAlert('EVENTS/COMMENTS', this.rolePermissionMsg)

@@ -1,3 +1,49 @@
+<!--ion-header>
+
+  <ion-navbar>
+    <ion-title>Infinite Scroll</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of items;let i = index">
+      <div *ngIf="item.event_type=='C'">
+        No:{{i+1}}
+        <br> <img src="{{item.user_photo}}" width="50" height="50"><br> 
+        Comment Id:{{item.comment_id}}   
+        <br> 
+        Comment Subject:{{item. comment_subject}}
+        <br> Image:
+      </div>
+      <div *ngIf="item.event_type=='S'">
+          No:{{i+1}}
+          <br>  <img src="{{item.user_photo}}" width="50" height="50"><br> 
+          Service Id:{{item.service_id}}   
+          <br> 
+          Service Subject:{{item. service_subject}}        
+        </div>
+
+        <div *ngIf="item.event_type=='A'">
+            No:{{i+1}}
+            <br> <img src="{{item.user_photo}}" width="50" height="50"><br> 
+            Alarm Id:{{item.alarm_id}}   
+            <br> 
+            Alarm Name:{{item. alarm_name}}           
+          </div>
+
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content-->
+
+
 <!--
   Generated template for the UnitdetailsPage page.
 
@@ -52,9 +98,9 @@
         <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Comment"></ion-icon>
       </div>
 
-      <div class="error" *ngIf="totalCount==0">No entries found</div>
+      
       <ion-list class="lst">
-        <ion-item-sliding class="brd" *ngFor="let upcomintitem of  items;">
+        <ion-item-sliding class="brd" *ngFor="let upcomintitem of items;let i = index">
 
           <ion-item class="slide" *ngIf="upcomintitem.event_type=='C'" (click)="doCommentView(upcomintitem.comment_id,upcomintitem.event_type,upcomintitem)">
             <div class="p1" ngClass="{{itemwidth}}">
@@ -120,9 +166,9 @@
                 <br>
                 <span>Serviced by:{{upcomintitem.serviced_by_name}} {{upcomintitem.serviced_by_name_hastag}} </span>
                 <div style="position: absolute;
-                margin-top: -60px;
-                margin-left: 57%;
-                text-align: center;">
+                  margin-top: -60px;
+                  margin-left: 57%;
+                  text-align: center;">
                   <span style="color:green;font-size:11px" *ngIf="upcomintitem.is_denyo_support>0">
                     <ion-icon ios="ios-checkmark" md="md-checkmark" style="color:green;font-size:16px"></ion-icon>
                     <br>Denyo Support
@@ -253,10 +299,14 @@
         </ion-item-sliding>
 
       </ion-list>
-      <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
+      <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+      </ion-refresher>
       <!-- service p1 -->
 
 
