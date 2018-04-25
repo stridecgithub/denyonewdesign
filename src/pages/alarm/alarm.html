@@ -22,8 +22,8 @@
           <ion-icon name="star" class="favorite" *ngIf="unitDetailData.favoriteindication === 1 || unitDetailData.favoriteindication === 'favorite'"></ion-icon>
         </button>
 
-        <button class="map-btn"    (click)="presentModal(unitDetailData)">
-           
+        <button class="map-btn" (click)="presentModal(unitDetailData)">
+
           <img class="icon-size" src="assets/imgs/map.png">
         </button>
 
@@ -35,7 +35,7 @@
       {{unitDetailData.projectname }}
       <br>
       <strong>Deployed Location:</strong> {{unitDetailData.location }}
-     
+
 
 
     </div>
@@ -43,7 +43,7 @@
 
   <div class="error" *ngIf="totalCount==0">No entries found</div>
   <ion-list>
-    <ion-item-sliding *ngFor="let alarmitem of reportAllLists">
+    <ion-item-sliding *ngFor="let alarmitem of  items; let i = index">
       <ion-item class="msg">
         <div class="switch">
 
@@ -71,13 +71,19 @@
       </ion-item-options>
     </ion-item-sliding>
 
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
+    <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
       <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll> -->
+
+
+   
 
   </ion-list>
 
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>

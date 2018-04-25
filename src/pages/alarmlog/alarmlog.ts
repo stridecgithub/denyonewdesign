@@ -11,6 +11,7 @@ import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { AlarmlogdetailsPage } from '../alarmlogdetails/alarmlogdetails';
 import { ModalPage } from '../modal/modal';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the AlarmlogPage page.
  *
@@ -36,7 +37,7 @@ export class AlarmlogPage {
       sort: 'alarm_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public unitDetailData: any = {
     userId: '',
@@ -47,7 +48,7 @@ export class AlarmlogPage {
     nextServiceDate: '',
     addedImgLists1: '',
     addedImgLists2: '',
-		mapicon:''
+    mapicon: ''
   }
   public reportAllLists = [];
   public colorListArr: any;
@@ -60,9 +61,12 @@ export class AlarmlogPage {
   public msgcount: any;
   public notcount: any;
   public sortLblTxt: string = 'Date';
-  constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
-
+    this.isInfiniteHide = true;
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -84,7 +88,7 @@ export class AlarmlogPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
-
+    this.pageperrecord = this.conf.pagePerRecord();
 
 
     platform.registerBackButtonAction(() => {
@@ -136,7 +140,7 @@ export class AlarmlogPage {
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
-          this.unitDetailData.mapicon=data.json().units[0].mapicon;
+          this.unitDetailData.mapicon = data.json().units[0].mapicon;
           this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
           if (data.json().units[0].lat == undefined) {
             this.unitDetailData.lat = '';
@@ -203,7 +207,7 @@ export class AlarmlogPage {
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-
+        console.log("Total Alarm:" + res.alarms.length);
         if (res.alarms.length > 0) {
 
           for (let alarm in res.alarms) {
@@ -278,6 +282,8 @@ export class AlarmlogPage {
               ispadding: ispadding
 
             });
+
+            this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
 
           this.totalCount = res.totalCount;
@@ -325,18 +331,7 @@ export class AlarmlogPage {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });
   }
-  doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
-      this.doAlarm();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
 
   previous() {
     this.navCtrl.setRoot(UnitdetailsPage, {
@@ -386,6 +381,7 @@ export class AlarmlogPage {
     this.navCtrl.setRoot(OrgchartPage);
   }
   doSortAlarmLog() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -444,5 +440,30 @@ export class AlarmlogPage {
       ]
     });
     prompt.present();
+  }
+  /*doInfinite(infiniteScroll) {
+    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
+
+      this.doAlarm();
+    }
+
+    setTimeout(() => {
+
+      infiniteScroll.complete();
+    }, 500);
+
+  }*/
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.reportAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      if (this.items.length > this.totalCount) {
+        this.isInfiniteHide = false
+      }
+    });
   }
 }

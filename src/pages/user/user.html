@@ -40,7 +40,7 @@
 
 
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let user of items">
+    <ion-item-sliding #item class="list-item" *ngFor="let user of items; let i = index">
       <ion-item *ngIf="user.staff_id!='1'">
 
         <h5 style="padding-top:3px">

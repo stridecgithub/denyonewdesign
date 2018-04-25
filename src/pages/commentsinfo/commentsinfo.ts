@@ -603,7 +603,7 @@ export class CommentsinfoPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      if (this.items.length > this.totalCount) {
+      if (this.items.length >= this.totalCount) {
         this.isInfiniteHide = false
       }
     });

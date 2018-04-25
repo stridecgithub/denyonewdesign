@@ -396,11 +396,7 @@ export class UnitdetailsPage {
 						// Votage
 						let voltage = 0;
 						let actual_voltage = this.selectedvoltage;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						// if (actual_voltage > 0) {
-						// 	voltage = ((actual_voltage - 260) / 200) * 100;
-						// } else {
-						// 	voltage = 0;
-						// }
+						
 
 						let diff = this.setpointsdata[0].maxvalue - this.setpointsdata[0].minvalue;
 						if (actual_voltage < this.setpointsdata[0].minvalue)
@@ -411,7 +407,7 @@ export class UnitdetailsPage {
 							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / diff) * 100;
 
 
-						//let voltguagelabel = this.voltguagelabel;
+					
 						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
 						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
 						let voltagegauge = new Gauge(jQuery('.voltagegauge'), {
@@ -464,11 +460,7 @@ export class UnitdetailsPage {
 						let frequency = 0;
 
 						let actual_frequency = this.freq;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						/*if (actual_frequency > 0) {
-							frequency = (((actual_frequency - 40) / 20) * 100);
-						} else {
-							frequency = 0;
-						}*/
+					
 
 						let difffreq = this.setpointsdata[2].maxvalue - this.setpointsdata[2].minvalue;
 						if (actual_frequency < this.setpointsdata[2].minvalue)
@@ -602,24 +594,7 @@ export class UnitdetailsPage {
 
 						var coolantbarlabels = this.coolantbarlabels.split(",");
 
-						/*var gradient1 = {
-							type: 'linearGradient',
-							x0: 0,
-							y0: 0.5,
-							x1: 1,
-							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#df0000' }, { offset: 1, color: '#df0000' }]
-						};
-
-						var gradient2 = {
-							type: 'linearGradient',
-							x0: 0,
-							y0: 0.5,
-							x1: 1,
-							y1: 0.5,
-							colorStops: [{ offset: 0, color: '#ffca00' }, { offset: 1, color: '#ffca00' }]
-						};*/
-
+						
 						var gradient3 = {
 							type: 'linearGradient',
 							x0: 0,
@@ -656,17 +631,13 @@ export class UnitdetailsPage {
 
 
 
-								} /*else if (x == labels.length - 1) {
-									sval = labels[x];
-									enval = res[i].maxvalue;
-									
-								}*/ else {
+								}  else {
 
 									sval = labels[x - 1];
 									enval = labels[x];
 
 								}
-								//var brclr= barchartcolors[x].replace('"','');
+							
 								var gradver;
 								if (barchartcolors[x] == "gradient1") {
 									gradver = '#df0000';
@@ -677,12 +648,7 @@ export class UnitdetailsPage {
 								if (barchartcolors[x] == "gradient3") {
 									gradver = '#00FF50';
 								}
-								if (code == 'oilpressure') {
-									/*if(x==1){
-										enval=enval+0.7;
-									}*/
-
-								}
+								
 								this.rangesdata.push({
 									startValue: sval,
 									endValue: enval,
@@ -691,12 +657,7 @@ export class UnitdetailsPage {
 									outerEndOffset: 0.70,
 									fillStyle: gradver
 								})
-								/*startValue: 97,
-	endValue: 105,
-		innerOffset: 0.46,
-			outerStartOffset: 0.70,
-				outerEndOffset: 0.70,
-					fillStyle: gradient3*/
+								
 
 
 							}
@@ -710,13 +671,13 @@ export class UnitdetailsPage {
 								res[i].minvalue = 0;
 							}
 							let angle = 0;
-							let labelofset = 0.15;
-							let labelfont = '12px sans-serif';
+							let labelofset = 0.30;
+							
 							if (code == 'oilpressure') {
-								labelofset = -2;
-								labelfont = '8px sans-serif';
+								angle = -0.5;							
+								
 								if (enval > 1.1 && enval <= 1.5) {
-									angle = 0;//angle = 180;
+								
 
 								}
 								this.rangesdata.push({
@@ -740,9 +701,7 @@ export class UnitdetailsPage {
 							}
 
 							if (code == "coolanttemp") {
-								if (this.devicewidth <= 320) {
-									labelfont = '8px sans-serif';
-								}
+								
 								this.needlevalue = this.coolanttemp;
 
 								if (this.coolanttemp > 120) {
@@ -764,8 +723,8 @@ export class UnitdetailsPage {
 								} else {
 									this.needlevalue = this.oilpressure;
 								}
-								if (this.needlevalue >= 10) { //10
-									this.needlevalue = 10; //10
+								if (this.needlevalue >= 10) { 
+									this.needlevalue = 10; 
 								}
 							}
 							if (code == "batteryvolt") {
@@ -789,12 +748,8 @@ export class UnitdetailsPage {
 								this.needlevalue = 0;
 							}
 
-							let scalemax;
-							/*if (code == 'oilpressure') {
-								scalemax=10; //10
-							}else{*/
+							let scalemax;							
 							scalemax = res[i].maxvalue;
-							//}
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
 								background: '#fff',
@@ -815,10 +770,9 @@ export class UnitdetailsPage {
 										maximum: scalemax,
 
 										labels: {
-											//offset: 0,
+											
 											offset: labelofset,
-											angle: angle,
-											font: labelfont//'8px sans-serif'
+											angle: angle
 
 										},
 										majorTickMarks: {
@@ -833,35 +787,10 @@ export class UnitdetailsPage {
 											offset: 1,
 											lineWidth: 2
 										},
-										customTickMarks: JSON.parse('[' + labels + ']'),//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+										customTickMarks: JSON.parse('[' + labels + ']'),
 										ranges:
-											// {"startValue":0,"endValue":8,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient2"},
-											// {"startValue":8,"endValue":15,"innerOffset":0.46,"outerStartOffset":0.7,"outerEndOffset":0.7,"fillStyle":"gradient3"}
-											this.rangesdata
-										/*{
-											startValue: 0,
-											endValue: 20,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient1
-										},
-										{
-											startValue: 20,
-											endValue: 97,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient2
-										},
-										{
-											startValue: 97,
-											endValue: 105,
-											innerOffset: 0.46,
-											outerStartOffset: 0.70,
-											outerEndOffset: 0.70,
-											fillStyle: gradient3
-										}*/
+												this.rangesdata
+										
 										,
 										needles: [
 											{

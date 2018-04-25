@@ -125,7 +125,7 @@ export class UserPage {
         res = data.json();
         if (res.staff.length > 0) {
           this.userAllLists = res.staff;
-          this.items = this.mockProvider.getData(this.userAllLists, 0,this.pageperrecord);
+          this.items = this.mockProvider.getData(this.userAllLists, 0, this.pageperrecord);
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -349,12 +349,16 @@ export class UserPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.mockProvider.getAsyncData(this.userAllLists, this.items.length,this.pageperrecord).then((newData) => {
+    this.mockProvider.getAsyncData(this.userAllLists, this.items.length, this.pageperrecord).then((newData) => {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      if (this.items.length > this.totalCount) {
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
         this.isInfiniteHide = false
       }
     });

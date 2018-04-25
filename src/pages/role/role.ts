@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, AlertController, NavParams,Platform,App } from 'ionic-angular';
+import { NavController, ToastController, AlertController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddrolePage } from '../addrole/addrole';
@@ -17,6 +17,7 @@ import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
 import { PermissionPage } from '../../pages/permission/permission';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the AddrolePage page.
  *
@@ -29,13 +30,13 @@ import { PermissionPage } from '../../pages/permission/permission';
   providers: [Config]
 })
 export class RolePage {
-  public footerBar  = [];
+  public footerBar = [];
   public pageTitle: string;
   public loginas: any;
   public CREATEACCESS: any;
   public EDITACCESS: any;
   public DELETEACCESS: any;
-  public VIEWACCESS: any;  
+  public VIEWACCESS: any;
   private apiServiceURL: string = "";
   public totalCount;
   pet: string = "ALL";
@@ -48,14 +49,18 @@ export class RolePage {
       sort: 'asc',
       sortascdesc: '',
       startindex: 0,
-      results: 8
+      results: 200000
     }
   public roleAllLists = [];
   profilePhoto;
-  constructor(public app: App,public platform:Platform,public http: Http, private conf: Config,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public http: Http, private conf: Config,
     public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Roles';
+    this.isInfiniteHide = true;
     this.loginas = localStorage.getItem("userInfoName");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -74,13 +79,14 @@ export class RolePage {
       this.navCtrl.setRoot(PermissionPage, {});
     }
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = this.conf.pagePerRecord();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
     } else {
       this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
     }
-    
+
 
   }
 
@@ -117,21 +123,23 @@ export class RolePage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "vendor";
     }
-      let    type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+    let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/role?is_mobile=1&role_name=" + this.reportData.sort;
-    
+      url: any = this.apiServiceURL + "/role?is_mobile=1&sort=" + this.reportData.sort;
+    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
         if (res.roles.length > 0) {
           this.roleAllLists = res.roles;
+          this.items = this.mockProvider.getData(this.roleAllLists, 0, this.pageperrecord);
           // this.totalCount = res[0].totalCount;
           this.reportData.startindex += this.reportData.results;
+          this.totalCount = res.roles.length;
         } else {
-          //this.totalCount = 0;
+          this.totalCount = 0;
         }
 
 
@@ -139,29 +147,15 @@ export class RolePage {
     this.presentLoading(0);
   }
 
-  /**********************/
-  /* Infinite scrolling */
-  /**********************/
-  doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-     
-      this.doRole();
-    }
-   
-    setTimeout(() => {
-     
-      infiniteScroll.complete();
-    }, 500);
-    
-  }
+
 
 
   doAdd() {
-     this.navCtrl.setRoot(AddrolePage);
+    this.navCtrl.setRoot(AddrolePage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
-       this.navCtrl.setRoot(AddrolePage, {
+      this.navCtrl.setRoot(AddrolePage, {
         record: item,
         act: act
       });
@@ -216,7 +210,7 @@ export class RolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role/" + recordID + "/1/delete";
-    
+
 
     this.http.get(url, options)
       .subscribe(data => {
@@ -277,11 +271,25 @@ export class RolePage {
     }
   }
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   previous() {
-     this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
-
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.roleAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+      }
+    });
+  }
 }
 

@@ -13,6 +13,7 @@ import { AddalarmPage } from '../addalarm/addalarm';
 import { TrendlinePage } from '../trendline/trendline';
 import { AlarmlogdetailsPage } from '../alarmlogdetails/alarmlogdetails';
 import { ModalPage } from '../modal/modal';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the AlarmPage page.
  *
@@ -44,7 +45,7 @@ export class AlarmPage {
       sort: 'alarm_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public unitDetailData: any = {
     userId: '',
@@ -62,9 +63,12 @@ export class AlarmPage {
   public userId: any;
   public unit_id: any;
   public sortLblTxt: string = 'Date';
-  constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider,private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
-
+      this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -85,7 +89,7 @@ export class AlarmPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_ALARM_DELETE");
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
-
+    this.pageperrecord = this.conf.pagePerRecord();
 
 
     platform.registerBackButtonAction(() => {
@@ -287,6 +291,7 @@ export class AlarmPage {
               
 
             });
+            this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
          
           this.totalCount = res.totalCount;
@@ -305,19 +310,7 @@ export class AlarmPage {
   ionViewWillEnter() {
 
   }
-  doInfinite(infiniteScroll) {
 
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-
-      this.doAlarm();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
 
 
 
@@ -369,6 +362,7 @@ export class AlarmPage {
     });
   }
   doSortAlarmLog() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -457,5 +451,17 @@ export class AlarmPage {
   redirectToSettings() {
     this.navCtrl.setRoot(OrgchartPage);
   }
-
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.reportAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCountab:" + this.totalCount);
+      console.log("this.items.lengthab:" + this.items.length);
+      if (this.items.length > this.totalCount) {
+        this.isInfiniteHide = false
+      }
+    });
+  }
 }

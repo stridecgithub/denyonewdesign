@@ -12,6 +12,8 @@ import { NotificationPage } from '../notification/notification';
 import { DashboardPage } from '../dashboard/dashboard';
 import { Config } from '../../config/config';
 import { PermissionPage } from '../../pages/permission/permission';
+
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the EnginedetailPage page.
  *
@@ -42,8 +44,6 @@ export class EnginedetailPage {
       status: '',
       sort: 'model_id',
       sortascdesc: 'desc',
-      startindex: 0,
-      results: 8
     }
 
   public enginedetailAllLists = [];
@@ -51,9 +51,12 @@ export class EnginedetailPage {
   public userId: any;
   public companyId;
   public profilePhoto;
-  constructor(private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public NP: NavParams, public loadingCtrl: LoadingController) {
-
+    this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -69,6 +72,7 @@ export class EnginedetailPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = 6;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -107,7 +111,7 @@ export class EnginedetailPage {
         this.notcount = data.json().notifycount;
       });
 
-    this.reportData.startindex = 0;
+
     this.doengine();
   }
   doengine() {
@@ -124,28 +128,15 @@ export class EnginedetailPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/enginemodel?is_mobile=1";
     let res;
-
+    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-
-
+        console.log("Engine Model Count:" + res.modeldata.length)
         if (res.modeldata.length > 0) {
-
-          for (let modeldatas in res.modeldata) {
-
-
-            this.enginedetailAllLists.push({
-              model: res.modeldata[modeldatas].model,
-              rawhtml: res.modeldata[modeldatas].rawhtml,
-              model_id: res.modeldata[modeldatas].model_id
-
-
-
-            });
-          }
+          this.enginedetailAllLists = res.modeldata;
+          this.items = this.mockProvider.getData(this.enginedetailAllLists, 0, this.pageperrecord);
           this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
         } else {
           this.totalCount = 0;
         }
@@ -159,19 +150,19 @@ export class EnginedetailPage {
   doAdd() {
     this.navCtrl.setRoot(AddenginedetailPage);
   }
-  doInfinite(infiniteScroll) {
+  // doInfinite(infiniteScroll) {
 
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
+  //   if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
-      this.doengine();
-    }
+  //     this.doengine();
+  //   }
 
-    setTimeout(() => {
+  //   setTimeout(() => {
 
-      infiniteScroll.complete();
-    }, 500);
+  //     infiniteScroll.complete();
+  //   }, 500);
 
-  }
+  // }
 
   presentLoading(parm) {
     let loader;
@@ -253,5 +244,19 @@ export class EnginedetailPage {
   notification() {
     this.navCtrl.setRoot(NotificationPage);
   }
-
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.enginedetailAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+      }
+    });
+  }
 }
