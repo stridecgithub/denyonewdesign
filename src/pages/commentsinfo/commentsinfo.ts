@@ -11,7 +11,7 @@ import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { AddalarmPage } from "../addalarm/addalarm";
 import { ModalPage } from '../modal/modal';
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
-import { MockProvider } from './commentinfoprovider';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the CommentsinfoPage page.
  *
@@ -23,15 +23,13 @@ import { MockProvider } from './commentinfoprovider';
 @Component({
   selector: 'page-commentsinfo',
   templateUrl: 'commentsinfo.html',
-  providers: [Config, MockProvider]
+  providers: [Config]
 })
-export class CommentsinfoPage {
-  items: string[];
+export class CommentsinfoPage { 
   public pageTitle: string;
   public unit_id: any;
   public msgcount: any;
-  public notcount: any;
-  isInfiniteHide: boolean;
+  public notcount: any; 
   public atMentionedInfo = [];
   public reportData: any =
     {
@@ -76,6 +74,9 @@ export class CommentsinfoPage {
   deviceheight: any;
   h3width = '';
   denyosupporttext;
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
   constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private platform: Platform, private conf: Config, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
@@ -105,7 +106,7 @@ export class CommentsinfoPage {
     this.COMMENTEDITACCESS = localStorage.getItem("UNITS_COMMENTS_EDIT");
     this.COMMENTDELETEACCESS = localStorage.getItem("UNITS_COMMENTS_DELETE");
     this.apiServiceURL = this.conf.apiBaseURL();
-
+    this.pageperrecord = this.conf.pagePerRecord();
 
 
     // Footer Menu Access - End
@@ -283,7 +284,7 @@ export class CommentsinfoPage {
         if (res.comments.length > 0) {
           this.reportAllLists = res.comments;
 
-          this.items = this.mockProvider.getData(this.reportAllLists, 0);
+          this.items = this.mockProvider.getData(this.reportAllLists, 0,this.pageperrecord);
 
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
@@ -597,7 +598,7 @@ export class CommentsinfoPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.mockProvider.getAsyncData(this.reportAllLists, this.items.length).then((newData) => {
+    this.mockProvider.getAsyncData(this.reportAllLists, this.items.length,this.pageperrecord).then((newData) => {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }

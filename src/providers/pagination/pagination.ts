@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 @Injectable()
 export class MockProvider {
-  getData(cmtdata, incr): any[] {
+  getData(cmtdata, incr,per): any[] {
+
+    let pr =per;
+    let sec = pr + per;
+
     let st = 0;
-    let ed = 20;
-    if (incr == 20) {
-      st = 20;
-      ed = 40;
-    } else if (incr >= 40) {
+    let ed = pr;
+    if (incr == pr) {
+      st = pr;
+      ed = sec;
+    } else if (incr >= sec) {
       st = incr;
-      ed = incr + 20;
+      ed = incr + pr;
     }
     let data: any[] = [];
     for (var i = st; i < ed; i++) {
@@ -20,10 +24,10 @@ export class MockProvider {
     }
     return data;
   }
-  getAsyncData(cmtdata, incr): Promise<any[]> {
+  getAsyncData(cmtdata, incr,per): Promise<any[]> {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(this.getData(cmtdata, incr));
+        resolve(this.getData(cmtdata, incr,per));
       }, 1000);
 
     });

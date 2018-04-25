@@ -96,7 +96,7 @@ import { PermissionPage } from '../pages/permission/permission';
 import { LongPressModule } from 'ionic-long-press';
 import { ViewunitPage } from '../pages/viewunit/viewunit';
 import { PaginatePage } from '../pages/paginate/paginate';
-
+import { MockProvider } from '../providers/pagination/pagination';
 @NgModule({
   declarations: [
     PermissionPage,
@@ -279,6 +279,7 @@ import { PaginatePage } from '../pages/paginate/paginate';
     SplashScreen,
     NativeStorage,
     Network,
+    MockProvider,
     Push,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider

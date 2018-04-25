@@ -40,7 +40,7 @@
 
 
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let user of userAllLists">
+    <ion-item-sliding #item class="list-item" *ngFor="let user of items">
       <ion-item *ngIf="user.staff_id!='1'">
 
         <h5 style="padding-top:3px">
@@ -63,8 +63,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
-    <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
 <ion-footer>

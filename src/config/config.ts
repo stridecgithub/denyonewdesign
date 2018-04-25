@@ -6,8 +6,8 @@ export class Config {
         public toastCtrl: ToastController) {
     }
     apiBaseURL() { // Base URL configuration
-    //return 'http://denyoappv2.stridecdev.com';// live
-    return 'http://denyodev1.stridecdev.com';// Testing
+        //return 'http://denyoappv2.stridecdev.com';// live
+        return 'http://denyodev1.stridecdev.com';// Testing
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";
@@ -19,7 +19,11 @@ export class Config {
     networkErrMsg() {
         return "Connection Error:Internet connection not available";
     }
-  
+
+    pagePerRecord() {
+        return 20;
+    }
+
 
     presentLoading(parm) {
 
@@ -51,7 +55,7 @@ export class Config {
             //showCloseButton: true,
             //closeButtonText: "X",
             //dismissOnPageChange: true
-            
+
             duration: 3000
         });
         notification.present();
@@ -60,7 +64,7 @@ export class Config {
         let notification = this.toastCtrl.create({
             message: message,
             showCloseButton: true,
-           // position: 'middle',
+            // position: 'middle',
             closeButtonText: "X",
             dismissOnPageChange: true
         });
@@ -98,6 +102,6 @@ export class Config {
         return splithypen[1] + "-" + splithypen[2] + "-" + splithypen[0];
     }
 
-   
+
 
 }

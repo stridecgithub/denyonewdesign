@@ -9,6 +9,7 @@ import { NotificationPage } from '../notification/notification';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
 import { PermissionPage } from '../../pages/permission/permission';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the UserPage page.
  *
@@ -31,8 +32,8 @@ export class UserPage {
   pet: string = "ALL";
   public CREATEACCESS: any;
   public EDITACCESS: any;
-  public DELETEACCESS: any;  
-public VIEWACCESS: any;  
+  public DELETEACCESS: any;
+  public VIEWACCESS: any;
   public sortby = 2;
   public vendorsort = "asc";
   public ascending = true;
@@ -48,12 +49,16 @@ public VIEWACCESS: any;
       sort: 'user_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public userAllLists = [];
-  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Users';
+    this.isInfiniteHide = true;
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.loginas = localStorage.getItem("userInfoName");
     this.platform.ready().then(() => {
@@ -62,7 +67,7 @@ public VIEWACCESS: any;
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-       this.navCtrl.setRoot(DashboardPage);
+        this.navCtrl.setRoot(DashboardPage);
       });
     });
     this.CREATEACCESS = localStorage.getItem("SETTINGS_USERLIST_CREATE");
@@ -71,9 +76,10 @@ public VIEWACCESS: any;
 
     this.VIEWACCESS = localStorage.getItem("SETTINGS_USERLIST_VIEW");
     if (this.VIEWACCESS == 0) {
-         this.navCtrl.setRoot(PermissionPage, {});
-       }
+      this.navCtrl.setRoot(PermissionPage, {});
+    }
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = this.conf.pagePerRecord();
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -117,10 +123,9 @@ public VIEWACCESS: any;
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-
-       
         if (res.staff.length > 0) {
           this.userAllLists = res.staff;
+          this.items = this.mockProvider.getData(this.userAllLists, 0,this.pageperrecord);
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -134,7 +139,7 @@ public VIEWACCESS: any;
   /**********************/
   /* Infinite scrolling */
   /**********************/
-  doInfinite(infiniteScroll) {
+  /*doInfinite(infiniteScroll) {
     if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
       this.doUser();
@@ -145,7 +150,7 @@ public VIEWACCESS: any;
       infiniteScroll.complete();
     }, 500);
 
-  }
+  }*/
 
 
 
@@ -174,12 +179,12 @@ public VIEWACCESS: any;
 
   doAdd() {
     localStorage.setItem("photofromgallery", "");
-   this.navCtrl.setRoot(AdduserPage);
+    this.navCtrl.setRoot(AdduserPage);
   }
   doEdit(item, act) {
     if (act == 'edit') {
       localStorage.setItem("photofromgallery", "");
-     this.navCtrl.setRoot(AdduserPage, {
+      this.navCtrl.setRoot(AdduserPage, {
         record: item,
         act: act
       });
@@ -279,12 +284,13 @@ public VIEWACCESS: any;
   }
 
   previous() {
-   this.navCtrl.setRoot(DashboardPage);
+    this.navCtrl.setRoot(DashboardPage);
   }
   notification() {
-   this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -341,4 +347,17 @@ public VIEWACCESS: any;
     });
     prompt.present();
   }
+
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.userAllLists, this.items.length,this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      if (this.items.length > this.totalCount) {
+        this.isInfiniteHide = false
+      }
+    });
+  }
+
 }
