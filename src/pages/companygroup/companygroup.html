@@ -7,28 +7,28 @@
 
 <ion-header>
 
-    <ion-navbar hideBackButton>
-      <button ion-button clear class="left-header-btn" menuToggle>
-        <ion-icon name="menu"></ion-icon>
+  <ion-navbar hideBackButton>
+    <button ion-button clear class="left-header-btn" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{pageTitle}}</ion-title>
+    <div class="right-header-btns">
+      <button class="search">
+        <ion-icon name="search"></ion-icon>
       </button>
-      <ion-title>{{pageTitle}}</ion-title>
-      <div class="right-header-btns">
-        <button class="search">
-          <ion-icon name="search"></ion-icon>
-        </button>
-        <button class="notification-bell" (click)="notification()">
-          <ion-icon name="notifications"></ion-icon>
-          <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
-        </button>
-        <button class="profile">
-          <img src="{{profilePhoto}}" width="28" height="28">
-        </button>
-      </div>
-    </ion-navbar>
-  </ion-header>
+      <button class="notification-bell" (click)="notification()">
+        <ion-icon name="notifications"></ion-icon>
+        <span class="counter" *ngIf="notcount>0">{{notcount}}</span>
+      </button>
+      <button class="profile">
+        <img src="{{profilePhoto}}" width="28" height="28">
+      </button>
+    </div>
+  </ion-navbar>
+</ion-header>
 <ion-content>
 
-  <button class="add-unit-btn" (click)="doAdd()"  *ngIf="CREATEACCESS==1">
+  <button class="add-unit-btn" (click)="doAdd()" *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New Company Group</button>
   <div class="error" *ngIf="totalCount==0">No company group entries found</div>
 
@@ -40,29 +40,34 @@
 
 
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let companygroup of companygroupAllLists">
-      <ion-item   (click)="detail(companygroup)">
-      	<div class="group-info">
-        <h2 style="padding-top: 4px;">
-          <b>Company :</b> {{companygroup.companygroup_name}}</h2>
-        <h3>
-          <b>Total User :</b> {{companygroup.totalusers}}</h3>
-          </div>
+    <ion-item-sliding #item class="list-item" *ngFor="let companygroup of items;let i = index">
+      <ion-item (click)="detail(companygroup)">
+        <div class="group-info">
+          <h2 style="padding-top: 4px;">
+            <b>Company :</b> {{companygroup.companygroup_name}}</h2>
+          <h3>
+            <b>Total User :</b> {{companygroup.totalusers}}</h3>
+        </div>
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
-        <button ion-button class="edit-btn" (click)="doEdit(companygroup,'edit')"  *ngIf="EDITACCESS==1">
+        <button ion-button class="edit-btn" (click)="doEdit(companygroup,'edit')" *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
-        <button ion-button class="del-btn" (click)="doConfirm(companygroup.companygroup_id,companygroup)"  *ngIf="DELETEACCESS==1">
+        <button ion-button class="del-btn" (click)="doConfirm(companygroup.companygroup_id,companygroup)" *ngIf="DELETEACCESS==1">
           <ion-icon name="trash"></ion-icon>Delete
         </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+  <ion-spinner></ion-spinner>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+   
   </ion-infinite-scroll>
+
 </ion-content>
 <ion-footer>
-<progress-bar [progress]="footerBar"></progress-bar>
+  <progress-bar [progress]="footerBar"></progress-bar>
 </ion-footer>

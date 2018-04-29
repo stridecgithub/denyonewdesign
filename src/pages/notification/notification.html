@@ -14,13 +14,13 @@
 
 
 <ion-content (tap)="isNet()">
-  <div class="error" *ngIf="notificationAllLists.length==0">No entries found</div>
-  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
+  <div class="error" *ngIf="totalCount==0">No entries found</div>
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCount!=0">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
     </ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher> -->
   <ion-list>
-    <ion-item-sliding *ngFor="let notify of notificationAllLists">
+    <ion-item-sliding *ngFor="let notify of items; let i = index">
       <ion-item  ngClass="{{notify.notify_to_readstatus}}" *ngIf="notify.notify_type=='M'" (click)="notificationdetails(notify,notify.notify_type)">
         <div class="msg">
           <div class="user-img">
@@ -128,5 +128,9 @@
 
   </ion-list>
 
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

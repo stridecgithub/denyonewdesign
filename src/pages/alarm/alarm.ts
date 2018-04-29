@@ -56,7 +56,7 @@ export class AlarmPage {
     nextServiceDate: '',
     addedImgLists1: '',
     addedImgLists2: '',
-		mapicon:''
+    mapicon: ''
   }
   public reportAllLists = [];
   public colorListArr: any;
@@ -66,9 +66,9 @@ export class AlarmPage {
   items: string[];
   isInfiniteHide: boolean;
   pageperrecord;
-  constructor(private mockProvider: MockProvider,private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
+  constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
-      this.isInfiniteHide = true;
+    this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -141,7 +141,7 @@ export class AlarmPage {
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
-          this.unitDetailData.mapicon=data.json().units[0].mapicon;
+          this.unitDetailData.mapicon = data.json().units[0].mapicon;
           this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
           if (data.json().units[0].lat == undefined) {
             this.unitDetailData.lat = '';
@@ -206,7 +206,7 @@ export class AlarmPage {
   doAlarm() {
     //let editItem = this.NP.get("record");
 
-    this.conf.presentLoading(1);
+
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -221,11 +221,11 @@ export class AlarmPage {
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-        this.conf.presentLoading(0);
+
         res = data.json();
 
         if (res.alarms.length > 0) {
-
+          this.conf.presentLoading(1);
           for (let alarm in res.alarms) {
 
 
@@ -251,7 +251,6 @@ export class AlarmPage {
             let trendlineshow;
             if (res.alarms[alarm].code != '') {
               trendlineshow = 'trendlineshow';
-
             } else {
               trendlineshow = 'trendlineshow-none';
 
@@ -259,7 +258,7 @@ export class AlarmPage {
 
             let color;
             let ispadding;
-            if (res.alarms[alarm].isactivealarm >0) {
+            if (res.alarms[alarm].isactivealarm > 0) {
               color = '#ffffff';
               ispadding = '3px';
             } else {
@@ -288,14 +287,19 @@ export class AlarmPage {
               isactivealarm: res.alarms[alarm].isactivealarm,
               color: color,
               ispadding: ispadding
-              
-
             });
+            if (res.alarms.length == parseInt(alarm) + 1) {
+              this.conf.presentLoading(0);
+              console.log('Done');
+            } else {
+
+              console.log('processing');
+            }
             this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
-         
+
           this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
+
         } else {
           this.conf.presentLoading(0);
           this.totalCount = 0;

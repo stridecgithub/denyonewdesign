@@ -839,7 +839,7 @@ export class UnitdetailsPage {
 										offset: 1,
 										lineWidth: 2
 									},
-									customTickMarks: coolantbarlabels,//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+									customTickMarks: [0,1],//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
 									ranges: [
 										{
 											startValue: 0,

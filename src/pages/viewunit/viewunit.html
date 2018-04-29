@@ -24,12 +24,20 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists; let i = index">
+    <ion-item-sliding #item class="list-item" *ngFor="let unit of items; let i = index">
       <ion-item ngClass="{{unit.active}}" (click)="doAction(unit,'detail',unit.unit_id)">
         <span class="status" ngClass="{{unit.genstatus}}"></span>
-        <span>{{unit.unitname}}</span>
+        <span>
+          <b>{{unit.unitname}}</b>
+        </span>
         <div class="list-desc">{{unit.projectname}}</div>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretextsend}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

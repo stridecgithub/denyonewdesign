@@ -189,7 +189,7 @@ export class AlarmlogPage {
   doAlarm() {
     //let editItem = this.NP.get("record");
 
-    this.conf.presentLoading(1);
+
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -205,11 +205,11 @@ export class AlarmlogPage {
 
     this.http.get(url, options)
       .subscribe((data) => {
-        this.conf.presentLoading(0);
+
         res = data.json();
         console.log("Total Alarm:" + res.alarms.length);
         if (res.alarms.length > 0) {
-
+          this.conf.presentLoading(1);
           for (let alarm in res.alarms) {
             let hashtagbyname;
             if (res.alarms[alarm].alarm_assginedby_hashtag != '') {
@@ -282,16 +282,21 @@ export class AlarmlogPage {
               ispadding: ispadding
 
             });
+            if (res.alarms.length == parseInt(alarm) + 1) {
+              this.conf.presentLoading(0);
+              console.log('Done');
+            } else {
 
+              console.log('processing');
+            }
             this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
 
           this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
+
         } else {
           this.totalCount = 0;
         }
-
 
       }, error => {
         this.conf.presentLoading(0);

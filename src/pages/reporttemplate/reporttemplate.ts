@@ -10,6 +10,7 @@ import { Config } from '../../config/config';
 import { ReporttemplatedetailPage } from '../reporttemplatedetail/reporttemplatedetail';
 import { DashboardPage } from '../dashboard/dashboard';
 import { PermissionPage } from '../../pages/permission/permission';
+import { MockProvider } from '../../providers/pagination/pagination';
 //import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the UnitgroupPage page.
@@ -47,13 +48,20 @@ export class ReporttemplatePage {
       sort: 'unitgroup_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 8
+      results: 200000
     }
   public reporttemplateAllLists = [];
   profilePhoto;
-  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  loadingmoretext;
+  constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
+    this.isInfiniteHide = true;
+    this.loadingmoretext = "Loading more data...";
     this.companyId = localStorage.getItem("userInfoCompanyId");
+    this.pageperrecord = this.conf.pagePerRecord();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -154,26 +162,14 @@ export class ReporttemplatePage {
               availableheading: res.availabletemp[availabletemps].availableheading.split("#")
             });
           }
-          this.totalCount = res.totalCount;
+          this.totalCount = res.availabletemp.length;
           this.reportData.startindex += this.reportData.results;
+          this.items = this.mockProvider.getData(this.reporttemplateAllLists, 0, this.pageperrecord);
         } else {
           this.totalCount = 0;
         }
       });
     this.presentLoading(0);
-  }
-  doInfinite(infiniteScroll) {
-
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-
-      this.doReport();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
   }
 
   presentLoading(parm) {
@@ -263,6 +259,23 @@ export class ReporttemplatePage {
     this.navCtrl.setRoot(ReporttemplatedetailPage, { templatename: templatename, templatedata: templatedata });
   }
 
-
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.reporttemplateAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+        this.loadingmoretext = 'No more data.';
+      } else {
+        this.loadingmoretext = 'Loading more data...';
+      }
+    });
+  }
 }
 

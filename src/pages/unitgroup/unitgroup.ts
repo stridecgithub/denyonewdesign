@@ -17,6 +17,7 @@ import { Unitgrouplist } from '../unitgrouplist/unitgrouplist';
 //import { OrgchartPage } from '../orgchart/orgchart';
 import { Config } from '../../config/config';
 import { PermissionPage } from '../../pages/permission/permission';
+import { MockProvider } from '../../providers/pagination/pagination';
 //declare var jQuery: any;
 /**
  * Generated class for the UnitgroupPage page.
@@ -49,16 +50,22 @@ export class UnitgroupPage {
       sort: 'unitgroup_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public unitgroupAllLists = [];
   public colorListArr: any;
   public userId: any;
   public companyId;
   public profilePhoto;
-  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  loadingmoretext;
+  constructor(private mockProvider: MockProvider,public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.isInfiniteHide = true;
+    this.pageperrecord = this.conf.pagePerRecord();
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
@@ -194,6 +201,8 @@ export class UnitgroupPage {
               cname: cname,
               createdOn: res.unitgroups[unitgroup].createdOn,
             });
+
+            this.items = this.mockProvider.getData(this.unitgroupAllLists, 0, this.pageperrecord);
           }
 
           this.totalCount = res.totalCount;
@@ -208,22 +217,6 @@ export class UnitgroupPage {
   }
 
 
-  /**********************/
-  /* Infinite scrolling */
-  /**********************/
-  doInfinite(infiniteScroll) {
-
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
-
-      this.dounitGroup();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
 
   presentLoading(parm) {
     let loader;
@@ -358,69 +351,7 @@ export class UnitgroupPage {
         }
       
 
-        /*
- 
-     
-
-
-
-        if (res.unitgroups.length > 0) {
-
-          for (let unitgroup in res.unitgroups) {
-            let colorcode;
-            let favorite;
-            let index = this.colorListArr.indexOf(res.unitgroups[unitgroup].colorcode); // 1
-
-            let colorvalincrmentone = index + 1;
-            colorcode = "button" + colorvalincrmentone;
-
-            if (res.unitgroups[unitgroup].favorite == 1) {
-              favorite = "favorite";
-            }
-            else {
-              favorite = "unfavorite";
-
-            }
-
-            let cname = res.unitgroups[unitgroup].unitgroup_name;
-
-            if (cname != 'undefined' && cname != undefined) {
-              let stringToSplit = cname;
-              let x = stringToSplit.split("");
-              cname = x[0].toUpperCase();
-            } else {
-              cname = '';
-            }
-
-
-            this.unitgroupAllLists.push({
-              unitgroup_id: res.unitgroups[unitgroup].unitgroup_id,
-              unitgroup_name: res.unitgroups[unitgroup].unitgroup_name,
-              remark: res.unitgroups[unitgroup].remark,
-              favorite: res.unitgroups[unitgroup].favorite,
-              totalunits: res.unitgroups[unitgroup].totalunits,
-              colorcode: res.unitgroups[unitgroup].colorcode,
-              colorcodeindication: colorcode,
-              favoriteindication: favorite,
-              cname: cname,
-              createdOn: res.unitgroups[unitgroup].createdOn,
-            });
-          }
-
-          this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
-        } else {
-          this.totalCount = 0;
-        }
-
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.sendNotification(res.msg[0].result);
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.sendNotification('Something went wrong!');
-        }*/
+        
       });
 
   }
@@ -434,6 +365,7 @@ export class UnitgroupPage {
   }
 
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -501,5 +433,22 @@ export class UnitgroupPage {
     });
     prompt.present();
   }
-
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.unitgroupAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+        this.loadingmoretext = 'No more data.';
+      } else {
+        this.loadingmoretext = 'Loading more data...';
+      }
+    });
+  }
 }

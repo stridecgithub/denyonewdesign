@@ -8,6 +8,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
 declare var jQuery: any;
 //import { PermissionPage } from '../permission/permission';
 import { DashboardPage } from '../dashboard/dashboard';
+import { MockProvider } from '../../providers/pagination/pagination';
 @Component({
   selector: 'page-messages',
   templateUrl: 'messages.html',
@@ -105,7 +106,7 @@ export class MessagesPage {
       sort: 'messages_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public sendData: any =
     {
@@ -113,7 +114,7 @@ export class MessagesPage {
       sort: 'messages_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public hideActionButton = true;
   public sortLblTxt: string = 'Date Received';
@@ -131,8 +132,21 @@ export class MessagesPage {
   moreopenorclose = 1;
   public selecteditems = [];
   onholdselectinboxsend;
-  constructor(public app: App, public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+  items: string[];
+  itemssenditems: string[];
+  isInfiniteHide: boolean;
+  isInfiniteHideSend: boolean;
+  pageperrecord;
+  loadingmoretext;
+  loadingmoretextsend;
+  constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+
+    this.loadingmoretext = "Loading more data...";
+    this.loadingmoretextsend = "Loading more data...";
+
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = this.conf.pagePerRecord();
+    this.isInfiniteHide = true;
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.roleId = localStorage.getItem("userInfoRoleId");
@@ -352,6 +366,8 @@ export class MessagesPage {
 
   }
   inb() {
+    this.isInfiniteHide = true;
+    this.isInfiniteHideSend = true;
     this.inboxLists = [];
     this.sendLists = [];
     this.inboxData.startindex = 0;
@@ -362,6 +378,8 @@ export class MessagesPage {
   }
 
   snd() {
+    this.isInfiniteHide = true;
+    this.isInfiniteHideSend = true;
     this.inboxLists = [];
     this.sendLists = [];
     this.sendData.startindex = 0;
@@ -396,7 +414,7 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages?is_mobile=1&startindex=" + this.inboxData.startindex + "&results=" + this.inboxData.results + "&sort=" + this.inboxData.sort + "&dir=" + this.inboxData.sortascdesc + "&loginid=" + this.userId;
     let res;
-
+    console.log(url);
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -429,6 +447,10 @@ export class MessagesPage {
               logo: "assets/imgs/square.png",
               active: ""
             });
+
+            this.items = this.mockProvider.getData(this.inboxLists, 0, this.pageperrecord);
+
+
           }
           this.totalCount = res.totalCount;
         } else {
@@ -467,45 +489,42 @@ export class MessagesPage {
       .subscribe((data) => {
 
         res = data.json();
+
         if (res.messages.length > 0) {
-          if (res.messages.length > 0) {
-            for (let message in res.messages) {
-              this.sendLists.push({
-                message_id: res.messages[message].message_id,
-                sender_id: res.messages[message].sender_id,
-                messages_subject: res.messages[message].messages_subject,
-                message_body: res.messages[message].message_body,
-                messages_isfavaurite: res.messages[message].messages_isfavaurite,
-                message_body_html: res.messages[message].message_body_html,
-                message_date: res.messages[message].message_date,
-                message_date_mobileview: res.messages[message].message_date_mobileview,
-                message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
-                time_ago: res.messages[message].time_ago,
-                message_priority: res.messages[message].message_priority,
-                priority_image: res.messages[message].priority_image,
-                personalhashtag: res.messages[message].personalhashtag,
-                receiver_id: res.messages[message].receiver_id,
-                receiver_name: res.messages[message].receiver_name,
-                recipient_photo: res.messages[message].recipient_photo,
-                senderphoto: res.messages[message].senderphoto,
-                attachments: res.messages[message].attachments,
-                replyall: res.messages[message].replyall,
-                duration: res.messages[message].duration,
-                logo: "assets/imgs/square.png",
-                active: ""
-              });
-            }
-            this.totalCount = res.totalCount;
-          } else {
-            this.totalCount = 0;
+          for (let message in res.messages) {
+            this.sendLists.push({
+              message_id: res.messages[message].message_id,
+              sender_id: res.messages[message].sender_id,
+              messages_subject: res.messages[message].messages_subject,
+              message_body: res.messages[message].message_body,
+              messages_isfavaurite: res.messages[message].messages_isfavaurite,
+              message_body_html: res.messages[message].message_body_html,
+              message_date: res.messages[message].message_date,
+              message_date_mobileview: res.messages[message].message_date_mobileview,
+              message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
+              time_ago: res.messages[message].time_ago,
+              message_priority: res.messages[message].message_priority,
+              priority_image: res.messages[message].priority_image,
+              personalhashtag: res.messages[message].personalhashtag,
+              receiver_id: res.messages[message].receiver_id,
+              receiver_name: res.messages[message].receiver_name,
+              recipient_photo: res.messages[message].recipient_photo,
+              senderphoto: res.messages[message].senderphoto,
+              attachments: res.messages[message].attachments,
+              replyall: res.messages[message].replyall,
+              duration: res.messages[message].duration,
+              logo: "assets/imgs/square.png",
+              active: ""
+            });
           }
-          this.totalCount = res.totalCount;
-          this.sendData.startindex += this.sendData.results;
+          this.itemssenditems = this.mockProvider.getData(this.sendLists, 0, this.pageperrecord);
           this.totalCountSend = res.totalCount;
           this.sendData.startindex += this.sendData.results;
         } else {
           this.totalCountSend = 0;
         }
+
+
         this.conf.presentLoading(0);
       }, error => {
       });
@@ -514,30 +533,7 @@ export class MessagesPage {
   /**********************/
   /* Infinite scrolling */
   /**********************/
-  doInfinite(infiniteScroll) {
-    if (this.inboxData.startindex < this.totalCount && this.inboxData.startindex > 0) {
 
-      this.doInbox();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
-  doSendInfinite(infiniteScroll) {
-    if (this.sendData.startindex < this.totalCountSend && this.sendData.startindex > 0) {
-
-      this.doSend();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
   doConfirm(id, item, type) {
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this message?',
@@ -609,6 +605,7 @@ export class MessagesPage {
   }
 
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -653,7 +650,7 @@ export class MessagesPage {
               }
               this.inboxData.startindex = 0;
               this.inboxLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doInbox();
 
 
@@ -678,7 +675,7 @@ export class MessagesPage {
               }
               this.inboxData.startindex = 0;
               this.inboxLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doInbox();
             }
           }
@@ -690,6 +687,7 @@ export class MessagesPage {
 
 
   doSortSendItem() {
+    this.isInfiniteHideSend = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -734,7 +732,7 @@ export class MessagesPage {
               }
               this.sendData.startindex = 0;
               this.sendLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doSend();
 
 
@@ -762,7 +760,7 @@ export class MessagesPage {
 
               this.sendData.startindex = 0;
               this.sendLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doSend();
             }
           }
@@ -956,11 +954,11 @@ export class MessagesPage {
                 headers1: any = new Headers({ 'Content-Type': type1 }),
                 options1: any = new RequestOptions({ headers: headers1 });
               let res;
-            
+
               this.http.post(urlstr, bodymessage, options1)
                 .subscribe((data) => {
                   res = data.json();
-                 
+
                   if (data.status === 200) {
                     if (res.msg[0]['Error'] == 0) {
                       this.conf.sendNotification(res.msg[0]['result']);
@@ -974,7 +972,7 @@ export class MessagesPage {
                     this.sendLists = [];
                     this.sendData.startindex = 0;
                     this.doSend();
-                    
+
                   }
                   // Otherwise let 'em know anyway
                   else {
@@ -999,11 +997,11 @@ export class MessagesPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 });
       let res;
-      
+
       this.http.post(urlstr, bodymessage, options1)
         .subscribe((data) => {
           res = data.json();
-          
+
           if (data.status === 200) {
             if (res.msg[0]['Error'] == 0) {
               this.conf.sendNotification(res.msg[0]['result']);
@@ -1212,6 +1210,45 @@ export class MessagesPage {
         );
       }
     }
+  }
+
+
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.inboxLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+        this.loadingmoretext = 'No more data.';
+      } else {
+        this.loadingmoretext = 'Loading more data...';
+      }
+    });
+  }
+  doSendInfinite(infiniteScrollsend) {
+    this.mockProvider.getAsyncData(this.sendLists, this.itemssenditems.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.itemssenditems.push(newData[i]);
+      }
+      infiniteScrollsend.complete();
+      console.log("this.totalCount:" + this.totalCountSend);
+      console.log("this.items.length:" + this.itemssenditems.length);
+      console.log('A')
+      if (this.itemssenditems.length >= this.totalCountSend) {
+        console.log('B');
+        this.isInfiniteHideSend = false
+        this.loadingmoretextsend = 'No more data.';
+      } else {
+        this.loadingmoretextsend = 'Loading more data...';
+      }
+    });
+
   }
 
 }

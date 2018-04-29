@@ -10,6 +10,7 @@ import { CompanydetailPage } from '../companydetail/companydetail';
 import { PermissionPage } from '../../pages/permission/permission';
 import { Config } from '../../config/config';
 import { DashboardPage } from '../dashboard/dashboard';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the CompanygroupPage page.
  *
@@ -48,14 +49,19 @@ export class CompanygroupPage {
       sort: 'companygroup_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results: 200000
     }
   public companygroupAllLists = [];
   profilePhoto;
-  constructor(private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  items: string[];
+  isInfiniteHide: boolean;
+  pageperrecord;
+  loadingmoretext;
+  constructor(private mockProvider: MockProvider, private app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.pageTitle = 'Company Group';
-
+    this.isInfiniteHide = true;
+    this.pageperrecord = this.conf.pagePerRecord();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -124,11 +130,13 @@ export class CompanygroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
+    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
         if (res.companygroups.length > 0) {
           this.companygroupAllLists = res.companygroups;
+          this.items = this.mockProvider.getData(this.companygroupAllLists, 0, this.pageperrecord);
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
           this.loadingMoreDataContent = 'Loading More Data';
@@ -151,21 +159,7 @@ export class CompanygroupPage {
     this.companygroupAllLists = [];
     this.doCompanyGroup();
   }
-  /**********************/
-  /* Infinite scrolling */
-  /**********************/
-  doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
-      this.doCompanyGroup();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
   ionViewWillEnter() {
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -318,6 +312,7 @@ export class CompanygroupPage {
     this.navCtrl.setRoot(NotificationPage);
   }
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -365,4 +360,25 @@ export class CompanygroupPage {
     });
     prompt.present();
   }
+
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.companygroupAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      infiniteScroll.complete();
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+        this.loadingmoretext = 'No more data.';
+      } else {
+        this.loadingmoretext = 'Loading more data...';
+      }
+    });
+  }
+
+
 }

@@ -18,7 +18,7 @@
       </button>
     </div>
   </ion-navbar>
- 
+
 </ion-header>
 
 
@@ -43,14 +43,14 @@
     <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
 
       <!-- <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)"> -->
-          <!-- </button> -->
+      <!-- </button> -->
 
 
     </ion-title>
     <ion-icon name="md-arrow-dropdown" style="background-color:#515151 !important;color:white;margin-top: 5px;
     margin-left: 2px;
     font-size: 35px;" (click)="selectalltip(selectallopenorclose)"></ion-icon>
-   
+
     <ion-buttons end>
       <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="moretip(moreopenorclose)">
         <ion-icon name="more" style="background-color:#515151 !important;color:white"></ion-icon>
@@ -134,7 +134,7 @@
         </div>
       </div>
 
-      <div class="custom-tooltip">
+      <div class="custom-tooltip" *ngIf="totalCount>0">
         Total Count: {{totalCount}}
       </div>
       <div #map id="map"></div>
@@ -145,27 +145,29 @@
      <button ion-button class="edit-btn" (click)="pushTesting()">
           <img width="25" src="assets/imgs/edit@2x.png">Push Testing
       </button> -->
-      <div class="error" *ngIf="unitAllLists.length==0">No unit entries found</div>
+
+      <div class="error" *ngIf="totalCountList==0">No unit entries found</div>
 
 
 
-      <div *ngIf="unitAllLists.length>0" class="filter" (click)="doSort()"> {{sortLblTxt}}
+      <div *ngIf="totalCountList>0" class="filter" (click)="doSort()"> {{sortLblTxt}}
         <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
         <ion-icon name="arrow-down" *ngIf="reportData.sortascdesc === 'desc' && sortLblTxt !==Favourites"></ion-icon>
         <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Favourites"></ion-icon>
       </div>
 
       <ion-list>
-        <ion-item-sliding #item class="list-item" *ngFor="let unit of unitAllLists; let i = index">
+        <ion-item-sliding #item class="list-item" *ngFor="let unit of items; let i = index">
           <!-- (click)="doAction(unit,'detail',unit.unit_id)"-->
           <ion-item ngClass="{{unit.active}}">
-            <span ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()" *ngIf="unit.active!=''" class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">
+            <span ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()" *ngIf="unit.active!=''"
+              class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">
               <img src="{{unit.logo}}" ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()">
             </span>
             <span ion-long-press [interval]="400" (onPressStart)="pressed(unit,i)" (onPressEnd)="released()" *ngIf="unit.active==''"
               class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
             <span (click)="doAction(unit,'detail',unit.unit_id)" class="status" ngClass="{{unit.genstatus}}"></span>
-            <span (click)="doAction(unit,'detail',unit.unit_id)">{{unit.unitname}}</span>
+            <span (click)="doAction(unit,'detail',unit.unit_id)"><b>{{unit.unitname}}</b></span>
             <div class="list-desc" (click)="doAction(unit,'detail',unit.unit_id)">{{unit.projectname}}</div>
             <div class="list-favorite">
               <button style="text-align:right;" (click)="presentModal(unit)">
@@ -195,8 +197,9 @@
     </div>
 
   </div>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="unitAllLists.length!=0">
-    <ion-infinite-scroll-content loadingText="Loading More Data"></ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide && totalCountList>pageperrecord">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 </ion-content>

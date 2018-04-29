@@ -9,6 +9,7 @@ import { ModalPage } from '../modal/modal';
 import { DashboardPage } from '../dashboard/dashboard';
 import { PermissionPage } from '../../pages/permission/permission';
 import { ViewunitPage } from '../viewunit/viewunit';
+import { MockProvider } from '../../providers/pagination/pagination';
 /**
  * Generated class for the DashboardPage page.
  *
@@ -45,7 +46,7 @@ export class UnitsPage {
       sort: 'unit_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 8
+      results: 200000
     };
 
   public companyId: any;
@@ -64,8 +65,13 @@ export class UnitsPage {
   moreopenpop = 0;
   selectallopenorclose = 1;
   moreopenorclose = 1;
-  constructor(public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  items: any;
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = this.conf.pagePerRecord();
+    this.isInfiniteHide = true;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     this.roleId = localStorage.getItem("userInfoRoleId");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -243,6 +249,7 @@ export class UnitsPage {
               logo: "assets/imgs/square.png",
               active: ""
             });
+            this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
           }
 
           this.totalCount = res.totalCount;
@@ -250,9 +257,11 @@ export class UnitsPage {
         } else {
           this.totalCount = 0;
         }
-        this.conf.presentLoading(0);
-      }, error => {
 
+      }, error => {
+        this.conf.presentLoading(0);
+      }, () => {
+        this.conf.presentLoading(0);
       });
 
   }
@@ -329,6 +338,7 @@ export class UnitsPage {
   // Favorite Action
 
   favorite(unit_id) {
+    this.isInfiniteHide = true;
     this.reportData.startindex = 0;
     this.unitAllLists = [];
     let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId + "&company_id=" + this.companyId,
@@ -394,7 +404,7 @@ export class UnitsPage {
               active: ""
             });
           }
-          //this.unitAllLists = res.units;
+          this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
@@ -409,6 +419,7 @@ export class UnitsPage {
   }
 
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -451,7 +462,7 @@ export class UnitsPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doUnit();
             }
           }
@@ -473,7 +484,7 @@ export class UnitsPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doUnit();
             }
           }
@@ -484,7 +495,7 @@ export class UnitsPage {
   }
 
   doAction(item, act, unitId) {
-
+    this.isInfiniteHide = true;
     if (act == 'edit') {
       this.navCtrl.setRoot(AddUnitPage, {
         record: item,
@@ -601,39 +612,25 @@ export class UnitsPage {
       });
   }
 
-  /**********************/
-  /* Infinite scrolling */
-  /**********************/
-  doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
-      this.doUnit();
-    }
-
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
   pressed(item, index) {
     this.selecteditems = [];
-    if (this.unitAllLists[index]) {
-      if (this.unitAllLists[index].active == '') {
-        this.unitAllLists[index].active = 'active';
-        this.unitAllLists[index].logo = 'assets/imgs/tick_white_background.png';
+    if (this.items[index]) {
+      if (this.items[index].active == '') {
+        this.items[index].active = 'active';
+        this.items[index].logo = 'assets/imgs/tick_white_background.png';
       } else {
-        this.unitAllLists[index].active = '';
-        this.unitAllLists[index].logo = 'assets/imgs/tick_white_background.png';
+        this.items[index].active = '';
+        this.items[index].logo = 'assets/imgs/tick_white_background.png';
       }
     }
 
 
 
-    for (let i = 0; i < this.unitAllLists.length; i++) {
-      if (this.unitAllLists[i].active == 'active') {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].active == 'active') {
 
-        let cname = this.unitAllLists[i].unitgroup_name;
+        let cname = this.items[i].unitgroup_name;
 
         if (cname != 'undefined' && cname != undefined) {
           let stringToSplit = cname;
@@ -644,27 +641,27 @@ export class UnitsPage {
         }
 
         this.selecteditems.push({
-          unit_id: this.unitAllLists[i].unit_id,
-          unitname: this.unitAllLists[i].unitname,
-          location: this.unitAllLists[i].location,
-          projectname: this.unitAllLists[i].projectname,
-          colorcode: this.unitAllLists[i].colorcode,
-          contacts: this.unitAllLists[i].contacts,
-          nextservicedate: this.unitAllLists[i].nextservicedate,
-          controllerid: this.unitAllLists[i].controllerid,
-          neaplateno: this.unitAllLists[i].neaplateno,
-          companys_id: this.unitAllLists[i].companys_id,
-          unitgroups_id: this.unitAllLists[i].unitgroups_id,
-          serial_number: this.unitAllLists[i].serialnumber,
-          models_id: this.unitAllLists[i].models_id,
-          alarmnotificationto: this.unitAllLists[i].alarmnotificationto,
-          genstatus: this.unitAllLists[i].genstatus,
-          favoriteindication: this.unitAllLists[i].favorite,
-          lat: this.unitAllLists[i].latitude,
-          lng: this.unitAllLists[i].longtitude,
-          runninghr: this.unitAllLists[i].runninghr,
+          unit_id: this.items[i].unit_id,
+          unitname: this.items[i].unitname,
+          location: this.items[i].location,
+          projectname: this.items[i].projectname,
+          colorcode: this.items[i].colorcode,
+          contacts: this.items[i].contacts,
+          nextservicedate: this.items[i].nextservicedate,
+          controllerid: this.items[i].controllerid,
+          neaplateno: this.items[i].neaplateno,
+          companys_id: this.items[i].companys_id,
+          unitgroups_id: this.items[i].unitgroups_id,
+          serial_number: this.items[i].serialnumber,
+          models_id: this.items[i].models_id,
+          alarmnotificationto: this.items[i].alarmnotificationto,
+          genstatus: this.items[i].genstatus,
+          favoriteindication: this.items[i].favorite,
+          lat: this.items[i].latitude,
+          lng: this.items[i].longtitude,
+          runninghr: this.items[i].runninghr,
           companygroup_name: cname,
-          viewonid: this.unitAllLists[i].viewonid
+          viewonid: this.items[i].viewonid
         }
         );
       }
@@ -714,6 +711,7 @@ export class UnitsPage {
         active: ""
       });
     }
+    this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
   }
   selectalltip(selectallopenorclose) {
     this.moreopenpop = 0;
@@ -743,11 +741,11 @@ export class UnitsPage {
   }
   selectAll() {
     this.selecteditems = [];
-    for (let i = 0; i < this.unitAllLists.length; i++) {
-      this.unitAllLists[i].active = 'active';
-      this.unitAllLists[i].logo = 'assets/imgs/tick_white_background.png';
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i].active = 'active';
+      this.items[i].logo = 'assets/imgs/tick_white_background.png';
 
-      let cname = this.unitAllLists[i].unitgroup_name;
+      let cname = this.items[i].unitgroup_name;
 
       if (cname != 'undefined' && cname != undefined) {
         let stringToSplit = cname;
@@ -758,35 +756,40 @@ export class UnitsPage {
       }
 
       this.selecteditems.push({
-        unit_id: this.unitAllLists[i].unit_id,
-        unitname: this.unitAllLists[i].unitname,
-        location: this.unitAllLists[i].location,
-        projectname: this.unitAllLists[i].projectname,
-        colorcode: this.unitAllLists[i].colorcode,
-        contacts: this.unitAllLists[i].contacts,
-        nextservicedate: this.unitAllLists[i].nextservicedate,
-        controllerid: this.unitAllLists[i].controllerid,
-        neaplateno: this.unitAllLists[i].neaplateno,
-        companys_id: this.unitAllLists[i].companys_id,
-        unitgroups_id: this.unitAllLists[i].unitgroups_id,
-        serial_number: this.unitAllLists[i].serialnumber,
-        models_id: this.unitAllLists[i].models_id,
-        alarmnotificationto: this.unitAllLists[i].alarmnotificationto,
-        genstatus: this.unitAllLists[i].genstatus,
-        favoriteindication: this.unitAllLists[i].favorite,
-        lat: this.unitAllLists[i].latitude,
-        lng: this.unitAllLists[i].longtitude,
-        runninghr: this.unitAllLists[i].runninghr,
+        unit_id: this.items[i].unit_id,
+        unitname: this.items[i].unitname,
+        location: this.items[i].location,
+        projectname: this.items[i].projectname,
+        colorcode: this.items[i].colorcode,
+        contacts: this.items[i].contacts,
+        nextservicedate: this.items[i].nextservicedate,
+        controllerid: this.items[i].controllerid,
+        neaplateno: this.items[i].neaplateno,
+        companys_id: this.items[i].companys_id,
+        unitgroups_id: this.items[i].unitgroups_id,
+        serial_number: this.items[i].serialnumber,
+        models_id: this.items[i].models_id,
+        alarmnotificationto: this.items[i].alarmnotificationto,
+        genstatus: this.items[i].genstatus,
+        favoriteindication: this.items[i].favorite,
+        lat: this.items[i].latitude,
+        lng: this.items[i].longtitude,
+        runninghr: this.items[i].runninghr,
         companygroup_name: cname,
-        viewonid: this.unitAllLists[i].viewonid
+        viewonid: this.items[i].viewonid
       }
       );
 
     }
+    console.log("JSON Stringify:-" + JSON.stringify(this.selecteditems));
+    console.log("Length:-" + this.selecteditems.length);
   }
   released() {
   }
   onholdaction(action) {
+    console.log(JSON.stringify(this.selecteditems));
+    console.log("Length:" + this.selecteditems.length);
+    this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
       //modal.present();
@@ -838,7 +841,7 @@ export class UnitsPage {
 
 
                   this.selecteditems = [];
-                  this.doUnit();
+                 // this.doUnit();
 
 
                 }
@@ -888,6 +891,26 @@ export class UnitsPage {
         });
 
     }
+  }
+
+  /**********************/
+  /* Infinite scrolling */
+  /**********************/
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.unitAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      console.log("this.totalCount:" + this.totalCount);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCount) {
+        console.log('B');
+        this.isInfiniteHide = false
+      }
+      infiniteScroll.complete();
+
+    });
   }
 
 

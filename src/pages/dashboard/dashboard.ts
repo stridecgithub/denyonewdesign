@@ -16,6 +16,7 @@ import { ViewunitPage } from '../viewunit/viewunit';
 declare let google;
 declare var jQuery: any;
 import { AddUnitPage } from "../add-unit/add-unit";
+import { MockProvider } from '../../providers/pagination/pagination';
 //import { Network } from '@ionic-native/network';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LoginPage } from '../login/login';
@@ -51,7 +52,8 @@ export class DashboardPage {
   connected;
   disconnected;
   private apiServiceURL: string = '';
-  public totalCount;
+  public totalCount: number;
+  public totalCountList: number;
   public unitAllLists = [];
   public defaultUnitAllLists = [];
   public arrayid = [];
@@ -61,7 +63,7 @@ export class DashboardPage {
       sort: 'unit_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 8
+      results: 200000
     };
   public sortLblTxt: string = 'Favourites';
   testRadioOpen: boolean;
@@ -89,11 +91,14 @@ export class DashboardPage {
 
   previousPage;
   public selecteditems = [];
-  constructor(private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
-
-
+  items: any;
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+    this.isInfiniteHide = true;
+    this.totalCount = 0;
+    this.totalCountList = 0;
     this.platform.ready().then(() => {
-
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
@@ -116,6 +121,9 @@ export class DashboardPage {
       this.initPushNotification();
     });
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.pageperrecord = this.conf.pagePerRecord();
+
+    //this.pageperrecord = 6;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -132,7 +140,7 @@ export class DashboardPage {
       { title: 'Settings', component: '', icon: 'settings', color: 'gray', background: 'gray' },
       { title: 'Logout', component: '', icon: 'logout', color: 'gray', background: 'gray' }
     ];
-    this.totalCount = 0;
+    // this.totalCount = 0;
   }
 
   presentModal(unit) {
@@ -157,7 +165,7 @@ export class DashboardPage {
   ionViewDidLoad() {
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
-    this.totalCount = 0;
+
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
@@ -246,18 +254,14 @@ export class DashboardPage {
 
 
   ionViewDidEnter() {
-    this.totalCount = 0;
+
     this.UNITEDITACCESS = localStorage.getItem("DASHBOARD_UNITS_EDIT");
     this.UNITHIDEACCESS = localStorage.getItem("DASHBOARD_UNITS_HIDE");
     this.MAPVIEWACCESS = localStorage.getItem("DASHBOARD_MAP_VIEW");
     this.UNITVIEWACCESS = localStorage.getItem("DASHBOARD_UNITS_VIEW");
-
     localStorage.setItem("tabIndex", "0");
     this.tabIndexVal = localStorage.getItem("tabIndex");
     this.dashboardhighlight = this.navParams.get('dashboardselected');
-
-
-
     this.conf.showfooter();
     let mapView = document.getElementById('mapView');
     let listView = document.getElementById('listView');
@@ -356,6 +360,7 @@ export class DashboardPage {
 
   /****************************/
   doUnit() {
+    //this.items = [];
     this.conf.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
@@ -413,12 +418,16 @@ export class DashboardPage {
               active: ""
 
             });
+            this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
           }
 
-          this.totalCount = res.totalCount;
+          this.totalCountList = res.totalCount;
+          console.log("Total Count:" + this.totalCount);
           this.reportData.startindex += this.reportData.results;
-        } else {
-          this.totalCount = 0;
+        }
+
+        if (this.items.length == 0) {
+          this.totalCountList = 0;
         }
       }, error => {
 
@@ -500,7 +509,7 @@ export class DashboardPage {
   // Favorite Action
 
   favorite(unit_id) {
-   
+    this.isInfiniteHide = true;
     this.reportData.startindex = 0;
     this.unitAllLists = [];
     let body: string = "unitid=" + unit_id + "&is_mobile=1" + "&loginid=" + this.userId,
@@ -513,7 +522,7 @@ export class DashboardPage {
         let res = data.json();
 
 
-        if (res.units.length > 0) {
+        if (res.totalCount > 0) {
           for (let unit in res.units) {
             let cname = res.units[unit].unitgroup_name;
 
@@ -550,12 +559,11 @@ export class DashboardPage {
               logo: "assets/imgs/square.png",
               active: ""
             });
+            this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
           }
           //this.unitAllLists = res.units;
-          this.totalCount = res.totalCount;
+          this.totalCountList = res.totalCount;
           this.reportData.startindex += this.reportData.results;
-        } else {
-          this.totalCount = 0;
         }
 
         // If the request was successful notify the user
@@ -611,9 +619,10 @@ export class DashboardPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=8&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
+      url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
 
     // API Request
+    console.log("initMap:-" + url);
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -973,7 +982,12 @@ export class DashboardPage {
         if (unitsavail == 0) {
           iconDisplay = 'assets/imgs/marker-white-default.png';
         } else {
-          iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png';
+          if (markers[i].mapicon != '') {
+            iconDisplay = 'assets/imgs/marker-' + markers[i].mapicon + '.png';
+          } else {
+            iconDisplay = 'assets/imgs/marker-' + 'white-default.png';
+          }
+
           //}
 
 
@@ -1041,6 +1055,7 @@ export class DashboardPage {
 
 
   doSort() {
+    this.isInfiniteHide = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
       inputs: [
@@ -1107,7 +1122,7 @@ export class DashboardPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doUnit();
             }
           }
@@ -1129,7 +1144,7 @@ export class DashboardPage {
               }
               this.reportData.startindex = 0;
               this.unitAllLists = [];
-              this.selecteditems=[];
+              this.selecteditems = [];
               this.doUnit();
             }
           }
@@ -1254,21 +1269,8 @@ export class DashboardPage {
       from: 'push'
     });
   }
-  /**********************/
-  /* Infinite scrolling */
-  /**********************/
-  doInfinite(infiniteScroll) {
-    if (this.reportData.startindex < this.totalCount && this.reportData.startindex > 0) {
 
-      this.doUnit();
-    }
 
-    setTimeout(() => {
-
-      infiniteScroll.complete();
-    }, 500);
-
-  }
   initPushNotification() {
     // to check if we have permission
     this.push.hasPermission()
@@ -1556,6 +1558,7 @@ export class DashboardPage {
         active: ""
       });
     }
+    this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
 
   }
   selectalltip(selectallopenorclose) {
@@ -1630,6 +1633,7 @@ export class DashboardPage {
   }
 
   onholdaction(action) {
+    this.isInfiniteHide = true;
     this.moreopenpop = 0;
     let str = '';
     this.arrayid = [];
@@ -1672,8 +1676,8 @@ export class DashboardPage {
 
                   this.reportData.startindex = 0;
                   this.unitAllLists = [];
-                  let res = data.json();
-                  if (res.units.length > 0) {
+                  /*let res = data.json();
+                  if (res.totalCount > 0) {
                     for (let unit in res.units) {
                       let cname = res.units[unit].unitgroup_name;
 
@@ -1710,13 +1714,14 @@ export class DashboardPage {
                         logo: "assets/imgs/square.png",
                         active: ""
                       });
+                      this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
                     }
 
-                    this.totalCount = res.totalCount;
+                    this.totalCountList = res.totalCount;
                     this.reportData.startindex += this.reportData.results;
-                  } else {
-                    this.totalCount = 0;
-                  }
+                  } */
+                  this.items = [];
+                  this.doUnit();
                   this.selecteditems = [];
                   this.conf.sendNotification(data.json().msg['result']);
 
@@ -1746,57 +1751,7 @@ export class DashboardPage {
         .subscribe((data) => {
           res = data.json();
           if (data.status === 200) {
-            /*
-            
-            
-                        this.reportData.startindex = 0;
-                        this.unitAllLists = [];
-                        let res = data.json();
-                        if (res.units.length > 0) {
-                          for (let unit in res.units) {
-                            let cname = res.units[unit].unitgroup_name;
-            
-                            if (cname != 'undefined' && cname != undefined) {
-                              let stringToSplit = cname;
-                              let x = stringToSplit.split("");
-                              cname = x[0].toUpperCase();
-                            } else {
-                              cname = '';
-                            }
-            
-                            this.unitAllLists.push({
-                              unit_id: res.units[unit].unit_id,
-                              unitname: res.units[unit].unitname,
-                              location: res.units[unit].location,
-                              contacts: res.units[unit].contacts,
-                              projectname: res.units[unit].projectname,
-                              colorcode: res.units[unit].colorcode,
-                              nextservicedate: res.units[unit].nextservicedate,
-                              neaplateno: res.units[unit].neaplateno,
-                              companys_id: res.units[unit].companys_id,
-                              unitgroups_id: res.units[unit].unitgroups_id,
-                              models_id: res.units[unit].models_id,
-                              serial_number: res.units[unit].serialnumber,
-                              alarmnotificationto: res.units[unit].alarmnotificationto,
-                              favoriteindication: res.units[unit].favorite,
-                              genstatus: res.units[unit].genstatus,
-                              lat: res.units[unit].latitude,
-                              lng: res.units[unit].longtitude,
-                              runninghr: res.units[unit].runninghr,
-                              companygroup_name: cname,
-                              viewonid: res.units[unit].viewonid,
-                              logo: "assets/imgs/square.png",
-                              active: ""
-                            });
-                          }
-                         
-                          this.totalCount = res.totalCount;
-                          this.reportData.startindex += this.reportData.results;
-                        } else {
-                          this.totalCount = 0;
-                        }
-                       // this.selecteditems = [];
-            */
+
             this.selecteditems = [];
             this.unitAllLists = [];
             this.conf.sendNotification(data.json().msg.result);
@@ -1814,7 +1769,25 @@ export class DashboardPage {
         });
     }
   }
+  /**********************/
+  /* Infinite scrolling */
+  /**********************/
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.unitAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      console.log("this.totalCount:" + this.totalCountList);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCountList) {
+        console.log('B');
+        this.isInfiniteHide = false
+      }
+      infiniteScroll.complete();
 
+    });
+  }
 
 }
 

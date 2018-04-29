@@ -1,43 +1,4 @@
-<!--
-  Generated template for the MessagesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<!-- <ion-header style="
-    background-color: #00569F;" color="bluedark">
-
-
-  <button style="background-color: #00569F;float:left;" ion-button menuToggle class="menu-toggle">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-
-  <ion-title  style="    text-align: center;
-    margin-top: 10px;"    class="page-title">{{pageTitle}}</ion-title>
-
-  <button style="float:left" ion-button (click)="notification()" style="position: absolute;
-    right: 0%;
-    top: 1%;background: transparent;">
-  <ion-icon ios="ios-notifications-outline" md="md-notifications-outline"></ion-icon>
-   <ion-badge style="    margin-top: 5px;
-    margin-right: 7px;" item-end class="notificationcount" *ngIf="notcount>0">{{this.notcount}}</ion-badge>
-</button>
-
-  <ion-navbar class="backtoprevious-navbar" hideBackButton>
-    <ion-buttons start class="backtoprevious-start">
-      <button ion-button icon-left class="backtoprevious-button" (click)="previous()">
- <ion-icon name="arrow-back" class="backtoprevious-icon"></ion-icon>
- Back to previous
-</button>
-    </ion-buttons>
-    <ion-buttons end>
-      Login As:{{loginas}}
-    </ion-buttons>
-  </ion-navbar>
-</ion-header> -->
-
-
-<ion-header  (tap)="isNet()">
+<ion-header (tap)="isNet()">
 
   <ion-navbar hideBackButton>
     <button ion-button clear class="left-header-btn" menuToggle>
@@ -45,21 +6,15 @@
     </button>
     <ion-title>{{pageTitle}}</ion-title>
     <div class="right-header-btns">
-      <!-- <button class="more">
-          <ion-icon name="more"></ion-icon>
-        </button> -->
     </div>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content class="ion-content"  (tap)="isNet()">
+<ion-content class="ion-content" (tap)="isNet()">
   <form [formGroup]="form" enctype='application/x-www-form-urlencoded' method="post">
 
     <div class="edit-report">
-      <!-- <div style="position:absolute"><img src="assets/imgs/notready.png" height="50px"></div> -->
-
-
       <ion-list>
 
         <ion-item>
@@ -113,9 +68,9 @@
 
           <ion-list radio-group>
             <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
-            <ion-radio checked="{{tableradiochk}}" value="go" (click)="getFormat('table')"></ion-radio>
+            <ion-radio checked="{{tableradiochk}}"   (click)="getFormat('table')"></ion-radio>
             Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <ion-radio checked="{{graphradiochk}}" value="rust" (click)="getFormat('graph')"></ion-radio>
+            <ion-radio checked="{{graphradiochk}}"  (click)="getFormat('graph')"></ion-radio>
             Graph
           </ion-list>
 
@@ -124,55 +79,30 @@
         <br>
 
 
-
-
-
-        <!-- <div class="ion-badge-container">
-          <ion-badge item-end style="height: 66px">
-            <a href="#" (click)="getNextDate(1)" style="color:white;font-weight:bold;margin-top:6px">
-              <ion-icon name="calendar" style="font-size: 32pt"></ion-icon> <span style="position:relative;bottom:10px">{{start_date}}</span>
-            </a>
-          </ion-badge>
-
-
-          <ion-badge item-end style="height: 66px">
-            <a href="#" (click)="getNextDate(2)" style="color:white;font-weight:bold;margin-top:6px">
-              <ion-icon name="calendar" style="font-size: 32pt"></ion-icon><span style="position:relative;bottom:10px">{{end_date}}</span>
-            </a>
-          </ion-badge>
-
-        </div> -->
-        <!-- <div style="color:red" *ngIf="datevalidaton>0">From date and to date should be selected</div>
-        <div style="clear:both"><br></div> -->
-
-
-
       </ion-list>
 
     </div>
 
     <div class="white-area">
 
-      <!-- <ion-item class="last-btn">
-            <button ion-button color="primary" text-center block style="max-width:88%;margin:0 auto;" (click)="evecomments()">Events & Comments</button>
-          </ion-item> -->
+    
 
       <ion-item class="last-btn">
         <button ion-button color="primary" [disabled]="!form.valid" text-center block style="max-width:88%;margin:0 auto;" (click)="saveEntry('2',start_date,end_date)"
           *ngIf="CREATEACCESS==1">View Report</button>
 
-        <!--(click)="viewreportpage()"-->
       </ion-item>
 
       <div>
         <b>Attention: </b>
         <br> Report data only allowed 3-6 month. If you want to request extended data &lt; 3-6 month, please send a request as
-        below.</div>
+        below.
+      </div>
 
       <ion-item class="last-btn">
         <button ion-button color="primary" [disabled]="!form.valid" text-center block style="max-width:88%;margin:0 auto;" (click)="saveEntry('1',start_date,end_date)"
           *ngIf="CREATEACCESS==1">Request Denyo</button>
-        <!--(click)="viewreport()"-->
+       
       </ion-item>
 
 

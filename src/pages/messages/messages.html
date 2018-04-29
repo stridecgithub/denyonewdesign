@@ -39,9 +39,7 @@
 
     <ion-title style="background-color:#515151 !important;color:white">{{selecteditems.length}} Selected
 
-      <!-- <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="selectalltip(selectallopenorclose)">
-        <ion-icon name="md-arrow-dropdown"></ion-icon>
-      </button> -->
+
 
 
     </ion-title>
@@ -107,7 +105,7 @@
 
       <div class="error" *ngIf="totalCount==0">No message entries found</div>
       <ion-list *ngIf="totalCount!=0">
-        <ion-item-sliding *ngFor="let inboxitem of inboxLists; let i = index">
+        <ion-item-sliding *ngFor="let inboxitem of  items; let i = index">
 
 
           <ion-item class="msg" ngClass="{{inboxitem.active}}">
@@ -167,14 +165,20 @@
           </ion-item-options>
         </ion-item-sliding>
 
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
+        <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="totalCount!=0">
           <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        </ion-infinite-scroll> -->
+
+       
 
       </ion-list>
       <button class="create-msg" (click)="compose()" *ngIf="MESSAGEINBOXCREATEACCESS==1">
         <ion-icon name="create"></ion-icon>
       </button>
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretext}}">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
     <div *ngSwitchCase="'sentView'" id="sendblock">
       <button class="sort-btn" *ngIf="totalCountSend>0" (click)="doSortSendItem()">
@@ -184,17 +188,11 @@
       </button>
       <div class="error" *ngIf="totalCountSend==0">No message entries found</div>
       <ion-list *ngIf="totalCountSend!=0">
-        <ion-item-sliding *ngFor="let senditem of sendLists; let i = index">
+        <ion-item-sliding *ngFor="let senditem of itemssenditems; let j = index">
           <ion-item class="msg">
 
             <div>
               <div class="date-time" (click)="readAction(senditem.message_id,senditem,'readsend','send')">{{senditem.message_date_mobileview_list}}</div>
-              <!-- <div class="user-img">
-                <img *ngIf="senditem.recipient_photo!=''" src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
-                <img *ngIf="senditem.recipient_photo==''" alt="" src="{{apiServiceURL}}/images/default.png">
-              </div> -->
-
-
 
               <div class="user-img">
                 <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo!='' && senditem.active==''"
@@ -222,24 +220,31 @@
             </div>
           </ion-item>
           <ion-item-options side="right" class="list-item-options">
-            <!--button ion-button class="read-btn">
-              <ion-icon name="mail"></ion-icon>
-              Read
-            </button-->
+
             <button ion-button class="delete-btn" (click)="doConfirm(senditem.message_id,senditem,'send')" *ngIf="(MESSAGESENTDELETEACCESS==1 && senditem.duration==0) || (roleId==1 && MESSAGESENTDELETEACCESS==1)">
               <ion-icon name="trash"></ion-icon>
               Delete
             </button>
           </ion-item-options>
         </ion-item-sliding>
-        <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" *ngIf="totalCountSend!=0">
+        <!-- <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" *ngIf="totalCountSend!=0">
           <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        </ion-infinite-scroll> -->
+
+       
+
       </ion-list>
+     
+      <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" threshold="100px" *ngIf="isInfiniteHideSend">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretextsend}}">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
 
   </div>
+  
 
+   
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>

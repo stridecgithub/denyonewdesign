@@ -2,18 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
-//import { MyaccountPage } from '../myaccount/myaccount';
-//import { UnitgroupPage } from '../unitgroup/unitgroup';
-//import { CompanygroupPage } from '../companygroup/companygroup';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-//import { RolePage } from '../role/role';
 import { DashboardPage } from '../dashboard/dashboard';
-//import { UnitsPage } from '../units/units';
-//import { NotificationPage } from '../notification/notification';
-//import { CalendarPage } from '../calendar/calendar';
 import { DatePicker } from '@ionic-native/date-picker';
 import { ReportviewtablePage } from '../reportviewtable/reportviewtable';
-//import { OrgchartPage } from '../orgchart/orgchart';
 import { RequestdenyoPage } from '../requestdenyo/requestdenyo';
 import { ReportviewPage } from '../reportview/reportview';
 
@@ -32,8 +24,6 @@ import { PermissionPage } from '../../pages/permission/permission';
   providers: [DatePicker]
 })
 export class ReportsPage {
-  //@ViewChild('mapContainer') mapContainer: ElementRef;
-  //map: any;
   public footerBar = [];
   public loginas: any;
   public form: FormGroup;
@@ -68,9 +58,6 @@ export class ReportsPage {
   public CREATEACCESS;
 
   public VIEWACCESS: any;
-  /* public start_date = '2017-08-02';
-  public end_date = '2017-08-02';
-*/
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "";
   constructor(public app: App, private conf: Config, private datePicker: DatePicker, public alertCtrl: AlertController, public NP: NavParams,
@@ -92,7 +79,6 @@ export class ReportsPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userid = localStorage.getItem("userInfoId");
     this.companyid = localStorage.getItem("userInfoCompanyId");
-    // Create form builder validation rules
     this.form = fb.group({
       "selunit": ["", Validators.required],
       "seltemplate": ["", Validators.required],
@@ -148,7 +134,7 @@ export class ReportsPage {
     this.getFormat('table');
     this.getDropDownDataTemplate();
     this.getDropDownDataUnits();
-    let //body: string = "loginid=" + this.userId,
+    let 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -172,7 +158,6 @@ export class ReportsPage {
   }
 
   getNextDate(val) {
-    //let date;
     this.datePicker.show({
       date: new Date(), mode: 'date',
       doneButtonColor: '#F2F3F4',
@@ -207,24 +192,7 @@ export class ReportsPage {
     let selunit: string = this.form.controls["selunit"].value,
       seltemplate: string = this.form.controls["seltemplate"].value,
       seltimeframe: string = this.form.controls["seltimeframe"].value;
-    // this.createEntry(selunit, seltemplate, seltimeframe);
-    //this.from = "2017-08-09";
-    //this.to = "2017-08-09";
-
-    //this.exportto = 'table';
-    //this.seltype = 0; // 0 for TABLE 1 for PDF
-
-
-    // Statically
-    /*selunit = '1';
-    seltimeframe = 'continues';
-    seltemplate = '1';
-    this.from = "2017-08-12";
-    this.to = "2017-08-12";
-    this.action = 'view';
-    this.exportto = 'table';
-    this.seltype = 0;*/
-    // Statically
+   
     if (this.from == undefined) {
       this.from = '';
     }
@@ -301,7 +269,6 @@ export class ReportsPage {
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=0&results=300&sort=unit_id&dir=asc&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/reports?is_mobile=1&companyid=" + this.companyid + "&loginid=" + this.userid;
     let res;
     this.http.get(url, options)
@@ -321,22 +288,22 @@ export class ReportsPage {
       this.selunit = this.NP.get("selunit");
       this.start_date = this.NP.get("from");
       this.end_date = this.NP.get("to");
-      this.seltemplate = this.NP.get("seltemplate")
-      this.seltimeframe = this.NP.get("seltimeframe")
-      if (this.exportto == 'graph') {
-        this.tableradiochk = false;
-        this.graphradiochk = true;
-      }
-
-      if (this.exportto == 'table') {
-        this.tableradiochk = true;
-        this.graphradiochk = false;
-      }
-
-
-
+      this.seltemplate = this.NP.get("seltemplate");
+      this.seltimeframe = this.NP.get("seltimeframe");
     }
-
+    if (this.exportto == 'graph') {
+      this.tableradiochk = false;
+      this.graphradiochk = true;
+    } else if (this.exportto == 'table') {
+      this.tableradiochk = true;
+      this.graphradiochk = false;
+    } else {
+      this.tableradiochk = false;
+      this.graphradiochk = false;
+    }
+    console.log("Export to:" + this.exportto)
+    console.log("Table Radio Check:" + this.tableradiochk);
+    console.log("Table Radio Check:" + this.graphradiochk);
   }
 
   previous() {

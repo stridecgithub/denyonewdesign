@@ -72,7 +72,8 @@ export class EnginedetailPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
-    this.pageperrecord = 6;
+    this.pageperrecord = this.conf.pagePerRecord();
+    //this.pageperrecord = 6;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
