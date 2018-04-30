@@ -103,10 +103,7 @@
         </ion-item-sliding>
 
       </ion-list>
-      <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="totalCountUpcoming!=0">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
-        </ion-refresher-content>
-      </ion-refresher>
+    
       <!-- service p1 -->
 
 
@@ -125,9 +122,9 @@
     <!-- history p1 -->
     <div class="history">
       <h2>History</h2>
-      <div class="error" *ngIf="historyAllLists.length==0">No entries found</div>
+      <div class="error" *ngIf="totalCounthistory==0">No entries found</div>
 
-      <ion-list class="lst" *ngFor="let historytitem of historyAllLists;">
+      <ion-list class="lst" *ngFor="let historytitem of  items; let i = index">
         <ion-item-sliding class="brd">
           <ion-item class="slide" (click)="servicedetailsView(historytitem,'view','history')">
             <div class="p1" ngClass="{{itemwidth}}">
@@ -167,15 +164,21 @@
         </ion-item-sliding>
 
       </ion-list>
-      <ion-infinite-scroll (ionInfinite)="doInfiniteHistory($event)" *ngIf="totalCountHistory!=0">
-        <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+    
       <!-- history p1 -->
 
 
     </div>
 
   </div>
+
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretextsend}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>

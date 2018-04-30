@@ -14,6 +14,8 @@ import { AddhocPage } from "../addhoc/addhoc";
 import { ServicedetailsPage } from "../servicedetails/servicedetails";
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { ModalPage } from '../modal/modal';
+import { MockProvider } from '../../providers/pagination/pagination';
+
 /**
  * Generated class for the ServicinginfoPage page.
  *
@@ -39,7 +41,7 @@ export class ServicinginfoPage {
   public DELETEACCESS: any;
   itemwidth: any;
   devicewidth: any;
-  deviceheight: any;  
+  deviceheight: any;
   h3width = '';
   public upcomingData: any =
     {
@@ -47,7 +49,7 @@ export class ServicinginfoPage {
       sort: 'service_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results:  200000
     }
   public historyData: any =
     {
@@ -55,7 +57,7 @@ export class ServicinginfoPage {
       sort: 'service_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results: 50
+      results:  200000
     }
   public unitDetailData: any = {
     userId: '',
@@ -67,7 +69,7 @@ export class ServicinginfoPage {
     addedImgLists1: '',
     addedImgLists2: '',
     colorcodeindications: '',
-    mapicon:''
+    mapicon: ''
   }
   public userId: any;
   public upcomingAllLists = [];
@@ -84,9 +86,13 @@ export class ServicinginfoPage {
   public sortLblTxt: string = 'Date';
   footerBar: number = 1;
   roleId;
-  constructor(public app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
+  items: any;
+  isInfiniteHide: boolean;
+  pageperrecord;
+  constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
+    this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -97,13 +103,13 @@ export class ServicinginfoPage {
           record: this.NP.get("record"),
           tabs: 'dataView'
         });
-       
+
 
       });
 
       this.devicewidth = this.platform.width();
       this.deviceheight = this.platform.height();
-      
+
     });
 
 
@@ -115,7 +121,7 @@ export class ServicinginfoPage {
     this.DELETEACCESS = localStorage.getItem("UNITS_SERVICINGINFO_DELETE");
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
-
+    this.pageperrecord = this.conf.pagePerRecord();
 
     this.profilePhoto = localStorage.getItem
 
@@ -192,7 +198,7 @@ export class ServicinginfoPage {
             this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
             this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
             this.unitDetailData.runninghr = data.json().units[0].runninghr;
-            this.unitDetailData.mapicon=data.json().units[0].mapicon;
+            this.unitDetailData.mapicon = data.json().units[0].mapicon;
             this.unitDetailData.alarmnotificationto = data.json().units[0].nextservicedate;
             if (data.json().units[0].lat == undefined) {
               this.unitDetailData.lat = '';
@@ -250,7 +256,7 @@ export class ServicinginfoPage {
       refresher.complete();
     }, 2000);
   }
-  doInfinite(infiniteScroll) {
+  /*doInfinite(infiniteScroll) {
 
 
 
@@ -264,7 +270,7 @@ export class ServicinginfoPage {
       infiniteScroll.complete();
     }, 500);
 
-  }
+  }*/
   doUpcoming() {
     this.conf.presentLoading(1);
     if (this.upcomingData.status == '') {
@@ -603,7 +609,7 @@ export class ServicinginfoPage {
 
         if (res.services.length > 0) {
           this.historyAllLists = res.services;
-          this.totalCounthistory = res.totalCounthistory;
+          this.totalCounthistory = res.totalCount;
           this.historyData.startindex += this.historyData.results;
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
@@ -615,7 +621,7 @@ export class ServicinginfoPage {
           this.totalCounthistory = 0;
           this.loadingMoreDataContent = 'No More Data';
         }
-
+        this.items = this.mockProvider.getData(this.historyAllLists, 0, this.pageperrecord);
 
       }, error => {
         this.conf.presentLoading(0);
@@ -632,7 +638,7 @@ export class ServicinginfoPage {
       refresher.complete();
     }, 2000);
   }
-  doInfiniteHistory(infiniteScroll) {
+  /*doInfiniteHistory(infiniteScroll) {
 
     if (this.historyData.startindex < this.totalCounthistory && this.historyData.startindex > 0) {
 
@@ -644,7 +650,7 @@ export class ServicinginfoPage {
       infiniteScroll.complete();
     }, 500);
 
-  }
+  }*/
 
   showAlert(titl, msg) {
     let alert = this.alertCtrl.create({
@@ -653,5 +659,22 @@ export class ServicinginfoPage {
       buttons: ['OK']
     });
     alert.present();
+  }
+
+  doInfinite(infiniteScroll) {
+    this.mockProvider.getAsyncData(this.historyAllLists, this.items.length, this.pageperrecord).then((newData) => {
+      for (var i = 0; i < newData.length; i++) {
+        this.items.push(newData[i]);
+      }
+      console.log("this.totalCount:" + this.totalCounthistory);
+      console.log("this.items.length:" + this.items.length);
+      console.log('A')
+      if (this.items.length >= this.totalCounthistory) {
+        console.log('B');
+        this.isInfiniteHide = false
+      }
+      infiniteScroll.complete();
+
+    });
   }
 }

@@ -150,7 +150,7 @@ export class MessagesPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.roleId = localStorage.getItem("userInfoRoleId");
-    this.inb();
+    this.inb('inbox');
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -268,9 +268,9 @@ export class MessagesPage {
       if (this.navParams.get("fromtab") == 'sentView') {
 
         this.tabs = 'sendView';
-        this.snd();
+        this.inb('send');
       } else {
-        this.inb();
+        this.inb('inbox');
         this.tabs = 'inboxView';
 
       }
@@ -343,7 +343,7 @@ export class MessagesPage {
     localStorage.setItem("microtime", "");
     this.navCtrl.setRoot(ComposePage);
   }
-  readAction(messageid, item, act, from) {
+  readAction(messageid, item, act, from, mod) {
     localStorage.setItem("microtime", '');
     if (act == 'unread') {
 
@@ -365,13 +365,13 @@ export class MessagesPage {
     }
 
   }
-  inb() {
+  inb(module) {
     this.isInfiniteHide = true;
     this.isInfiniteHideSend = true;
     this.inboxLists = [];
     this.sendLists = [];
     this.inboxData.startindex = 0;
-    this.doInbox();
+    this.doInbox(module);
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
     this.selecteditems = [];
@@ -392,7 +392,8 @@ export class MessagesPage {
   /****************************/
   /*@doCompanyGroup calling on report */
   /****************************/
-  doInbox() {
+  doInbox(mod) {
+    console.log(mod);
     this.isCompose = false;
     this.inboxact = false;
     this.sendact = false;
@@ -408,11 +409,16 @@ export class MessagesPage {
     if (this.inboxData.sort == '') {
       this.inboxData.sort = "messages_id";
     }
-
+    let urlstr;
+    if (mod == 'inbox') {
+      urlstr = this.apiServiceURL + "/messages?is_mobile=1&startindex=" + this.inboxData.startindex + "&results=" + this.inboxData.results + "&sort=" + this.inboxData.sort + "&dir=" + this.inboxData.sortascdesc + "&loginid=" + this.userId;
+    } else {
+      urlstr = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
+    }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/messages?is_mobile=1&startindex=" + this.inboxData.startindex + "&results=" + this.inboxData.results + "&sort=" + this.inboxData.sort + "&dir=" + this.inboxData.sortascdesc + "&loginid=" + this.userId;
+      url: any = urlstr;
     let res;
     console.log(url);
     this.conf.presentLoading(1);
@@ -444,6 +450,8 @@ export class MessagesPage {
               personalhashtag: res.messages[message].personalhashtag,
               replyall: res.messages[message].duration,
               duration: res.messages[message].duration,
+              recipient_photo: res.messages[message].recipient_photo,
+              messages_isfavaurite: res.messages[message].messages_isfavaurite,
               logo: "assets/imgs/square.png",
               active: ""
             });
@@ -497,7 +505,6 @@ export class MessagesPage {
               sender_id: res.messages[message].sender_id,
               messages_subject: res.messages[message].messages_subject,
               message_body: res.messages[message].message_body,
-              messages_isfavaurite: res.messages[message].messages_isfavaurite,
               message_body_html: res.messages[message].message_body_html,
               message_date: res.messages[message].message_date,
               message_date_mobileview: res.messages[message].message_date_mobileview,
@@ -508,8 +515,6 @@ export class MessagesPage {
               personalhashtag: res.messages[message].personalhashtag,
               receiver_id: res.messages[message].receiver_id,
               receiver_name: res.messages[message].receiver_name,
-              recipient_photo: res.messages[message].recipient_photo,
-              senderphoto: res.messages[message].senderphoto,
               attachments: res.messages[message].attachments,
               replyall: res.messages[message].replyall,
               duration: res.messages[message].duration,
@@ -564,6 +569,7 @@ export class MessagesPage {
     confirm.present();
   }
   deleteEntry(recordID, typestr) {
+    this.isInfiniteHide = true;
     let urlstr;
     if (typestr == 'inbox') {
       urlstr = this.apiServiceURL + "/messages/actions?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Delete&messageids=" + recordID;
@@ -576,6 +582,7 @@ export class MessagesPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
     let res;
+    console.log(urlstr);
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
@@ -588,7 +595,7 @@ export class MessagesPage {
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
-          this.doInbox();
+          this.doInbox(typestr);
         }
         // Otherwise let 'em know anyway
         else {
@@ -604,85 +611,169 @@ export class MessagesPage {
     this.navCtrl.setRoot(NotificationPage);
   }
 
-  doSort() {
+  doSort(mod) {
     this.isInfiniteHide = true;
-    let prompt = this.alertCtrl.create({
-      title: 'Sort By',
-      inputs: [
-        {
-          type: 'radio',
-          label: 'Date Received',
-          value: 'messages_id'
-        },
-        {
-          type: 'radio',
-          label: 'Subject',
-          value: 'messages_subject',
-        },
-        {
-          type: 'radio',
-          label: 'Sender Name',
-          value: 'sendername',
-        },
-        {
-          type: 'radio',
-          label: 'Favourites',
-          value: 'messagesinbox_isfavaurite'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Asc',
-          handler: data => {
-            if (data != undefined) {
-              this.inboxData.sort = data;
-              this.inboxData.sortascdesc = 'asc';
+    if (mod == 'inbox') {
+      let prompt = this.alertCtrl.create({
+        title: 'Sort By',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Date Received',
+            value: 'messages_id'
+          },
+          {
+            type: 'radio',
+            label: 'Subject',
+            value: 'messages_subject',
+          },
+          {
+            type: 'radio',
+            label: 'Sender Name',
+            value: 'sendername',
+          },
+          {
+            type: 'radio',
+            label: 'Favourites',
+            value: 'messagesinbox_isfavaurite'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Asc',
+            handler: data => {
+              if (data != undefined) {
+                this.inboxData.sort = data;
+                this.inboxData.sortascdesc = 'asc';
 
 
-              if (data == 'messagesinbox_isfavaurite') {
-                this.sortLblTxt = 'Favourites';
-              } else if (data == 'sendername') {
-                this.sortLblTxt = 'Sender Name';
-              } else if (data == 'messages_id') {
-                this.sortLblTxt = 'Date Received';
-              } else if (data == 'messages_subject') {
-                this.sortLblTxt = 'Subject';
+                if (data == 'messagesinbox_isfavaurite') {
+                  this.sortLblTxt = 'Favourites';
+                } else if (data == 'sendername') {
+                  this.sortLblTxt = 'Sender Name';
+                } else if (data == 'messages_id') {
+                  this.sortLblTxt = 'Date Received';
+                } else if (data == 'messages_subject') {
+                  this.sortLblTxt = 'Subject';
+                }
+                this.inboxData.startindex = 0;
+                this.inboxLists = [];
+                this.selecteditems = [];
+                this.doInbox(mod);
+
+
               }
-              this.inboxData.startindex = 0;
-              this.inboxLists = [];
-              this.selecteditems = [];
-              this.doInbox();
+            }
+          },
+          {
+            text: 'Desc',
+            handler: data => {
+              if (data != undefined) {
+                this.inboxData.sort = data;
+                this.inboxData.sortascdesc = 'desc';
 
-
+                if (data == 'messagesinbox_isfavaurite') {
+                  this.sortLblTxt = 'Favourites';
+                } else if (data == 'sendername') {
+                  this.sortLblTxt = 'Sender Name';
+                } else if (data == 'messages_id') {
+                  this.sortLblTxt = 'Date Received';
+                } else if (data == 'messages_subject') {
+                  this.sortLblTxt = 'Subject';
+                }
+                this.inboxData.startindex = 0;
+                this.inboxLists = [];
+                this.selecteditems = [];
+                this.doInbox(mod);
+              }
             }
           }
-        },
-        {
-          text: 'Desc',
-          handler: data => {
-            if (data != undefined) {
-              this.inboxData.sort = data;
-              this.inboxData.sortascdesc = 'desc';
+        ]
+      });
+      prompt.present();
+    } else {
+      let prompt = this.alertCtrl.create({
+        title: 'Sort By',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Date Sent',
+            value: 'messages_id'
+          },
+          {
+            type: 'radio',
+            label: 'Subject',
+            value: 'messages_subject',
+          },
+          {
+            type: 'radio',
+            label: 'Receipient',
+            value: 'reciver_id',
+          },
+          {
+            type: 'radio',
+            label: 'Favourites',
+            value: 'messages_isfavaurite',
+          }
+        ],
+        buttons: [
+          {
+            text: 'Asc',
+            handler: data => {
+              if (data != undefined) {
+                this.sendData.sort = data;
+                this.sendData.sortascdesc = 'asc';
 
-              if (data == 'messagesinbox_isfavaurite') {
-                this.sortLblTxt = 'Favourites';
-              } else if (data == 'sendername') {
-                this.sortLblTxt = 'Sender Name';
-              } else if (data == 'messages_id') {
-                this.sortLblTxt = 'Date Received';
-              } else if (data == 'messages_subject') {
-                this.sortLblTxt = 'Subject';
+
+                if (data == 'messages_subject') {
+                  this.sortLblSendTxt = 'Subject';
+                } else if (data == 'messages_id') {
+                  this.sortLblSendTxt = 'Date Sent';
+                } else if (data == 'reciver_id') {
+                  this.sortLblSendTxt = 'Receipient';
+                } else if (data == 'messages_isfavaurite') {
+                  this.sortLblSendTxt = 'Favourite';
+                }
+                this.inboxData.startindex = 0;
+                this.inboxLists = [];
+                this.selecteditems = [];
+                this.doInbox(mod);
+
+
               }
-              this.inboxData.startindex = 0;
-              this.inboxLists = [];
-              this.selecteditems = [];
-              this.doInbox();
+            }
+          },
+          {
+            text: 'Desc',
+            handler: data => {
+              if (data != undefined) {
+                this.sendData.sort = data;
+                this.sendData.sortascdesc = 'desc';
+
+
+                if (data == 'messages_subject') {
+                  this.sortLblSendTxt = 'Subject';
+                } else if (data == 'messages_id') {
+                  this.sortLblSendTxt = 'Date Sent';
+                } else if (data == 'reciver_id') {
+                  this.sortLblSendTxt = 'Receipient';
+                } else if (data == 'messages_isfavaurite') {
+                  this.sortLblSendTxt = 'Favourites';
+                }
+
+
+                this.inboxData.startindex = 0;
+                this.inboxLists = [];
+                this.selecteditems = [];
+                this.doInbox(mod);
+              }
             }
           }
-        }
-      ]
-    });
-    prompt.present();
+        ]
+      });
+      prompt.present();
+    }
+
   }
 
 
@@ -772,12 +863,19 @@ export class MessagesPage {
 
 
 
-  favorite(messageid) {
+  favorite(messageid, mod) {
+    let urlstr;
+    if (mod == 'inbox') {
+      urlstr = this.apiServiceURL + "/messages/setfavorite";
+    } else {
+      urlstr = this.apiServiceURL + "/messages/setsenditemfavorite";
+    }
+
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/messages/setfavorite";
+      url: any = urlstr;
 
 
     this.http.post(url, body, options)
@@ -793,7 +891,7 @@ export class MessagesPage {
           this.inboxLists = [];
           this.conf.sendNotification(data.json().msg.result);
           this.inboxData.startindex = 0;
-          this.doInbox();
+          this.doInbox(mod);
         }
         // Otherwise let 'em know anyway
         else {
@@ -839,7 +937,7 @@ export class MessagesPage {
 
   unreadAction(val, inboxData) {
 
-
+    this.isInfiniteHide = true;
     let urlstr = this.apiServiceURL + "/messages/actions?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Unread&messageids=" + val;
     let bodymessage: string = "",
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -861,7 +959,7 @@ export class MessagesPage {
           this.inboxact = '';
           this.inboxLists = [];
           this.inboxData.startindex = 0;
-          this.doInbox();
+          this.doInbox('inbox');
 
         }
         // Otherwise let 'em know anyway
@@ -876,6 +974,7 @@ export class MessagesPage {
   }
 
   readActionStatus(val, inboxData) {
+    this.isInfiniteHide = true;
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
       "&message_id=" + inboxData.message_id + "&frompage=inbox",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -897,7 +996,7 @@ export class MessagesPage {
           this.inboxact = '';
           this.inboxLists = [];
           this.inboxData.startindex = 0;
-          this.doInbox();
+          this.doInbox('inbox');
 
 
         }
@@ -911,8 +1010,8 @@ export class MessagesPage {
   }
 
 
-  onholdaction(action) {
-
+  onholdaction(action, mod) {
+    this.isInfiniteHide = true;
 
     this.moreopenpop = 0;
     this.arrayid = [];
@@ -968,7 +1067,7 @@ export class MessagesPage {
                     this.inboxLists = [];
                     this.selecteditems = [];
                     this.inboxData.startindex = 0;
-                    this.doInbox();
+                    this.doInbox(mod);
                     this.sendLists = [];
                     this.sendData.startindex = 0;
                     this.doSend();
@@ -1011,7 +1110,7 @@ export class MessagesPage {
             this.inboxLists = [];
             this.selecteditems = [];
             this.inboxData.startindex = 0;
-            this.doInbox();
+            this.doInbox(mod);
             this.sendLists = [];
             this.sendData.startindex = 0;
             this.doSend();
@@ -1114,11 +1213,11 @@ export class MessagesPage {
   }
   released() {
   }
-  resettoback() {
+  resettoback(mod) {
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
     this.inboxLists = [];
-    this.inb();
+    this.inb(mod);
     this.sendLists = [];
     this.snd()
     this.selecteditems = [];

@@ -80,10 +80,10 @@
 
   <div *ngIf="segmenttabshow>0">
     <ion-segment [(ngModel)]="tabs">
-      <ion-segment-button value="inboxView" (click)="inb()" id="inboxView">
+      <ion-segment-button value="inboxView" (click)="inb('inbox')" id="inboxView">
         Inbox
       </ion-segment-button>
-      <ion-segment-button value="sentView" (click)="snd()" id="sentView">
+      <ion-segment-button value="sentView" (click)="inb('send')" id="sentView">
         Sent
       </ion-segment-button>
     </ion-segment>
@@ -95,7 +95,7 @@
   <div [ngSwitch]="tabs">
 
     <div *ngSwitchCase="'inboxView'" id="inboxblock">
-      <button class="sort-btn" *ngIf="totalCount>0" (click)="doSort()">
+      <button class="sort-btn" *ngIf="totalCount>0" (click)="doSort('inbox')">
         {{sortLblTxt}}
         <ion-icon name="arrow-down" *ngIf="sortLblTxt === Favourites"></ion-icon>
         <ion-icon name="arrow-down" *ngIf="inboxData.sortascdesc === 'desc' && sortLblTxt !== Favourites"></ion-icon>
@@ -141,18 +141,18 @@
             </div>
             <div class="list-favorite">
               <button>
-                <ion-icon name="star-outline" (click)="favorite(inboxitem.message_id)" *ngIf="inboxitem.is_favorite==0"></ion-icon>
-                <ion-icon name="star" class="favorite" (click)="favorite(inboxitem.message_id)" *ngIf="inboxitem.is_favorite==1"></ion-icon>
+                <ion-icon name="star-outline" (click)="favorite(inboxitem.message_id,'inbox')" *ngIf="inboxitem.is_favorite==0"></ion-icon>
+                <ion-icon name="star" class="favorite" (click)="favorite(inboxitem.message_id,'inbox')" *ngIf="inboxitem.is_favorite==1"></ion-icon>
               </button>
             </div>
           </ion-item>
           <ion-item-options side="right" class="list-item-options">
-            <button *ngIf="inboxitem.message_readstatus==1" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'unread')">
+            <button *ngIf="inboxitem.message_readstatus==1" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'unread','inbox')">
               <ion-icon name="mail-open"></ion-icon>
               Unread
             </button>
 
-            <button *ngIf="inboxitem.message_readstatus==0" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'read')">
+            <button *ngIf="inboxitem.message_readstatus==0" ion-button class="read-btn" (click)="readAction(inboxitem.message_id,inboxitem,'read','inbox')">
               <ion-icon name="mail"></ion-icon>
               Read
             </button>
@@ -175,27 +175,24 @@
       <button class="create-msg" (click)="compose()" *ngIf="MESSAGEINBOXCREATEACCESS==1">
         <ion-icon name="create"></ion-icon>
       </button>
-      <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretext}}">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+     
     </div>
     <div *ngSwitchCase="'sentView'" id="sendblock">
-      <button class="sort-btn" *ngIf="totalCountSend>0" (click)="doSortSendItem()">
+      <button class="sort-btn" *ngIf="totalCount>0" (click)="doSort('send')">
         {{sortLblSendTxt}}
         <ion-icon name="arrow-down" *ngIf="sendData.sortascdesc === 'desc'"></ion-icon>
         <ion-icon name="arrow-up" *ngIf="sendData.sortascdesc === 'asc'"></ion-icon>
       </button>
-      <div class="error" *ngIf="totalCountSend==0">No message entries found</div>
-      <ion-list *ngIf="totalCountSend!=0">
-        <ion-item-sliding *ngFor="let senditem of itemssenditems; let j = index">
+      <div class="error" *ngIf="totalCount==0">No message entries found</div>
+      <ion-list *ngIf="totalCount!=0">
+        <ion-item-sliding *ngFor="let senditem of  items; let i = index">
           <ion-item class="msg">
 
             <div>
               <div class="date-time" (click)="readAction(senditem.message_id,senditem,'readsend','send')">{{senditem.message_date_mobileview_list}}</div>
 
               <div class="user-img">
-                <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo!='' && senditem.active==''"
+               <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo!='' && senditem.active==''"
                   src="{{senditem.recipient_photo}}" alt="" width="40" height="40">
                 <img ion-long-press [interval]="400" (onPressStart)="pressed(senditem,i,'send')" (onPressEnd)="released()" *ngIf="senditem.recipient_photo=='' && senditem.active==''"
                   alt="" src="{{apiServiceURL}}/images/default.png">
@@ -214,8 +211,8 @@
             </div>
             <div class="list-favorite">
               <button>
-                <ion-icon name="star-outline" (click)="senditemfavorite(senditem.message_id)" *ngIf="senditem.messages_isfavaurite==0"></ion-icon>
-                <ion-icon name="star" class="favorite" (click)="senditemfavorite(senditem.message_id)" *ngIf="senditem.messages_isfavaurite==1"></ion-icon>
+                <ion-icon name="star-outline" (click)="favorite(senditem.message_id,'send')" *ngIf="senditem.messages_isfavaurite==0"></ion-icon>
+                <ion-icon name="star" class="favorite" (click)="favorite(senditem.message_id,'send')" *ngIf="senditem.messages_isfavaurite==1"></ion-icon>
               </button>
             </div>
           </ion-item>
@@ -226,24 +223,19 @@
               Delete
             </button>
           </ion-item-options>
-        </ion-item-sliding>
-        <!-- <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" *ngIf="totalCountSend!=0">
-          <ion-infinite-scroll-content loadingText="Loading More"></ion-infinite-scroll-content>
-        </ion-infinite-scroll> -->
-
-       
+        </ion-item-sliding>       
 
       </ion-list>
      
-      <ion-infinite-scroll (ionInfinite)="doSendInfinite($event)" threshold="100px" *ngIf="isInfiniteHideSend">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretextsend}}">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+     
     </div>
 
   </div>
   
-
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px"  *ngIf="isInfiniteHide && totalCount>pageperrecord">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{loadingmoretext}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
    
 </ion-content>
 <ion-footer>
