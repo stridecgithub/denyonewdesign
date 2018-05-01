@@ -97,6 +97,8 @@ import { LongPressModule } from 'ionic-long-press';
 import { ViewunitPage } from '../pages/viewunit/viewunit';
 import { PaginatePage } from '../pages/paginate/paginate';
 import { MockProvider } from '../providers/pagination/pagination';
+
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 @NgModule({
   declarations: [
     PermissionPage,
@@ -281,6 +283,7 @@ import { MockProvider } from '../providers/pagination/pagination';
     Network,
     MockProvider,
     Push,
+    OpenNativeSettings,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider
   ]
