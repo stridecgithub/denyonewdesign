@@ -207,7 +207,6 @@ export class AlarmlogPage {
       .subscribe((data) => {
 
         res = data.json();
-        console.log("Total Alarm:" + res.alarms.length);
         if (res.alarms.length > 0) {
           this.conf.presentLoading(1);
           for (let alarm in res.alarms) {
@@ -284,11 +283,7 @@ export class AlarmlogPage {
             });
             if (res.alarms.length == parseInt(alarm) + 1) {
               this.conf.presentLoading(0);
-              console.log('Done');
-            } else {
-
-              console.log('processing');
-            }
+            } 
             this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
 
@@ -464,8 +459,6 @@ export class AlarmlogPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
       if (this.items.length > this.totalCount) {
         this.isInfiniteHide = false
       }

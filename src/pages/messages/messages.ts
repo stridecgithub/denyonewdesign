@@ -393,7 +393,6 @@ export class MessagesPage {
   /*@doCompanyGroup calling on report */
   /****************************/
   doInbox(mod) {
-    console.log(mod);
     this.isCompose = false;
     this.inboxact = false;
     this.sendact = false;
@@ -420,7 +419,6 @@ export class MessagesPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log(url);
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -582,7 +580,6 @@ export class MessagesPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 });
     let res;
-    console.log(urlstr);
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
@@ -1318,11 +1315,8 @@ export class MessagesPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
+    
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
         this.loadingmoretext = 'No more data.';
       } else {
@@ -1336,11 +1330,7 @@ export class MessagesPage {
         this.itemssenditems.push(newData[i]);
       }
       infiniteScrollsend.complete();
-      console.log("this.totalCount:" + this.totalCountSend);
-      console.log("this.items.length:" + this.itemssenditems.length);
-      console.log('A')
       if (this.itemssenditems.length >= this.totalCountSend) {
-        console.log('B');
         this.isInfiniteHideSend = false
         this.loadingmoretextsend = 'No more data.';
       } else {

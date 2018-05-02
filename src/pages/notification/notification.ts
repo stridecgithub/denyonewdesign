@@ -227,7 +227,6 @@ export class NotificationPage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
        
@@ -325,11 +324,7 @@ export class NotificationPage {
 
               if (res.notification.length == parseInt(notifications) + 1) {
                 this.conf.presentLoading(0);
-                console.log('Done');
-              } else {
-  
-                console.log('processing');
-              }
+              } 
 
               this.items = this.mockProvider.getData(this.notificationAllLists, 0, this.pageperrecord);
             }
@@ -445,11 +440,7 @@ export class NotificationPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
       }
     });

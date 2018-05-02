@@ -276,7 +276,6 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&loginid=" + this.userId;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(1);
@@ -299,7 +298,6 @@ export class CommentsinfoPage {
         this.conf.presentLoading(0);
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       }, () => {
-        console.log('completed');
         this.conf.presentLoading(0);
       });
 

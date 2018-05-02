@@ -129,11 +129,9 @@ export class EnginedetailPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/enginemodel?is_mobile=1";
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
-        res = data.json();
-        console.log("Engine Model Count:" + res.modeldata.length)
+        res = data.json();      
         if (res.modeldata.length > 0) {
           this.enginedetailAllLists = res.modeldata;
           this.items = this.mockProvider.getData(this.enginedetailAllLists, 0, this.pageperrecord);
@@ -250,12 +248,8 @@ export class EnginedetailPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
+      infiniteScroll.complete();    
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
       }
     });

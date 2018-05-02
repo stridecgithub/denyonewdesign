@@ -698,7 +698,6 @@ export class AddcalendarPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        console.log(JSON.stringify(res));
         // If the request was successful notify the user
         if (data.status === 200) {
 

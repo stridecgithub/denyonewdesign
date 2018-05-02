@@ -107,11 +107,7 @@ export class ViewunitPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
       }
       infiniteScroll.complete();

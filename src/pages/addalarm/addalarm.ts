@@ -374,8 +374,6 @@ export class AddalarmPage {
               .subscribe((data) => {
                 if (data.status === 200) {
                   this.hideForm = true;
-                  console.log(JSON.stringify(data.json()));
-                  //this.conf.sendNotification(`Successfully assigned`);
                   this.conf.sendNotification(data.json().msg[0].result);
 
                   if (data.json().msg[0]['pushid'] != '') {

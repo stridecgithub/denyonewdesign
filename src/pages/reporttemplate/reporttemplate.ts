@@ -265,11 +265,7 @@ export class ReporttemplatePage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
         this.loadingmoretext = 'No more data.';
       } else {

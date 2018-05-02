@@ -127,7 +127,6 @@ export class RolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role?is_mobile=1&sort=" + this.reportData.sort;
-    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -282,11 +281,7 @@ export class RolePage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
       }
     });

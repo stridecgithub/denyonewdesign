@@ -16,15 +16,9 @@ export class MockProvider {
       ed = incr + pr;
     }
     let data: any[] = [];
-    console.log("incr:" + incr);
-    console.log("st:" + st);
-    console.log("ed:" + ed);
-    console.log("pr:" + pr);
-    console.log("sec:" + sec);
     for (var i = st; i < ed; i++) {
 
       if (i < cmtdata.length) {
-        console.log(i);
         data.push(cmtdata[i]);
       }
     }

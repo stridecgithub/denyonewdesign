@@ -498,10 +498,8 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
-      .subscribe((data) => {
-        console.log(JSON.stringify(data));
+      .subscribe((data) => {       
         // If the request was successful notify the user
         if (data.status === 200) {
 

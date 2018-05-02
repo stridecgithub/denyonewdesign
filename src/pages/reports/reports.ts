@@ -301,9 +301,7 @@ export class ReportsPage {
       this.tableradiochk = false;
       this.graphradiochk = false;
     }
-    console.log("Export to:" + this.exportto)
-    console.log("Table Radio Check:" + this.tableradiochk);
-    console.log("Table Radio Check:" + this.graphradiochk);
+   
   }
 
   previous() {

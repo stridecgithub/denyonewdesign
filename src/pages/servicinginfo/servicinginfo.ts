@@ -666,11 +666,7 @@ export class ServicinginfoPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      console.log("this.totalCount:" + this.totalCounthistory);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCounthistory) {
-        console.log('B');
         this.isInfiniteHide = false
       }
       infiniteScroll.complete();

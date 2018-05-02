@@ -690,8 +690,6 @@ export class ServicedetailsPage {
       url: any = this.apiServiceURL + "/services/serviceupdate";
     this.http.post(url, body, options)
       .subscribe((data) => {
-
-        console.log(JSON.stringify(data));
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';

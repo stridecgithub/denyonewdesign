@@ -290,10 +290,6 @@ export class AlarmPage {
             });
             if (res.alarms.length == parseInt(alarm) + 1) {
               this.conf.presentLoading(0);
-              console.log('Done');
-            } else {
-
-              console.log('processing');
             }
             this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
@@ -461,8 +457,6 @@ export class AlarmPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-      console.log("this.totalCountab:" + this.totalCount);
-      console.log("this.items.lengthab:" + this.items.length);
       if (this.items.length > this.totalCount) {
         this.isInfiniteHide = false
       }

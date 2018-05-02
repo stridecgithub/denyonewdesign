@@ -422,7 +422,6 @@ export class DashboardPage {
           }
 
           this.totalCountList = res.totalCount;
-          console.log("Total Count:" + this.totalCount);
           this.reportData.startindex += this.reportData.results;
         }
 
@@ -622,7 +621,6 @@ export class DashboardPage {
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
 
     // API Request
-    console.log("initMap:-" + url);
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -1777,11 +1775,8 @@ export class DashboardPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      console.log("this.totalCount:" + this.totalCountList);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
-      if (this.items.length >= this.totalCountList) {
-        console.log('B');
+    
+      if (this.items.length >= this.totalCountList) {       
         this.isInfiniteHide = false
       }
       infiniteScroll.complete();

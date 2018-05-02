@@ -781,14 +781,10 @@ export class UnitsPage {
       );
 
     }
-    console.log("JSON Stringify:-" + JSON.stringify(this.selecteditems));
-    console.log("Length:-" + this.selecteditems.length);
   }
   released() {
   }
-  onholdaction(action) {
-    console.log(JSON.stringify(this.selecteditems));
-    console.log("Length:" + this.selecteditems.length);
+  onholdaction(action) {    
     this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
@@ -901,11 +897,7 @@ export class UnitsPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      console.log("this.totalCount:" + this.totalCount);
-      console.log("this.items.length:" + this.items.length);
-      console.log('A')
       if (this.items.length >= this.totalCount) {
-        console.log('B');
         this.isInfiniteHide = false
       }
       infiniteScroll.complete();
