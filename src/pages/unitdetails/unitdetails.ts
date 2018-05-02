@@ -152,7 +152,7 @@ export class UnitdetailsPage {
 		contactpersonal: '',
 		contactnumber: '',
 		contacts: '',
-		mapicon:''
+		mapicon: ''
 	}
 	public profilePhoto;
 	nextservicedate;
@@ -396,7 +396,7 @@ export class UnitdetailsPage {
 						// Votage
 						let voltage = 0;
 						let actual_voltage = this.selectedvoltage;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-						
+
 
 						let diff = this.setpointsdata[0].maxvalue - this.setpointsdata[0].minvalue;
 						if (actual_voltage < this.setpointsdata[0].minvalue)
@@ -407,7 +407,7 @@ export class UnitdetailsPage {
 							voltage = ((actual_voltage - this.setpointsdata[0].minvalue) / diff) * 100;
 
 
-					
+
 						var vltlabels = JSON.parse('{' + this.voltlabel + '}');
 						var vltcolors = JSON.parse('{' + this.voltcolors + '}');
 						let voltagegauge = new Gauge(jQuery('.voltagegauge'), {
@@ -460,7 +460,7 @@ export class UnitdetailsPage {
 						let frequency = 0;
 
 						let actual_frequency = this.freq;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
-					
+
 
 						let difffreq = this.setpointsdata[2].maxvalue - this.setpointsdata[2].minvalue;
 						if (actual_frequency < this.setpointsdata[2].minvalue)
@@ -594,7 +594,7 @@ export class UnitdetailsPage {
 
 						var coolantbarlabels = this.coolantbarlabels.split(",");
 
-						
+
 						var gradient3 = {
 							type: 'linearGradient',
 							x0: 0,
@@ -631,13 +631,13 @@ export class UnitdetailsPage {
 
 
 
-								}  else {
+								} else {
 
 									sval = labels[x - 1];
 									enval = labels[x];
 
 								}
-							
+
 								var gradver;
 								if (barchartcolors[x] == "gradient1") {
 									gradver = '#df0000';
@@ -648,7 +648,7 @@ export class UnitdetailsPage {
 								if (barchartcolors[x] == "gradient3") {
 									gradver = '#00FF50';
 								}
-								
+
 								this.rangesdata.push({
 									startValue: sval,
 									endValue: enval,
@@ -657,7 +657,7 @@ export class UnitdetailsPage {
 									outerEndOffset: 0.70,
 									fillStyle: gradver
 								})
-								
+
 
 
 							}
@@ -672,12 +672,12 @@ export class UnitdetailsPage {
 							}
 							let angle = 0;
 							let labelofset = 0.30;
-							
+
 							if (code == 'oilpressure') {
-								angle = -0.5;							
-								
+								angle = -0.5;
+
 								if (enval > 1.1 && enval <= 1.5) {
-								
+
 
 								}
 								this.rangesdata.push({
@@ -701,7 +701,7 @@ export class UnitdetailsPage {
 							}
 
 							if (code == "coolanttemp") {
-								
+
 								this.needlevalue = this.coolanttemp;
 
 								if (this.coolanttemp > 120) {
@@ -723,8 +723,8 @@ export class UnitdetailsPage {
 								} else {
 									this.needlevalue = this.oilpressure;
 								}
-								if (this.needlevalue >= 10) { 
-									this.needlevalue = 10; 
+								if (this.needlevalue >= 10) {
+									this.needlevalue = 10;
 								}
 							}
 							if (code == "batteryvolt") {
@@ -748,7 +748,7 @@ export class UnitdetailsPage {
 								this.needlevalue = 0;
 							}
 
-							let scalemax;							
+							let scalemax;
 							scalemax = res[i].maxvalue;
 							jQuery('#' + code).jqLinearGauge({
 								orientation: 'horizontal',
@@ -770,7 +770,7 @@ export class UnitdetailsPage {
 										maximum: scalemax,
 
 										labels: {
-											
+
 											offset: labelofset,
 											angle: angle
 
@@ -789,8 +789,8 @@ export class UnitdetailsPage {
 										},
 										customTickMarks: JSON.parse('[' + labels + ']'),
 										ranges:
-												this.rangesdata
-										
+											this.rangesdata
+
 										,
 										needles: [
 											{
@@ -839,7 +839,7 @@ export class UnitdetailsPage {
 										offset: 1,
 										lineWidth: 2
 									},
-									customTickMarks: [0,1],//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
+									customTickMarks: [0, 1],//coolanttemplabel_0, coolanttemplabel_1, coolanttemplabel_2, coolanttemplabel_3, coolanttemplabel_4
 									ranges: [
 										{
 											startValue: 0,
@@ -982,6 +982,7 @@ export class UnitdetailsPage {
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
+		console.log("Get Unit detail by id:"+url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1062,7 +1063,7 @@ export class UnitdetailsPage {
 
 					}
 					this.unitDetailData.favoriteindication = favorite;
-					this.unitDetailData.mapicon=data.json().units[0].mapicon;
+					this.unitDetailData.mapicon = data.json().units[0].mapicon;
 				}
 			}, error => {
 				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
@@ -1448,9 +1449,9 @@ export class UnitdetailsPage {
 		// 	this.subscription.unsubscribe();
 		// }
 		if (this.NP.get("page") == 'viewunit') {
-			this.navCtrl.setRoot(ViewunitPage,{
-				item:this.navParams.get('record'),
-				from:this.navParams.get('from'),
+			this.navCtrl.setRoot(ViewunitPage, {
+				item: this.navParams.get('record'),
+				from: this.navParams.get('from'),
 			});
 		} else {
 			this.navCtrl.setRoot(UnitsPage);
