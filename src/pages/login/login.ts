@@ -6,6 +6,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { ForgotpasswordPage } from '../forgotpassword/forgotpassword';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Globalization } from '@ionic-native/globalization';
 /*declare var triggeredAutocomplete: any;*/
 /**
  * Generated class for the LoginPage page.
@@ -28,8 +29,36 @@ export class LoginPage {
   public form: FormGroup;
   public isSubmitted: boolean = false;
   alert: any;
-  constructor(public platform: Platform, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
+  constructor(private globalization: Globalization, public platform: Platform, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
     public fb: FormBuilder) {
+
+    this.globalization.getPreferredLanguage()
+      .then(res => {
+        console.log(res);
+        this.showAlert('getPreferredLanguage', res + JSON.stringify(res));
+      }
+      )
+      .catch(e => {
+        this.showAlert('getPreferredLanguage - Error', JSON.stringify(e));
+      }
+      );
+
+
+      this.globalization.getLocaleName()
+      .then(res => {
+        console.log(res);
+        this.showAlert('getLocaleName', res + JSON.stringify(res));
+      }
+      )
+      .catch(e => {
+        this.showAlert('getLocaleName - Error', JSON.stringify(e));
+      }
+      );
+
+     
+
+
+
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
 
@@ -57,7 +86,14 @@ export class LoginPage {
     });
   }
 
-
+  showAlert(titl, msg) {
+    let alert = this.alertCtrl.create({
+      title: titl,
+      subTitle: msg,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
   showAlertExist() {
     this.alert = this.alertCtrl.create({
       title: 'Exit?',
