@@ -122,7 +122,7 @@ export class UnitsPage {
     modal.present();
   }
   ionViewDidLoad() {
-
+    localStorage.setItem("setpointsdata", "");
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
 
@@ -548,12 +548,18 @@ export class UnitsPage {
       localStorage.setItem("nsd", item.nextservicedate);
 
       localStorage.setItem("microtime", "");
+
+
+ 
+
+
+
       this.navCtrl.setRoot(UnitdetailsPage, {
         record: item
       });
-      return false;
-    } else {
 
+
+      return false;
     }
 
   }
@@ -784,7 +790,7 @@ export class UnitsPage {
   }
   released() {
   }
-  onholdaction(action) {    
+  onholdaction(action) {
     this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
@@ -837,7 +843,7 @@ export class UnitsPage {
 
 
                   this.selecteditems = [];
-                 // this.doUnit();
+                  // this.doUnit();
 
 
                 }

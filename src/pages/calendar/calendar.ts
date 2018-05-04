@@ -138,7 +138,7 @@ export class CalendarPage {
   calendaradd:any;
   constructor(private app: App, private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, public navCtrl: NavController,
     private calendarElement: ElementRef,
-    public events: Events, private http: Http, public alertCtrl: AlertController) {
+    public events: Events, private http: Http, public alertCtrl: AlertController) {     
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -154,7 +154,6 @@ export class CalendarPage {
     });
 
     localStorage.setItem("sdate", "");
-
     let currentDate = new Date();
     this.currentDataHighlights = '';
     this.currentDate = currentDate.getDate();

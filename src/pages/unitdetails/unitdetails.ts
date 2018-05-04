@@ -38,6 +38,7 @@ export class UnitdetailsPage {
 	public pageTitle: string;
 	//public userId: any;
 	public item = [];
+	public setpointsdatastorage: any;
 	public setpointsdata = [];
 	public rangesdata = [];
 	voltlabel;
@@ -101,6 +102,7 @@ export class UnitdetailsPage {
 	public engineviewenable: boolean = false;
 	public uniteditable: boolean = false;
 	public unitdeletable: boolean = false;
+	public dataviewactive: boolean = true;
 
 	alarmstatus;
 	voltguagelabel;
@@ -294,21 +296,154 @@ export class UnitdetailsPage {
 		//this.subscription.unsubscribe();
 
 	}
+
+
 	ionViewDidLoad() {
+		console.log(localStorage.getItem("setpointsdata"));
+		if (localStorage.getItem("setpointsdata") == '') {
+			// Get Guage Details
+			let //body: string = "loginid=" + this.userId,
+				type2: string = "application/x-www-form-urlencoded; charset=UTF-8",
+				headers2: any = new Headers({ 'Content-Type': type2 }),
+				options2: any = new RequestOptions({ headers: headers2 }),
+				url2: any = this.apiServiceURL + "/gaugedetails/" + this.navParams.get('record').controllerid;
+			console.log("B:" + url2);
+			this.http.get(url2, options2)
+				.subscribe((data) => {
+					let res1;
+					res1 = data.json();
+					console.log("Gauge Detail res1" + JSON.stringify(res1));
+					if (data.json().setpoints.length > 0) {
+						localStorage.setItem("setpointsdata", JSON.stringify(data.json().setpoints));
+						/*	this.navCtrl.setRoot(UnitdetailsPage, {
+								record: item,
+								setpointsdata: JSON.stringify(data.json().setpoints)
+							});*/
+
+
+
+						// Get Guage Details
+						/*
+						if (this.navParams.get("setpointsdata") != undefined) {
+							this.setpointsdatastorage = JSON.parse(this.navParams.get("setpointsdata"));
+							localStorage.setItem("setpointsdata", this.navParams.get("setpointsdata"));
+						} else {
+							this.setpointsdatastorage = JSON.parse(localStorage.getItem("setpointsdata"));
+						}
+						
+						
+						*/
+						this.setpointsdatastorage = data.json().setpoints;
+						if (this.setpointsdatastorage.length > 0) {
+							for (let sp in this.setpointsdatastorage) {
+								this.setpointsdata.push({
+									code: this.setpointsdatastorage[sp].code,
+									labels: this.setpointsdatastorage[sp].labels,
+									colors: this.setpointsdatastorage[sp].colors,
+									barlabels: this.setpointsdatastorage[sp].barlabels,
+									minvalue: this.setpointsdatastorage[sp].minvalue,
+									maxvalue: this.setpointsdatastorage[sp].maxvalue,
+									barchartcolors: this.setpointsdatastorage[sp].barchartcolors
+								})
+							}
+						}
+						this.voltlabel = this.setpointsdata[0].labels;
+						this.voltcolors = this.setpointsdata[0].colors;
+
+						this.currentlabel = this.setpointsdata[1].labels;
+						this.currentcolors = this.setpointsdata[1].colors;
+
+						this.frequencylabel = this.setpointsdata[2].labels;
+						this.frequencycolors = this.setpointsdata[2].colors;
+
+						this.enginespeedlabel = this.setpointsdata[3].labels;
+						this.enginespeedcolors = this.setpointsdata[3].colors;
+
+						this.fuellabel = this.setpointsdata[4].labels;
+						this.fuelcolors = this.setpointsdata[4].colors;
+
+						this.loadpowerlabel = this.setpointsdata[5].labels;
+						this.loadpowercolors = this.setpointsdata[5].colors;
+
+						this.coolantlabel = this.setpointsdata[6].labels;
+						this.coolantcolors = this.setpointsdata[6].colors;
+						this.coolantbarlabels = this.setpointsdata[6].barlabels;
+
+						this.oilpressuerlabel = this.setpointsdata[7].labels;
+						this.oilpressuercolors = this.setpointsdata[7].colors;
+						this.oilperssuerbarlabels = this.setpointsdata[7].barlabels;
+
+						this.batteryvoltlabel = this.setpointsdata[8].labels;
+						this.batteryvoltcolors = this.setpointsdata[8].colors;
+						this.batteryvoltbarlabels = this.setpointsdata[8].barlabels;
+						// Get Guage Details
+
+					}
+				}, error => {
+					//this.networkType = this.conf.serverErrMsg();// + "\n" + error;
+					console.log(error);
+				});
+			// Get Guage Details
+		} else {
+			this.setpointsdatastorage = JSON.parse(localStorage.getItem("setpointsdata"));
+			if (this.setpointsdatastorage.length > 0) {
+				for (let sp in this.setpointsdatastorage) {
+					this.setpointsdata.push({
+						code: this.setpointsdatastorage[sp].code,
+						labels: this.setpointsdatastorage[sp].labels,
+						colors: this.setpointsdatastorage[sp].colors,
+						barlabels: this.setpointsdatastorage[sp].barlabels,
+						minvalue: this.setpointsdatastorage[sp].minvalue,
+						maxvalue: this.setpointsdatastorage[sp].maxvalue,
+						barchartcolors: this.setpointsdatastorage[sp].barchartcolors
+					})
+				}
+			}
+			this.voltlabel = this.setpointsdata[0].labels;
+			this.voltcolors = this.setpointsdata[0].colors;
+
+			this.currentlabel = this.setpointsdata[1].labels;
+			this.currentcolors = this.setpointsdata[1].colors;
+
+			this.frequencylabel = this.setpointsdata[2].labels;
+			this.frequencycolors = this.setpointsdata[2].colors;
+
+			this.enginespeedlabel = this.setpointsdata[3].labels;
+			this.enginespeedcolors = this.setpointsdata[3].colors;
+
+			this.fuellabel = this.setpointsdata[4].labels;
+			this.fuelcolors = this.setpointsdata[4].colors;
+
+			this.loadpowerlabel = this.setpointsdata[5].labels;
+			this.loadpowercolors = this.setpointsdata[5].colors;
+
+			this.coolantlabel = this.setpointsdata[6].labels;
+			this.coolantcolors = this.setpointsdata[6].colors;
+			this.coolantbarlabels = this.setpointsdata[6].barlabels;
+
+			this.oilpressuerlabel = this.setpointsdata[7].labels;
+			this.oilpressuercolors = this.setpointsdata[7].colors;
+			this.oilperssuerbarlabels = this.setpointsdata[7].barlabels;
+
+			this.batteryvoltlabel = this.setpointsdata[8].labels;
+			this.batteryvoltcolors = this.setpointsdata[8].colors;
+			this.batteryvoltbarlabels = this.setpointsdata[8].barlabels;
+		}
+
 
 
 		// this.unitstimervalue(1);
 
 		if (this.timerswitch > 0) {
 			this.subscription = Observable.interval(2000).subscribe(x => {
-
-
 				if (this.timerswitch > 0) {
 					let unitid = localStorage.getItem("iframeunitId");
 
+					//this.geninfo(unitid);
 					let urlstr;
 
 					if (this.tabs == 'dataView') {
+
 						urlstr = "/" + unitid + "/" + this.unitDetailData.userId + "/unitdata";
 						let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
 							headers: any = new Headers({ 'Content-Type': type }),
@@ -319,6 +454,7 @@ export class UnitdetailsPage {
 
 						this.http.get(url, options)
 							.subscribe((data) => {
+
 								// Votage
 								this.volt1 = data.json().volt1;
 								this.volt2 = data.json().volt2;
@@ -926,6 +1062,8 @@ export class UnitdetailsPage {
 								if (this.enginestatuscolor == '') {
 									this.enginestatuscolor = '#EDEDED';
 								}
+								this.dataviewactive = false;
+								console.log('Done');
 							}, error => {
 
 							});
@@ -982,7 +1120,7 @@ export class UnitdetailsPage {
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
-		console.log("Get Unit detail by id:"+url);
+		console.log("Get Unit detail by id:" + url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
@@ -1186,12 +1324,12 @@ export class UnitdetailsPage {
 
 	}
 	geninfo(unitid) {
+		this.dataviewactive = false;
 		let //body: string = "loginid=" + this.userId,
 			type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
 			headers1: any = new Headers({ 'Content-Type': type1 }),
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/" + unitid + "/1/enginedetailsnewapi";
-
 		this.http.get(url1, options1)
 			.subscribe((data) => {
 				let res;
@@ -1210,70 +1348,11 @@ export class UnitdetailsPage {
 
 
 
-				let //body: string = "loginid=" + this.userId,
-					type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
-					headers1: any = new Headers({ 'Content-Type': type1 }),
-					options1: any = new RequestOptions({ headers: headers1 }),
-					url1: any = this.apiServiceURL + "/gaugedetails/" + this.unitDetailData.controllerid;
 
-				this.http.get(url1, options1)
-					.subscribe((data) => {
-						let res;
-						res = data.json();
-
-						if (data.json().setpoints.length > 0) {
-							for (let sp in res.setpoints) {
-								this.setpointsdata.push({
-									code: res.setpoints[sp].code,
-									labels: res.setpoints[sp].labels,
-									colors: res.setpoints[sp].colors,
-									barlabels: res.setpoints[sp].barlabels,
-									minvalue: res.setpoints[sp].minvalue,
-									maxvalue: res.setpoints[sp].maxvalue,
-									barchartcolors: res.setpoints[sp].barchartcolors
-								})
-							}
-						}
-						this.voltlabel = data.json().setpoints[0].labels;
-						this.voltcolors = data.json().setpoints[0].colors;
-
-						this.currentlabel = data.json().setpoints[1].labels;
-						this.currentcolors = data.json().setpoints[1].colors;
-
-						this.frequencylabel = data.json().setpoints[2].labels;
-						this.frequencycolors = data.json().setpoints[2].colors;
-
-						this.enginespeedlabel = data.json().setpoints[3].labels;
-						this.enginespeedcolors = data.json().setpoints[3].colors;
-
-						this.fuellabel = data.json().setpoints[4].labels;
-						this.fuelcolors = data.json().setpoints[4].colors;
-
-						this.loadpowerlabel = data.json().setpoints[5].labels;
-						this.loadpowercolors = data.json().setpoints[5].colors;
-
-						this.coolantlabel = data.json().setpoints[6].labels;
-						this.coolantcolors = data.json().setpoints[6].colors;
-						this.coolantbarlabels = data.json().setpoints[6].barlabels;
-
-						this.oilpressuerlabel = data.json().setpoints[7].labels;
-						this.oilpressuercolors = data.json().setpoints[7].colors;
-						this.oilperssuerbarlabels = data.json().setpoints[7].barlabels;
-
-						this.batteryvoltlabel = data.json().setpoints[8].labels;
-						this.batteryvoltcolors = data.json().setpoints[8].colors;
-						this.batteryvoltbarlabels = data.json().setpoints[8].barlabels;
-
-
-
-
-					}, error => {
-						this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-					});
-				// Get Guage Details
 			}, error => {
-				this.networkType = this.conf.serverErrMsg();// + "\n" + error;
 			});
+
+
 	}
 
 	ionViewWillEnter() {

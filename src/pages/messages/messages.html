@@ -28,7 +28,7 @@
 
 
 
-      <button ion-button icon-only (click)="resettoback()" style="background-color:#515151 !important;color:white">
+      <button ion-button icon-only (click)="resettoback(onholdselectinboxsend)" style="background-color:#515151 !important;color:white">
         <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
       </button>
 
@@ -48,7 +48,7 @@
     font-size: 35px;" (click)="selectalltip(selectallopenorclose)"></ion-icon>
     <ion-buttons end>
 
-      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="onholdaction('delete')" *ngIf="onholdselectinboxsend == 'inbox'">
+      <button ion-button icon-only style="background-color:#515151 !important;color:white" (click)="onholdaction('delete',onholdselectinboxsend)" *ngIf="onholdselectinboxsend == 'inbox'">
         <ion-icon name="trash"></ion-icon>
       </button>
 
@@ -69,8 +69,8 @@
   </div>
   <div class="list-icon">
     <div class="more" *ngIf="moreopenpop>0">
-      <button (click)="onholdaction('favorite')" style="text-align:left">Favorite</button>
-      <button (click)="onholdaction('markasread')" style="text-align:left" *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
+      <button (click)="onholdaction('favorite',onholdselectinboxsend)" style="text-align:left">Favorite</button>
+      <button (click)="onholdaction('markasread',onholdselectinboxsend)" style="text-align:left" *ngIf="onholdselectinboxsend == 'inbox'">Mark as Read</button>
     </div>
   </div>
 </ion-header>

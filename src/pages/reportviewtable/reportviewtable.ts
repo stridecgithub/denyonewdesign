@@ -61,6 +61,7 @@ export class ReportviewtablePage {
   public responseResultTimeFrame = [];
   private apiServiceURL: string = "";
   profilePhoto;
+  processing: any;
   totalcount;
   location;
   unitname;
@@ -87,13 +88,17 @@ export class ReportviewtablePage {
   selunit;
   seltimeframe;
   seltemplate;
+  progress: number;
+  public isProgress = false;
   public showrunning: boolean = false;
   public showonline: boolean = false;
   public showload: boolean = false;
   public buttonClicked: boolean = false;
+  processingtxt: any;
   constructor(public app: App, private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.processing = 0;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -176,7 +181,9 @@ export class ReportviewtablePage {
   }
 
   getReportResult(seltypeBtn, exportto, selunit, seltimeframe, seltemplate, from, to, showrunning, showonline, showload) {
-    
+    this.isProgress = true;
+    this.presentLoading(1)
+    this.processingtxt = "Processing... please wait.";
     this.reportAllLists = [];
     this.headLists = [];
     this.headValue = [];
@@ -245,12 +252,12 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid;
       let res;
-      this.presentLoading(1);
-     
+
+
       this.http.get(url, options)
         ///this.http.post(url, body, options)
         .subscribe((data) => {
-
+          //this.presentLoading(1);
           // If the request was successful notify the user
           res = data.json();
           if (seltypeBtn == '1') {
@@ -264,6 +271,29 @@ export class ReportviewtablePage {
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
             this.posts = res.mobilehistorydata[0];
+            console.log("Posts:" + JSON.stringify(this.posts));
+            console.log("Posts Length:" + this.posts.length);
+            console.log("Head Value:" + JSON.stringify(this.headValue));
+            console.log("Head Value Length:" + this.headValue.length);
+            for (let jk = 0; jk <= this.headValue.length; jk++) {
+
+              if (jk == this.headValue.length) {
+                console.log(jk + ':Done');
+                this.presentLoading(0);
+                this.processing = 1
+                this.progress += 5;
+                this.isProgress = false;
+                this.processingtxt = "";
+              } else {
+                console.log(jk + ':Processing...');
+                this.processing = 0;
+                this.processingtxt = "Processing... please wait.";
+                this.progress += jk;
+                this.isProgress = true;
+              }
+
+            }
+
             // this.keys = Object.keys(this.posts);
             this.reportAllLists = res.reportdata;
             this.totalcount = res.totalcount;
@@ -336,7 +366,7 @@ export class ReportviewtablePage {
 
 
         let res;
-        this.presentLoading(1);
+
         this.http.get(url, options)
 
           .subscribe((data) => {
@@ -468,11 +498,11 @@ export class ReportviewtablePage {
         "&showload=" + showload +
         "&companyid=" + this.companyid;
     let res;
-    this.presentLoading(1);
+
     this.http.get(url, options)
       ///this.http.post(url, body, options)
       .subscribe((data) => {
-        this.presentLoading(0);
+        // this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
         let uri;

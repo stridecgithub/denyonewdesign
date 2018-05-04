@@ -23,7 +23,7 @@ export class MessagesPage {
   public arrayid = [];
   public uploadResultBase64Data;
   public inboxLists = [];
-  public sendLists = [];
+  //public sendLists = [];
   public inboxsortaction: boolean = false;
   public sendsortaction: boolean = false;
   public isCompose: boolean = false;
@@ -132,17 +132,14 @@ export class MessagesPage {
   moreopenorclose = 1;
   public selecteditems = [];
   onholdselectinboxsend;
-  items: string[];
-  itemssenditems: string[];
+  items: any;
   isInfiniteHide: boolean;
-  isInfiniteHideSend: boolean;
   pageperrecord;
   loadingmoretext;
-  loadingmoretextsend;
   constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
 
     this.loadingmoretext = "Loading more data...";
-    this.loadingmoretextsend = "Loading more data...";
+
 
     this.apiServiceURL = this.conf.apiBaseURL();
     this.pageperrecord = this.conf.pagePerRecord();
@@ -252,7 +249,7 @@ export class MessagesPage {
       jQuery('#sendblock').show();
       this.segmenttabshow = 1;
       this.rolePermissionMsg = '';
-      this.snd();
+      this.inb('send');
 
     } else if (this.MESSAGESENTVIEWACCESS == 0 && this.MESSAGEINBOXVIEWACCESS == 0) {
 
@@ -367,9 +364,8 @@ export class MessagesPage {
   }
   inb(module) {
     this.isInfiniteHide = true;
-    this.isInfiniteHideSend = true;
     this.inboxLists = [];
-    this.sendLists = [];
+    // this.sendLists = [];
     this.inboxData.startindex = 0;
     this.doInbox(module);
     this.selectallopenpop = 0;
@@ -377,7 +373,7 @@ export class MessagesPage {
     this.selecteditems = [];
   }
 
-  snd() {
+  /*snd(module) {
     this.isInfiniteHide = true;
     this.isInfiniteHideSend = true;
     this.inboxLists = [];
@@ -387,7 +383,7 @@ export class MessagesPage {
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
     this.selecteditems = [];
-  }
+  }*/
 
   /****************************/
   /*@doCompanyGroup calling on report */
@@ -469,70 +465,71 @@ export class MessagesPage {
     // this.conf.presentLoading(0);
   }
 
-
-  doSend() {
-    this.priority_highclass = '';
-    this.priority_lowclass = '';
-    this.isCompose = false;
-    this.inboxact = false;
-    this.sendact = false;
-    this.inboxsortaction = false;
-    this.sendsortaction = true;
-    //this.conf.presentLoading(1);
-    if (this.sendData.status == '') {
-      this.sendData.status = "messages_id";
-    }
-    if (this.sendData.sort == '') {
-      this.sendData.sort = "messages_id";
-    } let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
-    let res;
-
-    this.conf.presentLoading(1);
-    this.http.get(url, options)
-      .subscribe((data) => {
-
-        res = data.json();
-
-        if (res.messages.length > 0) {
-          for (let message in res.messages) {
-            this.sendLists.push({
-              message_id: res.messages[message].message_id,
-              sender_id: res.messages[message].sender_id,
-              messages_subject: res.messages[message].messages_subject,
-              message_body: res.messages[message].message_body,
-              message_body_html: res.messages[message].message_body_html,
-              message_date: res.messages[message].message_date,
-              message_date_mobileview: res.messages[message].message_date_mobileview,
-              message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
-              time_ago: res.messages[message].time_ago,
-              message_priority: res.messages[message].message_priority,
-              priority_image: res.messages[message].priority_image,
-              personalhashtag: res.messages[message].personalhashtag,
-              receiver_id: res.messages[message].receiver_id,
-              receiver_name: res.messages[message].receiver_name,
-              attachments: res.messages[message].attachments,
-              replyall: res.messages[message].replyall,
-              duration: res.messages[message].duration,
-              logo: "assets/imgs/square.png",
-              active: ""
-            });
+  /*
+    doSend() {
+      this.priority_highclass = '';
+      this.priority_lowclass = '';
+      this.isCompose = false;
+      this.inboxact = false;
+      this.sendact = false;
+      this.inboxsortaction = false;
+      this.sendsortaction = true;
+      //this.conf.presentLoading(1);
+      if (this.sendData.status == '') {
+        this.sendData.status = "messages_id";
+      }
+      if (this.sendData.sort == '') {
+        this.sendData.sort = "messages_id";
+      } let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers: any = new Headers({ 'Content-Type': type }),
+        options: any = new RequestOptions({ headers: headers }),
+        url: any = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
+      let res;
+  
+      this.conf.presentLoading(1);
+      this.http.get(url, options)
+        .subscribe((data) => {
+  
+          res = data.json();
+  
+          if (res.messages.length > 0) {
+            for (let message in res.messages) {
+              this.sendLists.push({
+                message_id: res.messages[message].message_id,
+                sender_id: res.messages[message].sender_id,
+                messages_subject: res.messages[message].messages_subject,
+                message_body: res.messages[message].message_body,
+                message_body_html: res.messages[message].message_body_html,
+                message_date: res.messages[message].message_date,
+                message_date_mobileview: res.messages[message].message_date_mobileview,
+                message_date_mobileview_list: res.messages[message].message_date_mobileview_list,
+                time_ago: res.messages[message].time_ago,
+                message_priority: res.messages[message].message_priority,
+                priority_image: res.messages[message].priority_image,
+                personalhashtag: res.messages[message].personalhashtag,
+                receiver_id: res.messages[message].receiver_id,
+                receiver_name: res.messages[message].receiver_name,
+                attachments: res.messages[message].attachments,
+                replyall: res.messages[message].replyall,
+                duration: res.messages[message].duration,
+                logo: "assets/imgs/square.png",
+                active: ""
+              });
+            }
+            this.itemssenditems = this.mockProvider.getData(this.sendLists, 0, this.pageperrecord);
+            this.totalCountSend = res.totalCount;
+            this.sendData.startindex += this.sendData.results;
+          } else {
+            this.totalCountSend = 0;
           }
-          this.itemssenditems = this.mockProvider.getData(this.sendLists, 0, this.pageperrecord);
-          this.totalCountSend = res.totalCount;
-          this.sendData.startindex += this.sendData.results;
-        } else {
-          this.totalCountSend = 0;
-        }
-
-
-        this.conf.presentLoading(0);
-      }, error => {
-      });
-    //this.conf.presentLoading(0);
-  }
+  
+  
+          this.conf.presentLoading(0);
+        }, error => {
+        });
+      //this.conf.presentLoading(0);
+    }
+    */
   /**********************/
   /* Infinite scrolling */
   /**********************/
@@ -551,9 +548,9 @@ export class MessagesPage {
               }
             }
           } else {
-            for (let q: number = 0; q < this.sendLists.length; q++) {
-              if (this.sendLists[q] == item) {
-                this.sendLists.splice(q, 1);
+            for (let q: number = 0; q < this.inboxLists.length; q++) {
+              if (this.inboxLists[q] == item) {
+                this.inboxLists.splice(q, 1);
               }
             }
           }
@@ -774,7 +771,7 @@ export class MessagesPage {
   }
 
 
-  doSortSendItem() {
+  /*doSortSendItem() {
     this.isInfiniteHideSend = true;
     let prompt = this.alertCtrl.create({
       title: 'Sort By',
@@ -821,7 +818,7 @@ export class MessagesPage {
               this.sendData.startindex = 0;
               this.sendLists = [];
               this.selecteditems = [];
-              this.doSend();
+              this.doInbox('send');
 
 
             }
@@ -857,10 +854,11 @@ export class MessagesPage {
     });
     prompt.present();
   }
-
+*/
 
 
   favorite(messageid, mod) {
+    this.isInfiniteHide = true;
     let urlstr;
     if (mod == 'inbox') {
       urlstr = this.apiServiceURL + "/messages/setfavorite";
@@ -885,9 +883,10 @@ export class MessagesPage {
            } else {
              this.conf.sendNotification("Favorited successfully");
            }*/
+          this.inboxData.startindex = 0;
           this.inboxLists = [];
           this.conf.sendNotification(data.json().msg.result);
-          this.inboxData.startindex = 0;
+          this.selecteditems = [];
           this.doInbox(mod);
         }
         // Otherwise let 'em know anyway
@@ -901,6 +900,7 @@ export class MessagesPage {
   }
 
   senditemfavorite(messageid) {
+    this.isInfiniteHide = true;
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -913,12 +913,10 @@ export class MessagesPage {
 
         // If the request was successful notify the user
         if (data.status === 200) {
+          this.inboxLists = [];
           this.conf.sendNotification(data.json().msg.result);
-
-          this.sendLists = [];
-          this.sendData.startindex = 0;
-          //this.snd();
-          this.doSend();
+          this.inboxData.startindex = 0;
+          this.doInbox('send');
         }
         // Otherwise let 'em know anyway
         else {
@@ -1065,9 +1063,9 @@ export class MessagesPage {
                     this.selecteditems = [];
                     this.inboxData.startindex = 0;
                     this.doInbox(mod);
-                    this.sendLists = [];
+                    //this.sendLists = [];
                     this.sendData.startindex = 0;
-                    this.doSend();
+
 
                   }
                   // Otherwise let 'em know anyway
@@ -1099,18 +1097,16 @@ export class MessagesPage {
           res = data.json();
 
           if (data.status === 200) {
+
+            this.inboxData.startindex = 0;
+            this.inboxLists = [];
             if (res.msg[0]['Error'] == 0) {
               this.conf.sendNotification(res.msg[0]['result']);
             }
-            this.strinbox = '';
-            this.inboxact = '';
-            this.inboxLists = [];
             this.selecteditems = [];
-            this.inboxData.startindex = 0;
             this.doInbox(mod);
-            this.sendLists = [];
-            this.sendData.startindex = 0;
-            this.doSend();
+            //this.doInbox(mod);
+            //this.sendData.startindex = 0;
           }
           // Otherwise let 'em know anyway
           else {
@@ -1126,82 +1122,82 @@ export class MessagesPage {
     this.onholdselectinboxsend = act;
     this.selecteditems = [];
     if (act == 'inbox') {
-      if (this.inboxLists[index]) {
-        if (this.inboxLists[index].active == '') {
-          this.inboxLists[index].active = 'active';
-          this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+      if (this.items[index]) {
+        if (this.items[index].active == '') {
+          this.items[index].active = 'active';
+          this.items[index].logo = 'assets/imgs/tick_white_background.png';
         } else {
-          this.inboxLists[index].active = '';
-          this.inboxLists[index].logo = 'assets/imgs/tick_white_background.png';
+          this.items[index].active = '';
+          this.items[index].logo = 'assets/imgs/tick_white_background.png';
         }
       }
 
 
 
-      for (let i = 0; i < this.inboxLists.length; i++) {
-        if (this.inboxLists[i].active == 'active') {
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].active == 'active') {
           this.selecteditems.push({
-            message_id: this.inboxLists[i].message_id,
-            sender_id: this.inboxLists[i].sender_id,
-            messages_subject: this.inboxLists[i].messages_subject,
-            message_body: this.inboxLists[i].message_body,
-            message_body_html: this.inboxLists[i].message_body_html,
-            message_date: this.inboxLists[i].message_date,
-            message_date_mobileview: this.inboxLists[i].message_date_mobileview,
-            message_date_mobileview_list: this.inboxLists[i].message_date_mobileview_list,
-            is_favorite: this.inboxLists[i].is_favorite,
-            message_readstatus: this.inboxLists[i].message_readstatus,
-            message_priority: this.inboxLists[i].message_priority,
-            priority_image: this.inboxLists[i].priority_image,
-            isreply: this.inboxLists[i].isreply,
-            time_ago: this.inboxLists[i].time_ago,
-            receiver_id: this.inboxLists[i].receiver_id,
-            attachments: this.inboxLists[i].attachments,
-            sendername: this.inboxLists[i].sendername,
-            senderphoto: this.inboxLists[i].senderphoto,
-            personalhashtag: this.inboxLists[i].personalhashtag,
-            replyall: this.inboxLists[i].replyall,
-            duration: this.inboxLists[i].duration
+            message_id: this.items[i].message_id,
+            sender_id: this.items[i].sender_id,
+            messages_subject: this.items[i].messages_subject,
+            message_body: this.items[i].message_body,
+            message_body_html: this.items[i].message_body_html,
+            message_date: this.items[i].message_date,
+            message_date_mobileview: this.items[i].message_date_mobileview,
+            message_date_mobileview_list: this.items[i].message_date_mobileview_list,
+            is_favorite: this.items[i].is_favorite,
+            message_readstatus: this.items[i].message_readstatus,
+            message_priority: this.items[i].message_priority,
+            priority_image: this.items[i].priority_image,
+            isreply: this.items[i].isreply,
+            time_ago: this.items[i].time_ago,
+            receiver_id: this.items[i].receiver_id,
+            attachments: this.items[i].attachments,
+            sendername: this.items[i].sendername,
+            senderphoto: this.items[i].senderphoto,
+            personalhashtag: this.items[i].personalhashtag,
+            replyall: this.items[i].replyall,
+            duration: this.items[i].duration
           });
         }
       }
     } else {
-      if (this.sendLists[index]) {
-        if (this.sendLists[index].active == '') {
-          this.sendLists[index].active = 'active';
-          this.sendLists[index].logo = 'assets/imgs/tick_white_background.png';
+      if (this.items[index]) {
+        if (this.items[index].active == '') {
+          this.items[index].active = 'active';
+          this.items[index].logo = 'assets/imgs/tick_white_background.png';
         } else {
-          this.sendLists[index].active = '';
-          this.sendLists[index].logo = 'assets/imgs/tick_white_background.png';
+          this.items[index].active = '';
+          this.items[index].logo = 'assets/imgs/tick_white_background.png';
         }
       }
 
 
 
-      for (let i = 0; i < this.sendLists.length; i++) {
-        if (this.sendLists[i].active == 'active') {
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].active == 'active') {
           this.selecteditems.push({
-            message_id: this.sendLists[i].message_id,
-            sender_id: this.sendLists[i].sender_id,
-            messages_subject: this.sendLists[i].messages_subject,
-            message_body: this.sendLists[i].message_body,
-            message_body_html: this.sendLists[i].message_body_html,
-            message_date: this.sendLists[i].message_date,
-            message_date_mobileview: this.sendLists[i].message_date_mobileview,
-            message_date_mobileview_list: this.sendLists[i].message_date_mobileview_list,
-            is_favorite: this.sendLists[i].is_favorite,
-            message_readstatus: this.sendLists[i].message_readstatus,
-            message_priority: this.sendLists[i].message_priority,
-            priority_image: this.sendLists[i].priority_image,
-            isreply: this.sendLists[i].isreply,
-            time_ago: this.sendLists[i].time_ago,
-            receiver_id: this.sendLists[i].receiver_id,
-            attachments: this.sendLists[i].attachments,
-            sendername: this.sendLists[i].sendername,
-            senderphoto: this.sendLists[i].senderphoto,
-            personalhashtag: this.sendLists[i].personalhashtag,
-            replyall: this.sendLists[i].replyall,
-            duration: this.sendLists[i].duration
+            message_id: this.items[i].message_id,
+            sender_id: this.items[i].sender_id,
+            messages_subject: this.items[i].messages_subject,
+            message_body: this.items[i].message_body,
+            message_body_html: this.items[i].message_body_html,
+            message_date: this.items[i].message_date,
+            message_date_mobileview: this.items[i].message_date_mobileview,
+            message_date_mobileview_list: this.items[i].message_date_mobileview_list,
+            is_favorite: this.items[i].is_favorite,
+            message_readstatus: this.items[i].message_readstatus,
+            message_priority: this.items[i].message_priority,
+            priority_image: this.items[i].priority_image,
+            isreply: this.items[i].isreply,
+            time_ago: this.items[i].time_ago,
+            receiver_id: this.items[i].receiver_id,
+            attachments: this.items[i].attachments,
+            sendername: this.items[i].sendername,
+            senderphoto: this.items[i].senderphoto,
+            personalhashtag: this.items[i].personalhashtag,
+            replyall: this.items[i].replyall,
+            duration: this.items[i].duration
           });
         }
       }
@@ -1215,8 +1211,8 @@ export class MessagesPage {
     this.moreopenpop = 0;
     this.inboxLists = [];
     this.inb(mod);
-    this.sendLists = [];
-    this.snd()
+    //this.sendLists = [];
+    //this.snd(mod)
     this.selecteditems = [];
   }
   selectalltip(selectallopenorclose) {
@@ -1248,60 +1244,60 @@ export class MessagesPage {
   selectAll() {
     this.selecteditems = [];
     if (this.onholdselectinboxsend == 'inbox') {
-      for (let i = 0; i < this.inboxLists.length; i++) {
-        this.inboxLists[i].active = 'active';
-        this.inboxLists[i].logo = 'assets/imgs/tick_white_background.png';
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].active = 'active';
+        this.items[i].logo = 'assets/imgs/tick_white_background.png';
         this.selecteditems.push({
-          message_id: this.inboxLists[i].message_id,
-          sender_id: this.inboxLists[i].sender_id,
-          messages_subject: this.inboxLists[i].messages_subject,
-          message_body: this.inboxLists[i].message_body,
-          message_body_html: this.inboxLists[i].message_body_html,
-          message_date: this.inboxLists[i].message_date,
-          message_date_mobileview: this.inboxLists[i].message_date_mobileview,
-          message_date_mobileview_list: this.inboxLists[i].message_date_mobileview_list,
-          is_favorite: this.inboxLists[i].is_favorite,
-          message_readstatus: this.inboxLists[i].message_readstatus,
-          message_priority: this.inboxLists[i].message_priority,
-          priority_image: this.inboxLists[i].priority_image,
-          isreply: this.inboxLists[i].isreply,
-          time_ago: this.inboxLists[i].time_ago,
-          receiver_id: this.inboxLists[i].receiver_id,
-          attachments: this.inboxLists[i].attachments,
-          sendername: this.inboxLists[i].sendername,
-          senderphoto: this.inboxLists[i].senderphoto,
-          personalhashtag: this.inboxLists[i].personalhashtag,
-          replyall: this.inboxLists[i].replyall,
-          duration: this.inboxLists[i].duration
+          message_id: this.items[i].message_id,
+          sender_id: this.items[i].sender_id,
+          messages_subject: this.items[i].messages_subject,
+          message_body: this.items[i].message_body,
+          message_body_html: this.items[i].message_body_html,
+          message_date: this.items[i].message_date,
+          message_date_mobileview: this.items[i].message_date_mobileview,
+          message_date_mobileview_list: this.items[i].message_date_mobileview_list,
+          is_favorite: this.items[i].is_favorite,
+          message_readstatus: this.items[i].message_readstatus,
+          message_priority: this.items[i].message_priority,
+          priority_image: this.items[i].priority_image,
+          isreply: this.items[i].isreply,
+          time_ago: this.items[i].time_ago,
+          receiver_id: this.items[i].receiver_id,
+          attachments: this.items[i].attachments,
+          sendername: this.items[i].sendername,
+          senderphoto: this.items[i].senderphoto,
+          personalhashtag: this.items[i].personalhashtag,
+          replyall: this.items[i].replyall,
+          duration: this.items[i].duration
         }
         );
       }
     } else {
-      for (let i = 0; i < this.sendLists.length; i++) {
-        this.sendLists[i].active = 'active';
-        this.sendLists[i].logo = 'assets/imgs/tick_white_background.png';
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].active = 'active';
+        this.items[i].logo = 'assets/imgs/tick_white_background.png';
         this.selecteditems.push({
-          message_id: this.sendLists[i].message_id,
-          sender_id: this.sendLists[i].sender_id,
-          messages_subject: this.sendLists[i].messages_subject,
-          message_body: this.sendLists[i].message_body,
-          message_body_html: this.sendLists[i].message_body_html,
-          message_date: this.sendLists[i].message_date,
-          message_date_mobileview: this.sendLists[i].message_date_mobileview,
-          message_date_mobileview_list: this.sendLists[i].message_date_mobileview_list,
-          is_favorite: this.sendLists[i].is_favorite,
-          message_readstatus: this.sendLists[i].message_readstatus,
-          message_priority: this.sendLists[i].message_priority,
-          priority_image: this.sendLists[i].priority_image,
-          isreply: this.sendLists[i].isreply,
-          time_ago: this.sendLists[i].time_ago,
-          receiver_id: this.sendLists[i].receiver_id,
-          attachments: this.sendLists[i].attachments,
-          sendername: this.sendLists[i].sendername,
-          senderphoto: this.sendLists[i].senderphoto,
-          personalhashtag: this.sendLists[i].personalhashtag,
-          replyall: this.sendLists[i].replyall,
-          duration: this.sendLists[i].duration
+          message_id: this.items[i].message_id,
+          sender_id: this.items[i].sender_id,
+          messages_subject: this.items[i].messages_subject,
+          message_body: this.items[i].message_body,
+          message_body_html: this.items[i].message_body_html,
+          message_date: this.items[i].message_date,
+          message_date_mobileview: this.items[i].message_date_mobileview,
+          message_date_mobileview_list: this.items[i].message_date_mobileview_list,
+          is_favorite: this.items[i].is_favorite,
+          message_readstatus: this.items[i].message_readstatus,
+          message_priority: this.items[i].message_priority,
+          priority_image: this.items[i].priority_image,
+          isreply: this.items[i].isreply,
+          time_ago: this.items[i].time_ago,
+          receiver_id: this.items[i].receiver_id,
+          attachments: this.items[i].attachments,
+          sendername: this.items[i].sendername,
+          senderphoto: this.items[i].senderphoto,
+          personalhashtag: this.items[i].personalhashtag,
+          replyall: this.items[i].replyall,
+          duration: this.items[i].duration
         }
         );
       }
@@ -1315,7 +1311,7 @@ export class MessagesPage {
         this.items.push(newData[i]);
       }
       infiniteScroll.complete();
-    
+
       if (this.items.length >= this.totalCount) {
         this.isInfiniteHide = false
         this.loadingmoretext = 'No more data.';
@@ -1324,6 +1320,7 @@ export class MessagesPage {
       }
     });
   }
+  /*
   doSendInfinite(infiniteScrollsend) {
     this.mockProvider.getAsyncData(this.sendLists, this.itemssenditems.length, this.pageperrecord).then((newData) => {
       for (var i = 0; i < newData.length; i++) {
@@ -1339,5 +1336,6 @@ export class MessagesPage {
     });
 
   }
+  */
 
 }
