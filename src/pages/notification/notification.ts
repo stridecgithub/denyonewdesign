@@ -108,7 +108,6 @@ export class NotificationPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/changebellnotify";
-
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -212,7 +211,7 @@ export class NotificationPage {
   }
 
   doNotification() {
-   
+
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -229,7 +228,7 @@ export class NotificationPage {
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         res = data.json();
         if (res.notification != undefined) {
           if (res.notification.length > 0) {
@@ -324,11 +323,11 @@ export class NotificationPage {
 
               if (res.notification.length == parseInt(notifications) + 1) {
                 this.conf.presentLoading(0);
-              } 
+              }
 
               this.items = this.mockProvider.getData(this.notificationAllLists, 0, this.pageperrecord);
             }
-           
+
             this.reportData.startindex += this.reportData.results;
           } else {
             this.totalCount = 0;

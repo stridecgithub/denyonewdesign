@@ -245,14 +245,17 @@ export class AlarmlogPage {
             let color;
             let ispadding;
             let inline;
+            let margintop;
             if (res.alarms[alarm].isactivealarm > 0) {
               color = '#ffffff';
               ispadding = '3px';
               inline = 'inline';
+              margintop='margintop';
             } else {
               color = '#000000';
-              ispadding = '0px';
+              ispadding = '3px';
               inline = 'normal';
+              margintop='margintop';
             }
 
             this.reportAllLists.push({
@@ -278,7 +281,8 @@ export class AlarmlogPage {
               bgcolor: res.alarms[alarm].bgcolor,
               isactivealarm: res.alarms[alarm].isactivealarm,
               color: color,
-              ispadding: ispadding
+              ispadding: ispadding,
+              margintop: margintop
 
             });
             if (res.alarms.length == parseInt(alarm) + 1) {

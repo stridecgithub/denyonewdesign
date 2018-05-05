@@ -35,16 +35,11 @@ export class LoginPage {
   utctimestring;
   constructor(public platform: Platform, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
     public fb: FormBuilder) {
-    console.log("Moment UTC:-" + moment.utc());
     this.utc = moment.utc();
     this.utctimestring = new Date(this.utc);
-    console.log("Local Time:" + this.utctimestring);
     this.timezone = new Date().getTimezoneOffset();
-    console.log("Time Zone:" + this.timezone);
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
-    console.log(moment().utcOffset(this.timezone).format());
-    console.log(moment().utcOffset("+05:30").format());
     this.dateconvert = moment().utcOffset(this.timezone).format();
     this.form = fb.group({
       "username": ["", Validators.required],
@@ -154,7 +149,6 @@ export class LoginPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/checklogin";
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();

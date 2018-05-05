@@ -61,7 +61,7 @@ export class UnitgroupPage {
   isInfiniteHide: boolean;
   pageperrecord;
   loadingmoretext;
-  constructor(private mockProvider: MockProvider,public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
+  constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController,
     public toastCtrl: ToastController, public alertCtrl: AlertController, public navParams: NavParams, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.isInfiniteHide = true;
@@ -349,9 +349,9 @@ export class UnitgroupPage {
         else {
           this.sendNotification('Something went wrong!');
         }
-      
 
-        
+
+
       });
 
   }

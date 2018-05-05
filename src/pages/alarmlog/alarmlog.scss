@@ -130,7 +130,9 @@ ion-content .scroll-content {
 		font-size: 12px;
 		}
 	}
-	
+	.margintop{
+		margin-top:-16px;
+	}
 	.load3{
 		border-bottom: 0px solid #d6d6d6;
 		ion-icon{
@@ -150,7 +152,7 @@ ion-content .scroll-content {
 			p{
 				text-align: 14px;
 				line-height: 20px;
-				margin-top: -6px;
+				
 				float: left;
 				font-size: 12px;
 			}

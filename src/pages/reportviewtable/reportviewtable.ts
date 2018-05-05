@@ -270,22 +270,16 @@ export class ReportviewtablePage {
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
-            this.posts = res.mobilehistorydata[0];
-            console.log("Posts:" + JSON.stringify(this.posts));
-            console.log("Posts Length:" + this.posts.length);
-            console.log("Head Value:" + JSON.stringify(this.headValue));
-            console.log("Head Value Length:" + this.headValue.length);
+            this.posts = res.mobilehistorydata[0];            
             for (let jk = 0; jk <= this.headValue.length; jk++) {
 
               if (jk == this.headValue.length) {
-                console.log(jk + ':Done');
                 this.presentLoading(0);
                 this.processing = 1
                 this.progress += 5;
                 this.isProgress = false;
                 this.processingtxt = "";
               } else {
-                console.log(jk + ':Processing...');
                 this.processing = 0;
                 this.processingtxt = "Processing... please wait.";
                 this.progress += jk;

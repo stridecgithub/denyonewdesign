@@ -291,28 +291,31 @@ export class UnitdetailsPage {
 		// unsubscribe here
 		this.subscription.unsubscribe();
 	}
-	ionViewWillLeave() {
-
-		//this.subscription.unsubscribe();
-
-	}
-
-
 	ionViewDidLoad() {
-		console.log(localStorage.getItem("setpointsdata"));
+		let ls;
+		if (localStorage.getItem("setpointsdata") == undefined) {
+			ls = '';
+		}
 		if (localStorage.getItem("setpointsdata") == '') {
+			ls = '';
+		}
+		if (localStorage.getItem("setpointsdata") == 'undefined') {
+			ls = '';
+		}
+		
+		if (ls == '') {
 			// Get Guage Details
 			let //body: string = "loginid=" + this.userId,
 				type2: string = "application/x-www-form-urlencoded; charset=UTF-8",
 				headers2: any = new Headers({ 'Content-Type': type2 }),
 				options2: any = new RequestOptions({ headers: headers2 }),
 				url2: any = this.apiServiceURL + "/gaugedetails/" + this.navParams.get('record').controllerid;
-			console.log("B:" + url2);
+			
 			this.http.get(url2, options2)
 				.subscribe((data) => {
 					let res1;
 					res1 = data.json();
-					console.log("Gauge Detail res1" + JSON.stringify(res1));
+					
 					if (data.json().setpoints.length > 0) {
 						localStorage.setItem("setpointsdata", JSON.stringify(data.json().setpoints));
 						/*	this.navCtrl.setRoot(UnitdetailsPage, {
@@ -381,7 +384,7 @@ export class UnitdetailsPage {
 					}
 				}, error => {
 					//this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-					console.log(error);
+					
 				});
 			// Get Guage Details
 		} else {
@@ -1063,7 +1066,6 @@ export class UnitdetailsPage {
 									this.enginestatuscolor = '#EDEDED';
 								}
 								this.dataviewactive = false;
-								console.log('Done');
 							}, error => {
 
 							});
@@ -1120,7 +1122,6 @@ export class UnitdetailsPage {
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
-		console.log("Get Unit detail by id:" + url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
