@@ -37,10 +37,10 @@ export class LoginPage {
     public fb: FormBuilder) {
     this.utc = moment.utc();
     this.utctimestring = new Date(this.utc);
-    this.timezone = new Date().getTimezoneOffset();
+   
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
-    this.dateconvert = moment().utcOffset(this.timezone).format();
+  
     this.form = fb.group({
       "username": ["", Validators.required],
       "password": ['', Validators.required]
@@ -138,17 +138,32 @@ export class LoginPage {
     if (device_token == null) {
       device_token = '';
     }
-    let body: string = "username=" + username +
-      "&password=" + password +
-      "&device_token=" + device_token +
-      "&utc=" + this.utc +
-      "&utcdate=" + JSON.stringify(this.utc) +
-      "&utcdatestring=" + this.timezone +
-      "&isapp=1",
+    let urlstr;
+    this.timezone = Math.abs(new Date().getTimezoneOffset());
+    this.dateconvert = moment().utcOffset(this.timezone).format();
+    if (this.conf.isUTC() > 0) {
+      urlstr = "username=" + username +
+        "&password=" + password +
+        "&device_token=" + device_token +
+        "&utc=" + this.utc +
+        "&utcdate=" + JSON.stringify(this.utc) +
+        "&utcdatestring=" + this.timezone +
+        "&isapp=1";
+    } else {
+      urlstr = "username=" + username +
+        "&password=" + password +
+        "&device_token=" + device_token +
+        "&utc=" + this.utc +
+        "&utcdate=" + JSON.stringify(this.utc) +
+        "&utcdatestring=" + this.timezone +
+        "&isapp=1";
+    }
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/checklogin";
+      console.log("Login URL"+urlstr+"?"+body);
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();
@@ -175,6 +190,7 @@ export class LoginPage {
 
           localStorage.setItem("RolePermissionData", JSON.stringify(res['roledata']));
           localStorage.setItem("roleactionpermissiondata", JSON.stringify(res['roleactionpermissiondata']));
+          localStorage.setItem("timezoneoffset", this.timezone);
 
           for (let rle = 0; rle < res['roleactionpermissiondata'].length; rle++) {
             let splitvalue = res['roleactionpermissiondata'][rle].toString().split(",");

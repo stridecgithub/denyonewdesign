@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { LoadingController, ToastController } from 'ionic-angular';
+import * as moment from 'moment';
+
 @Injectable()
 export class Config {
+    utc;
+    timezone;
+    dateconvert;
+    utctimestring;
     constructor(public loadingCtrl: LoadingController,
         public toastCtrl: ToastController) {
     }
     apiBaseURL() { // Base URL configuration
-        return 'http://denyoappv2.stridecdev.com';// live
-        //return 'http://denyodev1.stridecdev.com';// Testing
+        //return 'http://denyoappv2.stridecdev.com';// live
+        return 'http://denyodev1.stridecdev.com';// Testing
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";
@@ -19,12 +25,22 @@ export class Config {
     networkErrMsg() {
         return "Connection Error:Internet connection not available";
     }
-
     pagePerRecord() {
         return 10;
     }
-
-
+    isUTC() {
+        return 1;
+    }
+    convertDatetoUTC(dateStr) {
+        console.log("convertDatetoUTC calling..." + dateStr.toISOString());
+        return dateStr.toISOString();
+    }
+    convertUTCtoDate(dateStr) {
+        this.utc = moment.utc();
+        this.utctimestring = new Date(this.utc);
+        this.timezone = new Date().getTimezoneOffset();
+        this.dateconvert = moment().utcOffset(this.timezone).format();
+    }
     presentLoading(parm) {
 
         let loader;

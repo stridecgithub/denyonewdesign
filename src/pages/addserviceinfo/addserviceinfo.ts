@@ -94,9 +94,10 @@ export class AddserviceinfoPage {
   //tabBarElement: any;
   public atmentioneddata = [];
   public companyId: any;
-
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -550,22 +551,44 @@ export class AddserviceinfoPage {
       serviced_date = this.serviced_datetime
     }
     let pushnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
-    //description = localStorage.getItem("atMentionResult");
-    let body: string = "is_mobile=1" +
-      "&unitid=" + this.service_unitid +
-      "&dateandtime=" + serviced_date +
-      "&pushnotify=" + pushnotify +
-      "&description=" + encodeURIComponent(description.toString()) +     
-      "&is_denyo_support=0" +
-      "&created_by=" + this.unitDetailData.userId +
-      "&is_request=0" +
-      "&subject=" + service_subject,
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      console.log("Selected date is" + serviced_date);
+      serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1" +
+        "&unitid=" + this.service_unitid +
+        "&dateandtime=" + serviced_date +
+        "&pushnotify=" + pushnotify +
+        "&description=" + encodeURIComponent(description.toString()) +
+        "&is_denyo_support=0" +
+        "&created_by=" + this.unitDetailData.userId +
+        "&is_request=0" +
+        "&current_datetime=" + current_datetime +
+        "&subject=" + service_subject+
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1" +
+        "&unitid=" + this.service_unitid +
+        "&dateandtime=" + serviced_date +
+        "&pushnotify=" + pushnotify +
+        "&description=" + encodeURIComponent(description.toString()) +
+        "&is_denyo_support=0" +
+        "&created_by=" + this.unitDetailData.userId +
+        "&is_request=0" +
+        "&subject=" + service_subject;
+    }
+
+    let body: string = urlstr,
 
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-
+    console.log(url + "?" + body);
+    //this.showAlert('newserviceschedule', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
@@ -581,9 +604,9 @@ export class AddserviceinfoPage {
           //}
           // this.conf.sendNotification(`New service scheduled added successfully`);
           this.conf.sendNotification(res.msg[0]['result']);
-          if(res.msg[0]['pushid']!=''){
+          if (res.msg[0]['pushid'] != '') {
             this.quickPush(res.msg[0]['pushid']);
-          }         
+          }
           this.navCtrl.setRoot(ServicinginfoPage, {
             record: this.NP.get("record")
           });

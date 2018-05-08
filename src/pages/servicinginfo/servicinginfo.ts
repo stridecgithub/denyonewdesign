@@ -15,7 +15,6 @@ import { ServicedetailsPage } from "../servicedetails/servicedetails";
 import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import { ModalPage } from '../modal/modal';
 import { MockProvider } from '../../providers/pagination/pagination';
-
 /**
  * Generated class for the ServicinginfoPage page.
  *
@@ -49,7 +48,7 @@ export class ServicinginfoPage {
       sort: 'service_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results:  200000
+      results: 200000
     }
   public historyData: any =
     {
@@ -57,7 +56,7 @@ export class ServicinginfoPage {
       sort: 'service_id',
       sortascdesc: 'desc',
       startindex: 0,
-      results:  200000
+      results: 200000
     }
   public unitDetailData: any = {
     userId: '',
@@ -89,9 +88,12 @@ export class ServicinginfoPage {
   items: any;
   isInfiniteHide: boolean;
   pageperrecord;
+  timezoneoffset;
   constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
+    console.log("Current Time Zone Offset:" + this.timezoneoffset);
     this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -286,29 +288,33 @@ export class ServicinginfoPage {
     } else {
       this.unit_id = editItem.service_unitid;
     }
+
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
+    }
+
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
+      url: any = urlstr;
     let res;
-
+    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
         res = data.json();
-
-
         if (res.services.length > 0) {
           this.upcomingAllLists = res.services;
-
-
-
           this.totalCountUpcoming = res.totalCountUpcoming;
           this.upcomingData.startindex += this.upcomingData.results;
           this.loadingMoreDataContent = 'Loading More Data';
           for (var i = 0; i < res.services.length; i++) {
             this.photo = res.services[i].user_photo;
-
           }
 
         } else {
@@ -596,12 +602,22 @@ export class ServicinginfoPage {
     } else {
       this.unit_id = editItem.service_unitid;
     }
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
+    }
+
+
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
+      url: any = urlstr;
     let res;
-
+    console.log("History URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);

@@ -112,9 +112,10 @@ export class ServicedetailsPage {
   service_time;
   hoursadd24hourformat;
   monthstr;
+  timezoneoffset;
   constructor(public app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -659,35 +660,65 @@ export class ServicedetailsPage {
     // service_subject = 'my service';
     let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
     let descriptionnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
-    let body: string = "is_mobile=1" +
-
-      "&service_unitid=" + this.service_unitid +
-      "&serviced_datetime=" + serviced_time +
-      "&serviceid=" + this.service_id +
-      "&time=" + serviced_time +
-      "&service_status=" + status +
-      "&service_scheduled_date=" + serviced_date +
-      "&pushnotify=" + pushnotify +
-      "&descriptionnotify=" + descriptionnotify +
-      "&description=" + encodeURIComponent(description.toString()) +
-      "&service_remark=" + encodeURIComponent(service_remark.toString()) +
-      "&service_description=" +
-      "&next_service_date=" + nextServiceDate +
-      "&next_service_date_selected=" + this.next_service_date_selected +
-      "&is_denyo_support=" + is_denyo_support +
-      "&serviced_by=" + serviced_by +
-      "&created_by=" + this.unitDetailData.userId +
-      "&is_request=" + is_request +
-      "&service_subject=" + service_subject +
-      "&micro_timestamp=" + micro_timestamp +
-      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
 
 
-
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      console.log("Selected date is" + serviced_date);
+      serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1" +
+        "&service_unitid=" + this.service_unitid +
+        "&serviced_datetime=" + serviced_time +
+        "&serviceid=" + this.service_id +
+        "&time=" + serviced_time +
+        "&service_status=" + status +
+        "&service_scheduled_date=" + serviced_date +
+        "&pushnotify=" + pushnotify +
+        "&descriptionnotify=" + descriptionnotify +
+        "&description=" + encodeURIComponent(description.toString()) +
+        "&service_remark=" + encodeURIComponent(service_remark.toString()) +
+        "&service_description=" +
+        "&next_service_date=" + nextServiceDate +
+        "&next_service_date_selected=" + this.next_service_date_selected +
+        "&is_denyo_support=" + is_denyo_support +
+        "&serviced_by=" + serviced_by +
+        "&created_by=" + this.unitDetailData.userId +
+        "&is_request=" + is_request +
+        "&service_subject=" + service_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists) +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1" +
+        "&service_unitid=" + this.service_unitid +
+        "&serviced_datetime=" + serviced_time +
+        "&serviceid=" + this.service_id +
+        "&time=" + serviced_time +
+        "&service_status=" + status +
+        "&service_scheduled_date=" + serviced_date +
+        "&pushnotify=" + pushnotify +
+        "&descriptionnotify=" + descriptionnotify +
+        "&description=" + encodeURIComponent(description.toString()) +
+        "&service_remark=" + encodeURIComponent(service_remark.toString()) +
+        "&service_description=" +
+        "&next_service_date=" + nextServiceDate +
+        "&next_service_date_selected=" + this.next_service_date_selected +
+        "&is_denyo_support=" + is_denyo_support +
+        "&serviced_by=" + serviced_by +
+        "&created_by=" + this.unitDetailData.userId +
+        "&is_request=" + is_request +
+        "&service_subject=" + service_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists);
+    }
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
+    console.log("Service Update URL:" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
