@@ -63,8 +63,10 @@ export class AddrequestsupportPage {
   }
   public hideActionButton = true;
   //tabBarElement: any;
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
     private ngZone: NgZone) {
+      this.timezoneoffset = localStorage.getItem("timezoneoffset");
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -77,7 +79,6 @@ export class AddrequestsupportPage {
         });
       });
     });
-
     this.uploadcount = 10;
     this.unitDetailData.loginas = localStorage.getItem("userInfoName");
     this.unitDetailData.userId = localStorage.getItem("userInfoId");
@@ -329,21 +330,67 @@ export class AddrequestsupportPage {
     this.serviced_datetime = serviced_datetime.split("T");
     //let timevalue = this.hrvalue + ":" + minvalue + "" + ampmstr;
     let timevalue = this.hrvalue + ":" + minvalue + ":00";
-    let body: string = "is_mobile=1" +
-      //"&service_priority=" + this.service_priority +
-      "&unitid=" + this.service_unitid +
-      "&dateandtime=" + serviced_datetime +
-      // "&service_remark=" + service_remark +
-      "&description=" + service_remark +
-      "&time=" + timevalue +
-      //"&next_service_date=" + nextServiceDate +
-      "&is_denyo_support=1" +
-      "&created_by=" + this.unitDetailData.userId +
-      "&serviced_by=" + this.unitDetailData.userId +
-      "&is_request=1" +
-      "&subject=" + service_subject +
-      "&micro_timestamp=" + micro_timestamp +
-      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
+
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      console.log("Selected date is" + serviced_datetime);
+      serviced_datetime = this.conf.convertDatetoUTC(new Date(serviced_datetime));
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      /*urlstr = "is_mobile=1" +
+        "&unitid=" + this.service_unitid +
+        "&dateandtime=" + serviced_date +
+        "&pushnotify=" + pushnotify +
+        "&description=" + encodeURIComponent(description.toString()) +
+        "&is_denyo_support=0" +
+        "&created_by=" + this.unitDetailData.userId +
+        "&is_request=0" +
+      
+        "&subject=" + service_subject+
+          "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+        */
+
+      urlstr = "is_mobile=1" +
+        //"&service_priority=" + this.service_priority +
+        "&unitid=" + this.service_unitid +
+        "&dateandtime=" + serviced_datetime +
+        // "&service_remark=" + service_remark +
+        "&description=" + service_remark +
+        "&time=" + timevalue +
+        //"&next_service_date=" + nextServiceDate +
+        "&is_denyo_support=1" +
+        "&created_by=" + this.unitDetailData.userId +
+        "&serviced_by=" + this.unitDetailData.userId +
+        "&is_request=1" +
+        "&subject=" + service_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists) +
+        "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+
+    } else {
+      urlstr = "is_mobile=1" +
+        //"&service_priority=" + this.service_priority +
+        "&unitid=" + this.service_unitid +
+        "&dateandtime=" + serviced_datetime +
+        // "&service_remark=" + service_remark +
+        "&description=" + service_remark +
+        "&time=" + timevalue +
+        //"&next_service_date=" + nextServiceDate +
+        "&is_denyo_support=1" +
+        "&created_by=" + this.unitDetailData.userId +
+        "&serviced_by=" + this.unitDetailData.userId +
+        "&is_request=1" +
+        "&subject=" + service_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists);
+    }
+
+
+    let body: string = urlstr,
       //"&contact_number=" + this.contact_number +
       //"&contact_name=" + this.contact_name +
       //"&nextServiceDate=" + nextServiceDate,
@@ -454,7 +501,7 @@ export class AddrequestsupportPage {
           resouce_id: imgDataArr[0]
         });
       }
-      
+
 
       if (this.NP.get("act") == 'Add') {
         this.addedServiceImgLists = [];
@@ -592,7 +639,7 @@ export class AddrequestsupportPage {
         }, {
           text: 'From Camera',
           icon: 'md-camera',
-          handler: () => {          
+          handler: () => {
 
             const options: CameraOptions = {
               quality: 100,
@@ -604,7 +651,7 @@ export class AddrequestsupportPage {
 
 
             this.camera.getPicture(options).then((uri) => {
-             
+
               this.isSubmitted = true;
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
@@ -618,7 +665,7 @@ export class AddrequestsupportPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]

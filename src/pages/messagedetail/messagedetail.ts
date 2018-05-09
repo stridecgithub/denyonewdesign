@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController, PopoverController,App } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController, PopoverController, App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { MessagesPage } from "../messages/messages";
@@ -76,9 +76,9 @@ export class MessagedetailPage {
   // For Messages
   private activelow: string = "0";
   private activehigh: string = "0";
- 
-  constructor(public app: App,private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
-    
+  timezoneoffset;
+  constructor(public app: App, private platform: Platform, private conf: Config, public popoverCtrl: PopoverController, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -87,18 +87,18 @@ export class MessagedetailPage {
         }
         if (this.navParams.get("frompage") == 'notification') {
           this.navCtrl.setRoot(NotificationPage);
-       } else {
-         if (this.from == 'send') {
+        } else {
+          if (this.from == 'send') {
             this.navCtrl.setRoot(MessagesPage, {
-             fromtab: 'sentView'
-           });
-         } else {
+              fromtab: 'sentView'
+            });
+          } else {
             this.navCtrl.setRoot(MessagesPage, {
-             fromtab: 'inboxView'
-           });
-         }
-   
-       }
+              fromtab: 'inboxView'
+            });
+          }
+
+        }
       });
     });
 
@@ -116,11 +116,11 @@ export class MessagedetailPage {
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.close = 1;
     this.open = 0;
-   
+
   }
   action(item, action, from, replyall) {
     localStorage.setItem("microtime", '');
-     this.navCtrl.setRoot(ComposePage, {
+    this.navCtrl.setRoot(ComposePage, {
       record: item,
       action: action,
       from: from,
@@ -158,12 +158,12 @@ export class MessagedetailPage {
   ionViewDidLoad() {
 
     this.openpop = 0;
-    
+
     this.detailItem = this.navParams.get('item');
     this.from = this.navParams.get('from');
     this.favstatus = this.navParams.get('favstatus');
     this.message_readstatus = this.navParams.get('message_readstatus');
-   
+
     if (this.from == 'send') {
       this.delete_icon_only = '0';
     } else if (this.from == 'push') {
@@ -178,32 +178,38 @@ export class MessagedetailPage {
     if (this.from == 'push') {
       messageids = this.navParams.get("event_id");
     } else if (this.from == 'compose') {
-      
+
       messageids = this.navParams.get("event_id");
     } else {
       messageids = this.detailItem.message_id;
     }
-    let bodymessage: string = "messageid=" + messageids + "&loginid=" + this.userId,
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr ="messageid=" + messageids + "&loginid=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr ="messageid=" + messageids + "&loginid=" + this.userId;
+    }
+    let bodymessage: string = urlstr,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
-   
+    console.log('Message Detail' + url1 + "?" + bodymessage);
     this.conf.presentLoading(1);
     this.http.post(url1, bodymessage, options1)
       //this.http.get(url1, options1)
       .subscribe((data) => {
         this.conf.presentLoading(0)
-      
+
         this.selectEntry(data.json().messages[0]);
         // this.doAttachmentResources(data.json().messages[0].message_id);
       }, error => {
       });
-    
+
   }
- 
+
   selectEntry(item) {
-    this.priority_image='';
+    this.priority_image = '';
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
       "&message_id=" + item.message_id + "&frompage=inbox",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -222,7 +228,7 @@ export class MessagedetailPage {
           // this.conf.sendNotification('Something went wrong!');
         }
       });
-    this.priority_image='';
+    this.priority_image = '';
     this.message_date_mobileview = item.message_date_mobileview;
     this.messages_subject = item.messages_subject;
     this.messages_body = item.message_body;
@@ -230,20 +236,20 @@ export class MessagedetailPage {
     this.messageid = item.message_id;
     this.is_reply = item.isreply;
     this.priority_image = item.priority_image;
-    
-    if(this.priority_image=='arrow_active_low.png'){
+
+    if (this.priority_image == 'arrow_active_low.png') {
       this.getPrority(1);
     }
-    if(this.priority_image=='arrow_active_high.png'){
+    if (this.priority_image == 'arrow_active_high.png') {
       this.getPrority(2);
     }
 
 
     this.replyall = item.replyall;
-    
+
     this.priority_highclass = '';
     this.priority_lowclass = '';
-   
+
     if (item.message_priority == "2") {
       this.priority_highclass = "border-high";
     } else {
@@ -280,12 +286,12 @@ export class MessagedetailPage {
 
 
 
-    
+
     this.message_priority = item.message_priority;
     this.time_ago = item.time_ago;
     this.receiver_id = item.receiver_id.toLowerCase();
     let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
-   
+
 
 
     let n = this.receiver_id.includes(personalhashtag);
@@ -335,7 +341,7 @@ export class MessagedetailPage {
 
     }
     this.totalFileSize = item.totalfilesize;
-    
+
     if (item.attachments != '') {
       let ath = item.attachments.split("#");
       let flsize = item.filesizes.split("#")
@@ -348,20 +354,20 @@ export class MessagedetailPage {
           //  imgSrc: imgSrc
         });
       }
-      
+
     }
   }
 
   previous() {
     if (this.navParams.get("frompage") == 'notification') {
-       this.navCtrl.setRoot(NotificationPage);
+      this.navCtrl.setRoot(NotificationPage);
     } else {
       if (this.from == 'send') {
-         this.navCtrl.setRoot(MessagesPage, {
+        this.navCtrl.setRoot(MessagesPage, {
           fromtab: 'sentView'
         });
       } else {
-         this.navCtrl.setRoot(MessagesPage, {
+        this.navCtrl.setRoot(MessagesPage, {
           fromtab: 'inboxView'
         });
       }
@@ -369,21 +375,21 @@ export class MessagedetailPage {
     }
   }
   readAction(messageid, act, from) {
-    
+
     if (act == 'unread') {
-    
+
       this.unreadAction(messageid);
-     
+
       this.message_readstatus = 0;
       return false;
     } else if (act == 'read') {
       this.message_readstatus = 1;
-     
+
       this.readActionStatus(messageid);
-     
+
       return false;
     }
-   
+
   }
   readActionStatus(val) {
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
@@ -392,17 +398,17 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/changereadunread";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
         if (data.status === 200) {
-         
+
           if (data.json().msg[0]['Error'] == 0) {
             this.conf.sendNotification(data.json().msg[0]['result']);
           }
-         
+
 
         }
         // Otherwise let 'em know anyway
@@ -425,20 +431,20 @@ export class MessagedetailPage {
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-       
+
         if (data.status === 200) {
-         
+
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
           }
-         
+
         }
         // Otherwise let 'em know anyway
         else {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
@@ -452,17 +458,17 @@ export class MessagedetailPage {
     }
   }
   favorite(messageid) {
-   
+
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/messagefavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
-      
+
         this.favstatus = data.json().favstatus;
         if (this.favstatus == 'fav') {
           this.favstatus = 1;
@@ -473,7 +479,7 @@ export class MessagedetailPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
-         // this.conf.sendNotification('Favorite updated successfully');
+          // this.conf.sendNotification('Favorite updated successfully');
           //  this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
@@ -481,24 +487,24 @@ export class MessagedetailPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
   }
 
   sentfavorite(messageid) {
-   
+
     let body: string = "loginid=" + this.userId + "&is_mobile=1&messageid=" + messageid,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/sendmessagefavorite";
-    
-    
+
+
     this.http.post(url, body, options)
       .subscribe(data => {
-      
+
         this.favstatus = data.json().favstatus;
         if (this.favstatus == 'fav') {
           this.favstatus = 1;
@@ -509,7 +515,7 @@ export class MessagedetailPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           this.conf.sendNotification(data.json().msg.result);
-         // this.conf.sendNotification('Favorite updated successfully');
+          // this.conf.sendNotification('Favorite updated successfully');
           //  this.navCtrl.setRoot(MessagesPage);
         }
         // Otherwise let 'em know anyway
@@ -517,14 +523,14 @@ export class MessagedetailPage {
           this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
   }
 
   doConfirm(id, item, type) {
-   
+
     let confirm = this.alertCtrl.create({
       message: 'Are you sure you want to delete this message?',
       buttons: [{
@@ -557,11 +563,11 @@ export class MessagedetailPage {
     this.http.post(urlstr, bodymessage, options1)
       .subscribe((data) => {
         res = data.json();
-       
+
         if (data.status === 200) {
           if (res.msg[0]['Error'] == 0) {
             this.conf.sendNotification(res.msg[0]['result']);
-             this.navCtrl.setRoot(MessagesPage);
+            this.navCtrl.setRoot(MessagesPage);
           }
 
         }
@@ -570,7 +576,7 @@ export class MessagedetailPage {
           // this.conf.sendNotification('Something went wrong!');
         }
       }, error => {
-       
+
       });
 
 
@@ -620,12 +626,12 @@ export class MessagedetailPage {
   }
 
   saveEntry() {
-    
+
     if (this.isUploadedProcessing == false) {
       let to: string = this.form.controls["to"].value,
         copytome: string = this.form.controls["copytome"].value,
         composemessagecontent: string = this.form.controls["composemessagecontent"].value,
-        subject: string = this.form.controls["subject"].value;    
+        subject: string = this.form.controls["subject"].value;
 
       this.createEntry(this.micro_timestamp, to, copytome, composemessagecontent, subject);
 
@@ -646,7 +652,7 @@ export class MessagedetailPage {
 
     let param;
     let urlstring;
-   
+
     if (this.replyforward > 0) {
 
       let isrepfor;
@@ -684,17 +690,17 @@ export class MessagedetailPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-    
+
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.replyforward = 0;
           localStorage.setItem("microtime", "");
-        //  this.conf.sendNotification(`Message sending successfully`);
-        this.conf.sendNotification(data.json().msg[0]['result']);
+          //  this.conf.sendNotification(`Message sending successfully`);
+          this.conf.sendNotification(data.json().msg[0]['result']);
 
           this.addedImgLists = [];
           this.to = '';
@@ -708,7 +714,7 @@ export class MessagedetailPage {
       });
   }
   preview(imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-     this.navCtrl.setRoot(PreviewanddownloadPage, {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -720,8 +726,8 @@ export class MessagedetailPage {
   }
 
   doDetail(item, imagedata, frompage, from, favstatus, message_readstatus, messageid) {
-  
-     this.navCtrl.setRoot(MessageDetailViewPage, {
+
+    this.navCtrl.setRoot(MessageDetailViewPage, {
       imagedata: imagedata,
       record: this.navParams.get('item'),
       frompage: frompage,
@@ -733,24 +739,25 @@ export class MessagedetailPage {
       event_id: messageid
     });
   }
- 
+
 
   getPrority(val) {
-    
+
 
 
     if (val == "2") {
-     
+
       this.activelow = "0";
       this.activehigh = "1";
     } else if (val == "1") {
-    
+
       this.activelow = "1";
       this.activehigh = "0";
     } else {
-     
+
       this.activelow = "0";
-      this.activehigh = "0";}
+      this.activehigh = "0";
+    }
 
 
     this.message_priority = val

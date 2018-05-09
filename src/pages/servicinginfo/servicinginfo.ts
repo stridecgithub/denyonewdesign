@@ -188,7 +188,7 @@ export class ServicinginfoPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
           "&unitid=" + unitid;
-
+      console.log("Unit Detail url in Service info Page:" + url);
       this.http.get(url, options)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -303,7 +303,7 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log(url);
+    console.log("Upcoming API:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);

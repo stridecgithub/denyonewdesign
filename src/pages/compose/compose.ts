@@ -83,13 +83,11 @@ export class ComposePage {
   public atmentioneddata = [];
   existingimagecount;
   replyall;
+  timezoneoffset;
   constructor(public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
-
-
     private transfer: FileTransfer,
     private ngZone: NgZone, public platform: Platform) {
-    //this.isProgress = true;
-    //this.progress = 50;
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
 
@@ -460,37 +458,78 @@ export class ComposePage {
     // }
     let param;
     let urlstring;
+    let urlstr;
+    let current_datetime = this.conf.convertDatetoUTC(new Date());
+    console.log("current_datetime:" + current_datetime);
+    if (this.conf.isUTC() > 0) {
+      if (this.replyforward > 0) {
 
-    if (this.replyforward > 0) {
+        let isrepfor;
+        if (this.isReply > 0) {
+          isrepfor = 'Reply';
+        } else {
+          isrepfor = 'forward';
+        }
 
-      let isrepfor;
-      if (this.isReply > 0) {
-        isrepfor = 'Reply';
+        param = "is_mobile=1" +
+          "&important=" + this.message_priority +
+          "&microtime=" + micro_timestamp +
+          "&loginid=" + this.userId +
+          "&to=" + to +
+          "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
+          "&copytome=" + copytome +
+          "&submit=" + isrepfor +
+          "&forwardmsgid=" + this.messageid +
+          "&subject=" + subject +
+          "&current_datetime=" + current_datetime +
+          "&timezoneoffset=" + this.timezoneoffset;
+        urlstring = this.apiServiceURL + "/messages/replyforward";
       } else {
-        isrepfor = 'forward';
+        param = "is_mobile=1" +
+          "&important=" + this.message_priority +
+          "&microtime=" + micro_timestamp +
+          "&loginid=" + this.userId +
+          "&to=" + to +
+          "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
+          "&copytome=" + copytome +
+          "&subject=" + subject +
+          "&current_datetime=" + current_datetime +
+          "&timezoneoffset=" + this.timezoneoffset;
+        urlstring = this.apiServiceURL + "/messages/store";
+      }
+    } else {
+      if (this.replyforward > 0) {
+
+        let isrepfor;
+        if (this.isReply > 0) {
+          isrepfor = 'Reply';
+        } else {
+          isrepfor = 'forward';
+        }
+
+        param = "is_mobile=1" +
+          "&important=" + this.message_priority +
+          "&microtime=" + micro_timestamp +
+          "&loginid=" + this.userId +
+          "&to=" + to +
+          "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
+          "&copytome=" + copytome +
+          "&submit=" + isrepfor +
+          "&forwardmsgid=" + this.messageid +
+          "&subject=" + subject;
+        urlstring = this.apiServiceURL + "/messages/replyforward";
+      } else {
+        param = "is_mobile=1" +
+          "&important=" + this.message_priority +
+          "&microtime=" + micro_timestamp +
+          "&loginid=" + this.userId +
+          "&to=" + to +
+          "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
+          "&copytome=" + copytome +
+          "&subject=" + subject;
+        urlstring = this.apiServiceURL + "/messages/store";
       }
 
-      param = "is_mobile=1" +
-        "&important=" + this.message_priority +
-        "&microtime=" + micro_timestamp +
-        "&loginid=" + this.userId +
-        "&to=" + to +
-        "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
-        "&copytome=" + copytome +
-        "&submit=" + isrepfor +
-        "&forwardmsgid=" + this.messageid +
-        "&subject=" + subject;
-      urlstring = this.apiServiceURL + "/messages/replyforward";
-    } else {
-      param = "is_mobile=1" +
-        "&important=" + this.message_priority +
-        "&microtime=" + micro_timestamp +
-        "&loginid=" + this.userId +
-        "&to=" + to +
-        "&composemessagecontent=" + encodeURIComponent(composemessagecontent.toString()) +
-        "&copytome=" + copytome +
-        "&subject=" + subject;
-      urlstring = this.apiServiceURL + "/messages/store";
     }
     let body: string = param,
 
@@ -499,7 +538,7 @@ export class ComposePage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
     this.http.post(url, body, options)
-      .subscribe((data) => {       
+      .subscribe((data) => {
         // If the request was successful notify the user
         if (data.status === 200) {
 

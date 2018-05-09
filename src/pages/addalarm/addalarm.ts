@@ -65,11 +65,12 @@ export class AddalarmPage {
   code;
   trendlineshow;
   public atmentioneddata = [];
+  timezoneoffset;
   constructor(private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
 
@@ -349,7 +350,11 @@ export class AddalarmPage {
             assigned_to: string = this.form.controls["assigned_to"].value;
           //this.remark = this.form.controls["remark"].value;
           this.remark = jQuery(".remark").val();
-          alarm_assigned_date = alarm_assigned_date.split("T")[0]
+          if (this.conf.isUTC() > 0) {
+            alarm_assigned_date = alarm_assigned_date;
+          } else {
+            alarm_assigned_date = alarm_assigned_date.split("T")[0];
+          }
           if (isNet == 'offline') {
             this.networkType = this.conf.networkErrMsg();
           } else {
@@ -357,19 +362,36 @@ export class AddalarmPage {
 
             let pushnotify = this.remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
             this.isSubmitted = true;
-            let body: string = "is_mobile=1&alarmid=" + this.recordID +
-              "&alarm_assigned_by=" + this.userId +
-              "&alarm_assigned_to=" + assigned_to +
-              "&pushnotify=" + pushnotify +
-              "&alarm_remark=" + encodeURIComponent(this.remark.toString()) +
-              "&alarm_assigned_date=" + alarm_assigned_date,
+
+            let urlstr;
+            if (this.conf.isUTC() > 0) {
+              let current_datetime = this.conf.convertDatetoUTC(new Date());
+              console.log("current_datetime:" + current_datetime);
+              alarm_assigned_date = this.conf.convertDatetoUTC(new Date(alarm_assigned_date));
+              urlstr = "is_mobile=1&alarmid=" + this.recordID +
+                "&alarm_assigned_by=" + this.userId +
+                "&alarm_assigned_to=" + assigned_to +
+                "&pushnotify=" + pushnotify +
+                "&alarm_remark=" + encodeURIComponent(this.remark.toString()) +
+                "&current_datetime=" + current_datetime +
+                "&timezoneoffset=" + this.timezoneoffset +
+                "&alarm_assigned_date=" + alarm_assigned_date;
+            } else {
+              urlstr = "is_mobile=1&alarmid=" + this.recordID +
+                "&alarm_assigned_by=" + this.userId +
+                "&alarm_assigned_to=" + assigned_to +
+                "&pushnotify=" + pushnotify +
+                "&alarm_remark=" + encodeURIComponent(this.remark.toString()) +
+                "&alarm_assigned_date=" + alarm_assigned_date;
+            }
+            let body: string = urlstr,
 
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/alarms/assignalarm";
 
-
+            console.log("Assign Alarm:" + url + "?" + body);
             this.http.post(url, body, options)
               .subscribe((data) => {
                 if (data.status === 200) {
@@ -379,7 +401,7 @@ export class AddalarmPage {
                   if (data.json().msg[0]['pushid'] != '') {
                     this.quickPush(data.json().msg[0]['pushid']);
                   }
-                  
+
                   localStorage.setItem("userPhotoFile", "");
                   // localStorage.setItem("atMentionResult", '');
                   if (this.NP.get("from") == 'alarm') {

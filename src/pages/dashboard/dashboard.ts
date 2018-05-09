@@ -1261,11 +1261,32 @@ export class DashboardPage {
        return false;*/
     }
   }
-  pushTesting() {
-    this.navCtrl.setRoot(MessageDetailViewPage, {
-      event_id: 10,
-      from: 'push'
-    });
+  pushTesting(type, event_id) {
+    console.log("Type:"+type);
+    console.log("Event Id:"+event_id);
+    if (type == 'S') {
+      this.navCtrl.setRoot(ServicingDetailsPage, {
+        event_id: event_id,
+        from: 'Push'
+      });
+    } else if (type == 'M') {
+      this.navCtrl.setRoot(MessageDetailViewPage, {
+        event_id:  event_id,
+        from: 'push'
+      })
+    }else if (type == 'E') {
+      this.navCtrl.setRoot(EventDetailsEventPage, {
+        event_id:  event_id,
+        from: 'Push'
+      })
+    }else if (type == 'C') {
+      this.navCtrl.setRoot(CommentdetailsPage, {
+        event_id:  event_id,
+        from: 'Push'
+      })
+    }
+
+    
   }
 
 
@@ -1775,8 +1796,8 @@ export class DashboardPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-    
-      if (this.items.length >= this.totalCountList) {       
+
+      if (this.items.length >= this.totalCountList) {
         this.isInfiniteHide = false
       }
       infiniteScroll.complete();

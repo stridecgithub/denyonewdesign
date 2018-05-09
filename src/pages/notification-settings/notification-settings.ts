@@ -85,8 +85,10 @@ export class NotificationSettingsPage {
   contactpersonal;
   contactnumber;
   companyId;
+  timezoneoffset;
   constructor(
     public app: App, public platform: Platform, public http: Http, public alertCtrl: AlertController, public fb: FormBuilder, public conf: Config, public navCtrl: NavController, public navParams: NavParams) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -473,7 +475,7 @@ export class NotificationSettingsPage {
     confirm.present();
   }
   saveEntry() {
-    this.timezone = '2017-12-14 12:28:AM';
+    this.timezone = this.conf.convertDatetoUTC(new Date());
     let
       secondary: string = this.form.controls["contact_number_1"].value;
     if (this.form.controls["contact_number_1"].value == undefined) {
@@ -642,8 +644,10 @@ export class NotificationSettingsPage {
         if (data.json().invalidusers == '') {
           this.alarmhashtags = jQuery(".alarmhashtags").val();
           this.alarmhashtags = this.alarmhashtags.replace(/(\r\n\t|\n|\r\t)/gm, " ");
-          if (this.isEdited > 0) {
-            let body: string = "is_mobile=1&unit_id=" + this.isEdited +
+          let current_datetime = this.conf.convertDatetoUTC(new Date());
+          let urlstr;
+          if (this.conf.isUTC() > 0) {
+            urlstr = "is_mobile=1&unit_id=" + this.isEdited +
               "&unitname=" + this.unitname +
               "&projectname=" + this.projectname +
               "&controllerid=" + this.controllerid +
@@ -659,7 +663,30 @@ export class NotificationSettingsPage {
               "&alarmnotificationto=" + this.alarmhashtags +
               "&timezone=" + this.timezone +
               "&companys_id=" + this.companys_id +
-              "&unitgroups_id=" + this.unitgroups_id,
+              "&current_datetime=" + current_datetime +
+              "&timezoneoffset=" + this.timezoneoffset +
+              "&unitgroups_id=" + this.unitgroups_id;
+          } else {
+            urlstr = "is_mobile=1&unit_id=" + this.isEdited +
+              "&unitname=" + this.unitname +
+              "&projectname=" + this.projectname +
+              "&controllerid=" + this.controllerid +
+              "&neaplateno=" + this.neaplateno +
+              "&serial_number=" + this.serial_number +
+              "&models_id=" + this.models_id +
+              "&location=" + this.location +
+              "&createdby=" + this.userId +
+              "&updatedby=" + this.userId +
+              "&longitude=" + this.longitude +
+              "&latitude=" + this.latitude +
+              "&contactInfo=" + JSON.stringify(this.contactInfo) +
+              "&alarmnotificationto=" + this.alarmhashtags +
+              "&timezone=" + this.timezone +
+              "&companys_id=" + this.companys_id +
+              "&unitgroups_id=" + this.unitgroups_id;
+          }
+          if (this.isEdited > 0) {
+            let body: string = urlstr,
 
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
@@ -698,7 +725,10 @@ export class NotificationSettingsPage {
               }, error => {
               });
           } else {
-            let body: string = "is_mobile=1&unitname=" + this.unitname +
+            let current_datetime = this.conf.convertDatetoUTC(new Date());
+            let urlstr;
+            if (this.conf.isUTC() > 0) {
+              urlstr="is_mobile=1&unitname=" + this.unitname +
               "&projectname=" + this.projectname +
               "&controllerid=" + this.controllerid +
               "&neaplateno=" + this.neaplateno +
@@ -713,7 +743,28 @@ export class NotificationSettingsPage {
               "&alarmnotificationto=" + this.alarmhashtags +
               "&timezone=" + this.timezone +
               "&companys_id=" + this.companys_id +
-              "&unitgroups_id=" + this.unitgroups_id,
+              "&current_datetime=" + current_datetime +
+              "&timezoneoffset=" + this.timezoneoffset +
+              "&unitgroups_id=" + this.unitgroups_id;
+            }else{
+              urlstr="is_mobile=1&unitname=" + this.unitname +
+              "&projectname=" + this.projectname +
+              "&controllerid=" + this.controllerid +
+              "&neaplateno=" + this.neaplateno +
+              "&serial_number=" + this.serial_number +
+              "&models_id=" + this.models_id +
+              "&location=" + this.location +
+              "&createdby=" + this.userId +
+              "&longitude=" + this.longitude +
+              "&latitude=" + this.latitude +
+              "&updatedby=" + this.userId +
+              "&contactInfo=" + JSON.stringify(this.contactInfo) +
+              "&alarmnotificationto=" + this.alarmhashtags +
+              "&timezone=" + this.timezone +
+              "&companys_id=" + this.companys_id +
+              "&unitgroups_id=" + this.unitgroups_id;
+            }
+            let body: string = urlstr,
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),

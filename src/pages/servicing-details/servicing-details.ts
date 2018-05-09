@@ -48,8 +48,10 @@ export class ServicingDetailsPage {
   //tabBarElement: any;
   service_time;
   hoursadd24hourformat;
+  timezoneoffset;
   constructor(private app: App, public navCtrl: NavController, public platform: Platform, private conf: Config, public navParams: NavParams, public http: Http, public alertCtrl: AlertController, private sanitizer: DomSanitizer) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -81,26 +83,27 @@ export class ServicingDetailsPage {
 
     if (this.navParams.get("from") == 'Push') {
       if (this.navParams.get("event_id")) {
+        let urlstr;
+        if (this.conf.isUTC() > 0) {
+          urlstr = "serviceid=" + this.navParams.get("event_id") + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
 
-
-        //  let eventType = this.navParams.get("event_type");
-
-
-
-        let body: string = "serviceid=" + this.navParams.get("event_id"),
+        } else {
+          urlstr = "serviceid=" + this.navParams.get("event_id");
+        }
+        let body: string = urlstr,
           type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/servicebyid";
-
+        console.log("Servicing Details Page URL" + url1 + "?" + body);
         this.http.post(url1, body, options1)
           .subscribe((data) => {
             this.profilePicture = data.json().servicedetail[0].user_photo;
             this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(data.json().servicedetail[0].user_photo);
-            this.item = data.json().servicedetail[0];          
+            this.item = data.json().servicedetail[0];
             localStorage.setItem("unitId", data.json().servicedetail[0].unit_id);
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
-            this.service_subject = data.json().servicedetail[0].service_subject;           
+            this.service_subject = data.json().servicedetail[0].service_subject;
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
             this.service_remark = data.json().servicedetail[0].service_remark;
             this.serviced_created_name = data.json().servicedetail[0].serviced_created_name;

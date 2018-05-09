@@ -68,7 +68,9 @@ export class UnitsPage {
   items: any;
   isInfiniteHide: boolean;
   pageperrecord;
+  timezoneoffset;
   constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.pageperrecord = this.conf.pagePerRecord();
     this.isInfiniteHide = true;
@@ -187,13 +189,21 @@ export class UnitsPage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "vendor";
     }
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr=this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    }else{
+      urlstr=this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
+    }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
-      url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
+      url: any = urlstr;
 
     let res;
+    console.log("Unit URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -593,6 +603,7 @@ export class UnitsPage {
     confirm.present();
   }
   viewondashboard(id) {
+    this.isInfiniteHide = true;
     let urlstr = "/unitlistaction?action=dashboard&unitid=" + id + "&is_mobile=1&loginid=" + this.userId
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),

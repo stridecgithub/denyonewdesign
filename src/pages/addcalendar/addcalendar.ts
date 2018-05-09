@@ -91,12 +91,12 @@ export class AddcalendarPage {
   public SERVICECREATEACCESS: any;
 
   public EVENTCREATEACCESS: any;
-
+  timezoneoffset;
   constructor(private app: App, public alertCtrl: AlertController, private conf: Config, public platform: Platform, private datePicker: DatePicker, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder) {
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -687,14 +687,43 @@ export class AddcalendarPage {
       field = "&event_title=" + event_subject;
     }
     let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
-    let body: string = "is_mobile=1&event_type="
-      + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&pushnotify=" + pushnotify + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + encodeURIComponent(service_remark.toString()) + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime,
+
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      if (serviced_datetime != '') {
+        serviced_datetime = this.conf.convertDatetoUTC(new Date(serviced_datetime));
+      }
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&event_type="
+        + type_name + field +
+        "&event_date=" + this.event_date.split("T")[0] +
+        "&pushnotify=" + pushnotify +
+        "&event_time=" + event_time +
+        "&service_unitid=" + event_unitid +
+        "&event_location=" + event_location +
+        "&service_remark=" + encodeURIComponent(service_remark.toString()) +
+        "&event_added_by=" + createdby +
+        "&serviced_by=" + createdby +
+        "&event_alldayevent=" + alldayevent +
+        "&event_end_date=" + this.event_end_date +
+        "&event_end_time=" + event_end_time +
+        "&serviced_datetime=" + serviced_datetime +
+        "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&event_type="
+        + type_name + field + "&event_date=" + this.event_date.split("T")[0] + "&pushnotify=" + pushnotify + "&event_time=" + event_time + "&service_unitid=" + event_unitid + "&event_location=" + event_location + "&service_remark=" + encodeURIComponent(service_remark.toString()) + "&event_added_by=" + createdby + "&serviced_by=" + createdby + "&event_alldayevent=" + alldayevent + "&event_end_date=" + this.event_end_date + "&event_end_time=" + event_end_time + "&serviced_datetime=" + serviced_datetime;
+
+    }
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
-
-    //this.showAlert('Add Calendar / Add Event API', url + "?" + body);
+    console.log("Add Calendar API" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();

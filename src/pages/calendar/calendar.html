@@ -215,9 +215,9 @@
 
               <div class="servicecolor"   ngClass="{{eventdetailclass}}">
                
-                <h1>
+               
                   <b> {{eventitem.event_title}}</b>
-                </h1>
+               
                 <p>{{eventitem.unitname}}
                   <br> {{eventitem.projectname}}
                   <br> {{eventitem.event_remark}}
@@ -235,7 +235,7 @@
               </div>
 
               <div   ngClass="{{eventdetailclass}} {{eventitem.eventcolor}}">
-                <h1> {{eventitem.name}}</h1>
+                {{eventitem.name}} 
                 <p>{{eventitem.unitname}}
                   <br> {{eventitem.projectname}}
                   <br> {{eventitem.event_location}}
@@ -325,7 +325,7 @@
                 <div style="white-space: normal">
                   <b>{{calendaritem.event_title}}</b>
                 </div>
-                <h1>{{calendaritem.unitname}}</h1>
+               {{calendaritem.unitname}}
                 <div style="white-space: normal">{{calendaritem.event_location}}</div>
                 <div style="white-space: normal">{{calendaritem.event_remark}}</div>
                
@@ -336,9 +336,9 @@
                 {{calendaritem.calendar_time}}
               </div>
               <div    ngClass="{{eventdetailclass}} {{calendaritem.eventcolor}}">
-                <h1>
+              
                   <b>{{calendaritem.event_title}}</b>
-                </h1>
+               
                 <p>{{calendaritem.unitname}}
                   <br> {{calendaritem.projectname}}
                   <br> {{calendaritem.event_location}}

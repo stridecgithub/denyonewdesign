@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,  NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 //import { AddalarmlistPage } from '../../pages/addalarmlist/addalarmlist';
@@ -46,12 +46,14 @@ export class CommentdetailsPage {
   //tabBarElement: any;
   eventitem;
   user_photo;
+  timezoneoffset;
   constructor(public platform: Platform, public alertCtrl: AlertController, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     }
-   
+
   }
 
   ionViewWillLeave() {
@@ -64,19 +66,24 @@ export class CommentdetailsPage {
       //this.tabBarElement.style.display = 'none';
     }
     if (this.NP.get("event_id")) {
-     // let eventType = this.NP.get("event_type");
-     
+      // let eventType = this.NP.get("event_type");
 
 
-      let body: string = "commentid=" + this.NP.get("event_id"),
+      let urlstr;
+      if (this.conf.isUTC() > 0) {
+        urlstr = "commentid=" + this.NP.get("event_id") + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+      } else {
+        urlstr = "commentid=" + this.NP.get("event_id");
+      }
+      let body: string = urlstr,
         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/getcommentdetails";
-      
+      console.log("Comment detail url:" + url1+"?"+body);
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-        
+
           this.item = data.json().comments[0];
           this.eventTitle = data.json().comments[0].comment_subject;
           this.eventitem = data.json().comments[0];
@@ -87,22 +94,22 @@ export class CommentdetailsPage {
           this.description = data.json().comments[0].comment_remark;
           this.comment_by_name_hastag = data.json().comments[0].comment_by_name_hastag;
           this.comment_by_name = data.json().comments[0].comment_by_name;
-          
-          
-          this.user_photo= data.json().comments[0].user_photo;
-         
+
+
+          this.user_photo = data.json().comments[0].user_photo;
+
           this.service_scheduled_time = data.json().comments[0].service_scheduled_time;
           this.service_dot_color = data.json().comments[0].service_dot_color;
-         
+
 
           this.comment_resources = data.json().comments[0].comment_resources;
           if (this.comment_resources != undefined && this.comment_resources != 'undefined' && this.comment_resources != '') {
-         
+
             let hashhypenhash = this.comment_resources.split("#-#");
-         
+
             for (let i = 0; i < hashhypenhash.length; i++) {
               let imgDataArr = hashhypenhash[i].split("|");
-         
+
               let imgSrc;
               imgSrc = this.apiServiceURL + "/commentimages" + '/' + imgDataArr[1];
               this.addedImgListsDetails.push({
@@ -122,7 +129,7 @@ export class CommentdetailsPage {
 
   }
   doEdit(item, act) {
-     this.navCtrl.setRoot(ServicedetailsPage, {
+    this.navCtrl.setRoot(ServicedetailsPage, {
       record: item,
       act: 'Edit',
       from: 'service'
@@ -159,7 +166,7 @@ export class CommentdetailsPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-           this.navCtrl.setRoot(CalendarPage);
+          this.navCtrl.setRoot(CalendarPage);
         }
         // Otherwise let 'em know anyway
         else {
@@ -171,17 +178,17 @@ export class CommentdetailsPage {
   }
   previous() {
     if (this.NP.get("from") == 'commentinfo') {
-       this.navCtrl.setRoot(CommentsinfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item
       });
     } else if (this.NP.get("from") == 'notification') {
-       this.navCtrl.setRoot(NotificationPage);
+      this.navCtrl.setRoot(NotificationPage);
     } else if (this.NP.get("from") == 'Push') {
-       this.navCtrl.setRoot(CommentsinfoPage, {
+      this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item
       });
     } else {
-       this.navCtrl.setRoot(CalendarPage);
+      this.navCtrl.setRoot(CalendarPage);
     }
   }
   addCalendar(item) {
@@ -189,7 +196,7 @@ export class CommentdetailsPage {
     //if (this.NP.get("from") != 'Push') {
     // this.tabBarElement.style.display = 'none';
     //}
-     this.navCtrl.setRoot(AddcommentsinfoPage,
+    this.navCtrl.setRoot(AddcommentsinfoPage,
       {
         record: item,
         type: 'comment'
@@ -228,7 +235,7 @@ export class CommentdetailsPage {
         if (data.status === 200) {
           //this.conf.sendNotification(`Comment was successfully deleted`);
           this.conf.sendNotification(data.json().msg[0]['result']);
-           this.navCtrl.setRoot(CommentsinfoPage, {
+          this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.item
           });
         }
@@ -241,7 +248,7 @@ export class CommentdetailsPage {
   }
 
   preview(imagedata, from) {
-     this.navCtrl.setRoot(PreviewanddownloadPage, {
+    this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       event_id: this.NP.get("event_id"),
       frompage: from

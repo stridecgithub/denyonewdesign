@@ -66,8 +66,10 @@ export class AlarmPage {
   items: string[];
   isInfiniteHide: boolean;
   pageperrecord;
+  timezoneoffset;
   constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -213,12 +215,19 @@ export class AlarmPage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "alarm_id";
     }
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarm" + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarm";
 
+    }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarm";
+      url: any = urlstr;
     let res;
+    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
 

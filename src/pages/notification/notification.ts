@@ -51,9 +51,11 @@ export class NotificationPage {
   items: string[];
   isInfiniteHide: boolean;
   pageperrecord;
+  timezoneoffset;
   constructor(private mockProvider: MockProvider, public app: App, private conf: Config, public platform: Platform, private sanitizer: DomSanitizer, public http: Http,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.isInfiniteHide = true;
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.pageTitle = 'Notifications';
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
@@ -219,13 +221,19 @@ export class NotificationPage {
       this.reportData.sort = "comapny";
     }
     // let editItem = this.NP.get("record");
-
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
+    }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
-      url: any = this.apiServiceURL + "/getpushnotification_app?ses_login_id=" + this.userId;
+      url: any = urlstr;
     let res;
+    console.log("Notification List" + url);
     this.http.get(url, options)
       .subscribe((data) => {
 

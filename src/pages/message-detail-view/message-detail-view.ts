@@ -72,8 +72,9 @@ export class MessageDetailViewPage {
   message_readstatus;
   favstatus: any; // 0 is unfavorite 1 is favorite
   // For Messages
+  timezoneoffset;
   constructor(public app: App,private platform: Platform, private conf: Config, formBuilder: FormBuilder, public alertCtrl: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -167,24 +168,26 @@ export class MessageDetailViewPage {
     } else {
       messageids = this.detailItem.message_id;
     }
-    let bodymessage: string = "messageid=" + messageids + "&loginid=" + this.userId,
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr ="messageid=" + messageids + "&loginid=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr ="messageid=" + messageids + "&loginid=" + this.userId;
+    }
+    let bodymessage: string = urlstr,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
     this.conf.presentLoading(1);
     this.http.post(url1, bodymessage, options1)
-      //this.http.get(url1, options1)
+    
       .subscribe((data) => {
         this.conf.presentLoading(0);
         this.selectEntry(data.json().messages[0]);
-        //this.doAttachmentResources(data.json().messages[0].message_id);
-      }, error => {
       });
-    /*}
-    if (this.from != 'push') {
-      this.doAttachmentResources(this.detailItem.message_id);
-    }*/
+   
   }
   doAttachmentResources(message_id) {
     this.addedImgLists = [];

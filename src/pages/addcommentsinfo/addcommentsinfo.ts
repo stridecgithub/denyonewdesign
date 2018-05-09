@@ -89,10 +89,11 @@ export class AddcommentsinfoPage {
   public hideActionButton = true;
   //tabBarElement: any;
   atmentioneddata = [];
-  companyId
+  companyId;
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-
+      this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -527,27 +528,44 @@ export class AddcommentsinfoPage {
       this.service_priority = '0';
     }
     let pushnotify = comments.replace(/(\r\n\t|\n|\r\t)/gm, " ");
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1" +
+        "&comment_unit_id=" + this.comment_unitid +
+        "&comment_priority=" + this.service_priority +
+        "&pushnotify=" + pushnotify +
+        "&comment_remark=" + encodeURIComponent(comments.toString()) +
+        "&comment_by=" + this.unitDetailData.userId +
+        "&comment_subject=" + comment_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&comment_date=" + current_datetime +
+        "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset +
+        "&uploadInfo=" + JSON.stringify(this.addedImgLists);
 
-    let body: string = "is_mobile=1" +
-      "&comment_unit_id=" + this.comment_unitid +
-      "&comment_priority=" + this.service_priority +
-      "&pushnotify=" + pushnotify +
-      "&comment_remark=" + encodeURIComponent(comments.toString()) +
-      "&comment_by=" + this.unitDetailData.userId +
-      "&comment_subject=" + comment_subject +
-      "&micro_timestamp=" + micro_timestamp +
-      "&comment_date=" + comment_date +
-      "&uploadInfo=" + JSON.stringify(this.addedImgLists),
-      //"&contact_number=" + this.contact_number +
-      //"&contact_name=" + this.contact_name +
-      //"&nextServiceDate=" + nextServiceDate,
+    } else {
+      urlstr = "is_mobile=1" +
+        "&comment_unit_id=" + this.comment_unitid +
+        "&comment_priority=" + this.service_priority +
+        "&pushnotify=" + pushnotify +
+        "&comment_remark=" + encodeURIComponent(comments.toString()) +
+        "&comment_by=" + this.unitDetailData.userId +
+        "&comment_subject=" + comment_subject +
+        "&micro_timestamp=" + micro_timestamp +
+        "&comment_date=" + comment_date +
+        "&uploadInfo=" + JSON.stringify(this.addedImgLists);
+    }
+    let body: string = urlstr,
+
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
 
     //this.showAlert('Store Comments:', url + "?" + body);
-
+    console.log("Comment Add URL:" + url + "?" + body)
     this.http.post(url, body, options)
       .subscribe((data) => {
 

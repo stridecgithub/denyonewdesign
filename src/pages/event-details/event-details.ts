@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams,App } from 'ionic-angular';
+import { Platform, NavController, NavParams, App } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 import { AddalarmPage } from '../../pages/addalarm/addalarm';
@@ -36,9 +36,10 @@ export class EventDetailsPage {
   // tabBarElement: any;
   frompage;
   private apiServiceURL: string = "";
-  constructor(public app: App,private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
+  timezoneoffset;
+  constructor(public app: App, private platform: Platform, private conf: Config, public navCtrl: NavController, public navParams: NavParams, public NP: NavParams, public http: Http) {
     this.apiServiceURL = this.conf.apiBaseURL();
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     //this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -70,18 +71,26 @@ export class EventDetailsPage {
     if (this.NP.get("from") != 'Push') {
       //this.tabBarElement.style.display = 'none';
     }
-   
+
     this.frompage = this.NP.get("from");
     if (this.NP.get("event_id")) {
-      let body: string = "alarmid=" + this.NP.get("event_id"),
+
+      let urlstr;
+      if (this.conf.isUTC() > 0) {
+        urlstr = "alarmid=" + this.NP.get("event_id") + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+      } else {
+        urlstr = "alarmid=" + this.NP.get("event_id");
+      }
+
+      let body: string = urlstr,
         type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/getalarmdetails";
-      
+      console.log("url" + url1 + "?" + body);
       this.http.post(url1, body, options1)
         .subscribe((data) => {
-         
+
           this.eventTitle = data.json().alarms[0].alarm_name;
           this.evenDate = data.json().alarms[0].alarm_received_formatted_date;
           this.labels = data.json().alarms[0].labels;
@@ -89,19 +98,19 @@ export class EventDetailsPage {
           this.projectname = data.json().alarms[0].projectname;
           this.location = data.json().alarms[0].location;
           this.alarm_color_code = data.json().alarms[0].alarm_color_code;
-         
+
           this.alarm_priority = data.json().alarms[0].alarm_priority;
           this.item = data.json().alarms[0];
-         
+
 
 
           let fls = this.eventTitle.includes('Fls');
-          let wrn = this.eventTitle.includes('Wrn');         
+          let wrn = this.eventTitle.includes('Wrn');
           this.alarm_priority = data.json().alarms[0].alarm_priority;
-         
+
           if (fls > 0) {
             this.alarm_priority = 3;
-            this.alarm_color_code='#c4c4c4';
+            this.alarm_color_code = '#c4c4c4';
           }
           if (wrn > 0) {
             this.alarm_priority = 2;
@@ -116,7 +125,7 @@ export class EventDetailsPage {
 
   }
   doEditAlarm(item, act) {
-  
+
     if (item.alarm_assginedby_name == '') {
       if (act == 'edit') {
         this.navCtrl.setRoot(AddalarmPage, {

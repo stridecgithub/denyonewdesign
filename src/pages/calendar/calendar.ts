@@ -61,7 +61,7 @@ interface CalendarControl {
 @Component({
   selector: 'page-calendar',
   templateUrl: 'calendar.html',
- 
+
   providers: [Config]
 })
 export class CalendarPage {
@@ -135,10 +135,12 @@ export class CalendarPage {
   devicewidth: any;
   deviceheight: any;
   eventdetailclass: any;
-  calendaradd:any;
+  calendaradd: any;
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public NP: NavParams, public navParams: NavParams, public platform: Platform, public navCtrl: NavController,
     private calendarElement: ElementRef,
-    public events: Events, private http: Http, public alertCtrl: AlertController) {     
+    public events: Events, private http: Http, public alertCtrl: AlertController) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -205,7 +207,7 @@ export class CalendarPage {
     if (this.devicewidth <= 320) {
       this.eventdetailclass = 'event-detail-device-320';
       this.calendaradd = 'calendaradd-320';
-      
+
     } else {
       this.eventdetailclass = 'event-detail';
       this.calendaradd = 'calendaradd';
@@ -542,7 +544,7 @@ export class CalendarPage {
     }, 300);
   }
 
-  stopPressPropagation = false; 
+  stopPressPropagation = false;
   eventOnPress(item: CalendarEvent, $event) {
     $event.srcEvent.stopImmediatePropagation();
     $event.srcEvent.stopPropagation();
@@ -562,7 +564,7 @@ export class CalendarPage {
 
   monthDayGridCellOnPress(item: CalendarEvent, $event) {
 
-    $event.srcEvent.stopPropagation(); 
+    $event.srcEvent.stopPropagation();
     if (this.draggingItem === null && this.tmpTapCount === 0 && !this.stopPressPropagation) {
       this.events.publish('calendar-event:month-grid-cell-press - calendar.components', item);
     }
@@ -587,18 +589,27 @@ export class CalendarPage {
   defaultDevent(currentdate, monthstr) {
 
     this.highlighteddata = [];
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr + "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
+
+    }
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&date=" + currentdate + "&month=" + monthstr + "&companyid=" + this.companyId + "" + this.typeStr;
-    
+      url: any = urlstr;
+      console.log("defaultDevent URL:" + url);
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
 
         let res = data.json();
-        
+
         this.eventIdentify = res.events;
 
         if (res.highlightdots.length > 0) {
@@ -976,11 +987,20 @@ export class CalendarPage {
       this.defaultDevent('', this.monthstr);
     }
 
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr+ "&timezoneoffset=" + this.timezoneoffset;;
+    } else {
+      urlstr = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr;
+    }
+
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/calendarv2?is_mobile=1&loginid=" + this.userId + "&companyid=" + this.companyId + "" + dateStr + "&month=" + this.monthstr + "" + typeStr;
-
+      url: any = urlstr;
+    console.log("onTimeSelected URL:" + url);
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {

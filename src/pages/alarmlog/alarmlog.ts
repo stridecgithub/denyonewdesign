@@ -64,10 +64,11 @@ export class AlarmlogPage {
   items: string[];
   isInfiniteHide: boolean;
   pageperrecord;
+  timezoneoffset;
   constructor(private mockProvider: MockProvider, private app: App, public modalCtrl: ModalController, private conf: Config, public platform: Platform, public http: Http, public navCtrl: NavController,
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams) {
     this.isInfiniteHide = true;
-
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -196,11 +197,17 @@ export class AlarmlogPage {
     if (this.reportData.sort == '') {
       this.reportData.sort = "alarm_id";
     }
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog" + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog";
 
+    }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog";
+      url: any = urlstr;
     let res;
 
     this.http.get(url, options)
@@ -250,12 +257,12 @@ export class AlarmlogPage {
               color = '#ffffff';
               ispadding = '3px';
               inline = 'inline';
-              margintop='margintop';
+              margintop = 'margintop';
             } else {
               color = '#000000';
               ispadding = '3px';
               inline = 'normal';
-              margintop='margintop';
+              margintop = 'margintop';
             }
 
             this.reportAllLists.push({
@@ -287,7 +294,7 @@ export class AlarmlogPage {
             });
             if (res.alarms.length == parseInt(alarm) + 1) {
               this.conf.presentLoading(0);
-            } 
+            }
             this.items = this.mockProvider.getData(this.reportAllLists, 0, this.pageperrecord);
           }
 

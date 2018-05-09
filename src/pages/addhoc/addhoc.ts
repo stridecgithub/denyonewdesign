@@ -87,10 +87,11 @@ export class AddhocPage {
   //tabBarElement: any;
   next_service_date_selected;
   atmentioneddata = [];
-  companyId
+  companyId;
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-
+      this.timezoneoffset = localStorage.getItem("timezoneoffset");
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -584,7 +585,14 @@ export class AddhocPage {
       nextServiceDate = '0000-00-00';
     }
     let pushnotify = service_remark.replace(/(\r\n\t|\n|\r\t)/gm, " ");
-    let body: string = "is_mobile=1" +
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      console.log("Selected date is" + serviced_date);
+      serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1" +
       "&service_priority=" + this.service_priority +
       "&service_unitid=" + this.service_unitid +
       "&serviced_datetime=" + serviced_date +
@@ -600,7 +608,32 @@ export class AddhocPage {
       "&is_request=" + is_request +
       "&service_subject=" + service_subject +
       "&micro_timestamp=" + micro_timestamp +
-      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists),
+      "&current_datetime=" + current_datetime +
+      "&timezoneoffset=" + this.timezoneoffset+
+      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists);  
+    } else {
+      urlstr = "is_mobile=1" +
+      "&service_priority=" + this.service_priority +
+      "&service_unitid=" + this.service_unitid +
+      "&serviced_datetime=" + serviced_date +
+      "&service_scheduled_date=" + serviced_date +
+      "&time=" + serviced_time +
+      "&pushnotify=" + pushnotify +
+      "&service_remark=" + encodeURIComponent(service_remark.toString()) +
+      "&next_service_date=" + nextServiceDate +
+      "&next_service_date_selected=" + this.next_service_date_selected +
+      "&is_denyo_support=" + is_denyo_support +
+      "&serviced_by=" + this.unitDetailData.userId +// "&serviced_by=" + this.unitDetailData.userId +
+      "&created_by=" + this.unitDetailData.userId +
+      "&is_request=" + is_request +
+      "&service_subject=" + service_subject +
+      "&micro_timestamp=" + micro_timestamp +
+      "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists);
+    }
+
+
+
+    let body: string = urlstr,
 
 
 
