@@ -38,11 +38,13 @@ export class AddreporttemplatePage {
   public recordID: any = null;
   public isEdited: boolean = false;
   private apiServiceURL: string = "";
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
@@ -168,14 +170,25 @@ export class AddreporttemplatePage {
     if (this.getCheckboxData.length == 0) {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
-      let templatename: string = this.form.controls["templatename"].value
-      let body: string = "is_mobile=1&templatename=" + templatename + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId,
+      let templatename: string = this.form.controls["templatename"].value;
+
+      let urlstr;
+      if (this.conf.isUTC() > 0) {
+        let current_datetime = this.conf.convertDatetoUTC(new Date());
+        console.log("current_datetime:" + current_datetime);
+        urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId + "&current_datetime=" + current_datetime +
+          "&timezoneoffset=" + this.timezoneoffset;
+      } else {
+        urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId;
+      }
+
+      let body: string = urlstr,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/update";
 
-
+        console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
@@ -211,12 +224,24 @@ export class AddreporttemplatePage {
       this.sendNotification('Checkbox ateast one should be selected');
     } else {
 
-      let templatename: string = this.form.controls["templatename"].value
-      let body: string = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId,
+      let templatename: string = this.form.controls["templatename"].value;
+
+      let urlstr;
+      if (this.conf.isUTC() > 0) {
+        let current_datetime = this.conf.convertDatetoUTC(new Date());
+        console.log("current_datetime:" + current_datetime);
+        urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId + "&current_datetime=" + current_datetime +
+          "&timezoneoffset=" + this.timezoneoffset;
+      } else {
+        urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId;
+      }
+
+      let body: string = urlstr,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/store";
+      console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();

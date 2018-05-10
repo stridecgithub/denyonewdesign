@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform,App } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -81,7 +81,8 @@ export class AdduserPage {
   public responseResultRole = [];
   public responseResultRoleDropDown = [];
   companyId;
-  constructor(private app:App,private conf: Config, public nav: NavController,
+  timezoneoffset;
+  constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
@@ -90,6 +91,7 @@ export class AdduserPage {
     , private transfer: FileTransfer,
     private ngZone: NgZone, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.addedImgLists = this.apiServiceURL + "/images/default.png";
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -105,16 +107,16 @@ export class AdduserPage {
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     // Create form builder validation rules
-    this.form = fb.group({     
+    this.form = fb.group({
       "first_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "last_name": ["", Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       "country": ["", Validators.required],
       "contact": ["", Validators.compose([Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.required])],
       'email': ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.pattern(/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i)])],
-      "username": ["", Validators.compose([Validators.pattern(/^[a-zA-Z0-9][a-zA-Z0-9\\s]+$/),Validators.maxLength(30), Validators.required])],
+      "username": ["", Validators.compose([Validators.pattern(/^[a-zA-Z0-9][a-zA-Z0-9\\s]+$/), Validators.maxLength(30), Validators.required])],
 
 
-     // /(^\w+)\s?/
+      // /(^\w+)\s?/
 
       "password": ["", Validators.required],
       "re_password": ["", Validators.required],
@@ -136,19 +138,19 @@ export class AdduserPage {
   }
 
   matchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
-    
+
     return (group: FormGroup) => {
-     
+
       let passwordInput = group.controls[passwordKey];
       let passwordConfirmationInput = group.controls[passwordConfirmationKey];
       if (passwordInput.value !== passwordConfirmationInput.value) {
-       
+
         return passwordConfirmationInput.setErrors({ notEquivalent: true })
       }
     }
   }
   ionViewDidLoad() {
-   
+
     this.pageLoad();
 
   }
@@ -170,7 +172,7 @@ export class AdduserPage {
       .subscribe(data => {
         res = data.json();
         this.responseResultRole = res.roles;
-        
+
         if (this.responseResultRole.length > 0) {
           for (let role in this.responseResultRole) {
 
@@ -200,19 +202,19 @@ export class AdduserPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-   
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
 
-   
+
     if (this.NP.get("record")) {
-     
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit User';
@@ -221,7 +223,7 @@ export class AdduserPage {
       if (this.NP.get("record").photo) {
         if (this.NP.get("record").photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
-         
+
         }
       }
       let editItem = this.NP.get("record");
@@ -248,18 +250,18 @@ export class AdduserPage {
       let info = this.NP.get("uservalue");
       this.pageTitle = 'Edit User';
       //var objects = JSON.parse(info);
-     
+
       for (var key in info) {
-      
+
         let keyindex;
         if (this.NP.get("record")) {
           keyindex = 0;
         } else {
           keyindex = 1;
         }
-       
+
         if (key == keyindex) {
-        
+
           this.first_name = info[key].first_name;
           this.last_name = info[key].last_name;
           this.email = info[key].email;
@@ -273,9 +275,9 @@ export class AdduserPage {
             this.contact = this.contact;
           }
 
-         
+
         } else {
-         
+
           this.first_name = info[0].first_name;
           this.last_name = info[0].last_name;
           this.email = info[0].email;
@@ -291,15 +293,15 @@ export class AdduserPage {
           }
 
 
-         
+
         }
-       
+
       }
 
       if (this.NP.get("uservalue")[0].photo) {
         if (this.NP.get("uservalue")[0].photo != 'undefined') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
-          
+
         }
       }
     }
@@ -311,13 +313,13 @@ export class AdduserPage {
   }
 
   getPrimaryContact(ev) {
-    
+
     let char = ev.target.value.toString();
     if (char.length > 5) {
-    
+
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-     
+
       this.borderbottomredvalidation = '';
     }
   }
@@ -330,13 +332,13 @@ export class AdduserPage {
     this.email = item.email;
     this.country = item.country;
     this.contact = item.contact_number;
-   
+
 
 
     this.photo = item.photo;
     localStorage.setItem("photofromgallery", this.photo);
     this.recordID = item.staff_id;
-   
+
 
     this.username = item.username;
     this.password = item.password;
@@ -345,7 +347,7 @@ export class AdduserPage {
     this.role = item.role_id;
     this.job_position = item.job_position;
     this.company_group = item.company_id;
-   
+
     this.report_to = item.report_to;
     this.getUserListData();
 
@@ -370,58 +372,82 @@ export class AdduserPage {
 
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-       
+
         if (data.status === 200) {
-         
+
           if (data.json().msg[0].Error > 0) {
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
             this.sendNotification(data.json().message);
-           
+
             let uploadfromgallery = localStorage.getItem("photofromgallery");
 
             if (uploadfromgallery != undefined) {
-             
+
               this.photo = uploadfromgallery;
             }
             if (this.photo == undefined) {
-              
+
               this.photo = '';
             }
             if (this.photo == 'undefined') {
-              
+
               this.photo = '';
             }
             if (this.photo == '') {
-              
+
               this.photo = '';
             }
             contact = contact.replace("+", "%2B");
-            let body: string = "is_mobile=1&firstname=" + this.first_name +
-              "&lastname=" + this.last_name +
-              "&photo=" + this.photo +
-              "&email=" + this.email +
-              "&country_id=" + this.country +
-              "&contact_number=" + contact +
-              "&createdby=" + createdby +
-              "&updatedby=" + createdby +
-              "&username=" + username +
-              "&password=" + password +
-              "&role_id=" + role +
-              "&personalhashtag=" + hashtag +
-              "&report_to=" + report_to +
-              "&company_id=" + company_group +
-              "&job_position=" + job_position,
+            let urlstr;
+            if (this.conf.isUTC() > 0) {
+              let current_datetime = this.conf.convertDatetoUTC(new Date());
+              console.log("current_datetime:" + current_datetime);
+              urlstr = "is_mobile=1&firstname=" + this.first_name +
+                "&lastname=" + this.last_name +
+                "&photo=" + this.photo +
+                "&email=" + this.email +
+                "&country_id=" + this.country +
+                "&contact_number=" + contact +
+                "&createdby=" + createdby +
+                "&updatedby=" + createdby +
+                "&username=" + username +
+                "&password=" + password +
+                "&role_id=" + role +
+                "&personalhashtag=" + hashtag +
+                "&report_to=" + report_to +
+                "&company_id=" + company_group +
+                "&job_position=" + job_position +
+                "&current_datetime=" + current_datetime +
+                "&timezoneoffset=" + this.timezoneoffset;
+            } else {
+              urlstr = "is_mobile=1&firstname=" + this.first_name +
+                "&lastname=" + this.last_name +
+                "&photo=" + this.photo +
+                "&email=" + this.email +
+                "&country_id=" + this.country +
+                "&contact_number=" + contact +
+                "&createdby=" + createdby +
+                "&updatedby=" + createdby +
+                "&username=" + username +
+                "&password=" + password +
+                "&role_id=" + role +
+                "&personalhashtag=" + hashtag +
+                "&report_to=" + report_to +
+                "&company_id=" + company_group +
+                "&job_position=" + job_position;
+            }
+            let body: string = urlstr,
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/store";
-           
+
 
             this.http.post(url, body, options)
               .subscribe((data) => {
-               
+
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -466,19 +492,19 @@ export class AdduserPage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-     
+
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-     
+
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-     
+
       this.photo = '';
     }
     if (this.photo == '') {
-     
+
       this.photo = '';
     }
 
@@ -490,41 +516,65 @@ export class AdduserPage {
       url1: any = this.apiServiceURL + "/checkusername";
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
-          
+
           if (data.json().msg[0].Error > 0) {
             //this.userInfo=[];
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {
-
-            let body: string = "is_mobile=1&staff_id=" + this.recordID +
-              "&firstname=" + this.first_name +
-              "&lastname=" + this.last_name +
-              "&photo=" + this.photo +
-              "&email=" + this.email +
-              "&country_id=" + this.country +
-              "&contact_number=" + contact +
-              "&createdby=" + createdby +
-              "&updatedby=" + createdby +
-              "&username=" + username +
-              "&password=" + password +
-              "&role_id=" + role +
-              "&personalhashtag=" + hashtag +
-              "&report_to=" + report_to +
-              "&company_id=" + company_group +
-              "&job_position=" + job_position,
+            let urlstr;
+            if (this.conf.isUTC() > 0) {
+              let current_datetime = this.conf.convertDatetoUTC(new Date());
+              console.log("current_datetime:" + current_datetime);
+              urlstr = "is_mobile=1&staff_id=" + this.recordID +
+                "&firstname=" + this.first_name +
+                "&lastname=" + this.last_name +
+                "&photo=" + this.photo +
+                "&email=" + this.email +
+                "&country_id=" + this.country +
+                "&contact_number=" + contact +
+                "&createdby=" + createdby +
+                "&updatedby=" + createdby +
+                "&username=" + username +
+                "&password=" + password +
+                "&role_id=" + role +
+                "&personalhashtag=" + hashtag +
+                "&report_to=" + report_to +
+                "&company_id=" + company_group +
+                "&job_position=" + job_position +
+                "&current_datetime=" + current_datetime +
+                "&timezoneoffset=" + this.timezoneoffset;
+            } else {
+              urlstr = "is_mobile=1&staff_id=" + this.recordID +
+                "&firstname=" + this.first_name +
+                "&lastname=" + this.last_name +
+                "&photo=" + this.photo +
+                "&email=" + this.email +
+                "&country_id=" + this.country +
+                "&contact_number=" + contact +
+                "&createdby=" + createdby +
+                "&updatedby=" + createdby +
+                "&username=" + username +
+                "&password=" + password +
+                "&role_id=" + role +
+                "&personalhashtag=" + hashtag +
+                "&report_to=" + report_to +
+                "&company_id=" + company_group +
+                "&job_position=" + job_position;
+            }
+            let body: string = urlstr,
 
               type: string = "application/x-www-form-urlencoded; charset=UTF-8",
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/staff/update";
-          
+
             this.http.post(url, body, options)
               .subscribe(data => {
-               
+
                 // If the request was successful notify the user
                 if (data.status === 200) {
                   this.hideForm = true;
@@ -604,7 +654,7 @@ export class AdduserPage {
 
     //contact = primary + " " + contact;
     contact = contact;
-   
+
     if (this.isUploadedProcessing == false) {
       if (this.isEdited) {
         this.updateEntry(first_name, last_name, email, country, contact, this.userId, role, username, password, hashtag, report_to, company_group, job_position);
@@ -703,11 +753,11 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-      
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-         
+
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
@@ -715,7 +765,7 @@ export class AdduserPage {
           else {
             this.len = res.TotalCount;
           }
-          
+
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -728,13 +778,13 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-     
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-         
+
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -749,7 +799,7 @@ export class AdduserPage {
   }
 
   onSegmentChanged() {
-   
+
     this.getUserListData();
   }
   fileChooser() {
@@ -783,7 +833,7 @@ export class AdduserPage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-            
+
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -798,7 +848,7 @@ export class AdduserPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-         
+
 
             const options: CameraOptions = {
               quality: 100,
@@ -810,7 +860,7 @@ export class AdduserPage {
 
             this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
-             
+
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -826,7 +876,7 @@ export class AdduserPage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]
@@ -838,9 +888,9 @@ export class AdduserPage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-   
+
     this.photo = fileName;
-   
+
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -857,18 +907,18 @@ export class AdduserPage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-        
-        localStorage.setItem("userPhotoFile", "");
-       
 
-     
+        localStorage.setItem("userPhotoFile", "");
+
+
+
 
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-       
+
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
@@ -881,11 +931,11 @@ export class AdduserPage {
         //  return false;
 
 
-        
+
 
       }, (err) => {
         //loading.dismiss();
-       
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }

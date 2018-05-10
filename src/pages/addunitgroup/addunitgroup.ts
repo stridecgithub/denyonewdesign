@@ -53,11 +53,13 @@ export class AddunitgroupPage {
   public recordID: any = null;
   private apiServiceURL: string = "";
   colorcode;
+  timezoneoffset;
   constructor(public app: App, private conf: Config, public nav: NavController, public popoverCtrl: PopoverController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -87,7 +89,7 @@ export class AddunitgroupPage {
       ev: '',
     });
     popover.onWillDismiss(data => {
-     
+
 
     });
   }
@@ -120,7 +122,7 @@ export class AddunitgroupPage {
   saveEntry() {
     let cname: string = this.form.controls["cname"].value,
       remark: string = this.form.controls["remark"].value;
-    
+
     if (cname.toLowerCase() == 'denyo' || cname.toLowerCase() == 'dum' || cname.toLowerCase() == 'dsg' || cname.toLowerCase() == 'denyo singapore') {
       this.sendNotification("Given Unit Group Name Not Acceptable....");
     }
@@ -137,21 +139,31 @@ export class AddunitgroupPage {
 
   }
   updateEntry(cname, ccode, remark, userid, companyid) {
-    
+
     this.isSubmitted = true;
-    let body: string = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID,
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr="is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID + "&current_datetime=" + current_datetime +
+      "&timezoneoffset=" + this.timezoneoffset;
+    }else{
+      urlstr="is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID;
+    }
+    let body: string =urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/unitgroup/update";
-    
+
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
-        
+
           this.hideForm = true;
           if (res.msg[0].result > 0) {
             this.sendNotification(res.msg[0].result);
@@ -171,8 +183,16 @@ export class AddunitgroupPage {
     this.isSubmitted = true;
     // this.isUploadedProcessing = true;
     let updatedby = createdby;
-    
-    let body: string = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + ccode + "&remark=" + remark + "&createdby=" + createdby + "&updatedby=" + updatedby + "&company_id=" + companyid,
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + ccode + "&remark=" + remark + "&createdby=" + createdby + "&updatedby=" + updatedby + "&company_id=" + companyid + "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + ccode + "&remark=" + remark + "&createdby=" + createdby + "&updatedby=" + updatedby + "&company_id=" + companyid;
+    }
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -180,17 +200,17 @@ export class AddunitgroupPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
-          
+
           this.hideForm = true;
           if (res.msg[0].result > 0) {
-           
+
             this.sendNotification(res.msg[0].result);
             return false;
           } else {
-          
+
             this.sendNotification(res.msg[0].result);
             this.nav.setRoot(UnitgroupPage);
           }
@@ -235,11 +255,11 @@ export class AddunitgroupPage {
     document.getElementById('E1E1E1').classList.remove("border-need");
     document.getElementById(colorCodeValue).classList.add("border-need");
 
-    
 
 
 
-    
+
+
     this.ccode = colorCodeValue;
   }
 
@@ -247,7 +267,7 @@ export class AddunitgroupPage {
 
 
   chooseColor() {
-   
+
   }
 
 
@@ -268,12 +288,12 @@ export class AddunitgroupPage {
       ev: myEvent
     });
     popover.onWillDismiss(data => {
-    
+
       if (data != null) {
-       
+
         this.colorcode = data
         this.ccode = data;
-        
+
       }
     });
   }

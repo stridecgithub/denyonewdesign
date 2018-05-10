@@ -51,11 +51,13 @@ export class AddcompanygroupPage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
+  timezoneoffset;
   constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -1223,7 +1225,16 @@ export class AddcompanygroupPage {
     contact = contact.replace("+", "%2B");
     address = address.replace("#", "%23");
     let updatedby = createdby;
-    let body: string = "is_mobile=1&companygroup_name=" + companygroup_name + "&usercompanyid=" + this.companyId + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby,
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&usercompanyid=" + this.companyId + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby + "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&usercompanyid=" + this.companyId + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby;
+    }
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -1266,7 +1277,20 @@ export class AddcompanygroupPage {
     contact = contact.replace("+", "%2B");
     address = address.replace("#", "%23");
     let updatedby = createdby;
-    let body: string = "is_mobile=1&companygroup_name=" + companygroup_name + "&address=" + address + "&country=" + country + "&contact=" + contact + "&companygroup_id=" + this.recordID + "&createdby=" + createdby + "&updatedby=" + updatedby,
+
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&address=" + address + "&country=" + country + "&contact=" + contact + "&companygroup_id=" + this.recordID + "&createdby=" + createdby + "&updatedby=" + updatedby + "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&address=" + address + "&country=" + country + "&contact=" + contact + "&companygroup_id=" + this.recordID + "&createdby=" + createdby + "&updatedby=" + updatedby;
+    }
+
+
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController,Platform ,App} from 'ionic-angular';
+import { NavController, NavParams, ToastController, Platform, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { RolePage } from '../role/role';
@@ -24,129 +24,129 @@ import { Config } from '../../config/config';
 export class AddrolePage {
   // Define FormBuilder /model properties
   public loginas: any;
- 
+
   footerBar: number = 1;
   public form: FormGroup;
   public role_name: any;
   public userId: any;
   public msgcount: any;
   public notcount: any;
- 
-   public isSubmitted: boolean = false;
+
+  public isSubmitted: boolean = false;
   public roleperMissionData = [];
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
   //public dashboardviewmap: boolean = false;
   public rolepermissionData: any =
-  {
-    dashboardviewmap: false,
-    dashboardcreatemap: false,
-    dashboardeditmap: false,
-    dashboarddeletemap: false,
-    dashboardhidemap: false,
-    //Dashboard Units
-    dashboardviewunits: false,
-    dashboardcreateunits: false,
-    dashboardeditunits: false,
-    dashboarddeleteunits: false,
-    dashboardhideunits: false,
-    // Calendar Events
-    calviewevents: false,
-    calcreateevents: false,
-    caleditevents: false,
-    caldeleteevents: false,
-    // Calendar Services
-    calviewservices: false,
-    calcreateservices: false,
-    caleditservices: false,
-    caldeleteservices: false,
-    // Calendar Alarm
-    calviewalarm: false,
-    calcreatealarm: false,
-    caleditalarm: false,
-    caldeletealarm: false,
-    // Units Unit List
-    univiewlist: false,
-    unicreatelist: false,
-    unieditlist: false,
-    unideletelist: false,
-    // Units Alaram
-    univiewalarm: false,
-    unicreatealarm: false,
-    unieditalarm: false,
-    unideletealarm: false,
-    // Units Services Info
-    univiewservices: false,
-    unicreateservices: false,
-    unieditservices: false,
-    unideleteservices: false,
-    // Units Comments
-    univiewcomm: false,
-    unicreatecomm: false,
-    unieditcomm: false,
-    unideletecomm: false,
-    // Units Unit Group
-    univiewgroup: false,
-    unicreategroup: false,
-    unieditgroup: false,
-    unideletegroup: false,
-    // Units Generator Model Managment
-    univiewgmm: false,
-    unicreategmm: false,
-    unieditgmm: false,
-    unideletegmm: false,
+    {
+      dashboardviewmap: false,
+      dashboardcreatemap: false,
+      dashboardeditmap: false,
+      dashboarddeletemap: false,
+      dashboardhidemap: false,
+      //Dashboard Units
+      dashboardviewunits: false,
+      dashboardcreateunits: false,
+      dashboardeditunits: false,
+      dashboarddeleteunits: false,
+      dashboardhideunits: false,
+      // Calendar Events
+      calviewevents: false,
+      calcreateevents: false,
+      caleditevents: false,
+      caldeleteevents: false,
+      // Calendar Services
+      calviewservices: false,
+      calcreateservices: false,
+      caleditservices: false,
+      caldeleteservices: false,
+      // Calendar Alarm
+      calviewalarm: false,
+      calcreatealarm: false,
+      caleditalarm: false,
+      caldeletealarm: false,
+      // Units Unit List
+      univiewlist: false,
+      unicreatelist: false,
+      unieditlist: false,
+      unideletelist: false,
+      // Units Alaram
+      univiewalarm: false,
+      unicreatealarm: false,
+      unieditalarm: false,
+      unideletealarm: false,
+      // Units Services Info
+      univiewservices: false,
+      unicreateservices: false,
+      unieditservices: false,
+      unideleteservices: false,
+      // Units Comments
+      univiewcomm: false,
+      unicreatecomm: false,
+      unieditcomm: false,
+      unideletecomm: false,
+      // Units Unit Group
+      univiewgroup: false,
+      unicreategroup: false,
+      unieditgroup: false,
+      unideletegroup: false,
+      // Units Generator Model Managment
+      univiewgmm: false,
+      unicreategmm: false,
+      unieditgmm: false,
+      unideletegmm: false,
 
-    // Reports
-    viewreports: false,
-    createreports: false,
-    editreports: false,
-    deletereports: false,
+      // Reports
+      viewreports: false,
+      createreports: false,
+      editreports: false,
+      deletereports: false,
 
 
-    // Message Inbox
-    msgviewinbox: false,
-    msgcreateinbox: false,
-    msgeditinbox: false,
-    msgdeleteinbox: false,
-    // Message Sent
-    msgviewsent: false,
-    msgcreatesent: false,
-    msgeditsent: false,
-    msgdeletesent: false,
+      // Message Inbox
+      msgviewinbox: false,
+      msgcreateinbox: false,
+      msgeditinbox: false,
+      msgdeleteinbox: false,
+      // Message Sent
+      msgviewsent: false,
+      msgcreatesent: false,
+      msgeditsent: false,
+      msgdeletesent: false,
 
-    // Settings My Account
-    setviewmyacc: false,
-    setcreatemyacc: false,
-    seteditmyacc: false,
-    setdeletemyacc: false,
-    // Settings User List
-    setviewuselst: false,
-    setcreateuselst: false,
-    setedituselst: false,
-    setdeleteuselst: false,
-    // Settings User Group
-    setviewusegru: false,
-    setcreateusegru: false,
-    seteditusegru: false,
-    setdeleteusegru: false,
-    // Settings User Role
-    setviewuserle: false,
-    setcreateuserle: false,
-    setedituserle: false,
-    setdeleteuserle: false,
-    // Settings Report Template
-    setviewtmp: false,
-    setcreatetmp: false,
-    setedittmp: false,
-    setdeletetmp: false,
-    // Settings Org Chart
-    setvieworg: false,
-    setcreateorg: false,
-    seteditorg: false,
-    setdeleteorg: false
+      // Settings My Account
+      setviewmyacc: false,
+      setcreatemyacc: false,
+      seteditmyacc: false,
+      setdeletemyacc: false,
+      // Settings User List
+      setviewuselst: false,
+      setcreateuselst: false,
+      setedituselst: false,
+      setdeleteuselst: false,
+      // Settings User Group
+      setviewusegru: false,
+      setcreateusegru: false,
+      seteditusegru: false,
+      setdeleteusegru: false,
+      // Settings User Role
+      setviewuserle: false,
+      setcreateuserle: false,
+      setedituserle: false,
+      setdeleteuserle: false,
+      // Settings Report Template
+      setviewtmp: false,
+      setcreatetmp: false,
+      setedittmp: false,
+      setdeletetmp: false,
+      // Settings Org Chart
+      setvieworg: false,
+      setcreateorg: false,
+      seteditorg: false,
+      setdeleteorg: false
 
-  }
+    }
   // Flag to hide the form upon successful completion of remote operation
   public hideForm: boolean = false;
   public hideActionButton = true;
@@ -155,13 +155,15 @@ export class AddrolePage {
   // Property to store the recordID for when an existing entry is being edited
   public recordID: any = null;
   private apiServiceURL: string = "";
-  constructor(private app:App, private conf: Config, public navCtrl: NavController,
+  timezoneoffset;
+  constructor(private app: App, private conf: Config, public navCtrl: NavController,
     public http: Http,
-    public platform:Platform,
+    public platform: Platform,
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController) {
-      this.apiServiceURL = this.conf.apiBaseURL();
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
+    this.apiServiceURL = this.conf.apiBaseURL();
     this.loginas = localStorage.getItem("userInfoName");
     // Create form builder validation rules
     this.form = fb.group({
@@ -284,7 +286,7 @@ export class AddrolePage {
 
     this.userId = localStorage.getItem("userInfoId");
 
-    
+
 
   }
 
@@ -298,18 +300,18 @@ export class AddrolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-      
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     this.resetFields();
     if (this.NP.get("record")) {
-      
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Role';
@@ -334,7 +336,7 @@ export class AddrolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/editrole?is_mobile=1&role_id=" + this.recordID;
-    
+
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1031,7 +1033,7 @@ export class AddrolePage {
         else {
           this.rolepermissionData.setdeleteorg = false;
         }
-        
+
 
       });
   }
@@ -1044,29 +1046,40 @@ export class AddrolePage {
   // supplies a variable of key with a value of create followed by the key/value pairs
   // for the record data
   createEntry(role_name, roleperMissionData, createdby) {
-    this.isSubmitted=true;
-    let body: string = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby,
+    this.isSubmitted = true;
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby + "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby;
+    }
+
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role/store";
-    
-    
+
+
 
     this.http.post(url, body, options)
       .subscribe((data) => {
-        
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
-         
+
           if (data.json().Error > 0) {
             this.roleperMissionData = [];
             this.sendNotification(data.json().message);
           } else {
             //this.sendNotification(data.json().message);
             this.sendNotification(`Role  was successfully added`);
-             this.navCtrl.setRoot(RolePage);
+            this.navCtrl.setRoot(RolePage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1084,16 +1097,27 @@ export class AddrolePage {
   // supplies a variable of key with a value of update followed by the key/value pairs
   // for the record data
   updateEntry(role_name, roleperMissionData, createdby) {
-    this.isSubmitted=true;
-    let body: string = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby+"&role_id="+this.recordID,
+    this.isSubmitted = true;
+
+    let urlstr;
+    if (this.conf.isUTC() > 0) {
+      let current_datetime = this.conf.convertDatetoUTC(new Date());
+      console.log("current_datetime:" + current_datetime);
+      urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby + "&role_id=" + this.recordID + "&current_datetime=" + current_datetime +
+        "&timezoneoffset=" + this.timezoneoffset;
+    } else {
+      urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby + "&role_id=" + this.recordID;
+    }
+
+    let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role/update";
-    
+
     this.http.post(url, body, options)
       .subscribe(data => {
-       
+
         // If the request was successful notify the user
         if (data.status === 200) {
           this.hideForm = true;
@@ -1102,7 +1126,7 @@ export class AddrolePage {
           } else {
             //this.sendNotification(data.json().message);
             this.sendNotification(`Role  was successfully updated`);
-             this.navCtrl.setRoot(RolePage);
+            this.navCtrl.setRoot(RolePage);
           }
         }
         // Otherwise let 'em know anyway
@@ -1126,7 +1150,7 @@ export class AddrolePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/role/store";
-    
+
 
     this.http.post(url, body, options)
       .subscribe(data => {
@@ -1148,7 +1172,7 @@ export class AddrolePage {
   // Determine whether we are adding a new record or amending an
   // existing record
   saveEntry() {
-    
+
     this.roleperMissionData = [];
     let role_name: string = this.form.controls["role_name"].value;
 
@@ -1416,7 +1440,7 @@ export class AddrolePage {
 
 
 
-    
+
     if (this.isEdited) {
       this.updateEntry(role_name, this.roleperMissionData, this.userId);
     }
@@ -1444,14 +1468,14 @@ export class AddrolePage {
     notification.present();
   }
   previous() {
-     this.navCtrl.setRoot(RolePage);
+    this.navCtrl.setRoot(RolePage);
   }
 
 
   notification() {
-     this.navCtrl.setRoot(NotificationPage);
+    this.navCtrl.setRoot(NotificationPage);
   }
- 
+
 
 }
 
