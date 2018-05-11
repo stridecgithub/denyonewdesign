@@ -738,7 +738,8 @@ export class AddcalendarPage {
             // localStorage.setItem("atMentionResult", '');
 
             if (data.json().msg[0]['pushid'] != '') {
-              this.quickPush(data.json().msg[0]['pushid']);
+              //this.quickPush(data.json().msg[0]['pushid']);
+              this.quickPush(data.json().msg[0]['pushidmulty']);
             }
 
             this.navCtrl.setRoot(CalendarPage);

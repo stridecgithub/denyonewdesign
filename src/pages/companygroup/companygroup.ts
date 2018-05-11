@@ -46,8 +46,8 @@ export class CompanygroupPage {
   public reportData: any =
     {
       status: '',
-      sort: 'companygroup_id',
-      sortascdesc: 'desc',
+      sort: 'companygroup_name',
+      sortascdesc: 'asc',
       startindex: 0,
       results: 200000
     }

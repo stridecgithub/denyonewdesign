@@ -548,7 +548,8 @@ export class ComposePage {
           //  this.navCtrl.setRoot(MessagesPage);
           // return false;
           if (data.json().msg[0]['pushid'] != '') {
-            this.quickPush(data.json().msg[0]['pushid']);
+            //this.quickPush(data.json().msg[0]['pushid']);
+            this.quickPush(data.json().msg[0]['pushidmulty']);
           }
           this.conf.sendNotification(data.json().msg[0]['result']);
           this.navCtrl.setRoot(MessagesPage);

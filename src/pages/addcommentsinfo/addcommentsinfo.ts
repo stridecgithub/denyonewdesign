@@ -93,7 +93,7 @@ export class AddcommentsinfoPage {
   timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera
     , private transfer: FileTransfer, private ngZone: NgZone) {
-      this.timezoneoffset = localStorage.getItem("timezoneoffset");
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -565,7 +565,7 @@ export class AddcommentsinfoPage {
       url: any = this.apiServiceURL + "/comments/store";
 
     //this.showAlert('Store Comments:', url + "?" + body);
-    console.log("Comment Add URL:" + url + "?" + body)
+    console.log("Comment Add URL:" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -576,7 +576,11 @@ export class AddcommentsinfoPage {
           localStorage.setItem("microtime", "");
           //this.conf.sendNotification(`Comments was successfully added`);
           this.conf.sendNotification(data.json().msg[0].result);
-
+          console.log("Multiple:" + data.json().msg[0]['pushidmulty']);
+          if (data.json().msg[0]['pushidmulty'] != '') {
+            this.quickPush(data.json().msg[0]['pushidmulty']);
+            //this.quickPush(data.json().msg[0]['pushid']);
+          }
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.NP.get("record")
@@ -593,7 +597,21 @@ export class AddcommentsinfoPage {
 
   }
 
-
+  quickPush(pushid) {
+    // Notification count
+    let
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+    this.http.get(url, options)
+      .subscribe((data) => {
+        // this.msgcount = data.json().msgcount;
+        //this.notcount = data.json().notifycount;
+      }, error => {
+      });
+    // Notiifcation count
+  }
 
   // Update an existing record that has been edited in the page's HTML form
   // Use angular's http post method to submit the record data

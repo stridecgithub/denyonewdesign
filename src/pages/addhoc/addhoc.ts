@@ -651,7 +651,8 @@ export class AddhocPage {
 
         if (data.status === 200) {
           if(data.json().msg[0]['pushid']!=''){
-            this.quickPush(data.json().msg[0]['pushid']);
+            //this.quickPush(data.json().msg[0]['pushid']);
+            this.quickPush(data.json().msg[0]['pushidmulty']);
           } 
           this.conf.sendNotification(data.json().msg[0].result);
 
