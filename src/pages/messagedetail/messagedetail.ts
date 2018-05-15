@@ -194,7 +194,6 @@ export class MessagedetailPage {
       headers1: any = new Headers({ 'Content-Type': type1 }),
       options1: any = new RequestOptions({ headers: headers1 }),
       url1: any = this.apiServiceURL + "/getmessagedetails";
-    console.log('Message Detail' + url1 + "?" + bodymessage);
     this.conf.presentLoading(1);
     this.http.post(url1, bodymessage, options1)
       //this.http.get(url1, options1)

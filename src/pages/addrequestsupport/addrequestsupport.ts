@@ -66,7 +66,7 @@ export class AddrequestsupportPage {
   timezoneoffset;
   constructor(private app: App, private conf: Config, public actionSheetCtrl: ActionSheetController, public platform: Platform, public http: Http, public alertCtrl: AlertController, private datePicker: DatePicker, public NP: NavParams, public nav: NavController, public navParams: NavParams, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera, private transfer: FileTransfer,
     private ngZone: NgZone) {
-      this.timezoneoffset = localStorage.getItem("timezoneoffset");
+    this.timezoneoffset = localStorage.getItem("timezoneoffset");
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -335,24 +335,8 @@ export class AddrequestsupportPage {
 
     let urlstr;
     if (this.conf.isUTC() > 0) {
-      console.log("Selected date is" + serviced_datetime);
       serviced_datetime = this.conf.convertDatetoUTC(new Date(serviced_datetime));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
-      /*urlstr = "is_mobile=1" +
-        "&unitid=" + this.service_unitid +
-        "&dateandtime=" + serviced_date +
-        "&pushnotify=" + pushnotify +
-        "&description=" + encodeURIComponent(description.toString()) +
-        "&is_denyo_support=0" +
-        "&created_by=" + this.unitDetailData.userId +
-        "&is_request=0" +
-      
-        "&subject=" + service_subject+
-          "&current_datetime=" + current_datetime +
-        "&timezoneoffset=" + this.timezoneoffset;
-        */
-
       urlstr = "is_mobile=1" +
         //"&service_priority=" + this.service_priority +
         "&unitid=" + this.service_unitid +

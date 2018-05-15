@@ -163,7 +163,6 @@ export class LoginPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/checklogin";
-      console.log("Login URL"+urlstr+"?"+body);
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();

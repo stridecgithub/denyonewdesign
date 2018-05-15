@@ -95,7 +95,6 @@ export class ServicingDetailsPage {
           headers1: any = new Headers({ 'Content-Type': type1 }),
           options1: any = new RequestOptions({ headers: headers1 }),
           url1: any = this.apiServiceURL + "/servicebyid";
-        console.log("Servicing Details Page URL" + url1 + "?" + body);
         this.http.post(url1, body, options1)
           .subscribe((data) => {
             this.profilePicture = data.json().servicedetail[0].user_photo;

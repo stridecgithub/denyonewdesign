@@ -203,7 +203,6 @@ export class UnitsPage {
       url: any = urlstr;
 
     let res;
-    console.log("Unit URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
 

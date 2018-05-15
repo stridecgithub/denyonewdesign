@@ -1205,8 +1205,6 @@ export class DashboardPage {
     }
   }
   pushTesting(type, event_id) {
-    console.log("Type:"+type);
-    console.log("Event Id:"+event_id);
     if (type == 'S') {
       this.navCtrl.setRoot(ServicingDetailsPage, {
         event_id: event_id,

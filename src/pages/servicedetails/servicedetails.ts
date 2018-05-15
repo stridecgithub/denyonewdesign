@@ -664,14 +664,14 @@ export class ServicedetailsPage {
 
     let urlstr;
     if (this.conf.isUTC() > 0) {
-      console.log("Selected date is" + serviced_date);
+     
       serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("nextServiceDate"+nextServiceDate);
+     
       if(nextServiceDate!=''){
         nextServiceDate= this.conf.convertDatetoUTC(new Date(nextServiceDate));
       }
-      console.log("current_datetime:" + current_datetime);
+     
       urlstr = "is_mobile=1" +
         "&service_unitid=" + this.service_unitid +
         "&serviced_datetime=" + serviced_time +
@@ -723,7 +723,6 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/services/serviceupdate";
-    console.log("Service Update URL:" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user

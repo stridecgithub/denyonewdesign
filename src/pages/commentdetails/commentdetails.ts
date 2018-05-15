@@ -80,7 +80,6 @@ export class CommentdetailsPage {
         headers1: any = new Headers({ 'Content-Type': type1 }),
         options1: any = new RequestOptions({ headers: headers1 }),
         url1: any = this.apiServiceURL + "/getcommentdetails";
-      console.log("Comment detail url:" + url1+"?"+body);
       this.http.post(url1, body, options1)
         .subscribe((data) => {
 

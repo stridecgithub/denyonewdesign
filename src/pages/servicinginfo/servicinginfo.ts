@@ -93,7 +93,6 @@ export class ServicinginfoPage {
     public alertCtrl: AlertController, public NP: NavParams, public navParams: NavParams, public navCtrl: NavController) {
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
-    console.log("Current Time Zone Offset:" + this.timezoneoffset);
     this.isInfiniteHide = true;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -188,7 +187,6 @@ export class ServicinginfoPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.userId +
           "&unitid=" + unitid;
-      console.log("Unit Detail url in Service info Page:" + url);
       this.http.get(url, options)
         .subscribe((data) => {					// If the request was successful notify the user
           if (data.status === 200) {
@@ -303,7 +301,6 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log("Upcoming API:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -617,7 +614,6 @@ export class ServicinginfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log("History URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);

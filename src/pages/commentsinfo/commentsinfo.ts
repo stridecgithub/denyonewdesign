@@ -286,7 +286,6 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log("Comment list url:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(1);

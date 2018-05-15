@@ -1228,7 +1228,6 @@ export class AddcompanygroupPage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&usercompanyid=" + this.companyId + "&address=" + address + "&country=" + country + "&contact=" + contact + "&createdby=" + createdby + "&updatedby=" + updatedby + "&current_datetime=" + current_datetime +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {
@@ -1282,7 +1281,6 @@ export class AddcompanygroupPage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&companygroup_name=" + companygroup_name + "&address=" + address + "&country=" + country + "&contact=" + contact + "&companygroup_id=" + this.recordID + "&createdby=" + createdby + "&updatedby=" + updatedby + "&current_datetime=" + current_datetime +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {

@@ -175,7 +175,6 @@ export class AddreporttemplatePage {
       let urlstr;
       if (this.conf.isUTC() > 0) {
         let current_datetime = this.conf.convertDatetoUTC(new Date());
-        console.log("current_datetime:" + current_datetime);
         urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&id=" + this.recordID + "&ses_login_id=" + this.userId + "&current_datetime=" + current_datetime +
           "&timezoneoffset=" + this.timezoneoffset;
       } else {
@@ -187,8 +186,6 @@ export class AddreporttemplatePage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/update";
-
-        console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();
@@ -228,8 +225,7 @@ export class AddreporttemplatePage {
 
       let urlstr;
       if (this.conf.isUTC() > 0) {
-        let current_datetime = this.conf.convertDatetoUTC(new Date());
-        console.log("current_datetime:" + current_datetime);
+        let current_datetime = this.conf.convertDatetoUTC(new Date());       
         urlstr = "is_mobile=1&templatename=" + templatename + "&companygroupid=" + this.companyId + "&data=" + JSON.stringify(this.getCheckboxData) + "&ses_login_id=" + this.userId + "&current_datetime=" + current_datetime +
           "&timezoneoffset=" + this.timezoneoffset;
       } else {
@@ -241,7 +237,6 @@ export class AddreporttemplatePage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/reporttemplate/store";
-      console.log(url + "?" + body);
       this.http.post(url, body, options)
         .subscribe((data) => {
           let res = data.json();

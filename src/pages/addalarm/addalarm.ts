@@ -365,8 +365,7 @@ export class AddalarmPage {
 
             let urlstr;
             if (this.conf.isUTC() > 0) {
-              let current_datetime = this.conf.convertDatetoUTC(new Date());
-              console.log("current_datetime:" + current_datetime);
+              let current_datetime = this.conf.convertDatetoUTC(new Date());            
               alarm_assigned_date = this.conf.convertDatetoUTC(new Date(alarm_assigned_date));
               urlstr = "is_mobile=1&alarmid=" + this.recordID +
                 "&alarm_assigned_by=" + this.userId +
@@ -390,8 +389,6 @@ export class AddalarmPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/alarms/assignalarm";
-
-            console.log("Assign Alarm:" + url + "?" + body);
             this.http.post(url, body, options)
               .subscribe((data) => {
                 if (data.status === 200) {

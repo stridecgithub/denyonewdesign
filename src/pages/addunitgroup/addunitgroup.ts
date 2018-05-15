@@ -145,7 +145,6 @@ export class AddunitgroupPage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr="is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + this.ccode + "&remark=" + remark + "&createdby=" + userid + "&updatedby=" + userid + "&company_id=" + companyid + "&unitgroup_id=" + this.recordID + "&current_datetime=" + current_datetime +
       "&timezoneoffset=" + this.timezoneoffset;
     }else{
@@ -186,7 +185,6 @@ export class AddunitgroupPage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&unitgroup_name=" + cname + "&colorcode=" + ccode + "&remark=" + remark + "&createdby=" + createdby + "&updatedby=" + updatedby + "&company_id=" + companyid + "&current_datetime=" + current_datetime +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {

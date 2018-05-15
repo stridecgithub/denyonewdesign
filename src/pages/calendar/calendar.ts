@@ -603,7 +603,6 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
-      console.log("defaultDevent URL:" + url);
     this.conf.presentLoading(1);
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1000,7 +999,6 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
-    console.log("onTimeSelected URL:" + url);
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {

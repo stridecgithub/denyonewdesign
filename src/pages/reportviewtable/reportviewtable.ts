@@ -270,7 +270,7 @@ export class ReportviewtablePage {
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
-            this.posts = res.mobilehistorydata[0];            
+            this.posts = res.mobilehistorydata[0];
             for (let jk = 0; jk <= this.headValue.length; jk++) {
 
               if (jk == this.headValue.length) {
@@ -360,7 +360,6 @@ export class ReportviewtablePage {
 
 
         let res;
-
         this.http.get(url, options)
 
           .subscribe((data) => {
@@ -375,7 +374,26 @@ export class ReportviewtablePage {
 
               this.headLists = res.templatedata;
               this.headValue = res.mobilehistorydata;
+             
+              for (let jk = 0; jk <= this.headValue.length; jk++) {
+              
+                if (jk == this.headValue.length) {
+                
+                  this.presentLoading(0);
+                  this.processing = 1
+                  this.progress += 5;
+                  this.isProgress = false;
+                  this.processingtxt = "";
+                } else {
+                
+                  this.processing = 0;
+                  this.processingtxt = "Processing... please wait.";
+                  this.progress += jk;
+                  this.isProgress = true;
+                }
 
+              }
+              
               this.posts = res.mobilehistorydata[0];
 
               this.totalcount = res.totalcount;
@@ -427,6 +445,7 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
+         
       }
     }
   }

@@ -32,7 +32,6 @@ export class Config {
         return 1;
     }
     convertDatetoUTC(dateStr) {
-        console.log("convertDatetoUTC calling..." + dateStr.toISOString());
         return dateStr.toISOString();
     }
     convertUTCtoDate(dateStr) {

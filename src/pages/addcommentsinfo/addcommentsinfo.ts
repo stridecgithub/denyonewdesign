@@ -531,7 +531,6 @@ export class AddcommentsinfoPage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1" +
         "&comment_unit_id=" + this.comment_unitid +
         "&comment_priority=" + this.service_priority +
@@ -564,8 +563,6 @@ export class AddcommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
 
-    //this.showAlert('Store Comments:', url + "?" + body);
-    console.log("Comment Add URL:" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -576,7 +573,6 @@ export class AddcommentsinfoPage {
           localStorage.setItem("microtime", "");
           //this.conf.sendNotification(`Comments was successfully added`);
           this.conf.sendNotification(data.json().msg[0].result);
-          console.log("Multiple:" + data.json().msg[0]['pushidmulty']);
           if (data.json().msg[0]['pushidmulty'] != '') {
             this.quickPush(data.json().msg[0]['pushidmulty']);
             //this.quickPush(data.json().msg[0]['pushid']);

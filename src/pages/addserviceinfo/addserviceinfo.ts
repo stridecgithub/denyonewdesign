@@ -553,11 +553,9 @@ export class AddserviceinfoPage {
     let pushnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
 
     let urlstr;
-    if (this.conf.isUTC() > 0) {
-      console.log("Selected date is" + serviced_date);
+    if (this.conf.isUTC() > 0) {     
       serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1" +
         "&unitid=" + this.service_unitid +
         "&dateandtime=" + serviced_date +
@@ -587,7 +585,6 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/newserviceschedule";
-    console.log(url + "?" + body);
     //this.showAlert('newserviceschedule', url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {

@@ -227,7 +227,6 @@ export class AlarmPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
 

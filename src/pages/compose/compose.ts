@@ -460,7 +460,6 @@ export class ComposePage {
     let urlstring;
     let urlstr;
     let current_datetime = this.conf.convertDatetoUTC(new Date());
-    console.log("current_datetime:" + current_datetime);
     if (this.conf.isUTC() > 0) {
       if (this.replyforward > 0) {
 

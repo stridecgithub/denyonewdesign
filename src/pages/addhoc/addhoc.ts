@@ -588,10 +588,8 @@ export class AddhocPage {
 
     let urlstr;
     if (this.conf.isUTC() > 0) {
-      console.log("Selected date is" + serviced_date);
       serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1" +
       "&service_priority=" + this.service_priority +
       "&service_unitid=" + this.service_unitid +

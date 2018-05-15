@@ -130,7 +130,6 @@ export class CompanygroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
-    console.log("URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();

@@ -233,7 +233,6 @@ export class NotificationPage {
       // url: any = this.apiServiceURL + "/reporttemplate?is_mobile=1";
       url: any = urlstr;
     let res;
-    console.log("Notification List" + url);
     this.http.get(url, options)
       .subscribe((data) => {
 

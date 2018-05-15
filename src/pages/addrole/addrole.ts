@@ -1051,7 +1051,6 @@ export class AddrolePage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby + "&current_datetime=" + current_datetime +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {
@@ -1102,7 +1101,6 @@ export class AddrolePage {
     let urlstr;
     if (this.conf.isUTC() > 0) {
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&role_name=" + role_name + "&module=" + JSON.stringify(roleperMissionData) + "&createdby=" + createdby + "&role_id=" + this.recordID + "&current_datetime=" + current_datetime +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {

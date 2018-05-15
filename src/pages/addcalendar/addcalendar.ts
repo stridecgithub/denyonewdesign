@@ -696,7 +696,6 @@ export class AddcalendarPage {
       if (serviced_datetime != '') {
         serviced_datetime = this.conf.convertDatetoUTC(new Date(serviced_datetime));
       }
-      console.log("current_datetime:" + current_datetime);
       urlstr = "is_mobile=1&event_type="
         + type_name + field +
         "&event_date=" + this.event_date.split("T")[0] +
@@ -723,7 +722,6 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
-    console.log("Add Calendar API" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();

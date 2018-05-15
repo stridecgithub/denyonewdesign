@@ -403,7 +403,6 @@ export class AdduserPage {
             let urlstr;
             if (this.conf.isUTC() > 0) {
               let current_datetime = this.conf.convertDatetoUTC(new Date());
-              console.log("current_datetime:" + current_datetime);
               urlstr = "is_mobile=1&firstname=" + this.first_name +
                 "&lastname=" + this.last_name +
                 "&photo=" + this.photo +
@@ -528,7 +527,6 @@ export class AdduserPage {
             let urlstr;
             if (this.conf.isUTC() > 0) {
               let current_datetime = this.conf.convertDatetoUTC(new Date());
-              console.log("current_datetime:" + current_datetime);
               urlstr = "is_mobile=1&staff_id=" + this.recordID +
                 "&firstname=" + this.first_name +
                 "&lastname=" + this.last_name +
