@@ -38,7 +38,6 @@
     <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Group Name"></ion-icon>
   </div>
 
-
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let companygroup of items;let i = index">
       <ion-item (click)="detail(companygroup)">
@@ -59,9 +58,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px"  *ngIf="isInfiniteHide && totalCount>pageperrecord">
-   
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px" *ngIf="isInfiniteHide && totalCount>pageperrecord">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
 </ion-content>

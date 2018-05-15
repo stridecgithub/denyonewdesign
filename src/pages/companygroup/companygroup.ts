@@ -46,8 +46,8 @@ export class CompanygroupPage {
   public reportData: any =
     {
       status: '',
-      sort: 'companygroup_name',
-      sortascdesc: 'asc',
+      sort: 'companygroup_id',
+      sortascdesc: 'desc',
       startindex: 0,
       results: 200000
     }
@@ -122,7 +122,7 @@ export class CompanygroupPage {
       this.reportData.status = "DRAFT";
     }
     if (this.reportData.sort == '') {
-      this.reportData.sort = "companygroup_name";
+      this.reportData.sort = "companygroup_id";
     }
 
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -130,6 +130,7 @@ export class CompanygroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
+    console.log("URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -174,7 +175,7 @@ export class CompanygroupPage {
         this.notcount = data.json().notifycount;
       });
     this.reportData.startindex = 0;
-    this.reportData.sort = "companygroup_name";
+    this.reportData.sort = "companygroup_id";
     this.doCompanyGroup();
   }
 
@@ -202,7 +203,7 @@ export class CompanygroupPage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-
+   
     if (item.totalunits == 0 || item.totalusers == 0) {
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this company group?',
@@ -210,11 +211,14 @@ export class CompanygroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-            for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
-              if (this.companygroupAllLists[q] == item) {
-                this.companygroupAllLists.splice(q, 1);
+           for (let q: number = 0; q <  this.items.length; q++) {
+              if ( this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+            this.reportData.startindex = 0;
+            this.companygroupAllLists = [];
+            this.doCompanyGroup();
           }
         },
         {
@@ -259,6 +263,7 @@ export class CompanygroupPage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
