@@ -428,11 +428,15 @@ export class CommentsinfoPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(item.service_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+
+            this.reportData.startindex = 0;
+            this.reportAllLists = [];
+            this.doService();
           }
         },
         {
