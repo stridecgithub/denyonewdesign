@@ -377,49 +377,8 @@ export class NotificationPage {
     });
   }
 
-  doConfirm(id, item) {
-    let confirm = this.alertCtrl.create({
-      message: 'Are you sure you want to delete this unit group?',
-      buttons: [{
-        text: 'Yes',
-        handler: () => {
-          this.deleteEntry(id);
-          for (let q: number = 0; q < this.notificationAllLists.length; q++) {
-            if (this.notificationAllLists[q] == item) {
-              this.notificationAllLists.splice(q, 1);
-            }
-          }
-        }
-      },
-      {
-        text: 'No',
-        handler: () => { }
-      }]
-    });
-    confirm.present();
-  }
-  deleteEntry(recordID) {
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/services/" + recordID + "/1/delete";
-    this.http.get(url, options)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          this.conf.sendNotification(data.json().msg[0]['result']);
-          //this.conf.sendNotification(`Services info was successfully deleted`);
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-        this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-      });
-  }
+  
+
 
 
 

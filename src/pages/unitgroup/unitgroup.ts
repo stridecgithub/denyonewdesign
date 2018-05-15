@@ -253,11 +253,14 @@ export class UnitgroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-            for (let q: number = 0; q < this.unitgroupAllLists.length; q++) {
-              if (this.unitgroupAllLists[q] == item) {
-                this.unitgroupAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+            this.reportData.startindex = 0;
+            this.unitgroupAllLists = [];
+            this.dounitGroup();
           }
         },
         {
@@ -275,11 +278,14 @@ export class UnitgroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-            for (let q: number = 0; q < this.unitgroupAllLists.length; q++) {
-              if (this.unitgroupAllLists[q] == item) {
-                this.unitgroupAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+            this.reportData.startindex = 0;
+            this.unitgroupAllLists = [];
+            this.dounitGroup();
           }
         },
         {
@@ -292,6 +298,7 @@ export class UnitgroupPage {
 
   }
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -329,6 +336,7 @@ export class UnitgroupPage {
   }
 
   favorite(unit_id) {
+    this.isInfiniteHide = true;
     this.reportData.startindex = 0;
     this.unitgroupAllLists = [];
     let body: string = "unitgroupid=" + unit_id +

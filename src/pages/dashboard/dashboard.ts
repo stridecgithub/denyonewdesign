@@ -434,65 +434,8 @@ export class DashboardPage {
 
   }
 
-  /******************************************/
-  /* @doConfirm called for alert dialog box **/
-
-  /******************************************/
-  doConfirm(id, item) {
-    let confirm = this.alertCtrl.create({
-      message: 'Are you sure you want to delete this unit?',
-      buttons: [{
-        text: 'Yes',
-        handler: () => {
-          this.deleteEntry(id);
-          for (let q: number = 0; q < this.unitAllLists.length; q++) {
-            if (this.unitAllLists[q] == item) {
-              this.unitAllLists.splice(q, 1);
-            }
-          }
-        }
-      },
-      {
-        text: 'No',
-        handler: () => {
-        }
-      }]
-    });
-    confirm.present();
-  }
-
-  // Remove an existing record that has been selected in the page's HTML form
-  // Use angular's http post method to submit the record data
-  // to our remote PHP script (note the body variable we have created which
-  // supplies a variable of key with a value of delete followed by the key/value pairs
-  // for the record ID we want to remove from the remote database
-  deleteEntry(recordID) {
-    let
-      //body: string = "key=delete&recordID=" + recordID,
-      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
-      headers: any = new Headers({ 'Content-Type': type }),
-      options: any = new RequestOptions({ headers: headers }),
-      // url: any = this.apiServiceURL + "/units/" + recordID + "/1/delete";
-      url: any = this.apiServiceURL + "/unitlistaction?action=delete&unitid=" + recordID + "&is_mobile=1&loginid=" + this.userId;
-    this.http.get(url, options)
-      .subscribe(data => {
-        // If the request was successful notify the user
-        if (data.status === 200) {
-          // this.conf.sendNotification(`Units was successfully deleted`);
-          this.conf.sendNotification(data.json().msg[0]['result']);
-          this.reportData.startindex = 0;
-          this.unitAllLists = [];
-          this.doUnit();
-
-        }
-        // Otherwise let 'em know anyway
-        else {
-          this.conf.sendNotification('Something went wrong!');
-        }
-      }, error => {
-
-      });
-  }
+  
+ 
 
   // List page navigate to notification list
   notification() {

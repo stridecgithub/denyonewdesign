@@ -286,7 +286,7 @@ export class CommentsinfoPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log("Comment list url:"+url);
+    console.log("Comment list url:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(1);
@@ -405,11 +405,14 @@ export class CommentsinfoPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(item.comment_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+            this.reportData.startindex = 0;
+            this.reportAllLists = [];
+            this.doService();
           }
         },
         {
@@ -447,11 +450,16 @@ export class CommentsinfoPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(item.service_id, item.event_type);
-            for (let q: number = 0; q < this.reportAllLists.length; q++) {
-              if (this.reportAllLists[q] == item) {
-                this.reportAllLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
+
+            this.reportData.startindex = 0;
+            this.reportAllLists = [];
+            this.doService();
+
           }
         },
         {
@@ -463,6 +471,7 @@ export class CommentsinfoPage {
     }
   }
   deleteEntry(recordID, types) {
+    this.isInfiniteHide = true;
     if (types.toLowerCase() == 'c') {
       let
         //body: string = "key=delete&recordID=" + recordID,

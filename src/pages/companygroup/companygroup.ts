@@ -130,7 +130,7 @@ export class CompanygroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/companygroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&companyid=" + this.companyId;
     let res;
-    console.log("URL:"+url);
+    console.log("URL:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
@@ -203,7 +203,7 @@ export class CompanygroupPage {
   /* @doConfirm called for alert dialog box **/
   /******************************************/
   doConfirm(id, item) {
-   
+
     if (item.totalunits == 0 || item.totalusers == 0) {
       let confirm = this.alertCtrl.create({
         message: 'Are you sure you want to delete this company group?',
@@ -211,8 +211,8 @@ export class CompanygroupPage {
           text: 'Yes',
           handler: () => {
             this.deleteEntry(id);
-           for (let q: number = 0; q <  this.items.length; q++) {
-              if ( this.items[q] == item) {
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
                 this.items.splice(q, 1);
               }
             }
@@ -238,11 +238,14 @@ export class CompanygroupPage {
             text: 'Yes',
             handler: () => {
               this.deleteEntry(id);
-              for (let q: number = 0; q < this.companygroupAllLists.length; q++) {
-                if (this.companygroupAllLists[q] == item) {
-                  this.companygroupAllLists.splice(q, 1);
+              for (let q: number = 0; q < this.items.length; q++) {
+                if ( this.items[q] == item) {
+                  this.items.splice(q, 1);
                 }
               }
+              this.reportData.startindex = 0;
+              this.companygroupAllLists = [];
+              this.doCompanyGroup();
             }
           },
           {
@@ -370,7 +373,7 @@ export class CompanygroupPage {
       for (var i = 0; i < newData.length; i++) {
         this.items.push(newData[i]);
       }
-      infiniteScroll.complete();     
+      infiniteScroll.complete();
       if (this.items.length >= this.totalCount) {
         this.isInfiniteHide = false
         this.loadingmoretext = 'No more data.';

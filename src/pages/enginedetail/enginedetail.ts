@@ -182,11 +182,16 @@ export class EnginedetailPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.enginedetailAllLists.length; q++) {
-            if (this.enginedetailAllLists[q] == item) {
-              this.enginedetailAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.items.length; q++) {
+            if (this.items[q] == item) {
+              this.items.splice(q, 1);
             }
           }
+
+          this.reportData.startindex = 0;
+          this.enginedetailAllLists = [];
+          this.doengine();
+
         }
       },
       {
@@ -197,6 +202,7 @@ export class EnginedetailPage {
     confirm.present();
   }
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",

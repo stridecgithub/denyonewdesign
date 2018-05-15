@@ -187,6 +187,10 @@ export class RolePage {
               this.roleAllLists.splice(q, 1);
             }
           }
+
+          this.reportData.startindex = 0;
+          this.roleAllLists = [];
+          this.doRole();
         }
       },
       {
@@ -203,6 +207,7 @@ export class RolePage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       // body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",

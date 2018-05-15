@@ -205,11 +205,15 @@ export class UserPage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.userAllLists.length; q++) {
-            if (this.userAllLists[q] == item) {
-              this.userAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.items.length; q++) {
+            if (this.items[q] == item) {
+              this.items.splice(q, 1);
             }
           }
+
+          this.reportData.startindex = 0;
+          this.userAllLists = [];
+          this.doUser();
         }
       },
       {
@@ -226,6 +230,7 @@ export class UserPage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",

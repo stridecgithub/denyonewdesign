@@ -102,7 +102,7 @@ export class ReporttemplatePage {
     //this.reportData.status = "ALL";
     this.reportData.startindex = 0;
     this.reporttemplateAllLists = [];
-    this.doReport();
+    this.doReportReportTemplate();
   }
 
   ionViewDidLoad() {
@@ -122,7 +122,7 @@ export class ReporttemplatePage {
         this.notcount = data.json().notifycount;
       });
 
-    this.doReport();
+    this.doReportReportTemplate();
 
   }
 
@@ -130,12 +130,12 @@ export class ReporttemplatePage {
 
     this.reportData.startindex = 0;
     this.reporttemplateAllLists = [];
-    this.doReport();
+    this.doReportReportTemplate();
     setTimeout(() => {
       refresher.complete();
     }, 2000);
   }
-  doReport() {
+  doReportReportTemplate() {
     this.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
@@ -203,11 +203,15 @@ export class ReporttemplatePage {
         text: 'Yes',
         handler: () => {
           this.deleteEntry(id);
-          for (let q: number = 0; q < this.reporttemplateAllLists.length; q++) {
-            if (this.reporttemplateAllLists[q] == item) {
-              this.reporttemplateAllLists.splice(q, 1);
+          for (let q: number = 0; q < this.items.length; q++) {
+            if (this.items[q] == item) {
+              this.items.splice(q, 1);
             }
           }
+
+          this.reportData.startindex = 0;
+          this.reporttemplateAllLists = [];
+          this.doReportReportTemplate();
         }
       },
       {
@@ -218,6 +222,7 @@ export class ReporttemplatePage {
     confirm.present();
   }
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
