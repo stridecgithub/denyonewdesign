@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams,Platform ,App} from 'ionic-angular';
+import { NavController, ToastController, NavParams, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
@@ -16,12 +16,13 @@ import { Config } from '../../config/config';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+declare var jQuery: any;
 @Component({
   selector: 'page-addenginedetail',
   templateUrl: 'addenginedetail.html',
 })
 export class AddenginedetailPage {
-  
+
   footerBar: number = 1;
   public pageTitle: string;
   public loginas: any;
@@ -52,54 +53,54 @@ export class AddenginedetailPage {
   public rawhtml: any;
   public companyId;
   public form: FormGroup;
-  constructor( private app:App,private conf: Config,public navCtrl: NavController,
+  constructor(private app: App, private conf: Config, public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
-    public toastCtrl: ToastController,public platform:Platform) {
-      this.apiServiceURL = this.conf.apiBaseURL();
-      this.platform.ready().then(() => {
-        this.platform.registerBackButtonAction(() => {
-          const overlayView = this.app._appRoot._overlayPortal._views[0];
+    public toastCtrl: ToastController, public platform: Platform) {
+    this.apiServiceURL = this.conf.apiBaseURL();
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
         }
-          this.navCtrl.setRoot(EnginedetailPage);
-        });
+        this.navCtrl.setRoot(EnginedetailPage);
       });
+    });
     this.form = fb.group({
       "enginemodel": ["", Validators.required],
-      "rawhtml": ["", Validators.required]
+      "rawhtml": [""]//, Validators.required
 
     });
     this.loginas = localStorage.getItem("userInfoName");
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.pageTitle = 'Add Engine Detail';
-   
+
   }
   ionViewDidLoad() {
-   
+    jQuery('#summernote').summernote();
   }
   ionViewWillEnter() {
-
+    jQuery('#summernote').summernote();
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
-    
+
+
 
     this.http.get(url, options)
       .subscribe((data) => {
-       
+
         this.msgcount = data.json().msgcount;
         this.notcount = data.json().notifycount;
       });
     if (this.NP.get("record")) {
       this.pageTitle = 'Edit Engine Detail';
-      
+
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
 
@@ -116,24 +117,24 @@ export class AddenginedetailPage {
     this.enginemodel = item.model;
     this.rawhtml = item.rawhtml;
     this.recordID = item.model_id;
-   
+    // jQuery('.note-codable').val(this.rawhtml);
+
+    jQuery('#summernote').summernote('code', this.rawhtml);
   }
   saveEntry() {
+    alert(jQuery('.summernote').val());
+    
+    this.rawhtml = jQuery('#summernote').summernote('code');
+    console.log("Rawhtml:-" + this.rawhtml);
     if (this.isEdited) {
       let body: string = "is_mobile=1&model=" + this.enginemodel +
-        "&rawhtml=" +  encodeURIComponent(this.rawhtml.toString()) + "&model_id=" + this.recordID,
-
-
+        "&rawhtml=" + encodeURIComponent(this.rawhtml.toString()) + "&model_id=" + this.recordID,
         type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/enginemodel/update";
-      
-      
-
       this.http.post(url, body, options)
         .subscribe((data) => {
-          
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;
@@ -156,12 +157,12 @@ export class AddenginedetailPage {
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/enginemodel";
-      
-      
+
+
 
       this.http.post(url, body, options)
         .subscribe((data) => {
-          
+
           // If the request was successful notify the user
           if (data.status === 200) {
             this.hideForm = true;
