@@ -434,8 +434,8 @@ export class DashboardPage {
 
   }
 
-  
- 
+
+
 
   // List page navigate to notification list
   notification() {
@@ -562,7 +562,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
-
+    console.log("initMap" + url);
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1212,22 +1212,22 @@ export class DashboardPage {
       });
     } else if (type == 'M') {
       this.navCtrl.setRoot(MessageDetailViewPage, {
-        event_id:  event_id,
+        event_id: event_id,
         from: 'push'
       })
-    }else if (type == 'E') {
+    } else if (type == 'E') {
       this.navCtrl.setRoot(EventDetailsEventPage, {
-        event_id:  event_id,
+        event_id: event_id,
         from: 'Push'
       })
-    }else if (type == 'C') {
+    } else if (type == 'C') {
       this.navCtrl.setRoot(CommentdetailsPage, {
-        event_id:  event_id,
+        event_id: event_id,
         from: 'Push'
       })
     }
 
-    
+
   }
 
 

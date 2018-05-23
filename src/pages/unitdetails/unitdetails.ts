@@ -310,7 +310,7 @@ export class UnitdetailsPage {
 				headers2: any = new Headers({ 'Content-Type': type2 }),
 				options2: any = new RequestOptions({ headers: headers2 }),
 				url2: any = this.apiServiceURL + "/gaugedetails/" + this.navParams.get('record').controllerid;
-			
+			console.log("gaugedetails:"+url2);
 			this.http.get(url2, options2)
 				.subscribe((data) => {
 					let res1;
@@ -354,6 +354,7 @@ export class UnitdetailsPage {
 						this.voltcolors = this.setpointsdata[0].colors;
 
 						this.currentlabel = this.setpointsdata[1].labels;
+						console.log("Current Labels:-"+this.currentlabel);
 						this.currentcolors = this.setpointsdata[1].colors;
 
 						this.frequencylabel = this.setpointsdata[2].labels;

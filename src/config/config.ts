@@ -12,8 +12,9 @@ export class Config {
         public toastCtrl: ToastController) {
     }
     apiBaseURL() { // Base URL configuration
-        //return 'http://denyoappv2.stridecdev.com';// live
-        return 'http://denyodev1.stridecdev.com';// Testing
+       //return 'http://denyoappv2.stridecdev.com';// live
+        //return 'http://denyodev1.stridecdev.com';// Testing
+        return 'http://denyov2testing.stridecdev.com/';// Testing
     }
     rolePermissionMsg() { // Authorization message set from property configuration file
         return "Permission Denied.";
@@ -29,7 +30,7 @@ export class Config {
         return 10;
     }
     isUTC() {
-        return 1;
+        return 0;
     }
     convertDatetoUTC(dateStr) {
         return dateStr.toISOString();

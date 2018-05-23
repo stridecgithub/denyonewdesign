@@ -32,11 +32,10 @@
     <ion-item-sliding #item class="list-item" *ngFor="let reporttemplate of items;let i = index">
       <ion-item (click)="reportdetail(reporttemplate.templatename,reporttemplate.availableheading)">
           <div style="overflow: hidden; padding-left: .5em;">
-              <h2><b>{{i+1}} {{reporttemplate.templatename}}</b>
+              <h2><b>{{reporttemplate.templatename}}</b>
               </h2>            
               <h2 style="white-space:normal">
-                <!-- <span *ngFor="let itemava of reporttemplate.availableheading;">{{itemava}}</span-->
-                                {{reporttemplate.availableheading}}
+                {{reporttemplate.availableheading}}
                 </h2>
     
             </div>

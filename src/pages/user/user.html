@@ -30,7 +30,7 @@
 
   <button class="add-unit-btn" (click)="doAdd()" *ngIf="CREATEACCESS==1">
     <ion-icon name="add"></ion-icon>&nbsp;&nbsp;&nbsp;Add New User</button>
-  <div class="error" *ngIf="totalCount==0">No user entries found</div>
+ 
 
   <div class="filter" *ngIf="totalCount>0" (click)="doSort()"> {{sortLblTxt}}
     <ion-icon name="arrow-down" *ngIf="sortLblTxt === Name"></ion-icon>
@@ -38,7 +38,7 @@
     <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Name"></ion-icon>
   </div>
 
-
+  <div class="error" *ngIf="totalCount==1">No user entries found</div>
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let user of items; let i = index">
       <ion-item *ngIf="user.staff_id!='1'">
