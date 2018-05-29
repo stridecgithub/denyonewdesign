@@ -553,7 +553,7 @@ export class AddserviceinfoPage {
     let pushnotify = description.replace(/(\r\n\t|\n|\r\t)/gm, " ");
 
     let urlstr;
-    if (this.conf.isUTC() > 0) {     
+    if (this.conf.isUTC() > 0) {
       serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
       urlstr = "is_mobile=1" +
@@ -565,7 +565,7 @@ export class AddserviceinfoPage {
         "&created_by=" + this.unitDetailData.userId +
         "&is_request=0" +
         "&current_datetime=" + current_datetime +
-        "&subject=" + service_subject+
+        "&subject=" + service_subject +
         "&timezoneoffset=" + this.timezoneoffset;
     } else {
       urlstr = "is_mobile=1" +
@@ -589,6 +589,7 @@ export class AddserviceinfoPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
+        console.log(JSON.stringify(res));
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -601,8 +602,8 @@ export class AddserviceinfoPage {
           //}
           // this.conf.sendNotification(`New service scheduled added successfully`);
           this.conf.sendNotification(res.msg[0]['result']);
-          if (res.msg[0]['pushid'] != '') {
-           // this.quickPush(res.msg[0]['pushid']);
+          if (res.msg[0]['pushidmulty'] != '') {
+            // this.quickPush(res.msg[0]['pushid']);
             this.quickPush(res.msg[0]['pushidmulty']);
           }
           this.navCtrl.setRoot(ServicinginfoPage, {
@@ -618,13 +619,14 @@ export class AddserviceinfoPage {
       });
   }
 
-  quickPush(pushid) {
+  quickPush(pushidmulty) {
     // Notification count
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
+    console.log("Quick Push:-" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;

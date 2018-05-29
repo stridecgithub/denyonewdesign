@@ -664,14 +664,16 @@ export class ServicedetailsPage {
 
     let urlstr;
     if (this.conf.isUTC() > 0) {
-     
+
       serviced_date = this.conf.convertDatetoUTC(new Date(serviced_date));
       let current_datetime = this.conf.convertDatetoUTC(new Date());
-     
-      if(nextServiceDate!=''){
-        nextServiceDate= this.conf.convertDatetoUTC(new Date(nextServiceDate));
+
+      if (nextServiceDate != '') {
+        nextServiceDate = this.conf.convertDatetoUTC(new Date(nextServiceDate));
+      } else {
+        nextServiceDate = '';
       }
-     
+
       urlstr = "is_mobile=1" +
         "&service_unitid=" + this.service_unitid +
         "&serviced_datetime=" + serviced_time +
@@ -718,11 +720,20 @@ export class ServicedetailsPage {
         "&micro_timestamp=" + micro_timestamp +
         "&uploadInfo=" + JSON.stringify(this.addedServiceImgLists);
     }
+
+    let isNextService;
+    console.log(isNextService);
+    if (nextServiceDate != '') {
+      isNextService = "/services/nextserviceupdate";
+    } else {
+      isNextService = "/services/serviceupdate";
+    }
     let body: string = urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/services/serviceupdate";
+      url: any = this.apiServiceURL + isNextService;
+    console.log("Service Update URL:" + url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
@@ -732,8 +743,7 @@ export class ServicedetailsPage {
           this.addedServiceImgLists = [];
           localStorage.setItem("microtime", "");
           this.addedServiceImgLists = [];
-          if (data.json().msg[0]['pushid'] != '') {
-            //this.quickPush(data.json().msg[0]['pushid']);
+          if (data.json().msg[0]['pushidmulty'] != '') {
             this.quickPush(data.json().msg[0]['pushidmulty']);
           }
           this.conf.sendNotification(data.json().msg[0]['result']);
@@ -760,13 +770,13 @@ export class ServicedetailsPage {
   }
 
 
-  quickPush(pushid) {
+  quickPush(pushidmulty) {
     // Notification count
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;
@@ -799,57 +809,63 @@ export class ServicedetailsPage {
     }
 
     let minutes;
-    minutes = parseInt(date.getMinutes());
-    if (minutes < 10) {
-      minutes = "0" + minutes;
-    } else {
-      minutes = minutes;
-    }
+    console.log(date);
+    if (date != undefined) {
+      minutes = parseInt(date.getMinutes());
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      } else {
+        minutes = minutes;
+      }
 
-    let hours;
-    hours = parseInt(date.getHours());
-    if (hours < 10) {
-      hours = "0" + hours;
-    } else {
-      hours = hours;
-    }
+      let hours;
+      hours = parseInt(date.getHours());
+      if (hours < 10) {
+        hours = "0" + hours;
+      } else {
+        hours = hours;
+      }
 
-    let seconds;
-    seconds = parseInt(date.getSeconds());
-    if (seconds < 10) {
-      seconds = "0" + seconds;
-    } else {
-      seconds = seconds;
-    }
-
-
-    let monthstr;
-    let datestr;
-    let mn = parseInt(date.getMonth() + 1);
-    let dt = date.getDate();
-
-    if (mn < 10) {
-      monthstr = "0" + mn;
-    } else {
-      monthstr = mn;
-    }
-    if (dt < 10) {
-      datestr = "0" + dt;
-    } else {
-      datestr = dt;
-    }
+      let seconds;
+      seconds = parseInt(date.getSeconds());
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      } else {
+        seconds = seconds;
+      }
 
 
+      let monthstr;
+      let datestr;
+      let mn = parseInt(date.getMonth() + 1);
+      let dt = date.getDate();
 
-    this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      if (mn < 10) {
+        monthstr = "0" + mn;
+      } else {
+        monthstr = mn;
+      }
+      if (dt < 10) {
+        datestr = "0" + dt;
+      } else {
+        datestr = dt;
+      }
 
-    this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
 
 
-    if (this.unitDetailData.nextServiceDate != '') {
-      //this.isSubmitted = false;
-    } else {
-      //this.isSubmitted = true;
+      this.unitDetailData.nextServiceDate = date.getFullYear() + "-" + monthstr + "-" + datestr + "T" + hours + ":" + minutes + ":" + seconds;///+ " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+      this.unitDetailData.nextServiceDateDisplay = date.getFullYear() + "-" + monthstr + "-" + datestr;
+
+
+      if (this.unitDetailData.nextServiceDate != '') {
+        //this.isSubmitted = false;
+      } else {
+        //this.isSubmitted = true;
+      }
+      console.log('Done...');
+    }else{
+      console.log('Datepicker working in Mobile only');
     }
   }
 
@@ -914,7 +930,7 @@ export class ServicedetailsPage {
         } else {
           seconds = seconds;
         }
-        this.monthstr = date.getMonth();
+        this.monthstr = date.getMonth() + 1;
         if (this.monthstr < 10) {
           this.monthstr = "0" + this.monthstr;
         } else {

@@ -88,7 +88,7 @@
     <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Favourites"></ion-icon>
   </div>
 
-  <ion-list>
+  <ion-list  *ngIf="totalCount>0">
     <ion-item-sliding #item class="list-item" *ngFor="let unit of items; let i = index">
       <ion-item ngClass="{{unit.active}}">
         <!-- <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
@@ -112,8 +112,7 @@
             <ion-icon name="star-outline" *ngIf="unit.favoriteindication === 0 || unit.favoriteindication === 'unfavorite'"></ion-icon>
             <ion-icon name="star" class="favorite" *ngIf="unit.favoriteindication === 1 || unit.favoriteindication === 'favorite'"></ion-icon>
           </button>
-        </div>
-
+        </div>        
         <div class="running-hrs">Running Hours: {{unit.runninghr}}</div>
       </ion-item>
       <ion-item-options side="right" class="list-item-options">
@@ -125,6 +124,7 @@
         <button ion-button class="edit-btn" (click)="doAction(unit,'edit',unit.unit_id)"   *ngIf="EDITACCESS==1">
           <img width="25" src="assets/imgs/edit@2x.png">Edit
         </button>
+       
         <button ion-button class="del-btn" (click)="doConfirm(unit.unit_id,item)"   *ngIf="DELETEACCESS==1 && unit.duration==0">
           <ion-icon name="trash"></ion-icon>Delete
         </button>

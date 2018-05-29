@@ -604,6 +604,7 @@ export class CalendarPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     this.conf.presentLoading(1);
+    console.log("Calendar URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
 
@@ -999,6 +1000,7 @@ export class CalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
+      console.log("B Cal URL:"+url);
     this.conf.presentLoading(1)
     this.http.get(url, options)
       .subscribe((data) => {

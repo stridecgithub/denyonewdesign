@@ -147,7 +147,9 @@ export class MessagesPage {
     this.userId = localStorage.getItem("userInfoId");
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.roleId = localStorage.getItem("userInfoRoleId");
-    this.inb('inbox');
+    if (this.navParams.get("fromtab") == undefined) {
+      this.inb('inbox');
+    }
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     if (this.profilePhoto == '' || this.profilePhoto == 'null') {
       this.profilePhoto = this.apiServiceURL + "/images/default.png";
@@ -442,7 +444,7 @@ export class MessagesPage {
               sendername: res.messages[message].sendername,
               senderphoto: res.messages[message].senderphoto,
               personalhashtag: res.messages[message].personalhashtag,
-              replyall: res.messages[message].duration,
+              replyall: res.messages[message].replyall,
               duration: res.messages[message].duration,
               recipient_photo: res.messages[message].recipient_photo,
               messages_isfavaurite: res.messages[message].messages_isfavaurite,
@@ -542,15 +544,15 @@ export class MessagesPage {
         handler: () => {
           this.deleteEntry(id, type);
           if (type == 'inbox') {
-            for (let q: number = 0; q < this.inboxLists.length; q++) {
-              if (this.inboxLists[q] == item) {
-                this.inboxLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
           } else {
-            for (let q: number = 0; q < this.inboxLists.length; q++) {
-              if (this.inboxLists[q] == item) {
-                this.inboxLists.splice(q, 1);
+            for (let q: number = 0; q < this.items.length; q++) {
+              if (this.items[q] == item) {
+                this.items.splice(q, 1);
               }
             }
           }
@@ -589,7 +591,10 @@ export class MessagesPage {
           this.strinbox = '';
           this.inboxact = '';
           this.inboxData.startindex = 0;
-          this.doInbox(typestr);
+          this.items = [];
+          this.selecteditems = [];
+          console.log("Delete Action" + typestr);
+          this.inb(typestr);
         }
         // Otherwise let 'em know anyway
         else {
@@ -950,11 +955,15 @@ export class MessagesPage {
             this.conf.sendNotification(res.msg[0]['result']);
           }
 
+
           this.strinbox = '';
           this.inboxact = '';
-          this.inboxLists = [];
           this.inboxData.startindex = 0;
-          this.doInbox('inbox');
+          this.items = [];
+          this.selecteditems = [];
+          this.inb('inbox');
+
+
 
         }
         // Otherwise let 'em know anyway
@@ -987,11 +996,13 @@ export class MessagesPage {
             this.conf.sendNotification(data.json().msg[0]['result']);
           }
 
+
           this.strinbox = '';
           this.inboxact = '';
-          this.inboxLists = [];
           this.inboxData.startindex = 0;
-          this.doInbox('inbox');
+          this.items = [];
+          this.selecteditems = [];
+          this.inb('inbox');
 
 
         }
@@ -1011,12 +1022,20 @@ export class MessagesPage {
     this.moreopenpop = 0;
     this.arrayid = [];
     for (let i = 0; i < this.selecteditems.length; i++) {
-      //str = str + this.selecteditems[i].message_id + ",";
-      this.arrayid.push(
-        this.selecteditems[i].message_id
-      )
+
+      if (action == 'delete') {
+        if (this.selecteditems[i].duration == 0) {
+          this.arrayid.push(
+            this.selecteditems[i].message_id
+          );
+        }
+      } else {
+        this.arrayid.push(
+          this.selecteditems[i].message_id
+        )
+      }
+
     }
-    // str = str.replace(/,\s*$/, "");
     let urlstr;
     if (action == 'favorite') {
       if (this.onholdselectinboxsend == 'inbox') {
@@ -1028,8 +1047,6 @@ export class MessagesPage {
       if (this.onholdselectinboxsend == 'inbox') {
         urlstr = this.apiServiceURL + "/onholdmessageaction?frompage=inbox&is_mobile=1&ses_login_id=" + this.userId + "&actions=Unread&messageids=" + this.arrayid;
       }
-    } else if (action == 'delete') {
-
     }
 
 
@@ -1062,7 +1079,7 @@ export class MessagesPage {
                     this.inboxLists = [];
                     this.selecteditems = [];
                     this.inboxData.startindex = 0;
-                    this.doInbox(mod);
+                    this.inb(mod);
                     //this.sendLists = [];
                     this.sendData.startindex = 0;
 
@@ -1104,7 +1121,13 @@ export class MessagesPage {
               this.conf.sendNotification(res.msg[0]['result']);
             }
             this.selecteditems = [];
-            this.doInbox(mod);
+
+            this.strinbox = '';
+            this.inboxact = '';
+            this.inboxData.startindex = 0;
+            this.items = [];
+            this.selecteditems = [];
+            this.inb(mod);
             //this.doInbox(mod);
             //this.sendData.startindex = 0;
           }
@@ -1337,5 +1360,15 @@ export class MessagesPage {
 
   }
   */
-
+  segmentChanged(evt, mod) {
+    console.log("Event" + evt);
+    console.log("Mod" + mod);
+    if (mod == "inboxView") {
+      this.inb('inbox');
+    } else if (mod == "sentView") {
+      this.inb('send');
+    } else {
+      this.inb('inbox');
+    }
+  }
 }

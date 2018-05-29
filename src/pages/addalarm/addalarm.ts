@@ -395,8 +395,7 @@ export class AddalarmPage {
                   this.hideForm = true;
                   this.conf.sendNotification(data.json().msg[0].result);
 
-                  if (data.json().msg[0]['pushid'] != '') {
-                    //this.quickPush(data.json().msg[0]['pushid']);
+                  if (data.json().msg[0]['pushidmulty'] != '') {
                     this.quickPush(data.json().msg[0]['pushidmulty']);
                   }
 
@@ -428,13 +427,13 @@ export class AddalarmPage {
 
   }
 
-  quickPush(pushid) {
+  quickPush(pushidmulty) {
     // Notification count
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;

@@ -241,6 +241,7 @@ export class NotificationPage {
           if (res.notification.length > 0) {
             this.conf.presentLoading(1);
             this.totalCount = res.notification.length;
+            console.log("Notification Length:"+ this.totalCount);
             for (let notifications in res.notification) {
 
               let usericon = '';
@@ -266,6 +267,8 @@ export class NotificationPage {
               let con;
               if (cnt != '') {
                 con = cnt.replace("<br />", "<br>");
+              }else{
+                con='';
               }
               let warn_tripped_status;
               let priority;
@@ -339,6 +342,8 @@ export class NotificationPage {
           } else {
             this.totalCount = 0;
           }
+        }else{         
+          this.totalCount = 0;
         }
 
 

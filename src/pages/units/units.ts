@@ -10,6 +10,8 @@ import { DashboardPage } from '../dashboard/dashboard';
 import { PermissionPage } from '../../pages/permission/permission';
 import { ViewunitPage } from '../viewunit/viewunit';
 import { MockProvider } from '../../providers/pagination/pagination';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from "rxjs";
 /**
  * Generated class for the DashboardPage page.
  *
@@ -25,6 +27,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
 })
 
 export class UnitsPage {
+  private subscription: Subscription;
   footerBar: number = 1;
   public alarms: string = "0";
   public warningcount: string = "0";
@@ -86,7 +89,7 @@ export class UnitsPage {
     this.CREATEACCESS = localStorage.getItem("UNITS_UNITSLISTING_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_UNITSLISTING_DELETE");
-
+    console.log("this.DELETEACCESS:" + this.DELETEACCESS);
 
     this.VIEWACCESS = localStorage.getItem("UNITS_UNITSLISTING_VIEW");
     if (this.VIEWACCESS == 0) {
@@ -123,7 +126,12 @@ export class UnitsPage {
     let modal = this.modalCtrl.create(ModalPage, { unitdata: unit });
     modal.present();
   }
+  ngOnDestroy() {
+    //this.subscription.unsubscribe();
+  }
   ionViewDidLoad() {
+
+
     localStorage.setItem("setpointsdata", "");
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
@@ -191,17 +199,25 @@ export class UnitsPage {
     }
 
     let urlstr;
-    if (this.conf.isUTC() > 0) {
-      urlstr=this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
-    }else{
-      urlstr=this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
-    }
+
+
+    //this.subscription = Observable.interval(2000).subscribe(x => {
+      console.log('Unit List...');
+      if (this.conf.isUTC() > 0) {
+        urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+      } else {
+        urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
+      }
+    //});
+
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = urlstr;
 
+
+    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -223,6 +239,7 @@ export class UnitsPage {
 
 
             let dur;
+            console.log("Role ID:-" + this.roleId);
             if (this.roleId == 1) {
               dur = 0;
             } else {
@@ -308,6 +325,7 @@ export class UnitsPage {
   // supplies a variable of key with a value of delete followed by the key/value pairs
   // for the record ID we want to remove from the remote database
   deleteEntry(recordID) {
+    this.isInfiniteHide = true;
     let
       //body: string = "key=delete&recordID=" + recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -325,6 +343,7 @@ export class UnitsPage {
           this.reportData.startindex = 0;
           this.unitAllLists = [];
           this.doUnit();
+          this.selecteditems = [];
 
         }
         // Otherwise let 'em know anyway
@@ -371,6 +390,11 @@ export class UnitsPage {
             this.conf.sendNotification(data.json().msg['result']);
             //this.conf.sendNotification("Favourite successfully");
           }
+
+          this.reportData.startindex = 0;
+          this.unitAllLists = [];
+          this.doUnit();
+
         }
 
 
@@ -559,7 +583,7 @@ export class UnitsPage {
       localStorage.setItem("microtime", "");
 
 
- 
+
 
 
 
@@ -677,7 +701,8 @@ export class UnitsPage {
           lng: this.items[i].longtitude,
           runninghr: this.items[i].runninghr,
           companygroup_name: cname,
-          viewonid: this.items[i].viewonid
+          viewonid: this.items[i].viewonid,
+          duration: this.items[i].duration
         }
         );
       }
@@ -792,7 +817,8 @@ export class UnitsPage {
         lng: this.items[i].longtitude,
         runninghr: this.items[i].runninghr,
         companygroup_name: cname,
-        viewonid: this.items[i].viewonid
+        viewonid: this.items[i].viewonid,
+        duration: this.items[i].duration
       }
       );
 
@@ -801,6 +827,21 @@ export class UnitsPage {
   released() {
   }
   onholdaction(action) {
+    this.arrayid = [];
+    /*console.log("Before Selection:-"+JSON.stringify(this.selecteditems));
+
+
+    for (let i = 0; i < this.selecteditems.length; i++) {
+      if (this.selecteditems[i].duration == 0) {
+        this.arrayid.push(
+          this.selecteditems[i].unit_id
+        )
+      }
+    }
+
+    console.log("After Selection:-"+JSON.stringify(this.arrayid));
+    return false;*/
+
     this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
@@ -810,12 +851,18 @@ export class UnitsPage {
     }
     this.moreopenpop = 0;
     let str = '';
-    this.arrayid = [];
+
     if (action == 'favorite') {
       for (let i = 0; i < this.selecteditems.length; i++) {
         this.arrayid.push(
           this.selecteditems[i].unit_id
         )
+      }
+    } else if (action == 'delete') {
+      for (let i = 0; i < this.selecteditems.length; i++) {
+        if (this.selecteditems[i].duration == 0) {
+          str = str + this.selecteditems[i].unit_id + ",";
+        }
       }
     } else {
       for (let i = 0; i < this.selecteditems.length; i++) {
@@ -823,7 +870,11 @@ export class UnitsPage {
       }
     }
     str = str.replace(/,\s*$/, "");
+
+
+
     let urlstr;
+
     if (action == 'pin') {
       urlstr = "/onholdunitaction?unitid=" + str + "&action=dashboard&is_mobile=1&loginid=" + this.userId;
     } else if (action == 'delete') {
@@ -837,6 +888,7 @@ export class UnitsPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + urlstr;
+            console.log("On Hold Action" + url);
             this.http.get(url, options)
               .subscribe((data) => {
                 if (data.status === 200) {
@@ -848,6 +900,9 @@ export class UnitsPage {
                   if (action == 'favorite') {
                     this.conf.sendNotification(data.json().msg.result);
                   } else {
+                    this.reportData.startindex = 0;
+                    this.unitAllLists = [];
+                    this.doUnit();
                     this.conf.sendNotification(data.json().msg[0]['result']);
                   }
 

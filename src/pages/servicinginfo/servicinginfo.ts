@@ -145,7 +145,7 @@ export class ServicinginfoPage {
       this.h3width = '230px';
     } else {
       this.itemwidth = '';
-      this.h3width = '270px';
+      this.h3width = '239px';
     }
     localStorage.setItem("fromModule", "ServicinginfoPage");
 
@@ -295,7 +295,7 @@ export class ServicinginfoPage {
     } else {
       urlstr = this.apiServiceURL + "/serviceupcoming?is_mobile=1&startindex=" + this.upcomingData.startindex + "&results=" + this.upcomingData.results + "&sort=" + this.upcomingData.sort + "&dir=" + this.upcomingData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     }
-
+    console.log("Upcoming Service URL:" + urlstr);
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -608,7 +608,7 @@ export class ServicinginfoPage {
       urlstr = this.apiServiceURL + "/servicehistory?is_mobile=1&startindex=" + this.historyData.startindex + "&results=" + this.historyData.results + "&sort=" + this.historyData.sort + "&dir=" + this.historyData.sortascdesc + "&unitid=" + localStorage.getItem("unitId");
     }
 
-
+    console.log("History Service URL:" + urlstr);
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),

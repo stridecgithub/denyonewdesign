@@ -302,7 +302,7 @@ export class UnitdetailsPage {
 		if (localStorage.getItem("setpointsdata") == 'undefined') {
 			ls = '';
 		}
-		
+
 		if (ls == '') {
 			// Get Guage Details
 			let //body: string = "loginid=" + this.userId,
@@ -310,12 +310,12 @@ export class UnitdetailsPage {
 				headers2: any = new Headers({ 'Content-Type': type2 }),
 				options2: any = new RequestOptions({ headers: headers2 }),
 				url2: any = this.apiServiceURL + "/gaugedetails/" + this.navParams.get('record').controllerid;
-			console.log("gaugedetails:"+url2);
+			console.log("gaugedetails:" + url2);
 			this.http.get(url2, options2)
 				.subscribe((data) => {
 					let res1;
 					res1 = data.json();
-					
+
 					if (data.json().setpoints.length > 0) {
 						localStorage.setItem("setpointsdata", JSON.stringify(data.json().setpoints));
 						/*	this.navCtrl.setRoot(UnitdetailsPage, {
@@ -354,7 +354,7 @@ export class UnitdetailsPage {
 						this.voltcolors = this.setpointsdata[0].colors;
 
 						this.currentlabel = this.setpointsdata[1].labels;
-						console.log("Current Labels:-"+this.currentlabel);
+						console.log("Current Labels:-" + this.currentlabel);
 						this.currentcolors = this.setpointsdata[1].colors;
 
 						this.frequencylabel = this.setpointsdata[2].labels;
@@ -385,7 +385,7 @@ export class UnitdetailsPage {
 					}
 				}, error => {
 					//this.networkType = this.conf.serverErrMsg();// + "\n" + error;
-					
+
 				});
 			// Get Guage Details
 		} else {
@@ -455,7 +455,7 @@ export class UnitdetailsPage {
 							url: any = this.apiServiceURL + urlstr;
 
 
-
+console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 
@@ -1015,6 +1015,7 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
+						console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 								this.commstatus = data.json().commstatus;
@@ -1332,6 +1333,7 @@ export class UnitdetailsPage {
 			headers1: any = new Headers({ 'Content-Type': type1 }),
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/" + unitid + "/1/enginedetailsnewapi";
+		console.log(url1);
 		this.http.get(url1, options1)
 			.subscribe((data) => {
 				let res;

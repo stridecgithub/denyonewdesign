@@ -562,7 +562,7 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
-
+console.log("Comment Add URL:"+url+"?"+body);
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -575,7 +575,6 @@ export class AddcommentsinfoPage {
           this.conf.sendNotification(data.json().msg[0].result);
           if (data.json().msg[0]['pushidmulty'] != '') {
             this.quickPush(data.json().msg[0]['pushidmulty']);
-            //this.quickPush(data.json().msg[0]['pushid']);
           }
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.setRoot(CommentsinfoPage, {
@@ -593,13 +592,14 @@ export class AddcommentsinfoPage {
 
   }
 
-  quickPush(pushid) {
+  quickPush(pushidmulty) {
     // Notification count
     let
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushid;
+      url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
+      console.log("Quick Push Send URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;
@@ -651,6 +651,11 @@ export class AddcommentsinfoPage {
           localStorage.setItem("microtime", "");
           //this.conf.sendNotification(`Comments was successfully updated`);
           this.conf.sendNotification(data.json().msg[0].result);
+
+          if (data.json().msg[0]['pushidmulty'] != '') {
+            this.quickPush(data.json().msg[0]['pushidmulty']);
+          }
+          
           localStorage.setItem("atMentionResult", '');
           this.navCtrl.setRoot(CommentsinfoPage, {
             record: this.NP.get("record")

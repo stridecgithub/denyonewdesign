@@ -692,7 +692,7 @@ export class NotificationSettingsPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/units/update";
-
+              console.log("URL Unit Update:"+url+"?"+body);
             this.http.post(url, body, options)
               .subscribe((data) => {
 
@@ -769,6 +769,7 @@ export class NotificationSettingsPage {
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + "/units/store";
+              console.log("URL Unit Add:"+url+"?"+body);
             this.http.post(url, body, options)
               .subscribe((data) => {
 

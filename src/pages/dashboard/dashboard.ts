@@ -52,7 +52,7 @@ export class DashboardPage {
   connected;
   disconnected;
   private apiServiceURL: string = '';
-  public totalCount: number;
+  public totalCount: number = 0;
   public totalCountList: number;
   public unitAllLists = [];
   public defaultUnitAllLists = [];
@@ -344,6 +344,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
+      console.log("Notification Count:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -360,6 +361,7 @@ export class DashboardPage {
 
   /****************************/
   doUnit() {
+    //this.totalCountList = 0;
     //this.items = [];
     this.conf.presentLoading(1);
     if (this.reportData.status == '') {
@@ -425,11 +427,21 @@ export class DashboardPage {
           this.reportData.startindex += this.reportData.results;
         }
 
-        if (this.items.length == 0) {
+        if (this.items == undefined) {
           this.totalCountList = 0;
+          this.totalCount = 0;
+          console.log('A');
+        } else {
+          if (this.items.length == 0) {
+            this.totalCountList = 0;
+            this.totalCount = 0;
+            console.log('D');
+          }
+         
         }
       }, error => {
-
+        console.log('C');
+        this.totalCount = 0;
       });
 
   }
@@ -556,7 +568,7 @@ export class DashboardPage {
    * Initiate G Map
    */
   initMap() {
-
+    this.totalCount = 0;
     // Setting up for API call
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -569,10 +581,16 @@ export class DashboardPage {
 
         // JSON data
         let res = data.json();
-        this.totalCount = res.totalCount;
+        if (res.totalCount == undefined) {
+          this.totalCount = 0;
 
+        } else {
+          this.totalCount = res.totalCount;
+        }
 
-        if (res.totalCount > 0) {        // Map overlay circles
+        console.log(" res.totalCount:" + res.totalCount);
+
+        if (this.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
           this.warningcount = res.warningcount;
           this.runningcount = res.runningcount;
@@ -1125,10 +1143,19 @@ export class DashboardPage {
         // If the request was successful notify the user
         if (data.status === 200) {
           //this.conf.sendNotification(`Dashboard hide action successfully updated`);
-          this.conf.sendNotification(data.json().msg['result']);
+
+
           this.reportData.startindex = 0;
           this.unitAllLists = [];
+
+          this.items = [];
           this.doUnit();
+          this.selecteditems = [];
+
+          this.conf.sendNotification(data.json().msg['result']);
+          /* this.reportData.startindex = 0;
+           this.unitAllLists = [];
+           this.doUnit();*/
         }
         // Otherwise let 'em know anyway
         else {
@@ -1636,50 +1663,7 @@ export class DashboardPage {
 
                   this.reportData.startindex = 0;
                   this.unitAllLists = [];
-                  /*let res = data.json();
-                  if (res.totalCount > 0) {
-                    for (let unit in res.units) {
-                      let cname = res.units[unit].unitgroup_name;
 
-                      if (cname != 'undefined' && cname != undefined) {
-                        let stringToSplit = cname;
-                        let x = stringToSplit.split("");
-                        cname = x[0].toUpperCase();
-                      } else {
-                        cname = '';
-                      }
-
-                      this.unitAllLists.push({
-                        unit_id: res.units[unit].unit_id,
-                        unitname: res.units[unit].unitname,
-                        location: res.units[unit].location,
-                        contacts: res.units[unit].contacts,
-                        projectname: res.units[unit].projectname,
-                        colorcode: res.units[unit].colorcode,
-                        nextservicedate: res.units[unit].nextservicedate,
-                        neaplateno: res.units[unit].neaplateno,
-                        companys_id: res.units[unit].companys_id,
-                        unitgroups_id: res.units[unit].unitgroups_id,
-                        models_id: res.units[unit].models_id,
-                        serial_number: res.units[unit].serialnumber,
-                        alarmnotificationto: res.units[unit].alarmnotificationto,
-                        favoriteindication: res.units[unit].favorite,
-                        genstatus: res.units[unit].genstatus,
-                        lat: res.units[unit].latitude,
-                        lng: res.units[unit].longtitude,
-                        mapicon: res.units[unit].mapicon,
-                        runninghr: res.units[unit].runninghr,
-                        companygroup_name: cname,
-                        viewonid: res.units[unit].viewonid,
-                        logo: "assets/imgs/square.png",
-                        active: ""
-                      });
-                      this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
-                    }
-
-                    this.totalCountList = res.totalCount;
-                    this.reportData.startindex += this.reportData.results;
-                  } */
                   this.items = [];
                   this.doUnit();
                   this.selecteditems = [];

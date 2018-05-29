@@ -79,11 +79,11 @@
 <ion-content (tap)="isNet()">
 
   <div *ngIf="segmenttabshow>0">
-    <ion-segment [(ngModel)]="tabs">
-      <ion-segment-button value="inboxView" (click)="inb('inbox')" id="inboxView">
+    <ion-segment [(ngModel)]="tabs" (ionChange)="segmentChanged($event,tabs)">
+      <ion-segment-button value="inboxView" id="inboxView">
         Inbox
       </ion-segment-button>
-      <ion-segment-button value="sentView" (click)="inb('send')" id="sentView">
+      <ion-segment-button value="sentView" id="sentView">
         Sent
       </ion-segment-button>
     </ion-segment>

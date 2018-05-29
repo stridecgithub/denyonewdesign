@@ -58,9 +58,16 @@ export class AddenginedetailPage {
     public NP: NavParams,
     public fb: FormBuilder,
     public toastCtrl: ToastController, public platform: Platform) {
+
+
+
+
+
+    this.hidetollbarTextEditor();
     this.apiServiceURL = this.conf.apiBaseURL();
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
+        jQuery('.note-btn-group').hide();
         const overlayView = this.app._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
@@ -81,6 +88,56 @@ export class AddenginedetailPage {
   }
   ionViewDidLoad() {
     jQuery('#summernote').summernote();
+    this.hidetollbarTextEditor();
+  }
+  ionviewDidEnter() {
+
+    this.hidetollbarTextEditor();
+
+  }
+  hidetollbarTextEditor() {
+    jQuery('.note-icon-col-before').hide();
+    jQuery('.note-fontsize-10').hide();
+    jQuery('.note-icon-align-left').hide();
+    jQuery('.note-icon-align-right').hide();
+    jQuery('.note-icon-align-justify').hide();
+    jQuery('.note-icon-row-below').hide();
+    jQuery('.note-icon-row-above').hide();
+    jQuery('.note-icon-row-before').hide();
+    jQuery('.note-icon-row-after').hide();
+    jQuery('.note-icon-row-remove').hide();
+    jQuery('.note-icon-trash').hide();
+    jQuery('.note-icon-col-remove').hide();
+    jQuery('.note-icon-col-after').hide();
+    jQuery('.note-icon-link').hide();
+    jQuery('.note-btn-group.btn-group.note-link').hide();
+    jQuery('.note-icon-chain-broken').hide();
+    jQuery('.note-btn-group.btn-group.note-insert').hide();
+    // jQuery('.note-btn-group').hide();
+    
+    jQuery('.note-add').hide();
+    jQuery('.note-imagesize').hide();
+    jQuery('.note-float').hide();
+    jQuery('.note-remove').hide();
+    jQuery('.note-delete').hide();
+    jQuery('.note-frame panel .note-icon-link').show();
+
+    jQuery('.note-btn').show();
+    //note-icon-link
+
+    //jQuery('.note-children-container').addStyle('position: absolute;top: 32%;left: 5%;');
+    jQuery(".note-children-container").css({ 'position': 'fixed', 'top': '22%', 'left': '5%' });
+    jQuery(".note-imagesize").css({ 'position': 'fixed', 'top': '-69%', 'left': '5%' });
+    jQuery(".note-float").css({ 'position': 'fixed', 'top': '-69%', 'left': '5%' });
+    jQuery(".note-remove").css({ 'position': 'fixed', 'top': '-69%', 'left': '5%' });
+
+
+
+    /*jQuery(".note-btn-group.btn-group.note-add").hide();
+    jQuery(".button.note-btn.btn.btn-default.btn-sm.btn-md").hide();
+    jQuery(".note-btn-group.btn-group.note-link").hide();*/
+
+
   }
   ionViewWillEnter() {
     jQuery('#summernote').summernote();
@@ -122,8 +179,8 @@ export class AddenginedetailPage {
     jQuery('#summernote').summernote('code', this.rawhtml);
   }
   saveEntry() {
-    alert(jQuery('.summernote').val());
-    
+    //alert(jQuery('.summernote').val());
+
     this.rawhtml = jQuery('#summernote').summernote('code');
     console.log("Rawhtml:-" + this.rawhtml);
     if (this.isEdited) {
@@ -185,6 +242,7 @@ export class AddenginedetailPage {
     notification.present();
   }
   previous() {
+    jQuery('.note-btn-group').hide();
     this.navCtrl.setRoot(EnginedetailPage);
   }
 
