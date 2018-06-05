@@ -18,7 +18,6 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as papa from 'papaparse';
 import { Config } from '../../config/config';
 @Component({
   selector: 'page-reportviewtable',
@@ -328,16 +327,17 @@ export class ReportviewtablePage {
       // PDF
 
     } else if (this.graphview > 0) {
-
+      console.log('A');
       this.buttonClicked = false;
 
       if (seltypeBtn == '1') {
+        console.log('B');
         this.graphview = 0;
         this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
 
       } else {
-
+        console.log('C');
         // For Getting Unit Details in Graph
         let
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -363,9 +363,10 @@ export class ReportviewtablePage {
         this.http.get(url, options)
 
           .subscribe((data) => {
+            console.log('D');
             // If the request was successful notify the user
             res = data.json();
-
+            console.log(JSON.stringify(res));
             if (seltypeBtn == '1') {
               this.success = 1;
               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
@@ -374,18 +375,18 @@ export class ReportviewtablePage {
 
               this.headLists = res.templatedata;
               this.headValue = res.mobilehistorydata;
-             
+
               for (let jk = 0; jk <= this.headValue.length; jk++) {
-              
+
                 if (jk == this.headValue.length) {
-                
+
                   this.presentLoading(0);
                   this.processing = 1
                   this.progress += 5;
                   this.isProgress = false;
                   this.processingtxt = "";
                 } else {
-                
+
                   this.processing = 0;
                   this.processingtxt = "Processing... please wait.";
                   this.progress += jk;
@@ -393,7 +394,7 @@ export class ReportviewtablePage {
                 }
 
               }
-              
+
               this.posts = res.mobilehistorydata[0];
 
               this.totalcount = res.totalcount;
@@ -427,9 +428,11 @@ export class ReportviewtablePage {
             }
 
             this.noentrymsg = 'No report entries found';
+          }, error => {
+            console.log('E');
           });
         // For Gettting Unit Details in Graph
-
+        console.log('F');
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
           "&selunit=" + selunit +
           "&seltimeframe=" + seltimeframe +
@@ -445,9 +448,11 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-         
+
       }
+      console.log('G');
     }
+    console.log('H');
   }
   presentLoading(parm) {
     let loader;
@@ -588,27 +593,6 @@ export class ReportviewtablePage {
       }
     });
   }
-  csv() {
-
-    let csv = papa.unparse({
-      fields: this.headerRow,
-      data: this.csvData
-    });
-
-    // Dummy implementation for Desktop download purpose
-    var blob = new Blob([csv]);
-    var a = window.document.createElement("a");
-    a.href = window.URL.createObjectURL(blob);
-    a.download = "newdata.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-  }
-
-
-
-
 
   trackByFn(index: any, item: any) {
     return index;
