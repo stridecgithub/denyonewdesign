@@ -511,7 +511,7 @@ console.log(url);
 									this.enginestatuscolor = '#EDEDED';
 								}
 
-								this.commstatus = data.json().commstatus;
+								this.commstatus = data.json().commstatus;								
 								if (this.commstatus == 'Offline') {
 									this.commstatuscolor = "gray";
 								} else {
@@ -759,7 +759,10 @@ console.log(url);
 						for (var i = 0; i < res.length; i++) {
 							this.rangesdata = [];
 							var code = res[i].code.toLowerCase();
+							console.log( res[i].barlabels);
+							if( res[i].barlabels!=''){
 							var labels = res[i].barlabels.split(',');
+							}
 							var barchartcolors = res[i].barchartcolors.split(',');
 							var sval = 0;
 							var enval = 0;
@@ -1124,6 +1127,7 @@ console.log(url);
 			options: any = new RequestOptions({ headers: headers }),
 			url: any = this.apiServiceURL + "/getunitdetailsbyid?is_mobile=1&loginid=" + this.unitDetailData.userId +
 				"&unitid=" + this.unitDetailData.unit_id;
+				console.log(url);
 		this.http.get(url, options)
 			.subscribe((data) => {					// If the request was successful notify the user
 				if (data.status === 200) {
