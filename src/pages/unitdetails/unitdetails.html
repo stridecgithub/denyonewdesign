@@ -111,13 +111,14 @@
               <ion-col col-8>
                 <!-- Eng Status{{commstatus}}
                   Comm Status:{{enginestatus}} -->
-                <!-- <img src="assets/imgs/breaker-indicator@2x.png" *ngIf="commstatus=='Offline'"> -->
-                <img src="assets/imgs/breaker-indicator@2x.png" *ngIf="enginestatus!='Running'">
-                <!-- <img src="assets/imgs/breaker-indicator@2xerror.png" *ngIf="enginestatus=='Not Ready'">
-                <img src="assets/imgs/breaker-indicator@2xwarning.png" *ngIf="enginestatus=='Warning'"> -->
-                <img src="assets/imgs/breaker-indicator@2xonline.png" *ngIf="enginestatus=='Running'">               
-                <button class="io-btn" *ngIf="enginestatus!='Running'">I / O</button>
-                <button class="io-btn" *ngIf="enginestatus=='Running'">I / O Connected</button>
+                <img src="assets/imgs/breaker-indicator@2x.png" *ngIf="commstatus=='Offline'">
+                <img src="assets/imgs/breaker-indicator@2x.png" *ngIf="enginestatus==''">
+                <img src="assets/imgs/breaker-indicator@2xerror.png" *ngIf="enginestatus=='Not Ready'">
+                <img src="assets/imgs/breaker-indicator@2xwarning.png" *ngIf="enginestatus=='Warning'">
+                <img src="assets/imgs/breaker-indicator@2xonline.png" *ngIf="enginestatus=='Ready'">
+                <button class="io-btn" *ngIf="commstatus=='Offline'">I / O</button>
+                <button class="io-btn" *ngIf="commstatus=='Online' && enginestatus==''">I / O</button>
+                <button class="io-btn" *ngIf="commstatus=='Online' && enginestatus!=''">I / O Connected</button>
               </ion-col>
               <ion-col col-4>
                 <button class="breaker-btn start" [disabled]="startbtnenable" (click)="overviewAction(genkey,unitDetailData.controllerid,'on')">START</button>
