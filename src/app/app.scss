@@ -828,7 +828,6 @@ page-modal.ion-page > ion-content .scroll-content{
 	position:absolute;
 	width: 111%;
 }
-
 .typeahead.dropdown-menu li {
     display: block;
     padding: 5px 0 6px 0;
@@ -836,7 +835,6 @@ page-modal.ion-page > ion-content .scroll-content{
     font-size: 12px;
     margin: 0 15px;
 }
-
 .typeahead.dropdown-menu li a {
     color: #444444;
     text-decoration: none;
@@ -883,4 +881,7 @@ page-modal.ion-page > ion-content .scroll-content{
 #menu-app-version-right {
   font-size: 12px;
   float: right;
+}
+.picker-suffix, .picker-md .picker-opt.picker-opt{
+  font-size: 16px;
 }

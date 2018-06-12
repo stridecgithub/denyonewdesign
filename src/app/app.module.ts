@@ -82,6 +82,10 @@ import { LongPressModule } from 'ionic-long-press';
 import { ViewunitPage } from '../pages/viewunit/viewunit';
 import { PaginatePage } from '../pages/paginate/paginate';
 import { MockProvider } from '../providers/pagination/pagination';
+import { FileOpener } from '@ionic-native/file-opener';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { DocumentViewer } from '@ionic-native/document-viewer';
 @NgModule({
   declarations: [
     PermissionPage,
@@ -264,6 +268,10 @@ import { MockProvider } from '../providers/pagination/pagination';
     SplashScreen,
     NativeStorage,
     Network,
+    FileOpener,
+    FileTransfer,
+     File, 
+     DocumentViewer,
     MockProvider,
     Push,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

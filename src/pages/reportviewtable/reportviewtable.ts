@@ -10,7 +10,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 //import { UnitsPage } from '../units/units';
 import { NotificationPage } from '../notification/notification';
 //import { CalendarPage } from '../calendar/calendar';
-import { DatePicker } from '@ionic-native/date-picker';
 import { ReportsPage } from '../reports/reports';
 //import { OrgchartPage } from '../orgchart/orgchart';
 import { DocumentViewer } from '@ionic-native/document-viewer';
@@ -22,7 +21,7 @@ import { Config } from '../../config/config';
 @Component({
   selector: 'page-reportviewtable',
   templateUrl: 'reportviewtable.html',
-  providers: [DatePicker, FileOpener, FileTransfer, File, DocumentViewer]
+  //providers: [ ]
 })
 export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
@@ -94,9 +93,11 @@ export class ReportviewtablePage {
   public showload: boolean = false;
   public buttonClicked: boolean = false;
   processingtxt: any;
+  reportcount:any;
   constructor(public app: App, private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
+    this.reportcount=0;
     this.processing = 0;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -252,17 +253,21 @@ export class ReportviewtablePage {
           "&companyid=" + this.companyid;
       let res;
 
-
+      console.log("Table View Report Response URL:"+url);
       this.http.get(url, options)
         ///this.http.post(url, body, options)
         .subscribe((data) => {
+         
           //this.presentLoading(1);
           // If the request was successful notify the user
           res = data.json();
+          console.log("Table View Report Response Result"+JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
+          this.reportcount=res.reportcount;
+          console.log("A"+this.reportcount);
           if (res.totalcount > 0) {
             this.download(1, showrunning, showonline, showload);
             this.download(2, showrunning, showonline, showload);
@@ -366,6 +371,8 @@ export class ReportviewtablePage {
             console.log('D');
             // If the request was successful notify the user
             res = data.json();
+            this.reportcount=res.reportcount;
+            console.log("B"+this.reportcount);
             console.log(JSON.stringify(res));
             if (seltypeBtn == '1') {
               this.success = 1;
@@ -523,6 +530,7 @@ export class ReportviewtablePage {
         // this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
+      
         let uri;
         if (val == 1) {
           uri = res.pdf;

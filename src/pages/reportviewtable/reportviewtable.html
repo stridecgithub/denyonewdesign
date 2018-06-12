@@ -23,7 +23,7 @@
         </button>
       </div>
     </ion-navbar>
-    <div class="download-option" *ngIf="buttonClicked">
+    <div class="download-option" *ngIf="buttonClicked  && reportcount>0">
       <ion-row>
         <ion-list>
           <!-- <a href="javascript:void(0)" (click)="download(1)">PDF</a> -->
@@ -175,7 +175,7 @@
       </ion-col>
     </ion-row>
     <br/>
-    <ion-row *ngIf="graphview==0  && success==0">
+    <ion-row *ngIf="success==0">
       <ion-col col-4>
         <ion-checkbox color="dark" checked="true" [(ngModel)]="showrunning"></ion-checkbox> Generator running
       </ion-col>
@@ -188,7 +188,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="row" *ngIf="graphview==0  && success==0">
+    <ion-row class="row" *ngIf="success==0">
       <ion-col class="col col" col-12="">
         <div class="bottom-row bot-row2-srvce">
           <button ion-button small color="dark" (click)="getReportResult(seltypeBtn,exportto,selunit,seltimeframe,seltemplate,from,to,showrunning,showonline,showload)">Apply Filter</button>
@@ -197,7 +197,7 @@
     </ion-row>
 
   </div>
-  <div class="table-view" *ngIf="graphview==0  && success==0 && processing>0">
+  <div class="table-view" *ngIf="graphview==0  && success==0 && processing>0  && reportcount>0">
 
     <table>
       <thead>
@@ -207,7 +207,14 @@
 
         </tr>
       </thead>
-      <div class="error" *ngIf="totalcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
+
+      <!-- <tbody>
+        <tr>
+          <td>
+            <div class="error" *ngIf="reportcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
+          </td>
+        </tr>
+      </tbody> -->
 
       <tbody>
         <tr *ngFor="let valueitem  of headValue; let i = index">
@@ -221,9 +228,12 @@
 
   </div>
 
-  <div class="table-view" *ngIf="graphview>0">
+  <div class="table-view" *ngIf="graphview>0  && reportcount>0">
     <iframe width="1000px" height="500" [src]="url" frameborder="0"></iframe>
   </div>
+
+  <!-- <div *ngIf="reportcount==0" class="error"></div> -->
+  <div class="error" *ngIf="reportcount==0 && processing==1" style="color:red;text-align:center">No Records Found!</div>
 </ion-content>
 <ion-footer>
   <progress-bar [progress]="footerBar"></progress-bar>
