@@ -65,6 +65,7 @@ export class UnitdetailsPage {
 	oilpressuercolors;
 	batteryvoltlabel;
 	batteryvoltcolors;
+	loadfactor: any;
 	public colorListArr = [];
 	public voltsetpointslabel = [];
 	iframeContent: any;
@@ -84,7 +85,7 @@ export class UnitdetailsPage {
 	enginespeed;
 	timerswitch;
 	fuellevel;
-	loadpower;
+	loadpower: any;
 	coolanttemp;
 	oilpressure;
 	loadpowerfactor;
@@ -177,7 +178,11 @@ export class UnitdetailsPage {
 	edit_device;
 	delete_device;
 	pin_device;
+	breakerindicatorimage;
+	breakerindicatortext;
 	constructor(public app: App, public modalCtrl: ModalController, public alertCtrl: AlertController, private conf: Config, public platform: Platform, public http: Http, private sanitizer: DomSanitizer, public NP: NavParams, public navCtrl: NavController, public navParams: NavParams) {
+		this.breakerindicatorimage = 'indicator@2x.png';
+		this.breakerindicatortext = 'I / O';
 		this.platform.ready().then(() => {
 			this.platform.registerBackButtonAction(() => {
 				const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -455,7 +460,7 @@ export class UnitdetailsPage {
 							url: any = this.apiServiceURL + urlstr;
 
 
-console.log(url);
+						console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 
@@ -498,7 +503,7 @@ console.log(url);
 								this.selectedfuel = this.fuellevel;
 								// Fuel Level
 								// Load Power Factor
-								this.loadpower = data.json().loadpower;
+								this.loadpower = parseFloat(data.json().loadpower);
 								this.selectedloadpower = this.loadpower;
 								// Load Power Factor
 
@@ -565,19 +570,33 @@ console.log(url);
 
 						// Current
 						let current = 0;
-						//let actual_current = this.selectedcurrent;
+						/*
+	
+							if (this.selectedcurrent == parseFloat(this.setpointsdata[1].minvalue)) {
+								current = 0;
+	
+							} else if (this.selectedcurrent >= parseFloat(this.setpointsdata[1].maxvalue)) {
+	
+								current = 100;
+							} else {
+	
+								current = this.selectedcurrent;
+							}
+	
+	*/
 
-						if (this.selectedcurrent == parseFloat(this.setpointsdata[1].minvalue)) {
-							current = 0;
-
-						} else if (this.selectedcurrent >= parseFloat(this.setpointsdata[1].maxvalue)) {
-
-							current = 100;
-						} else {
-
-							current = this.selectedcurrent;
+						let gaugevalcurrent;
+						if (this.selectedcurrent < 0)
+							gaugevalcurrent = 0;
+						else if (this.selectedcurrent > 100) {
+							if (this.selectedcurrent >= 150) {
+								gaugevalcurrent = (this.selectedcurrent / 10) * 2;
+							} else {
+								gaugevalcurrent = 100;
+							}
 						}
-
+						else
+							gaugevalcurrent = this.selectedcurrent;
 
 						var cntlabels = JSON.parse('{' + this.currentlabel + '}');
 						var cntcolors = JSON.parse('{' + this.currentcolors + '}');
@@ -591,7 +610,7 @@ console.log(url);
 							arrowWidth: 5,
 							arrowColor: '#000',
 							inset: false,
-							value: current
+							value: gaugevalcurrent
 						});
 						// Current
 
@@ -690,13 +709,13 @@ console.log(url);
 
 
 						// Load Factor
-						let loadfactor = 0;
+						this.loadfactor = 0;
 
-						let actual_loadfactor = this.loadpower;//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
+						//Math.floor(Math.random() * (450 - 280 + 1)) + 280;
 
-						let mnfactor = this.setpointsdata[4].minvalue;
-						let mxfactor = this.setpointsdata[4].maxvalue;
-						if (mnfactor == '') {
+						let minvalue = this.setpointsdata[5].minvalue;
+						let maxvalue = this.setpointsdata[5].maxvalue;
+						/*if (mnfactor == '') {
 							mnfactor = 0;
 						}
 						if (mxfactor == '') {
@@ -708,11 +727,43 @@ console.log(url);
 							loadfactor = 100;
 						} else {
 							loadfactor = this.loadpower;
+						}*/
+						let gaugeval = 0;
+						if (minvalue == '') { minvalue = 0; }
+						if (maxvalue == '') { maxvalue = 100; }
+
+						if (maxvalue < 100) {
+							minvalue = 0;
+							maxvalue = 100;
+						}
+						if (minvalue == 0 && maxvalue == 100) {
+							if (this.loadpower < 0)
+								this.loadfactor = 0;
+							else if (this.loadpower > 100)
+								this.loadfactor = 100;
+							else
+								this.loadfactor = this.loadpower;
+						} else {
+
+
+							this.loadfactor = this.loadpower / 2;
+							if (minvalue > 200) {
+								this.loadfactor = this.loadpower / 4;
+							}
+
 						}
 
-						var loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
-						var loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
+						let loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
+						let loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
+						console.log("Min Value of Load Power:" + minvalue);
+						console.log("Max Value of Load Power:" + maxvalue);
+						console.log("Load Power isNaN:" + isNaN(this.loadfactor))
+						let loadfactorisnan = isNaN(this.loadfactor);
+						if (loadfactorisnan == true) {
+							this.loadfactor = 0;
+						}
 
+						console.log("Gauge Value of Load Power:" + this.loadfactor);
 						let loadpowergauge = new Gauge(jQuery('.loadpowergauge'), {
 
 							values: loadpowerlabels,
@@ -722,7 +773,7 @@ console.log(url);
 							arrowWidth: 5,
 							arrowColor: '#000',
 							inset: false,
-							value: loadfactor
+							value: this.loadfactor
 						});
 						// Load Factor
 
@@ -779,14 +830,28 @@ console.log(url);
 								}
 
 								var gradver;
-								if (barchartcolors[x] == "gradient1") {
-									gradver = '#df0000';
-								}
-								if (barchartcolors[x] == "gradient2") {
-									gradver = '#ffca00';
-								}
-								if (barchartcolors[x] == "gradient3") {
-									gradver = '#00FF50';
+
+
+								if (code == 'batteryvolt') {
+									/*if (barchartcolors[x] == "gradient1") {
+										gradver = '#ffca00';
+									}*/
+									if (barchartcolors[x] == "gradient2") {
+										gradver = '#ffca00';
+									}
+									if (barchartcolors[x] == "gradient3") {
+										gradver = '#00ff50';
+									}
+								} else {
+									if (barchartcolors[x] == "gradient1") {
+										gradver = '#df0000';
+									}
+									if (barchartcolors[x] == "gradient2") {
+										gradver = '#ffca00';
+									}
+									if (barchartcolors[x] == "gradient3") {
+										gradver = '#00FF50';
+									}
 								}
 
 								this.rangesdata.push({
@@ -829,15 +894,25 @@ console.log(url);
 									fillStyle: '#00FF50'
 								})
 							} else {
-
-								this.rangesdata.push({
-									startValue: enval,
-									endValue: res[i].maxvalue,
-									innerOffset: 0.46,
-									outerStartOffset: 0.70,
-									outerEndOffset: 0.70,
-									fillStyle: '#df0000'
-								})
+								if (code != 'batteryvolt') {
+									this.rangesdata.push({
+										startValue: enval,
+										endValue: res[i].maxvalue,
+										innerOffset: 0.46,
+										outerStartOffset: 0.70,
+										outerEndOffset: 0.70,
+										fillStyle: '#df0000'
+									})
+								} else {
+									this.rangesdata.push({
+										startValue: enval,
+										endValue: res[i].maxvalue,
+										innerOffset: 0.46,
+										outerStartOffset: 0.70,
+										outerEndOffset: 0.70,
+										fillStyle: '#ffca00'
+									})
+								}
 							}
 
 							if (code == "coolanttemp") {
@@ -869,8 +944,8 @@ console.log(url);
 							}
 							if (code == "batteryvolt") {
 
-								if (this.batteryvoltage > 24) {
-									this.needlevalue = 24;
+								if (this.batteryvoltage > res[i].maxvalue) {
+									this.needlevalue = res[i].maxvalue;
 								} else if (this.batteryvoltage <= 0) {
 									this.needlevalue = 0;
 								} else {
@@ -1024,7 +1099,8 @@ console.log(url);
 								} else {
 									this.commstatuscolor = "#00BA28";
 								}
-
+								this.breakerindicatorimage = data.json().breakerindicatorimage;
+								this.breakerindicatortext = data.json().breakerindicatortext
 								this.startbtn = data.json().startbtn;
 								this.stopbtn = data.json().stopbtn;
 

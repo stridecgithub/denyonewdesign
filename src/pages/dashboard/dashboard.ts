@@ -56,6 +56,7 @@ export class DashboardPage {
   public totalCountList: number;
   public unitAllLists = [];
   public defaultUnitAllLists = [];
+  public pinunits = [];
   public arrayid = [];
   public reportData: any =
     {
@@ -344,7 +345,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-      console.log("Notification Count:"+url);
+    console.log("Notification Count:" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -437,7 +438,7 @@ export class DashboardPage {
             this.totalCount = 0;
             console.log('D');
           }
-         
+
         }
       }, error => {
         console.log('C');
@@ -568,6 +569,7 @@ export class DashboardPage {
    * Initiate G Map
    */
   initMap() {
+   
     this.totalCount = 0;
     // Setting up for API call
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -612,7 +614,7 @@ export class DashboardPage {
             latitude: '1.3249773'
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == 'undefined') {
@@ -623,24 +625,25 @@ export class DashboardPage {
             latitude: '1.3249773'
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == '') {
           this.defaultUnitAllLists.push({
             unitname: '',
             longtitude: '103.70307100000002',
-            latitude: '1.3249773'
+            latitude: '1.3249773',
+            mapicon:''
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else {
 
 
           // Load G Map
-          this.loadMap(res.units, 1);
+          this.loadMap(res.units, 1, res.latuniquearrcount);
           // Units popups
           this.unitsPopups = res.units;
 
@@ -656,13 +659,35 @@ export class DashboardPage {
    *
    * @param units
    */
-  loadMap(units, unitsavail) {
+  loadMap(units, unitsavail,countrycount) {
+console.log("Country Count Different"+countrycount);
+    this.pinunits=[];
+
+    // Units All
+    console.log("Map All Units Including Offline:-" + JSON.stringify(units));
 
 
 
-    // Units
+    if (units.length > 0) {
+      for (let unit in units) {
+        if (units[unit].mapicon != '') {
+          this.pinunits.push({
+            unit_id: units[unit].unit_id,
+            controllerid: units[unit].controllerid,
+            unitname: units[unit].unitname,
+            latitude: units[unit].latitude,
+            longtitude: units[unit].longtitude,
+            location: units[unit].location,
+            mapicon: units[unit].mapicon,
+          });
+        }
+      }
+    }
 
-    let markers = units;
+    console.log("Map All Units Only Online:-" + JSON.stringify(this.pinunits));
+
+
+    let markers = this.pinunits;
 
     // Maps styles
     let mapStyle = [
@@ -896,15 +921,19 @@ export class DashboardPage {
     let bounds = new google.maps.LatLngBounds();
     let latLngmapoption;
     let zoomlevel = 8;
-    if (markers.length == 1) {
+    if (countrycount == 1) {
+      console.log('A');
+      zoomlevel = 14;
+      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
+    } else if (countrycount > 1) {
+      console.log('B');
+      zoomlevel = 3;
+      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
+      //latLngmapoption = new google.maps.LatLng(19.5080653, 96.2473704);
+    } else {
+      console.log('C');
       zoomlevel = 10;
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
-    } else if (markers.length > 1) {
-      zoomlevel = 5;
-      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
-    } else {
-      zoomlevel = 18;
-      latLngmapoption = new google.maps.LatLng(1.32, 103.701);
     }
 
     // Map options
@@ -913,7 +942,7 @@ export class DashboardPage {
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom: 18
+      zoom:zoomlevel
     }
 
 
@@ -1000,14 +1029,16 @@ export class DashboardPage {
     //}
     // Automatically center the map fitting all markers on the screen
     //this.map.setZoom(11);
-    //this.map.fitBounds(bounds);
+    if (countrycount > 1) {
+      this.map.fitBounds(bounds);
+    }
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
+   /* let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
       this.setZoom(zoomlevel);
       google.maps.event.removeListener(boundsListener);
     });
-
+*/
 
   }
 

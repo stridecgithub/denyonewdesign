@@ -211,9 +211,9 @@ export class UserPage {
             }
           }
 
-          this.reportData.startindex = 0;
-          this.userAllLists = [];
-          this.doUser();
+        //  this.reportData.startindex = 0;
+         // this.userAllLists = [];
+          //this.doUser();
         }
       },
       {
@@ -242,7 +242,9 @@ export class UserPage {
       .subscribe(data => {
         // If the request was successful notify the user
         if (data.status === 200) {
-
+          this.reportData.startindex = 0;
+          this.userAllLists = [];
+          this.doUser();         
           this.sendNotification(`User was successfully deleted`);
         }
         // Otherwise let 'em know anyway

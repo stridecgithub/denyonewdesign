@@ -54,7 +54,7 @@ export class OrgchartPage {
   public userId: any;
   public companyId: any;
   public CREATEACCESS: any;
-  public VIEWACCESS: any;  
+  public VIEWACCESS: any;
   public tap: number = 600;
   timeout: any;
   width: any;
@@ -157,7 +157,7 @@ export class OrgchartPage {
       this.imgheight = this.imgheight + 1;
       this.imgradius = parseInt(this.imgwidth) / 2;
 
-     
+
     } else {
       this.fontsize = this.fontsize - 1;
 
@@ -205,7 +205,7 @@ export class OrgchartPage {
 
   pinchEventManual(e) {
     //if (this.imgwidth >= 80 && this.imgwidth <= 250) {
-   
+
     if (e == 'pinchout') {
 
       this.fontsize = this.fontsize + 1;
@@ -217,7 +217,7 @@ export class OrgchartPage {
       this.imgheight = this.imgheight + 1;
       this.imgradius = parseInt(this.imgwidth) / 2;
 
-     
+
 
     } else {
       if (this.imgwidth >= 80) {
@@ -239,7 +239,7 @@ export class OrgchartPage {
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
         this.imgradius = parseInt(this.imgwidth) / 2;
-     
+
       }
 
 
@@ -414,7 +414,7 @@ export class OrgchartPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
-
+    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {

@@ -375,7 +375,7 @@ export class UnitsPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
 
-
+console.log("Favorite Action Url:"+url+"?"+body);
     this.http.post(url, body, options)
       .subscribe(data => {
         //this.reportData.startindex = 0;
@@ -397,7 +397,7 @@ export class UnitsPage {
 
         }
 
-
+/*
 
         if (res.units.length > 0) {
           for (let unit in res.units) {
@@ -443,7 +443,7 @@ export class UnitsPage {
         } else {
           this.totalCount = 0;
         }
-
+*/
 
       }, error => {
       });
