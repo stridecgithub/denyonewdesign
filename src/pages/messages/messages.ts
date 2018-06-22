@@ -11,8 +11,7 @@ import { DashboardPage } from '../dashboard/dashboard';
 import { MockProvider } from '../../providers/pagination/pagination';
 @Component({
   selector: 'page-messages',
-  templateUrl: 'messages.html',
-  providers: [Config]
+  templateUrl: 'messages.html'
 })
 export class MessagesPage {
   footerBar: number = 3;
@@ -593,7 +592,6 @@ export class MessagesPage {
           this.inboxData.startindex = 0;
           this.items = [];
           this.selecteditems = [];
-          console.log("Delete Action" + typestr);
           this.inb(typestr);
         }
         // Otherwise let 'em know anyway
@@ -1361,8 +1359,6 @@ export class MessagesPage {
   }
   */
   segmentChanged(evt, mod) {
-    console.log("Event" + evt);
-    console.log("Mod" + mod);
     if (mod == "inboxView") {
       this.inb('inbox');
     } else if (mod == "sentView") {

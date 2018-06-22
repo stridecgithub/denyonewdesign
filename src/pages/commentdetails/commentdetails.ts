@@ -20,8 +20,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
 
 @Component({
   selector: 'page-commentdetails',
-  templateUrl: 'commentdetails.html',
-  providers: [Config]
+  templateUrl: 'commentdetails.html'
 })
 export class CommentdetailsPage {
 

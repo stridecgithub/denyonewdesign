@@ -22,8 +22,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-addhoc',
-  templateUrl: 'addhoc.html',
-  providers: [Camera, FileTransfer, File, DatePicker, Config, FileChooser]
+  templateUrl: 'addhoc.html'
 })
 export class AddhocPage {
   @ViewChild('fileInput') fileInput;

@@ -29,8 +29,7 @@ import { ViewunitPage } from '../viewunit/viewunit';
 
 @Component({
 	selector: 'page-unitdetails',
-	templateUrl: 'unitdetails.html',
-	providers: [Config]
+	templateUrl: 'unitdetails.html'
 })
 export class UnitdetailsPage {
 	private subscription: Subscription;
@@ -315,7 +314,7 @@ export class UnitdetailsPage {
 				headers2: any = new Headers({ 'Content-Type': type2 }),
 				options2: any = new RequestOptions({ headers: headers2 }),
 				url2: any = this.apiServiceURL + "/gaugedetails/" + this.navParams.get('record').controllerid;
-			console.log("gaugedetails:" + url2);
+			
 			this.http.get(url2, options2)
 				.subscribe((data) => {
 					let res1;
@@ -359,7 +358,6 @@ export class UnitdetailsPage {
 						this.voltcolors = this.setpointsdata[0].colors;
 
 						this.currentlabel = this.setpointsdata[1].labels;
-						console.log("Current Labels:-" + this.currentlabel);
 						this.currentcolors = this.setpointsdata[1].colors;
 
 						this.frequencylabel = this.setpointsdata[2].labels;
@@ -458,9 +456,6 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-
-
-						console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 
@@ -755,15 +750,13 @@ export class UnitdetailsPage {
 
 						let loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
 						let loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
-						console.log("Min Value of Load Power:" + minvalue);
-						console.log("Max Value of Load Power:" + maxvalue);
-						console.log("Load Power isNaN:" + isNaN(this.loadfactor))
+						
 						let loadfactorisnan = isNaN(this.loadfactor);
 						if (loadfactorisnan == true) {
 							this.loadfactor = 0;
 						}
 
-						console.log("Gauge Value of Load Power:" + this.loadfactor);
+						
 						let loadpowergauge = new Gauge(jQuery('.loadpowergauge'), {
 
 							values: loadpowerlabels,
@@ -1090,7 +1083,7 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-						console.log(url);
+						
 						this.http.get(url, options)
 							.subscribe((data) => {
 								this.commstatus = data.json().commstatus;
@@ -1409,7 +1402,6 @@ export class UnitdetailsPage {
 			headers1: any = new Headers({ 'Content-Type': type1 }),
 			options1: any = new RequestOptions({ headers: headers1 }),
 			url1: any = this.apiServiceURL + "/" + unitid + "/1/enginedetailsnewapi";
-		console.log(url1);
 		this.http.get(url1, options1)
 			.subscribe((data) => {
 				let res;

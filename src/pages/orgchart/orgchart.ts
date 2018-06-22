@@ -22,8 +22,7 @@ import { PermissionPage } from '../../pages/permission/permission';
 
 @Component({
   selector: 'page-orgchart',
-  templateUrl: 'orgchart.html',
-  providers: [Config]
+  templateUrl: 'orgchart.html'
 })
 export class OrgchartPage {
   private gesture: Gesture;
@@ -413,8 +412,7 @@ export class OrgchartPage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
-    console.log(url);
+      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";   
     let res;
     this.http.get(url, options)
       .subscribe((data) => {

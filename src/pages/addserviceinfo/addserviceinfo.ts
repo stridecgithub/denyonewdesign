@@ -25,8 +25,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-addserviceinfo',
-  templateUrl: 'addserviceinfo.html',
-  providers: [Camera, FileTransfer, File, Config, FileChooser]
+  templateUrl: 'addserviceinfo.html'
 })
 export class AddserviceinfoPage {
   @ViewChild('fileInput') fileInput;
@@ -589,7 +588,6 @@ export class AddserviceinfoPage {
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
-        console.log(JSON.stringify(res));
         // If the request was successful notify the user
         if (data.status === 200) {
           this.service_subject = '';
@@ -626,7 +624,6 @@ export class AddserviceinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
-    console.log("Quick Push:-" + url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;

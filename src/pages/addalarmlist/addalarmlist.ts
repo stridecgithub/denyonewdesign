@@ -18,8 +18,7 @@ import { ModalPage } from '../modal/modal';
 
 @Component({
   selector: 'page-addalarmlist',
-  templateUrl: 'addalarmlist.html',
-  providers: [Config]
+  templateUrl: 'addalarmlist.html'
 })
 export class AddalarmlistPage {
   public msgcount: any;

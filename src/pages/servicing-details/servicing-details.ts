@@ -16,8 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'page-servicing-details',
-  templateUrl: 'servicing-details.html',
-  providers: [Config]
+  templateUrl: 'servicing-details.html'
 })
 export class ServicingDetailsPage {
   service_id;
@@ -97,6 +96,7 @@ export class ServicingDetailsPage {
           url1: any = this.apiServiceURL + "/servicebyid";
         this.http.post(url1, body, options1)
           .subscribe((data) => {
+            
             this.profilePicture = data.json().servicedetail[0].user_photo;
             this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(data.json().servicedetail[0].user_photo);
             this.item = data.json().servicedetail[0];
@@ -163,7 +163,6 @@ export class ServicingDetailsPage {
           });
       }
     } else {
-
       this.service_unitid = this.navParams.get("record").service_unitid;
       this.serviced_datetime = this.navParams.get("record").serviced_datetime;
       this.next_service_date_selected = this.navParams.get("record").next_service_date_selected;

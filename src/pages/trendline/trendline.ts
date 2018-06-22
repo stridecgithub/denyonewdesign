@@ -15,8 +15,7 @@ import { ModalPage } from '../modal/modal';
 
 @Component({
   selector: 'page-trendline',
-  templateUrl: 'trendline.html',
-  providers: [Config]
+  templateUrl: 'trendline.html'
 })
 export class TrendlinePage {
   //tabBarElement: any;

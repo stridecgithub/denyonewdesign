@@ -5,8 +5,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
 @Component({
   selector: 'page-paginate',
-  templateUrl: 'paginate.html',
-  providers:[MockProvider,Config]
+  templateUrl: 'paginate.html'
 })
 export class PaginatePage {
   items: string[];

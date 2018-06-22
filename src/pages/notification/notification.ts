@@ -25,8 +25,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-notification',
-  templateUrl: 'notification.html',
-  providers: [Config]
+  templateUrl: 'notification.html'
 })
 export class NotificationPage {
   public pageTitle: string;
@@ -241,7 +240,6 @@ export class NotificationPage {
           if (res.notification.length > 0) {
             this.conf.presentLoading(1);
             this.totalCount = res.notification.length;
-            console.log("Notification Length:"+ this.totalCount);
             for (let notifications in res.notification) {
 
               let usericon = '';

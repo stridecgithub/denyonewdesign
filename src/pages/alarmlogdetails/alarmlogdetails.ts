@@ -13,8 +13,7 @@ import { Config } from '../../config/config';
 
 @Component({
   selector: 'page-alarmlogdetails',
-  templateUrl: 'alarmlogdetails.html',
-  providers: [Config]
+  templateUrl: 'alarmlogdetails.html'
 })
 export class AlarmlogdetailsPage {
   alarm_name;

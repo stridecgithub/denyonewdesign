@@ -20,8 +20,7 @@ import { MessageDetailViewPage } from '../message-detail-view/message-detail-vie
 
 @Component({
   selector: 'page-messagedetail',
-  templateUrl: 'messagedetail.html',
-  providers: [Config]
+  templateUrl: 'messagedetail.html'
 })
 export class MessagedetailPage {
   public service_id: any;

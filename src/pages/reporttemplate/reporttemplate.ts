@@ -20,8 +20,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-reporttemplate',
-  templateUrl: 'reporttemplate.html',
-  providers: [Config]
+  templateUrl: 'reporttemplate.html'
 })
 export class ReporttemplatePage {
   public pageTitle: string;

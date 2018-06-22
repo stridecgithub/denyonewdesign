@@ -19,8 +19,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-companygroup',
-  templateUrl: 'companygroup.html',
-  providers: [Config]
+  templateUrl: 'companygroup.html'
 })
 export class CompanygroupPage {
   footerBar: number = 0;

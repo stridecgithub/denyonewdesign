@@ -26,8 +26,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-role',
-  templateUrl: 'role.html',
-  providers: [Config]
+  templateUrl: 'role.html'
 })
 export class RolePage {
   public footerBar = [];

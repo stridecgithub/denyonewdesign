@@ -16,8 +16,7 @@ import { DashboardPage } from '../dashboard/dashboard';
 
 @Component({
   selector: 'page-add-unit',
-  templateUrl: 'add-unit.html',
-  providers: [ Config]
+  templateUrl: 'add-unit.html'
 })
 export class AddUnitPage {
   public form: FormGroup;

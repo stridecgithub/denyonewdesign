@@ -22,8 +22,7 @@ declare var jQuery: any;
 
 @Component({
   selector: 'page-compose',
-  templateUrl: 'compose.html',
-  providers: [Camera, FileChooser, FileTransfer, File, Config]
+  templateUrl: 'compose.html'
 })
 export class ComposePage {
   form: FormGroup;
@@ -235,9 +234,7 @@ export class ComposePage {
         this.isReply = 1;
         if (this.senderid == this.userId) {
 
-          this.to = this.navParams.get("record").replyall;//this.receiver_id;
-          console.log(JSON.stringify(this.navParams.get("record")));
-          console.log(this.to);
+          this.to = this.navParams.get("record").replyall;//this.receiver_id;        
           this.addedImgLists = [];
           this.copytome = 0;
 
@@ -252,9 +249,6 @@ export class ComposePage {
           this.isReply = 0;
 
           this.to = this.navParams.get("record").replyall;
-          console.log(JSON.stringify(this.navParams.get("record")));
-          console.log(this.to);
-
           this.addedImgLists = [];
           this.copytome = 0;
           this.getPrority(this.navParams.get("record").message_priority);
@@ -539,7 +533,6 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstring;
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
@@ -550,7 +543,6 @@ export class ComposePage {
           //localStorage.setItem("atMentionResult", '');
           //  this.navCtrl.setRoot(MessagesPage);
           // return false;
-          console.log(JSON.stringify(data.json()));
           if (data.json().msg[0]['pushid'] != '') {
             this.quickPush(data.json().msg[0]['pushid']);
           }
@@ -579,7 +571,6 @@ export class ComposePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;

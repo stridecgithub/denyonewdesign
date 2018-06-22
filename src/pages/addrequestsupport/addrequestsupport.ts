@@ -21,8 +21,7 @@ import * as moment from 'moment';
  */
 @Component({
   selector: 'page-addrequestsupport',
-  templateUrl: 'addrequestsupport.html',
-  providers: [Camera, FileTransfer, File, DatePicker, Config, FileChooser]
+  templateUrl: 'addrequestsupport.html'
 })
 export class AddrequestsupportPage {
   @ViewChild('fileInput') fileInput;

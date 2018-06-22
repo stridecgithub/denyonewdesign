@@ -17,8 +17,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-addalarm',
-  templateUrl: 'addalarm.html',
-  providers: [Config]
+  templateUrl: 'addalarm.html'
 })
 export class AddalarmPage {
   public msgcount: any;

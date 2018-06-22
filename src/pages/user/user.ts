@@ -19,8 +19,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
 
 @Component({
   selector: 'page-user',
-  templateUrl: 'user.html',
-  providers: [Config]
+  templateUrl: 'user.html'
 })
 
 export class UserPage {

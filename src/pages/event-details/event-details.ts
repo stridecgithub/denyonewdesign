@@ -16,8 +16,7 @@ import { NotificationPage } from '../notification/notification';
 
 @Component({
   selector: 'page-event-details',
-  templateUrl: 'event-details.html',
-  providers: [Config]
+  templateUrl: 'event-details.html'
 })
 export class EventDetailsPage {
 

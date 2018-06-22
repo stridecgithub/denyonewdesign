@@ -15,8 +15,7 @@ import { ModalPage } from '../modal/modal';
  */
 @Component({
   selector: 'page-enginedetailview',
-  templateUrl: 'enginedetailview.html',
-  providers: [Config]
+  templateUrl: 'enginedetailview.html'
 })
 export class EnginedetailviewPage {
 

@@ -22,8 +22,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
 
 @Component({
   selector: 'page-commentsinfo',
-  templateUrl: 'commentsinfo.html',
-  providers: [Config]
+  templateUrl: 'commentsinfo.html'
 })
 export class CommentsinfoPage {
   public pageTitle: string;

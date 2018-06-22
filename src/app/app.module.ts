@@ -86,6 +86,9 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { DocumentViewer } from '@ionic-native/document-viewer';
+import { Camera } from '@ionic-native/camera';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { DatePicker } from '@ionic-native/date-picker';
 @NgModule({
   declarations: [
     PermissionPage,
@@ -270,10 +273,13 @@ import { DocumentViewer } from '@ionic-native/document-viewer';
     Network,
     FileOpener,
     FileTransfer,
-     File, 
-     DocumentViewer,
+    File,
+    DocumentViewer,
     MockProvider,
     Push,
+    Camera,
+    FileChooser,
+    DatePicker,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataServiceProvider
   ]

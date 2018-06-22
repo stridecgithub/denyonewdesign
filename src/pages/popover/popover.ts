@@ -11,8 +11,7 @@ import { Config } from '../../config/config';
  */
 @Component({
   selector: 'page-popover',
-  templateUrl: 'popover.html',
-  providers: [Config]
+  templateUrl: 'popover.html'
 
 })
 export class PopoverPage {

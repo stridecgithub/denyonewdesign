@@ -23,8 +23,7 @@ import * as moment from 'moment';
  */
 @Component({
   selector: 'page-addcommentsinfo',
-  templateUrl: 'addcommentsinfo.html',
-  providers: [Camera, FileTransfer, File, DatePicker, Config, FileChooser]
+  templateUrl: 'addcommentsinfo.html'
 })
 export class AddcommentsinfoPage {
   @ViewChild('fileInput') fileInput;
@@ -562,7 +561,6 @@ export class AddcommentsinfoPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/comments/store";
-console.log("Comment Add URL:"+url+"?"+body);
     this.http.post(url, body, options)
       .subscribe((data) => {
 
@@ -599,7 +597,6 @@ console.log("Comment Add URL:"+url+"?"+body);
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
-      console.log("Quick Push Send URL:"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;

@@ -22,8 +22,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-alarm',
-  templateUrl: 'alarm.html',
-  providers: [Config]
+  templateUrl: 'alarm.html'
 })
 export class AlarmPage {
   public msgcount: any;

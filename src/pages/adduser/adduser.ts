@@ -25,8 +25,7 @@ import { Config } from '../../config/config';
  */
 @Component({
   selector: 'page-adduser',
-  templateUrl: 'adduser.html',
-  providers: [Camera, FileTransfer, File, Config, Camera, FileChooser]
+  templateUrl: 'adduser.html'
 })
 export class AdduserPage {
   // Define FormBuilder /model properties

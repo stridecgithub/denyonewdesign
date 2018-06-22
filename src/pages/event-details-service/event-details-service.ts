@@ -19,8 +19,7 @@ import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload
 
 @Component({
   selector: 'page-event-details-service',
-  templateUrl: 'event-details-service.html',
-  providers: [Config]
+  templateUrl: 'event-details-service.html'
 })
 export class EventDetailsServicePage {
 

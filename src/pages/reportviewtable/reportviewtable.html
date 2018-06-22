@@ -17,21 +17,21 @@
         </button>
       </ion-buttons>
       <ion-title>Report</ion-title>
-      <div class="right-header-btns" *ngIf="graphview==0">
+      <div class="right-header-btns" *ngIf="graphview==0 && reportcount>0">
         <button class="open" (click)="onButtonClick()">
           <ion-icon name="open"></ion-icon>
         </button>
       </div>
     </ion-navbar>
-    <div class="download-option" *ngIf="buttonClicked  && reportcount>0">
+    <div class="download-option" *ngIf="buttonClicked">
       <ion-row>
         <ion-list>
-          <!-- <a href="javascript:void(0)" (click)="download(1)">PDF</a> -->
-          <a href="{{pdfDownloadLink}}">PDF</a>
+          <a href="#" (click)="download(1, showrunning, showonline, showload)">PDF</a>
+          <!-- <a href="{{pdfDownloadLink}}">PDF</a> -->
         </ion-list>
         <ion-list>
-          <a href="{{csvDownloadLink}}">CSV</a>
-          <!-- <a href="javascript:void(0)" (click)="download(2)">CSV</a> -->
+          <!-- <a href="{{csvDownloadLink}}">CSV</a> -->
+          <a href="#" (click)="download(2, showrunning, showonline, showload)">CSV</a>
         </ion-list>
       </ion-row>
     </div>
@@ -40,7 +40,12 @@
 
 
 <ion-content padding class="ion-content">
-  <div style="color:green;text-align:center" *ngIf="processing==0">{{processingtxt}}</div>
+  <!-- <div style="color:green;text-align:center" *ngIf="processing==0">{{processingtxt}}</div> -->
+
+
+  <!-- <div style="color:green;text-align:center" *ngIf="processingtxt!=''">{{processingtxt}}</div> -->
+
+  
   <!-- <div class="progress-outer" *ngIf="isProgress">
     <div class="progress-inner" [style.width]="progress + '%'">
     </div>

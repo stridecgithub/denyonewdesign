@@ -24,8 +24,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-addorgchartone',
-  templateUrl: 'addorgchartone.html',
-  providers: [Camera, FileTransfer, Config, Camera, FileChooser]
+  templateUrl: 'addorgchartone.html'
 })
 export class AddorgchartonePage {
   public loginas: any;

@@ -182,7 +182,6 @@ export class AddenginedetailPage {
     //alert(jQuery('.summernote').val());
 
     this.rawhtml = jQuery('#summernote').summernote('code');
-    console.log("Rawhtml:-" + this.rawhtml);
     if (this.isEdited) {
       let body: string = "is_mobile=1&model=" + this.enginemodel +
         "&rawhtml=" + encodeURIComponent(this.rawhtml.toString()) + "&model_id=" + this.recordID,

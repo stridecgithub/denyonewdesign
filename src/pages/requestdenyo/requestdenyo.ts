@@ -19,8 +19,7 @@ import { ReportsPage } from "../reports/reports";
 import { Config } from '../../config/config';
 @Component({
   selector: 'page-requestdenyo',
-  templateUrl: 'requestdenyo.html',
-  providers: [DatePicker]
+  templateUrl: 'requestdenyo.html'
 })
 export class RequestdenyoPage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;

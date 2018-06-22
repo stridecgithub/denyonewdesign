@@ -25,8 +25,7 @@ import { PermissionPage } from '../../pages/permission/permission';
  */
 @Component({
   selector: 'page-myaccount',
-  templateUrl: 'myaccount.html',
-  providers: [Config]
+  templateUrl: 'myaccount.html'
 })
 export class MyaccountPage {
   public pageTitle: string;

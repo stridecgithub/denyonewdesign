@@ -29,8 +29,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-dashboard',
-  templateUrl: 'dashboard.html',
-  providers: [Push, Config]//
+  templateUrl: 'dashboard.html'
 })
 
 export class DashboardPage {
@@ -345,7 +344,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    console.log("Notification Count:" + url);
+    
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -431,17 +430,17 @@ export class DashboardPage {
         if (this.items == undefined) {
           this.totalCountList = 0;
           this.totalCount = 0;
-          console.log('A');
+         
         } else {
           if (this.items.length == 0) {
             this.totalCountList = 0;
             this.totalCount = 0;
-            console.log('D');
+            
           }
 
         }
       }, error => {
-        console.log('C');
+       
         this.totalCount = 0;
       });
 
@@ -576,7 +575,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
-    console.log("initMap" + url);
+    
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
@@ -589,8 +588,6 @@ export class DashboardPage {
         } else {
           this.totalCount = res.totalCount;
         }
-
-        console.log(" res.totalCount:" + res.totalCount);
 
         if (this.totalCount > 0) {        // Map overlay circles
           this.alarms = res.trippedcount;
@@ -660,14 +657,11 @@ export class DashboardPage {
    * @param units
    */
   loadMap(units, unitsavail,countrycount) {
-console.log("Country Count Different"+countrycount);
     this.pinunits=[];
 
     // Units All
-    console.log("Map All Units Including Offline:-" + JSON.stringify(units));
 
-
-
+console.log('units'+JSON.stringify(units));
     if (units.length > 0) {
       for (let unit in units) {
         if (units[unit].mapicon != '') {
@@ -684,9 +678,17 @@ console.log("Country Count Different"+countrycount);
       }
     }
 
-    console.log("Map All Units Only Online:-" + JSON.stringify(this.pinunits));
+    console.log('pinunits'+JSON.stringify(this.pinunits));
 
 
+    if(JSON.stringify(this.pinunits)=='[]'){
+      this.pinunits.push({
+        unitname: '',
+        longtitude: '103.70307100000002',
+        latitude: '1.3249773',
+        mapicon:''
+      }) 
+    }
     let markers = this.pinunits;
 
     // Maps styles
@@ -921,17 +923,14 @@ console.log("Country Count Different"+countrycount);
     let bounds = new google.maps.LatLngBounds();
     let latLngmapoption;
     let zoomlevel = 8;
-    if (countrycount == 1) {
-      console.log('A');
+    if (countrycount == 1) {     
       zoomlevel = 14;
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     } else if (countrycount > 1) {
-      console.log('B');
       zoomlevel = 3;
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
       //latLngmapoption = new google.maps.LatLng(19.5080653, 96.2473704);
     } else {
-      console.log('C');
       zoomlevel = 10;
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     }

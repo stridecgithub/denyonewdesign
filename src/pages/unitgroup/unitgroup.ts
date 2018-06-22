@@ -27,8 +27,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-unitgroup',
-  templateUrl: 'unitgroup.html',
-  providers: [Config]
+  templateUrl: 'unitgroup.html'
 })
 export class UnitgroupPage {
   footerBar: number = 1;
@@ -156,7 +155,6 @@ export class UnitgroupPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/unitgroup?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
         this.presentLoading(0);

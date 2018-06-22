@@ -11,8 +11,7 @@ import { Config } from '../../config/config';
  */
 @Component({
   selector: 'page-popovercolorcode',
-  templateUrl: 'popovercolorcode.html',
-  providers:[Config]
+  templateUrl: 'popovercolorcode.html'
   
 })
 export class PopovercolorcodePage {

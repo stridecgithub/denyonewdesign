@@ -17,8 +17,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-addcalendar',
-  templateUrl: 'addcalendar.html',
-  providers: [DatePicker, Config]
+  templateUrl: 'addcalendar.html'
 })
 export class AddcalendarPage {
   // Define FormBuilder /model properties
@@ -722,7 +721,6 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/eventstorev2";
-      console.log("Add Service/Event URL:-"+url+"?"+body);
     this.http.post(url, body, options)
       .subscribe((data) => {
         let res = data.json();
@@ -759,7 +757,6 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/api/quickpush.php?pushid=" + pushidmulty;
-    console.log("Quick Push URL:-"+url);
     this.http.get(url, options)
       .subscribe((data) => {
         // this.msgcount = data.json().msgcount;
@@ -850,7 +847,6 @@ export class AddcalendarPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/calendar/update";
-    console.log(url + "?" + body);
     this.http.post(url, body, options)
       .subscribe(data => {
         let res = data.json();

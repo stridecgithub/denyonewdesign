@@ -18,8 +18,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html',
-  providers: [Config]
+  templateUrl: 'login.html'
 })
 export class LoginPage {
   private apiServiceURL: string = '';

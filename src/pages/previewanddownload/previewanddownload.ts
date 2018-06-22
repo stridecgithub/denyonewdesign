@@ -19,8 +19,7 @@ import { CommentdetailsPage } from "../commentdetails/commentdetails";
 
 @Component({
   selector: 'page-previewanddownload',
-  templateUrl: 'previewanddownload.html',
-  providers: [FileTransfer, File, Config]
+  templateUrl: 'previewanddownload.html'
 })
 export class PreviewanddownloadPage {
   imagepath;

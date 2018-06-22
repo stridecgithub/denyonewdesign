@@ -22,8 +22,7 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: 'page-units',
-  templateUrl: 'units.html',
-  providers: [Config]
+  templateUrl: 'units.html'
 })
 
 export class UnitsPage {
@@ -89,8 +88,6 @@ export class UnitsPage {
     this.CREATEACCESS = localStorage.getItem("UNITS_UNITSLISTING_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_UNITSLISTING_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_UNITSLISTING_DELETE");
-    console.log("this.DELETEACCESS:" + this.DELETEACCESS);
-
     this.VIEWACCESS = localStorage.getItem("UNITS_UNITSLISTING_VIEW");
     if (this.VIEWACCESS == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
@@ -202,7 +199,7 @@ export class UnitsPage {
 
 
     //this.subscription = Observable.interval(2000).subscribe(x => {
-      console.log('Unit List...');
+      
       if (this.conf.isUTC() > 0) {
         urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
       } else {
@@ -217,7 +214,6 @@ export class UnitsPage {
       url: any = urlstr;
 
 
-    console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
@@ -239,7 +235,7 @@ export class UnitsPage {
 
 
             let dur;
-            console.log("Role ID:-" + this.roleId);
+           
             if (this.roleId == 1) {
               dur = 0;
             } else {
@@ -375,7 +371,6 @@ export class UnitsPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/setunitfavorite";
 
-console.log("Favorite Action Url:"+url+"?"+body);
     this.http.post(url, body, options)
       .subscribe(data => {
         //this.reportData.startindex = 0;
@@ -828,21 +823,7 @@ console.log("Favorite Action Url:"+url+"?"+body);
   }
   onholdaction(action) {
     this.arrayid = [];
-    /*console.log("Before Selection:-"+JSON.stringify(this.selecteditems));
-
-
-    for (let i = 0; i < this.selecteditems.length; i++) {
-      if (this.selecteditems[i].duration == 0) {
-        this.arrayid.push(
-          this.selecteditems[i].unit_id
-        )
-      }
-    }
-
-    console.log("After Selection:-"+JSON.stringify(this.arrayid));
-    return false;*/
-
-    this.isInfiniteHide = true;
+        this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
       //modal.present();
@@ -888,7 +869,6 @@ console.log("Favorite Action Url:"+url+"?"+body);
               headers: any = new Headers({ 'Content-Type': type }),
               options: any = new RequestOptions({ headers: headers }),
               url: any = this.apiServiceURL + urlstr;
-            console.log("On Hold Action" + url);
             this.http.get(url, options)
               .subscribe((data) => {
                 if (data.status === 200) {

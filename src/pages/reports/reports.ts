@@ -15,13 +15,7 @@ import * as moment from 'moment';
 import { PermissionPage } from '../../pages/permission/permission';
 @Component({
   selector: 'page-reports',
-  templateUrl: 'reports.html',
-  providers: [DatePicker]
-})
-@Component({
-  selector: 'page-reports',
-  templateUrl: 'reports.html',
-  providers: [DatePicker]
+  templateUrl: 'reports.html'
 })
 export class ReportsPage {
   public footerBar = [];

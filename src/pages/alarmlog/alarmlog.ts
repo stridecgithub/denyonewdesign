@@ -20,8 +20,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
  */
 @Component({
   selector: 'page-alarmlog',
-  templateUrl: 'alarmlog.html',
-  providers: [Config]
+  templateUrl: 'alarmlog.html'
 })
 export class AlarmlogPage {
   public pageTitle: string;

@@ -24,8 +24,7 @@ declare var jQuery: any;
  */
 @Component({
   selector: 'page-servicedetails',
-  templateUrl: 'servicedetails.html',
-  providers: [Camera, FileTransfer, File, Config, Camera, DatePicker, FileChooser]
+  templateUrl: 'servicedetails.html'
 })
 export class ServicedetailsPage {
   @ViewChild('fileInput') fileInput;
@@ -722,7 +721,6 @@ export class ServicedetailsPage {
     }
 
     let isNextService;
-    console.log(isNextService);
     if (nextServiceDate != '') {
       isNextService = "/services/nextserviceupdate";
     } else {
@@ -733,7 +731,7 @@ export class ServicedetailsPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + isNextService;
-    console.log("Service Update URL:" + url + "?" + body);
+    
     this.http.post(url, body, options)
       .subscribe((data) => {
         // If the request was successful notify the user
@@ -809,7 +807,6 @@ export class ServicedetailsPage {
     }
 
     let minutes;
-    console.log(date);
     if (date != undefined) {
       minutes = parseInt(date.getMinutes());
       if (minutes < 10) {
@@ -863,9 +860,7 @@ export class ServicedetailsPage {
       } else {
         //this.isSubmitted = true;
       }
-      console.log('Done...');
-    }else{
-      console.log('Datepicker working in Mobile only');
+      
     }
   }
 

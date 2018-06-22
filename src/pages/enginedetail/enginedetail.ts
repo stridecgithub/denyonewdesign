@@ -23,8 +23,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
 
 @Component({
   selector: 'page-enginedetail',
-  templateUrl: 'enginedetail.html',
-  providers: [Config]
+  templateUrl: 'enginedetail.html'
 })
 export class EnginedetailPage {
   public pageTitle: string;

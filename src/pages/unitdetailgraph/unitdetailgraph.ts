@@ -14,8 +14,7 @@ import { ModalPage } from '../modal/modal';
 
 @Component({
   selector: 'page-unitdetailgraph',
-  templateUrl: 'unitdetailgraph.html',
-  providers: [Config]
+  templateUrl: 'unitdetailgraph.html'
 })
 export class UnitdetailgraphPage {
  // tabBarElement: any;

@@ -20,8 +20,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Config } from '../../config/config';
 @Component({
   selector: 'page-reportviewtable',
-  templateUrl: 'reportviewtable.html',
-  //providers: [ ]
+  templateUrl: 'reportviewtable.html'
 })
 export class ReportviewtablePage {
   //@ViewChild('mapContainer') mapContainer: ElementRef;
@@ -93,12 +92,15 @@ export class ReportviewtablePage {
   public showload: boolean = false;
   public buttonClicked: boolean = false;
   processingtxt: any;
-  reportcount:any;
+  reportcount: any;
+  donwloadstart: any;
+  loading: any;
   constructor(public app: App, private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
-    this.reportcount=0;
-    this.processing = 0;
+    this.reportcount = 0;
+    this.reportcount = 0;
+    this.donwloadstart = 0;
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
         const overlayView = this.app._appRoot._overlayPortal._views[0];
@@ -182,8 +184,15 @@ export class ReportviewtablePage {
 
   getReportResult(seltypeBtn, exportto, selunit, seltimeframe, seltemplate, from, to, showrunning, showonline, showload) {
     this.isProgress = true;
-    this.presentLoading(1)
-    this.processingtxt = "Processing... please wait.";
+    //this.presentLoading(1)
+
+    if (exportto == 'graph') {
+      this.processingtxt = "Graph view report processing... please wait.";
+    } else {
+      this.processingtxt = "Table view report processing... please wait.";
+    }
+    // this.processingtxt = "Processing... please wait.";
+    this.presentLoadingText(this.processingtxt);
     this.reportAllLists = [];
     this.headLists = [];
     this.headValue = [];
@@ -252,25 +261,25 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid;
       let res;
+      console.log("A:Table View URL:" + url);
 
-      console.log("Table View Report Response URL:"+url);
+      //this.presentLoadingText(this.processingtxt);
       this.http.get(url, options)
         ///this.http.post(url, body, options)
         .subscribe((data) => {
-         
+
+          console.log("A:Table View URL Success Response:" + JSON.stringify(data));
           //this.presentLoading(1);
           // If the request was successful notify the user
           res = data.json();
-          console.log("Table View Report Response Result"+JSON.stringify(res));
           if (seltypeBtn == '1') {
             this.success = 1;
             this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
           }
-          this.reportcount=res.reportcount;
-          console.log("A"+this.reportcount);
+          this.reportcount = res.reportcount;
           if (res.totalcount > 0) {
-            this.download(1, showrunning, showonline, showload);
-            this.download(2, showrunning, showonline, showload);
+            //this.download(1, showrunning, showonline, showload);
+            //this.download(2, showrunning, showonline, showload);
             this.headLists = res.templatedata;
             this.headValue = res.mobilehistorydata;//res.mobilehistorydata.split(",");//res.reportdata;
 
@@ -278,14 +287,16 @@ export class ReportviewtablePage {
             for (let jk = 0; jk <= this.headValue.length; jk++) {
 
               if (jk == this.headValue.length) {
-                this.presentLoading(0);
+                //this.presentLoading(0);
                 this.processing = 1
                 this.progress += 5;
                 this.isProgress = false;
-                this.processingtxt = "";
+                //this.processingtxt = "";
+                //this.presentLoading(0);
+                this.loading.dismiss();
               } else {
                 this.processing = 0;
-                this.processingtxt = "Processing... please wait.";
+
                 this.progress += jk;
                 this.isProgress = true;
               }
@@ -325,6 +336,9 @@ export class ReportviewtablePage {
           }
 
           this.noentrymsg = 'No report entries found';
+          if (res.mobilehistorydata.length == 0 && this.processing == 1) {
+            this.loading.dismiss();
+          }
         });
 
 
@@ -332,17 +346,14 @@ export class ReportviewtablePage {
       // PDF
 
     } else if (this.graphview > 0) {
-      console.log('A');
       this.buttonClicked = false;
 
       if (seltypeBtn == '1') {
-        console.log('B');
         this.graphview = 0;
         this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
 
       } else {
-        console.log('C');
         // For Getting Unit Details in Graph
         let
           type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -365,15 +376,16 @@ export class ReportviewtablePage {
 
 
         let res;
+        console.log("B:Table View for Unit Detail Displayed URL:" + url);
+        // "Processing... please wait.";
+        //this.presentLoadingText(this.processingtxt);
         this.http.get(url, options)
 
           .subscribe((data) => {
-            console.log('D');
+            console.log("B:Table View for Unit Detail Displayed Success Response:" + JSON.stringify(data));
             // If the request was successful notify the user
             res = data.json();
-            this.reportcount=res.reportcount;
-            console.log("B"+this.reportcount);
-            console.log(JSON.stringify(res));
+            this.reportcount = res.reportcount;
             if (seltypeBtn == '1') {
               this.success = 1;
               this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
@@ -387,15 +399,19 @@ export class ReportviewtablePage {
 
                 if (jk == this.headValue.length) {
 
-                  this.presentLoading(0);
+                  //this.presentLoading(0);
                   this.processing = 1
                   this.progress += 5;
                   this.isProgress = false;
-                  this.processingtxt = "";
+                  //this.processingtxt = "";
+                  //this.presentLoading(0);
+                  this.loading.dismiss();
                 } else {
 
                   this.processing = 0;
-                  this.processingtxt = "Processing... please wait.";
+
+                  this.processingtxt = "Graph view report processing... please wait.";
+                  // this.presentLoadingText(this.processingtxt);
                   this.progress += jk;
                   this.isProgress = true;
                 }
@@ -435,11 +451,13 @@ export class ReportviewtablePage {
             }
 
             this.noentrymsg = 'No report entries found';
+            if (this.reportcount == 0 && this.processing == 1) {
+              this.loading.dismiss();
+            }
+
           }, error => {
-            console.log('E');
           });
         // For Gettting Unit Details in Graph
-        console.log('F');
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/reports/viewreport?is_mobile=1" +
           "&selunit=" + selunit +
           "&seltimeframe=" + seltimeframe +
@@ -455,11 +473,9 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-
+        console.log("C:Graph View URL:" + url);
       }
-      console.log('G');
     }
-    console.log('H');
   }
   presentLoading(parm) {
     let loader;
@@ -489,6 +505,7 @@ export class ReportviewtablePage {
     });
   }
   download(val, showrunning, showonline, showload) {
+    this.buttonClicked = false;
     if (showrunning == true) {
       showrunning = 1;
     } else {
@@ -523,14 +540,25 @@ export class ReportviewtablePage {
         "&showload=" + showload +
         "&companyid=" + this.companyid;
     let res;
+    console.log("D:Download Function Displayed URL:" + url);
+    if (val == 1) {
+      this.processingtxt = "PDF file generated for download... please wait.";
+      this.presentLoadingText(this.processingtxt);
+    } else {
+      this.processingtxt = "CSV file generated for download... please wait.";
+      this.presentLoadingText(this.processingtxt);
+    }
 
     this.http.get(url, options)
       ///this.http.post(url, body, options)
       .subscribe((data) => {
+        this.donwloadstart = 1;
+        console.log("D:Download Function Displayed Success Response:" + JSON.stringify(data));
+
         // this.presentLoading(0);
         // If the request was successful notify the user
         res = data.json();
-      
+
         let uri;
         if (val == 1) {
           uri = res.pdf;
@@ -550,34 +578,37 @@ export class ReportviewtablePage {
         if (val == 2) {
           pdfFile = 'report_' + new Date().toISOString() + '.csv';
           pdfFile = pdfFile.replace("-", "_");
-        }
-
-        // if (val == 1) {
-        const fileTransfer: FileTransferObject = this.transfer.create();
-        fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
-
-
-
-          this.pdfdownloadview = 0;
-        }, (error) => {
-
-        });
-
-
-        if (data.status === 200) {
 
         }
-        // Otherwise let 'em know anyway
-        else {
-
-        }
-        //}
+        //this.processingtxt ='';
+        //this.presentLoading(0);
+        this.loading.dismiss();
+        window.open(uri);
+        /* const fileTransfer: FileTransferObject = this.transfer.create();
+         fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
+           console.log("Y" + uri);
+         
+           console.log("Z" + this.file.dataDirectory + pdfFile);
+           this.pdfdownloadview = 0;
+         }, (error) => {
+ 
+         });
+ 
+ 
+         if (data.status === 200) {
+ 
+         }
+       
+         else {
+ 
+         }
+       */
 
       });
     //  {"msg":{"result":"success"},"pdf":"reports_generator_1.pdf"}
   }
 
-  fileDownload(filepathurl) {
+  /*fileDownload(filepathurl) {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let url = filepathurl;
     fileTransfer.download(url, this.file.dataDirectory + 'report_' + new Date().toISOString() + '.csv').then((entry) => {
@@ -600,11 +631,25 @@ export class ReportviewtablePage {
         alert.present();
       }
     });
+  }*/
+
+  presentLoadingText(msg) {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'hide',
+      content: msg//'Loading Please Wait...'
+    });
+
+    this.loading.present();
+
+    /* setTimeout(() => {
+       this.nav.push(Page2);
+     }, 1000);
+   
+     setTimeout(() => {
+       loading.dismiss();
+     }, 5000);*/
   }
 
-  trackByFn(index: any, item: any) {
-    return index;
-  }
 }
 
 

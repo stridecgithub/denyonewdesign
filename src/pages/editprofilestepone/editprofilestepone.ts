@@ -1,14 +1,13 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, Platform, ActionSheetController,App } from 'ionic-angular';
+import { NavController, NavParams, Platform, ActionSheetController, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MyaccountPage } from '../myaccount/myaccount';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
-import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+
 /**
  * Generated class for the AddcompanygroupPage page.
  *
@@ -17,8 +16,7 @@ import { File } from '@ionic-native/file';
  */
 @Component({
   selector: 'page-editprofilestepone',
-  templateUrl: 'editprofilestepone.html',
-  providers: [Camera, FileTransfer, File, Config, FileChooser]
+  templateUrl: 'editprofilestepone.html'
 })
 export class EditprofilesteponePage {
   // Define FormBuilder /model properties
@@ -66,7 +64,7 @@ export class EditprofilesteponePage {
   private apiServiceURL: string = "";
   public networkType: string;
   public responseResultCountry: any;
-  constructor(private app:App,private conf: Config, public platform: Platform, public nav: NavController,
+  constructor(private app: App, private conf: Config, public platform: Platform, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
@@ -82,7 +80,7 @@ export class EditprofilesteponePage {
     });
 
     this.loginas = localStorage.getItem("userInfoName");
-    this.addedImgLists = this.apiServiceURL + "/images/default.png";
+    //this.addedImgLists = this.apiServiceURL + "/images/default.png";
     // Create form builder validation rules
     this.form = fb.group({
       "hashtag": [""],
@@ -103,16 +101,16 @@ export class EditprofilesteponePage {
 
     });
     this.userId = localStorage.getItem("userInfoId");
-    
+
     this.networkType = '';
     this.apiServiceURL = this.conf.apiBaseURL();
 
-    
+
 
   }
 
   ionViewDidLoad() {
-   
+
     localStorage.setItem("fromModule", "EditprofilesteponePage");
     this.pageLoad();
   }
@@ -143,13 +141,13 @@ export class EditprofilesteponePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/settings/profile?is_mobile=1&loggedin_id=" + this.userId;
-    
+
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
         res = data.json();
-        
-       
+
+
         this.first_name = res.settings[0].firstname;
         this.last_name = res.settings[0].lastname;
         this.username = res.settings[0].username;
@@ -176,14 +174,14 @@ export class EditprofilesteponePage {
 
         this.job_position = res.settings[0].job_position;
 
-       
+
 
         if (res.settings[0].photo_filename != '' && res.settings[0].photo_filename != 'NULL' && res.settings[0].photo_filename != null) {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + res.settings[0].photo_filename;
-         
+
         } else {
           this.addedImgLists = this.apiServiceURL + "/images/default.png";
-        
+
         }
 
       }, error => {
@@ -192,13 +190,13 @@ export class EditprofilesteponePage {
   }
 
   getPrimaryContact(ev) {
-   
+
     let char = ev.target.value.toString();
     if (char.length > 5) {
-     
+
       this.borderbottomredvalidation = 'border-bottom-validtion';
     } else {
-     
+
       this.borderbottomredvalidation = '';
     }
   }
@@ -216,19 +214,19 @@ export class EditprofilesteponePage {
     let uploadfromgallery = localStorage.getItem("photofromgallery");
 
     if (uploadfromgallery != undefined) {
-     
+
       this.photo = uploadfromgallery;
     }
     if (this.photo == undefined) {
-     
+
       this.photo = '';
     }
     if (this.photo == 'undefined') {
-     
+
       this.photo = '';
     }
     if (this.photo == '') {
-     
+
       this.photo = '';
     }
 
@@ -252,8 +250,8 @@ export class EditprofilesteponePage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/settings/profileupdate";
-    
-    
+
+
 
     this.http.post(url, body, options)
       .subscribe(data => {
@@ -263,7 +261,7 @@ export class EditprofilesteponePage {
           // if (!userPhotoFile) {
           localStorage.setItem("userPhotoFile", "");
           localStorage.setItem("photofromgallery", "");
-          
+
 
           this.conf.sendNotification(data.json().msg['result']);
           this.nav.setRoot(MyaccountPage);
@@ -382,13 +380,13 @@ export class EditprofilesteponePage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-  
+
     this.photo = fileName;
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
         newFileName = n + ".jpg";*/
-
+    //this.addedImgLists = '';
     let options: FileUploadOptions = {
       fileKey: 'file',
       fileName: fileName,
@@ -396,32 +394,35 @@ export class EditprofilesteponePage {
       chunkedMode: false,
       mimeType: "text/plain",
     }
-
-      fileTransfer.onProgress(this.onProgress);
+    console.log("upload.php:-" + this.apiServiceURL + '/upload.php');
+    fileTransfer.onProgress(this.onProgress);
+    this.userInfo=[];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-       
+
         localStorage.setItem("userPhotoFile", "");
-       
+
 
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-       
+        //console.log("User Info JSON:-" + JSON.stringify(this.userInfo));
+        //console.log("successData:-" + JSON.stringify(successData));
+        //console.log("this.userInfo[0].photo.name:-" + this.userInfo[0].photo.name);
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
-
+        //console.log("this.addedImgLists:-" + this.addedImgLists);
         //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
 
         this.isUploadedProcessing = false;
-        
+
 
       }, (err) => {
-       
+
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -465,9 +466,10 @@ export class EditprofilesteponePage {
             }
 
             this.camera.getPicture(options).then((imageURI) => {
+              console.log("Gallery Captured Result" + imageURI);
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-             
+
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -482,7 +484,7 @@ export class EditprofilesteponePage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-          
+
 
             const options: CameraOptions = {
               quality: 100,
@@ -493,8 +495,9 @@ export class EditprofilesteponePage {
             }
 
             this.camera.getPicture(options).then((uri) => {
+              console.log("Camera Captured Result" + uri);
               localStorage.setItem("userPhotoFile", uri);
-            
+
               this.fileTrans(uri);
               //this.addedAttachList = uri;
               //this.photo = uri;
@@ -510,7 +513,7 @@ export class EditprofilesteponePage {
           icon: 'md-close',
           role: 'cancel',
           handler: () => {
-           
+
           }
         }
       ]
@@ -544,11 +547,11 @@ export class EditprofilesteponePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
-    
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-          
+
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
@@ -556,7 +559,7 @@ export class EditprofilesteponePage {
           else {
             this.len = res.TotalCount;
           }
-        
+
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
@@ -569,13 +572,13 @@ export class EditprofilesteponePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_id;
       let res;
-     
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
           this.len = res.TotalCount;
-         
+
           this.naDisplay = 1;
           this.responseResultReportTo = res.staffslist;
         }, error => {
