@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, App } from 'ionic-angular';
+import { NavController, NavParams, Platform ,App} from 'ionic-angular';
 import { NotificationSettingsPage } from "../notification-settings/notification-settings";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
@@ -44,7 +44,7 @@ export class AddUnitPage {
   unitid;
   public locationedit: boolean = false;
   //tabBarElement: any;
-  constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
+  constructor(public app: App,public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
     public fb: FormBuilder) {
     this.form = fb.group({
       "location": ["", Validators.required],
@@ -90,11 +90,11 @@ export class AddUnitPage {
   }
   ionViewDidLoad() {
     //this.tabBarElement.style.display = 'none';
-    if (this.navParams.get("accountsInfo") == undefined) {
-
+     if (this.navParams.get("accountsInfo") == undefined) {
+     
 
     } else {
-
+      
 
       this.unitname = this.navParams.get("accountsInfo")[0].unitname;
       this.projectname = this.navParams.get("accountsInfo")[0].projectname;
@@ -113,16 +113,15 @@ export class AddUnitPage {
       this.unitid = this.navParams.get("unitId");
       this.geninfo(this.navParams.get("record"));
       this.pageTitle = 'Update';
-      this.getGps(this.unitid);
     } else {
       this.isEdited = false
       this.pageTitle = 'Add';
     }
   }
   editDeployedLocation() {
-
+   
     this.locationedit = false;
-
+  
   }
   geninfo(item) {
     this.projectname = item.projectname;
@@ -174,7 +173,7 @@ export class AddUnitPage {
         let res = data.json();
         // If the request was successful notify the user
         if (data.status === 200) {
-
+        
 
           if (res.msg[0].Error == '1') {
             this.conf.sendNotification(res.msg[0].result);
@@ -228,11 +227,11 @@ export class AddUnitPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getcompanies?loginid=" + this.userId + "&pagename=";
     let res;
-
+   
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-
+       
         this.responseResultCompany = res.companies;
       }, error => {
 
@@ -262,11 +261,11 @@ export class AddUnitPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getunitgroups?loginid=" + this.userId + "&company_id=" + this.companyId;
     let res;
-
+    
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-
+      
         this.responseResultUnitGroup = res.unitgroups;
       }, error => {
       });
@@ -280,22 +279,19 @@ export class AddUnitPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1";
-
+    
     this.http.post(url, body, options)
       .subscribe(data => {
 
 
         res = data.json();
-        if (res.latitude != '') {
-          this.lat = res.latitude.toString().substring(0, 8);
-          this.lang = res.longtitude.toString().substring(0, 8);
-        }
-        this.location = res.address;
+        this.lat = res.latitude;
+        this.lang = res.longtitude;
 
       }, error => {
       });
 
   }
 
-
+ 
 }

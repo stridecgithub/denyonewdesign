@@ -57,6 +57,7 @@ export class DashboardPage {
   public defaultUnitAllLists = [];
   public pinunits = [];
   public arrayid = [];
+  countrycount;
   public reportData: any =
     {
       status: '',
@@ -94,7 +95,9 @@ export class DashboardPage {
   items: any;
   isInfiniteHide: boolean;
   pageperrecord;
-  constructor(private mockProvider: MockProvider, private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, private push: Push, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
+  mapzoomlevel;
+  isbounds;
+  constructor(private mockProvider: MockProvider, private app: App, public toastCtrl: ToastController, public modalCtrl: ModalController, public alertCtrl: AlertController, public platform: Platform, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events, private push: Push) {//
     this.isInfiniteHide = true;
     this.totalCount = 0;
     this.totalCountList = 0;
@@ -344,7 +347,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/msgnotifycount?loginid=" + this.userId;
-    
+
     this.http.get(url, options)
       .subscribe((data) => {
         this.msgcount = data.json().msgcount;
@@ -430,17 +433,17 @@ export class DashboardPage {
         if (this.items == undefined) {
           this.totalCountList = 0;
           this.totalCount = 0;
-         
+
         } else {
           if (this.items.length == 0) {
             this.totalCountList = 0;
             this.totalCount = 0;
-            
+
           }
 
         }
       }, error => {
-       
+
         this.totalCount = 0;
       });
 
@@ -568,18 +571,18 @@ export class DashboardPage {
    * Initiate G Map
    */
   initMap() {
-   
+
     this.totalCount = 0;
     // Setting up for API call
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
-    
+
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
-
+        console.log("DATA" + JSON.stringify(data));
         // JSON data
         let res = data.json();
         if (res.totalCount == undefined) {
@@ -595,52 +598,58 @@ export class DashboardPage {
           this.runningcount = res.runningcount;
           this.readycount = res.readycount;
           this.offlinecount = res.offlinecount;
+          this.countrycount = res.latuniquearrcount
+          this.mapzoomlevel = res.mapzoomlevel;
+          this.isbounds = res.isbounds;
         } else {
           this.alarms = '0';
           this.warningcount = '0';
           this.runningcount = '0';
           this.readycount = '0';
           this.offlinecount = '0';
+          this.countrycount = '0';
+          this.mapzoomlevel = res['msg'][0].mapzoomlevel;
+          this.isbounds=res['msg'][0].isbounds;
         }
 
 
         if (res.units == undefined) {
           this.defaultUnitAllLists.push({
             unitname: '',
-            longtitude: '103.70307100000002',
-            latitude: '1.3249773'
+            longtitude: '103.701',
+            latitude: '1.32'
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount, this.mapzoomlevel, this.isbounds);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == 'undefined') {
 
           this.defaultUnitAllLists.push({
             unitname: '',
-            longtitude: '103.70307100000002',
-            latitude: '1.3249773'
+            longtitude: '103.701',
+            latitude: '1.32'
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount, this.mapzoomlevel, this.isbounds);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else if (res.units == '') {
           this.defaultUnitAllLists.push({
             unitname: '',
-            longtitude: '103.70307100000002',
-            latitude: '1.3249773',
-            mapicon:''
+            longtitude: '103.701',
+            latitude: '1.32',
+            mapicon: ''
           })
           // Load G Map
-          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount);
+          this.loadMap(this.defaultUnitAllLists, 0, res.latuniquearrcount, this.mapzoomlevel, this.isbounds);
           // Units popups
           this.unitsPopups = this.defaultUnitAllLists;
         } else {
 
 
           // Load G Map
-          this.loadMap(res.units, 1, res.latuniquearrcount);
+          this.loadMap(res.units, 1, res.latuniquearrcount, this.mapzoomlevel, this.isbounds);
           // Units popups
           this.unitsPopups = res.units;
 
@@ -656,40 +665,8 @@ export class DashboardPage {
    *
    * @param units
    */
-  loadMap(units, unitsavail,countrycount) {
-    this.pinunits=[];
+  loadMap(units, unitsavail, countrycount, zoomlevel, isbounds) {
 
-    // Units All
-
-console.log('units'+JSON.stringify(units));
-    if (units.length > 0) {
-      for (let unit in units) {
-        if (units[unit].mapicon != '') {
-          this.pinunits.push({
-            unit_id: units[unit].unit_id,
-            controllerid: units[unit].controllerid,
-            unitname: units[unit].unitname,
-            latitude: units[unit].latitude,
-            longtitude: units[unit].longtitude,
-            location: units[unit].location,
-            mapicon: units[unit].mapicon,
-          });
-        }
-      }
-    }
-
-    console.log('pinunits'+JSON.stringify(this.pinunits));
-
-
-    if(JSON.stringify(this.pinunits)=='[]'){
-      this.pinunits.push({
-        unitname: '',
-        longtitude: '103.70307100000002',
-        latitude: '1.3249773',
-        mapicon:''
-      }) 
-    }
-    let markers = this.pinunits;
 
     // Maps styles
     let mapStyle = [
@@ -919,19 +896,71 @@ console.log('units'+JSON.stringify(units));
         ]
       }
     ];
+    this.pinunits = [];
 
+    // Units All
+
+    console.log('units array' + JSON.stringify(units));
+
+    if (countrycount == 1) {
+      /*this.pinunits.push({
+            unit_id: 0,
+            controllerid: 0,
+            unitname: '',
+            latitude: '20.593684',
+            longtitude: '78.96288',
+            location: '',
+            mapicon: 'white-default',
+          });*/
+    }
+
+    if (units.length > 0) {
+      for (let unit in units) {
+        if (units[unit].mapicon != '') {
+          this.pinunits.push({
+            unit_id: units[unit].unit_id,
+            controllerid: units[unit].controllerid,
+            unitname: units[unit].unitname,
+            latitude: units[unit].latitude,
+            longtitude: units[unit].longtitude,
+            location: units[unit].location,
+            mapicon: units[unit].mapicon,
+          });
+        }
+      }
+    }
+
+    console.log('pinunits' + JSON.stringify(this.pinunits));
+
+
+    if (JSON.stringify(this.pinunits) == '[]') {
+      this.pinunits.push({
+        unitname: '',
+        latitude: '1.32',
+        longtitude: '103.701',
+        mapicon: 'white-default'
+      })
+    }
+    let markers = this.pinunits;
     let bounds = new google.maps.LatLngBounds();
-    let latLngmapoption;
-    let zoomlevel = 8;
-    if (countrycount == 1) {     
-      zoomlevel = 14;
+    let latLngmapoption;    
+    if (countrycount == 1) {
+      console.log("Enter B");
+      // zoomlevel = 14;
+      console.log(zoomlevel + "<==>14")
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     } else if (countrycount > 1) {
-      zoomlevel = 3;
-      latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
-      //latLngmapoption = new google.maps.LatLng(19.5080653, 96.2473704);
+      // zoomlevel = 3;
+      console.log(zoomlevel + "<==>3")
+      console.log("Enter A");
+      //latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
+      //latLngmapoption = new google.maps.LatLng(19.50, 96.24);
+
+      latLngmapoption = new google.maps.LatLng(85, -180),
+        new google.maps.LatLng(-85, 180);
     } else {
-      zoomlevel = 10;
+      //zoomlevel = 10;
+      console.log(zoomlevel + "<==>10")
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     }
 
@@ -941,7 +970,7 @@ console.log('units'+JSON.stringify(units));
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: latLngmapoption,
-      zoom:zoomlevel
+      zoom: zoomlevel
     }
 
 
@@ -1027,17 +1056,28 @@ console.log('units'+JSON.stringify(units));
 
     //}
     // Automatically center the map fitting all markers on the screen
-    //this.map.setZoom(11);
-    if (countrycount > 1) {
+    if (countrycount == 1) {
+      //this.map.setZoom(4);
+    }
+    /*if (countrycount > 1) {
+      console.log('bounds calling....');
+      this.map.fitBounds(bounds);
+    }
+*/
+    if (markers.length > 1) {
+      this.map.fitBounds(bounds);
+    }
+    console.log("isbounds:" + isbounds);
+    if (isbounds > 1) {
       this.map.fitBounds(bounds);
     }
 
     // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-   /* let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
-      this.setZoom(zoomlevel);
-      google.maps.event.removeListener(boundsListener);
-    });
-*/
+    /* let boundsListener = google.maps.event.addListener((this.map), 'bounds_changed', function (event) {
+       this.setZoom(zoomlevel);
+       google.maps.event.removeListener(boundsListener);
+     });
+ */
 
   }
 

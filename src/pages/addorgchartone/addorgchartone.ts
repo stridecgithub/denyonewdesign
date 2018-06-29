@@ -583,6 +583,7 @@ export class AddorgchartonePage {
     }
 
       fileTransfer.onProgress(this.onProgress);
+      this.userInfo = [];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
 

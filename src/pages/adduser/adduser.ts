@@ -219,12 +219,21 @@ export class AdduserPage {
       this.pageTitle = 'Edit User';
       this.readOnly = false;
       this.hideActionButton = true;
-      if (this.NP.get("record").photo) {
-        if (this.NP.get("record").photo != 'undefined') {
-          this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
-
-        }
+      let staffphotos;
+      if (this.NP.get("record").photo == null) {
+        staffphotos = '';
       }
+      if (this.NP.get("record").photo == 'null') {
+        staffphotos = '';
+      }
+      if (this.NP.get("record").photo == 'undefined') {
+        staffphotos = '';
+      }
+      console.log("Photos" + this.NP.get("record").photo);
+      if (staffphotos != '') {
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
+      }
+
       let editItem = this.NP.get("record");
       this.first_name = editItem.firstname;
       this.last_name = editItem.lastname;
@@ -297,12 +306,26 @@ export class AdduserPage {
 
       }
 
-      if (this.NP.get("uservalue")[0].photo) {
-        if (this.NP.get("uservalue")[0].photo != 'undefined') {
+
+      let staffphotos;
+      if (this.NP.get("uservalue")[0].photo == null) {
+        staffphotos = '';
+      }
+      if (this.NP.get("uservalue")[0].photo == 'null') {
+        staffphotos = '';
+      }
+      if (this.NP.get("uservalue")[0].photo == 'undefined') {
+        staffphotos = '';
+      }
+      console.log("Photos" + this.NP.get("uservalue")[0].photo);
+
+
+      //if (this.NP.get("uservalue")[0].photo) {
+        if (staffphotos != '') {
           this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
 
         }
-      }
+      //}
     }
     /*this.first_name = "Kannan";
     this.last_name = "Nagarathinam";
@@ -902,6 +925,7 @@ export class AdduserPage {
     }
 
     fileTransfer.onProgress(this.onProgress);
+    this.userInfo = [];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
 

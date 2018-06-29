@@ -65,7 +65,7 @@ export class OrgchartPage {
   imgheight: any;
   imgradius: any;
   fontsize: any;
-
+  defimgheight:any;
   iframeContent: any;
   public profilePhoto;
 
@@ -75,6 +75,7 @@ export class OrgchartPage {
     //this.height = 150";
     this.imgwidth = 80;
     this.imgheight = 80;
+    this.defimgheight=73;
     this.imgradius = 40;
     this.fontsize = 11;
     this.pinchW = 1;
@@ -154,6 +155,8 @@ export class OrgchartPage {
       }
       this.imgwidth = this.imgwidth + 1;
       this.imgheight = this.imgheight + 1;
+      this.defimgheight = this.imgheight + 1;
+      
       this.imgradius = parseInt(this.imgwidth) / 2;
 
 
@@ -179,6 +182,7 @@ export class OrgchartPage {
         }
         this.imgwidth = this.imgwidth - 1;
         this.imgheight = this.imgheight - 1;
+        this.defimgheight = this.imgheight - 1;
         this.imgradius = parseInt(this.imgwidth) / 2;
       }
     }
@@ -413,6 +417,7 @@ export class OrgchartPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";   
+      console.log(url);
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
