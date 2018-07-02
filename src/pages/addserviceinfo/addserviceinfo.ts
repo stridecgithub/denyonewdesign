@@ -371,11 +371,7 @@ export class AddserviceinfoPage {
 
   takePictureURL(micro_timestamp) {
     this.isUploadedProcessing = true;
-    // const options: CameraOptions = {
-    //   quality: 25,
-    //   destinationType: this.camera.DestinationType.FILE_URI,
-    //   saveToPhotoAlbum: true
-    // }
+    
 
     const options: CameraOptions = {
       quality: 100,
@@ -787,14 +783,7 @@ export class AddserviceinfoPage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-            // var options = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            //   allowEdit: true,
-            //   encodingType: this.camera.EncodingType.JPEG,
-            //   saveToPhotoAlbum: true
-            // };
+            
 
             const options: CameraOptions = {
               quality: 100,
@@ -819,7 +808,7 @@ export class AddserviceinfoPage {
           handler: () => {
             const options: CameraOptions = {
               quality: 25,
-              destinationType: this.camera.DestinationType.FILE_URI,
+              destinationType: this.camera.DestinationType.NATIVE_URI,
               sourceType: 1,
               targetWidth: 200,
               targetHeight: 200,

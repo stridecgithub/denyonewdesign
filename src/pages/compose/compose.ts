@@ -593,7 +593,7 @@ export class ComposePage {
 
             const options: CameraOptions = {
               quality: 100,
-              destinationType: this.camera.DestinationType.FILE_URI,
+              destinationType: this.camera.DestinationType.NATIVE_URI,
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
@@ -616,7 +616,7 @@ export class ComposePage {
 
             const options: CameraOptions = {
               quality: 100,
-              destinationType: this.camera.DestinationType.FILE_URI,
+              destinationType: this.camera.DestinationType.NATIVE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
               correctOrientation: true
@@ -689,19 +689,37 @@ export class ComposePage {
       newFileName = year + "" + month + "" + date + "" + hr + "" + mn + "" + sec + "_Denyo_" + currentName;
 
 
+    console.log("n" + n);
+    console.log("n" + newFileName);
+    let fileextarray = newFileName.split(".");
+    console.log("fileextarray" + JSON.stringify(fileextarray));
+    let fileext = fileextarray[1];
+    console.log("fileext" + fileext);
 
+    let mimetype;
+    if(fileext=='jpg'){
+      mimetype='image/jpeg';
+    }else if(fileext=='png'){
+      mimetype='image/png';
+    }else if(fileext=='pdf'){
+      mimetype='application/pdf';
+    }else{
+      mimetype='text/plain';
+    }
     let options: FileUploadOptions = {
       fileKey: 'file',
       fileName: newFileName,
       headers: {},
       chunkedMode: false,
-      mimeType: "text/plain",
+      mimeType:mimetype
     }
+    console.log("mimetype"+mimetype);
     fileTransfer.onProgress(this.onProgress);
-
+    console.log("Path:" + path);
+    console.log("Upload Server URL:" + this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n);
     fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n, options)
       .then((data) => {
-
+        console.log(JSON.stringify(data.response));
         this.nowuploading = 1;
         // let successData = JSON.parse(data.response);
         this.isSubmitted = false;
@@ -732,9 +750,10 @@ export class ComposePage {
 
         return false;
       }, (err) => {
-
         this.isProgress = false;
+        console.log("Upload Error:" + JSON.stringify(err));
         this.conf.errorNotification("Upload Error:" + JSON.stringify(err));
+       
       })
   }
 

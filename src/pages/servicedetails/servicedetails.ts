@@ -433,11 +433,7 @@ export class ServicedetailsPage {
 
   takePictureURL(micro_timestamp) {
     this.isUploadedProcessing = true;
-    // const options: CameraOptions = {
-    //   quality: 25,
-    //   destinationType: this.camera.DestinationType.FILE_URI,
-    //   saveToPhotoAlbum: true
-    // }
+   
 
     const options: CameraOptions = {
       quality: 100,
@@ -1210,14 +1206,7 @@ export class ServicedetailsPage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-            // var options = {
-            //   quality: 25,
-            //   destinationType: this.camera.DestinationType.FILE_URI,
-            //   sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            //   allowEdit: true,
-            //   encodingType: this.camera.EncodingType.JPEG,
-            //   saveToPhotoAlbum: true
-            // };
+           
 
             const options: CameraOptions = {
               quality: 100,
@@ -1244,7 +1233,7 @@ export class ServicedetailsPage {
 
             const options: CameraOptions = {
               quality: 100,
-              destinationType: this.camera.DestinationType.FILE_URI,
+              destinationType: this.camera.DestinationType.NATIVE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
               correctOrientation: true
