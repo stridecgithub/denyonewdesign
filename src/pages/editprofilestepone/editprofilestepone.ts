@@ -394,7 +394,7 @@ export class EditprofilesteponePage {
       chunkedMode: false,
       mimeType: "text/plain",
     }
-    console.log("upload.php:-" + this.apiServiceURL + '/upload.php');
+    
     fileTransfer.onProgress(this.onProgress);
     this.userInfo=[];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
@@ -407,14 +407,11 @@ export class EditprofilesteponePage {
         this.userInfo.push({
           photo: successData
         });
-        //console.log("User Info JSON:-" + JSON.stringify(this.userInfo));
-        //console.log("successData:-" + JSON.stringify(successData));
-        //console.log("this.userInfo[0].photo.name:-" + this.userInfo[0].photo.name);
+       
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
 
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
-        //console.log("this.addedImgLists:-" + this.addedImgLists);
-        //this.conf.sendNotification("User photo uploaded successfully");
+       
         this.progress += 5;
         this.isProgress = false;
 
@@ -458,7 +455,7 @@ export class EditprofilesteponePage {
             }
 
             this.camera.getPicture(options).then((imageURI) => {
-              console.log("Gallery Captured Result" + imageURI);
+              
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
 
@@ -487,7 +484,7 @@ export class EditprofilesteponePage {
             }
 
             this.camera.getPicture(options).then((uri) => {
-              console.log("Camera Captured Result" + uri);
+              
               localStorage.setItem("userPhotoFile", uri);
 
               this.fileTrans(uri);

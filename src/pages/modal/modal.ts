@@ -249,9 +249,7 @@ export class ModalPage {
         ]
       }
     ];
-    console.log(JSON.stringify(this.navParams.get('unitdata')));
     let mapicon;
-    console.log(this.navParams.get('unitdata').gen_status);
     if(this.navParams.get('unitdata').gen_status!='Offline'){
       mapicon=this.navParams.get('unitdata').mapicon;
     }else{

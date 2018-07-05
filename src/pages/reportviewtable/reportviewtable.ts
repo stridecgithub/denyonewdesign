@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Platform, AlertController, App } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform,  App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -12,10 +12,10 @@ import { NotificationPage } from '../notification/notification';
 //import { CalendarPage } from '../calendar/calendar';
 import { ReportsPage } from '../reports/reports';
 //import { OrgchartPage } from '../orgchart/orgchart';
-import { DocumentViewer } from '@ionic-native/document-viewer';
-import { FileOpener } from '@ionic-native/file-opener';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+//import { DocumentViewer } from '@ionic-native/document-viewer';
+//import { FileOpener } from '@ionic-native/file-opener';
+//import { FileTransfer } from '@ionic-native/file-transfer';
+//import { File } from '@ionic-native/file';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Config } from '../../config/config';
 @Component({
@@ -95,7 +95,7 @@ export class ReportviewtablePage {
   reportcount: any;
   donwloadstart: any;
   loading: any;
-  constructor(public app: App, private conf: Config, private platform: Platform, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private transfer: FileTransfer, private file: File, public NP: NavParams,
+  constructor(public app: App, private conf: Config, private platform: Platform, private sanitizer: DomSanitizer, public NP: NavParams,
     public fb: FormBuilder, public http: Http, public navCtrl: NavController, public nav: NavController, public loadingCtrl: LoadingController) {
     this.apiServiceURL = this.conf.apiBaseURL();
     this.reportcount = 0;
@@ -261,14 +261,13 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid;
       let res;
-      console.log("A:Table View URL:" + url);
 
       //this.presentLoadingText(this.processingtxt);
       this.http.get(url, options)
         ///this.http.post(url, body, options)
         .subscribe((data) => {
 
-          console.log("A:Table View URL Success Response:" + JSON.stringify(data));
+         
           //this.presentLoading(1);
           // If the request was successful notify the user
           res = data.json();
@@ -376,13 +375,13 @@ export class ReportviewtablePage {
 
 
         let res;
-        console.log("B:Table View for Unit Detail Displayed URL:" + url);
+       
         // "Processing... please wait.";
         //this.presentLoadingText(this.processingtxt);
         this.http.get(url, options)
 
           .subscribe((data) => {
-            console.log("B:Table View for Unit Detail Displayed Success Response:" + JSON.stringify(data));
+           
             // If the request was successful notify the user
             res = data.json();
             this.reportcount = res.reportcount;
@@ -473,7 +472,7 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-        console.log("C:Graph View URL:" + url);
+       
       }
     }
   }
@@ -540,7 +539,7 @@ export class ReportviewtablePage {
         "&showload=" + showload +
         "&companyid=" + this.companyid;
     let res;
-    console.log("D:Download Function Displayed URL:" + url);
+   
     if (val == 1) {
       this.processingtxt = "PDF file generated for download... please wait.";
       this.presentLoadingText(this.processingtxt);
@@ -553,7 +552,7 @@ export class ReportviewtablePage {
       ///this.http.post(url, body, options)
       .subscribe((data) => {
         this.donwloadstart = 1;
-        console.log("D:Download Function Displayed Success Response:" + JSON.stringify(data));
+        
 
         // this.presentLoading(0);
         // If the request was successful notify the user
@@ -586,9 +585,7 @@ export class ReportviewtablePage {
         window.open(uri);
         /* const fileTransfer: FileTransferObject = this.transfer.create();
          fileTransfer.download(uri, this.file.dataDirectory + pdfFile).then((entry) => {
-           console.log("Y" + uri);
-         
-           console.log("Z" + this.file.dataDirectory + pdfFile);
+          
            this.pdfdownloadview = 0;
          }, (error) => {
  

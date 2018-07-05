@@ -3,9 +3,9 @@ import { NavController, NavParams, ToastController, LoadingController, ActionShe
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { FileChooser } from '@ionic-native/file-chooser';
+//import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+//import { File } from '@ionic-native/file';
 import 'rxjs/add/operator/map';
 import { UserPage } from '../user/user';
 //import { UnitgroupPage } from '../unitgroup/unitgroup';
@@ -229,7 +229,6 @@ export class AdduserPage {
       if (this.NP.get("record").photo == 'undefined') {
         staffphotos = '';
       }
-      console.log("Photos" + this.NP.get("record").photo);
       if (staffphotos != '') {
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
       }
@@ -317,7 +316,6 @@ export class AdduserPage {
       if (this.NP.get("uservalue")[0].photo == 'undefined') {
         staffphotos = '';
       }
-      console.log("Photos" + this.NP.get("uservalue")[0].photo);
 
 
       //if (this.NP.get("uservalue")[0].photo) {
