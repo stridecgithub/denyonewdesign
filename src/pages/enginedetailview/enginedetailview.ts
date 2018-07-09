@@ -100,7 +100,7 @@ export class EnginedetailviewPage {
           this.unitDetailData.projectname = data.json().units[0].projectname;
           this.unitDetailData.location = data.json().units[0].location;
           this.unitDetailData.colorcodeindications = data.json().units[0].colorcode;
-          this.unitDetailData.gen_status = data.json().units[0].genstatus;
+          this.unitDetailData.genstatus = data.json().units[0].genstatus;
           this.unitDetailData.nextservicedate = data.json().units[0].nextservicedate;
           this.unitDetailData.companygroup_name = data.json().units[0].companygroup_name;
           this.unitDetailData.runninghr = data.json().units[0].runninghr;
@@ -144,7 +144,7 @@ export class EnginedetailviewPage {
       
       let editItem = this.NP.get("record");
       this.unitDetailData.runninghr = editItem.runninghr;
-      this.unitDetailData.gen_status = editItem.gen_status;
+      this.unitDetailData.genstatus = editItem.genstatus;
       this.unitDetailData.nextservicedate = editItem.nextservicedate;
       let favorite;
       if (this.NP.get("record").favoriteindication == 'favorite') {

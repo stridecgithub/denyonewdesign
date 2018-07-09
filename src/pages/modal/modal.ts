@@ -249,18 +249,32 @@ export class ModalPage {
         ]
       }
     ];
+    console.log(JSON.stringify(this.navParams.get('unitdata')));
     let mapicon;
-    if(this.navParams.get('unitdata').gen_status!='Offline'){
+    console.log(this.navParams.get('unitdata').genstatus);
+    console.log(this.navParams.get('unitdata').genstatus);
+    if(this.navParams.get('unitdata').genstatus==undefined){
+      this.navParams.get('unitdata').genstatus='Offline';
+    }
+    if(this.navParams.get('unitdata').genstatus!='Offline' || this.navParams.get('unitdata').genstatus!='Offline'){
       mapicon=this.navParams.get('unitdata').mapicon;
     }else{
       mapicon='';
     }
+
+    
     let latitued = parseFloat(this.navParams.get('unitdata').lat);
     let longitude = parseFloat(this.navParams.get('unitdata').lng);
     if (latitued == 0) {
       latitued = 1.32;
       longitude = 103.701;
     }
+    if(this.navParams.get('unitdata').genstatus=='Offline'){
+      latitued = 1.32;
+      longitude = 103.701; 
+    }
+    console.log(latitued);
+    console.log(longitude);
     this.mapData.push({
       name: this.navParams.get('unitdata').location,
       "lat": latitued, "lng": longitude, "center": true
@@ -286,7 +300,7 @@ export class ModalPage {
         genstatus = this.navParams.get('unitdata').enginestatus
       } else {
 
-        genstatus = this.navParams.get('unitdata').gen_status;
+        genstatus = this.navParams.get('unitdata').genstatus;
       }
 
       //if (this.navParams.get('unitdata').mapicon != undefined) {

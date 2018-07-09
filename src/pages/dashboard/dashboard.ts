@@ -479,7 +479,7 @@ export class DashboardPage {
         let res = data.json();
 
 
-        if (res.totalCount > 0) {
+       /* if (res.totalCount > 0) {
           for (let unit in res.units) {
             let cname = res.units[unit].unitgroup_name;
 
@@ -522,7 +522,7 @@ export class DashboardPage {
           this.totalCountList = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         }
-
+*/
         // If the request was successful notify the user
         if (data.status === 200) {
           if (res.favorite == 0) {
@@ -532,6 +532,15 @@ export class DashboardPage {
             //this.conf.sendNotification("Favourite successfully");
             this.conf.sendNotification(res.msg['result']);
           }
+
+
+
+
+
+          this.reportData.startindex = 0;
+          this.unitAllLists = [];
+          this.doUnit();
+
 
 
         }
