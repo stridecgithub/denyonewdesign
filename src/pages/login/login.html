@@ -14,7 +14,7 @@
     <p>Convert UTC to Date: {{dateconvert}}</p>
     <p>Time String: {{utctimestring}}</p> -->
     <ion-list>
-      <form [formGroup]="form" (ngSubmit)="saveEntry()">
+      <form [formGroup]="form" (ngSubmit)="saveEntry(0)">
         <ion-item>
           <ion-label floating>User ID</ion-label>
           <ion-input type="text" [(ngModel)]="username" formControlName="username"></ion-input>

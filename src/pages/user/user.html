@@ -38,7 +38,7 @@
     <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Name"></ion-icon>
   </div>
 
-  <div class="error" *ngIf="totalCount==1">No user entries found</div>
+  <div class="error" *ngIf="totalCount==0">No user entries found</div>
   <ion-list>
     <ion-item-sliding #item class="list-item" *ngFor="let user of items; let i = index">
       <ion-item *ngIf="user.staff_id!='1'">

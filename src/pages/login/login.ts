@@ -32,14 +32,15 @@ export class LoginPage {
   timezone;
   dateconvert;
   utctimestring;
+  urlstr;
   constructor(public platform: Platform, public alertCtrl: AlertController, private nativeStorage: NativeStorage, public menuCtrl: MenuController, public navCtrl: NavController, public navParams: NavParams, private conf: Config, private http: Http, public events: Events,
     public fb: FormBuilder) {
     this.utc = moment.utc();
     this.utctimestring = new Date(this.utc);
-   
+
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuCtrl.swipeEnable(false);
-  
+
     this.form = fb.group({
       "username": ["", Validators.required],
       "password": ['', Validators.required]
@@ -55,7 +56,7 @@ export class LoginPage {
             this.alert.dismiss();
             this.alert = null;
           } else {
-            this.showAlertExist();
+            this.showAlertExist('Exit?','Do you want to exit the app?');
           }
         }
       });
@@ -64,10 +65,10 @@ export class LoginPage {
   }
 
 
-  showAlertExist() {
+  showAlertExist(ttl,msg) {
     this.alert = this.alertCtrl.create({
-      title: 'Exit?',
-      message: 'Do you want to exit the app?',
+      title: ttl,
+      message: msg,
       buttons: [
         {
           text: 'Cancel',
@@ -86,6 +87,29 @@ export class LoginPage {
     });
     this.alert.present();
   }
+
+
+  showConfirm(ttl,msg) {
+    const confirm = this.alertCtrl.create({
+      title: ttl,
+      message: msg,
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            this.saveEntry(1);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
   ionViewDidEnter() {
     //to disable menu, or
     this.menuCtrl.enable(false);
@@ -125,7 +149,7 @@ export class LoginPage {
   }
 
   // Goto dashboard
-  saveEntry() {
+  saveEntry(tokenreset) {
     let username: string = this.form.controls["username"].value,
       password: string = this.form.controls["password"].value;
     this.isSubmitted = true;
@@ -137,39 +161,48 @@ export class LoginPage {
     if (device_token == null) {
       device_token = '';
     }
-    let urlstr;
+    
     this.timezone = Math.abs(new Date().getTimezoneOffset());
     this.dateconvert = moment().utcOffset(this.timezone).format();
     if (this.conf.isUTC() > 0) {
-      urlstr = "username=" + username +
+      this.urlstr = "username=" + username +
         "&password=" + password +
         "&device_token=" + device_token +
         "&utc=" + this.utc +
         "&utcdate=" + JSON.stringify(this.utc) +
         "&utcdatestring=" + this.timezone +
-        "&isapp=1";
+        "&isapp=1&tokenreset="+tokenreset;
     } else {
-      urlstr = "username=" + username +
+      this.urlstr = "username=" + username +
         "&password=" + password +
         "&device_token=" + device_token +
         "&utc=" + this.utc +
         "&utcdate=" + JSON.stringify(this.utc) +
         "&utcdatestring=" + this.timezone +
-        "&isapp=1";
+        "&isapp=1&tokenreset="+tokenreset;
     }
-    let body: string = urlstr,
+    let body: string = this.urlstr,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/checklogin";
+   
     this.http.post(url, body, options)
       .subscribe(data => {
         res = data.json();
-
         if (res.msg[0]['Error'] > 0) {
+          /*if(res.msg[0]['result']!='Invalid Login Credentials!'){
+            this.showAlertExist('Warning',res.msg[0]['result']);
+          }*/
+          if(res.flg=='already'){
+            this.showConfirm('Warning',res.msg[0]['result']);
+            this.isSubmitted = false;
+            return false;
+          }else{
           this.isSubmitted = false;
           this.conf.sendNotification(res.msg[0]['result']);
-          return false;
+         
+          }
         } else {
           this.isSubmitted = true;
           res = data.json();

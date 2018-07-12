@@ -591,7 +591,6 @@ export class DashboardPage {
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
-        console.log("DATA" + JSON.stringify(data));
         // JSON data
         let res = data.json();
         if (res.totalCount == undefined) {
@@ -909,7 +908,7 @@ export class DashboardPage {
 
     // Units All
 
-    console.log('units array' + JSON.stringify(units));
+  
 
     if (countrycount == 1) {
       /*this.pinunits.push({
@@ -939,7 +938,7 @@ export class DashboardPage {
       }
     }
 
-    console.log('pinunits' + JSON.stringify(this.pinunits));
+    
 
 
     if (JSON.stringify(this.pinunits) == '[]') {
@@ -954,14 +953,12 @@ export class DashboardPage {
     let bounds = new google.maps.LatLngBounds();
     let latLngmapoption;    
     if (countrycount == 1) {
-      console.log("Enter B");
-      // zoomlevel = 14;
-      console.log(zoomlevel + "<==>14")
+      
+     
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     } else if (countrycount > 1) {
       // zoomlevel = 3;
-      console.log(zoomlevel + "<==>3")
-      console.log("Enter A");
+     
       //latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
       //latLngmapoption = new google.maps.LatLng(19.50, 96.24);
 
@@ -969,7 +966,7 @@ export class DashboardPage {
         new google.maps.LatLng(-85, 180);
     } else {
       //zoomlevel = 10;
-      console.log(zoomlevel + "<==>10")
+     
       latLngmapoption = new google.maps.LatLng(markers[0].latitude, markers[0].longtitude);
     }
 
@@ -1068,15 +1065,11 @@ export class DashboardPage {
     if (countrycount == 1) {
       //this.map.setZoom(4);
     }
-    /*if (countrycount > 1) {
-      console.log('bounds calling....');
-      this.map.fitBounds(bounds);
-    }
-*/
+   
     if (markers.length > 1) {
       this.map.fitBounds(bounds);
     }
-    console.log("isbounds:" + isbounds);
+    
     if (isbounds > 1) {
       this.map.fitBounds(bounds);
     }

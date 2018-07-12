@@ -249,10 +249,9 @@ export class ModalPage {
         ]
       }
     ];
-    console.log(JSON.stringify(this.navParams.get('unitdata')));
+    
     let mapicon;
-    console.log(this.navParams.get('unitdata').genstatus);
-    console.log(this.navParams.get('unitdata').genstatus);
+   
     if(this.navParams.get('unitdata').genstatus==undefined){
       this.navParams.get('unitdata').genstatus='Offline';
     }
@@ -262,19 +261,20 @@ export class ModalPage {
       mapicon='';
     }
 
-    
+    let zoomlevel=14;
     let latitued = parseFloat(this.navParams.get('unitdata').lat);
     let longitude = parseFloat(this.navParams.get('unitdata').lng);
     if (latitued == 0) {
       latitued = 1.32;
       longitude = 103.701;
+      zoomlevel=10;
     }
     if(this.navParams.get('unitdata').genstatus=='Offline'){
       latitued = 1.32;
       longitude = 103.701; 
+      zoomlevel=10;
     }
-    console.log(latitued);
-    console.log(longitude);
+    
     this.mapData.push({
       name: this.navParams.get('unitdata').location,
       "lat": latitued, "lng": longitude, "center": true
@@ -284,7 +284,7 @@ export class ModalPage {
 
     let map = new google.maps.Map(mapEle, {
       center: this.mapData.find((d: any) => d.center),
-      zoom: 10,
+      zoom: zoomlevel,
       styles: mapStyle
     });
 

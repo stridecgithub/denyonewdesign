@@ -57,7 +57,7 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(public alertCtrl: AlertController, private network: Network, private push: Push, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events) {
+  constructor(public alertCtrl: AlertController, private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events, private push: Push) {//
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
@@ -278,13 +278,13 @@ export class MyApp {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
     this.events.unsubscribe('user:created', null);
-
+    let devicetoken=localStorage.getItem("deviceTokenForPushNotification");
    
     let
       typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headersunit: any = new Headers({ 'Content-Type': typeunit }),
       optionsunit: any = new RequestOptions({ headers: headersunit }),
-      urlunit: any = this.apiServiceURL + "/moblogout/" + this.userId;
+      urlunit: any = this.apiServiceURL + "/moblogoutnew/" + this.userId+"/"+devicetoken;
     
 
 
@@ -421,6 +421,7 @@ export class MyApp {
 
 
   }
+  
   onNext() {
    
     this.keyboard.close();/*
