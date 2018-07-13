@@ -380,13 +380,7 @@ export class EditprofilesteponePage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-
-    this.photo = fileName;
-    this.photo = fileName;
-    /*var d = new Date(),
-        n = d.getTime(),
-        newFileName = n + ".jpg";*/
-    //this.addedImgLists = '';
+    this.photo = fileName;    
     let options: FileUploadOptions = {
       fileKey: 'file',
       fileName: fileName,
@@ -394,32 +388,21 @@ export class EditprofilesteponePage {
       chunkedMode: false,
       mimeType: "text/plain",
     }
-    
     fileTransfer.onProgress(this.onProgress);
     this.userInfo=[];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-
         localStorage.setItem("userPhotoFile", "");
-
-
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
-        });
-       
+        });       
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
-
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
-       
         this.progress += 5;
         this.isProgress = false;
-
         this.isUploadedProcessing = false;
-
-
       }, (err) => {
-
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }
@@ -454,8 +437,7 @@ export class EditprofilesteponePage {
               correctOrientation: true
             }
 
-            this.camera.getPicture(options).then((imageURI) => {
-              
+            this.camera.getPicture(options).then((imageURI) => {              
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
 
@@ -483,8 +465,7 @@ export class EditprofilesteponePage {
               correctOrientation: true
             }
 
-            this.camera.getPicture(options).then((uri) => {
-              
+            this.camera.getPicture(options).then((uri) => {              
               localStorage.setItem("userPhotoFile", uri);
 
               this.fileTrans(uri);

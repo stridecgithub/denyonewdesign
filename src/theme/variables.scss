@@ -136,10 +136,10 @@ $app-brand-colors: (
 }*/
 
 .item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
-  border-bottom-color:#ffffff;
-  border-bottom-color: #ffffff;
-    -webkit-box-shadow: inset 0 -1px 0 0 #ffffff;
-    box-shadow: inset 0 -1px 0 0 #ffffff;
+  border-bottom-color:#b8b8b8;
+  border-bottom-color: #b8b8b8;
+    -webkit-box-shadow: inset 0 -1px 0 0 #b8b8b8;
+    box-shadow: inset 0 -1px 0 0 #b8b8b8;
 }
   .pushtoast {
     .toast-wrapper {
@@ -163,4 +163,30 @@ $app-brand-colors: (
   }
 
   }
+  .error-round-square{
+    border-bottom: 1px solid #f53d3d;
+  }
 
+  .error-round-non-square{
+    border-bottom: 1px solid #b8b8b8;
+  }
+
+  .error-round-non-square-four{
+    border-bottom: 1px solid #b8b8b8;
+  }
+
+  .error-round-square-four{
+    border-bottom: 1px solid #f53d3d;
+   
+  }
+
+
+  .error-round-square-to-message{
+    border-bottom: 1px solid #f53d3d;
+    border:none;
+  }
+
+  .error-round-non-square-to-message{
+    border-bottom: 1px solid #b8b8b8;
+    border:none;
+  }

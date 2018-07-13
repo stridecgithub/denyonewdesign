@@ -30,21 +30,23 @@
 
 
     <div class="servicing-details-form" style="border-bottom: none; border-top: none;">
-      <ion-list style="margin-bottom: 0">
+      <ion-list>
 
-        <ion-item>
-          <ion-label stacked>Subject</ion-label>
+        <ion-item style="margin-left:-6px">
+          <ion-label stacked><span style="margin-left:14px">Subject</span>
+            <span class="mandatory">*</span>
+          </ion-label>
           <ion-textarea formControlName="service_subject" [(ngModel)]="service_subject"></ion-textarea>
         </ion-item>
 
 
-        <ion-item style="border: none">
-          <ion-label stacked>Remarks</ion-label>
-          <ion-textarea style="border-bottom: 1px solid #dedede"  formControlName="service_remark"
-          [(ngModel)]="service_remark"></ion-textarea>
-
+        <ion-item   style="margin-left: 8px;width: 95%;">
+          <ion-label stacked>Remarks
+            <span class="mandatory">*</span>
+          </ion-label>
+          <ion-textarea formControlName="service_remark" [(ngModel)]="service_remark"></ion-textarea>
         </ion-item>
-       
+
       </ion-list>
     </div>
 
@@ -58,7 +60,7 @@
     <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span> -->
 
     <div class="progress-outer" *ngIf="isProgress">
-      <div class="progress-inner" [style.width]="progress + '%'">        
+      <div class="progress-inner" [style.width]="progress + '%'">
       </div>
     </div>
 

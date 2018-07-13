@@ -29,23 +29,23 @@
       <ion-list>
 
         <ion-item>
-          <ion-label stacked>Unit Name</ion-label>
+          <ion-label stacked>Unit Name <span class="mandatory">*</span></ion-label>
           <ion-input type="text" formControlName="unitname" [(ngModel)]="unitname"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Project</ion-label>
+          <ion-label stacked>Project <span class="mandatory">*</span></ion-label>
           <ion-input type="text" formControlName="projectname" [(ngModel)]="projectname"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Controller ID</ion-label>
+          <ion-label stacked>Controller ID <span class="mandatory">*</span></ion-label>
           <ion-input type="text" formControlName="controllerid" [(ngModel)]="controllerid"></ion-input>
         </ion-item>
         <p style="color:#cc504e;font-style:normal" *ngIf="isEdited">Please note that the connection with Generator will be affected if you change the controller ID.</p>
 
         <ion-item>
-          <ion-label stacked>Generator Model</ion-label>
+          <ion-label stacked>Generator Model <span class="mandatory">*</span></ion-label>
           <ion-select placeholder="Please Select" [(ngModel)]="models_id" formControlName="models_id">
             <ion-option *ngFor="let modelData of responseResultModel" value="{{modelData.model_id}}">{{modelData.model}}</ion-option>
 
@@ -53,12 +53,12 @@
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Serial Number</ion-label>
+          <ion-label stacked>Serial Number <span class="mandatory">*</span></ion-label>
           <ion-input type="text" [(ngModel)]="serial_number" formControlName="serial_number"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>NEA Plate Number</ion-label>
+          <ion-label stacked>NEA Plate Number <span class="mandatory">*</span></ion-label>
           <ion-input type="text" formControlName="neaplateno" [(ngModel)]="neaplateno"></ion-input>
         </ion-item>
       </ion-list>
@@ -74,14 +74,14 @@
       <ion-list>
 
         <ion-item>
-          <ion-label stacked>Unit Group</ion-label>
+          <ion-label stacked>Unit Group <span class="mandatory">*</span></ion-label>
           <ion-select placeholder="Please Select" [(ngModel)]="unitgroups_id" formControlName="unitgroups_id">
             <ion-option *ngFor="let unitData of responseResultUnitGroup" value="{{unitData.unitgroup_id}}">{{unitData.unitgroup_name}}</ion-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Company Group</ion-label>
+          <ion-label stacked>Company Group <span class="mandatory">*</span></ion-label>
           <ion-select placeholder="Please Select" [(ngModel)]="companys_id" formControlName="companys_id">
             <ion-option *ngFor="let companyData of responseResultCompany" value="{{companyData.companygroup_id}}">{{companyData.companygroup_name}}</ion-option>
           </ion-select>

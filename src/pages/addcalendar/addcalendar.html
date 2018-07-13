@@ -34,7 +34,7 @@
 
 
         <ion-item *ngIf="unitfield">
-          <ion-label stacked>Unit Name </ion-label>
+          <ion-label stacked>Unit Name <span class="mandatory">*</span></ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="event_unitid" formControlName="event_unitid" (ionChange)="getProjectLocation(event_unitid)">
             <ion-option *ngFor="let unitData of responseResultCompany" value="{{unitData.unit_id}}">{{unitData.unitname}}</ion-option>
           </ion-select>
@@ -44,12 +44,12 @@
 
 
         <ion-item *ngIf="unitfield">
-          <ion-label stacked>Project </ion-label>
+          <ion-label stacked>Project <span class="mandatory">*</span></ion-label>
           <ion-input [disabled]="disunit" type="text" formControlName="event_project" [(ngModel)]="event_project"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>{{locationstr}} Location</ion-label>
+          <ion-label stacked>{{locationstr}} Location <span class="mandatory">*</span></ion-label>
           <ion-input [disabled]="disunit" type="text" formControlName="event_location" [(ngModel)]="event_location"></ion-input>
         </ion-item>
 
@@ -61,14 +61,14 @@
 
 
         <ion-item>
-          <ion-label stacked>Title</ion-label>
+          <ion-label stacked>Title <span class="mandatory">*</span></ion-label>
           <ion-input [disabled]="readOnly" type="text" formControlName="event_subject" [(ngModel)]="event_subject"></ion-input>
         </ion-item>
 
 
 
         <ion-item class="dati" *ngIf="servicedatetimefield">
-          <ion-label stacked>Date & Time</ion-label>
+          <ion-label stacked>Date & Time </ion-label>
           <ion-datetime (ionChange)="CalendarfutureDateValidation(serviced_datetime)" pickerFormat="MMM DD YYYY h mm A" displayFormat="MM/DD/YYYY, h:mm A"
             class="next-service-cal-icon" min="{{currentyear}}" max="3000" formControlName="serviced_datetime" [(ngModel)]="serviced_datetime"></ion-datetime>
         </ion-item>
@@ -112,7 +112,7 @@
 
 
         <ion-item class="no-border">
-          <ion-label stacked>Description</ion-label>
+          <ion-label stacked>Description <span class="mandatory">*</span></ion-label>
         
         </ion-item>
        

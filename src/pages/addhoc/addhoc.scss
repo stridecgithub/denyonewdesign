@@ -14,9 +14,7 @@ page-addhoc {
     }
   }
 
-  .item-input ion-input{
-    border-bottom: 1px solid #dedede!important;
-}
+
 
   .servicing-details-form {
     background: #F8F8F8;
@@ -27,7 +25,7 @@ page-addhoc {
       background-color: transparent;
       padding: 0 15px;
       .cal-icon {
-        background: url(../assets/imgs/cal@2x.png) no-repeat right;
+        background: url("../assets/imgs/cal@2x.png") no-repeat right;
         background-size: 20px auto;
       }
     }

@@ -35,7 +35,7 @@
     <div class="servicing-details-form">
       <ion-list style="margin-bottom:0">
         <ion-item style="border:none;margin:0 auto;display:table;width:92%;padding:0;">
-          <ion-label stacked>Subject</ion-label>
+          <ion-label stacked>Subject <span class="mandatory">*</span></ion-label>
           <ion-input style="border-bottom:1px solid #dedede;margin-right:0;margin-bottom:0px;" type="text" formControlName="comment_subject"
             [(ngModel)]="comment_subject"></ion-input>
         </ion-item>
@@ -43,7 +43,7 @@
 
       <ion-list style="margin-bottom: 0">
         <ion-item style="border: none;" class="no-line">
-          <ion-label stacked>Remark</ion-label>
+          <ion-label stacked>Remark <span class="mandatory">*</span></ion-label>
 
         </ion-item>
         <div class="unit-form-group" style="background-color: #f8f8f8;">

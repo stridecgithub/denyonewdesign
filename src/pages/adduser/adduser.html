@@ -66,21 +66,21 @@
         <ion-label stacked>First Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="first_name" [(ngModel)]="first_name"></ion-input>
+        <ion-input  class="{{form.controls.first_name.errors && form.controls.first_name.dirty ? 'error-round-square' : 'error-round-non-square'}}"    type="text" [disabled]="readOnly" formControlName="first_name" [(ngModel)]="first_name"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Last Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="last_name" [(ngModel)]="last_name"></ion-input>
+        <ion-input type="text" [disabled]="readOnly" class="{{form.controls.last_name.errors && form.controls.last_name.dirty ? 'error-round-square' : 'error-round-non-square'}}" formControlName="last_name" [(ngModel)]="last_name"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Email
           <span class="mandatory" *ngIf="hideActionButton"> *</span>
         </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email"></ion-input>
+        <ion-input type="text" [disabled]="readOnly" class="{{form.controls.email.errors && form.controls.email.dirty ? 'error-round-square' : 'error-round-non-square'}}"  formControlName="email" [(ngModel)]="email"></ion-input>
       </ion-item>
 
      
@@ -89,7 +89,7 @@
         <ion-label stacked>Contact Number
           <span class="mandatory" *ngIf="hideActionButton"> *</span>
         </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="contact" [(ngModel)]="contact"></ion-input>
+        <ion-input type="text" [disabled]="readOnly" class="{{form.controls.contact.errors && form.controls.contact.dirty ? 'error-round-square' : 'error-round-non-square'}}"  formControlName="contact" [(ngModel)]="contact"></ion-input>
       </ion-item>
 
 
@@ -99,8 +99,8 @@
         <ion-label stacked>Country
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
-          <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
+        <ion-select [disabled]="readOnly" [(ngModel)]="country"  formControlName="country">
+          <ion-option class="{{form.controls.country.errors && form.controls.country.dirty ? 'error-round-square' : 'error-round-non-square'}}" *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -110,14 +110,14 @@
         <ion-label stacked>User Id
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" [(ngModel)]="username"></ion-input>
+        <ion-input (keyup)=addhashtag($event.target.value); type="text" [disabled]=useriddisabled formControlName="username" class="{{form.controls.username.errors && form.controls.username.dirty ? 'error-round-square' : 'error-round-non-square'}}"  [(ngModel)]="username"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Password
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="password" [disabled]="readOnly" formControlName="password" [(ngModel)]="password"></ion-input>
+        <ion-input type="password" [disabled]="readOnly" formControlName="password" class="{{form.controls.password.errors && form.controls.password.dirty ? 'error-round-square' : 'error-round-non-square'}}"  [(ngModel)]="password"></ion-input>
       </ion-item>
 
 
@@ -125,7 +125,7 @@
         <ion-label stacked>Confirm Password
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="password" [disabled]="readOnly" formControlName="re_password" [(ngModel)]="re_password"></ion-input>
+        <ion-input type="password" [disabled]="readOnly" formControlName="re_password" class="{{form.controls.re_password.errors && form.controls.re_password.dirty ? 'error-round-square' : 'error-round-non-square'}}"  [(ngModel)]="re_password"></ion-input>
       </ion-item>
 
 
@@ -134,15 +134,15 @@
         <ion-label stacked>Personal Hashtag
           <span class="mandatory" *ngIf="hideActionButton"> *</span>
         </ion-label>
-        <ion-input type="text" [disabled]=true formControlName="hashtag" [(ngModel)]="hashtag"></ion-input>
+        <ion-input type="text" [disabled]=true formControlName="hashtag" class="{{form.controls.hashtag.errors && form.controls.hashtag.dirty ? 'error-round-square' : 'error-round-non-square'}}"  [(ngModel)]="hashtag"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Role
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="role" formControlName="role">
-          <ion-option *ngFor="let roleData of responseResultRoleDropDown" value="{{roleData.role_id}}">{{roleData.role_name}}</ion-option>
+        <ion-select [disabled]="readOnly" [(ngModel)]="role"   formControlName="role">
+          <ion-option class="{{form.controls.role.errors && form.controls.role.dirty ? 'error-round-square' : 'error-round-non-square'}}" *ngFor="let roleData of responseResultRoleDropDown" value="{{roleData.role_id}}">{{roleData.role_name}}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -151,22 +151,22 @@
         <ion-label stacked>Job Position
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position"></ion-input>
+        <ion-input type="text" [disabled]="readOnly" class="{{form.controls.job_position.errors && form.controls.job_position.dirty ? 'error-round-square' : 'error-round-non-square'}}"  formControlName="job_position" [(ngModel)]="job_position"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label stacked>Company
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged()">
-          <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
+        <ion-select [disabled]="readOnly" [(ngModel)]="company_group"   formControlName="company_group" (ionChange)="onSegmentChanged()">
+          <ion-option class="{{form.controls.company_group.errors && form.controls.company_group.dirty ? 'error-round-square' : 'error-round-non-square'}}" *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}">{{groupData.companygroup_name}}</ion-option>
         </ion-select>
       </ion-item>
 
       <ion-item style="padding-bottom:15px;">
         <ion-label stacked>Report To</ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
-          <ion-option value="0" *ngIf="this.len==0">N/A</ion-option>
-          <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+        <ion-select  [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
+          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}"  value="0" *ngIf="this.len==0">N/A</ion-option>
+          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}"  *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item style="background-color:#fff;border-top:1px solid #d6d6d6;padding-top:20px;" class="last-btn">

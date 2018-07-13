@@ -18,20 +18,20 @@
       <ion-list>
 
         <ion-item>
-          <ion-label stacked>From </ion-label>
+          <ion-label stacked>From <span class="mandatory">*</span></ion-label>
           <ion-datetime displayFormat="MM/DD/YYYY" max="3000" class="cal-icon" formControlName="start_date" [(ngModel)]="start_date"
             pickerFormat="MMM DD YYYY"></ion-datetime>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>To </ion-label>
+          <ion-label stacked>To <span class="mandatory">*</span></ion-label>
           <ion-datetime displayFormat="MM/DD/YYYY" max="3000" class="cal-icon" formControlName="end_date" [(ngModel)]="end_date" pickerFormat="MMM DD YYYY"></ion-datetime>
 
         </ion-item>
 
         <ion-item>
           <ion-label stacked>Select Unit
-            <span class="mandatory" *ngIf="hideActionButton">*</span>
+            <span class="mandatory">*</span>
           </ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="selunit" formControlName="selunit">
             <ion-option *ngFor="let unitData of responseUnit" value="{{unitData.unit_id}}">{{unitData.unitname}}</ion-option>
@@ -40,7 +40,7 @@
 
         <ion-item>
           <ion-label stacked>Time Frame
-            <span class="mandatory" *ngIf="hideActionButton">*</span>
+            <span class="mandatory">*</span>
           </ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="seltimeframe" formControlName="seltimeframe">
             <ion-option *ngFor="let timeData of responseResultTimeFrame" value="{{timeData.id}}">{{timeData.time_name}}</ion-option>
@@ -49,7 +49,7 @@
 
         <ion-item>
           <ion-label stacked>Select Template
-            <span class="mandatory" *ngIf="hideActionButton">*</span>
+            <span class="mandatory">*</span>
           </ion-label>
           <ion-select [disabled]="readOnly" [(ngModel)]="seltemplate" formControlName="seltemplate">
             <ion-option *ngFor="let templateData of responseTemplate" value="{{templateData.id}}">{{templateData.templatename}}</ion-option>
@@ -67,7 +67,7 @@
 
 
           <ion-list radio-group>
-            <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format</ion-label>
+            <ion-label stacked style="color: #999;margin-bottom:10px;margin-top: 0;">Display Format <span class="mandatory">*</span></ion-label>
             <ion-radio checked="{{tableradiochk}}"   (click)="getFormat('table')"></ion-radio>
             Table &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ion-radio checked="{{graphradiochk}}"  (click)="getFormat('graph')"></ion-radio>

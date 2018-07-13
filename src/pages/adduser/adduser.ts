@@ -229,6 +229,13 @@ export class AdduserPage {
       if (this.NP.get("record").photo == 'undefined') {
         staffphotos = '';
       }
+      if (this.NP.get("record").photo == undefined) {
+        staffphotos = '';
+      }
+      if (this.NP.get("record").photo == '') {
+        staffphotos = '';
+      }
+      console.log("staffphotos1"+staffphotos);
       if (staffphotos != '') {
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
       }
@@ -319,10 +326,10 @@ export class AdduserPage {
 
 
       //if (this.NP.get("uservalue")[0].photo) {
-        if (staffphotos != '') {
-          this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
+      if (staffphotos != '') {
+        this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("uservalue")[0].photo;
 
-        }
+      }
       //}
     }
     /*this.first_name = "Kannan";
@@ -830,7 +837,7 @@ export class AdduserPage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-            
+
             const options: CameraOptions = {
               quality: 100,
               destinationType: this.camera.DestinationType.FILE_URI,
@@ -858,8 +865,6 @@ export class AdduserPage {
           text: 'From Camera',
           icon: 'md-camera',
           handler: () => {
-
-
             const options: CameraOptions = {
               quality: 100,
               destinationType: this.camera.DestinationType.NATIVE_URI,
@@ -898,9 +903,6 @@ export class AdduserPage {
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-
-    this.photo = fileName;
-
     this.photo = fileName;
     /*var d = new Date(),
         n = d.getTime(),
@@ -918,35 +920,17 @@ export class AdduserPage {
     this.userInfo = [];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
-
         localStorage.setItem("userPhotoFile", "");
-
-
-
-
-
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
         });
-
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
-
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
-
-        //this.conf.sendNotification("User photo uploaded successfully");
         this.progress += 5;
         this.isProgress = false;
-
         this.isUploadedProcessing = false;
-        //  return false;
-
-
-
-
       }, (err) => {
-        //loading.dismiss();
-
         this.conf.sendNotification("Upload Error:" + JSON.stringify(err));
       })
   }

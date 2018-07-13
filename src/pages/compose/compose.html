@@ -21,12 +21,12 @@
         <div style="color: darkgray;
     margin-left: 9px;
     margin-top: 13px;
-    font-size: 12px;">To</div>
+    font-size: 12px;">To <span class="mandatory">*</span></div>
       </ion-col>
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;position:relative;">
-        <input formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="to" style="background:none;border:none;width:100%"
+        <input class="{{form.controls.to.errors && form.controls.to.dirty ? 'error-round-square-four' : 'error-round-non-square-four'}}" formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="to" style="background:none;width:100%;border-style:inherit"
         />
       </div>
     </div>
@@ -77,13 +77,13 @@
 
 
       <ion-item style="padding-left:0;margin:0 auto;display:table;width:90%;">
-        <ion-label stacked>Subject</ion-label>
-        <ion-input type="text" formControlName="subject" [(ngModel)]="subject"></ion-input>
+        <ion-label stacked>Subject <span class="mandatory">*</span></ion-label>
+        <ion-input class="{{form.controls.subject.errors && form.controls.subject.dirty ? 'error-round-square-to-message' : 'error-round-non-square-to-message'}}"  type="text" formControlName="subject" [(ngModel)]="subject"></ion-input>
       </ion-item>
 
       <ion-item style="padding-left:0;margin:0 auto;display:table;width:90%;">
-        <ion-label stacked>Message</ion-label>
-        <ion-textarea rows="20" id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
+        <ion-label stacked>Message <span class="mandatory">*</span></ion-label>
+        <ion-textarea class="{{form.controls.composemessagecontent.errors && form.controls.composemessagecontent.dirty ? 'error-round-square-to-message' : 'error-round-non-square-to-message'}}"  rows="20" id="composemessagecontent" formControlName="composemessagecontent" [(ngModel)]="composemessagecontent"></ion-textarea>
       </ion-item>
 
 

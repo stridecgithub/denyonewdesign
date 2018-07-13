@@ -53,7 +53,7 @@
         <ion-input type="text" [disabled]=true formControlName="assignedby" [(ngModel)]="assignedby"></ion-input>
       </ion-item-->
     <ion-item>
-      <ion-label stacked>Assigned To</ion-label>
+      <ion-label stacked>Assigned To <span class="mandatory">*</span></ion-label>
       <ion-select [disabled]="readOnly" [(ngModel)]="assigned_to" formControlName="assigned_to">
         <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
       </ion-select>
@@ -68,7 +68,7 @@
     color: gray;
     font-size: 12px;
     margin-top: 15px;
-">Remark</div>
+">Remark <span class="mandatory">*</span></div>
       <textarea style="height: 70px;
     width: 100%;
     margin-left: 2px;

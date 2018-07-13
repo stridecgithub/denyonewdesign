@@ -46,17 +46,17 @@
 
 
         <ion-item>
-          <ion-label stacked>Title</ion-label>
-          <ion-input style="height:30px;" formControlName="service_subject" [(ngModel)]="service_subject"></ion-input>
+          <ion-label stacked>Title <span class="mandatory">*</span></ion-label>
+          <ion-input class="{{form.controls.service_subject.errors && form.controls.service_subject.dirty ? 'error-round-square' : 'error-round-non-square'}}"  style="height:30px;" formControlName="service_subject" [(ngModel)]="service_subject"></ion-input>
         </ion-item>
 
         <ion-item style="border: none">
-          <ion-label stacked>Remarks</ion-label>
+          <ion-label stacked>Remarks <span class="mandatory">*</span></ion-label>
         </ion-item>          
           <div class="unit-form-group" style="background-color: #f8f8f8;">
             <div class="inner-div" style="background-color: #f8f8f8;">
               <ion-list style="position:relative;">
-                   <textarea formControlName="service_remark" [(ngModel)]="service_remark" type="text" class="service_remark" value="" name="service_remark" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                   <textarea formControlName="service_remark" [(ngModel)]="service_remark" type="text" class="service_remark" value="" name="service_remark" class="{{form.controls.service_remark.errors && form.controls.service_remark.dirty ? 'error-round-square' : 'error-round-non-square'}}"  style="width:100%;border-top:none;border-left:none;border-right:none;background:none;"></textarea>
               </ion-list>
       
             </div>
