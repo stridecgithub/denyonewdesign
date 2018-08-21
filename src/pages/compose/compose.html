@@ -26,7 +26,7 @@
     </ion-row>
     <div class="unit-form-group" style="background-color: #f8f8f8;">
       <div class="inner-div" style="background-color: #f8f8f8;position:relative;">
-        <input class="{{form.controls.to.errors && form.controls.to.dirty ? 'error-round-square-four' : 'error-round-non-square-four'}}" formControlName="to" [(ngModel)]="to" type="text" class="to" value="" name="to" style="background:none;width:100%;border-style:inherit"
+        <input class="{{form.controls.to.errors && form.controls.to.dirty ? 'error-round-square-four' : 'error-round-non-square-four'}} to" formControlName="to" [(ngModel)]="to" type="text"  value="" name="to" style="background:none;width:100%;border-style:inherit"
         />
       </div>
     </div>
@@ -91,26 +91,21 @@
     right: 2%;
     top: 24%;">
         <button style="background-color: #F8F8F8;height: 30px" (click)="fileChooser(micro_timestamp)" *ngIf="isUploaded && act!='reply'  && act!='replytoall'">
-          <!-- <ion-icon name="attach"></ion-icon> Attach -->
           <img class="icon-size-one" src="assets/imgs/attach_icon.png"> Attach</button>
       </div>
-
 
       <div class="progress-outer" *ngIf="isProgress" style="position: absolute;top: 27%;">
         <div class="progress-inner" [style.width]="progress + '%'">
         </div>
       </div>
-
-      <!-- <progress value="{{progress}}" max="100" *ngIf="isProgress" style="margin-left:35%"> </progress>
-      <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span> -->
+   
     </ion-list>
   </form>
 
 
   <div style="padding-left: 8px;" class="attachment" *ngIf="addedImgLists.length>0  && act!='reply' && act!='replytoall'">
     <div class="attach" (click)="toggle(isopenorclose)">
-      <!--<h1 *ngIf="messageid==0">{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>-->
-      <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
+     <h1>{{addedImgLists.length}} Attachments ({{totalFileSize}})</h1>
       <button>
         <ion-icon name="md-arrow-dropup" *ngIf="open>0"></ion-icon>
         <ion-icon name="md-arrow-dropdown" *ngIf="close>0"></ion-icon>

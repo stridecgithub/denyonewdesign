@@ -15,7 +15,6 @@ import { UnitdetailgraphPage } from "../unitdetailgraph/unitdetailgraph";
 import { ModalPage } from '../modal/modal';
 declare var jQuery: any;
 declare var Gauge: any;
-//declare var jqLinearGauge: any;
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from "rxjs";
 import { ViewunitPage } from '../viewunit/viewunit';
@@ -456,6 +455,7 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
+							console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 
@@ -1083,7 +1083,7 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-						
+						console.log(url);
 						this.http.get(url, options)
 							.subscribe((data) => {
 								this.commstatus = data.json().commstatus;

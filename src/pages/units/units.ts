@@ -74,7 +74,7 @@ export class UnitsPage {
   constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.apiServiceURL = this.conf.apiBaseURL();
-    this.pageperrecord = this.conf.pagePerRecord();
+    this.pageperrecord =1000; //this.conf.pagePerRecord();
     this.isInfiniteHide = true;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     this.roleId = localStorage.getItem("userInfoRoleId");
@@ -124,7 +124,7 @@ export class UnitsPage {
     modal.present();
   }
   ngOnDestroy() {
-    //this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
   ionViewDidLoad() {
 
@@ -150,7 +150,11 @@ export class UnitsPage {
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-      this.doUnit();
+      this.subscription = Observable.interval(2000).subscribe(x => {
+        this.reportData.startindex = 0;
+        this.unitAllLists = [];
+        this.doUnit();
+      });
       this.doNotifiyCount();
       // Initiate G Map
 
@@ -187,7 +191,7 @@ export class UnitsPage {
 
   /****************************/
   doUnit() {
-    this.conf.presentLoading(1);
+    //this.conf.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -198,14 +202,14 @@ export class UnitsPage {
     let urlstr;
 
 
-    //this.subscription = Observable.interval(2000).subscribe(x => {
-      
-      if (this.conf.isUTC() > 0) {
-        urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
-      } else {
-        urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
-      }
-    //});
+    
+
+    if (this.conf.isUTC() > 0) {
+      urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+    } else {
+      urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
+    }
+
 
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -235,7 +239,7 @@ export class UnitsPage {
 
 
             let dur;
-           
+
             if (this.roleId == 1) {
               dur = 0;
             } else {
@@ -281,9 +285,9 @@ export class UnitsPage {
         }
 
       }, error => {
-        this.conf.presentLoading(0);
+        //this.conf.presentLoading(0);
       }, () => {
-        this.conf.presentLoading(0);
+        //this.conf.presentLoading(0);
       });
 
   }
@@ -392,53 +396,53 @@ export class UnitsPage {
 
         }
 
-/*
-
-        if (res.units.length > 0) {
-          for (let unit in res.units) {
-            let cname = res.units[unit].unitgroup_name;
-
-            if (cname != 'undefined' && cname != undefined) {
-              let stringToSplit = cname;
-              let x = stringToSplit.split("");
-              cname = x[0].toUpperCase();
-            } else {
-              cname = '';
-            }
-            this.unitAllLists.push({
-              unit_id: res.units[unit].unit_id,
-              unitname: res.units[unit].unitname,
-              location: res.units[unit].location,
-              contacts: res.units[unit].contacts,
-              projectname: res.units[unit].projectname,
-              colorcode: res.units[unit].colorcode,
-              nextservicedate: res.units[unit].nextservicedate,
-              neaplateno: res.units[unit].neaplateno,
-              serial_number: res.units[unit].serialnumber,
-              companys_id: res.units[unit].companys_id,
-              unitgroups_id: res.units[unit].unitgroups_id,
-              models_id: res.units[unit].models_id,
-              alarmnotificationto: res.units[unit].alarmnotificationto,
-              favoriteindication: res.units[unit].favorite,
-              genstatus: res.units[unit].genstatus,
-              lat: res.units[unit].lat,
-              duration: res.units[unit].duration,
-              lng: res.units[unit].lng,
-              runninghr: res.units[unit].runninghr,
-              companygroup_name: cname,
-              nextservicedate_mobileview: res.units[unit].nextservicedate_mobileview,
-              duedatecolor: res.units[unit].duedatecolor,
-              logo: "assets/imgs/square.png",
-              active: ""
-            });
-          }
-          this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
-          this.totalCount = res.totalCount;
-          this.reportData.startindex += this.reportData.results;
-        } else {
-          this.totalCount = 0;
-        }
-*/
+        /*
+        
+                if (res.units.length > 0) {
+                  for (let unit in res.units) {
+                    let cname = res.units[unit].unitgroup_name;
+        
+                    if (cname != 'undefined' && cname != undefined) {
+                      let stringToSplit = cname;
+                      let x = stringToSplit.split("");
+                      cname = x[0].toUpperCase();
+                    } else {
+                      cname = '';
+                    }
+                    this.unitAllLists.push({
+                      unit_id: res.units[unit].unit_id,
+                      unitname: res.units[unit].unitname,
+                      location: res.units[unit].location,
+                      contacts: res.units[unit].contacts,
+                      projectname: res.units[unit].projectname,
+                      colorcode: res.units[unit].colorcode,
+                      nextservicedate: res.units[unit].nextservicedate,
+                      neaplateno: res.units[unit].neaplateno,
+                      serial_number: res.units[unit].serialnumber,
+                      companys_id: res.units[unit].companys_id,
+                      unitgroups_id: res.units[unit].unitgroups_id,
+                      models_id: res.units[unit].models_id,
+                      alarmnotificationto: res.units[unit].alarmnotificationto,
+                      favoriteindication: res.units[unit].favorite,
+                      genstatus: res.units[unit].genstatus,
+                      lat: res.units[unit].lat,
+                      duration: res.units[unit].duration,
+                      lng: res.units[unit].lng,
+                      runninghr: res.units[unit].runninghr,
+                      companygroup_name: cname,
+                      nextservicedate_mobileview: res.units[unit].nextservicedate_mobileview,
+                      duedatecolor: res.units[unit].duedatecolor,
+                      logo: "assets/imgs/square.png",
+                      active: ""
+                    });
+                  }
+                  this.items = this.mockProvider.getData(this.unitAllLists, 0, this.pageperrecord);
+                  this.totalCount = res.totalCount;
+                  this.reportData.startindex += this.reportData.results;
+                } else {
+                  this.totalCount = 0;
+                }
+        */
 
       }, error => {
       });
@@ -823,7 +827,7 @@ export class UnitsPage {
   }
   onholdaction(action) {
     this.arrayid = [];
-        this.isInfiniteHide = true;
+    this.isInfiniteHide = true;
     if (action == 'view') {
       //let modal = this.modalCtrl.create(ViewunitPage, { item: this.selecteditems });
       //modal.present();

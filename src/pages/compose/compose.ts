@@ -417,7 +417,6 @@ export class ComposePage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/messages/chkemailhashtags";
 
-
     this.http.post(url, body, options)
       .subscribe((data) => {
 

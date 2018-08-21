@@ -59,7 +59,7 @@
   </div>
 
   <div>
-    <form [formGroup]="form"  class="c edit-profo">
+    <form [formGroup]="form"  class="edit-profo">
       <!-- <div style="position: relative;left: 35%;">
 
         <a (click)="doUploadPhoto()" href="#" *ngIf="!addedImgLists">
@@ -126,8 +126,8 @@
         <ion-label stacked>Country
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country" class="{{form.controls.country.errors && form.controls.country.dirty ? 'error-round-square' : 'error-round-non-square'}}">
-          <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}">{{countryData.country_name}}</ion-option>
+        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
+          <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}" class="{{form.controls.country.errors && form.controls.country.dirty ? 'error-round-square' : 'error-round-non-square'}}">{{countryData.country_name}}</ion-option>
         </ion-select>
       </ion-item>
       </ion-list>
@@ -152,12 +152,12 @@
       </ion-item>
       </ion-list>
 
-	  <ion-list style="padding-bottom:25px;">
+	  <ion-list>
       <ion-item>
         <ion-label stacked>Report To</ion-label>
         <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
-          <ion-option value="0" *ngIf="this.len==0">N/A</ion-option>
-          <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}" value="0" *ngIf="this.len==0">N/A</ion-option>
+          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}" *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
         </ion-select>
       </ion-item>
       </ion-list>

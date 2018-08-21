@@ -88,10 +88,7 @@
 		padding-right: 0;
 		padding-left: 0;
 	  }
-	  .edit-profo {
-	  	border-top: 1px solid #ccc;
-		overflow: hidden;
-	  }
+	  
 	  ion-select{
 	  	border-bottom: 1px solid #b8b8b8;
 	  }
@@ -103,5 +100,9 @@
 	  }
 	  .item-md.item-block .item-inner {
 	  	padding-right: 0px;
+    }
+    
+    .edit-profo ion-select{
+	  	border-bottom: 2px solid #b8b8b8;
 	  }
   }

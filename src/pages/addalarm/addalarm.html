@@ -57,7 +57,7 @@
             <ion-option *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
           </ion-select>
         </ion-item>
-        <div class="inner-div" style="">
+        <div class="inner-div">
         
           <div style="
     color: gray;
@@ -69,7 +69,7 @@
             <div class="unit-form-group" style="background-color: #f8f8f8;">
               <div class="inner-div" style="background-color: #f8f8f8;margin: 0;">
                 <ion-list style="position:relative;">
-                     <textarea formControlName="remark" [(ngModel)]="remark" type="text" class="remark" value="" name="remark" style="width:100%;border-top:none;border-left:none;border-right:none;border-bottom:1px solid #dedede;background:none;"></textarea>
+                     <textarea class="{{form.controls.remark.errors && form.controls.remark.dirty ? 'error-round-square' : 'error-round-non-square'}} remark"  formControlName="remark" [(ngModel)]="remark" type="text" value="" name="remark" style="width:100%;border-top:none;border-left:none;border-right:none;background:none;"></textarea>
                 </ion-list>
         
               </div>
