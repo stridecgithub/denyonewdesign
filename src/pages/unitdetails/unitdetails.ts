@@ -521,7 +521,7 @@ export class UnitdetailsPage {
 								this.coolanttemp = data.json().coolanttemp;
 								this.oilpressure = data.json().oilpressure;
 
-								this.loadpowerfactor = data.json().loadpowerfactor;
+								this.loadpowerfactor = data.json().loadpowerfactor/100;
 								if (data.json().loadpowerfactor >= 1) {
 									this.loadpowerfactorneedlevalue = 1;
 
@@ -747,6 +747,17 @@ export class UnitdetailsPage {
 							}
 
 						}
+						
+						
+						if(this.loadfactor == 0)
+							this.loadfactor = 0;
+						else if(this.loadfactor >= 100) {
+							this.loadfactor = 100;	
+							
+						}
+						else
+							this.loadfactor = this.loadfactor;
+
 
 						let loadpowerlabels = JSON.parse('{' + this.loadpowerlabel + '}');
 						let loadpowercolors = JSON.parse('{' + this.loadpowercolors + '}');
@@ -870,14 +881,11 @@ export class UnitdetailsPage {
 							}
 							let angle = 0;
 							let labelofset = 0.30;
-
-							if (code == 'oilpressure') {
+							console.log("CODE:"+code);
+							if (code == 'oilpressure' || code == 'coolanttemp') {
 								angle = -0.5;
-
-								if (enval > 1.1 && enval <= 1.5) {
-
-
-								}
+console.log("CODE:"+code);
+								console.log("Enval:"+enval);
 								this.rangesdata.push({
 									startValue: enval,
 									endValue: res[i].maxvalue,

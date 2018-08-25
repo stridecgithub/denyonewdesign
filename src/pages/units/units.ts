@@ -124,7 +124,7 @@ export class UnitsPage {
     modal.present();
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    //this.subscription.unsubscribe();
   }
   ionViewDidLoad() {
 
@@ -150,11 +150,11 @@ export class UnitsPage {
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-      this.subscription = Observable.interval(2000).subscribe(x => {
+     // this.subscription = Observable.interval(2000).subscribe(x => {
         this.reportData.startindex = 0;
         this.unitAllLists = [];
         this.doUnit();
-      });
+     // });
       this.doNotifiyCount();
       // Initiate G Map
 
@@ -191,7 +191,7 @@ export class UnitsPage {
 
   /****************************/
   doUnit() {
-    //this.conf.presentLoading(1);
+    this.conf.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -285,9 +285,9 @@ export class UnitsPage {
         }
 
       }, error => {
-        //this.conf.presentLoading(0);
+        this.conf.presentLoading(0);
       }, () => {
-        //this.conf.presentLoading(0);
+        this.conf.presentLoading(0);
       });
 
   }

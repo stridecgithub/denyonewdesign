@@ -280,7 +280,7 @@ export class AddUnitPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1";
-
+console.log(this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1");
     this.http.post(url, body, options)
       .subscribe(data => {
 
@@ -289,8 +289,12 @@ export class AddUnitPage {
         if (res.latitude != '') {
           this.lat = res.latitude.toString().substring(0, 8);
           this.lang = res.longtitude.toString().substring(0, 8);
-        }
-        this.location = res.address;
+        }else{
+			 this.lat ='';
+			  this.lang ='';
+			//this.location = res.address;
+		}
+        
 
       }, error => {
       });

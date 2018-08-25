@@ -125,7 +125,14 @@ export class ReportsPage {
     }
     this.responseResultTimeFrame = [];
     this.datevalidaton = 0;
-    this.getFormat('table');
+	let formatstorage=localStorage.getItem("format");
+	console.log("formatstorage"+formatstorage);
+	if(formatstorage!=''){
+		this.getFormat(formatstorage);
+	}else{
+		this.getFormat('table');
+	}
+    
     this.getDropDownDataTemplate();
     this.getDropDownDataUnits();
     let 
@@ -147,7 +154,7 @@ export class ReportsPage {
       time_name: '1 Time/Day',
     }, {
         id: 'continues',
-        time_name: 'Continues'
+        time_name: 'Continuous'
       });
   }
 
@@ -237,7 +244,8 @@ export class ReportsPage {
   }
 
   getFormat(format) {
-
+	  console.log("getformat"+format);
+	localStorage.setItem("format",format);
     this.isSubmitted = false;
     if (format == 'graph') {
       this.isSubmitted = true;

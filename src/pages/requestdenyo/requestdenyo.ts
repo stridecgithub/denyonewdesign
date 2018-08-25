@@ -110,7 +110,7 @@ export class RequestdenyoPage {
       time_name: '1 Time/Day',
     }, {
         id: 'continues',
-        time_name: 'Continues'
+        time_name: 'Continuous'
       });
   }
 
