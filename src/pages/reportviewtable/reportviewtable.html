@@ -208,18 +208,24 @@
       <thead>
         <tr>
           <th>SNO</th>
-          <th *ngFor="let headitem  of headLists">{{headitem}}</th>
+          <th *ngFor="let headitem  of headLists">
+              <span *ngIf="headitem=='DATEANDTIME'">{{headitem}}</span>
+              <span *ngIf="headitem=='FREQ'">{{headitem}}(HZ)</span>
+              <span *ngIf="headitem=='FUELLEVEL'">{{headitem}}(%)</span>
+              <span *ngIf="headitem=='CURRENT1'">{{headitem}}(A)</span>
+              <span *ngIf="headitem=='COLLANTTEMP'">{{headitem}}(C)</span>
+              <span *ngIf="headitem=='VOLT1'">{{headitem}}(V)</span>
+              <span *ngIf="headitem=='BATTERYVOLTAGE'">{{headitem}}(V)</span>
+              <span *ngIf="headitem=='OILPRESSURE'">{{headitem}}(BAR)</span>
+              <span *ngIf="headitem=='RUNNINGHR'">{{headitem}}(HR)</span>
+              <span *ngIf="headitem=='ENGSPEED'">{{headitem}}(RPM)</span>
+              <span *ngIf="headitem=='LOADPOWER'">{{headitem}}(kW)</span>
+          </th>
 
         </tr>
       </thead>
 
-      <!-- <tbody>
-        <tr>
-          <td>
-            <div class="error" *ngIf="reportcount==0 && success==0" style="color:red;text-align:center">{{noentrymsg}}</div>
-          </td>
-        </tr>
-      </tbody> -->
+     
 
       <tbody>
         <tr *ngFor="let valueitem  of headValue; let i = index">

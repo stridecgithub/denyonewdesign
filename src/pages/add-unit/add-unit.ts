@@ -42,6 +42,7 @@ export class AddUnitPage {
   contacts;
   pageTitle;
   unitid;
+  errmsg;
   public locationedit: boolean = false;
   //tabBarElement: any;
   constructor(public app: App, public platform: Platform, public http: Http, private conf: Config, public navCtrl: NavController, public navParams: NavParams,
@@ -274,6 +275,7 @@ export class AddUnitPage {
   }
 
   getGps(unitid) {
+    this.errmsg='';
     let res,
       body: string = "",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -289,16 +291,21 @@ console.log(this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile
         if (res.latitude != '') {
           this.lat = res.latitude.toString().substring(0, 8);
           this.lang = res.longtitude.toString().substring(0, 8);
+          this.errmsg='';
         }else{
 			 this.lat ='';
 			  this.lang ='';
-			//this.location = res.address;
+      //this.location = res.address;
+     
+      this.errmsg= res.errmsg;
+      console.log(this.errmsg);
 		}
         
 
       }, error => {
+        this.errmsg='a';
       });
-
+console.log(this.errmsg);
   }
 
 
