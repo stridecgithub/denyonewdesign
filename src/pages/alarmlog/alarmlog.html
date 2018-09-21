@@ -68,7 +68,7 @@
           <ion-row>
             <ion-col col-12>
                 <div><h1 style="white-space: normal;display:inline" [ngStyle]="{'padding':  alarmitem.ispadding,'color':  alarmitem.color,'background-color':  alarmitem.bgcolor}">{{alarmitem.alarm_name}}</h1></div>
-                <br><p ngClass="{{alarmitem.margintop}}">Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}}
+                <br><p ngClass="{{alarmitem.margintop}}" style="white-space:normal">Assigned by:{{alarmitem.alarm_assginedby_name}} {{alarmitem.alarm_assginedby_hashtag}}
                 <br> Assigned to: {{alarmitem.alarm_assginedto_name}} {{alarmitem.alarm_assginedto_hashtag}} </p>
               <div class="date">
                 {{alarmitem.alarm_received_date_mobileview}}

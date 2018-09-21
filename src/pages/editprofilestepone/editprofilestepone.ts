@@ -252,7 +252,7 @@ export class EditprofilesteponePage {
       url: any = this.apiServiceURL + "/settings/profileupdate";
 
 
-
+console.log("Profile"+url);
     this.http.post(url, body, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -434,7 +434,9 @@ export class EditprofilesteponePage {
               sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation: true
+              correctOrientation: true,
+              targetWidth:300,
+              targetHeight:300
             }
 
             this.camera.getPicture(options).then((imageURI) => {              
@@ -462,7 +464,9 @@ export class EditprofilesteponePage {
               destinationType: this.camera.DestinationType.NATIVE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation: true
+              correctOrientation: true,
+              targetWidth:300,
+              targetHeight:300
             }
 
             this.camera.getPicture(options).then((uri) => {              

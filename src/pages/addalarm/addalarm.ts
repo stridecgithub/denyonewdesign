@@ -143,7 +143,15 @@ export class AddalarmPage {
 
 
     localStorage.setItem("fromModule", "AddalarmPage");
-    let unit_id = this.NP.get("record").alarm_unit_id;
+    let unit_id;
+    let alarmid;
+    if (this.NP.get("record").alarm_unit_id != undefined) {
+      unit_id = this.NP.get("record").alarm_unit_id;
+      alarmid=this.NP.get("record").alarm_id;
+    } else {
+      unit_id = this.NP.get("record").event_unitid;
+      alarmid=this.NP.get("record").event_id;
+    }
 
     // UnitDetails Api Call		
     let
@@ -206,10 +214,21 @@ export class AddalarmPage {
     if (this.NP.get("record")) {
 
       this.isEdited = true;
-      this.selectEntry(this.NP.get("record"));
-      this.item = this.NP.get("record");
-      this.readOnly = false;
-      this.hideActionButton = true;
+      //this.selectEntry(this.NP.get("record"));
+
+
+      let urlstr = "alarmid=" + alarmid;
+     
+
+      let body: string = urlstr,
+        type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
+        headers1: any = new Headers({ 'Content-Type': type1 }),
+        options1: any = new RequestOptions({ headers: headers1 }),
+        url1: any = this.apiServiceURL + "/getalarmdetails";
+      this.http.post(url1, body, options1)
+        .subscribe((data) => {
+          this.selectEntry(data.json().alarms[0]);
+        });
     }
     else {
       this.isEdited = false;
@@ -290,7 +309,7 @@ export class AddalarmPage {
 
   }
   selectEntry(item) {
-
+    console.log("Calendar:" + JSON.stringify(item));
     this.subject = item.alarm_name;
     this.assignedby = this.uname;
     this.alarm_assgined_to = item.alarm_assgined_to;
@@ -301,6 +320,7 @@ export class AddalarmPage {
     this.remark = item.alarm_remark
     this.alarm_received_time = item.alarm_received_time;
     this.code = item.code;
+    this.item=item;
     if (this.code != '') {
       this.trendlineshow = 'edit-alarm-top';
     } else {
@@ -364,7 +384,7 @@ export class AddalarmPage {
 
             let urlstr;
             if (this.conf.isUTC() > 0) {
-              let current_datetime = this.conf.convertDatetoUTC(new Date());            
+              let current_datetime = this.conf.convertDatetoUTC(new Date());
               alarm_assigned_date = this.conf.convertDatetoUTC(new Date(alarm_assigned_date));
               urlstr = "is_mobile=1&alarmid=" + this.recordID +
                 "&alarm_assigned_by=" + this.userId +

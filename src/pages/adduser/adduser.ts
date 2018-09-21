@@ -235,7 +235,7 @@ export class AdduserPage {
       if (this.NP.get("record").photo == '') {
         staffphotos = '';
       }
-      console.log("staffphotos1"+staffphotos);
+      console.log("staffphotos1" + staffphotos);
       if (staffphotos != '') {
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
       }
@@ -399,10 +399,13 @@ export class AdduserPage {
 
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-
+        console.log(JSON.stringify(data));
         if (data.status === 200) {
 
-          if (data.json().msg[0].Error > 0) {
+          /*if (data.json().msg[0].Error == 0) {
+            this.sendNotification(data.json().msg[0].result);
+            //return false;
+          }else*/ if (data.json().msg[0].Error > 0) {
             this.sendNotification(data.json().msg[0].result);
             return false;
           } else {

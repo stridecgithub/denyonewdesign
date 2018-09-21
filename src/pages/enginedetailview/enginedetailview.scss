@@ -4,7 +4,12 @@
 //enginedetailview
 
 page-enginedetailview {
-
+	textarea {
+		display:none;
+	  }
+	  .text-input-md{
+		display:none;
+	  }
 	ion-content .scroll-content {
 		margin-bottom: 0;
 	}

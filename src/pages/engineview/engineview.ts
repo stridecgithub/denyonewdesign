@@ -5,7 +5,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NotificationPage } from '../notification/notification';
 import { EnginedetailPage } from '../enginedetail/enginedetail';
 import { Config } from '../../config/config';
-
+declare var jQuery: any;
 @Component({
   selector: 'page-engineview',
   templateUrl: 'engineview.html',
@@ -60,7 +60,7 @@ export class EngineviewPage {
 
 
   ionViewDidLoad() {
-    
+    console.log("engineview.ts");
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -78,9 +78,9 @@ export class EngineviewPage {
     
     let editItem = this.NP.get("record");
     // this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/webview_enginedetails/"+editItem.model_id + " height=500px width=100% frameborder=0></iframe>";
-
+   
     this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/webview_enginedetails/" + editItem.model_id);
-
+    jQuery('textarea').css('style', 'display:none');
   }
   notification() {
      this.navCtrl.setRoot(NotificationPage);

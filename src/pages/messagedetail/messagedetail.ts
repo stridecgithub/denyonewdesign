@@ -198,18 +198,31 @@ export class MessagedetailPage {
       //this.http.get(url1, options1)
       .subscribe((data) => {
         this.conf.presentLoading(0)
-
-        this.selectEntry(data.json().messages[0]);
+        
+        if(this.navParams.get("frompage")=='notification'){
+          this.selectEntry(data.json().messages[0],this.navParams.get("item"));
+        }else{
+          this.selectEntry(this.navParams.get("item"),data.json().messages[0]);
+        }
+       
         // this.doAttachmentResources(data.json().messages[0].message_id);
       }, error => {
       });
 
   }
 
-  selectEntry(item) {
+  selectEntry(item,imgitem) {
+    console.log("item data:"+JSON.stringify(item));
+    console.log("imgitem data:"+JSON.stringify(imgitem));
+    let msgid;
+    if(item==undefined){
+      msgid=imgitem.message_id
+    }else{
+      msgid=item.message_id
+    }
     this.priority_image = '';
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
-      "&message_id=" + item.message_id + "&frompage=inbox",
+      "&message_id=" + msgid + "&frompage=inbox",
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -232,7 +245,7 @@ export class MessagedetailPage {
     this.messages_body = item.message_body;
     this.messages_body_html = item.message_body_html;
     this.messageid = item.message_id;
-    this.is_reply = item.isreply;
+   
     this.priority_image = item.priority_image;
 
     if (this.priority_image == 'arrow_active_low.png') {
@@ -338,11 +351,23 @@ export class MessagedetailPage {
         });
 
     }
-    this.totalFileSize = item.totalfilesize;
-
-    if (item.attachments != '') {
-      let ath = item.attachments.split("#");
-      let flsize = item.filesizes.split("#")
+    let attach;
+    let flesze;
+    if(this.navParams.get("frompage")=='notification'){
+      this.is_reply = item.isreply;
+      this.totalFileSize = item.totalfilesize;
+      attach=item.attachments;
+      flesze=item.filesizes;
+    }else{
+      this.is_reply = imgitem.isreply;
+      this.totalFileSize = imgitem.totalfilesize;
+      attach=imgitem.attachments;
+      flesze=imgitem.filesizes;
+    }
+ 
+    if (attach != '') {
+      let ath = attach.split("#");
+      let flsize = flesze.split("#")
       for (let i = 0; i < ath.length; i++) {
         this.addedImgLists.push({
           fileName: ath[i],
@@ -352,6 +377,7 @@ export class MessagedetailPage {
           //  imgSrc: imgSrc
         });
       }
+      console.log("Pushed Image Array"+JSON.stringify(this.addedImgLists));
 
     }
   }

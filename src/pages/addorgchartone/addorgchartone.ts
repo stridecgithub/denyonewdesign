@@ -380,7 +380,7 @@ export class AddorgchartonePage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      
+      console.log(url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();

@@ -84,6 +84,7 @@ export class EnginedetailPage {
   }
 
   ionViewDidLoad() {
+    console.log("enginedetail.ts");
     this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");
     this.EDITACCESS = localStorage.getItem("UNITS_ENGINEMODEL_EDIT");
     this.DELETEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_DELETE");
@@ -92,6 +93,7 @@ export class EnginedetailPage {
     if (this.VIEWACCESS == 0) {
       this.navCtrl.setRoot(PermissionPage, {});
     }
+     this.doengine();
   }
   ionViewWillEnter() {
     this.CREATEACCESS = localStorage.getItem("UNITS_ENGINEMODEL_CREATE");

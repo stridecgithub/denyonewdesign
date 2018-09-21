@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Platform,  App } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Platform, App } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 //import { MyaccountPage } from '../myaccount/myaccount';
@@ -267,7 +267,7 @@ export class ReportviewtablePage {
         ///this.http.post(url, body, options)
         .subscribe((data) => {
 
-         
+
           //this.presentLoading(1);
           // If the request was successful notify the user
           res = data.json();
@@ -348,10 +348,11 @@ export class ReportviewtablePage {
       this.buttonClicked = false;
 
       if (seltypeBtn == '1') {
+        this.loading.dismiss();
         this.graphview = 0;
         this.requestsuccessview = 1;
         this.requestsuccess = 'Request successfully sent';
-
+        return false;
       } else {
         // For Getting Unit Details in Graph
         let
@@ -375,13 +376,13 @@ export class ReportviewtablePage {
 
 
         let res;
-       
+
         // "Processing... please wait.";
         //this.presentLoadingText(this.processingtxt);
         this.http.get(url, options)
 
           .subscribe((data) => {
-           
+
             // If the request was successful notify the user
             res = data.json();
             this.reportcount = res.reportcount;
@@ -472,7 +473,7 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-       
+
       }
     }
   }
@@ -539,7 +540,7 @@ export class ReportviewtablePage {
         "&showload=" + showload +
         "&companyid=" + this.companyid;
     let res;
-   
+
     if (val == 1) {
       this.processingtxt = "PDF file generated for download... please wait.";
       this.presentLoadingText(this.processingtxt);
@@ -552,7 +553,7 @@ export class ReportviewtablePage {
       ///this.http.post(url, body, options)
       .subscribe((data) => {
         this.donwloadstart = 1;
-        
+
 
         // this.presentLoading(0);
         // If the request was successful notify the user

@@ -411,6 +411,7 @@ export class MessagesPage {
     } else {
       urlstr = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
     }
+    console.log(urlstr);
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -423,8 +424,12 @@ export class MessagesPage {
         this.inboxData.startindex += this.inboxData.results;
         if (res.messages.length > 0) {
           for (let message in res.messages) {
+
+            console.log("message_id:"+res.messages[message].message_id);
+            //console.log("messagesinbox_id:"+res.messages[message].messagesinbox_id);
             this.inboxLists.push({
               message_id: res.messages[message].message_id,
+              messagesinbox_id: res.messages[message].messagesinbox_id,
               sender_id: res.messages[message].sender_id,
               messages_subject: res.messages[message].messages_subject,
               message_body: res.messages[message].message_body,
@@ -1157,6 +1162,7 @@ export class MessagesPage {
 
       for (let i = 0; i < this.items.length; i++) {
         if (this.items[i].active == 'active') {
+         
           this.selecteditems.push({
             message_id: this.items[i].message_id,
             sender_id: this.items[i].sender_id,

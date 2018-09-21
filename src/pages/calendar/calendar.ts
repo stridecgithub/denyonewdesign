@@ -1399,7 +1399,10 @@ export class CalendarPage {
 
 
   doEditAlarm(item, act) {
-    if (item.alarm_assginedby_name == '') {
+    console.log(JSON.stringify(item));
+    console.log(item.event_addedby_name);
+    console.log(act);
+    if (item.event_addedby_name == '') {
       if (act == 'edit') {
         this.navCtrl.setRoot(AddalarmPage, {
           record: item,
