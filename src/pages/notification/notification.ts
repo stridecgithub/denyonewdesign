@@ -143,6 +143,7 @@ export class NotificationPage {
 
 
     if (nottype == 'M') {
+      localStorage.setItem("fromnavigation",'notification');
       this.navCtrl.setRoot(MessagedetailPage, {
         record: item,
         frompage: 'notification',

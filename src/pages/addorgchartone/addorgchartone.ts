@@ -105,8 +105,9 @@ export class AddorgchartonePage {
     });
     this.userId = localStorage.getItem("userInfoId");
     this.company_id = localStorage.getItem("userInfoCompanyId");
-
-    // this.getUserListData(this.company_id);
+    if (this.isEdited == false) {
+     this.getUserListData(this.company_id);
+    }
 
 
   }
@@ -373,14 +374,17 @@ export class AddorgchartonePage {
   }
 
   getUserListData(companyid) {
+    console.log("A:"+companyid);
+    console.log("this.isEdited:"+this.isEdited);
     if (this.isEdited == true) {
+      console.log('C');
       this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      console.log(url);
+      console.log("Get Staffs True:-"+url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
@@ -429,12 +433,13 @@ export class AddorgchartonePage {
         });
     }
     else {
+      console.log('D');      
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-
+      console.log("Get Staffs False:-"+url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();

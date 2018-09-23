@@ -88,11 +88,11 @@ export class AddenginedetailPage {
   }
   ionViewDidLoad() {
     jQuery('#summernote').summernote();
-    this.hidetollbarTextEditor();
+   // this.hidetollbarTextEditor();
   }
   ionviewDidEnter() {
 
-    this.hidetollbarTextEditor();
+    //this.hidetollbarTextEditor();
 
   }
   hidetollbarTextEditor() {

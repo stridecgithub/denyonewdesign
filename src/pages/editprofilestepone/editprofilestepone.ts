@@ -7,7 +7,7 @@ import { MyaccountPage } from '../myaccount/myaccount';
 import 'rxjs/add/operator/map';
 import { Config } from '../../config/config';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-
+import { Crop } from '@ionic-native/crop';
 /**
  * Generated class for the AddcompanygroupPage page.
  *
@@ -64,7 +64,7 @@ export class EditprofilesteponePage {
   private apiServiceURL: string = "";
   public networkType: string;
   public responseResultCountry: any;
-  constructor(private app: App, private conf: Config, public platform: Platform, public nav: NavController,
+  constructor(private crop: Crop,private app: App, private conf: Config, public platform: Platform, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder, private camera: Camera, private transfer: FileTransfer, private ngZone: NgZone, public actionSheetCtrl: ActionSheetController) {
@@ -252,7 +252,7 @@ export class EditprofilesteponePage {
       url: any = this.apiServiceURL + "/settings/profileupdate";
 
 
-console.log("Profile"+url);
+    console.log("Profile" + url);
     this.http.post(url, body, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -380,7 +380,7 @@ console.log("Profile"+url);
   fileTrans(path) {
     let fileName = path.substr(path.lastIndexOf('/') + 1);
     const fileTransfer: FileTransferObject = this.transfer.create();
-    this.photo = fileName;    
+    this.photo = fileName;
     let options: FileUploadOptions = {
       fileKey: 'file',
       fileName: fileName,
@@ -389,16 +389,26 @@ console.log("Profile"+url);
       mimeType: "text/plain",
     }
     fileTransfer.onProgress(this.onProgress);
-    this.userInfo=[];
+    this.userInfo = [];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
         localStorage.setItem("userPhotoFile", "");
         let successData = JSON.parse(data.response);
         this.userInfo.push({
           photo: successData
-        });       
+        });
         localStorage.setItem("photofromgallery", this.userInfo[0].photo.name);
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name;
+
+        // Image Crop Start
+
+        console.log("Upload server path:-"+this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name);
+        /*this.crop.crop(this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name, { quality: 75 })
+          .then(
+          newImage => console.log('new image path is: ' + newImage),
+          error => console.error('Error cropping image', error)
+          );*/
+        // Image Crop End
         this.progress += 5;
         this.isProgress = false;
         this.isUploadedProcessing = false;
@@ -426,7 +436,7 @@ console.log("Profile"+url);
           text: 'From Gallery',
           icon: 'md-image',
           role: 'fromgallery',
-          handler: () => {           
+          handler: () => {
 
             const options: CameraOptions = {
               quality: 100,
@@ -435,14 +445,22 @@ console.log("Profile"+url);
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
               correctOrientation: true,
-              targetWidth:300,
-              targetHeight:300
+              targetWidth: 500,
+              targetHeight: 300
             }
 
-            this.camera.getPicture(options).then((imageURI) => {              
+            this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
-
+// Image Crop Start
+/*
+console.log("Upload server path:-"+this.apiServiceURL + "/staffphotos/" + imageURI);
+this.crop.crop(imageURI, { quality: 75 })
+  .then(
+  newImage => console.log('new image path is: ' + newImage),
+  error => console.error('Error cropping image', error)
+  );*/
+// Image Crop End
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
 
@@ -465,11 +483,11 @@ console.log("Profile"+url);
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
               correctOrientation: true,
-              targetWidth:300,
-              targetHeight:300
+              targetWidth: 500,
+              targetHeight: 300
             }
 
-            this.camera.getPicture(options).then((uri) => {              
+            this.camera.getPicture(options).then((uri) => {
               localStorage.setItem("userPhotoFile", uri);
 
               this.fileTrans(uri);

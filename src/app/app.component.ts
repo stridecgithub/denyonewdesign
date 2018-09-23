@@ -31,7 +31,7 @@ import { EnginedetailPage } from '../pages/enginedetail/enginedetail';
 import { AddorgchartonePage } from '../pages/addorgchartone/addorgchartone';
 import { PaginatePage } from '../pages/paginate/paginate';
 import { Network } from '@ionic-native/network';
-
+import { NetworkProvider } from '../providers/network/network';
 //import { Push, PushObject, PushOptions } from '@ionic-native/push';
 @Component({
   templateUrl: 'app.html',
@@ -57,7 +57,8 @@ export class MyApp {
   showLevel2 = null;
   pages: Array<{ title: string, component: any, icon: string, color: any, background: any }>;
 
-  constructor(public alertCtrl: AlertController, private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events, private push: Push) {//
+  constructor(public alertCtrl: AlertController, private network: Network, private keyboard: Keyboard, public dataService: DataServiceProvider, platform: Platform, public elementRef: ElementRef, public http: Http, private conf: Config, statusBar: StatusBar, splashScreen: SplashScreen, public menuCtrl: MenuController, public events: Events, private push: Push,
+    public networkProvider: NetworkProvider) {//
     this.apiServiceURL = this.conf.apiBaseURL();
     this.menuActive = 'menuactive-dashboard';
 
@@ -65,12 +66,12 @@ export class MyApp {
 
     this.dataService.getMenus()
       .subscribe((response) => {
-        
+
         this.menuOpened();
         this.pages = response;
       });
 
-    
+
     platform.ready().then(() => {
 
       localStorage.setItem("isNet", 'online');
@@ -81,21 +82,33 @@ export class MyApp {
       this.network.onDisconnect().subscribe(data => {
         localStorage.setItem("isNet", data.type);
       }, error => console.error(error));
+      this.networkProvider.initializeNetworkEvents();
+      // Offline event
+      this.events.subscribe('network:offline', () => {
+        localStorage.setItem("isNet", 'offline');
+        this.conf.sendNotification('Network not available');
+      });
+      // Online event
+      this.events.subscribe('network:online', () => {
+        localStorage.setItem("isNet", 'online');
+        this.conf.sendNotification('Net connected');
+      });
+
       this.initPushNotification();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       if (platform.is('android')) {
-      
+
       }
       statusBar.styleDefault();
       splashScreen.hide();
 
       this.parentMenue = ['units', 'dashboard'];
       this.childMenu = ["units-enginemodelmanagement", "units-unit"]
-     
+
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-     
+
       if (this.userId != undefined) {
         this.firstname = localStorage.getItem("userInfoName");
         this.lastname = localStorage.getItem("userInfoLastName");
@@ -109,10 +122,10 @@ export class MyApp {
       } else {
         this.events.subscribe('user:created', (user, time) => {
           // user and time are the same arguments passed in `events.publish(user, time)`
-         
+
           this.firstname = user.firstname;
           this.lastname = user.lastname;
-       
+
           this.companyGroupName = user.companygroup_name;
           this.profilePhoto = user.photo;
           if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -137,7 +150,7 @@ export class MyApp {
       // Connection checking
       // watch network for a disconnect
       let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-      
+
         this.conf.sendNotification('network was disconnected :-(')
       });
 
@@ -147,14 +160,14 @@ export class MyApp {
 
       // watch network for a connection
       let connectSubscription = this.network.onConnect().subscribe(() => {
-       
+
         this.conf.sendNotification('network connected!');
         // We just got a connection but we need to wait briefly
         // before we determine the connection type. Might need to wait.
         // prior to doing any api requests as well.
         setTimeout(() => {
           if (this.network.type === 'wifi') {
-           
+
 
             this.conf.sendNotification('we got a wifi connection, woohoo!');
           }
@@ -186,7 +199,7 @@ export class MyApp {
     // ];
     events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-     
+
       //this.firstname=user[0].firstname;
       //this.lastname=user[0].firstname;
     });
@@ -212,7 +225,7 @@ export class MyApp {
       this.navCtrl.setRoot(ReporttemplatePage);
     } else if (page.component == 'OrgchartPage') {
       this.navCtrl.setRoot(OrgchartPage, { tabIndex: 4 });
-    }  else if (page.title == 'Messages') {
+    } else if (page.title == 'Messages') {
       this.menuActive = 'menuactive-messages';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'messages', Date.now());
@@ -221,7 +234,7 @@ export class MyApp {
       this.menuActive = 'menuactive-logout';
       this.events.publish('menu:created', 'logout', Date.now());
       this.logout();// Service api moblogout/1
-    } else if (page.title == 'Dashboard') {     
+    } else if (page.title == 'Dashboard') {
       this.menuActive = 'menuactive-dashboard';
       this.menuCtrl.close();
       this.events.publish('menu:created', 'dashboard', Date.now());
@@ -278,21 +291,21 @@ export class MyApp {
     this.companyId = localStorage.getItem("userInfoCompanyId");
     this.userId = localStorage.getItem("userInfoId");
     this.events.unsubscribe('user:created', null);
-    let devicetoken=localStorage.getItem("deviceTokenForPushNotification");
-   
+    let devicetoken = localStorage.getItem("deviceTokenForPushNotification");
+
     let
       typeunit: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headersunit: any = new Headers({ 'Content-Type': typeunit }),
       optionsunit: any = new RequestOptions({ headers: headersunit }),
-      urlunit: any = this.apiServiceURL + "/moblogoutnew/" + this.userId+"/"+devicetoken;
-    
+      urlunit: any = this.apiServiceURL + "/moblogoutnew/" + this.userId + "/" + devicetoken;
+
 
 
     //this.showAlert('Logout Url', urlunit);
     this.http.get(urlunit, optionsunit)
       .subscribe((data) => {					// If the request was successful notify the user
         if (data.status === 200) {
-         
+
           localStorage.setItem("personalhashtag", "");
           localStorage.setItem("fromModule", "");
           localStorage.setItem("userInfo", "");
@@ -328,7 +341,7 @@ export class MyApp {
 
 
             let thirdvaluename = thirdvaluesplit[0];
-           // let thirdvaluedata = thirdvaluesplit[1];
+            // let thirdvaluedata = thirdvaluesplit[1];
             localStorage.setItem(thirdvaluename.toUpperCase(), "");
 
 
@@ -338,7 +351,7 @@ export class MyApp {
 
 
             let fivthvaluename = fivthvaluesplit[0];
-          //  let fivthvaluedata = fivthvaluesplit[1];
+            //  let fivthvaluedata = fivthvaluesplit[1];
             localStorage.setItem(fivthvaluename.toUpperCase(), "");
           }
           this.navCtrl.setRoot(LoginPage);
@@ -412,7 +425,7 @@ export class MyApp {
     const pushObject: PushObject = this.push.init(options);
     pushObject.on('registration').subscribe((registration: any) => {
 
-     
+
       localStorage.setItem("deviceTokenForPushNotification", registration.registrationId);
     }
     );
@@ -421,9 +434,9 @@ export class MyApp {
 
 
   }
-  
+
   onNext() {
-   
+
     this.keyboard.close();/*
     if (!this.nextIonInputId) {
       return;
@@ -443,10 +456,10 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-     
+
       this.firstname = user.firstname;
       this.lastname = user.lastname;
-     
+
       this.companyGroupName = user.companygroup_name;
       this.profilePhoto = user.photo;
       if (this.profilePhoto == '' || this.profilePhoto == 'null') {
@@ -456,7 +469,7 @@ export class MyApp {
       }
     });
 
-    
+
     this.events.publish('menu:closed', '');
     this.firstname = localStorage.getItem("userInfoName");
     this.lastname = localStorage.getItem("userInfoLastName");
@@ -473,7 +486,7 @@ export class MyApp {
 
     this.events.subscribe('user:created', (user, time) => {
       // user and time are the same arguments passed in `events.publish(user, time)`
-     
+
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.companyGroupName = user.companygroup_name;
@@ -484,7 +497,7 @@ export class MyApp {
         this.profilePhoto = this.apiServiceURL + "/staffphotos/" + this.profilePhoto;
       }
 
-     
+
     });
 
     this.firstname = localStorage.getItem("userInfoName");
@@ -499,7 +512,7 @@ export class MyApp {
 
     this.events.publish('menu:opened', '');
 
-    
+
   }
 
   toggleLevel1(idx) {
@@ -527,6 +540,14 @@ export class MyApp {
   isLevel2Shown(idx) {
     return this.showLevel2 === idx;
   };
+
+  isNet() {
+    let isNet = localStorage.getItem("isNet");
+    if (isNet == 'offline') {
+      this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
+      return false;
+    }
+  }
 }
 const TAB_KEY_CODE = 9;
 const ENTER_KEY_CODE = 13;

@@ -781,7 +781,7 @@ export class AdduserPage {
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
       let res;
-
+      console.log(url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
@@ -804,9 +804,9 @@ export class AdduserPage {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" +this.companyId;
       let res;
-
+      console.log(url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();

@@ -138,7 +138,7 @@ export class MessagesPage {
   constructor(private mockProvider: MockProvider, public app: App, public platform: Platform, public modalCtrl: ModalController, private conf: Config, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public http: Http) {
 
     this.loadingmoretext = "Loading more data...";
-
+    localStorage.setItem("fromnavigation",'messages');
 
     this.apiServiceURL = this.conf.apiBaseURL();
     this.pageperrecord = this.conf.pagePerRecord();

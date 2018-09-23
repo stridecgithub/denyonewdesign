@@ -185,14 +185,16 @@ export class ReportviewtablePage {
   getReportResult(seltypeBtn, exportto, selunit, seltimeframe, seltemplate, from, to, showrunning, showonline, showload) {
     this.isProgress = true;
     //this.presentLoading(1)
-
-    if (exportto == 'graph') {
-      this.processingtxt = "Graph view report processing... please wait.";
-    } else {
-      this.processingtxt = "Table view report processing... please wait.";
+    if (seltypeBtn != '1') {
+      if (exportto == 'graph') {
+        this.processingtxt = "Graph view report processing... please wait.";
+      } else {
+        this.processingtxt = "Table view report processing... please wait.";
+      }
+      this.presentLoadingText(this.processingtxt);
     }
     // this.processingtxt = "Processing... please wait.";
-    this.presentLoadingText(this.processingtxt);
+
     this.reportAllLists = [];
     this.headLists = [];
     this.headValue = [];
@@ -335,8 +337,10 @@ export class ReportviewtablePage {
           }
 
           this.noentrymsg = 'No report entries found';
-          if (res.mobilehistorydata.length == 0 && this.processing == 1) {
-            this.loading.dismiss();
+          if (seltypeBtn != '1') {
+            if (res.mobilehistorydata.length == 0 && this.processing == 1) {
+              this.loading.dismiss();
+            }
           }
         });
 
@@ -348,11 +352,14 @@ export class ReportviewtablePage {
       this.buttonClicked = false;
 
       if (seltypeBtn == '1') {
-        this.loading.dismiss();
+        //this.loading.dismiss();
         this.graphview = 0;
         this.requestsuccessview = 1;
-        this.requestsuccess = 'Request successfully sent';
-        return false;
+        //this.requestsuccess = 'Request successfully sent';
+
+        this.success = 1;
+        this.navCtrl.setRoot(ReportsPage, { reqsuccess: 1 });
+        //return false;
       } else {
         // For Getting Unit Details in Graph
         let
@@ -473,6 +480,7 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
+        console.log(this.url);
 
       }
     }

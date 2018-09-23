@@ -8,6 +8,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { FilePath } from '@ionic-native/file-path';
+import { Base64 } from '@ionic-native/base64';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 declare var jQuery: any;
@@ -83,7 +85,7 @@ export class ComposePage {
   existingimagecount;
   replyall;
   timezoneoffset;
-  constructor(public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
+  constructor(public filePath: FilePath, public base64: Base64, public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
     private transfer: FileTransfer,
     private ngZone: NgZone, public platform: Platform) {
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
@@ -247,7 +249,7 @@ export class ComposePage {
         else {
 
           this.isReply = 0;
-
+          console.log("Compose navparam record" + JSON.stringify(this.navParams.get("record")));
           this.to = this.navParams.get("record").replyall;
           this.addedImgLists = [];
           this.copytome = 0;
@@ -600,6 +602,10 @@ export class ComposePage {
             }
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
+
+              console.log("from gallery:imageURI:" + imageURI);
+              //alert("from gallery:imageURI:"+imageURI);
+
               this.fileTrans(imageURI, micro_timestamp);
               this.addedAttachList = imageURI;
             }, (err) => {
@@ -623,6 +629,10 @@ export class ComposePage {
 
 
             this.camera.getPicture(options).then((uri) => {
+
+              console.log("from camera:imageURI:" + uri);
+              //alert("from camera:imageURI:"+uri);
+
               this.fileTrans(uri, micro_timestamp);
               this.addedAttachList = uri;
             }, (err) => {
@@ -640,9 +650,32 @@ export class ComposePage {
             this.filechooser.open()
               .then(
               uri => {
+                /*this.fileTrans(uri, micro_timestamp);
+                this.addedAttachList = uri;*/
 
-                this.fileTrans(uri, micro_timestamp);
-                this.addedAttachList = uri;
+
+
+
+                this.filePath.resolveNativePath(uri)
+                  .then(file => {
+                    //alert('file' + JSON.stringify(file));
+                    this.fileTrans(file, micro_timestamp);
+                    this.addedAttachList = file;
+                    let filePath: string = file;
+                    if (filePath) {
+                      // convert your file in base64 format
+                      this.base64.encodeFile(filePath)
+                        .then((base64File: string) => {
+                          //alert('base64File' + JSON.stringify(base64File));
+                        }, (err) => {
+                          alert('err' + JSON.stringify(err));
+                        });
+                    }
+                  })
+                  .catch(err => console.log(err));
+
+
+
               }
 
               )
@@ -691,26 +724,27 @@ export class ComposePage {
     let fileext = fileextarray[1];
 
     let mimetype;
-    if(fileext=='jpg'){
-      mimetype='image/jpeg';
-    }else if(fileext=='png'){
-      mimetype='image/png';
-    }else if(fileext=='pdf'){
-      mimetype='application/pdf';
-    }else{
-      mimetype='text/plain';
+    if (fileext == 'jpg') {
+      mimetype = 'image/jpeg';
+    } else if (fileext == 'png') {
+      mimetype = 'image/png';
+    } else if (fileext == 'pdf') {
+      mimetype = 'application/pdf';
+    } else {
+      mimetype = 'text/plain';
     }
     let options: FileUploadOptions = {
       fileKey: 'file',
       fileName: newFileName,
       headers: {},
       chunkedMode: false,
-      mimeType:mimetype
+      mimeType: mimetype
     }
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n, options)
       .then((data) => {
-      
+        console.log("upload_attach.php response" + JSON.stringify(data));
+        //alert("upload_attach.php response"+JSON.stringify(data));
         this.nowuploading = 1;
         // let successData = JSON.parse(data.response);
         this.isSubmitted = false;
@@ -741,9 +775,9 @@ export class ComposePage {
 
         return false;
       }, (err) => {
-        this.isProgress = false;      
+        this.isProgress = false;
         this.conf.errorNotification("Upload Error:" + JSON.stringify(err));
-       
+
       })
   }
 

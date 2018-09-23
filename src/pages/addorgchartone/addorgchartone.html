@@ -49,25 +49,25 @@
 
 
     </div>
-    	<div class="user-name">User Information*</div>
-    
+    <div class="user-name">User Information*</div>
+
   </div>
-  <!--div style="text-align:center" *ngIf="isProgress">
+  <div style="text-align:center" *ngIf="isProgress">
     <span style="color:green">Profile photo uploaded. please wait</span>
     <progress value="{{progress}}" max="100" *ngIf="isProgress"> </progress>
     <span *ngIf="isProgress" style="padding:2px">{{progress}}%</span>
-  </div-->
+  </div>
 
 
-  
-  <div class="progress-outer" *ngIf="isProgress">
+
+  <!-- <div class="progress-outer" *ngIf="isProgress">
     <div class="progress-inner" [style.width]="progress + '%'">        
     </div>
-  </div>
-  
+  </div> -->
+
 
   <div>
-    <form [formGroup]="form"  class="edit-profo">
+    <form [formGroup]="form" class="edit-profo">
       <!-- <div style="position: relative;left: 35%;">
 
         <a (click)="doUploadPhoto()" href="#" *ngIf="!addedImgLists">
@@ -89,91 +89,93 @@
       </div> -->
 
       <ion-list>
-      <ion-item>
-        <ion-label stacked>First Name
-          <span class="mandatory" *ngIf="hideActionButton">*</span>
-        </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="first_name" [(ngModel)]="first_name" class="{{form.controls.first_name.errors && form.controls.first_name.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label stacked>First Name
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input type="text" formControlName="first_name" [(ngModel)]="first_name" class="{{form.controls.first_name.errors && form.controls.first_name.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
+        </ion-item>
       </ion-list>
-      
-      
+
+
       <ion-list>
-      <ion-item>
-        <ion-label stacked>Last Name
-          <span class="mandatory" *ngIf="hideActionButton">*</span>
-        </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="last_name" [(ngModel)]="last_name" class="{{form.controls.last_name.errors && form.controls.last_name.dirty ? 'error-round-square' : 'error-round-non-square'}}" ></ion-input>
-      </ion-item>
-      </ion-list>
-      
-      
-	  <ion-list>
-      <ion-item>
-        <ion-label stacked>Email
-          <span class="mandatory" *ngIf="hideActionButton"> *</span>
-        </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="email" [(ngModel)]="email" class="{{form.controls.email.errors && form.controls.email.dirty ? 'error-round-square' : 'error-round-non-square'}}" ></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label stacked>Last Name
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input type="text" formControlName="last_name" [(ngModel)]="last_name" class="{{form.controls.last_name.errors && form.controls.last_name.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
+        </ion-item>
       </ion-list>
 
-     
 
-  		  <ion-list>
-          <ion-item>
-            <ion-label stacked>Contact Number
-              <span class="mandatory" *ngIf="hideActionButton">*</span>
-            </ion-label>
-            <ion-input type="text" formControlName="contact" [(ngModel)]="contact" class="{{form.controls.contact.errors && form.controls.contact.dirty ? 'error-round-square' : 'error-round-non-square'}}" ></ion-input>
-         
-          </ion-item>
-          </ion-list>
-          
-	  <ion-list>
-      <ion-item>
-        <ion-label stacked>Country
-          <span class="mandatory" *ngIf="hideActionButton">*</span>
-        </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="country" formControlName="country">
-          <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}" class="{{form.controls.country.errors && form.controls.country.dirty ? 'error-round-square' : 'error-round-non-square'}}">{{countryData.country_name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      </ion-list>
-
-	  <ion-list>
-      <ion-item>
-        <ion-label stacked>Job Position
-          <span class="mandatory" *ngIf="hideActionButton">*</span>
-        </ion-label>
-        <ion-input type="text" [disabled]="readOnly" formControlName="job_position" [(ngModel)]="job_position" class="{{form.controls.job_position.errors && form.controls.job_position.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
-      </ion-item>
-      </ion-list>
-      
       <ion-list>
-      <ion-item>
-        <ion-label stacked>Company
-          <span class="mandatory" *ngIf="hideActionButton">*</span>
-        </ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged(company_group)">
-          <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}" class="{{form.controls.company_group.errors && form.controls.company_group.dirty ? 'error-round-square' : 'error-round-non-square'}}">{{groupData.companygroup_name}}</ion-option>
-        </ion-select>
-      </ion-item>
+        <ion-item>
+          <ion-label stacked>Email
+            <span class="mandatory" *ngIf="hideActionButton"> *</span>
+          </ion-label>
+          <ion-input type="text" formControlName="email" [(ngModel)]="email" class="{{form.controls.email.errors && form.controls.email.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
+        </ion-item>
       </ion-list>
 
-	  <ion-list>
-      <ion-item>
-        <ion-label stacked>Report To</ion-label>
-        <ion-select [disabled]="readOnly" [(ngModel)]="report_to" formControlName="report_to">
-          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}" value="0" *ngIf="this.len==0">N/A</ion-option>
-          <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}" *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
-        </ion-select>
-      </ion-item>
+
+
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Contact Number
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input type="text" formControlName="contact" [(ngModel)]="contact" class="{{form.controls.contact.errors && form.controls.contact.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
+
+        </ion-item>
       </ion-list>
-	  
+
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Country
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-select [(ngModel)]="country" formControlName="country">
+            <ion-option *ngFor="let countryData of responseResultCountry" value="{{countryData.id}}" class="{{form.controls.country.errors && form.controls.country.dirty ? 'error-round-square' : 'error-round-non-square'}}">{{countryData.country_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Job Position
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-input type="text" formControlName="job_position" [(ngModel)]="job_position" class="{{form.controls.job_position.errors && form.controls.job_position.dirty ? 'error-round-square' : 'error-round-non-square'}}"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Company
+            <span class="mandatory" *ngIf="hideActionButton">*</span>
+          </ion-label>
+          <ion-select [(ngModel)]="company_group" formControlName="company_group" (ionChange)="onSegmentChanged(company_group)">
+            <ion-option *ngFor="let groupData of responseResultCompanyGroup" value="{{groupData.companygroup_id}}" class="{{form.controls.company_group.errors && form.controls.company_group.dirty ? 'error-round-square' : 'error-round-non-square'}}">{{groupData.companygroup_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Report To</ion-label>
+          <ion-select [(ngModel)]="report_to" formControlName="report_to">
+            <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}"
+              value="0" *ngIf="this.len==0">N/A</ion-option>
+            <ion-option class="{{form.controls.report_to.errors && form.controls.report_to.dirty ? 'error-round-square' : 'error-round-non-square'}}"
+              *ngFor="let userData of responseResultReportTo" value="{{userData.staff_id}}">{{userData.firstname}} {{userData.lastname}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
       <ion-list style="border-top:1px solid #d6d6d6;padding:0;" class="last-btn">
-      <ion-item *ngIf="hideActionButton" style="background-color: #fff;padding-top:15px;">
-        <button style="max-width:81%;margin:0 auto;" ion-button color="bluedark" text-center block [disabled]="!form.valid" (click)="saveEntry()">Save</button>
-      </ion-item>
+        <ion-item *ngIf="hideActionButton" style="background-color: #fff;padding-top:15px;">
+          <button style="max-width:81%;margin:0 auto;" ion-button color="bluedark" text-center block [disabled]="!form.valid" (click)="saveEntry()">Save</button>
+        </ion-item>
       </ion-list>
     </form>
   </div>

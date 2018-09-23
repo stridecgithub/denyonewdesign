@@ -813,7 +813,7 @@ page-compose.ion-page > ion-content .scroll-content ,
 page-viewunit.ion-page > ion-content .scroll-content ,
 page-modal.ion-page > ion-content .scroll-content{ 
     margin-bottom: 0;
-}
+} 
 .typeahead.dropdown-menu {
 	left: -15px!important;
     top: 20px!important;
@@ -884,4 +884,9 @@ page-modal.ion-page > ion-content .scroll-content{
 }
 .picker-suffix, .picker-md .picker-opt.picker-opt{
   font-size: 16px;
+}
+.alert-md.adhoc-alert .alert-wrapper {
+  text-align: center;
+  min-width: 180px;
+  max-width: 80%;
 }

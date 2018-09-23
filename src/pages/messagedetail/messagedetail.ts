@@ -184,9 +184,9 @@ export class MessagedetailPage {
     }
     let urlstr;
     if (this.conf.isUTC() > 0) {
-      urlstr ="messageid=" + messageids + "&loginid=" + this.userId+ "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+      urlstr = "messageid=" + messageids + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
     } else {
-      urlstr ="messageid=" + messageids + "&loginid=" + this.userId;
+      urlstr = "messageid=" + messageids + "&loginid=" + this.userId;
     }
     let bodymessage: string = urlstr,
       type1: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -198,27 +198,201 @@ export class MessagedetailPage {
       //this.http.get(url1, options1)
       .subscribe((data) => {
         this.conf.presentLoading(0)
-        
-        if(this.navParams.get("frompage")=='notification'){
-          this.selectEntry(data.json().messages[0],this.navParams.get("item"));
-        }else{
-          this.selectEntry(this.navParams.get("item"),data.json().messages[0]);
+
+        if (this.navParams.get("frompage") == 'notification') {
+          this.selectEntry(data.json().messages[0], this.navParams.get("item"));
+        } else {
+          this.selectEntry(this.navParams.get("item"), data.json().messages[0]);
         }
-       
+
         // this.doAttachmentResources(data.json().messages[0].message_id);
       }, error => {
       });
 
   }
 
-  selectEntry(item,imgitem) {
-    console.log("item data:"+JSON.stringify(item));
-    console.log("imgitem data:"+JSON.stringify(imgitem));
+  selectEntry(item, imgitem) {
+    console.log("item data:" + JSON.stringify(item));
+    console.log("imgitem data:" + JSON.stringify(imgitem));
     let msgid;
-    if(item==undefined){
-      msgid=imgitem.message_id
-    }else{
-      msgid=item.message_id
+    if (item == undefined) {
+      this.detailItem = imgitem;
+      msgid = imgitem.message_id;
+      this.message_date_mobileview = imgitem.message_date_mobileview;
+      this.priority_image = '';
+
+      this.messages_subject = imgitem.messages_subject;
+      this.messages_body = imgitem.message_body;
+      this.messages_body_html = imgitem.message_body_html;
+      this.messageid = imgitem.message_id;
+
+      this.priority_image = imgitem.priority_image;
+
+      if (this.priority_image == 'arrow_active_low.png') {
+        this.getPrority(1);
+      }
+      if (this.priority_image == 'arrow_active_high.png') {
+        this.getPrority(2);
+      }
+
+
+      this.replyall = imgitem.replyall;
+
+      this.priority_highclass = '';
+      this.priority_lowclass = '';
+
+      if (imgitem.message_priority == "2") {
+        this.priority_highclass = "border-high";
+      } else {
+        this.priority_highclass = "";
+      }
+      if (imgitem.message_priority == "1") {
+        this.priority_lowclass = "border-low";
+      } else {
+        this.priority_lowclass = "";
+      }
+
+      if (imgitem.message_priority == "0") {
+        this.priority_lowclass = "";
+      } else {
+        this.priority_lowclass = "";
+      }
+
+      this.favstatus = this.navParams.get('favstatus');
+      this.message_readstatus = this.navParams.get('message_readstatus');
+  
+      if (this.navParams.get('favstatus') != undefined) {
+        this.favstatus = this.navParams.get('favstatus');
+      } else {
+        this.favstatus = imgitem.is_favorite;
+      }
+      if (this.navParams.get('message_readstatus') != undefined) {
+        this.message_readstatus = this.navParams.get('message_readstatus');
+      } else {
+        this.message_readstatus = imgitem.message_readstatus;
+      }
+  
+  
+  
+  
+  
+  
+      this.message_priority = imgitem.message_priority;
+      this.time_ago = imgitem.time_ago;
+      this.receiver_id = imgitem.receiver_id.toLowerCase();
+      let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
+  
+  
+  
+      let n = this.receiver_id.includes(personalhashtag);
+      if (n > 0) {
+        this.receiver_id = this.receiver_id.toString().replace(personalhashtag, " ");
+        this.receiver_id = "me " + this.conf.toTitleCase(this.receiver_id);
+      }
+  
+      this.sendername = imgitem.sendername;
+  
+  
+  
+  
+      if (this.from == 'inbox') {
+        this.senderphoto = imgitem.senderphoto;
+      } else {
+        this.senderphoto = imgitem.recipient_photo;
+      }
+  
+      if (this.senderphoto == '' || this.senderphoto == 'null') {
+        this.senderphoto = this.apiServiceURL + "/images/default.png";
+      }
+    } else {
+      this.detailItem = item;
+      msgid = item.message_id;
+      this.message_date_mobileview = item.message_date_mobileview;
+      this.priority_image = '';
+
+      this.messages_subject = item.messages_subject;
+      this.messages_body = item.message_body;
+      this.messages_body_html = item.message_body_html;
+      this.messageid = item.message_id;
+
+      this.priority_image = item.priority_image;
+
+      if (this.priority_image == 'arrow_active_low.png') {
+        this.getPrority(1);
+      }
+      if (this.priority_image == 'arrow_active_high.png') {
+        this.getPrority(2);
+      }
+
+
+      this.replyall = item.replyall;
+
+      this.priority_highclass = '';
+      this.priority_lowclass = '';
+
+      if (item.message_priority == "2") {
+        this.priority_highclass = "border-high";
+      } else {
+        this.priority_highclass = "";
+      }
+      if (item.message_priority == "1") {
+        this.priority_lowclass = "border-low";
+      } else {
+        this.priority_lowclass = "";
+      }
+
+      if (item.message_priority == "0") {
+        this.priority_lowclass = "";
+      } else {
+        this.priority_lowclass = "";
+      }
+
+      this.favstatus = this.navParams.get('favstatus');
+      this.message_readstatus = this.navParams.get('message_readstatus');
+  
+      if (this.navParams.get('favstatus') != undefined) {
+        this.favstatus = this.navParams.get('favstatus');
+      } else {
+        this.favstatus = item.is_favorite;
+      }
+      if (this.navParams.get('message_readstatus') != undefined) {
+        this.message_readstatus = this.navParams.get('message_readstatus');
+      } else {
+        this.message_readstatus = item.message_readstatus;
+      }
+  
+  
+  
+  
+  
+  
+      this.message_priority = item.message_priority;
+      this.time_ago = item.time_ago;
+      this.receiver_id = item.receiver_id.toLowerCase();
+      let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
+  
+  
+  
+      let n = this.receiver_id.includes(personalhashtag);
+      if (n > 0) {
+        this.receiver_id = this.receiver_id.toString().replace(personalhashtag, " ");
+        this.receiver_id = "me " + this.conf.toTitleCase(this.receiver_id);
+      }
+  
+      this.sendername = item.sendername;
+  
+  
+  
+  
+      if (this.from == 'inbox') {
+        this.senderphoto = item.senderphoto;
+      } else {
+        this.senderphoto = item.recipient_photo;
+      }
+  
+      if (this.senderphoto == '' || this.senderphoto == 'null') {
+        this.senderphoto = this.apiServiceURL + "/images/default.png";
+      }
     }
     this.priority_image = '';
     let body: string = "is_mobile=1&ses_login_id=" + this.userId +
@@ -239,92 +413,10 @@ export class MessagedetailPage {
           // this.conf.sendNotification('Something went wrong!');
         }
       });
-    this.priority_image = '';
-    this.message_date_mobileview = item.message_date_mobileview;
-    this.messages_subject = item.messages_subject;
-    this.messages_body = item.message_body;
-    this.messages_body_html = item.message_body_html;
-    this.messageid = item.message_id;
+
+
+
    
-    this.priority_image = item.priority_image;
-
-    if (this.priority_image == 'arrow_active_low.png') {
-      this.getPrority(1);
-    }
-    if (this.priority_image == 'arrow_active_high.png') {
-      this.getPrority(2);
-    }
-
-
-    this.replyall = item.replyall;
-
-    this.priority_highclass = '';
-    this.priority_lowclass = '';
-
-    if (item.message_priority == "2") {
-      this.priority_highclass = "border-high";
-    } else {
-      this.priority_highclass = "";
-    }
-    if (item.message_priority == "1") {
-      this.priority_lowclass = "border-low";
-    } else {
-      this.priority_lowclass = "";
-    }
-
-    if (item.message_priority == "0") {
-      this.priority_lowclass = "";
-    } else {
-      this.priority_lowclass = "";
-    }
-
-
-    this.favstatus = this.navParams.get('favstatus');
-    this.message_readstatus = this.navParams.get('message_readstatus');
-
-    if (this.navParams.get('favstatus') != undefined) {
-      this.favstatus = this.navParams.get('favstatus');
-    } else {
-      this.favstatus = item.is_favorite;
-    }
-    if (this.navParams.get('message_readstatus') != undefined) {
-      this.message_readstatus = this.navParams.get('message_readstatus');
-    } else {
-      this.message_readstatus = item.message_readstatus;
-    }
-
-
-
-
-
-
-    this.message_priority = item.message_priority;
-    this.time_ago = item.time_ago;
-    this.receiver_id = item.receiver_id.toLowerCase();
-    let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
-
-
-
-    let n = this.receiver_id.includes(personalhashtag);
-    if (n > 0) {
-      this.receiver_id = this.receiver_id.toString().replace(personalhashtag, " ");
-      this.receiver_id = "me " + this.conf.toTitleCase(this.receiver_id);
-    }
-
-    this.sendername = item.sendername;
-
-
-
-
-    if (this.from == 'inbox') {
-      this.senderphoto = item.senderphoto;
-    } else {
-      this.senderphoto = item.recipient_photo;
-    }
-
-    if (this.senderphoto == '' || this.senderphoto == 'null') {
-      this.senderphoto = this.apiServiceURL + "/images/default.png";
-    }
 
 
 
@@ -353,18 +445,18 @@ export class MessagedetailPage {
     }
     let attach;
     let flesze;
-    if(this.navParams.get("frompage")=='notification'){
+    if (this.navParams.get("frompage") == 'notification') {
       this.is_reply = item.isreply;
       this.totalFileSize = item.totalfilesize;
-      attach=item.attachments;
-      flesze=item.filesizes;
-    }else{
+      attach = item.attachments;
+      flesze = item.filesizes;
+    } else {
       this.is_reply = imgitem.isreply;
       this.totalFileSize = imgitem.totalfilesize;
-      attach=imgitem.attachments;
-      flesze=imgitem.filesizes;
+      attach = imgitem.attachments;
+      flesze = imgitem.filesizes;
     }
- 
+
     if (attach != '') {
       let ath = attach.split("#");
       let flsize = flesze.split("#")
@@ -377,25 +469,43 @@ export class MessagedetailPage {
           //  imgSrc: imgSrc
         });
       }
-      console.log("Pushed Image Array"+JSON.stringify(this.addedImgLists));
+      console.log("Pushed Image Array" + JSON.stringify(this.addedImgLists));
 
     }
   }
 
   previous() {
-    if (this.navParams.get("frompage") == 'notification') {
-      this.navCtrl.setRoot(NotificationPage);
-    } else {
-      if (this.from == 'send') {
-        this.navCtrl.setRoot(MessagesPage, {
-          fromtab: 'sentView'
-        });
+    let fromnavigation = localStorage.getItem("fromnavigation");
+    console.log("fromnavigation:" + fromnavigation);
+    if (fromnavigation != undefined) {
+      if (fromnavigation == 'notification') {
+        this.navCtrl.setRoot(NotificationPage);
       } else {
-        this.navCtrl.setRoot(MessagesPage, {
-          fromtab: 'inboxView'
-        });
+        if (this.from == 'send') {
+          this.navCtrl.setRoot(MessagesPage, {
+            fromtab: 'sentView'
+          });
+        } else {
+          this.navCtrl.setRoot(MessagesPage, {
+            fromtab: 'inboxView'
+          });
+        }
       }
+    } else {
+      if (this.navParams.get("frompage") == 'notification') {
+        this.navCtrl.setRoot(NotificationPage);
+      } else {
+        if (this.from == 'send') {
+          this.navCtrl.setRoot(MessagesPage, {
+            fromtab: 'sentView'
+          });
+        } else {
+          this.navCtrl.setRoot(MessagesPage, {
+            fromtab: 'inboxView'
+          });
+        }
 
+      }
     }
   }
   readAction(messageid, act, from) {

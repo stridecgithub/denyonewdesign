@@ -733,7 +733,7 @@ export class AddcalendarPage {
           } else {
             this.conf.sendNotification(res.msg[0].result);
             // localStorage.setItem("atMentionResult", '');
-
+            console.log(JSON.stringify(data.json()));
             if (data.json().msg[0]['pushidmulty'] != '') {
               this.quickPush(data.json().msg[0]['pushidmulty']);
             }

@@ -1,5 +1,15 @@
 
- page-addrole {  /*
+ page-addrole { 
+   
+  .toggle-md .toggle-icon {
+      height:75%;
+  }
+  .toggle-md .toggle-inner {
+    left: 0;
+    top: 2px;
+  }
+  
+  /*
  
  	.col span.view, .col span.create, .col span.edit, .col span.delete {
 		 text-align: center;

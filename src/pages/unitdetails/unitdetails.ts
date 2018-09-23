@@ -455,7 +455,7 @@ export class UnitdetailsPage {
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-							console.log(url);
+							
 						this.http.get(url, options)
 							.subscribe((data) => {
 
@@ -617,13 +617,18 @@ export class UnitdetailsPage {
 
 
 						let difffreq = this.setpointsdata[2].maxvalue - this.setpointsdata[2].minvalue;
-						if (actual_frequency < this.setpointsdata[2].minvalue)
+						console.log("Freq-1:"+difffreq);
+						if (parseFloat(actual_frequency) < parseFloat(this.setpointsdata[2].minvalue)){							
 							frequency = 0;
-						else if (actual_frequency > this.setpointsdata[2].maxvalue)
-							frequency = 100;
-						else
+							console.log("Freq-2:"+frequency);
+						}else if (parseFloat(actual_frequency) > parseFloat(this.setpointsdata[2].maxvalue)){
+							frequency = 100;							
+							//frequency =this.setpointsdata[2].maxvalue;
+							console.log("Freq-3:"+frequency);
+						}else{							
 							frequency = (((actual_frequency - this.setpointsdata[2].minvalue) / difffreq) * 100);
-
+							console.log("Freq-4:"+frequency);
+						}
 
 
 
@@ -880,12 +885,10 @@ export class UnitdetailsPage {
 								res[i].minvalue = 0;
 							}
 							let angle = 0;
-							let labelofset = 0.30;
-							console.log("CODE:"+code);
+							let labelofset = 0.30;							
 							if (code == 'oilpressure' || code == 'coolanttemp') {
 								angle = -0.5;
-console.log("CODE:"+code);
-								console.log("Enval:"+enval);
+								
 								this.rangesdata.push({
 									startValue: enval,
 									endValue: res[i].maxvalue,
@@ -945,9 +948,9 @@ console.log("CODE:"+code);
 							}
 							if (code == "batteryvolt") {
 
-								if (this.batteryvoltage > res[i].maxvalue) {
+								if (parseFloat(this.batteryvoltage) > res[i].maxvalue) {
 									this.needlevalue = res[i].maxvalue;
-								} else if (this.batteryvoltage <= 0) {
+								} else if (parseFloat(this.batteryvoltage) <= 0) {
 									this.needlevalue = 0;
 								} else {
 									this.needlevalue = this.batteryvoltage;
@@ -1091,7 +1094,7 @@ console.log("CODE:"+code);
 							headers: any = new Headers({ 'Content-Type': type }),
 							options: any = new RequestOptions({ headers: headers }),
 							url: any = this.apiServiceURL + urlstr;
-						console.log(url);
+						
 						this.http.get(url, options)
 							.subscribe((data) => {
 								this.commstatus = data.json().commstatus;

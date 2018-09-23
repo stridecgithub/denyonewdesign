@@ -85,10 +85,14 @@ import { MockProvider } from '../providers/pagination/pagination';
 import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { FilePath } from '@ionic-native/file-path';
+import { Base64 } from '@ionic-native/base64';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Camera } from '@ionic-native/camera';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { DatePicker } from '@ionic-native/date-picker';
+import { Crop } from '@ionic-native/crop';
+import { NetworkProvider } from '../providers/network/network';
 @NgModule({
   declarations: [
     PermissionPage,
@@ -274,14 +278,18 @@ import { DatePicker } from '@ionic-native/date-picker';
     FileOpener,
     FileTransfer,
     File,
+    FilePath,
+    Base64,
     DocumentViewer,
     MockProvider,
     Push,
     Camera,
     FileChooser,
     DatePicker,
+    Crop,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    DataServiceProvider
+    DataServiceProvider,
+    NetworkProvider
   ]
 })
 export class AppModule {

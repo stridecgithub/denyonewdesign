@@ -75,7 +75,7 @@ presentModal(unit) {
     let alarmID = this.navParams.get("alarmid");
     //this.iframeContent = "<iframe id='filecontainer' src=" + this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID + " height=350 width=100% frameborder=0></iframe > ";
     this.iframeContent = this.sanitizer.bypassSecurityTrustResourceUrl(this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID);
-
+console.log(this.apiServiceURL + "/" + "alarmlogtrendline?loginid=" + this.userId + "&alarm_id=" + alarmID);
     // UnitDetails Api Call
     let unid = this.navParams.get("record").alarm_unit_id;
     let
