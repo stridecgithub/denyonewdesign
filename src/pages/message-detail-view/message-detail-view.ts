@@ -230,6 +230,7 @@ export class MessageDetailViewPage {
   }
 
   selectEntry(item) {
+    
     this.priority_image = '';
     
     this.message_date_mobileview = item.message_date_mobileview;
@@ -278,7 +279,11 @@ export class MessageDetailViewPage {
 
     this.message_priority = item.message_priority;
     this.time_ago = item.time_ago;
-    this.receiver_id = item.receiver_id.toLowerCase();
+    //this.receiver_id = item.receiver_id.toLowerCase();
+
+    this.receiver_id = item.replyall.toLowerCase();
+
+
     let personalhashtag = localStorage.getItem("personalhashtag").toLowerCase();
     
 
@@ -299,7 +304,9 @@ export class MessageDetailViewPage {
 
     if (this.from == 'inbox') {
       this.senderphoto = item.senderphoto;
-    } else {
+    }else if (this.from == 'push') {
+      this.senderphoto = item.senderphoto;
+    }else {
       this.senderphoto = item.recipient_photo;
     }
 

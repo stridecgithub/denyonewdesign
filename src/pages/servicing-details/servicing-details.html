@@ -69,13 +69,13 @@
     </ion-list>
   </div>
 
-  <ion-row class="servicing-details-heading">
+  <ion-row class="servicing-details-heading"  *ngIf="service_remark!=''">
     <ion-col class="col" col-12>
       <h4>Service Info</h4>
     </ion-col>
   </ion-row>
 
-  <div class="servicing-details-form" style="border-bottom: none">
+  <div class="servicing-details-form" style="border-bottom: none" *ngIf="service_remark!=''" >
     <ion-row class="servicing-details-heading">
       <ion-col class="col" col-12>
         <h4>Remarks:</h4>

@@ -390,8 +390,11 @@ ion-segment {
     margin: 0 auto;
 }
 .alert-md .alert-radio-label {
-	padding: 13px 0;
+  padding: 13px 0;
+  white-space: inherit;
 }
+
+
 .button-inner {
 	justify-content: center;
 }

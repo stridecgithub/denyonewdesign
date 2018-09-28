@@ -480,7 +480,7 @@ export class ReportviewtablePage {
           "&showload=" + showload +
           "&companyid=" + this.companyid +
           "&datacodes=");
-        console.log(this.url);
+      
 
       }
     }

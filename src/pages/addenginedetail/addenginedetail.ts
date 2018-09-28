@@ -87,12 +87,16 @@ export class AddenginedetailPage {
 
   }
   ionViewDidLoad() {
-    jQuery('#summernote').summernote();
-   // this.hidetollbarTextEditor();
+    
+    jQuery('#summernote').summernote({
+           focus: true
+    });
+   this.hidetollbarTextEditor();
+   this.keyupfunctioncalling();
   }
   ionviewDidEnter() {
 
-    //this.hidetollbarTextEditor();
+    this.hidetollbarTextEditor();
 
   }
   hidetollbarTextEditor() {
@@ -140,7 +144,9 @@ export class AddenginedetailPage {
 
   }
   ionViewWillEnter() {
-    jQuery('#summernote').summernote();
+    jQuery('#summernote').summernote({
+           focus: true
+    });
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -169,6 +175,17 @@ export class AddenginedetailPage {
 
 
     }
+  }
+  keyupfunctioncalling(){
+    //alert('enter');
+   
+    jQuery( ".note-toolbar-wrapper" ).css({ height: "0px" });
+  }
+
+  keypressfunctioncalling(){
+    //alert('enter');
+    
+    jQuery( ".note-toolbar-wrapper" ).css({ height: "0px" });
   }
   selectEntry(item) {
     this.enginemodel = item.model;

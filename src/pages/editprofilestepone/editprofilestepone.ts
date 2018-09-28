@@ -252,7 +252,7 @@ export class EditprofilesteponePage {
       url: any = this.apiServiceURL + "/settings/profileupdate";
 
 
-    console.log("Profile" + url);
+    
     this.http.post(url, body, options)
       .subscribe(data => {
         // If the request was successful notify the user
@@ -402,12 +402,7 @@ export class EditprofilesteponePage {
 
         // Image Crop Start
 
-        console.log("Upload server path:-"+this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name);
-        /*this.crop.crop(this.apiServiceURL + "/staffphotos/" + this.userInfo[0].photo.name, { quality: 75 })
-          .then(
-          newImage => console.log('new image path is: ' + newImage),
-          error => console.error('Error cropping image', error)
-          );*/
+       
         // Image Crop End
         this.progress += 5;
         this.isProgress = false;
@@ -445,21 +440,13 @@ export class EditprofilesteponePage {
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
               correctOrientation: true,
-              targetWidth: 500,
-              targetHeight: 300
             }
 
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
               localStorage.setItem("userPhotoFile", imageURI);
 // Image Crop Start
-/*
-console.log("Upload server path:-"+this.apiServiceURL + "/staffphotos/" + imageURI);
-this.crop.crop(imageURI, { quality: 75 })
-  .then(
-  newImage => console.log('new image path is: ' + newImage),
-  error => console.error('Error cropping image', error)
-  );*/
+
 // Image Crop End
               this.fileTrans(imageURI);
               // this.addedAttachList = imageURI;
@@ -482,9 +469,7 @@ this.crop.crop(imageURI, { quality: 75 })
               destinationType: this.camera.DestinationType.NATIVE_URI,
               encodingType: this.camera.EncodingType.JPEG,
               mediaType: this.camera.MediaType.PICTURE,
-              correctOrientation: true,
-              targetWidth: 500,
-              targetHeight: 300
+              correctOrientation: true
             }
 
             this.camera.getPicture(options).then((uri) => {

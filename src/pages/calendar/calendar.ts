@@ -845,10 +845,12 @@ export class CalendarPage {
     });
   }
   doServiceView(event_id, event_type, eventdata) {
+    
     this.navCtrl.setRoot(EventDetailsServicePage, {
       event_id: event_id,
       event_type: event_type,
-      eventdata: eventdata
+      eventdata: eventdata,
+      from:'CalendarPage'
     });
   }
   doEventView(event_id, event_type, eventdata) {
@@ -1399,9 +1401,7 @@ export class CalendarPage {
 
 
   doEditAlarm(item, act) {
-    console.log(JSON.stringify(item));
-    console.log(item.event_addedby_name);
-    console.log(act);
+    
     if (item.event_addedby_name == '') {
       if (act == 'edit') {
         this.navCtrl.setRoot(AddalarmPage, {

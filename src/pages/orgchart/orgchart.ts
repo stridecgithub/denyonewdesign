@@ -11,6 +11,7 @@ import { DashboardPage } from "../dashboard/dashboard";
 import { AddorgchartonePage } from "../addorgchartone/addorgchartone";
 import { ComposePage } from "../compose/compose";
 import { PermissionPage } from '../../pages/permission/permission';
+import { MyaccountPage } from '../../pages/myaccount/myaccount';
 //import { PermissionPage } from '../permission/permission';
 //declare var jQuery: any;
 /**
@@ -65,7 +66,7 @@ export class OrgchartPage {
   imgheight: any;
   imgradius: any;
   fontsize: any;
-  defimgheight:any;
+  defimgheight: any;
   iframeContent: any;
   public profilePhoto;
 
@@ -75,7 +76,7 @@ export class OrgchartPage {
     //this.height = 150";
     this.imgwidth = 80;
     this.imgheight = 80;
-    this.defimgheight=73;
+    this.defimgheight = 73;
     this.imgradius = 40;
     this.fontsize = 11;
     this.pinchW = 1;
@@ -156,7 +157,7 @@ export class OrgchartPage {
       this.imgwidth = this.imgwidth + 1;
       this.imgheight = this.imgheight + 1;
       this.defimgheight = this.imgheight + 1;
-      
+
       this.imgradius = parseInt(this.imgwidth) / 2;
 
 
@@ -416,8 +417,8 @@ export class OrgchartPage {
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
-      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";  
-          let res;
+      url: any = this.apiServiceURL + "/orgchart?company_id=" + this.companyId + "&is_mobile=1";
+    let res;
     this.http.get(url, options)
       .subscribe((data) => {
         this.conf.presentLoading(0);
@@ -460,8 +461,12 @@ export class OrgchartPage {
     this.navCtrl.setRoot(AddorgchartonePage, { 'companyId': this.companyId });
   }
   previous() {
-    this.navCtrl.setRoot(DashboardPage);
-
+    
+    if (this.NP.get("frompage") == 'myaccount') {
+      this.navCtrl.setRoot(MyaccountPage);
+    } else {
+      this.navCtrl.setRoot(DashboardPage);
+    }
   }
   doEdit(item, act) {
     if (act == 'edit') {

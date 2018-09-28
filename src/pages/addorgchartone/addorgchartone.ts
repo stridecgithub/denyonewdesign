@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform,App } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, ActionSheetController, Platform, App } from 'ionic-angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
@@ -65,8 +65,9 @@ export class AddorgchartonePage {
   company_group;
   report_to;
   company_id;
+  staff_id;
   public addedImgLists;
-  constructor(private app:App,private conf: Config, public nav: NavController,
+  constructor(private app: App, private conf: Config, public nav: NavController,
     public http: Http,
     public NP: NavParams,
     public fb: FormBuilder,
@@ -105,8 +106,21 @@ export class AddorgchartonePage {
     });
     this.userId = localStorage.getItem("userInfoId");
     this.company_id = localStorage.getItem("userInfoCompanyId");
-    if (this.isEdited == false) {
-     this.getUserListData(this.company_id);
+
+
+    if (this.NP.get("record") != undefined) {
+      this.staff_id = this.NP.get("record").staff_id;
+    } else {
+      this.staff_id = '';
+    }
+
+
+    if (this.staff_id != '') {
+      this.getUserListData(this.NP.get("record").company_id);
+    } else {
+      if (this.company_id == 1) {
+        this.getUserListData('1');
+      }
     }
 
 
@@ -131,7 +145,9 @@ export class AddorgchartonePage {
     this.resetFields();
     this.getJsonCountryListData();
     this.getCompanyGroupListData();
-    if (this.NP.get("record") != undefined) {
+
+
+    if (this.staff_id != '') {
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
       this.pageTitle = 'Edit Org Chart';
@@ -151,7 +167,7 @@ export class AddorgchartonePage {
         // this.primary = contactSplitSpace[0];
         this.contact = this.contact;
       }
-      this.getUserListData(editItem.company_id);
+
     }
     else {
       this.isEdited = false;
@@ -374,31 +390,36 @@ export class AddorgchartonePage {
   }
 
   getUserListData(companyid) {
-    console.log("A:"+companyid);
-    console.log("this.isEdited:"+this.isEdited);
-    if (this.isEdited == true) {
-      console.log('C');
-      this.userId = this.recordID;
+
+    if (this.staff_id != '') {
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      console.log("Get Staffs True:-"+url);
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
           // this.responseResultReportTo="N/A";
+
           if (this.report_to == 0) {
 
             this.len = 0;
           }
           else {
+
             this.len = res.TotalCount;
           }
-
+          let ln;
+          ln = res.staffslist.length;
+          
+          if (this.NP.get("record").report_to == 0) {
+          
+            this.responseResultReportTo = [];
+            ln = 0
+          }
           if (this.recordID != '') {
-            if (res.staffslist.length > 0) {
+            if (ln > 0) {
 
               for (let staff in res.staffslist) {
 
@@ -426,20 +447,23 @@ export class AddorgchartonePage {
                 }
               }
             }
+            
           } else {
+           
             this.responseResultReportTo = res.staffslist;
           }
 
         });
+
     }
     else {
-      console.log('D');      
+   
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
         url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + companyid;
       let res;
-      console.log("Get Staffs False:-"+url);
+
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
@@ -448,11 +472,11 @@ export class AddorgchartonePage {
 
           // this.naDisplay = 1;
 
-          if (this.recordID != '') {
+         
             if (res.staffslist.length > 0) {
 
               for (let staff in res.staffslist) {
-                if (this.recordID != res.staffslist[staff].staff_id) {
+                if (res.staffslist[staff].report_to>0) {
                   this.responseResultReportTo.push({
                     staff_id: res.staffslist[staff].staff_id,
                     firstname: res.staffslist[staff].firstname,
@@ -475,17 +499,17 @@ export class AddorgchartonePage {
                   });
                 }
               }
-            } else {
+            } /*else {
               this.responseResultReportTo = res.staffslist;
-            }
-          }
+            }*/
+          
         });
     }
 
   }
 
   onSegmentChanged(comapnyid) {
-
+    this.responseResultReportTo = [];
     this.getUserListData(comapnyid);
   }
   fileChooser() {
@@ -498,7 +522,7 @@ export class AddorgchartonePage {
           icon: 'md-image',
           role: 'fromgallery',
           handler: () => {
-           
+
 
             const options: CameraOptions = {
               quality: 100,
@@ -580,8 +604,8 @@ export class AddorgchartonePage {
       mimeType: "text/plain",
     }
 
-      fileTransfer.onProgress(this.onProgress);
-      this.userInfo = [];
+    fileTransfer.onProgress(this.onProgress);
+    this.userInfo = [];
     fileTransfer.upload(path, this.apiServiceURL + '/upload.php', options)
       .then((data) => {
 
@@ -603,7 +627,7 @@ export class AddorgchartonePage {
         this.isProgress = false;
 
         this.isUploadedProcessing = false;
-        
+
 
       }, (err) => {
 

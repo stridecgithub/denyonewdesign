@@ -29,7 +29,7 @@
 
         <div style="margin-top: 4px;"><b>Detail</b></div>
         <div>
-          <ion-textarea id="summernote" formControlName="rawhtml" [(ngModel)]="rawhtml" class="summernote"></ion-textarea>
+          <textarea onkeyup="keyupfunctioncalling()" onkeypress="keypressfunctioncalling()" id="summernote" formControlName="rawhtml" [(ngModel)]="rawhtml" class="summernote"></textarea>
         </div>
 
 

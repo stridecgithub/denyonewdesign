@@ -110,7 +110,7 @@
   </ion-row>
   <ion-row class="attachment-row" style="border-top: none">
     <ion-col class="col" col-3 *ngFor="let item of addedImgListsDetails; let i = index" [attr.data-index]="i">
-      <div (click)="preview(addedImgListsDetails[i],'ServicingDetailsPage')">
+      <div (click)="preview(addedImgListsDetails[i],frompage)">
         <img src="{{addedImgListsDetails[i].imgSrc}}" alt="">
       </div>
     </ion-col>

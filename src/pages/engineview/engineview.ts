@@ -60,7 +60,7 @@ export class EngineviewPage {
 
 
   ionViewDidLoad() {
-    console.log("engineview.ts");
+   
     let //body: string = "loginid=" + this.userId,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),

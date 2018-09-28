@@ -126,7 +126,7 @@ export class ReportsPage {
     this.responseResultTimeFrame = [];
     this.datevalidaton = 0;
 	let formatstorage=localStorage.getItem("format");
-	console.log("formatstorage"+formatstorage);
+	
 	if(formatstorage!=''){
 		this.getFormat(formatstorage);
 	}else{
@@ -244,7 +244,7 @@ export class ReportsPage {
   }
 
   getFormat(format) {
-	  console.log("getformat"+format);
+	  
 	localStorage.setItem("format",format);
     this.isSubmitted = false;
     if (format == 'graph') {

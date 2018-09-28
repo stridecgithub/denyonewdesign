@@ -17,6 +17,8 @@ declare let google;
 declare var jQuery: any;
 import { AddUnitPage } from "../add-unit/add-unit";
 import { MockProvider } from '../../providers/pagination/pagination';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from "rxjs";
 //import { Network } from '@ionic-native/network';
 //import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LoginPage } from '../login/login';
@@ -33,6 +35,7 @@ import { MockProvider } from '../../providers/pagination/pagination';
 })
 
 export class DashboardPage {
+  private subscription: Subscription;
   footerBar: number = 0;
   tabIndexVal;
   @ViewChild('map') mapElement: ElementRef;
@@ -165,6 +168,9 @@ export class DashboardPage {
   ionViewWillLeave() {
     this.tabIndexVal = localStorage.getItem("tabIndex");
   }
+  ngOnDestroy() {
+   // this.subscription.unsubscribe();
+  }
   ionViewDidLoad() {
     this.selectallopenpop = 0;
     this.moreopenpop = 0;
@@ -296,17 +302,28 @@ export class DashboardPage {
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-      this.doUnit();
+      
       this.doNotifiyCount();
       // Initiate G Map
+     
+
+      //this.subscription = Observable.interval(2000).subscribe(x => {
+        this.doUnit();
+       
+      //});
       this.initMap();
     } else {
       this.events.subscribe('user:created', (user, time) => {
         this.companyId = user.company_id;
         this.userId = user.staff_id
-        this.doUnit();
+       
         this.doNotifiyCount();
         // Initiate G Map
+       
+        //this.subscription = Observable.interval(2000).subscribe(x => {
+          this.doUnit();
+         
+        //});
         this.initMap();
       });
     }
@@ -366,7 +383,7 @@ export class DashboardPage {
   doUnit() {
     //this.totalCountList = 0;
     //this.items = [];
-    this.conf.presentLoading(1);
+    //this.conf.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -378,11 +395,11 @@ export class DashboardPage {
       options: any = new RequestOptions({ headers: headers }),
       //url: any = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&loginid=" + this.userId + "&company_id=" + this.companyId;
-
+      
     let res;
     this.http.get(url, options)
       .subscribe((data) => {
-        this.conf.presentLoading(0);
+        //this.conf.presentLoading(0);
         res = data.json();
         if (res.totalCount > 0) {
 
@@ -587,7 +604,7 @@ export class DashboardPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/dashboard?is_mobile=1&startindex=0&results=" + this.reportData.results + "&sort=unit_id&dir=asc&loginid=" + this.userId + "&company_id=" + this.companyId;
-
+      
     // API Request
     this.http.get(url, options)
       .subscribe((data) => {
@@ -1324,6 +1341,11 @@ export class DashboardPage {
         event_id: event_id,
         from: 'Push'
       })
+    }else if (type == 'A') {
+      this.navCtrl.setRoot(EventDetailsPage, {
+        event_id: event_id,
+        from: 'Push'
+      })
     }
 
 
@@ -1487,21 +1509,6 @@ export class DashboardPage {
     alert.present();
   }
 
-
-
-  pushNavigationTeseting() {
-    /*
-    this.navCtrl.setRoot(ServicingDetailsPage, {
-      event_id: 520,
-      from: 'Push'
-    });
-    */
-    this.navCtrl.setRoot(EventDetailsPage, {
-      event_id: 521,
-      from: 'Push'
-    });
-
-  }
 
   showAlertExist() {
     this.alert = this.alertCtrl.create({

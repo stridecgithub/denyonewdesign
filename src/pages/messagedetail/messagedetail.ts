@@ -212,8 +212,7 @@ export class MessagedetailPage {
   }
 
   selectEntry(item, imgitem) {
-    console.log("item data:" + JSON.stringify(item));
-    console.log("imgitem data:" + JSON.stringify(imgitem));
+    
     let msgid;
     if (item == undefined) {
       this.detailItem = imgitem;
@@ -294,10 +293,11 @@ export class MessagedetailPage {
   
   
   
-  
       if (this.from == 'inbox') {
         this.senderphoto = imgitem.senderphoto;
-      } else {
+      }else if (this.from == 'push') {
+        this.senderphoto = imgitem.senderphoto;
+      }  else {
         this.senderphoto = imgitem.recipient_photo;
       }
   
@@ -383,8 +383,10 @@ export class MessagedetailPage {
   
   
   
-  
+      
       if (this.from == 'inbox') {
+        this.senderphoto = item.senderphoto;
+      }else if (this.from == 'push') {
         this.senderphoto = item.senderphoto;
       } else {
         this.senderphoto = item.recipient_photo;
@@ -469,14 +471,14 @@ export class MessagedetailPage {
           //  imgSrc: imgSrc
         });
       }
-      console.log("Pushed Image Array" + JSON.stringify(this.addedImgLists));
+      
 
     }
   }
 
   previous() {
     let fromnavigation = localStorage.getItem("fromnavigation");
-    console.log("fromnavigation:" + fromnavigation);
+    
     if (fromnavigation != undefined) {
       if (fromnavigation == 'notification') {
         this.navCtrl.setRoot(NotificationPage);

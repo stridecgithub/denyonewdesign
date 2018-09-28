@@ -27,7 +27,7 @@
         <ion-label stacked>Company Name
           <span class="mandatory" *ngIf="hideActionButton">*</span>
         </ion-label>
-        <ion-input type="text" class="{{form.controls.companygroup_name.errors && form.controls.companygroup_name.dirty ? 'error-round-square' : 'error-round-non-square'}}"  [disabled]="readOnly" formControlName="companygroup_name" [(ngModel)]="companygroup_name"></ion-input>
+        <ion-input type="text" class="{{form.controls.companygroup_name.errors && form.controls.companygroup_name.dirty ? '' : ''}}"  [disabled]="readOnly" formControlName="companygroup_name" [(ngModel)]="companygroup_name"></ion-input>
       </ion-item>
       </ion-list>
       

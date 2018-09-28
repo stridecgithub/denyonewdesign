@@ -40,7 +40,7 @@ export class AddalarmPage {
   public userId: any;
   public isSubmitted: boolean = false;
   public responseResultCountry: any;
-  public responseResultReportTo: any;
+  public responseResultReportTo= [];
   // Flag to be used for checking whether we are adding/editing an entry
   public isEdited: boolean = false;
   public readOnly: boolean = false;
@@ -309,7 +309,6 @@ export class AddalarmPage {
 
   }
   selectEntry(item) {
-    console.log("Calendar:" + JSON.stringify(item));
     this.subject = item.alarm_name;
     this.assignedby = this.uname;
     this.alarm_assgined_to = item.alarm_assgined_to;
@@ -338,7 +337,35 @@ export class AddalarmPage {
     this.http.get(url, options)
       .subscribe(data => {
         res = data.json();
-        this.responseResultReportTo = res.staffslist;
+        //this.responseResultReportTo = res.staffslist;
+
+        if (res.staffslist.length > 0) {
+
+          for (let staff in res.staffslist) {
+            if (this.userId != res.staffslist[staff].staff_id) {
+              this.responseResultReportTo.push({
+                staff_id: res.staffslist[staff].staff_id,
+                firstname: res.staffslist[staff].firstname,
+                lastname: res.staffslist[staff].lastname,
+                email: res.staffslist[staff].email,
+                contact_number: res.staffslist[staff].contact_number,
+                photo: res.staffslist[staff].photo,
+                personalhashtag: res.staffslist[staff].personalhashtag,
+                country_id: res.staffslist[staff].country_id,
+                role_id: res.staffslist[staff].role_id,
+                job_position: res.staffslist[staff].job_position,
+                report_to: res.staffslist[staff].report_to,
+                company_id: res.staffslist[staff].company_id,
+                non_user: res.staffslist[staff].non_user,
+                status: res.staffslist[staff].status,
+                createdby: res.staffslist[staff].createdby,
+                createdon: res.staffslist[staff].createdon,
+                updatedby: res.staffslist[staff].updatedby,
+                updatedon: res.staffslist[staff].updatedon
+              });
+            }
+          }
+        }
       }, error => {
         this.networkType = this.conf.serverErrMsg();// + "\n" + error;
       });

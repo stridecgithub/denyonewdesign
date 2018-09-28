@@ -5,6 +5,7 @@ import { Config } from '../../config/config';
 import { ServicinginfoPage } from "../servicinginfo/servicinginfo";
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 import { CommentsinfoPage } from "../commentsinfo/commentsinfo";
+import { CalendarPage } from "../calendar/calendar";
 import { DomSanitizer } from '@angular/platform-browser';
 /**
  * Generated class for the ServicingDetailsPage page.
@@ -44,6 +45,7 @@ export class ServicingDetailsPage {
   private apiServiceURL: string = "";
   public addedImgListsDetails = [];
   item;
+  public frommodule;
   //tabBarElement: any;
   service_time;
   hoursadd24hourformat;
@@ -96,13 +98,15 @@ export class ServicingDetailsPage {
           url1: any = this.apiServiceURL + "/servicebyid";
         this.http.post(url1, body, options1)
           .subscribe((data) => {
-            
+           
             this.profilePicture = data.json().servicedetail[0].user_photo;
             this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(data.json().servicedetail[0].user_photo);
             this.item = data.json().servicedetail[0];
             localStorage.setItem("unitId", data.json().servicedetail[0].unit_id);
             this.serviced_datetime_display = data.json().servicedetail[0].serviced_datetime_edit;
             this.service_subject = data.json().servicedetail[0].service_subject;
+            this.frommodule= data.json().servicedetail[0].module;
+            
             this.service_scheduled_time_format = data.json().servicedetail[0].service_formatted_date;
             this.service_remark = data.json().servicedetail[0].service_remark;
             this.serviced_created_name = data.json().servicedetail[0].serviced_created_name;
@@ -249,17 +253,20 @@ export class ServicingDetailsPage {
         record: this.navParams.get("record")
       });
     } else if (this.navParams.get("from") == 'Push') {
-      this.navCtrl.setRoot(ServicinginfoPage, {
-        record: this.item
-      });
+      if(this.frommodule=='calendar'){
+        this.navCtrl.setRoot(CalendarPage, {});
+      }else{
+        this.navCtrl.setRoot(ServicinginfoPage, {
+          record: this.item
+        });
+      }      
     } else {
       this.navCtrl.setRoot(ServicinginfoPage, {
         record: this.navParams.get("record")
       });
     }
   }
-
-  preview(imagedata, from) {
+  preview(imagedata, from) {    
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
       record: this.navParams.get("record"),

@@ -136,6 +136,7 @@ export class ComposePage {
     this.open = 0;
     if (this.navParams.get('to') != undefined) {
       this.to = this.navParams.get('to');
+      
     }
 
 
@@ -187,7 +188,7 @@ export class ComposePage {
     }
     this.act = this.navParams.get("action");
     this.choice = this.navParams.get("from");
-    if (this.choice != undefined) {
+        if (this.choice != undefined) {
       if (this.act == 'reply') {
         this.priority_highclass = '';
         this.priority_lowclass = '';
@@ -200,7 +201,7 @@ export class ComposePage {
         if (this.senderid == this.userId) {
 
           this.to = this.receiver_id;
-
+          
           this.addedImgLists = [];
           this.copytome = 0;
 
@@ -209,8 +210,19 @@ export class ComposePage {
         }
         else {
           this.isReply = 0;
-          this.to = this.navParams.get("record").personalhashtag;
-
+          
+          if(this.choice=='send'){
+            this.to = this.navParams.get("record").replyall.split(" ")[0];
+            
+            if(this.to==''){
+              this.to=this.navParams.get("record").senderreply;
+            }
+          }else{
+            this.to = this.navParams.get("record").personalhashtag;
+            
+          }
+         
+        
           this.addedImgLists = [];
           this.copytome = 0;
           this.getPrority(this.navParams.get("record").message_priority);
@@ -236,7 +248,8 @@ export class ComposePage {
         this.isReply = 1;
         if (this.senderid == this.userId) {
 
-          this.to = this.navParams.get("record").replyall;//this.receiver_id;        
+          this.to = this.navParams.get("record").replyall;//this.receiver_id;    
+             
           this.addedImgLists = [];
           this.copytome = 0;
 
@@ -249,8 +262,17 @@ export class ComposePage {
         else {
 
           this.isReply = 0;
-          console.log("Compose navparam record" + JSON.stringify(this.navParams.get("record")));
-          this.to = this.navParams.get("record").replyall;
+          
+          if(this.choice=='send'){
+            this.to = this.navParams.get("record").senderreply;
+          }else{
+            this.to = this.navParams.get("record").replyall;
+         
+           
+            this.to = this.to.replace(localStorage.getItem("personalhashtag"), this.navParams.get("record").personalhashtag);
+            
+          }         
+         
           this.addedImgLists = [];
           this.copytome = 0;
           this.getPrority(this.navParams.get("record").message_priority);
@@ -603,7 +625,7 @@ export class ComposePage {
             this.camera.getPicture(options).then((imageURI) => {
               localStorage.setItem("receiptAttachPath", imageURI);
 
-              console.log("from gallery:imageURI:" + imageURI);
+             
               //alert("from gallery:imageURI:"+imageURI);
 
               this.fileTrans(imageURI, micro_timestamp);
@@ -630,7 +652,7 @@ export class ComposePage {
 
             this.camera.getPicture(options).then((uri) => {
 
-              console.log("from camera:imageURI:" + uri);
+            
               //alert("from camera:imageURI:"+uri);
 
               this.fileTrans(uri, micro_timestamp);
@@ -668,11 +690,11 @@ export class ComposePage {
                         .then((base64File: string) => {
                           //alert('base64File' + JSON.stringify(base64File));
                         }, (err) => {
-                          alert('err' + JSON.stringify(err));
+                          //alert('err' + JSON.stringify(err));
                         });
                     }
                   })
-                  .catch(err => console.log(err));
+                  .catch(err => {});
 
 
 
@@ -743,7 +765,7 @@ export class ComposePage {
     fileTransfer.onProgress(this.onProgress);
     fileTransfer.upload(path, this.apiServiceURL + '/upload_attach.php?micro_timestamp=' + micro_timestamp + "&message_id=" + this.messageid + "&totalSize=" + this.totalFileSize + "&randomtime=" + n, options)
       .then((data) => {
-        console.log("upload_attach.php response" + JSON.stringify(data));
+        
         //alert("upload_attach.php response"+JSON.stringify(data));
         this.nowuploading = 1;
         // let successData = JSON.parse(data.response);

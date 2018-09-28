@@ -75,7 +75,7 @@
 
 <ion-content   (tap)="isNet()">
 
-   
+  
 
       
   <button class="add-unit-btn" (click)="doAdd()"   *ngIf="CREATEACCESS==1">
@@ -87,9 +87,9 @@
     <ion-icon name="arrow-down" *ngIf="reportData.sortascdesc === 'desc' && sortLblTxt !== Favourites"></ion-icon>
     <ion-icon name="arrow-up" *ngIf="reportData.sortascdesc === 'asc'  && sortLblTxt !== Favourites"></ion-icon>
   </div>
-
+  <div style="text-align:center"><ion-spinner name="bubbles" *ngIf="loadingprogress"></ion-spinner></div>
   <ion-list  *ngIf="totalCount>0">
-    <ion-item-sliding #item class="list-item" *ngFor="let unit of items; let i = index">
+    <ion-item-sliding   (ionDrag)="logDrag($event)"  #item class="list-item" *ngFor="let unit of items; let i = index">
       <ion-item ngClass="{{unit.active}}">
         <!-- <div class="date-time" [ngStyle]="{'color':  unit.duedatecolor}">{{unit.nextservicedate_mobileview}}</div>
         <span class="initial" [ngStyle]="{'background-color': '#' + unit.colorcode}">{{unit.companygroup_name}}</span>
@@ -136,6 +136,16 @@
       <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
       </ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="arrow-dropdown"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Refreshing...">
+      </ion-refresher-content>
+    </ion-refresher>
 
 </ion-content>
 <ion-footer>

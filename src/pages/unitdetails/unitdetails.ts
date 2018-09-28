@@ -617,17 +617,17 @@ export class UnitdetailsPage {
 
 
 						let difffreq = this.setpointsdata[2].maxvalue - this.setpointsdata[2].minvalue;
-						console.log("Freq-1:"+difffreq);
+						
 						if (parseFloat(actual_frequency) < parseFloat(this.setpointsdata[2].minvalue)){							
 							frequency = 0;
-							console.log("Freq-2:"+frequency);
+						
 						}else if (parseFloat(actual_frequency) > parseFloat(this.setpointsdata[2].maxvalue)){
 							frequency = 100;							
 							//frequency =this.setpointsdata[2].maxvalue;
-							console.log("Freq-3:"+frequency);
+							
 						}else{							
 							frequency = (((actual_frequency - this.setpointsdata[2].minvalue) / difffreq) * 100);
-							console.log("Freq-4:"+frequency);
+							
 						}
 
 

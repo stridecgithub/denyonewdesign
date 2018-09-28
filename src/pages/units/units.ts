@@ -41,6 +41,7 @@ export class UnitsPage {
   public sortLblTxt: string = 'Favourites';
   testRadioOpen: boolean;
   testRadioResult;
+  loadingprogress: boolean;
   //tabBarElement: any;
   public reportData: any =
     {
@@ -74,7 +75,8 @@ export class UnitsPage {
   constructor(private mockProvider: MockProvider, public app: App, public modalCtrl: ModalController, public platform: Platform, public alertCtrl: AlertController, public navCtrl: NavController, public NP: NavParams, public navParams: NavParams, private conf: Config, private http: Http, public events: Events) {
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.apiServiceURL = this.conf.apiBaseURL();
-    this.pageperrecord =1000; //this.conf.pagePerRecord();
+    this.loadingprogress=true;
+    this.pageperrecord = 1000; //this.conf.pagePerRecord();
     this.isInfiniteHide = true;
     this.profilePhoto = localStorage.getItem("userInfoPhoto");
     this.roleId = localStorage.getItem("userInfoRoleId");
@@ -107,6 +109,7 @@ export class UnitsPage {
 
   }
   isNet() {
+    this.subscription.unsubscribe();
     let isNet = localStorage.getItem("isNet");
     if (isNet == 'offline') {
       this.conf.networkErrorNotification('You are now ' + isNet + ', Please check your network connection');
@@ -114,7 +117,7 @@ export class UnitsPage {
 
   }
   ionViewWillEnter() {
-
+    this.loadingprogress=true;
     localStorage.setItem("tabIndex", "1");
     this.tabIndexVal = localStorage.getItem("tabIndex");
     //this.tabBarElement.style.display = 'flex';
@@ -124,10 +127,10 @@ export class UnitsPage {
     modal.present();
   }
   ngOnDestroy() {
-    //this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
   ionViewDidLoad() {
-
+    this.loadingprogress=true;
 
     localStorage.setItem("setpointsdata", "");
     localStorage.setItem("tabIndex", "1");
@@ -150,11 +153,11 @@ export class UnitsPage {
     if (this.userId != "") {
       this.companyId = localStorage.getItem("userInfoCompanyId");
       this.userId = localStorage.getItem("userInfoId");
-     // this.subscription = Observable.interval(2000).subscribe(x => {
+      this.subscription = Observable.interval(2000).subscribe(x => {
         this.reportData.startindex = 0;
         this.unitAllLists = [];
         this.doUnit();
-     // });
+      });
       this.doNotifiyCount();
       // Initiate G Map
 
@@ -168,7 +171,16 @@ export class UnitsPage {
       });
     }
   }
+  unsubscribeTimer() {
+    
+    this.subscription.unsubscribe();
+  }
 
+  logDrag(evt) {
+    this.unsubscribeTimer();
+    
+    
+  }
   doNotifiyCount() {
     // Notification count
     let
@@ -191,7 +203,7 @@ export class UnitsPage {
 
   /****************************/
   doUnit() {
-    this.conf.presentLoading(1);
+    //this.conf.presentLoading(1);
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
     }
@@ -202,14 +214,14 @@ export class UnitsPage {
     let urlstr;
 
 
-    
+
 
     if (this.conf.isUTC() > 0) {
       urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
     } else {
       urlstr = this.apiServiceURL + "/units?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&company_id=" + this.companyId + "&loginid=" + this.userId;
     }
-console.log(urlstr);
+    
 
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
@@ -281,13 +293,15 @@ console.log(urlstr);
           this.totalCount = res.totalCount;
           this.reportData.startindex += this.reportData.results;
         } else {
+          //this.loadingprogress=false;
           this.totalCount = 0;
         }
 
       }, error => {
-        this.conf.presentLoading(0);
+        //this.conf.presentLoading(0);
       }, () => {
-        this.conf.presentLoading(0);
+        this.loadingprogress=false;
+        //this.conf.presentLoading(0);
       });
 
   }
@@ -366,6 +380,7 @@ console.log(urlstr);
   // Favorite Action
 
   favorite(unit_id) {
+    this.subscription.unsubscribe();
     this.isInfiniteHide = true;
     this.reportData.startindex = 0;
     this.unitAllLists = [];
@@ -527,6 +542,7 @@ console.log(urlstr);
   }
 
   doAction(item, act, unitId) {
+    this.subscription.unsubscribe();
     this.isInfiniteHide = true;
     if (act == 'edit') {
       this.navCtrl.setRoot(AddUnitPage, {
@@ -653,6 +669,7 @@ console.log(urlstr);
 
 
   pressed(item, index) {
+    this.subscription.unsubscribe();
     this.selecteditems = [];
     if (this.items[index]) {
       if (this.items[index].active == '') {
@@ -780,6 +797,8 @@ console.log(urlstr);
     }
   }
   selectAll() {
+    this.subscription.unsubscribe();
+    
     this.selecteditems = [];
     for (let i = 0; i < this.items.length; i++) {
       this.items[i].active = 'active';
@@ -824,8 +843,11 @@ console.log(urlstr);
     }
   }
   released() {
+   
   }
   onholdaction(action) {
+    
+    this.subscription.unsubscribe();
     this.arrayid = [];
     this.isInfiniteHide = true;
     if (action == 'view') {
@@ -959,7 +981,19 @@ console.log(urlstr);
 
     });
   }
-
+  doRefresh(refresher) {
+   
+    this.subscription = Observable.interval(2000).subscribe(x => {
+      this.reportData.startindex = 0;
+      this.unitAllLists = [];
+      this.doUnit();
+    });
+    setTimeout(() => {     
+      refresher.complete();
+    }, 2000);
+    this.selectallopenpop = 0;
+    this.moreopenpop = 0;
+  }
 
 }
 

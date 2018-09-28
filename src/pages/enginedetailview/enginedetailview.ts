@@ -83,7 +83,7 @@ export class EnginedetailviewPage {
     modal.present();
   }
   ionViewDidLoad() {
-    console.log("enginedetailview.ts");
+   
     localStorage.setItem("fromModule", "EnginedetailviewPage");
 
     // UnitDetails Api Call		

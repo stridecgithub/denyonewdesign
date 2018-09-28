@@ -170,7 +170,8 @@ export class MyaccountPage {
 
   viewOrgChart() {
     this.nav.setRoot(OrgchartPage, {
-      companyId: this.companyId
+      companyId: this.companyId,
+      frompage:'myaccount'
     });
   }
   previous() {

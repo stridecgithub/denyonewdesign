@@ -188,7 +188,13 @@ export class AlarmlogPage {
   }
   doAlarm() {
     //let editItem = this.NP.get("record");
-
+    let uid;
+    if (this.NP.get("frompage") == 'Push') {
+      this.NP.get("record").frompage;
+      uid = this.NP.get("unitid");
+    } else {
+      uid = localStorage.getItem("unitId");
+    }
 
     if (this.reportData.status == '') {
       this.reportData.status = "DRAFT";
@@ -198,9 +204,9 @@ export class AlarmlogPage {
     }
     let urlstr;
     if (this.conf.isUTC() > 0) {
-      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog" + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + uid + "&type=alarmlog" + "&timezoneoffset=" + Math.abs(this.timezoneoffset);
     } else {
-      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + localStorage.getItem("unitId") + "&type=alarmlog";
+      urlstr = this.apiServiceURL + "/alarms?is_mobile=1&startindex=" + this.reportData.startindex + "&results=" + this.reportData.results + "&sort=" + this.reportData.sort + "&dir=" + this.reportData.sortascdesc + "&unitid=" + uid+ "&type=alarmlog";
 
     }
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -208,7 +214,6 @@ export class AlarmlogPage {
       options: any = new RequestOptions({ headers: headers }),
       url: any = urlstr;
     let res;
-    console.log(url);
     this.http.get(url, options)
       .subscribe((data) => {
 

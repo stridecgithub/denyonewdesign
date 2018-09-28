@@ -4,6 +4,7 @@ import { MyaccountPage } from '../myaccount/myaccount';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Config } from '../../config/config';
+//import { PasswordValidation } from '../../config/password-validation';
 /**
  * Generated class for the ChangepasswordPage page.
  *
@@ -20,6 +21,7 @@ export class ChangepasswordPage {
   private apiServiceURL: string = "";
   public form: FormGroup;
   public isSubmitted: boolean = false;
+  cfmpasswordvalid;
   userId;
   constructor(private app:App,private conf: Config, public navCtrl: NavController, public navParams: NavParams, public http: Http,
     public NP: NavParams,
@@ -90,7 +92,11 @@ export class ChangepasswordPage {
    
     if (confirmpassword != newpassword) {
       this.isSubmitted = true;
+      this.cfmpasswordvalid='ng-invalid-red';
+     
     } else {
+      this.cfmpasswordvalid='ng-invalid-gray';
+      
       this.isSubmitted = false;
     }
    

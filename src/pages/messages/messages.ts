@@ -411,7 +411,7 @@ export class MessagesPage {
     } else {
       urlstr = this.apiServiceURL + "/sentitems?is_mobile=1&startindex=" + this.sendData.startindex + "&results=" + this.sendData.results + "&sort=" + this.sendData.sort + "&dir=" + this.sendData.sortascdesc + "&loginid=" + this.userId;
     }
-    console.log(urlstr);
+    
     let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
@@ -425,8 +425,7 @@ export class MessagesPage {
         if (res.messages.length > 0) {
           for (let message in res.messages) {
 
-            console.log("message_id:"+res.messages[message].message_id);
-            //console.log("messagesinbox_id:"+res.messages[message].messagesinbox_id);
+           
             this.inboxLists.push({
               message_id: res.messages[message].message_id,
               messagesinbox_id: res.messages[message].messagesinbox_id,
@@ -447,6 +446,7 @@ export class MessagesPage {
               attachments: res.messages[message].attachments,
               sendername: res.messages[message].sendername,
               senderphoto: res.messages[message].senderphoto,
+              senderreply: res.messages[message].senderreply,   
               personalhashtag: res.messages[message].personalhashtag,
               replyall: res.messages[message].replyall,
               duration: res.messages[message].duration,
@@ -1222,6 +1222,7 @@ export class MessagesPage {
             attachments: this.items[i].attachments,
             sendername: this.items[i].sendername,
             senderphoto: this.items[i].senderphoto,
+            senderreply: this.items[i].senderreply,            
             personalhashtag: this.items[i].personalhashtag,
             replyall: this.items[i].replyall,
             duration: this.items[i].duration
@@ -1321,6 +1322,7 @@ export class MessagesPage {
           receiver_id: this.items[i].receiver_id,
           attachments: this.items[i].attachments,
           sendername: this.items[i].sendername,
+          senderreply: this.items[i].senderreply,   
           senderphoto: this.items[i].senderphoto,
           personalhashtag: this.items[i].personalhashtag,
           replyall: this.items[i].replyall,

@@ -75,6 +75,7 @@ export class AdduserPage {
   len;
   naDisplay;
   roleId;
+  staff_id;
   public responseResultCompanyGroup: any;
   public responseResultReportTo: any;
   public responseResultRole = [];
@@ -89,6 +90,8 @@ export class AdduserPage {
 
     , private transfer: FileTransfer,
     private ngZone: NgZone, public actionSheetCtrl: ActionSheetController, public platform: Platform) {
+
+    this.responseResultReportTo = [];
     this.apiServiceURL = this.conf.apiBaseURL();
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.addedImgLists = this.apiServiceURL + "/images/default.png";
@@ -129,7 +132,19 @@ export class AdduserPage {
     this.roleId = localStorage.getItem("userInfoRoleId");
     this.getJsonCountryListData();
     this.getRole();
-    this.getUserListData();
+    this.responseResultReportTo = [];
+    if (this.NP.get("record") != undefined) {
+      this.staff_id = this.NP.get("record").staff_id;
+    } else {
+      this.staff_id = '';
+    }
+
+
+    if (this.staff_id == '') {
+      if (this.companyId == 1) {
+        this.getUserListData('1');
+      }
+    }
     this.getCompanyGroupListData();
 
 
@@ -157,7 +172,7 @@ export class AdduserPage {
   // Determine whether we adding or editing a record
   // based on any supplied navigation parameters
   ionViewWillEnter() {
-    this.pageLoad();
+    // this.pageLoad();
 
   }
   getRole() {
@@ -212,7 +227,7 @@ export class AdduserPage {
     this.resetFields();
 
 
-    if (this.NP.get("record")) {
+    if (this.staff_id != '') {
 
       this.isEdited = true;
       this.selectEntry(this.NP.get("record"));
@@ -235,7 +250,7 @@ export class AdduserPage {
       if (this.NP.get("record").photo == '') {
         staffphotos = '';
       }
-      console.log("staffphotos1" + staffphotos);
+      
       if (staffphotos != '') {
         this.addedImgLists = this.apiServiceURL + "/staffphotos/" + this.NP.get("record").photo;
       }
@@ -376,7 +391,8 @@ export class AdduserPage {
     this.company_group = item.company_id;
 
     this.report_to = item.report_to;
-    this.getUserListData();
+    this.responseResultReportTo = [];
+    this.getUserListData(item.company_id);
 
   }
 
@@ -399,7 +415,7 @@ export class AdduserPage {
 
     this.http.post(url1, body1, options1)
       .subscribe((data) => {
-        console.log(JSON.stringify(data));
+        
         if (data.status === 200) {
 
           /*if (data.json().msg[0].Error == 0) {
@@ -773,48 +789,133 @@ export class AdduserPage {
 
   }
 
-  getUserListData() {
-    if (this.isEdited == true) {
+  getUserListData(comapnyid) {
+    this.responseResultReportTo = [];
+    
+    if (this.staff_id != '') {
+      
       // this.userId = this.recordID;
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + this.company_group;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + comapnyid;
       let res;
-      console.log(url);
+     
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
-
+          
           // this.responseResultReportTo="N/A";
           if (this.report_to == 0) {
             this.len = 0;
-          }
-          else {
+          } else if (comapnyid == 1) {
+            this.len = 0;
+          } else {
             this.len = res.TotalCount;
           }
 
           this.naDisplay = 1;
-          this.responseResultReportTo = res.staffslist;
+          //this.responseResultReportTo = res.staffslist;
+          let ln;
+          ln = res.staffslist.length;
+          
+          if (this.NP.get("record").report_to == 0) {
+            
+            this.responseResultReportTo = [];
+            ln = 0
+          }
+
+          if (ln > 0) {
+
+            for (let staff in res.staffslist) {
+              if (this.NP.get("record").staff_id != res.staffslist[staff].staff_id) {
+                this.responseResultReportTo.push({
+                  staff_id: res.staffslist[staff].staff_id,
+                  firstname: res.staffslist[staff].firstname,
+                  lastname: res.staffslist[staff].lastname,
+                  email: res.staffslist[staff].email,
+                  contact_number: res.staffslist[staff].contact_number,
+                  photo: res.staffslist[staff].photo,
+                  personalhashtag: res.staffslist[staff].personalhashtag,
+                  country_id: res.staffslist[staff].country_id,
+                  role_id: res.staffslist[staff].role_id,
+                  job_position: res.staffslist[staff].job_position,
+                  report_to: res.staffslist[staff].report_to,
+                  company_id: res.staffslist[staff].company_id,
+                  non_user: res.staffslist[staff].non_user,
+                  status: res.staffslist[staff].status,
+                  createdby: res.staffslist[staff].createdby,
+                  createdon: res.staffslist[staff].createdon,
+                  updatedby: res.staffslist[staff].updatedby,
+                  updatedon: res.staffslist[staff].updatedon
+                });
+              }
+            }
+          }
+
         }, error => {
 
         });
     }
     else {
+      
       let type: string = "application/x-www-form-urlencoded; charset=UTF-8",
         headers: any = new Headers({ 'Content-Type': type }),
         options: any = new RequestOptions({ headers: headers }),
-        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" +this.companyId;
+        url: any = this.apiServiceURL + "/getstaffs?loginid=" + this.userId + "&company_id=" + comapnyid;
       let res;
-      console.log(url);
+     
       this.http.get(url, options)
         .subscribe(data => {
           res = data.json();
+          
           // this.responseResultReportTo="N/A";
-          this.len = res.TotalCount;
+
+          if (this.report_to == 0) {
+           
+            this.len = 0;
+          } else if (comapnyid == 1) {
+            
+            this.len = 0;
+          }
+          else {
+            
+            this.len = res.TotalCount;
+          }
+
+
 
           this.naDisplay = 1;
-          this.responseResultReportTo = res.staffslist;
+          // this.responseResultReportTo = res.staffslist;
+          if (res.staffslist.length > 0) {
+
+            for (let staff in res.staffslist) {
+
+              //if (this.userId != res.staffslist[staff].staff_id) {
+                if (res.staffslist[staff].report_to>0) {
+                this.responseResultReportTo.push({
+                  staff_id: res.staffslist[staff].staff_id,
+                  firstname: res.staffslist[staff].firstname,
+                  lastname: res.staffslist[staff].lastname,
+                  email: res.staffslist[staff].email,
+                  contact_number: res.staffslist[staff].contact_number,
+                  photo: res.staffslist[staff].photo,
+                  personalhashtag: res.staffslist[staff].personalhashtag,
+                  country_id: res.staffslist[staff].country_id,
+                  role_id: res.staffslist[staff].role_id,
+                  job_position: res.staffslist[staff].job_position,
+                  report_to: res.staffslist[staff].report_to,
+                  company_id: res.staffslist[staff].company_id,
+                  non_user: res.staffslist[staff].non_user,
+                  status: res.staffslist[staff].status,
+                  createdby: res.staffslist[staff].createdby,
+                  createdon: res.staffslist[staff].createdon,
+                  updatedby: res.staffslist[staff].updatedby,
+                  updatedon: res.staffslist[staff].updatedon
+                });
+              }
+            }
+          }
         }, error => {
 
         });
@@ -826,9 +927,10 @@ export class AdduserPage {
     this.hashtag = "@" + val;
   }
 
-  onSegmentChanged() {
-
-    this.getUserListData();
+  onSegmentChanged(selectedcompany) {
+    
+    this.responseResultReportTo = [];
+    this.getUserListData(selectedcompany);
   }
   fileChooser() {
 

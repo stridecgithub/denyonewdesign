@@ -6,7 +6,7 @@ import { AddalarmPage } from '../../pages/addalarm/addalarm';
 import { CalendarPage } from "../calendar/calendar";
 import { CommentsinfoPage } from '../commentsinfo/commentsinfo';
 import { NotificationPage } from '../notification/notification';
-
+import { AlarmlogPage } from '../alarmlog/alarmlog';
 /**
  * Generated class for the CalendardetailPage page.
  *
@@ -139,13 +139,19 @@ export class EventDetailsPage {
     }
   }
   previous() {
-    if (this.NP.get("from") == 'commentinfo') {
+    if (this.NP.get("from") == 'commentinfo') {      
       this.navCtrl.setRoot(CommentsinfoPage, {
         record: this.item,
         from: 'alarm'
       });
     } else if (this.NP.get("from") == 'notification') {
       this.navCtrl.setRoot(NotificationPage);
+    } else if (this.NP.get("from") == 'Push') {
+      this.navCtrl.setRoot(AlarmlogPage, {       
+        record: this.item,
+        frompage: 'Push',
+        unitid: this.item.alarm_unit_id,
+      });
     } else {
       this.navCtrl.setRoot(CalendarPage);
     }

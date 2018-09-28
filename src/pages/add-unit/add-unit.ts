@@ -282,7 +282,6 @@ export class AddUnitPage {
       headers: any = new Headers({ 'Content-Type': type }),
       options: any = new RequestOptions({ headers: headers }),
       url: any = this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1";
-console.log(this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile=1");
     this.http.post(url, body, options)
       .subscribe(data => {
 
@@ -298,14 +297,12 @@ console.log(this.apiServiceURL + "/getgpslocation?unitid=" + unitid + "&ismobile
       //this.location = res.address;
      
       this.errmsg= res.errmsg;
-      console.log(this.errmsg);
 		}
         
 
       }, error => {
         this.errmsg='a';
       });
-console.log(this.errmsg);
   }
 
 

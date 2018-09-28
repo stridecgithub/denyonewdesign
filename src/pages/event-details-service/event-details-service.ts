@@ -74,16 +74,26 @@ export class EventDetailsServicePage {
   }
 
   ionViewWillLeave() {
+
+    
+    
     if (this.NP.get("from") != 'Push') {
       // this.tabBarElement.style.display = 'flex';
     }
   }
   ionViewDidLoad() {
-    if (this.NP.get("from") != 'Push') {
-      //this.tabBarElement.style.display = 'none';
-    }
+    
+   
 
-    this.frompage = this.NP.get("from");
+    this.frompage = this.NP.get("from"); 
+    if(this.frompage=='CalendarPage'){
+      this.frompage='CalendarPage';
+    }if(this.frompage=='notification'){
+      this.frompage='NotificationPage';
+    }else{
+      this.frompage='ServicingDetailsPage';
+    }
+    
     if (this.NP.get("event_id")) {
 
       let urlstr;
@@ -309,8 +319,8 @@ export class EventDetailsServicePage {
   preview(imagedata, from) {
     this.navCtrl.setRoot(PreviewanddownloadPage, {
       imagedata: imagedata,
-      record: this.navParams.get("record"),
-      frompage: from
+      record: this.navParams.get("eventdata"),
+      frompage: this.frompage
     });
   }
 }

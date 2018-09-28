@@ -97,10 +97,10 @@ export class ForgotpasswordPage {
             //this.conf.sendNotification('Forgot password has been sending your registered email id.');           
             // this.nav.setRoot(LoginPage);
             if (res.msg[0].Error > 0) {
-              console.log('1');
+              
               this.conf.sendNotification(res.msg[0].result);
             } else {
-              console.log('2');
+              
               this.conf.sendNotification(res.msg[0].result);
               // this.conf.sendNotification('Forgot password has been sending your registered email id.');
               this.nav.setRoot(LoginPage);
@@ -108,11 +108,11 @@ export class ForgotpasswordPage {
           }
           // Otherwise let 'em know anyway
           else {
-            console.log('3');
+            
             this.conf.sendNotification('Something went wrong!');
           }
         }, error => {
-          console.log('4');
+          
           this.networkType = this.conf.serverErrMsg();// + "\n" + error;
         });
     }

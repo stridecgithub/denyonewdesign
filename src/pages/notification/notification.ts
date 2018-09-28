@@ -8,6 +8,7 @@ import { MessagedetailPage } from '../messagedetail/messagedetail';
 import { MessagesPage } from '../messages/messages';
 import { CommentdetailsPage } from '../commentdetails/commentdetails';
 import { EventDetailsServicePage } from '../event-details-service/event-details-service';
+import { ServicingDetailsPage } from "../servicing-details/servicing-details";
 import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AddrequestsupportPage } from '../addrequestsupport/addrequestsupport';
@@ -184,11 +185,11 @@ export class NotificationPage {
     } else if (nottype == 'S') {
       this.navCtrl.setRoot(EventDetailsServicePage, {
         record: item,
+        eventdata: item,
         from: 'notification',
         event_id: item.table_id
       });
       return false;
-
     }
 
   }
