@@ -9,7 +9,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
-import { Base64 } from '@ionic-native/base64';
+//import { Base64 } from '@ionic-native/base64';
 import { NotificationPage } from '../notification/notification';
 import { PreviewanddownloadPage } from '../previewanddownload/previewanddownload';
 declare var jQuery: any;
@@ -85,9 +85,9 @@ export class ComposePage {
   existingimagecount;
   replyall;
   timezoneoffset;
-  constructor(public filePath: FilePath, public base64: Base64, public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
+  constructor(public filePath: FilePath, public app: App, private alertCtrl: AlertController, private conf: Config, public actionSheetCtrl: ActionSheetController, private formBuilder: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public http: Http, public camera: Camera, private filechooser: FileChooser,
     private transfer: FileTransfer,
-    private ngZone: NgZone, public platform: Platform) {
+    private ngZone: NgZone, public platform: Platform) {//, public base64: Base64
     this.timezoneoffset = localStorage.getItem("timezoneoffset");
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -686,12 +686,12 @@ export class ComposePage {
                     let filePath: string = file;
                     if (filePath) {
                       // convert your file in base64 format
-                      this.base64.encodeFile(filePath)
+                      /*this.base64.encodeFile(filePath)
                         .then((base64File: string) => {
                           //alert('base64File' + JSON.stringify(base64File));
                         }, (err) => {
                           //alert('err' + JSON.stringify(err));
-                        });
+                        });*/
                     }
                   })
                   .catch(err => {});

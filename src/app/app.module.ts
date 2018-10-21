@@ -86,7 +86,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
-import { Base64 } from '@ionic-native/base64';
+//import { Base64 } from '@ionic-native/base64';
 import { DocumentViewer } from '@ionic-native/document-viewer';
 import { Camera } from '@ionic-native/camera';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -279,7 +279,7 @@ import { NetworkProvider } from '../providers/network/network';
     FileTransfer,
     File,
     FilePath,
-    Base64,
+   
     DocumentViewer,
     MockProvider,
     Push,
